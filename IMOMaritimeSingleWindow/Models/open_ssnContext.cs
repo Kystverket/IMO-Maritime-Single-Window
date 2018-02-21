@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -44,13 +44,9 @@ namespace IMOMaritimeSingleWindow.Models
         public virtual DbSet<ShipType> ShipType { get; set; }
         public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql(@"Server=trd09db;User Id=postgres;Password=Fundator01;Database=open_ssn");
-            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
