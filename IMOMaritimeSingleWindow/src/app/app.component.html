@@ -1,4 +1,13 @@
-<h1>Application says what?</h1>
-<ul>
-  <li *ngFor="let value of apiValues">{{value}}</li>
-</ul>
+<h1>{{title}}</h1>
+<nav>
+  <a routerLink="/login">Login</a>
+</nav>
+<router-outlet></router-outlet>
+
+
+
+<h1>Registrer nye ting</h1>
+<button type="button" class="btn btn-primary" *ngFor="let button of categories">{{button}}</button>
+<br>
+<br>
+<button type="button" class="btn btn-warning" (click)="goToLogin()">LOG IN</button>

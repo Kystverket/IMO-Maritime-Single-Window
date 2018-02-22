@@ -7,10 +7,17 @@ import { Http } from '@angular/http'
 })
 export class AppComponent implements OnInit {
   constructor(private _httpService: Http) { }
-  apiValues: string[] = [];
+  categories: string[] = [];
+  title = "IMO Maritime Single Window";
+
   ngOnInit() {
-    this._httpService.get('/api/values').subscribe(values => {
-      this.apiValues = values.json() as string[];
+    
+    this._httpService.get('/api/categories').subscribe(values => {
+      this.categories = values.json() as string[];
     });
+  }
+
+  goToLogin() {
+
   }
 }
