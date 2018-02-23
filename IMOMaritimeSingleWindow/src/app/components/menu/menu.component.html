@@ -1,9 +1,9 @@
 <div class="jumbotron">
   <h2>{{menu_title}}</h2>
-  <button type="button" class="btn btn-primary" popoverTitle="{{button}}" [ngbPopover]="popContent" placement="bottom" *ngFor="let button of categories">{{button}}</button>
+  <div ngbDropdown class="d-inline-block" *ngFor="let menu_entry of menu_entries">
+      <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+        <button class="dropdown-item" *ngFor="let action of menu_entry.actions">{{action}}</button>
+      </div>
+    </div>
 </div>
-
-<ng-template #popContent>
-  <button type="button" class="btn btn-outline-secondary">Create</button>
-  <button type="button" class="btn btn-outline-secondary">Edit</button>
-</ng-template>
