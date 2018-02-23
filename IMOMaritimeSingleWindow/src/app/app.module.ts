@@ -9,12 +9,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './components/login/login.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './components/menu/menu.component';
+import { AddUserComponent } from './components/user/add-user/add-user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MenuComponent
+    MenuComponent,
+    AddUserComponent
   ],
   imports: [
     BrowserModule,

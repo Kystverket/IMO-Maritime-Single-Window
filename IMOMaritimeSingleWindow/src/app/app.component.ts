@@ -19,8 +19,4 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  goBack(): void {
-    this.location.back();
-  }
 }

@@ -1,8 +1,15 @@
-<h1>{{title}}</h1>
-<nav>
-  <button class="btn btn-danger" (click)="goBack()">&lt;-</button>
-  <a routerLink="">Home</a>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/menu">MenuComponent</a>
+<nav class="navbar">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink="">{{title}}</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/menu">MenuComponent</a></li>
+      <li><a routerLink="/user/add">Add User</a></li>
+    </ul>
+  </div>
 </nav>
-<router-outlet></router-outlet>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

@@ -14,7 +14,7 @@ export class MenuComponent implements OnInit {
 
   // This list should be populated based on your role
   menu_entries: MenuEntry[] = [
-    { title: "Users", icon: null, actions: ["Create User", "Edit User"] },
+    { title: "Users", icon: null, actions: ["Create User", "Edit User", "Delete User"] },
     { title: "Profiles", icon: null, actions: ["Create Profile", "Edit Profile"] },
     { title: "Formalities", icon: null, actions: ["Create Formality", "Edit Formality"] },
     { title: "Regualtory Information", icon: null, actions: ["Manage Regulatory Information"] },
