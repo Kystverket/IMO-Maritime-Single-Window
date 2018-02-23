@@ -1,14 +1,8 @@
 <h1>{{title}}</h1>
 <nav>
+  <button class="btn btn-danger" (click)="goBack()">&lt;-</button>
   <a routerLink="">Home</a>
   <a routerLink="/login">Login</a>
+  <a routerLink="/menu">MenuComponent</a>
 </nav>
 <router-outlet></router-outlet>
-
-
-
-<h1>Registrer nye ting</h1>
-<button type="button" class="btn btn-primary" *ngFor="let button of categories">{{button}}</button>
-<br>
-<br>
-<button type="button" class="btn btn-warning" (click)="goToLogin()">LOG IN</button>

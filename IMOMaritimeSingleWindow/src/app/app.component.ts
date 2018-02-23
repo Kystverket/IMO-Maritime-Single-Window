@@ -1,23 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http'
+import { Location } from '@angular/common';
+
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
-  constructor(private _httpService: Http) { }
-  categories: string[] = [];
+  
+  constructor(
+    private location: Location
+  ) { }
+  
   title = "IMO Maritime Single Window";
 
-  ngOnInit() {
-    
-    this._httpService.get('/api/categories').subscribe(values => {
-      this.categories = values.json() as string[];
-    });
+  ngOnInit(): void {
   }
 
-  goToLogin() {
-
+  goBack(): void {
+    this.location.back();
   }
 }
