@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
+import { UserService } from '../shared/services/user.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   login_title = "LOGIN";
 
@@ -19,9 +21,31 @@ export class LoginComponent implements OnInit {
   submitted: boolean = false;
   credentials: Credentials = { email: '', password: ''}
 
-  constructor() { }
+  constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.subscription = this.activatedRoute.queryParams.subscribe(
+      (param: any) => {
+        this.brandNew = param['brandNew'];
+        this.credentials.email = param['email'];
+      }
+    );
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  login({ value, valid }: { value: Credentials, valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    this.userService.login(value.email, value.password)
+      .finally(() => this.isRequesting = false)
+      .subscribe( result => {
+        if (result) {
+          this.router.navigate(['/dashboard']);
+        }
+      }, error => this.errors = error);
+  }
 }

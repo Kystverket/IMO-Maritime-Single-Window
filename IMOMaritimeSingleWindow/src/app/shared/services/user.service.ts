@@ -33,17 +33,17 @@ export class UserService extends BaseService {
   }
 
     register() {
-        //Not yes implemented
+        //Not yet implemented
     }
 
-   login(userName, password) {
+   login(email, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http
       .post(
       this.baseUrl + '/auth/login',
-      JSON.stringify({ userName, password }),{ headers }
+      JSON.stringify({ email, password }),{ headers }
       )
       .map(res => res.json())
       .map(res => {
