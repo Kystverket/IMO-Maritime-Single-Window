@@ -5,9 +5,18 @@ import { MenuComponent }        from './components/menu/menu.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'menu', component: MenuComponent },
-  { path: 'user/add', component: AddUserComponent }
+  {
+    path: 'login', 
+    component: LoginComponent 
+  },
+  { 
+    path: 'menu',
+     component: MenuComponent
+  },
+  { 
+    path: 'user/add', 
+    component: AddUserComponent 
+  }
 ];
 
 @NgModule({
