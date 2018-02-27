@@ -6,10 +6,10 @@ import { HttpModule } from '@angular/http';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './components/menu/menu.component';
-import { AddUserComponent } from './components/user/add-user/add-user.component';
+import { AddUserComponent } from './dashboard/user/add-user/add-user.component';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { MenuEntry } from './menu-entry';
+import { MenuEntryInterface } from './menu-entry-interface';
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +13,7 @@ export class MenuComponent implements OnInit {
   categories: string[] = []; //Look at this to see how to get data from http
 
   // This list should be populated based on your role
-  menu_entries: MenuEntry[] = [
+  menu_entries: MenuEntryInterface[] = [
     { title: "Users", icon: null, actions: ["Create User", "Edit User", "Delete User"] },
     { title: "Profiles", icon: null, actions: ["Create Profile", "Edit Profile"] },
     { title: "Formalities", icon: null, actions: ["Create Formality", "Edit Formality"] },
