@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit, OnDestroy {
 
   login_title = "LOGIN";
@@ -23,6 +24,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
+  login({ value, valid }: { value: Credentials, valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    if (valid) {
+      this.userService.login(value.email, value.password)
+      .finally(() => this.isRequesting = false)
+      .subscribe( result => {
+        if (result) {
+          this.router.navigate(['']); // Add /dashboard
+        }
+      }, error => this.errors = error);
+    }
+  }
+
   ngOnInit() {
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
@@ -34,18 +50,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  login({ value, valid }: { value: Credentials, valid: boolean }) {
-    this.submitted = true;
-    this.isRequesting = true;
-    this.errors = '';
-    this.userService.login(value.email, value.password)
-      .finally(() => this.isRequesting = false)
-      .subscribe( result => {
-        if (result) {
-          this.router.navigate(['/dashboard']);
-        }
-      }, error => this.errors = error);
   }
 }

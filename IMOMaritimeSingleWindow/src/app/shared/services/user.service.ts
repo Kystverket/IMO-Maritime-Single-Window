@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ConfigService } from '../utils/config.service';
 
-import {BaseService} from "./base.service";
+import { BaseService } from "./base.service";
 
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx'; 

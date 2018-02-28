@@ -1,19 +1,30 @@
 <div class="jumbotron">
   <h2>{{login_title}}</h2>
-  <form>
+  <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+
       <div class="form-group">
           <label for="email">Email address:</label>
-          <input type="email" class="form-control" id="email">
+          <input required type="email" class="form-control" id="email">
         </div>
+
         <div class="form-group">
           <label for="pwd">Password:</label>
-          <input type="password" class="form-control" id="pwd">
+          <input required type="password" class="form-control" id="pwd">
         </div>
+
         <div class="form-check">
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox"> Remember me
           </label>
         </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>
+
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign in</button>
+        </div>
+
+        <div *ngIf="errors" class="alert alert-danger" role="alert">
+          <strong>Something went wrong!</strong> {{errors}}
+        </div>
+
   </form>
 </div>

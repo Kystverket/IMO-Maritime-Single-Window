@@ -9,17 +9,17 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './components/menu/menu.component';
-import { AddUserComponent } from './dashboard/user/add-user/add-user.component';
 import { HeaderComponent } from './header/header.component';
 import { ConfigService } from './shared/utils/config.service';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
+import { UserService } from './shared/services/user.service';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MenuComponent,
-    AddUserComponent,
     HeaderComponent
   ],
   imports: [
@@ -27,12 +27,14 @@ import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    DashboardModule,
     NgbModule.forRoot()
   ],
-  providers: [ConfigService, {
-    provide: XHRBackend,
-    useClass: AuthenticateXHRBackend
-  }],
+  providers: [
+    { provide: XHRBackend, useClass: AuthenticateXHRBackend },
+    ConfigService, 
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 

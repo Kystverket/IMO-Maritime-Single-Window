@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { MenuEntryInterface } from './menu-entry-interface';
+import { MenuEntryInterface } from './menu-entry.interface';
 
 @Component({
   selector: 'app-menu',
