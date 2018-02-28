@@ -1,5 +1,5 @@
 export interface MenuEntryInterface {
     title: string;
-    icon: ImageBitmap;
+    iconPath: string;
     actions: string[];
 }

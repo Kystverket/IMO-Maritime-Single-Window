@@ -1,0 +1,9 @@
+<div class="jumbotron">
+  <h2>{{dashboard_title}}</h2>
+  <div ngbDropdown class="d-inline-block" *ngFor="let menu_entry of menu_entries">
+    <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+      <button class="dropdown-item" *ngFor="let action of menu_entry.actions">{{action}}</button>
+    </div>
+  </div>
+</div>
