@@ -14,8 +14,6 @@ export class AppComponent implements OnInit {
   constructor(
     private location: Location
   ) { }
-  
-  title = "IMO Maritime Single Window";
 
   ngOnInit(): void {
   }

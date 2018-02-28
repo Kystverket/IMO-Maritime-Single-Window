@@ -11,6 +11,8 @@ import { UserService } from '../shared/services/user.service';
 
 export class HeaderComponent implements OnInit, OnDestroy {
 
+  title = "IMO Maritime Single Window";
+
   status: boolean;
   subscription: Subscription;
 

@@ -7,12 +7,14 @@ import { HttpModule, XHRBackend } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from './login/login.component';
-import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { HeaderComponent } from './header/header.component';
+
 import { ConfigService } from './shared/utils/config.service';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { UserService } from './shared/services/user.service';
+
+import { AppRoutingModule } from './/app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
