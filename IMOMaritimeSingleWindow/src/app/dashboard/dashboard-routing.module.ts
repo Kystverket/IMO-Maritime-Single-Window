@@ -11,10 +11,10 @@ import { DashboardComponent } from './dashboard.component';
 
 const dashboardRoutes: Routes = [
     {
-        path: 'user/add', component: AddUserComponent
-    },
-    { 
         path: 'dashboard', component: DashboardComponent 
+    },
+    {
+        path: 'user/registrer', component: AddUserComponent
     }
 ];
 

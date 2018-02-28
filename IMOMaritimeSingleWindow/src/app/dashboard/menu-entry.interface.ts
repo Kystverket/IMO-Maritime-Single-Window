@@ -1,5 +1,5 @@
-export interface MenuEntryInterface {
+export interface MenuEntry {
     title: string;
     iconPath: string;
-    actions: string[];
+    actions: { description: string, link: string }[];
 }
