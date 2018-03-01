@@ -13,5 +13,8 @@
 <div [ngSwitch]="selectedComponent">
   <app-registrer-user *ngSwitchCase="'Registrer User'"></app-registrer-user>
   <app-edit-user *ngSwitchCase="'Edit User'"></app-edit-user>
+  <app-registrer-ship *ngSwitchCase="'Registrer Ship'"></app-registrer-ship>
+  <app-registrer-location *ngSwitchCase="'Registrer Location'"></app-registrer-location>
+  <app-registrer-company *ngSwitchCase="'Registrer Company'"></app-registrer-company>
   <p *ngSwitchDefault></p>
 </div>
