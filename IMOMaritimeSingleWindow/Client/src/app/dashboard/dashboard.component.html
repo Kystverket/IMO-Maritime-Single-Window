@@ -3,8 +3,14 @@
   <div ngbDropdown class="d-inline-block" *ngFor="let menu_entry of menu_entries">
     <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-      <button class="dropdown-item" *ngFor="let action of menu_entry.actions" (click)="executeAction(action)">{{action.description}}</button>
+      <button class="dropdown-item" *ngFor="let action of menu_entry.actions" (click)="loadComponent(action)">{{action.description}}</button>
     </div>
   </div>
 </div>
 <br>
+
+<div [ngSwitch]="selectedComponent">
+  <app-registrer-user *ngSwitchCase="'Registrer User'"></app-registrer-user>
+  <app-edit-user *ngSwitchCase="'Edit User'"></app-edit-user>
+  <p *ngSwitchDefault>Nothing selected</p>
+</div>

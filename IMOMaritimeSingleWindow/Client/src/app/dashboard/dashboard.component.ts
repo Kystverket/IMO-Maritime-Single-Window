@@ -14,6 +14,8 @@ export class DashboardComponent implements OnInit {
   dashboard_title = "CONFIGURATION MANAGEMENT";
   categories: string[] = []; //Look at this to see how to get data from http
 
+  selectedComponent: string = "";
+
   // This list should be populated based on your role
   menu_entries: MenuEntry[] = [
     {title: "Users",       iconPath: "",     actions: [
@@ -43,9 +45,9 @@ export class DashboardComponent implements OnInit {
     private router: Router  
   ) {}
 
-  executeAction(action) {
-    console.log(action.link)
-    this.router.navigate([action.link]);
+  loadComponent(action) {
+    this.selectedComponent = action.description;
+    console.log(this.selectedComponent);
   }
 
   ngOnInit() {
