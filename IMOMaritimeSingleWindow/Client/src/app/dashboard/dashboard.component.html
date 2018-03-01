@@ -3,7 +3,7 @@
   <div ngbDropdown class="d-inline-block" *ngFor="let menu_entry of menu_entries">
     <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-      <button class="dropdown-item" *ngFor="let action of menu_entry.actions" (click)="loadComponent(action)">{{action.description}}</button>
+      <button class="dropdown-item" *ngFor="let component of menu_entry.componentDescription" (click)="loadComponent(component)">{{component}}</button>
     </div>
   </div>
 </div>

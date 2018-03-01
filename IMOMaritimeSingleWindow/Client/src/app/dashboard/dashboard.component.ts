@@ -18,26 +18,10 @@ export class DashboardComponent implements OnInit {
 
   // This list should be populated based on your role
   menu_entries: MenuEntry[] = [
-    {title: "Users",       iconPath: "",     actions: [
-      {description: "Registrer User", link: "/user/registrer"}, 
-      {description: "Edit User", link: "/user/edit"}, 
-      {description: "Delete User", link: "/user/delete"}
-    ]},
-    {title: "Ships",       iconPath: "",     actions: [
-      {description: "Registrer Ship", link: "/ship/registrer"}, 
-      {description: "Edit Ship", link: "/ship/edit"}, 
-      {description: "Get Ships from SafeSeaNet", link: "/404"}
-    ]},
-    {title: "Locations",       iconPath: "",     actions: [
-      {description: "Registrer Location", link: "/location/registrer"}, 
-      {description: "Edit Location", link: "/location/edit"}, 
-      {description: "Get Locations from SafeSeaNet", link: "/404"}
-    ]},
-    {title: "Companies",       iconPath: "",     actions: [
-      {description: "Registrer Company", link: "/company/registrer"}, 
-      {description: "Edit Company", link: "/company/edit"}, 
-      {description: "Delete Company", link: "/company/delete"}
-    ]}
+    {title: "Users",           iconPath: "",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
+    {title: "Ships",           iconPath: "",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
+    {title: "Locations",       iconPath: "",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
+    {title: "Companies",       iconPath: "",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] }
   ];
 
   constructor(
@@ -45,9 +29,8 @@ export class DashboardComponent implements OnInit {
     private router: Router  
   ) {}
 
-  loadComponent(action) {
-    this.selectedComponent = action.description;
-    console.log(this.selectedComponent);
+  loadComponent(component) {
+    this.selectedComponent = component;
   }
 
   ngOnInit() {
