@@ -6,6 +6,9 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { RegistrerUserComponent } from './user/registrer-user/registrer-user.component';
+import { RegistrerShipComponent } from './ship/registrer-ship/registrer-ship.component';
+import { RegistrerLocationComponent } from './location/registrer-location/registrer-location.component';
+import { RegistrerCompanyComponent } from './company/registrer-company/registrer-company.component';
 
 @NgModule({
   imports: [
@@ -16,7 +19,10 @@ import { RegistrerUserComponent } from './user/registrer-user/registrer-user.com
   declarations: [
     DashboardComponent,
     RegistrerUserComponent,
-    EditUserComponent
+    EditUserComponent,
+    RegistrerShipComponent,
+    RegistrerLocationComponent,
+    RegistrerCompanyComponent
   ]
 })
 
