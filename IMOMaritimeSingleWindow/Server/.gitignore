@@ -259,11 +259,3 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/IMOMaritimeSingleWindow/appsettings.development.json
-/package-lock.json
-
-IMOMaritimeSingleWindow/Server/appsettings\.json
-
-IMOMaritimeSingleWindow/Server/appsettings\.Development\.json
-
-IMOMaritimeSingleWindow/Server/IMO-SSW\.csproj
