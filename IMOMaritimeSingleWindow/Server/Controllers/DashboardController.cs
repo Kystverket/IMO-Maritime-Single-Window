@@ -41,7 +41,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         customer.Identity.FirstName,
         customer.Identity.LastName,
         customer.Identity.PictureUrl,
-        customer.Identity.FacebookId,
         customer.Location,
         customer.Locale,
         customer.Gender

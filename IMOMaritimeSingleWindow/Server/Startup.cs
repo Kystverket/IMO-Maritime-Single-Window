@@ -55,25 +55,18 @@ namespace IMOMaritimeSingleWindow
       var connectionString = Configuration.GetConnectionString("DefaultConnection");
           services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
           services.AddMvc();
-          //services.AddAutoMapper();
+          services.AddAutoMapper();
 
           //Automapper setup
-          var config = new AutoMapper.MapperConfiguration(cfg =>
+          /**var config = new AutoMapper.MapperConfiguration(cfg =>
           {
               cfg.AddProfile(new ViewModelToEntityMappingProfile());
           });
           var mapper = config.CreateMapper();
           services.AddSingleton(mapper);
+          */
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
-
-          new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile("appsettings.json").Build();
-          
-           
-          // Register the ConfigurationBuilder instance of FacebookAuthSettings
-          services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
           services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
