@@ -1,16 +1,20 @@
 <div class="jumbotron">
   <h2>{{dashboard_title}}</h2>
-  <div ngbDropdown class="d-inline-block" *ngFor="let menu_entry of menu_entries">
-    <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
-    <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-      <button class="dropdown-item" *ngFor="let component of menu_entry.componentDescription" (click)="loadComponent(component)">{{component}}</button>
+  <div class="card-group">
+    <div ngbDropdown class="card bg-primary" *ngFor="let menu_entry of menu_entries">
+      <button class="btn btn-primary" id="dropdownBasic" ngbDropdownToggle>{{menu_entry.title}}</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic">
+        <button class="dropdown-item" *ngFor="let component of menu_entry.componentDescription" (click)="loadComponent(component)">{{component}}</button>
+      </div>
     </div>
   </div>
 </div>
-<br>
 
 <div [ngSwitch]="selectedComponent">
   <app-registrer-user *ngSwitchCase="'Registrer User'"></app-registrer-user>
   <app-edit-user *ngSwitchCase="'Edit User'"></app-edit-user>
-  <p *ngSwitchDefault>Nothing selected</p>
+  <app-registrer-ship *ngSwitchCase="'Registrer Ship'"></app-registrer-ship>
+  <app-registrer-location *ngSwitchCase="'Registrer Location'"></app-registrer-location>
+  <app-registrer-company *ngSwitchCase="'Registrer Company'"></app-registrer-company>
+  <p *ngSwitchDefault></p>
 </div>

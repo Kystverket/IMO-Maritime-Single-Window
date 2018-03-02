@@ -11,6 +11,9 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int ContactMediumId { get; set; }
+        public string ContactMediumType { get; set; }
+        public string SystemName { get; set; }
+        public string Description { get; set; }
 
         public ICollection<ShipContact> ShipContact { get; set; }
     }

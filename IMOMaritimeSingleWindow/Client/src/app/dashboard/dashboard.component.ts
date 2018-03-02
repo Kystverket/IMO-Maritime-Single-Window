@@ -11,7 +11,7 @@ import { MenuEntry } from './menu-entry.interface';
 })
 export class DashboardComponent implements OnInit {
 
-  dashboard_title = "CONFIGURATION MANAGEMENT";
+  dashboard_title = "DASHBOARD";
   categories: string[] = []; //Look at this to see how to get data from http
 
   selectedComponent: string = "";
