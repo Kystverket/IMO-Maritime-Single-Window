@@ -9,7 +9,6 @@ import { RegistrerUserComponent } from './user/registrer-user/registrer-user.com
 import { RegistrerShipComponent } from './ship/registrer-ship/registrer-ship.component';
 import { RegistrerLocationComponent } from './location/registrer-location/registrer-location.component';
 import { RegistrerCompanyComponent } from './company/registrer-company/registrer-company.component';
-import { UserFormComponent } from './user/user-form/user-form.component';
 
 @NgModule({
   imports: [
@@ -23,8 +22,7 @@ import { UserFormComponent } from './user/user-form/user-form.component';
     EditUserComponent,
     RegistrerShipComponent,
     RegistrerLocationComponent,
-    RegistrerCompanyComponent,
-    UserFormComponent
+    RegistrerCompanyComponent
   ]
 })
 
