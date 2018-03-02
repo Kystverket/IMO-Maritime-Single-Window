@@ -1,3 +1,10 @@
-<p>
-  edit-user works!
-</p>
+<div class="jumbotron" style="background:rgb(169, 192, 214)">
+  <h3>Edit User</h3>
+
+  <div class="jumbotron">
+    <h4>Find User</h4>
+    <button class="btn btn-primary" (click)="findUser()">Find user</button>
+  </div>
+ 
+  <app-user-form *ngIf="userFound"></app-user-form>
+</div>

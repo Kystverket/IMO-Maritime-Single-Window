@@ -5,7 +5,7 @@ import { ConfigService } from '../utils/config.service';
 import { BaseService } from "./base.service";
 
 import { Observable } from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/Rx'; 
+import { BehaviorSubject } from 'rxjs/Rx';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
@@ -32,18 +32,18 @@ export class UserService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-    register() {
-        //Not yet implemented
-    }
+  register() {
+    //Not yet implemented
+  }
 
-   login(email, password) {
+  login(email, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http
       .post(
-      this.baseUrl + '/auth/login',
-      JSON.stringify({ email, password }),{ headers }
+        this.baseUrl + '/auth/login',
+        JSON.stringify({ email, password }), { headers }
       )
       .map(res => res.json())
       .map(res => {
