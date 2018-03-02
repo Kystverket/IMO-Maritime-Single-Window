@@ -5,6 +5,12 @@
     <h4>Find User</h4>
     <button class="btn btn-primary" (click)="findUser()">Find user</button>
   </div>
- 
-  <app-user-form *ngIf="userFound"></app-user-form>
+
+  <div *ngIf="userFound">
+    <div class="jumbotron">
+      <h4>Selected User: Oh-la Njordman</h4>
+    </div>
+
+    <app-user-form></app-user-form>
+  </div>
 </div>
