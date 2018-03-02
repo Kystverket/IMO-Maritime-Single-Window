@@ -262,3 +262,5 @@ __pycache__/
 IMOMaritimeSingleWindow/Server/appsettings\.json
 
 IMOMaritimeSingleWindow/Server/appsettings\.Development\.json
+
+IMOMaritimeSingleWindow/Server/IMO-SSW\.csproj

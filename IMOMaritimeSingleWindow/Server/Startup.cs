@@ -133,7 +133,7 @@ namespace IMOMaritimeSingleWindow
             // configure identity options
             o.Password.RequireDigit = false;
             o.Password.RequireLowercase = false;
-            o.Password.RequireUppercase = false;
+            o.Password.RequireUppercase = true;
             o.Password.RequireNonAlphanumeric = false;
             o.Password.RequiredLength = 6;
           });
