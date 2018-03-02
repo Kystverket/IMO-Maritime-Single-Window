@@ -10,6 +10,9 @@ import { RegistrerShipComponent } from './ship/registrer-ship/registrer-ship.com
 import { RegistrerLocationComponent } from './location/registrer-location/registrer-location.component';
 import { RegistrerCompanyComponent } from './company/registrer-company/registrer-company.component';
 import { UserFormComponent } from './user/user-form/user-form.component';
+import { ShipFormComponent } from './ship/ship-form/ship-form.component';
+import { LocationFormComponent } from './location/location-form/location-form.component';
+import { CompanyFormComponent } from './company/company-form/company-form.component';
 
 @NgModule({
   imports: [
@@ -24,7 +27,10 @@ import { UserFormComponent } from './user/user-form/user-form.component';
     RegistrerShipComponent,
     RegistrerLocationComponent,
     RegistrerCompanyComponent,
-    UserFormComponent
+    UserFormComponent,
+    ShipFormComponent,
+    LocationFormComponent,
+    CompanyFormComponent
   ]
 })
 
