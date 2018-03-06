@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
+using System.Diagnostics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,25 +20,38 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        // ship name, call sign, imo no, mmsi no
+
+        [HttpGet("search/{searchTerm}")]
+        public JsonResult Find(string searchTerm) 
+        {
+            var shipList = _context.Ship
+                .Where(s => s.ShipName
+                .Contains(searchTerm))
+                .OrderBy(s => s.ShipName)
+                .Take(10)
+                .ToList();
+
+            List<string> shipListNames = new List<string>();
+            foreach(Ship s in shipList) {
+                Debug.WriteLine(s.ShipName);
+                shipListNames.Add(s.ShipName);
+            }
+            return Json(shipListNames);
+        }
 
 
-       // GET: api/<controller>
-        //[HttpGet]
-        //public JsonResult GetShips()
-        //{
-        //    List<Ship> = 
 
-        //    return Json(_context.)
-
-        //}
-
-        // GET api/<controller>/5
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
             Ship ship = _context.Ship.First(t => t.ShipId == id);
             return Json(ship);
         }
+
+
+
+
 
         //// POST api/<controller>
         //[HttpPost]
