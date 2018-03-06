@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -7,15 +7,13 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public Person()
         {
-            ApplicationPerson = new HashSet<ApplicationPerson>();
             PersonRole = new HashSet<PersonRole>();
         }
 
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-
-        public ICollection<ApplicationPerson> ApplicationPerson { get; set; }
+    
         public ICollection<PersonRole> PersonRole { get; set; }
     }
 }

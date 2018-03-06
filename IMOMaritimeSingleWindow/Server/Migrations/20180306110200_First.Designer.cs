@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
-namespace IMHOkek.Migrations
+namespace IMOMaritimeSingleWindow.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180302100853_0")]
-    partial class _0
+    [Migration("20180306110200_First")]
+    partial class First
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,30 +75,10 @@ namespace IMHOkek.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("IMOMaritimeSingleWindow.Models.Entities.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Gender");
-
-                    b.Property<string>("IdentityId");
-
-                    b.Property<string>("Locale");
-
-                    b.Property<string>("Location");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdentityId");
-
-                    b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("IMOMaritimeSingleWindow.Models.Entities.Role", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -117,7 +98,7 @@ namespace IMHOkek.Migrations
                         .IsUnique()
                         .HasName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -136,7 +117,7 @@ namespace IMHOkek.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims");
+                    b.ToTable("RoleClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -148,6 +129,9 @@ namespace IMHOkek.Migrations
 
                     b.Property<string>("ClaimValue");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("UserId")
                         .IsRequired();
 
@@ -156,6 +140,8 @@ namespace IMHOkek.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserClaims");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserClaim<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -173,7 +159,7 @@ namespace IMHOkek.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins");
+                    b.ToTable("PersonLogin");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -186,7 +172,7 @@ namespace IMHOkek.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles");
+                    b.ToTable("PersonRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -201,19 +187,23 @@ namespace IMHOkek.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens");
+                    b.ToTable("PersonToken");
                 });
 
-            modelBuilder.Entity("IMOMaritimeSingleWindow.Models.Entities.Customer", b =>
+            modelBuilder.Entity("IMOMaritimeSingleWindow.Models.Entities.PersonClaim", b =>
                 {
-                    b.HasOne("IMOMaritimeSingleWindow.Models.Entities.AppUser", "Identity")
-                        .WithMany()
-                        .HasForeignKey("IdentityId");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>");
+
+                    b.Property<string>("SystemName");
+
+                    b.ToTable("PersonClaim");
+
+                    b.HasDiscriminator().HasValue("PersonClaim");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("IMOMaritimeSingleWindow.Models.Entities.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -237,7 +227,7 @@ namespace IMHOkek.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("IMOMaritimeSingleWindow.Models.Entities.Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);

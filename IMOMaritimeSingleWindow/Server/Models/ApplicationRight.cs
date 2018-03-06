@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -14,8 +14,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int ApplicationId { get; set; }
         public string ApplicationRightName { get; set; }
         public string SystemName { get; set; }
-
-        public Application Application { get; set; }
+    
         public ICollection<RoleApplicationRight> RoleApplicationRight { get; set; }
     }
 }

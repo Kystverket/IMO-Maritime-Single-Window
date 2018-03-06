@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180228120135_InitTest.cs" />
-    <Compile Remove="Migrations\20180228120135_InitTest.Designer.cs" />
-    <Compile Remove="Migrations\20180228120907_InitTest.cs" />
-    <Compile Remove="Migrations\20180228120907_InitTest.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
