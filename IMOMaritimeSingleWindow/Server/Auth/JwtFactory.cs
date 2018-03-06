@@ -1,8 +1,9 @@
-﻿
+
 
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Claim = System.Security.Claims.Claim;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Models;
