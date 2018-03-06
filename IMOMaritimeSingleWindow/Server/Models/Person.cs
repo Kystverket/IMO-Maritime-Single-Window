@@ -7,7 +7,6 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public Person()
         {
-            ApplicationPerson = new HashSet<ApplicationPerson>();
             PersonRole = new HashSet<PersonRole>();
         }
 
@@ -15,7 +14,6 @@ namespace IMOMaritimeSingleWindow.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public ICollection<ApplicationPerson> ApplicationPerson { get; set; }
         public ICollection<PersonRole> PersonRole { get; set; }
     }
 }
