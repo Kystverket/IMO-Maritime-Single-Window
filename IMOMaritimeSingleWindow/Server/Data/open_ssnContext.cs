@@ -2,8 +2,9 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using IMOMaritimeSingleWindow.Models;
 
-namespace IMOMaritimeSingleWindow.Models
+namespace IMOMaritimeSingleWindow.Data
 {
   public partial class open_ssnContext : DbContext
   {
