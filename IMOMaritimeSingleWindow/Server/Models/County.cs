@@ -7,7 +7,7 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public County()
         {
-            Council = new HashSet<Council>();
+            Municipality = new HashSet<Municipality>();
         }
 
         public int CountyId { get; set; }
@@ -17,6 +17,6 @@ namespace IMOMaritimeSingleWindow.Models
         public string CountyGeometry { get; set; }
 
         public Country Country { get; set; }
-        public ICollection<Council> Council { get; set; }
+        public ICollection<Municipality> Municipality { get; set; }
     }
 }

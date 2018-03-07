@@ -1,4 +1,4 @@
-<div class="jumbotron">
+<div class="jumbotron bg-ssn text-ssn">
   <h2>{{login_title}}</h2>
   <form #f="ngForm" novalidate (ngSubmit)="login(f)">
 
@@ -18,8 +18,10 @@
           </label>
         </div>
 
+        <br>
+
         <div class="form-group">
-          <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign in</button>
+          <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
         </div>
 
         <div *ngIf="errors" class="alert alert-danger" role="alert">
