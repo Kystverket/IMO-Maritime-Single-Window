@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser, Role, string>
+    public class ApplicationDbContext : IdentityDbContext<AppUser/*, Role, string*/>
     {
-        public ApplicationDbContext(DbContextOptions options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -22,22 +22,25 @@ namespace IMOMaritimeSingleWindow.Data
       // For example, you can rename the ASP.NET Identity table names and more.
       // Add your customizations after calling base.OnModelCreating(builder);
 
-      builder.Entity<Role>(entity =>
-      {
-        entity.ToTable(name: "Role");
-      });
+      //Renaming of ASP NET Identity table names
+      
+        builder.Entity<Role>(entity =>
+            {
+            entity.ToTable(name: "Role");
+            });
 
-      builder.Entity<AppUser>().ToTable("Person");
+            builder.Entity<AppUser>().ToTable("Person");
 
-      builder.Entity<IdentityUserRole<string>>().ToTable("PersonRole");
-      builder.Entity<IdentityUserToken<string>>().ToTable("PersonToken");
-      builder.Entity<IdentityUserLogin<string>>().ToTable("PersonLogin");
-      builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
-      builder.Entity<PersonClaim>().ToTable("PersonClaim");
-      /*builder.Entity<PersonClaim>(entity =>
-      {
-        entity.ToTable(name: "PersonClaim");
-      });*/
+            builder.Entity<IdentityUserRole<string>>().ToTable("PersonRole");
+            builder.Entity<IdentityUserToken<string>>().ToTable("PersonToken");
+            builder.Entity<IdentityUserLogin<string>>().ToTable("PersonLogin");
+            builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaim");
+            builder.Entity<PersonClaim>().ToTable("PersonClaim");
+            builder.Entity<PersonClaim>(entity =>
+            {
+            entity.ToTable(name: "PersonClaim");
+            });
+        
 
     }
   }

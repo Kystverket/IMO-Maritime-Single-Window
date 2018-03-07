@@ -1,4 +1,4 @@
-﻿
+
 namespace IMOMaritimeSingleWindow.Helpers
 {
     public static class Constants
@@ -9,10 +9,15 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const string Rol = "rol", Id = "id";
             }
-
+        
             public static class JwtClaims
             {
                 public const string ApiAccess = "api_access";
+            }
+
+            public static class PersonClaims
+            {
+                public const string Register = "register", View = "view", Delete = "delete"; 
             }
         }
     }

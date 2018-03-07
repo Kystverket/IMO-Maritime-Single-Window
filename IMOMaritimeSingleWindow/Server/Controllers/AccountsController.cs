@@ -17,11 +17,13 @@ namespace IMOMaritimeSingleWindow.Controllers
     {
         private readonly ApplicationDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext)
+        public AccountsController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper, ApplicationDbContext appDbContext)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _mapper = mapper;
             _appDbContext = appDbContext;
         }

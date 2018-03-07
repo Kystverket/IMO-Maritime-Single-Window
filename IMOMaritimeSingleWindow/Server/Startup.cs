@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
@@ -53,8 +54,9 @@ namespace IMOMaritimeSingleWindow
         {
           services.AddCors();
           var connectionString = Configuration.GetConnectionString("DefaultConnection");
-          services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
-          services.AddMvc();
+          //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddMvc();
           services.AddAutoMapper();
 
           //Automapper setup
@@ -68,7 +70,7 @@ namespace IMOMaritimeSingleWindow
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
           
-
+          
           services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
           // Get options from app settings
@@ -105,7 +107,9 @@ namespace IMOMaritimeSingleWindow
 
           services.AddAuthentication(options =>
           {
-             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+              options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+              options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+              options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
              options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
           }).AddJwtBearer(configureOptions =>
             {
@@ -119,17 +123,25 @@ namespace IMOMaritimeSingleWindow
           services.AddAuthorization(options =>
           {
             options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+            //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
           });
 
-          // add identity
-          var builder = services.AddIdentityCore<AppUser>(o =>
+            services.AddScoped<SignInManager<AppUser>>();
+            // add identity
+            //services.AddIdentity<AppUser, PersonRole>();
+          var builder = services.AddIdentityCore<AppUser>(options =>
           {
             // configure identity options
-            o.Password.RequireDigit = false;
-            o.Password.RequireLowercase = false;
-            o.Password.RequireUppercase = true;
-            o.Password.RequireNonAlphanumeric = false;
-            o.Password.RequiredLength = 6;
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
+
+            // Lockout settings
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+            options.Lockout.MaxFailedAccessAttempts = 10;
+            options.Lockout.AllowedForNewUsers = true;
           });
           builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
           builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
