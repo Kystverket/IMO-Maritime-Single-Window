@@ -1,0 +1,16 @@
+<div class="jumbotron bg-ssn">
+    <h3 class="text-ssn">FIND LOCATION</h3>
+
+    <div class="jumbotron">
+        <h4>Find Location</h4>
+
+        <ng-template #rt let-r="result" let-t="term">
+            <strong *ngIf="r.locationName">Name: </strong> {{ r.locationName }}
+            <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
+        </ng-template>
+
+        <label for="search-location">Search using location name or code</label>
+        <input id="search-location" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" />
+    </div>
+</div>

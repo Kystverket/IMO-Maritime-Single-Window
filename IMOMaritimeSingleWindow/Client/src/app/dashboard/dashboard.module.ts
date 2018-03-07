@@ -18,6 +18,9 @@ import { CompanyFormComponent } from './basis-data/company/company-form/company-
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
 import { ShipService } from '../shared/services/ship.service';
 
+import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
+import { LocationService } from '../shared/services/location.service';
+
 
 @NgModule({
   imports: [
@@ -38,9 +41,10 @@ import { ShipService } from '../shared/services/ship.service';
     ShipFormComponent,
     LocationFormComponent,
     CompanyFormComponent,
-    PortCallRegistrationComponent
+    PortCallRegistrationComponent,
+    FindLocationComponent
   ],
-  providers: [ShipService]
+  providers: [ShipService, LocationService],
 })
 
 export class DashboardModule { }
