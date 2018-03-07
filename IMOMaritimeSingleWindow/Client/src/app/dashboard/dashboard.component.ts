@@ -22,7 +22,8 @@ export class DashboardComponent implements OnInit {
     {title: "Users",           iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
     {title: "Ships",           iconPath: this.icon_path + "ship.png",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
     {title: "Locations",       iconPath: this.icon_path + "voyage.png",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
-    {title: "Companies",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] }
+    {title: "Companies",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] },
+    {title: "Port call",       iconPath: this.icon_path + "portcall.png",      componentDescription: ["Registrer Port Call"] }
   ];
 
   constructor(

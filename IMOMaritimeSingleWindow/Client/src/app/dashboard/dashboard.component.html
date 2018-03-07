@@ -1,7 +1,7 @@
 <div class="jumbotron">
   <h2>{{dashboard_title}}</h2>
-  <div class="card-group">
-    <div ngbDropdown class="card bg-ssn" *ngFor="let menu_entry of menu_entries">
+  <div class="card-group container">
+    <div ngbDropdown class="card" *ngFor="let menu_entry of menu_entries">
       <button class="btn btn-ssn" id="dropdownBasic" ngbDropdownToggle>
         <img src="{{menu_entry.iconPath}}" height="32px"/> {{menu_entry.title}}
       </button>
@@ -18,5 +18,6 @@
   <app-registrer-ship *ngSwitchCase="'Registrer Ship'"></app-registrer-ship>
   <app-registrer-location *ngSwitchCase="'Registrer Location'"></app-registrer-location>
   <app-registrer-company *ngSwitchCase="'Registrer Company'"></app-registrer-company>
+  <app-port-call-registration *ngSwitchCase="'Registrer Port Call'"></app-port-call-registration>
   <p *ngSwitchDefault></p>
 </div>

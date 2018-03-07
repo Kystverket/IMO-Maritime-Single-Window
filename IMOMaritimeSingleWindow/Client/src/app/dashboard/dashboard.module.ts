@@ -13,6 +13,7 @@ import { UserFormComponent } from './basis-data/user/user-form/user-form.compone
 import { ShipFormComponent } from './basis-data/ship/ship-form/ship-form.component';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
+import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { CompanyFormComponent } from './basis-data/company/company-form/company-
     UserFormComponent,
     ShipFormComponent,
     LocationFormComponent,
-    CompanyFormComponent
+    CompanyFormComponent,
+    PortCallRegistrationComponent
   ]
 })
 
