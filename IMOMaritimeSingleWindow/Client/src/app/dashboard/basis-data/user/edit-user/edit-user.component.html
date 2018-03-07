@@ -1,0 +1,16 @@
+<div class="jumbotron bg-ssn">
+  <h3 class="text-ssn">EDIT USER</h3>
+
+  <div class="jumbotron">
+    <h4>Find User</h4>
+    <button class="btn btn-ssn" (click)="findUser()">Find user</button>
+  </div>
+
+  <div *ngIf="userFound">
+    <div class="jumbotron">
+      <h4>Selected User: Oh-la Njordman</h4>
+    </div>
+
+    <app-user-form></app-user-form>
+  </div>
+</div>

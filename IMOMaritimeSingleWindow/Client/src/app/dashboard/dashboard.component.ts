@@ -12,16 +12,18 @@ import { MenuEntry } from './menu-entry.interface';
 export class DashboardComponent implements OnInit {
 
   dashboard_title = "DASHBOARD";
+  icon_path = "assets/images/VoyageIcons/128x128/white/"
   categories: string[] = []; //Look at this to see how to get data from http
 
   selectedComponent: string = "";
 
   // This list should be populated based on your role
   menu_entries: MenuEntry[] = [
-    {title: "Users",           iconPath: "",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
-    {title: "Ships",           iconPath: "",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
-    {title: "Locations",       iconPath: "",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
-    {title: "Companies",       iconPath: "",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] }
+    {title: "USERS",           iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
+    {title: "SHIPS",           iconPath: this.icon_path + "ship.png",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
+    {title: "LOCATIONS",       iconPath: this.icon_path + "voyage.png",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
+    {title: "COMPANIES",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] },
+    {title: "PORT CALL",       iconPath: this.icon_path + "portcall.png",      componentDescription: ["Registrer Port Call"] }
   ];
 
   constructor(
@@ -34,8 +36,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.httpService.get('/api/categories').subscribe(values => {
-      this.categories = values.json() as string[];
+    this.httpService.get('/api/ship/254168').subscribe(values => {
+      
+      //this.categories = values.json() as string[];
     });
   }
 
