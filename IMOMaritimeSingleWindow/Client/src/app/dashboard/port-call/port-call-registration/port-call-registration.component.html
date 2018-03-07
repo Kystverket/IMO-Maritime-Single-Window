@@ -2,7 +2,7 @@
   <h3 class="text-ssn">REGISTRER PORT CALL</h3>
 
   <div class="jumbotron">
-    <h4>Find Ship</h4>
+    <h4>Select Ship</h4>
 
     <ng-template #rt let-r="result" let-t="term">
       <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
@@ -14,14 +14,13 @@
 
     <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
     <input id="find-ship" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
-      [inputFormatter]="formatter" />
+      [inputFormatter]="formatter"/>
+
   </div>
 
-  <div *ngIf="shipFound">
-    <div class="jumbotron">
-      <h4>Selected ship: placeholder_ship_text</h4>
-    </div>
-
-    <app-user-form></app-user-form>
+  
+  <div class="jumbotron" *ngIf="shipFound">
+    <app-find-location></app-find-location>
+    <h4>Selected ship: {{ model.shipName }}</h4>
   </div>
 </div>

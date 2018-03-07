@@ -17,7 +17,7 @@ import { LocationService } from '../../../../shared/services/location.service';
 })
 export class FindLocationComponent implements OnInit {
 
-    locationFound: boolean = false;
+    locationFound = false;
 
     results: string[];
 
@@ -37,7 +37,8 @@ export class FindLocationComponent implements OnInit {
                 this.locationService.search(term)
             )
             .do(() => this.searching = false)
-            .merge(this.hideSearchingWhenUnsubscribed);
+            .merge(this.hideSearchingWhenUnsubscribed)
+            .finally(() => this.locationFound = true);
     
     formatter = (x: {locationId: string}) => "Location ID: " + x.locationId;
 

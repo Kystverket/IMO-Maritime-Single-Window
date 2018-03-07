@@ -6,17 +6,19 @@ import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {Subject} from 'rxjs/Subject'
 import { ShipService } from '../../../shared/services/ship.service';
+import { LocationService } from '../../../shared/services/location.service';
 
 @Component({
   selector: 'app-port-call-registration',
   templateUrl: './port-call-registration.component.html',
   styleUrls: ['./port-call-registration.component.css'],
-  providers: [ShipService]
+  providers: [ShipService, LocationService]
 })
 export class PortCallRegistrationComponent implements OnInit {
 
-  shipFound: boolean = false;
+  shipFound = false;
 
   results: string[];
 
@@ -25,7 +27,7 @@ export class PortCallRegistrationComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  constructor(private shipService: ShipService) { }
+  constructor(private shipService: ShipService, private locationService: LocationService) { }
 
   search = (text$: Observable<string>) =>
     text$
@@ -36,7 +38,10 @@ export class PortCallRegistrationComponent implements OnInit {
         this.shipService.search(term)
       )
       .do(() => this.searching = false)
-      .merge(this.hideSearchingWhenUnsubscribed);
+      .merge(this.hideSearchingWhenUnsubscribed)
+      .finally(() => this.shipFound = true);
+
+  
 
   formatter = (x: {shipId: string}) => "Ship ID: " + x.shipId;
 
