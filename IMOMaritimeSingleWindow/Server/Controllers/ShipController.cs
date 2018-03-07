@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using System.Data.Objects.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -32,10 +29,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                             || s.ImoNo.ToString().StartsWith(searchTerm)
                             || s.MmsiNo.ToString().StartsWith(searchTerm)
                             select s).Take(10).ToList();
-
             
-            List<string> returnList = new List<string>();
             List<ShipSearchResult> resultList = new List<ShipSearchResult>();
+
             foreach(Ship s in results) {
                 
                 ShipSearchResult searchItem = new ShipSearchResult();
@@ -60,8 +56,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(resultList);
         }
 
-
-
         [HttpGet("{id}")]
         public JsonResult Get(int id)
         {
@@ -69,31 +63,5 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(ship);
         }
 
-
-
-
-
-        //// POST api/<controller>
-        //[HttpPost]
-        //public void Post([FromBody]Ship ship)
-        //{
-        //    _context.Ship.Add(ship);
-        //    _context.SaveChanges();
-        //}
-
-        //// PUT api/<controller>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]Ship ship)
-        //{
-            
-        //    _context.Ship.Update(ship);
-        //    _context.SaveChanges();
-        //}
-
-        //// DELETE api/<controller>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
