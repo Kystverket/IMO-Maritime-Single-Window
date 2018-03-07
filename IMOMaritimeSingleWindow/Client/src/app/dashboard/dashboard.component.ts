@@ -19,11 +19,11 @@ export class DashboardComponent implements OnInit {
 
   // This list should be populated based on your role
   menu_entries: MenuEntry[] = [
-    {title: "Users",           iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
-    {title: "Ships",           iconPath: this.icon_path + "ship.png",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
-    {title: "Locations",       iconPath: this.icon_path + "voyage.png",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
-    {title: "Companies",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] },
-    {title: "Port call",       iconPath: this.icon_path + "portcall.png",      componentDescription: ["Registrer Port Call"] }
+    {title: "USERS",           iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
+    {title: "SHIPS",           iconPath: this.icon_path + "ship.png",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
+    {title: "LOCATIONS",       iconPath: this.icon_path + "voyage.png",      componentDescription: ["Registrer Location", "Edit Location", "Get Locations from SafeSeaNet" ] },
+    {title: "COMPANIES",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] },
+    {title: "PORT CALL",       iconPath: this.icon_path + "portcall.png",      componentDescription: ["Registrer Port Call"] }
   ];
 
   constructor(
