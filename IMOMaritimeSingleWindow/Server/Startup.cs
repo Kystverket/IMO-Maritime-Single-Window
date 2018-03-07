@@ -52,8 +52,8 @@ namespace IMOMaritimeSingleWindow
         public void ConfigureServices(IServiceCollection services)
         {
           services.AddCors();
-      var connectionString = Configuration.GetConnectionString("DefaultConnection");
-          services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+          var connectionString = Configuration.GetConnectionString("DefaultConnection");
+          services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
           services.AddMvc();
           services.AddAutoMapper();
 
@@ -67,6 +67,7 @@ namespace IMOMaritimeSingleWindow
           */
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
+          
 
           services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 

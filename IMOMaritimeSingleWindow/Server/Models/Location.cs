@@ -19,17 +19,17 @@ namespace IMOMaritimeSingleWindow.Models
         public int CountryId { get; set; }
         public int LocationTypeId { get; set; }
         public int LocationSourceId { get; set; }
-        public int? CouncilId { get; set; }
+        public int? MunicipalityId { get; set; }
         public string LocationCode { get; set; }
         public int? LocationNo { get; set; }
         public string PostCode { get; set; }
         public string LocationName { get; set; }
 
-        public Council Council { get; set; }
         public Country Country { get; set; }
         public Location LocationInLocation { get; set; }
         public LocationSource LocationSource { get; set; }
         public LocationType LocationType { get; set; }
+        public Municipality Municipality { get; set; }
         public ICollection<Department> Department { get; set; }
         public ICollection<Location> InverseLocationInLocation { get; set; }
         public ICollection<PortCall> PortCallLocation { get; set; }

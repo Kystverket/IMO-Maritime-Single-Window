@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
 {
-    public partial class PersonRole
+    public partial class RoleClaim
     {
-        public int PersonRoleId { get; set; }
-        public int PersonId { get; set; }
+        public int RoleClaimId { get; set; }
         public int RoleId { get; set; }
+        public int ClaimId { get; set; }
 
-        public Person Person { get; set; }
+        public Claim Claim { get; set; }
         public Role Role { get; set; }
     }
 }
