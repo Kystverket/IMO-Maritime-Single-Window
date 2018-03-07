@@ -14,11 +14,13 @@ import { ShipFormComponent } from './basis-data/ship/ship-form/ship-form.compone
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     NgbModule,
     CommonModule,
+    FormsModule,
     DashboardRoutingModule
   ],
   declarations: [
