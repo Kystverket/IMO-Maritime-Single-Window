@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditUserComponent implements OnInit {
 
+  userFound: boolean = false;
+
   constructor() { }
+
+  findUser(){
+    this.userFound = true;
+  }
 
   ngOnInit() {
   }
