@@ -45,13 +45,14 @@ namespace IMOMaritimeSingleWindow.Controllers
                 searchItem.ImoNo = (s.ImoNo != null) ? s.ImoNo.ToString() : string.Empty;
                 searchItem.MmsiNo = (s.MmsiNo != null) ? s.MmsiNo.ToString() : string.Empty;
 
+                // Find country id so we can get the country's 2CC which is used to add flags
                 var cId = (from sfc in _context.ShipFlagCode
                             where sfc.ShipFlagCodeId == s.ShipFlagCodeId
                             select sfc.CountryId).First();
 
                 searchItem.TwoCharCode = (from c in _context.Country
                                             where c.CountryId == cId
-                                            select c.TwoCharCode).First().ToString();
+                                            select c.TwoCharCode).First().ToString().ToLower();
 
                 resultList.Add(searchItem);
 
