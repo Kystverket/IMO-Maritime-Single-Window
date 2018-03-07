@@ -11,6 +11,7 @@ namespace IMOMaritimeSingleWindow.Helpers {
         public string CallSign { get; set; }
         public string ImoNo { get; set; }
         public string MmsiNo { get; set; }
+        public string TwoCharCode { get; set; }
 
     }
 }

@@ -36,15 +36,22 @@ namespace IMOMaritimeSingleWindow.Controllers
             
             List<string> returnList = new List<string>();
             List<ShipSearchResult> resultList = new List<ShipSearchResult>();
-            //List<List<string>> returnList = new List<List<string>>();
             foreach(Ship s in results) {
-
+                
                 ShipSearchResult searchItem = new ShipSearchResult();
                 searchItem.ShipId = s.ShipId; // TODO: deal with nullpointerexception?
                 searchItem.ShipName = (s.ShipName != null) ? s.ShipName : string.Empty;
                 searchItem.CallSign = (s.CallSign != null) ? s.CallSign : string.Empty;
                 searchItem.ImoNo = (s.ImoNo != null) ? s.ImoNo.ToString() : string.Empty;
                 searchItem.MmsiNo = (s.MmsiNo != null) ? s.MmsiNo.ToString() : string.Empty;
+
+                var cId = (from sfc in _context.ShipFlagCode
+                            where sfc.ShipFlagCodeId == s.ShipFlagCodeId
+                            select sfc.CountryId).First();
+
+                searchItem.TwoCharCode = (from c in _context.Country
+                                            where c.CountryId == cId
+                                            select c.TwoCharCode).First().ToString();
 
                 resultList.Add(searchItem);
 
