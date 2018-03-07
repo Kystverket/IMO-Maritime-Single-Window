@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+//using System.Data.Objects.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,24 +22,34 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
-        // ship name, call sign, imo no, mmsi no
 
         [HttpGet("search/{searchTerm}")]
         public JsonResult Find(string searchTerm) 
         {
-            var shipList = _context.Ship
-                .Where(s => s.ShipName
-                .Contains(searchTerm))
-                .OrderBy(s => s.ShipName)
-                .Take(10)
-                .ToList();
+            var results = (from s in _context.Ship
+                            where s.ShipName.StartsWith(searchTerm.ToUpper())
+                            || s.CallSign.StartsWith(searchTerm.ToUpper())
+                            || s.ImoNo.ToString().StartsWith(searchTerm)
+                            || s.MmsiNo.ToString().StartsWith(searchTerm)
+                            select s).Take(10).ToList();
 
-            List<string> shipListNames = new List<string>();
-            foreach(Ship s in shipList) {
-                Debug.WriteLine(s.ShipName);
-                shipListNames.Add(s.ShipName);
+            
+            List<string> returnList = new List<string>();
+            List<ShipSearchResult> resultList = new List<ShipSearchResult>();
+            //List<List<string>> returnList = new List<List<string>>();
+            foreach(Ship s in results) {
+
+                ShipSearchResult searchItem = new ShipSearchResult();
+                searchItem.ShipId = s.ShipId; // TODO: deal with nullpointerexception?
+                searchItem.ShipName = (s.ShipName != null) ? s.ShipName : string.Empty;
+                searchItem.CallSign = (s.CallSign != null) ? s.CallSign : string.Empty;
+                searchItem.ImoNo = (s.ImoNo != null) ? s.ImoNo.ToString() : string.Empty;
+                searchItem.MmsiNo = (s.MmsiNo != null) ? s.MmsiNo.ToString() : string.Empty;
+
+                resultList.Add(searchItem);
+
             }
-            return Json(shipListNames);
+            return Json(resultList);
         }
 
 
