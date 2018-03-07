@@ -5,7 +5,11 @@
     <h4>Find Ship</h4>
 
     <ng-template #rt let-r="result" let-t="term">
-      {{ r.shipName }}
+      <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
+      <strong *ngIf="r.shipName">Name: </strong> {{ r.shipName }}
+      <strong *ngIf="r.callSign"> Call sign: </strong> {{ r.callSign }}
+      <strong *ngIf="r.imoNo"> IMO number: </strong> {{ r.imoNo }}
+      <strong *ngIf="r.mmsiNo"> MMSI number: </strong> {{ r.mmsiNo }}
     </ng-template>
 
     <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>

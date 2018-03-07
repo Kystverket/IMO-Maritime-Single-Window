@@ -25,9 +25,7 @@ export class PortCallRegistrationComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  constructor(private shipService: ShipService, config: NgbTypeaheadConfig) {
-    config.showHint = true;
-  }
+  constructor(private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>
     text$
@@ -40,7 +38,7 @@ export class PortCallRegistrationComponent implements OnInit {
       .do(() => this.searching = false)
       .merge(this.hideSearchingWhenUnsubscribed);
 
-  formatter = (x: {shipName: string}) => x.shipName;
+  formatter = (x: {shipId: string}) => "Ship ID: " + x.shipId;
 
   ngOnInit() {
 

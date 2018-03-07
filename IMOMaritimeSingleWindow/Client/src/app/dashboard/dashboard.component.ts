@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.httpService.get('/api/ship/254168').subscribe(values => {
-      console.log(values);
+      
       //this.categories = values.json() as string[];
     });
   }
