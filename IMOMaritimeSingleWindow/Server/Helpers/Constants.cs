@@ -19,6 +19,14 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const string Register = "register", View = "view", Delete = "delete"; 
             }
+            
+        }
+        public enum LoginStates
+        {
+            OK,
+            InvalidCredentials,
+            LockedOut,
+            Requires2FA //To be implemented?
         }
     }
 }

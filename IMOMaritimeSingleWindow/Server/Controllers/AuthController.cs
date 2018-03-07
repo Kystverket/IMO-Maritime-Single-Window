@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Result = Microsoft.AspNetCore.Identity.SignInResult;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -40,61 +41,80 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         // POST api/auth/login
         [HttpPost("login")]
-        public async Task<IActionResult> Post([FromBody]CredentialsViewModel credentials)
+        public async Task<IActionResult> Login([FromBody]CredentialsViewModel credentials)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var identity = await GetClaimsIdentity(credentials.UserName, credentials.Password);
+            var userName = credentials.UserName;
+            var password = credentials.Password;
+
+            int res = await VerifyCredentials(userName, password);
+            switch (res)
+            {
+                case (int)Constants.LoginStates.OK:
+                    _logger.LogDebug("Valid credentials");
+                    break;
+                case (int)Constants.LoginStates.InvalidCredentials:
+                    _logger.LogDebug("Invalid credentials");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt");
+                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                case (int)Constants.LoginStates.LockedOut:
+                    _logger.LogWarning("User account is locked out.");
+                    var forbiddenRequestObject = BadRequest(ModelState);
+                    forbiddenRequestObject.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status403Forbidden;
+                    return forbiddenRequestObject;
+            }
+            
+            var identity = await GetClaimsIdentity(userName);
             if (identity == null)
             {
                 return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
             }
-            var _user = await _userManager.FindByNameAsync(credentials.UserName);
-            var result = await _signInManager.CheckPasswordSignInAsync(_user, credentials.Password, lockoutOnFailure: true);
-            
-            if(result.Succeeded)
-            {
-                _logger.LogInformation("User logged in successfully. Now generating JWT.");
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User account is locked out.");
-                var forbiddenRequestObject = BadRequest(ModelState);
-                forbiddenRequestObject.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status403Forbidden;
-                return forbiddenRequestObject;
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt");
-                _logger.LogError("Invalid login attempt");
-            }
-            
-          var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+
+            var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
             _logger.LogDebug(jwt);
             return new OkObjectResult(jwt);
         }
 
-        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
+        private async Task<int> VerifyCredentials(string userName, string password)
         {
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
-                return await Task.FromResult<ClaimsIdentity>(null);
+                return (int)Constants.LoginStates.InvalidCredentials;
 
-            // get the user to verifty
-            var userToVerify = await _userManager.FindByNameAsync(userName);
-
-            if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
-
-            // check the credentials
-            if (await _userManager.CheckPasswordAsync(userToVerify, password))
+            var _user = await _userManager.FindByNameAsync(userName);
+            if (_user == null)
             {
-                return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+                _logger.LogDebug("User is null");
+                return (int)Constants.LoginStates.InvalidCredentials;
             }
 
-            // Credentials are invalid, or account doesn't exist
-            return await Task.FromResult<ClaimsIdentity>(null);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(_user, password, lockoutOnFailure: true);
+
+            if (result.Succeeded)
+            {
+                // await _userManager.ResetAccessFailedCountAsync(_user);
+                _logger.LogInformation("User logged in successfully");
+                return (int)Constants.LoginStates.OK;
+            }
+            else if (result.IsLockedOut)
+                return (int)Constants.LoginStates.LockedOut;
+            else
+            {
+                // await _userManager.AccessFailedAsync(_user);
+                var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
+                _logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
+            }
+            return (int)Constants.LoginStates.InvalidCredentials;
+        }
+
+        private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
+        {
+            var _user = await _userManager.FindByNameAsync(userName);
+            _logger.LogInformation($"Generating JWT for user {_user.Id}");
+            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, _user.Id));
         }
     }
 }
