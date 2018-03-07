@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -14,13 +16,15 @@ import { ShipFormComponent } from './basis-data/ship/ship-form/ship-form.compone
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
-import { FormsModule } from '@angular/forms';
+import { ShipService } from '../shared/services/ship.service';
+
 
 @NgModule({
   imports: [
     NgbModule,
     CommonModule,
     FormsModule,
+    HttpModule,
     DashboardRoutingModule
   ],
   declarations: [
@@ -35,7 +39,8 @@ import { FormsModule } from '@angular/forms';
     LocationFormComponent,
     CompanyFormComponent,
     PortCallRegistrationComponent
-  ]
+  ],
+  providers: [ShipService]
 })
 
 export class DashboardModule { }
