@@ -13,11 +13,12 @@ namespace IMOMaritimeSingleWindow.Helpers
             public static class JwtClaims
             {
                 public const string ApiAccess = "api_access";
+                public const string AdminAccess = "admin_access";
             }
 
             public static class PersonClaims
             {
-                public const string Register = "register", View = "view", Delete = "delete"; 
+                public const string Register = "register", View = "view", Delete = "delete";
             }
             
         }

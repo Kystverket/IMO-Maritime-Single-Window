@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.IdentityModel.Tokens;
 
@@ -31,7 +32,9 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Services;
 using IMOMaritimeSingleWindow.ViewModels.Mappings;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -56,8 +59,8 @@ namespace IMOMaritimeSingleWindow
           var connectionString = Configuration.GetConnectionString("DefaultConnection");
           //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
-            services.AddMvc();
-          services.AddAutoMapper();
+            
+          
 
           //Automapper setup
           /**var config = new AutoMapper.MapperConfiguration(cfg =>
@@ -69,9 +72,32 @@ namespace IMOMaritimeSingleWindow
           */
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
-          
-          
-          services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<SignInManager<AppUser>>();
+            // add identity
+            //services.AddIdentity<AppUser, PersonRole>();
+            var builder = services.AddIdentityCore<AppUser>(options =>
+            {
+                // configure identity options
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+
+                // Lockout options
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+
+                //Email options
+                //options.SignIn.RequireConfirmedEmail = true;
+
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
           // Get options from app settings
           var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
@@ -123,31 +149,26 @@ namespace IMOMaritimeSingleWindow
           services.AddAuthorization(options =>
           {
             options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-            //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
+              //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
+              options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
           });
 
-            services.AddScoped<SignInManager<AppUser>>();
-            // add identity
-            //services.AddIdentity<AppUser, PersonRole>();
-          var builder = services.AddIdentityCore<AppUser>(options =>
-          {
-            // configure identity options
-            options.Password.RequireDigit = false;
-            options.Password.RequireLowercase = false;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = false;
-            options.Password.RequiredLength = 6;
 
-            // Lockout settings
-            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-            options.Lockout.MaxFailedAccessAttempts = 10;
-            options.Lockout.AllowedForNewUsers = true;
-          });
-          builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-          builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-          
-          services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            /*services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);*/
+
+            /*var b = services.AddMvc(
+                options => {
+                    var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                    .RequireAuthenticatedUser().Build();
+                    options.Filters.Add(new AuthorizeFilter(defaultPolicy));
+
+                });
+            */
+
+            services.AddAutoMapper();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
         }
 
@@ -172,10 +193,12 @@ namespace IMOMaritimeSingleWindow
                 .AddEnvironmentVariables();
             builder.Build();
 
+            // IMPORTANT! UseAuthentication() must be called before UseMvc()
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            
         }
     }
 }
