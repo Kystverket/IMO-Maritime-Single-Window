@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ShipService } from '../../../../shared/services/ship.service';
-import { Subscription } from 'rxjs';
 import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
@@ -12,9 +11,7 @@ import { PortCallService } from '../../../../shared/services/port-call.service';
 })
 export class FindShipComponent implements OnInit {
 
-  subscription: Subscription;
   shipModel: any;
-
   shipFound = false;
   
   searching = false;
@@ -34,21 +31,19 @@ export class FindShipComponent implements OnInit {
       .do(() => this.searching = false)
       .merge(this.hideSearchingWhenUnsubscribed);
 
+  formatter = (x: {shipId: string}) => x.shipId;
 
-  shipSelected($event){
+  selectShip($event){
     this.shipFound = true;
     this.portCallService.setShipData($event.item);
   }
 
-  unselectShip(){
+  deselectShip(){
     this.shipFound = false;
     this.shipModel = null;
     this.portCallService.setShipData(this.shipModel);
   }
 
-  formatter = (x: {shipId: string}) => x.shipId;
-
   ngOnInit() {
   }
-
 }

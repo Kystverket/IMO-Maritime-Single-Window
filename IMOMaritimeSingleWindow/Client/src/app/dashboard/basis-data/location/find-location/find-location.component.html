@@ -8,9 +8,30 @@
             <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
         </ng-template>
 
-        <label for="search-location">Search using location name or code</label>
-        <input id="search-location" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" />
-        <h4 *ngIf="locationFound">Selected location: {{ model.locationName }}</h4>
+        <div *ngIf="!locationFound">
+            <label for="search-location">Search using location name or code</label>
+            <input id="search-location" type="text" class="form-control" [(ngModel)]="locationModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+                [inputFormatter]="formatter" (selectItem)="selectLocation($event)" />
+        </div>
+
+        <div *ngIf="locationFound">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="bg-ssn text-ssn">
+                    <th>Location Name</th>
+                    <th>Location Code</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ locationModel.locationName }}</td>
+                    <td>{{ locationModel.locationCode }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <button class="btn btn-ssn" (click)="deselectLocation()">Clear selection</button>
+          </div>
     </div>
 </div>
