@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ShipService } from '../../../../shared/services/ship.service';
+import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -10,16 +11,14 @@ import { ShipService } from '../../../../shared/services/ship.service';
 })
 export class FindShipComponent implements OnInit {
 
-  shipFound = false;
-
-  results: string[];
-
   shipModel: any;
+  shipFound = false;
+  
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  constructor(private shipService: ShipService) { }
+  constructor(private portCallService: PortCallService, private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>
     text$
@@ -32,19 +31,19 @@ export class FindShipComponent implements OnInit {
       .do(() => this.searching = false)
       .merge(this.hideSearchingWhenUnsubscribed);
 
-
-  shipSelected(){
-    this.shipFound = true;
-  }
-
-  unselectShip(){
-    this.shipFound = false;
-    this.shipModel = [];
-  }
-
   formatter = (x: {shipId: string}) => x.shipId;
+
+  selectShip($event){
+    this.shipFound = true;
+    this.portCallService.setShipData($event.item);
+  }
+
+  deselectShip(){
+    this.shipFound = false;
+    this.shipModel = null;
+    this.portCallService.setShipData(this.shipModel);
+  }
 
   ngOnInit() {
   }
-
 }
