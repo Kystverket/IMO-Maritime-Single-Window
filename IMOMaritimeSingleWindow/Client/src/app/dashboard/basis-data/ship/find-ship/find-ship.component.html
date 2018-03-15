@@ -17,7 +17,7 @@
     <div *ngIf="!shipFound">
       <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
       <input id="find-ship" type="text" class="form-control" [(ngModel)]="shipModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-        [inputFormatter]="formatter" (selectItem)='shipSelected()' />
+        [inputFormatter]="formatter" (selectItem)='shipSelected($event)' />
     </div>
     <div class="table-responsive" *ngIf="shipFound">
       <table class="table table-bordered">
@@ -43,7 +43,6 @@
         </tbody>
       </table>
       <button class="btn btn-ssn" (click)="unselectShip()">Clear selection</button>
-      <pre>Model: {{ shipModel | json }}</pre>
     </div>
   </div>
 </div>

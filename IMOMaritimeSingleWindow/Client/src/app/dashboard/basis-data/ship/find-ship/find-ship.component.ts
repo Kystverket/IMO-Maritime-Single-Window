@@ -35,14 +35,15 @@ export class FindShipComponent implements OnInit {
       .merge(this.hideSearchingWhenUnsubscribed);
 
 
-  shipSelected(){
+  shipSelected($event){
     this.shipFound = true;
-    this.portCallService.setShipData(this.shipModel);
+    this.portCallService.setShipData($event.item);
   }
 
   unselectShip(){
     this.shipFound = false;
-    this.shipModel = [];
+    this.shipModel = null;
+    this.portCallService.setShipData(this.shipModel);
   }
 
   formatter = (x: {shipId: string}) => x.shipId;
