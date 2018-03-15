@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTypeaheadConfig, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
@@ -22,7 +22,7 @@ export class PortCallRegistrationComponent implements OnInit {
 
   results: string[];
 
-  model: any;
+  shipModel: any;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -34,16 +34,20 @@ export class PortCallRegistrationComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .do(() => this.searching = true)
-      .switchMap(term =>
+      .switchMap(term => term.length < 2 ? [] :
         this.shipService.search(term)
       )
       .do(() => this.searching = false)
-      .merge(this.hideSearchingWhenUnsubscribed)
-      .finally(() => this.shipFound = true);
+      .merge(this.hideSearchingWhenUnsubscribed);
 
-  
+
+  shipSelected(){
+    this.shipFound = true;
+  }
 
   formatter = (x: {shipId: string}) => "Ship ID: " + x.shipId;
+
+
 
   ngOnInit() {
 
