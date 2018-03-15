@@ -12,5 +12,7 @@
         <input id="search-location" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
             [inputFormatter]="formatter" />
         <h4 *ngIf="locationFound">Selected location: {{ model.locationName }}</h4>
+
+        <pre>Model: {{ getShipData() | json }}</pre>
     </div>
 </div>

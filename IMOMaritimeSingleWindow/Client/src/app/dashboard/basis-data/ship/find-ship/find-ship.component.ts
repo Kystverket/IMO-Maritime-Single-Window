@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ShipService } from '../../../../shared/services/ship.service';
+import { Subscription } from 'rxjs';
+import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -10,16 +12,16 @@ import { ShipService } from '../../../../shared/services/ship.service';
 })
 export class FindShipComponent implements OnInit {
 
-  shipFound = false;
-
-  results: string[];
-
+  subscription: Subscription;
   shipModel: any;
+
+  shipFound = false;
+  
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  constructor(private shipService: ShipService) { }
+  constructor(private portCallService: PortCallService, private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>
     text$
@@ -35,6 +37,7 @@ export class FindShipComponent implements OnInit {
 
   shipSelected(){
     this.shipFound = true;
+    this.portCallService.setShipData(this.shipModel);
   }
 
   unselectShip(){
