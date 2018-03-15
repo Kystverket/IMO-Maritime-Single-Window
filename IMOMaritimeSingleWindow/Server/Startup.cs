@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -32,7 +33,7 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Models.Entities;
-using IMOMaritimeSingleWindow.Services;
+//using IMOMaritimeSingleWindow.Services;
 using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
@@ -55,8 +56,18 @@ namespace IMOMaritimeSingleWindow
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-          services.AddCors();
-          var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    b => b.WithOrigins("http://localhost"));
+                options.AddPolicy("AllowAnyOrigin",
+                    b => b.AllowAnyOrigin());
+                options.AddPolicy("AllowAllAny",
+                    b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
           //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
             
@@ -192,6 +203,10 @@ namespace IMOMaritimeSingleWindow
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .AddEnvironmentVariables();
             builder.Build();
+
+            //app.UseCors("AllowAnyOrigin");
+            app.UseCors("AllowAllAny");
+            //app.UseCors("AllowSpecificOrigin");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
             app.UseAuthentication();

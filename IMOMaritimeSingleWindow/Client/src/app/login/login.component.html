@@ -4,12 +4,13 @@
 
       <div class="form-group">
           <label for="email">Email address:</label>
-          <input required type="email" class="form-control" id="email">
+          <input required type="email" name="username" class="form-control" id="email" placeholder="Email" [(ngModel)]="credentials.username" #email="ngModel" tmFocus validateEmail>
+          <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
         </div>
 
         <div class="form-group">
           <label for="pwd">Password:</label>
-          <input required type="password" class="form-control" id="pwd">
+          <input required type="password" name="password" class="form-control" id="pwd" [(ngModel)]="credentials.password">
         </div>
 
         <div class="form-check">
@@ -24,6 +25,11 @@
 
         <div *ngIf="errors" class="alert alert-danger" role="alert">
           <strong>Something went wrong!</strong> {{errors}}
+        </div>
+
+        <div>
+          <p> email: {{ credentials.email }} </p>
+          <p> password: {{ credentials.password }} </p>
         </div>
 
   </form>

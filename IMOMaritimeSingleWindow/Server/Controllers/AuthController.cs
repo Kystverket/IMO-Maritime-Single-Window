@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Result = Microsoft.AspNetCore.Identity.SignInResult;
+using Microsoft.AspNetCore.Authorization;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -40,6 +41,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         // POST api/auth/login
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]CredentialsViewModel credentials)
         {
