@@ -12,11 +12,10 @@ using Microsoft.EntityFrameworkCore;
 namespace IMOMaritimeSingleWindow.Controllers
 {
     [Route("api/[controller]")]
-    public class DpgController : Controller
+    public class CustomsCargoTypeController : Controller
     {
         readonly open_ssnContext _context;
-
-        public DpgController(open_ssnContext context)
+        public CustomsCargoTypeController(open_ssnContext context)
         {
             _context = context;
         }
@@ -24,32 +23,19 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            Dpg dpg = _context.Dpg.FirstOrDefault(d => d.DpgId == id);
-            if (dpg == null)
+            CustomsCargoType cargoType = _context.CustomsCargoType.FirstOrDefault(c => c.CustomsCargoTypeId == id);
+            if (cargoType == null)
             {
                 return NotFound();
             }
-            return Json(dpg);
+            return Json(cargoType);
         }
 
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            List<Dpg> resultList = _context.Dpg.OrderBy(d => d.TextualReference).ToList();
+            List<CustomsCargoType> resultList = _context.CustomsCargoType.ToList();
             return Json(resultList);
-        }
-
-        [HttpPost("add")]
-        public IActionResult Add(Dpg dpg)
-        {
-            if (dpg == null)
-            {
-                return BadRequest("Empty body.");
-            }
-
-            _context.Dpg.Add(dpg);
-            _context.SaveChanges();
-            return Ok(dpg);
         }
     }
 }
