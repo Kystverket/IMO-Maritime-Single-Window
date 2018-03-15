@@ -13,11 +13,17 @@ div .bg-ssn {
     background-color: var(--color-primary);
 }
 
+div .bg-ssn-light {
+    background-color: var(--color-primary-light);
+}
+
 .text-ssn {
     color: var(--color-primary-text);
 }
 
-
+.card-ssn {
+    margin-bottom: 50px;
+}
 
 
 

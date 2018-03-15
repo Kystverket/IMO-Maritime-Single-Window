@@ -1,0 +1,48 @@
+<div class="card card-ssn text-center">
+  <div class="card-header bg-ssn text-ssn">
+    <h4>Select Ship</h4>
+  </div>
+  <div class="card-body">
+
+    <ng-template #rt let-r="result" let-t="term">
+      <div class="">
+        <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
+        <strong *ngIf="r.shipName">Name: </strong> {{ r.shipName }}
+        <strong *ngIf="r.callSign"> Call sign: </strong> {{ r.callSign }}
+        <strong *ngIf="r.imoNo"> IMO number: </strong> {{ r.imoNo }}
+        <strong *ngIf="r.mmsiNo"> MMSI number: </strong> {{ r.mmsiNo }}
+      </div>
+    </ng-template>
+
+    <div *ngIf="!shipFound">
+      <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
+      <input id="find-ship" type="text" class="form-control" [(ngModel)]="shipModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+        [inputFormatter]="formatter" (selectItem)='shipSelected()' />
+    </div>
+    <div class="table-responsive" *ngIf="shipFound">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="bg-ssn text-ssn">
+            <th>Flag</th>
+            <th>Ship name</th>
+            <th>Call sign</th>
+            <th>IMO number</th>
+            <th>MMSI number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="assets/images/Flags/{{shipModel.twoCharCode}}.png" height="20px" />
+            </td>
+            <td>{{ shipModel.shipName }}</td>
+            <td>{{ shipModel.callSign }}</td>
+            <td>{{ shipModel.imoNo }}</td>
+            <td>{{ shipModel.mmsiNo }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <button class="btn btn-ssn" (click)="unselectShip()">Clear selection</button>
+    </div>
+  </div>
+</div>
