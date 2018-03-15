@@ -1,16 +1,16 @@
+<div class="card text-center">
+    <div class="card-header bg-ssn text-ssn">
+        <h4>Select Location</h4>
+    </div>
+    <div class="card-body">
+        <ng-template #rt let-r="result" let-t="term">
+            <strong *ngIf="r.locationName">Name: </strong> {{ r.locationName }}
+            <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
+        </ng-template>
 
-
-<div>
-    
-    <h4>Select Location</h4>
-
-    <ng-template #rt let-r="result" let-t="term">
-        <strong *ngIf="r.locationName">Name: </strong> {{ r.locationName }}
-        <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
-    </ng-template>
-
-    <label for="search-location">Search using location name or code</label>
-    <input id="search-location" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
-        [inputFormatter]="formatter" />
-    <h4 *ngIf="locationFound">Selected location: {{ model.locationName }}</h4>
+        <label for="search-location">Search using location name or code</label>
+        <input id="search-location" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" />
+        <h4 *ngIf="locationFound">Selected location: {{ model.locationName }}</h4>
+    </div>
 </div>
