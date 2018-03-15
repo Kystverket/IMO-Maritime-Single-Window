@@ -5,7 +5,7 @@ curl $PAGE > ./page.htm
 #get flagcodes
 cat page.htm | grep -hEo '>([[:space:]]*)([A-Z]{2})</td>' | grep -hEo '([A-Z]{2})' | tr [:upper:] [:lower:] > flagcodes.txt
 
-COUNTRIESPATTERN='([[:alpha:]]+(([[:space:]])*))*'
+COUNTRIESPATTERN='((([[:space:]])*)[[:alpha:]]+(([[:space:]])*)(,)*)*'
 #get country names
 cat ./page.htm | grep -hE '<td class="abs">([A-Z]*)' | grep -hEo ">($COUNTRIESPATTERN)<" | grep -hEo $COUNTRIESPATTERN > ./countrynames.txt
 #combine these fields
