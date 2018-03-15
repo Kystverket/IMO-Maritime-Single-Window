@@ -43,9 +43,13 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public IActionResult Get(int id)
         {
-            Location location = _context.Location.First(loc => loc.LocationId == id);
+            Location location = _context.Location.FirstOrDefault(loc => loc.LocationId == id);
+            if (location == null)
+            {
+                return BadRequest();
+            }
             return Json(location);
         }
     }

@@ -24,13 +24,39 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromBody] PortCall portCall)
         {
-            if (portCall != null)
+            if (portCall == null)
             {
-                _context.PortCall.Add(portCall);
-                _context.SaveChanges();
-                return CreatedAtRoute("api/portcall/" + portCall.PortCallId, portCall);
+                return BadRequest("Empty body");
             }
-            return BadRequest();
+
+            if (_context.Ship.Find(portCall.ShipId) == null)
+            {
+                return BadRequest("Ship with id " + portCall.ShipId + " does not exist.");
+            }
+
+            if (_context.Location.Find(portCall.LocationId) == null)
+            {
+                return BadRequest("Location with ID " + portCall.LocationId + " does not exist.");
+            }
+
+            if (_context.Location.Find(portCall.NextLocationId) == null)
+            {
+                return BadRequest("(NextLocation) Location with ID " + portCall.NextLocationId + " does not exist.");
+            }
+
+            if (_context.Location.Find(portCall.PreviousLocationId) == null)
+            {
+                return BadRequest("(PreviousLocation) Location with ID " + portCall.PreviousLocationId + " does not exist.");
+            }
+
+            if (_context.PortCallStatus.Find(portCall.PortCallStatusId) == null)
+            {
+                return BadRequest("PortCallStatus with ID " + portCall.PortCallStatusId + " does not exist.");
+            }
+
+            _context.PortCall.Add(portCall);
+            _context.SaveChanges();
+            return Json(portCall);
         }
 
         [HttpGet("{id}")]
