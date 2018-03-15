@@ -12,33 +12,31 @@ using Microsoft.EntityFrameworkCore;
 namespace IMOMaritimeSingleWindow.Controllers
 {
     [Route("api/[controller]")]
-    public class PortCallPurposeController : Controller
+    public class DpgTypeController : Controller
     {
         readonly open_ssnContext _context;
-        
-        public PortCallPurposeController(open_ssnContext context)
+
+        public DpgTypeController(open_ssnContext context)
         {
             _context = context;
-        }
-
-        [HttpGet("all")]
-        public IActionResult GetAll()
-        {
-            List<PortCallPurpose> resultList = _context.PortCallPurpose.ToList();
-            return Json(resultList);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            PortCallPurpose purpose = _context.PortCallPurpose.FirstOrDefault(p => p.PortCallPurposeId == id);
-            if (purpose == null)
+            DpgType dpgType = _context.DpgType.FirstOrDefault(d => d.DpgTypeId == id);
+            if (dpgType == null)
             {
                 return NotFound();
             }
-            return Json(purpose);
+            return Json(dpgType);
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            List<DpgType> resultList = _context.DpgType.ToList();
+            return Json(resultList);
         }
     }
-
-
 }
