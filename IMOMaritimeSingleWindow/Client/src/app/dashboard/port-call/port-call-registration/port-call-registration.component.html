@@ -1,30 +1,9 @@
 <div class="jumbotron bg-ssn">
   <h3 class="text-ssn">REGISTRER PORT CALL</h3>
 
-  <div class="jumbotron">
-    <h4>Select Ship</h4>
+  <app-find-ship></app-find-ship>
 
-    <ng-template #rt let-r="result" let-t="term">
-      <div class="">
-        <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
-        <strong *ngIf="r.shipName">Name: </strong> {{ r.shipName }}
-        <strong *ngIf="r.callSign"> Call sign: </strong> {{ r.callSign }}
-        <strong *ngIf="r.imoNo"> IMO number: </strong> {{ r.imoNo }}
-        <strong *ngIf="r.mmsiNo"> MMSI number: </strong> {{ r.mmsiNo }}
-      </div>
-    </ng-template>
-
-    <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
-    <input id="find-ship" type="text" class="form-control" [(ngModel)]="shipModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-      [inputFormatter]="formatter" (selectItem)='shipSelected()' />
-
-    <br/>
-    <pre>Ship model: {{ shipModel | json }}</pre>
-  </div>
-
-
-  <div class="jumbotron" *ngIf="shipFound">
+  <div class="jumbotron" *ngIf="true">
     <app-find-location></app-find-location>
-    <h4>Selected ship: {{ shipModel.shipName }}</h4>
   </div>
 </div>

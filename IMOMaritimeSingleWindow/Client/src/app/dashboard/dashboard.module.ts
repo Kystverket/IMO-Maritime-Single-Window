@@ -20,6 +20,7 @@ import { ShipService } from '../shared/services/ship.service';
 
 import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
+import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { LocationService } from '../shared/services/location.service';
     LocationFormComponent,
     CompanyFormComponent,
     PortCallRegistrationComponent,
-    FindLocationComponent
+    FindLocationComponent,
+    FindShipComponent
   ],
   providers: [ShipService, LocationService],
 })
