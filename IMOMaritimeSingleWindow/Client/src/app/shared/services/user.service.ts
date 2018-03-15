@@ -40,7 +40,6 @@ export class UserService extends BaseService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    console.log(JSON.stringify({ username, password }));
     return this.http
       .post(
       this.baseUrl + '/auth/login',

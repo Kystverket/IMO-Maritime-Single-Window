@@ -56,31 +56,26 @@ namespace IMOMaritimeSingleWindow
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //Configure CORS with different policies
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     b => b.WithOrigins("http://localhost"));
                 options.AddPolicy("AllowAnyOrigin",
                     b => b.AllowAnyOrigin());
+
+                //Brute force policy if all else fails
+                //NB: Only ever use in development!
                 options.AddPolicy("AllowAllAny",
                     b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-          //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionString));
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
-            
-          
-
-          //Automapper setup
-          /**var config = new AutoMapper.MapperConfiguration(cfg =>
-          {
-              cfg.AddProfile(new ViewModelToEntityMappingProfile());
-          });
-          var mapper = config.CreateMapper();
-          services.AddSingleton(mapper);
-          */
+            //Configure database contextes
+            var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
+            var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
+            services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionStringUserDb));
+        
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
 

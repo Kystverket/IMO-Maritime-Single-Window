@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
