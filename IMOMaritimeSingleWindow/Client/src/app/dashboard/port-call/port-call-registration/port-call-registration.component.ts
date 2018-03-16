@@ -11,6 +11,7 @@ export class PortCallRegistrationComponent implements OnInit {
 
   shipFound: boolean;
   locationFound: boolean;
+  dateTimeFound: boolean;
 
   constructor(private portCallService: PortCallService){}
 

@@ -7,6 +7,7 @@
       <h3 class="text-ssn display-4">REGISTRER PORT CALL</h3>
     </div>
   </div>
+
   <div class="row">
     <hr>
   </div>
@@ -17,13 +18,13 @@
     </div>
 
   </div>
-  <div class="row" *ngIf="shipFound">
+  <div class="row" *ngIf="shipFound || locationFound">
     <div class="col-lg">
       <app-find-location></app-find-location>
     </div>
   </div>
 
-  <div class="row" *ngIf="locationFound">
+  <div class="row" *ngIf="locationFound || !dateTimeFound">
     <div class="col-lg">
       <app-eta-etd></app-eta-etd>
     </div>
