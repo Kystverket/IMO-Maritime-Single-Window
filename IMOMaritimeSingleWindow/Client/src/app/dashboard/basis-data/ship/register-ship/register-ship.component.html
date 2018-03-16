@@ -1,8 +1,86 @@
-<div class="jumbotron bg-ssn">
-  <h3 class="text-ssn">REGISTER SHIP</h3>
-  
+<div class="jumbotron bg-ssn-light">
+  <div class="row">
+    <div class="col-2">
+      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
+    </div>
+    <div class="col-10">
+      <h3 class="text-ssn display-4">REGISTER SHIP</h3>
+    </div>
+  </div>
+  <div class="row">
+    <hr>
+  </div>
+
   <div class="row">
     <div class="col-lg">
-      <app-search-company></app-search-company>
+
+      <div class="card text-left">
+        <div class="card-header bg-ssn text-ssn">
+          <div class="row">
+            <div class="col-8">
+              <h4>Ship Identification</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <label class="control-label" for="ship_name">Ship name</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="ship_name" placeholder="Enter ship name" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="call_sign">Call sign</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="call_sign" placeholder="Enter call sign">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="imo_no">IMO number</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="imo_no" placeholder="Enter IMO number">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="mmsi_no">MMSI number</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="mmsi_no" placeholder="Enter MMSI number">
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+
+  <hr>
+
+  <div class="card text-left">
+    <div class="card-header bg-ssn text-ssn">
+      <div class="row">
+        <div class="col-8">
+          <h4>Flag code</h4>
+        </div>
+      </div>
+    </div>
+    <app-search-country></app-search-country>
+  </div>
+
+  <hr>
+
+  <div class="card text-left">
+    <div class="card-header bg-ssn text-ssn">
+      <div class="row">
+        <div class="col-8">
+          <h4>Select Company</h4>
+        </div>
+      </div>
+    </div>
+    <app-search-company></app-search-company>
+  </div>

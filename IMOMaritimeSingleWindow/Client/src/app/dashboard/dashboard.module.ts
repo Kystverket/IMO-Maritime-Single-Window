@@ -18,12 +18,15 @@ import { CompanyFormComponent } from './basis-data/company/company-form/company-
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
 import { ShipService } from '../shared/services/ship.service';
 import { CompanyService } from '../shared/services/company.service';
+import { CountryService } from '../shared/services/country.service';
 
 import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
 import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
+
+import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
 
 
 @NgModule({
@@ -49,9 +52,10 @@ import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
     FindLocationComponent,
     SearchCompanyComponent,
     FindShipComponent,
-    EtaEtdComponent
+    EtaEtdComponent,
+    SearchCountryComponent
   ],
-  providers: [ShipService, LocationService],
+  providers: [ShipService, LocationService, CountryService],
 })
 
 export class DashboardModule { }

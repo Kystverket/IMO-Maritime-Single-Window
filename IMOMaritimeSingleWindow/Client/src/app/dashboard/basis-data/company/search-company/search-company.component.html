@@ -1,45 +1,33 @@
-<div class="card text-center">
-    <div class="card-header bg-ssn text-ssn">
-        <div class="row">
-            <div class="col-2">
-                <img src="assets/images/VoyageIcons/128x128/white/pax.png" height="32px" />
-            </div>
-            <div class="col-8">
-                <h4>Select Company</h4>
-            </div>
-        </div>
+<div class="card-body">
+    <ng-template #rt let-r="result" let-t="term">
+        <strong *ngIf="r.companyName">Name: </strong> {{ r.companyName }}
+        <strong *ngIf="r.companyOrgNo">Code: </strong> {{ r.companyOrgNo }}
+    </ng-template>
+
+    <div *ngIf="!companySelected">
+        <label for="search-company">Search using company name or organisation number</label>
+        <input id="search-company" type="text" class="form-control mx-auto" [(ngModel)]="companyModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" (selectItem)="selectCompany($event)" />
     </div>
 
-    <div class="card-body">
-        <ng-template #rt let-r="result" let-t="term">
-            <strong *ngIf="r.companyName">Name: </strong> {{ r.companyName }}
-            <strong *ngIf="r.companyOrgNo">Code: </strong> {{ r.companyOrgNo }}
-        </ng-template>
-
-        <div *ngIf="!companySelected">
-            <label for="search-company">Search using company name or organisation number</label>
-            <input id="search-company" type="text" class="form-control w-75 mx-auto" [(ngModel)]="companyModel" [ngbTypeahead]="search"
-                [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectCompany($event)" />
+    <div *ngIf="companySelected">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Company Name</th>
+                        <th>Company Organisation Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ companyModel.companyName }}</td>
+                        <td>{{ companyModel.companyOrgNo }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <div *ngIf="companySelected">
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr class="bg-ssn text-ssn">
-                            <th>Company Name</th>
-                            <th>Company Organisation Number</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{{ companyModel.companyName }}</td>
-                            <td>{{ companyModel.companyOrgNo }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <button class="btn btn-ssn" (click)="deselectCompany()"><img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-        </div>
+        <button class="btn btn-ssn" (click)="deselectCompany()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
 </div>
