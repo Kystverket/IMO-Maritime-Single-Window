@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   menu_entries: MenuEntry[] = [
     {title: "USERS",           iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer User", "Edit User", "Delete User"] },
     {title: "SHIPS",           iconPath: this.icon_path + "ship.png",      componentDescription: ["Registrer Ship", "Edit Ship", "Get Ships from SafeSeaNet"] },
-    {title: "LOCATIONS",       iconPath: this.icon_path + "voyage.png",      componentDescription: ["Registrer Location", "Edit Location", "Find Location" ] },
+    {title: "LOCATIONS",       iconPath: this.icon_path + "location.png",      componentDescription: ["Registrer Location", "Edit Location", "Find Location" ] },
     {title: "COMPANIES",       iconPath: this.icon_path + "pax.png",      componentDescription: ["Registrer Company", "Edit Company", "Delete Company"] },
     {title: "PORT CALL",       iconPath: this.icon_path + "portcall.png",      componentDescription: ["Registrer Port Call"] }
   ];

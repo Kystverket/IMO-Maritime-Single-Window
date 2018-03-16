@@ -1,22 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { of } from "rxjs/observable/of";
-import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable()
-export class ShipService {
+export class CompanyService {
     constructor(private http: Http) {
-        this.actionUrl = 'api/ship/search/';
+        this.actionUrl = 'api/company/search/';
     }
 
     private actionUrl: string;
-
-    private companyDataSource = new BehaviorSubject<any>(null);
-    companyData$ = this.companyDataSource.asObservable();
-
-    setCompanyData(data) {
-        this.companyDataSource.next(data);
-    }
 
     public search(term: string) {
         if (term === '') {
@@ -27,5 +19,4 @@ export class ShipService {
             .map(res => res.json())
             .toPromise();
     }
-    
 }

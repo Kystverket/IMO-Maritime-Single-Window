@@ -17,10 +17,12 @@ import { LocationFormComponent } from './basis-data/location/location-form/locat
 import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
 import { ShipService } from '../shared/services/ship.service';
+import { CompanyService } from '../shared/services/company.service';
 
 import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
 import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
+import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 
 
 @NgModule({
@@ -40,11 +42,13 @@ import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.compone
     RegistrerCompanyComponent,
     UserFormComponent,
     ShipFormComponent,
+    RegistrerShipComponent,
     LocationFormComponent,
     CompanyFormComponent,
     PortCallRegistrationComponent,
     FindLocationComponent,
-    FindShipComponent
+    FindShipComponent,
+    SearchCompanyComponent
   ],
   providers: [ShipService, LocationService],
 })
