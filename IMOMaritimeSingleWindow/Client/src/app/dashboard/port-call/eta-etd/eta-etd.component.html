@@ -1,0 +1,61 @@
+<div class="card card-ssn text-center">
+  <div class="card-header bg-ssn text-ssn">
+    <div class="row">
+      <div class="col-2">
+        <img src="assets/images/VoyageIcons/128x128/white/time.png" height="32px" />
+      </div>
+      <div class="col-8">
+        <h4>Select Arrival and Departure Time</h4>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+
+      <div class="col-6">
+        <div class="form-group">
+          <label for="eta_date_input">Estimated date of arrival</label>
+          <div class="input-group">
+            <input id="eta_date_input" class="form-control" readonly="true" (click)="eta.toggle()" placeholder="Select a date" name="dp-eta"
+              [showWeekNumbers]="true" [(ngModel)]="etaDateModel" ngbDatepicker #eta="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-ssn" (click)="eta.toggle()" type="button">
+                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" style="width: 1.4rem; cursor: pointer;" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <label for="etd_date_input">Estimated date of departure</label>
+          <div class="input-group">
+            <input id="etd_date_input" class="form-control" readonly="true" (click)="etd.toggle()" placeholder="Select a date" name="dp-etd"
+              [showWeekNumbers]="true" [(ngModel)]="etdDateModel" ngbDatepicker #etd="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-ssn" (click)="etd.toggle()" type="button">
+                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" style="width: 1.4rem; cursor: pointer;" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <label for="eta_time_input">Estimated time of arrival</label>
+        <ngb-timepicker id="eta_time_input" [(ngModel)]="etaTimeModel"></ngb-timepicker>
+      </div>
+      <div class="col-6">
+        <label for="etd_time_input">Estimated time of departure</label>
+        <ngb-timepicker id="eta_time_input" [(ngModel)]="etdTimeModel"></ngb-timepicker>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>

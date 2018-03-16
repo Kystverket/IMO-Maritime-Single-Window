@@ -6,11 +6,11 @@ import { HttpModule } from '@angular/http';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { RegistrerUserComponent } from './basis-data/user/registrer-user/registrer-user.component';
+import { RegisterUserComponent } from './basis-data/user/register-user/register-user.component';
 import { EditUserComponent } from './basis-data/user/edit-user/edit-user.component';
-import { RegistrerShipComponent } from './basis-data/ship/registrer-ship/registrer-ship.component';
-import { RegistrerLocationComponent } from './basis-data/location/registrer-location/registrer-location.component';
-import { RegistrerCompanyComponent } from './basis-data/company/registrer-company/registrer-company.component';
+import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
+import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
+import { RegisterCompanyComponent } from './basis-data/company/register-company/register-company.component';
 import { UserFormComponent } from './basis-data/user/user-form/user-form.component';
 import { ShipFormComponent } from './basis-data/ship/ship-form/ship-form.component';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
@@ -23,6 +23,7 @@ import { FindLocationComponent } from './basis-data/location/find-location/find-
 import { LocationService } from '../shared/services/location.service';
 import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
+import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 
 
 @NgModule({
@@ -35,11 +36,11 @@ import { SearchCompanyComponent } from './basis-data/company/search-company/sear
   ],
   declarations: [
     DashboardComponent,
-    RegistrerUserComponent,
+    RegisterUserComponent,
     EditUserComponent,
-    RegistrerShipComponent,
-    RegistrerLocationComponent,
-    RegistrerCompanyComponent,
+    RegisterShipComponent,
+    RegisterLocationComponent,
+    RegisterCompanyComponent,
     UserFormComponent,
     ShipFormComponent,
     RegistrerShipComponent,
@@ -47,8 +48,9 @@ import { SearchCompanyComponent } from './basis-data/company/search-company/sear
     CompanyFormComponent,
     PortCallRegistrationComponent,
     FindLocationComponent,
-    FindShipComponent,
     SearchCompanyComponent
+    FindShipComponent,
+    EtaEtdComponent
   ],
   providers: [ShipService, LocationService],
 })

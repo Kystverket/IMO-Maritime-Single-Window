@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrerUserComponent } from './registrer-user.component';
+import { EtaEtdComponent } from './eta-etd.component';
 
-describe('RegistrerUserComponent', () => {
-  let component: RegistrerUserComponent;
-  let fixture: ComponentFixture<RegistrerUserComponent>;
+describe('EtaEtdComponent', () => {
+  let component: EtaEtdComponent;
+  let fixture: ComponentFixture<EtaEtdComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistrerUserComponent ]
+      declarations: [ EtaEtdComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegistrerUserComponent);
+    fixture = TestBed.createComponent(EtaEtdComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
