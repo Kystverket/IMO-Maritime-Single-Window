@@ -1,4 +1,6 @@
 using System;
+using IMOMaritimeSingleWindow.Models;
+using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Helpers
 {
@@ -11,6 +13,8 @@ namespace IMOMaritimeSingleWindow.Helpers
         public string CountryName {get; set;}
 
         public string TwoCharCode {get; set;}
+
+        public List<ShipFlagCodeSearchResult> CountryFlagCodes {get; set;}
         
     }
 }

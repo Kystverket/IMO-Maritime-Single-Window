@@ -17,12 +17,20 @@ export class ShipService {
     private countryDataSource = new BehaviorSubject<any>(null);
     countryData$ = this.countryDataSource.asObservable();
 
+    private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
+    shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
+
     setCompanyData(data) {
         this.companyDataSource.next(data);
     }
 
     setCountryData(data) {
         this.countryDataSource.next(data);
+    }
+
+    setShipFlagCodeData(data) {
+        this.shipFlagCodeDataSource.next(data);
+        console.log(data);
     }
 
     public search(term: string) {

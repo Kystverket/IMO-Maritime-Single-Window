@@ -1,33 +1,68 @@
 <div class="card-body">
     <ng-template #rt let-r="result" let-t="term">
         <div class="">
-            <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
+            <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="20px" />
             <strong *ngIf="r.countryName"></strong> {{ r.countryName }}
         </div>
     </ng-template>
 
-    <div *ngIf="!countrySelected">
-        <label for="search-country">Filter flag codes by country</label>
-        <input id="search-country" type="text" class="form-control mx-auto" [(ngModel)]="countryModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" (selectItem)="selectCountry($event)" placeholder="Search using country name" />
-    </div>
 
-    <div *ngIf="countrySelected">
-        <div class="table-responsive">
-            <table class="table table-bordered">
+
+
+
+
+    <br>
+
+    <div>
+        <div class="table">
+
+            <table class="table table-bordered" style="table-layout: fixed" >
                 <thead>
                     <tr class="bg-ssn text-ssn">
-                        <th>Country Name</th>
+                        <th scope="col">Country</th>
+                        <th scope="col" *ngIf="countrySelected">Ship Flag Code</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ countryModel.countryName }}</td>
+                        <td>
+                            <div *ngIf="!countrySelected">
+                                <label for="search-country">Filter flag codes by country</label>
+                                <input id="search-country" type="text" class="form-control mx-auto" [(ngModel)]="countryModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+                                    [inputFormatter]="formatter" (selectItem)="selectCountry($event)" placeholder="Search using country name"
+                                />
+                            </div>
+                            <div class="row" *ngIf="countrySelected">
+                                <div class="col-sm-2">
+                                    <img src="assets/images/Flags/{{countryModel.twoCharCode}}.png" height="20px" />
+
+                                </div>
+                                <div class="col-sm-4">
+                                    {{countryModel.countryName}}
+                                </div>
+                                <div class="col-sm-6">
+                                    <div ngbDropdown class="d-inline-block">
+                                        <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle> Select ship flag code</button>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                            <button class="dropdown-item" *ngFor="let flagCode of countryModel.countryFlagCodes" (click)="selectFlagCode(flagCode)">{{ flagCode.shipFlagCodeName }}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td *ngIf="flagCodeSelected">
+                                {{ flagCodeModel.shipFlagCodeName }}
+                        </td>
+                    </tr>
+                    <tr *ngIf="countrySelected">
+                        <td colspan="2">
+
+                            <button class="btn btn-ssn" (click)="deselectCountry()">
+                                <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-ssn" (click)="deselectCountry()">
-            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
 </div>

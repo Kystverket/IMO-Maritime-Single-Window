@@ -19,7 +19,12 @@ import { ShipService } from '../../../../shared/services/ship.service';
 export class SearchCountryComponent implements OnInit {
 
     countryModel: any;
+    dropdownPlaceholder: any = "Choose flag code";
+
+    flagCodeModel: any;
     countrySelected = false;
+
+    flagCodeSelected = false;
 
     searching = false;
     searchFailed = false;
@@ -49,8 +54,24 @@ export class SearchCountryComponent implements OnInit {
         this.countrySelected = false;
         this.countryModel = null;
         this.shipService.setCountryData(this.countryModel);
+        this.deselectFlagCode();
+        
+    }
+
+    selectFlagCode(flagCode: any) {
+        this.flagCodeModel = flagCode;
+        this.dropdownPlaceholder = flagCode.shipFlagCodeName;
+        this.flagCodeSelected = true;
+        this.shipService.setShipFlagCodeData(flagCode);
+    }
+
+    deselectFlagCode() {
+        this.flagCodeSelected = false;
+        this.flagCodeModel = null;
+        this.shipService.setShipFlagCodeData(this.flagCodeModel);
     }
 
     ngOnInit() {
+        
     }
 }

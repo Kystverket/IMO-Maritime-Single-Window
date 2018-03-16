@@ -37,6 +37,20 @@ namespace IMOMaritimeSingleWindow.Controllers
                 searchItem.CountryName = (c.Country1 != null) ? c.Country1 : string.Empty;
                 searchItem.TwoCharCode = (c.TwoCharCode != null) ? c.TwoCharCode.ToLower() : string.Empty;
 
+                var flagCodes = (from fc in _context.ShipFlagCode
+                                    where fc.CountryId == c.CountryId
+                                    select fc).ToList();
+
+                List<ShipFlagCodeSearchResult> flagCodeList = new List<ShipFlagCodeSearchResult>();
+                foreach(ShipFlagCode sfc in flagCodes)
+                {
+                    ShipFlagCodeSearchResult sfcSearchResult = new ShipFlagCodeSearchResult();
+                    sfcSearchResult.ShipFlagCodeId = sfc.ShipFlagCodeId;
+                    sfcSearchResult.ShipFlagCodeName = (sfc.ShipFlagCode1 != null) ? sfc.ShipFlagCode1 : string.Empty;
+                    flagCodeList.Add(sfcSearchResult);
+                }
+                searchItem.CountryFlagCodes = flagCodeList;
+
                 resultList.Add(searchItem);
             }
             return Json(resultList);
