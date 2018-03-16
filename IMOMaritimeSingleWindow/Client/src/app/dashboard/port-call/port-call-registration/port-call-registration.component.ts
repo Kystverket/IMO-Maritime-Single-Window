@@ -9,10 +9,17 @@ import { PortCallService } from '../../../shared/services/port-call.service';
 })
 export class PortCallRegistrationComponent implements OnInit {
 
-  constructor(){}
+  shipFound: boolean;
+  locationFound: boolean;
+
+  constructor(private portCallService: PortCallService){}
 
   ngOnInit() {
-
+    this.portCallService.shipData$.subscribe(
+      data => this.shipFound = data != null
+    );
+    this.portCallService.locationData$.subscribe(
+      data => this.locationFound = data != null
+    );
   }
-
 }

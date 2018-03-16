@@ -21,6 +21,7 @@ import { ShipService } from '../shared/services/ship.service';
 import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
 import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
+import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.compone
     CompanyFormComponent,
     PortCallRegistrationComponent,
     FindLocationComponent,
-    FindShipComponent
+    FindShipComponent,
+    EtaEtdComponent
   ],
   providers: [ShipService, LocationService],
 })
