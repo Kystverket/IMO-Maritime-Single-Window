@@ -43,12 +43,11 @@ import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
     RegisterCompanyComponent,
     UserFormComponent,
     ShipFormComponent,
-    RegistrerShipComponent,
     LocationFormComponent,
     CompanyFormComponent,
     PortCallRegistrationComponent,
     FindLocationComponent,
-    SearchCompanyComponent
+    SearchCompanyComponent,
     FindShipComponent,
     EtaEtdComponent
   ],
