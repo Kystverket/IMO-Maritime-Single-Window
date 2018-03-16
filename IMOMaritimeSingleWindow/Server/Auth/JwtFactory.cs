@@ -49,10 +49,14 @@ namespace IMOMaritimeSingleWindow.Auth
 
         public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
         {
+            bool isAdmin = userName == "admin";
+            var roleClaim = isAdmin ? new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.AdminAccess) :
+                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.ApiAccess);
+
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id),
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.ApiAccess)
+                roleClaim
             });
         }
 
