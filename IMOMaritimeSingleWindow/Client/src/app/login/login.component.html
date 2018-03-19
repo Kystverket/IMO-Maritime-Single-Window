@@ -1,15 +1,16 @@
-<div class="jumbotron">
+<div class="jumbotron bg-ssn text-ssn">
   <h2>{{login_title}}</h2>
   <form #f="ngForm" novalidate (ngSubmit)="login(f)">
 
       <div class="form-group">
           <label for="email">Email address:</label>
-          <input required type="email" class="form-control" id="email">
+          <input required type="email" name="username" class="form-control" id="email" placeholder="Email" [(ngModel)]="credentials.username" #email="ngModel" tmFocus validateEmail>
+          <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
         </div>
 
         <div class="form-group">
           <label for="pwd">Password:</label>
-          <input required type="password" class="form-control" id="pwd">
+          <input required type="password" name="password" class="form-control" id="pwd" [(ngModel)]="credentials.password">
         </div>
 
         <div class="form-check">
@@ -18,8 +19,10 @@
           </label>
         </div>
 
+        <br>
+
         <div class="form-group">
-          <button type="submit" class="btn btn-primary" [disabled]="f.invalid || isRequesting">Sign in</button>
+          <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
         </div>
 
         <div *ngIf="errors" class="alert alert-danger" role="alert">

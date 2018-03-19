@@ -1,0 +1,33 @@
+<div class="card-body">
+    <ng-template #rt let-r="result" let-t="term">
+        <strong *ngIf="r.shipFlagCodeName">Code: </strong> {{ r.shipFlagCodeName }}
+        <strong *ngIf="r.countryName">Country: </strong> {{ r.countryName }}
+    </ng-template>
+
+    <div *ngIf="!shipFlagCodeSelected">
+        <label for="search-shipFlagCode">Search using flag code or name of country</label>
+        <input id="search-shipFlagCode" type="text" class="form-control mx-auto" [(ngModel)]="shipFlagCodeModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" (selectItem)="selectShipFlagCode($event)" placeholder="Enter search here..."/>
+    </div>
+
+    <div *ngIf="shipFlagCodeSelected">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Ship Flag Code</th>
+                        <th>Country</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ shipFlagCodeModel.shipFlagCodeName }}</td>
+                        <td>{{ shipFlagCodeModel.countryName }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-ssn" (click)="deselectShipFlagCode()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+</div>

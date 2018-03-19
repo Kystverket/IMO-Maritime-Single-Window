@@ -36,14 +36,14 @@ export class UserService extends BaseService {
         //Not yet implemented
     }
 
-   login(email, password) {
+   login(username, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http
       .post(
       this.baseUrl + '/auth/login',
-      JSON.stringify({ email, password }),{ headers }
+      JSON.stringify({ username, password }),{ headers }
       )
       .map(res => res.json())
       .map(res => {

@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
@@ -17,9 +18,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,7 +33,9 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Models.Entities;
+//using IMOMaritimeSingleWindow.Services;
 using IMOMaritimeSingleWindow.ViewModels.Mappings;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -51,24 +56,54 @@ namespace IMOMaritimeSingleWindow
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-          services.AddCors();
-      var connectionString = Configuration.GetConnectionString("DefaultConnection");
-          services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
-          services.AddMvc();
-          services.AddAutoMapper();
+            //Configure CORS with different policies
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    b => b.WithOrigins("http://localhost"));
+                options.AddPolicy("AllowAnyOrigin",
+                    b => b.AllowAnyOrigin());
 
-          //Automapper setup
-          /**var config = new AutoMapper.MapperConfiguration(cfg =>
-          {
-              cfg.AddProfile(new ViewModelToEntityMappingProfile());
-          });
-          var mapper = config.CreateMapper();
-          services.AddSingleton(mapper);
-          */
+                //Brute force policy if all else fails
+                //NB: Only ever use in development!
+                options.AddPolicy("AllowAllAny",
+                    b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            });
+
+            //Configure database contextes
+            var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
+            var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
+            services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
+            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionStringUserDb));
+        
 
           services.AddSingleton<IJwtFactory, JwtFactory>();
 
-          services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<SignInManager<AppUser>>();
+            // add identity
+            //services.AddIdentity<AppUser, PersonRole>();
+            var builder = services.AddIdentityCore<AppUser>(options =>
+            {
+                // configure identity options
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 6;
+
+                // Lockout options
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+
+                //Email options
+                //options.SignIn.RequireConfirmedEmail = true;
+
+            });
+            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
           // Get options from app settings
           var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
@@ -104,13 +139,15 @@ namespace IMOMaritimeSingleWindow
 
           services.AddAuthentication(options =>
           {
-             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
           }).AddJwtBearer(configureOptions =>
             {
-              configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-              configureOptions.TokenValidationParameters = tokenValidationParameters;
-              configureOptions.SaveToken = true;
+                configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+                configureOptions.TokenValidationParameters = tokenValidationParameters;
+                configureOptions.SaveToken = true;
             }
           ); //end AddJwtBearer
 
@@ -118,32 +155,37 @@ namespace IMOMaritimeSingleWindow
           services.AddAuthorization(options =>
           {
             options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+              //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
+              options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
           });
 
-          // add identity
-          var builder = services.AddIdentityCore<AppUser>(o =>
-          {
-            // configure identity options
-            o.Password.RequireDigit = false;
-            o.Password.RequireLowercase = false;
-            o.Password.RequireUppercase = true;
-            o.Password.RequireNonAlphanumeric = false;
-            o.Password.RequiredLength = 6;
-          });
-          builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-          builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-          
-          services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+            /*services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);*/
+
+            /*var b = services.AddMvc(
+                options => {
+                    var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                    .RequireAuthenticatedUser().Build();
+                    options.Filters.Add(new AuthorizeFilter(defaultPolicy));
+
+                });
+            */
+
+            services.AddAutoMapper();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+          // Fix for json self-referencing loop bug:
+          services.AddMvc().AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = 
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore
+          );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-
-
             app.Use(async (context, next) => {
                 await next();
                 if (context.Response.StatusCode == 404 &&
@@ -154,10 +196,24 @@ namespace IMOMaritimeSingleWindow
                     await next();
                 }
             });
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddEnvironmentVariables();
+            builder.Build();
+
+            //app.UseCors("AllowAnyOrigin");
+            app.UseCors("AllowAllAny");
+            //app.UseCors("AllowSpecificOrigin");
+
+            // IMPORTANT! UseAuthentication() must be called before UseMvc()
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseAuthentication();
+            
         }
     }
 }

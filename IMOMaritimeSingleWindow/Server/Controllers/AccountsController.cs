@@ -1,5 +1,3 @@
-
-
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
@@ -17,18 +15,20 @@ namespace IMOMaritimeSingleWindow.Controllers
     {
         private readonly ApplicationDbContext _appDbContext;
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<AppUser> userManager, IMapper mapper, ApplicationDbContext appDbContext)
+        public AccountsController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper, ApplicationDbContext appDbContext)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _mapper = mapper;
             _appDbContext = appDbContext;
         }
 
-        // POST api/accounts
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)
+        // POST api/accounts/register
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -41,7 +41,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            await _appDbContext.Customers.AddAsync(new Customer { IdentityId = userIdentity.Id, Location = model.Location });
+            //await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
             await _appDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
