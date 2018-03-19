@@ -1,20 +1,14 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-ssn">
-    <img src="/assets/images/logo.png" height="48px" /><a class="navbar-brand" routerLink="">{{title}}</a>
-      
-      <div class="conatiner-fluid">
-        <ul class="nav navbar-nav" routerLinkActive="active">
-            <li class="nav-item"><a class="nav-link" routerLink="login">Login</a></li>
-        </ul>
-      </div>
-  
-      <div *ngIf="status">
+  <nav class="navbar navbar-dark bg-ssn">
+    <ul class="navbar-nav ml-auto" *ngIf="status">
+      <li class="nav-item">
         <form class="form-inline">
           <div class="btn-group">
-            <button class="btn btn-light">Admin</button>
-            <button class="btn btn-outline-light" (click)="logout()">Log out</button>
+            <button class="btn btn-light btn-sm">Admin</button>
+            <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
           </div>
         </form>
-      </div>      
+      </li>
+    </ul>
   </nav>
 </header>

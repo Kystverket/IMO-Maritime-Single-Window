@@ -19,7 +19,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
