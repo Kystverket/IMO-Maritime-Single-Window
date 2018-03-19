@@ -7,7 +7,7 @@
     <div *ngIf="!shipFlagCodeSelected">
         <label for="search-shipFlagCode">Search using flag code or name of country</label>
         <input id="search-shipFlagCode" type="text" class="form-control mx-auto" [(ngModel)]="shipFlagCodeModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" (selectItem)="selectShipflagcode($event)" />
+            [inputFormatter]="formatter" (selectItem)="selectShipFlagCode($event)" placeholder="Enter search here..."/>
     </div>
 
     <div *ngIf="shipFlagCodeSelected">

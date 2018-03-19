@@ -7,7 +7,7 @@
     <div *ngIf="!companySelected">
         <label for="search-company">Search using company name or organisation number</label>
         <input id="search-company" type="text" class="form-control mx-auto" [(ngModel)]="companyModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" (selectItem)="selectCompany($event)" />
+            [inputFormatter]="formatter" (selectItem)="selectCompany($event)" placeholder="Enter search here..."/>
     </div>
 
     <div *ngIf="companySelected">
