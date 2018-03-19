@@ -9,5 +9,7 @@ namespace IMOMaritimeSingleWindow.Helpers
         public int ShipFlagCodeId {get; set;}
 
         public string ShipFlagCodeName {get; set;}
+
+        public string CountryName {get; set;}
     }
 }

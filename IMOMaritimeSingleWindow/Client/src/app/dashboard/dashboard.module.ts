@@ -27,6 +27,8 @@ import { SearchCompanyComponent } from './basis-data/company/search-company/sear
 import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 
 import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
+import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
+import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
 
 
 @NgModule({
@@ -53,9 +55,10 @@ import { SearchCountryComponent } from './basis-data/country/search-country/sear
     SearchCompanyComponent,
     FindShipComponent,
     EtaEtdComponent,
-    SearchCountryComponent
+    SearchCountryComponent,
+    SearchShipFlagCodeComponent
   ],
-  providers: [ShipService, LocationService, CountryService],
+  providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
 })
 
 export class DashboardModule { }
