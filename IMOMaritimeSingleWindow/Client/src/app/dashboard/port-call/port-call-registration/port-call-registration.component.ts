@@ -22,5 +22,8 @@ export class PortCallRegistrationComponent implements OnInit {
     this.portCallService.locationData$.subscribe(
       data => this.locationFound = data != null
     );
+    this.portCallService.etaEtdData$.subscribe(
+      data => this.dateTimeFound = data != null
+    );
   }
 }

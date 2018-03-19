@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbCalendar, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { getLocaleDateFormat } from '@angular/common';
 import { EtaEtdDateTime } from './eta-etd-date-time.interface';
+import { PortCallService } from '../../../shared/services/port-call.service';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -39,50 +40,47 @@ export class EtaEtdComponent implements OnInit {
   timeSequenceError: boolean = false;
 
   etaDateChanged($event): void {
-    this.validateSequence();
-    if ($event != null) {
-      if (this.validFormat($event)) {
-        this.validEtaDateFormat = true;
-        this.etaEtdModel.eta.year = $event.year;
-        this.etaEtdModel.eta.month = $event.month;
-        this.etaEtdModel.eta.day = $event.day;
-        return;
-      } else {
-        this.validEtaDateFormat = false;
-      }
-    } else {
-      this.validEtaDateFormat = true;
-    }
-    this.etaEtdModel.eta.year = null;
-    this.etaEtdModel.eta.month = null;
-    this.etaEtdModel.eta.day = null;
+    this.updateDateModel(this.etaEtdModel.eta, $event, "eta");
   }
 
   etdDateChanged($event): void {
-    this.validateSequence();
-    if ($event != null) {
-      if (this.validFormat($event)) {
-        this.validEtdDateFormat = true;
-        this.etaEtdModel.etd.year = $event.year;
-        this.etaEtdModel.etd.month = $event.month;
-        this.etaEtdModel.etd.day = $event.day;
-        return;
-      } else {
-        this.validEtdDateFormat = false;
-      }
-    } else {
-      this.validEtdDateFormat = true;
-    }
-    this.etaEtdModel.etd.year = null;
-    this.etaEtdModel.etd.month = null;
-    this.etaEtdModel.etd.day = null;
+    this.updateDateModel(this.etaEtdModel.etd, $event, "etd");
   }
 
-  validFormat(model): boolean {
+  private updateDateModel(model, $event, dateType: string): void {
+    if ($event != null) {
+      if (this.hasValidDateFormat($event)) {
+        this.updateValidDate(dateType, true);
+        model.year = $event.year;
+        model.month = $event.month;
+        model.day = $event.day;
+        this.validateData();
+        return;
+      } else {
+        this.updateValidDate(dateType, false);
+      }
+    } else {
+      this.updateValidDate(dateType, true);
+    }
+    model.year = null;
+    model.month = null;
+    model.day = null;
+    this.validateData();
+  }
+
+  private updateValidDate(dateType: string, valid: boolean) {
+    if (dateType == "eta") {
+      this.validEtaDateFormat = valid;
+    } else if (dateType == "etd") {
+      this.validEtdDateFormat = valid;
+    }
+  }
+
+  private hasValidDateFormat(model): boolean {
     return typeof model != "string";
   }
 
-  validateSequence(): void {
+  private validateData(): void {
     this.dateSequenceError = after(this.etaDateModel, this.etdDateModel);
     if (equals(this.etaDateModel, this.etdDateModel)) {
       if (this.etaTimeModel != null && this.etdTimeModel != null) {
@@ -92,31 +90,38 @@ export class EtaEtdComponent implements OnInit {
     } else {
       this.timeSequenceError = false;
     }
+
+    if (!this.dateSequenceError && !this.timeSequenceError && this.hasRequiredData(this.etaEtdModel)) {     
+      this.portCallService.setEtaEtdData(this.etaEtdModel);
+    }else {
+      this.portCallService.setEtaEtdData(null);
+    }
+  }
+
+  private hasRequiredData(model: EtaEtdDateTime): boolean {
+    return model.eta.year != null && model.eta.hour != null && model.etd.year != null && model.etd.hour != null;
   }
 
   etaTimeChanged($event): void {
-    this.validateSequence();
-    if ($event != null) {
-      this.etaEtdModel.eta.hour = $event.hour;
-      this.etaEtdModel.eta.minute = $event.minute;
-    } else {
-      this.etaEtdModel.eta.hour = null;
-      this.etaEtdModel.eta.minute = null;
-    }
+    this.updateTimeModel(this.etaEtdModel.eta, $event);
   }
 
   etdTimeChanged($event): void {
-    this.validateSequence();
-    if ($event != null) {
-      this.etaEtdModel.etd.hour = $event.hour;
-      this.etaEtdModel.etd.minute = $event.minute;
-    } else {
-      this.etaEtdModel.etd.hour = null;
-      this.etaEtdModel.etd.minute = null;
-    }
+    this.updateTimeModel(this.etaEtdModel.etd, $event);
   }
 
-  constructor() { }
+  private updateTimeModel(model, $event): void {
+    if ($event != null) {
+      model.hour = $event.hour;
+      model.minute = $event.minute;
+    } else {
+      model.hour = null;
+      model.minute = null;
+    }
+    this.validateData();
+  }
+
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
   }

@@ -12,7 +12,7 @@ export class PortCallService {
   locationData$ = this.locationDataSource.asObservable();
 
   private etaEtdDataSource = new BehaviorSubject<any>(null);
-  etaEtdData$ = this.locationDataSource.asObservable();
+  etaEtdData$ = this.etaEtdDataSource.asObservable();
 
   setShipData(data) {
     this.shipDataSource.next(data);
@@ -20,6 +20,10 @@ export class PortCallService {
 
   setLocationData(data) {
     this.locationDataSource.next(data);
+  }
+
+  setEtaEtdData(data) {
+    this.etaEtdDataSource.next(data);
   }
 
 }

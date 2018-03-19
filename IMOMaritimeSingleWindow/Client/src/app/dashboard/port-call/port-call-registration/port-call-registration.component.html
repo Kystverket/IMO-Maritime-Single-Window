@@ -1,15 +1,11 @@
 <div class="jumbotron bg-ssn-light">
-  <div class="row">
+  <div class="row card-ssn text-center">
     <div class="col-2">
       <img src="assets/images/VoyageIcons/128x128/white/portcall.png" height="64px">
     </div>
-    <div class="col-10">
+    <div class="col-8">
       <h3 class="text-ssn display-4">REGISTRER PORT CALL</h3>
     </div>
-  </div>
-
-  <div class="row">
-    <hr>
   </div>
 
   <div class="row">
@@ -24,12 +20,31 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="locationFound || !dateTimeFound">
+  <div class="row" *ngIf="locationFound || dateTimeFound">
     <div class="col-lg">
       <app-eta-etd></app-eta-etd>
     </div>
   </div>
 
-
+  <div class="row" *ngIf="shipFound && locationFound && dateTimeFound">
+    <div class="col-lg">
+      <div class="card card-ssn text-center">
+        <div class="card-header bg-ssn text-ssn">
+          <div class="row">
+            <div class="col-2">
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="32px" />
+            </div>
+            <div class="col-8">
+              <h4>Confirm Port Call</h4>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <button class="btn btn-ssn">
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
