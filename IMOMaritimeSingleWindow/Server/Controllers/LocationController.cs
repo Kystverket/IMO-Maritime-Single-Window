@@ -25,8 +25,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         public JsonResult Find(string searchTerm)
         {
             var results = (from loc in _context.Location
-                            where EF.Functions.ILike(loc.LocationName, searchTerm + '%')
-                            || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')
+                            where (EF.Functions.ILike(loc.LocationName, searchTerm + '%')
+                            || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
+                            && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
                             select loc).Take(10).ToList();
             
             List<LocationSearchResult> resultList = new List<LocationSearchResult>();
