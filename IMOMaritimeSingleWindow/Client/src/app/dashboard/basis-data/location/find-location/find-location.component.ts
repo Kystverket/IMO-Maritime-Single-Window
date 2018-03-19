@@ -8,6 +8,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { LocationService } from '../../../../shared/services/location.service';
+import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
     selector: 'app-find-location',
@@ -17,32 +18,39 @@ import { LocationService } from '../../../../shared/services/location.service';
 })
 export class FindLocationComponent implements OnInit {
 
+    locationModel: any;
     locationFound = false;
-
-    results: string[];
-
-    model: any;
+    
     searching = false;
     searchFailed = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-    constructor(private locationService: LocationService) { }
+    constructor(private portCallService: PortCallService, private locationService: LocationService) { }
 
     search = (text$: Observable<string>) =>
         text$
             .debounceTime(300)
             .distinctUntilChanged()
             .do(() => this.searching = true)
-            .switchMap(term =>
+            .switchMap(term => term.length < 2 ? [] :
                 this.locationService.search(term)
             )
             .do(() => this.searching = false)
             .merge(this.hideSearchingWhenUnsubscribed)
-            .finally(() => this.locationFound = true);
-    
-    formatter = (x: {locationId: string}) => "Location ID: " + x.locationId;
+
+    formatter = (x: { locationId: string }) => x.locationId;
+
+    selectLocation($event) {
+        this.locationFound = true;
+        this.portCallService.setLocationData($event.item);
+    }
+
+    deselectLocation() {
+        this.locationFound = false;
+        this.locationModel = null;
+        this.portCallService.setLocationData(this.locationModel);
+    }
 
     ngOnInit() {
-        
     }
 }
