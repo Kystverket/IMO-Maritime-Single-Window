@@ -40,6 +40,36 @@
           </div>
         </div>
         <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="bg-ssn text-ssn">
+                  <th>Ship flag</th>
+                  <th>Ship name</th>
+                  <th>Call sign</th>
+                  <th>Location Name</th>
+                  <th>Location Code</th>
+                  <th>ETA</th>
+                  <th>ETD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <img src="assets/images/Flags/{{shipModel.twoCharCode}}.png" height="20px" />
+                  </td>
+                  <td>{{ shipModel.shipName }}</td>
+                  <td>{{ shipModel.callSign }}</td>
+                  <td>{{ locationModel.locationName }}</td>
+                  <td>{{ locationModel.locationCode }}</td>
+                  <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
+                    }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
+                  <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)
+                    }} {{ dateTimeFormat(etaEtdModel.etd.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.minute) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <button class="btn btn-ssn">
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Confirm</button>
         </div>
