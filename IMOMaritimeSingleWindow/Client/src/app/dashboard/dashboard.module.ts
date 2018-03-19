@@ -17,11 +17,18 @@ import { LocationFormComponent } from './basis-data/location/location-form/locat
 import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
 import { PortCallRegistrationComponent } from './port-call/port-call-registration/port-call-registration.component';
 import { ShipService } from '../shared/services/ship.service';
+import { CompanyService } from '../shared/services/company.service';
+import { CountryService } from '../shared/services/country.service';
 
 import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
 import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
+import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
+
+import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
+import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
+import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
 
 
 @NgModule({
@@ -45,10 +52,13 @@ import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
     CompanyFormComponent,
     PortCallRegistrationComponent,
     FindLocationComponent,
+    SearchCompanyComponent,
     FindShipComponent,
-    EtaEtdComponent
+    EtaEtdComponent,
+    SearchCountryComponent,
+    SearchShipFlagCodeComponent
   ],
-  providers: [ShipService, LocationService],
+  providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
 })
 
 export class DashboardModule { }

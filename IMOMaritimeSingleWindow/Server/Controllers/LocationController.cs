@@ -25,8 +25,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         public JsonResult Find(string searchTerm)
         {
             var results = (from loc in _context.Location
-                            where EF.Functions.ILike(loc.LocationName, searchTerm + '%')
-                            || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')
+                            where (EF.Functions.ILike(loc.LocationName, searchTerm + '%')
+                            || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
+                            && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
                             select loc).Take(10).ToList();
             
             List<LocationSearchResult> resultList = new List<LocationSearchResult>();
@@ -43,9 +44,13 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public IActionResult Get(int id)
         {
-            Location location = _context.Location.First(loc => loc.LocationId == id);
+            Location location = _context.Location.FirstOrDefault(loc => loc.LocationId == id);
+            if (location == null)
+            {
+                return BadRequest();
+            }
             return Json(location);
         }
     }

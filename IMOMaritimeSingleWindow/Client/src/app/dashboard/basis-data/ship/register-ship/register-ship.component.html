@@ -1,4 +1,257 @@
-<div class="jumbotron bg-ssn">
-  <h3 class="text-ssn">REGISTER SHIP</h3>
-  <app-ship-form></app-ship-form>
+<div class="jumbotron bg-ssn-light">
+  <div class="row">
+    <div class="col-2">
+      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
+    </div>
+    <div class="col-10">
+      <h3 class="text-ssn display-4">REGISTER SHIP</h3>
+    </div>
+  </div>
+  <div class="row">
+    <hr>
+  </div>
+
+  <div class="row">
+    <div class="col-lg">
+
+      <div class="card card-ssn text-left">
+        <div class="card-header bg-ssn text-ssn">
+          <div class="row">
+            <div class="col-8">
+              <h4>Ship Identification</h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <form>
+            <div class="form-group">
+              <label class="control-label" for="ship_name">Ship name</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="shipModel.shipName" name="shipName" type="text" class="form-control" id="ship_name" placeholder="Enter ship name"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="call_sign">Call sign</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="shipModel.callSign" name="callSign" type="text" class="form-control" id="call_sign" placeholder="Enter call sign">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="imo_no">IMO number</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="shipModel.imoNo" name="imoNo" type="text" class="form-control" id="imo_no" placeholder="Enter IMO number">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="mmsi_no">MMSI number</label>
+              <div class="col-sm-10">
+                <input [(ngModel)]="shipModel.mmsiNo" name="mmsiNo" type="text" class="form-control" id="mmsi_no" placeholder="Enter MMSI number">
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-ssn text-left">
+    <div class="card-header bg-ssn text-ssn">
+      <div class="row">
+        <div class="col-8">
+          <h4>Flag code</h4>
+        </div>
+      </div>
+    </div>
+    <app-search-ship-flag-code></app-search-ship-flag-code>
+  </div>
+
+  <div class="card card-ssn text-left">
+    <div class="card-header bg-ssn text-ssn">
+      <div class="row">
+        <div class="col-8">
+          <h4>Company</h4>
+        </div>
+      </div>
+    </div>
+    <app-search-company></app-search-company>
+  </div>
+
+  <div class="card card-ssn text-left">
+    <div class="card-header bg-ssn text-ssn">
+      <div class="row">
+        <div class="col-8">
+          <h4>Ship Details</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label class="control-label" for="year_of_build">Year of build</label>
+          <div class="col-sm-3">
+            <input [(ngModel)]="shipModel.yearOfBuild" name="yearOfBuild" type="number" class="form-control" id="year_of_build" placeholder="Enter year of build"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="shipTypeDropdown">Ship type</label>
+          <div class="col-sm-10">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="shipTypeDropdown" ngbDropdownToggle> {{ shipTypeDropdownString }}</button>
+              <div ngbDropdownMenu aria-labelledby="shipTypeDropdown">
+                <button class="dropdown-item" *ngFor="let shipType of shipTypeList" (click)="selectShipType(shipType)">{{ shipType.shipType1 }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="shipSourceDropdown">Ship type</label>
+            <div class="col-sm-10">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="shipSourceDropdown" ngbDropdownToggle> {{ shipSourceDropdownString }}</button>
+                <div ngbDropdownMenu aria-labelledby="shipSourceDropdown">
+                  <button class="dropdown-item" *ngFor="let shipSource of shipSourceList" (click)="selectShipSource(shipSource)">{{ shipSource.shipSource1 }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+
+        <div class="form-group">
+          <label class="control-label" for="hullTypeDropdown">Hull type</label>
+          <div class="col-sm-10">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="hullTypeDropdown" ngbDropdownToggle> {{ hullTypeDropdownString }}</button>
+              <div ngbDropdownMenu aria-labelledby="hullTypeDropdown">
+                <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{ hullType.shipHullType1 }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <label class="control-label" for="lengthTypeDropdown">Length</label>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-10">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="lengthTypeDropdown" ngbDropdownToggle> {{ lengthTypeDropdownString }} </button>
+                <div ngbDropdownMenu aria-labelledby="lengthTypeDropdown">
+                  <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.shipLengthType1 }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-11">
+              <input [(ngModel)]="shipModel.shipLength" name="shipLength" type="number" class="form-control" id="ship_length" placeholder="Enter ship length"
+                [disabled]="!lengthTypeSelected">
+            </div>
+          </div>
+        </div>
+
+        <label class="control-labe" for="breadthTypeDropdown">Breadth</label>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-10">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="breadthTypeDropdown" ngbDropdownToggle> {{ breadthTypeDropdownString }} </button>
+                <div ngbDropdownMenu aria-labelledby="breadthTypeDropdown">
+                  <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.shipBreadthType1 }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-11">
+              <input [(ngModel)]="shipModel.breadth" name="breadth" type="number" class="form-control" id="ship_breadth" placeholder="Enter ship breadth"
+                [disabled]="!breadthTypeSelected">
+            </div>
+          </div>
+        </div>
+
+        <label class="control-label" for="ship_power_type">Power</label>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-sm-10">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-outline-primary" id="powerTypeDropdown" ngbDropdownToggle> {{ powerTypeDropdownString }} </button>
+                <div ngbDropdownMenu aria-labelledby="powerTypeDropdown">
+                  <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.shipPowerType1 }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-11">
+              <input [(ngModel)]="shipModel.power" name="power" type="number" class="form-control" id="ship_power" placeholder="Enter ship power"
+                [disabled]="!powerTypeSelected">
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+          <label class="control-label" for="ship_height">Height</label>
+          <div class="col-sm-3">
+            <input [(ngModel)]="shipModel.height" name="height" type="number" class="form-control" id="ship_height" placeholder="Enter ship height">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="control-label" for="ship_draught">Draught</label>
+          <div class="col-sm-3">
+            <input [(ngModel)]="shipModel.draught" name="draught" type="number" class="form-control" id="ship_draught" placeholder="Enter ship draught">
+          </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="gross_tonnage">Gross tonnage</label>
+            <input [(ngModel)]="shipModel.grossTonnage" name="grossTonnage" type="number" class="form-control" id="gross_tonnage" placeholder="Enter gross tonnage">
+          </div>
+          <div class="form-group">
+            <label class="control-label" for="deadweight_tonnage">Deadweight tonnage</label>
+            <input [(ngModel)]="shipModel.deadweightTonnage" name="deadweightTonnage" type="number" class="form-control" id="deadweight_tonnage" placeholder="Enter deadweight tonnage">
+          </div>
+
+        <div class="form-group">
+          <label for="has_side_thrusters">Side thrusters (select all that apply)</label>
+          <div class="card" id="has_side_thrusters">
+            <div class="checkbox container">
+              <label>
+                <input [(ngModel)]="shipModel.hasSideThrusters" name="hasSideThrusters" type="checkbox" value=""> Side thrusters</label>
+            </div>
+            <div class="checkbox container">
+              <label>
+                <input [(ngModel)]="shipModel.hasSideThrustersFront" name="hasSideThrustersFront" type="checkbox" value=""> Front side thrusters</label>
+            </div>
+            <div class="checkbox container">
+              <label>
+                <input [(ngModel)]="shipModel.hasSideThrustersBack" name="hasSideThrustersBack" type="checkbox" value=""> Back side thrusters</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="remark">Remarks</label>
+          <textarea [(ngModel)]="shipModel.remark" name="remark" class="form-control" rows="4" id="remark"></textarea>
+        </div>
+
+        <button class="btn btn-success" (click)="registerShip(shipModel)">Register ship</button>
+
+      </form>
+    </div>
+
+  </div>
 </div>
