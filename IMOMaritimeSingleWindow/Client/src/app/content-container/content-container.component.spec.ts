@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegistrerLocationComponent } from './registrer-location.component';
+import { ContentContainerComponent } from './content-container.component';
 
-describe('RegistrerLocationComponent', () => {
-  let component: RegistrerLocationComponent;
-  let fixture: ComponentFixture<RegistrerLocationComponent>;
+describe('ContentContainerComponent', () => {
+  let component: ContentContainerComponent;
+  let fixture: ComponentFixture<ContentContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegistrerLocationComponent ]
+      declarations: [ ContentContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegistrerLocationComponent);
+    fixture = TestBed.createComponent(ContentContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
