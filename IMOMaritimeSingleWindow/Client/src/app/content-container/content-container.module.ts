@@ -27,7 +27,7 @@ import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
 import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
-import { DashboardComponent } from './dashboard.component';
+import { ContentContainerComponent } from './content-container.component';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { DashboardComponent } from './dashboard.component';
     HttpModule
   ],
   declarations: [
-    DashboardComponent,
+    ContentContainerComponent,
     RegisterUserComponent,
     EditUserComponent,
     RegisterShipComponent,
@@ -55,8 +55,7 @@ import { DashboardComponent } from './dashboard.component';
     SearchCountryComponent,
     SearchShipFlagCodeComponent
   ],
-  exports: [DashboardComponent],
+  exports: [ContentContainerComponent],
   providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
 })
-
-export class DashboardModule { }
+export class ContentContainerModule { }

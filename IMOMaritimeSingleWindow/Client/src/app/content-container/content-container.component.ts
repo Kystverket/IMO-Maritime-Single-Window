@@ -3,11 +3,11 @@ import { Http } from '@angular/http';
 import { ContentService } from '../shared/services/content.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-content-container',
+  templateUrl: './content-container.component.html',
+  styleUrls: ['./content-container.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class ContentContainerComponent implements OnInit {
 
   selectedComponent: string;
 
