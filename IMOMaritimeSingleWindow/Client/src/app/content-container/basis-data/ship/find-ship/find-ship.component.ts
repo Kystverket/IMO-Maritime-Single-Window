@@ -24,11 +24,19 @@ export class FindShipComponent implements OnInit {
     text$
       .debounceTime(300)
       .distinctUntilChanged()
-      .do(() => this.searching = true)
-      .switchMap(term => term.length < 2 ? [] :
+      .do((term) => {
+        this.searchFailed = false;
+        if (term.length >= 2) this.searching = true;
+      })
+      .switchMap(term => term.length < 2 ? [] : 
         this.shipService.search(term)
       )
-      .do(() => this.searching = false)
+      .do((text$) => {
+        this.searching = false;
+        if (text$.length == 0) {
+          this.searchFailed = true;
+        }        
+      })
       .merge(this.hideSearchingWhenUnsubscribed);
 
   formatter = (x: {shipId: string}) => x.shipId;

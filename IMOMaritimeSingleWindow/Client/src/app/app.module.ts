@@ -13,7 +13,8 @@ import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { UserService } from './shared/services/user.service';
 
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { ContentContainerModule } from './content-container/content-container.module';
+import { ContentService } from './shared/services/content.service';
 
 @NgModule({
   declarations: [
@@ -25,14 +26,15 @@ import { DashboardModule } from './dashboard/dashboard.module';
     BrowserModule,
     FormsModule,
     HttpModule,
-    DashboardModule,
+    ContentContainerModule,
     AppRoutingModule,
     NgbModule.forRoot()
   ],
   providers: [
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
-    ConfigService, 
-    UserService
+    ConfigService,
+    UserService,
+    ContentService
   ],
   bootstrap: [AppComponent]
 })

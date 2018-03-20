@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ShipService } from '../../../../shared/services/ship.service'
 import { Observable } from 'rxjs/Observable';
-import { ShipModel } from '../ship-model';
+import { ShipModel } from '../../../../shared/models/ship-model';
 
 @Component({
   selector: 'app-register-ship',

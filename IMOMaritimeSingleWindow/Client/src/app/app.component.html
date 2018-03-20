@@ -1,5 +1,22 @@
-<app-header></app-header>
-<br>
-<div class="container">
-    <router-outlet></router-outlet>
+<div class="page-content" [ngStyle]="{'min-height': clientHeight + 'px'}">
+    <app-header></app-header>
+    <br>
+    <div class="container">
+        <app-content-container></app-content-container>
+    </div>
+    <div class="footer-gap"></div>
 </div>
+
+<footer class="footer bg-ssn text-ssn text-center">
+    <div class="row">
+        <div class="col-4 footer-section">
+            <h4>Maritime Single Window</h4>
+        </div>
+        <div class="col-4 footer-section">
+            <img src="/assets/images/logo.png" height="60px" />
+        </div>
+        <div class="col-4 footer-section">
+            <img src="/assets/images/imo-logo.png" height="80px" />
+        </div>
+    </div>
+</footer>
