@@ -8,7 +8,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
 import { CountryService } from '../../../../shared/services/country.service';
-import { ShipService } from '../../../../shared/services/ship.service';
 
 @Component({
     selector: 'app-search-country',
@@ -19,18 +18,13 @@ import { ShipService } from '../../../../shared/services/ship.service';
 export class SearchCountryComponent implements OnInit {
 
     countryModel: any;
-    dropdownPlaceholder: any = "Choose flag code";
-
-    flagCodeModel: any;
     countrySelected = false;
-
-    flagCodeSelected = false;
 
     searching = false;
     searchFailed = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-    constructor(private countryService: CountryService, private shipService: ShipService) { }
+    constructor(private countryService: CountryService) { }
 
     search = (text$: Observable<string>) =>
         text$
@@ -47,28 +41,11 @@ export class SearchCountryComponent implements OnInit {
 
     selectCountry($event) {
         this.countrySelected = true;
-        this.shipService.setCountryData($event.item);
     }
 
     deselectCountry() {
         this.countrySelected = false;
         this.countryModel = null;
-        this.shipService.setCountryData(this.countryModel);
-        this.deselectFlagCode();
-        
-    }
-
-    selectFlagCode(flagCode: any) {
-        this.flagCodeModel = flagCode;
-        this.dropdownPlaceholder = flagCode.shipFlagCodeName;
-        this.flagCodeSelected = true;
-        this.shipService.setShipFlagCodeData(flagCode);
-    }
-
-    deselectFlagCode() {
-        this.flagCodeSelected = false;
-        this.flagCodeModel = null;
-        this.shipService.setShipFlagCodeData(this.flagCodeModel);
     }
 
     ngOnInit() {
