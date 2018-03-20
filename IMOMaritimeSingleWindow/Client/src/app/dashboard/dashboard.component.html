@@ -1,7 +1,3 @@
-<div class="jumbotron">
-  DASHBOARD
-</div>
-
 <div [ngSwitch]="selectedComponent">
   <app-register-user *ngSwitchCase="'Register User'"></app-register-user>
   <app-edit-user *ngSwitchCase="'Edit User'"></app-edit-user>
@@ -10,5 +6,5 @@
   <app-find-location *ngSwitchCase="'Find Location'"></app-find-location>
   <app-register-company *ngSwitchCase="'Register Company'"></app-register-company>
   <app-port-call-registration *ngSwitchCase="'Register Port Call'"></app-port-call-registration>
-  <p *ngSwitchDefault></p>
+  <p *ngSwitchDefault>This is the default page</p>
 </div>

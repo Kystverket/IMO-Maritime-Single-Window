@@ -37,6 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.userService.authNavStatus$.subscribe(status => this.loggedIn = status);
+
+    this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
   }
 
   ngOnDestroy() {

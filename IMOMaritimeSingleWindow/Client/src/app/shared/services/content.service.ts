@@ -6,9 +6,9 @@ import { BaseService } from './base.service';
 @Injectable()
 export class ContentService extends BaseService {
     private contentSource = new BehaviorSubject<string>('');
-    shipData$ = this.contentSource.asObservable();
+    contentName$ = this.contentSource.asObservable();
 
-    setContent(contentName: string) {
+    setContent(contentName: string) {        
         this.contentSource.next(contentName);
     }
 }
