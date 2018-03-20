@@ -7,6 +7,7 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -37,11 +38,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         public List<Ship> SearchShip(string searchTerm)
         {
             return (from s in _context.Ship
-                           where s.ShipName.StartsWith(searchTerm.ToUpper())
-                           || s.CallSign.StartsWith(searchTerm.ToUpper())
-                           || s.ImoNo.ToString().StartsWith(searchTerm)
-                           || s.MmsiNo.ToString().StartsWith(searchTerm)
-                           select s).Take(10).ToList();
+                    where EF.Functions.ILike(s.ShipName, searchTerm + '%')
+                    || EF.Functions.ILike(s.CallSign, searchTerm + '%')
+                    || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm + '%')
+                    || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm + '%')
+                    select s).Take(10).ToList();
         }
 
         [HttpGet("search/{searchTerm}")]
