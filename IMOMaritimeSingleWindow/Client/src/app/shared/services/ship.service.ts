@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
 import { of } from "rxjs/observable/of";
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ShipModel } from "../../dashboard/basis-data/ship/ship-model";
+import { ShipModel } from "../models/ship-model";
 
 @Injectable()
 export class ShipService {

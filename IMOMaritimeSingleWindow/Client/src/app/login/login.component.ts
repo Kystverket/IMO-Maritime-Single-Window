@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .finally(() => this.isRequesting = false)
       .subscribe( result => {
         if (result) {
-          this.router.navigate(['']); // Add /dashboard
+          this.router.navigate(['']);
         }
       }, error => this.errors = error);
     }
