@@ -1,17 +1,5 @@
 <div class="jumbotron">
-  <h2>{{dashboard_title}}</h2>
-  <div class="container">
-    <div class="row">
-      <div ngbDropdown class="col-md margin-top-05" *ngFor="let menu_entry of menu_entries">
-        <button class="btn btn-ssn col-md" id="dropdownBasic" ngbDropdownToggle>
-          <img src="{{menu_entry.iconPath}}" height="32px" /> {{menu_entry.title}}
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic">
-          <button class="dropdown-item" *ngFor="let component of menu_entry.componentDescription" (click)="loadComponent(component)">{{component}}</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  DASHBOARD
 </div>
 
 <div [ngSwitch]="selectedComponent">

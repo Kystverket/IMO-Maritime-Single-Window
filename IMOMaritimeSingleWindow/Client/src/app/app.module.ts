@@ -14,12 +14,13 @@ import { UserService } from './shared/services/user.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ContentService } from './shared/services/content.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +32,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
   ],
   providers: [
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
-    ConfigService, 
-    UserService
+    ConfigService,
+    UserService,
+    ContentService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,8 +4,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { DashboardComponent } from './dashboard.component';
-import { DashboardRoutingModule } from './dashboard-routing.module';
 import { RegisterUserComponent } from './basis-data/user/register-user/register-user.component';
 import { EditUserComponent } from './basis-data/user/edit-user/edit-user.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
@@ -29,15 +27,14 @@ import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
 import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
-
+import { DashboardComponent } from './dashboard.component';
 
 @NgModule({
   imports: [
     NgbModule,
     CommonModule,
     FormsModule,
-    HttpModule,
-    DashboardRoutingModule
+    HttpModule
   ],
   declarations: [
     DashboardComponent,
@@ -58,6 +55,7 @@ import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
     SearchCountryComponent,
     SearchShipFlagCodeComponent
   ],
+  exports: [DashboardComponent],
   providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
 })
 
