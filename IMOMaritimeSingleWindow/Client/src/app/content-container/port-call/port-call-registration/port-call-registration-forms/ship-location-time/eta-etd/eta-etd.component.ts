@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbCalendar, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { getLocaleDateFormat } from '@angular/common';
 import { EtaEtdDateTime } from './eta-etd-date-time.interface';
-import { PortCallService } from '../../../shared/services/port-call.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
   one && two && two.year === one.year && two.month === one.month && two.day === one.day;
@@ -38,6 +38,8 @@ export class EtaEtdComponent implements OnInit {
   validEtdDateFormat: boolean = true;
   dateSequenceError: boolean = false;
   timeSequenceError: boolean = false;
+
+  constructor(private portCallService: PortCallService) { }
 
   etaDateChanged($event): void {
     this.updateDateModel(this.etaEtdModel.eta, $event, "eta");
@@ -120,8 +122,6 @@ export class EtaEtdComponent implements OnInit {
     }
     this.validateData();
   }
-
-  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
   }
