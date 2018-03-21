@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuEntry } from '../../../../shared/models/menu-entry.interface';
 import { ContentService } from '../../../../shared/services/content.service';
+import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-progress-bar',
@@ -15,13 +16,12 @@ export class ProgressBarComponent implements OnInit {
     {title: "Port Call Details",      iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call Details" }
   ];
 
-  constructor(private contentService: ContentService) { }
+  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
   setContent(contentName: string) {
     this.contentService.setPortCallForm(contentName);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

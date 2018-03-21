@@ -25,5 +25,4 @@ export class PortCallService {
   setEtaEtdData(data) {
     this.etaEtdDataSource.next(data);
   }
-
 }

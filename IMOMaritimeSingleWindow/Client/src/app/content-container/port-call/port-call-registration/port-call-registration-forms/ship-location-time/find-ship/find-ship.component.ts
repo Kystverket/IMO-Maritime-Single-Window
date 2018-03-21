@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ShipService } from '../../../../shared/services/ship.service';
-import { PortCallService } from '../../../../shared/services/port-call.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { ShipService } from '../../../../../../shared/services/ship.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -41,17 +41,18 @@ export class FindShipComponent implements OnInit {
 
   formatter = (x: {shipId: string}) => x.shipId;
 
-  selectShip($event){
-    this.shipFound = true;
+  selectShip($event) {
     this.portCallService.setShipData($event.item);
   }
 
-  deselectShip(){
-    this.shipFound = false;
-    this.shipModel = null;
-    this.portCallService.setShipData(this.shipModel);
+  deselectShip() {
+    this.portCallService.setShipData(null);
   }
 
   ngOnInit() {
+    this.portCallService.shipData$.subscribe((shipData) => {
+      this.shipModel = shipData;
+      this.shipFound = shipData != null;
+    });
   }
 }
