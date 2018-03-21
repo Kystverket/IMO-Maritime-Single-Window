@@ -11,9 +11,13 @@
   </div>
   <div class="card-body">
 
-    <p *ngIf="!shipFound" class="mb-0">No ship selected.</p>
-    <p *ngIf="!locationFound" class="mb-0">No location selected.</p>
-    <p *ngIf="!dateTimeFound">ETA and ETD not set.</p>
+    <div *ngIf="!shipFound || !locationFound || !dateTimeFound">
+      <p *ngIf="!shipFound" class="mb-0">No ship selected.</p>
+      <p *ngIf="!locationFound" class="mb-0">No location selected.</p>
+      <p *ngIf="!dateTimeFound">ETA and ETD not set.</p>
+      <button class="btn btn-ssn" disabled="true">
+        <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Confirm</button>
+    </div>
 
     <div *ngIf="shipFound && locationFound && dateTimeFound">
       <div class="table-responsive">
