@@ -18,7 +18,6 @@ import { ShipService } from '../shared/services/ship.service';
 import { CompanyService } from '../shared/services/company.service';
 import { CountryService } from '../shared/services/country.service';
 
-import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 
@@ -32,6 +31,7 @@ import { ConfirmDataComponent } from './port-call/port-call-registration/port-ca
 import { EtaEtdComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/eta-etd/eta-etd.component';
 import { ProgressBarComponent } from './port-call/port-call-registration/progress-bar/progress-bar.component';
 import { FindShipComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-ship/find-ship.component';
+import { FindLocationComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-location/find-location.component';
 
 @NgModule({
   imports: [
