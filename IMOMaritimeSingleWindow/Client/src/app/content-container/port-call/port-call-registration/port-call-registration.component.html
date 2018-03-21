@@ -8,6 +8,12 @@
     </div>
   </div>
 
-  <app-port-call-registration-forms></app-port-call-registration-forms>
+  <div [ngSwitch]="selectedComponent">
+      <app-port-call-registration-forms *ngSwitchCase="'Ship Location and Time'"></app-port-call-registration-forms>
+      
+      <p *ngSwitchDefault>This is the default page</p>
+  </div>
 
+  
 </div>
+<app-progress-bar></app-progress-bar>

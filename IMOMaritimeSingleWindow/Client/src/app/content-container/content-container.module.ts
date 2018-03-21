@@ -31,6 +31,7 @@ import { PortCallRegistrationFormsComponent } from './port-call/port-call-regist
 import { ShipLocationTimeComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/ship-location-time.component';
 import { ConfirmDataComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/confirm-data/confirm-data.component';
 import { EtaEtdComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/eta-etd/eta-etd.component';
+import { ProgressBarComponent } from './port-call/port-call-registration/progress-bar/progress-bar.component';
 
 @NgModule({
   imports: [
@@ -59,7 +60,8 @@ import { EtaEtdComponent } from './port-call/port-call-registration/port-call-re
     SearchShipFlagCodeComponent,
     PortCallRegistrationFormsComponent,
     ShipLocationTimeComponent,
-    ConfirmDataComponent
+    ConfirmDataComponent,
+    ProgressBarComponent
   ],
   exports: [ContentContainerComponent],
   providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
