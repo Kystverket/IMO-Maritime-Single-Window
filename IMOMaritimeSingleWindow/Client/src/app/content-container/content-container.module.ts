@@ -17,7 +17,7 @@ import { PortCallRegistrationComponent } from './port-call/port-call-registratio
 import { ShipService } from '../shared/services/ship.service';
 import { CompanyService } from '../shared/services/company.service';
 import { CountryService } from '../shared/services/country.service';
-
+import { UserService } from '../shared/services/user.service';
 import { LocationService } from '../shared/services/location.service';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 
@@ -32,6 +32,7 @@ import { EtaEtdComponent } from './port-call/port-call-registration/port-call-re
 import { ProgressBarComponent } from './port-call/port-call-registration/progress-bar/progress-bar.component';
 import { FindShipComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-ship/find-ship.component';
 import { FindLocationComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-location/find-location.component';
+import { UserConfirmationComponent } from './basis-data/user/register-user/user-confirmation/user-confirmation.component';
 
 @NgModule({
   imports: [
@@ -61,9 +62,9 @@ import { FindLocationComponent } from './port-call/port-call-registration/port-c
     PortCallRegistrationFormsComponent,
     ShipLocationTimeComponent,
     ConfirmDataComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    UserConfirmationComponent
   ],
-  exports: [ContentContainerComponent],
-  providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
+  exports: [ContentContainerComponent]
 })
 export class ContentContainerModule { }

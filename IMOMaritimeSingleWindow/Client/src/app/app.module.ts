@@ -10,7 +10,7 @@ import { HeaderComponent } from './header/header.component';
 
 import { ConfigService } from './shared/utils/config.service';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
-import { UserService } from './shared/services/user.service';
+import { LoginService } from './shared/services/login.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ContentContainerModule } from './content-container/content-container.module';
@@ -33,7 +33,7 @@ import { ContentService } from './shared/services/content.service';
   providers: [
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
     ConfigService,
-    UserService,
+    LoginService,
     ContentService
   ],
   bootstrap: [AppComponent]

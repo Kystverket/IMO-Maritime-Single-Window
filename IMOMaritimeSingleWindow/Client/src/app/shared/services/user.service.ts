@@ -1,67 +1,31 @@
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ConfigService } from '../utils/config.service';
-
-import { BaseService } from "./base.service";
-
-import { Observable } from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/Rx'; 
-
-// Add the RxJS Observable operators we need in this app.
-import '../../rxjs-operators';
+import { Injectable } from "@angular/core";
+import { Http } from "@angular/http";
+import { of } from "rxjs/observable/of";
+import { BehaviorSubject, Subject } from 'rxjs';
+import { UserModel } from "../models/user-model";
 
 @Injectable()
-
-export class UserService extends BaseService {
-
-  baseUrl: string = '';
-
-  // Observable navItem source
-  private _authNavStatusSource = new BehaviorSubject<boolean>(false);
-  // Observable navItem stream
-  authNavStatus$ = this._authNavStatusSource.asObservable();
-
-  private loggedIn = false;
-
-  constructor(private http: Http, private configService: ConfigService) {
-    super();
-    this.loggedIn = !!localStorage.getItem('auth_token');
-    // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
-    // header component resulting in authed user nav links disappearing despite the fact user is still logged in
-    this._authNavStatusSource.next(this.loggedIn);
-    this.baseUrl = configService.getApiURI();
-  }
-
-    register() {
-        //Not yet implemented
+export class UserService {
+    constructor(private http: Http) {
+        this.actionUrl = 'api/user/search';
+        this.registerUserUrl = 'api/user/register';
     }
 
-   login(username, password) {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    private actionUrl: string;
+    private registerUserUrl: string;
 
-    return this.http
-      .post(
-      this.baseUrl + '/auth/login',
-      JSON.stringify({ username, password }),{ headers }
-      )
-      .map(res => res.json())
-      .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
-        this._authNavStatusSource.next(true);
-        return true;
-      })
-      .catch(this.handleError);
-  }
+    // private companyDataSource = new BehaviorSubject<any>(null);
+    // companyData$ = this.companyDataSource.asObservable();
 
-  logout() {
-    localStorage.removeItem('auth_token');
-    this.loggedIn = false;
-    this._authNavStatusSource.next(false);
-  }
+    // private countryDataSource = new BehaviorSubject<any>(null);
+    // countryData$ = this.countryDataSource.asObservable();
 
-  isLoggedIn() {
-    return this.loggedIn;
-  }
+    // private userFlagCodeDataSource = new BehaviorSubject<any>(null);
+    // userFlagCodeData$ = this.userFlagCodeDataSource.asObservable();
+
+    registerUser(newUser: any) {
+        return this.http.post(this.registerUserUrl, newUser)
+                .map(res => res.json());
+    }    
+    
 }

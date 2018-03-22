@@ -176,7 +176,7 @@ namespace IMOMaritimeSingleWindow.Data
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
-        public open_ssnContext(){}
+        public open_ssnContext() { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1305,14 +1305,33 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("user");
 
-                entity.HasIndex(e => e.NormalizedEmail)
-                    .HasName("EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName)
-                    .HasName("UserNameIndex")
-                    .IsUnique();
-
                 entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
+
+                entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
+
+                entity.Property(e => e.CustomField).HasColumnName("custom_field");
+
+                entity.Property(e => e.Email).HasColumnName("email");
+
+                entity.Property(e => e.EmailConfirmed).HasColumnName("email_confirmed");
+
+                entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
+
+                entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
+
+                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+
+                entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+
+                entity.Property(e => e.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
+
+                entity.Property(e => e.SecurityStamp).HasColumnName("security_stamp");
+
+                entity.Property(e => e.TwoFactorEnabled).HasColumnName("two_factor_enabled");
+
+                entity.Property(e => e.UserName).HasColumnName("user_name");
 
                 entity.Property(e => e.UserUuid).HasColumnName("user_uuid");
             });

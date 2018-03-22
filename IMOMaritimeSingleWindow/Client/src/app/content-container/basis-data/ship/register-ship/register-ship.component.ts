@@ -77,10 +77,7 @@ export class RegisterShipComponent implements OnInit {
   }
 
   registerShip(newShip: any) {
-    console.log("new ship:\n" + newShip);
-    this.shipService.registerShip(newShip).subscribe(
-      res => console.log(res)
-    );
+    this.shipService.registerShip(newShip);
   }
 
 
