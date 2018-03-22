@@ -45,7 +45,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     select s).Take(10).ToList();
         }
 
-        [HttpGet("{searchTerm}")]
+        [HttpGet("search/{searchTerm}")]
         public JsonResult SearchShipWithFlag(string searchTerm)
         {
             
