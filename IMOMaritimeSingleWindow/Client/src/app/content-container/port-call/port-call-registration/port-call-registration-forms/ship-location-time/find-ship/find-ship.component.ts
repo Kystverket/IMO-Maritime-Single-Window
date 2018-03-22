@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ShipService } from '../../../../shared/services/ship.service';
-import { PortCallService } from '../../../../shared/services/port-call.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { ShipService } from '../../../../../../shared/services/ship.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -13,7 +13,7 @@ export class FindShipComponent implements OnInit {
 
   shipModel: any;
   shipFound = false;
-  
+
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -28,30 +28,31 @@ export class FindShipComponent implements OnInit {
         this.searchFailed = false;
         if (term.length >= 2) this.searching = true;
       })
-      .switchMap(term => term.length < 2 ? [] : 
+      .switchMap(term => term.length < 2 ? [] :
         this.shipService.search(term)
       )
       .do((text$) => {
         this.searching = false;
         if (text$.length == 0) {
           this.searchFailed = true;
-        }        
+        }
       })
       .merge(this.hideSearchingWhenUnsubscribed);
 
-  formatter = (x: {shipId: string}) => x.shipId;
+  formatter = (x: { shipId: string }) => x.shipId;
 
-  selectShip($event){
-    this.shipFound = true;
+  selectShip($event) {
     this.portCallService.setShipData($event.item);
   }
 
-  deselectShip(){
-    this.shipFound = false;
-    this.shipModel = null;
-    this.portCallService.setShipData(this.shipModel);
+  deselectShip() {
+    this.portCallService.setShipData(null);
   }
 
   ngOnInit() {
+    this.portCallService.shipData$.subscribe((shipData) => {
+      this.shipModel = shipData;
+      this.shipFound = shipData != null;
+    });
   }
 }

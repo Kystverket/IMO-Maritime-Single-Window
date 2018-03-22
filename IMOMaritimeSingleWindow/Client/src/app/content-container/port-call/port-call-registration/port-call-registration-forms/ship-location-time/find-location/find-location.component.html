@@ -18,8 +18,24 @@
 
         <div *ngIf="!locationFound">
             <label for="search-location">Search using location name or location code</label>
-            <input id="search-location" type="text" class="form-control w-75 mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
-                [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" />
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+                        [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" />
+                </div>
+                <div class="col-2">
+                    <div *ngIf="searching">
+                        <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">
+                        <p>Searching</p>
+                    </div>
+                    <div *ngIf="searchFailed">
+                        <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+                        <p>No results</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div *ngIf="locationFound">
@@ -39,7 +55,8 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-ssn" (click)="deselectLocation()"><img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            <button class="btn btn-ssn" (click)="deselectLocation()">
+                <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
     </div>
 </div>

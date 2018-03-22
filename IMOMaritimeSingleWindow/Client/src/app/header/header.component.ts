@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { UserService } from '../shared/services/user.service';
-import { MenuEntry } from './menu-entry.interface';
+import { MenuEntry } from '../shared/models/menu-entry.interface';
 import { ContentService } from '../shared/services/content.service';
 
 @Component({

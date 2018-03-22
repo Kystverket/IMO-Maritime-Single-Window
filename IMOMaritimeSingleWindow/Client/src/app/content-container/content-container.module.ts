@@ -18,16 +18,20 @@ import { ShipService } from '../shared/services/ship.service';
 import { CompanyService } from '../shared/services/company.service';
 import { CountryService } from '../shared/services/country.service';
 
-import { FindLocationComponent } from './basis-data/location/find-location/find-location.component';
 import { LocationService } from '../shared/services/location.service';
-import { FindShipComponent } from './basis-data/ship/find-ship/find-ship.component';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
-import { EtaEtdComponent } from './port-call/eta-etd/eta-etd.component';
 
 import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
 import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
 import { ContentContainerComponent } from './content-container.component';
+import { PortCallRegistrationFormsComponent } from './port-call/port-call-registration/port-call-registration-forms/port-call-registration-forms.component';
+import { ShipLocationTimeComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/ship-location-time.component';
+import { ConfirmDataComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/confirm-data/confirm-data.component';
+import { EtaEtdComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/eta-etd/eta-etd.component';
+import { ProgressBarComponent } from './port-call/port-call-registration/progress-bar/progress-bar.component';
+import { FindShipComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-ship/find-ship.component';
+import { FindLocationComponent } from './port-call/port-call-registration/port-call-registration-forms/ship-location-time/find-location/find-location.component';
 
 @NgModule({
   imports: [
@@ -53,7 +57,11 @@ import { ContentContainerComponent } from './content-container.component';
     FindShipComponent,
     EtaEtdComponent,
     SearchCountryComponent,
-    SearchShipFlagCodeComponent
+    SearchShipFlagCodeComponent,
+    PortCallRegistrationFormsComponent,
+    ShipLocationTimeComponent,
+    ConfirmDataComponent,
+    ProgressBarComponent
   ],
   exports: [ContentContainerComponent],
   providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
