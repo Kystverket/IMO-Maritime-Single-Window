@@ -51,6 +51,8 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
+        // for testing:
+        public open_ssnContext(){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

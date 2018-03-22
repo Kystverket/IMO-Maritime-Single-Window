@@ -7,6 +7,7 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -21,7 +22,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpPost("register")]
-        public IActionResult Register([FromBody] Ship newShip)
+        public IActionResult RegisterShip([FromBody] Ship newShip)
         {
             Debug.WriteLine("NEW SHIP:\n" + newShip.ToString());
             try
@@ -34,16 +35,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(newShip);
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public JsonResult Find(string searchTerm)
+        public List<Ship> SearchShip(string searchTerm)
         {
-            var results = (from s in _context.Ship
-                           where s.ShipName.StartsWith(searchTerm.ToUpper())
-                           || s.CallSign.StartsWith(searchTerm.ToUpper())
-                           || s.ImoNo.ToString().StartsWith(searchTerm)
-                           || s.MmsiNo.ToString().StartsWith(searchTerm)
-                           select s).Take(10).ToList();
+            return (from s in _context.Ship
+                    where EF.Functions.ILike(s.ShipName, searchTerm + '%')
+                    || EF.Functions.ILike(s.CallSign, searchTerm + '%')
+                    || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm + '%')
+                    || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm + '%')
+                    select s).Take(10).ToList();
+        }
 
+        [HttpGet("{searchTerm}")]
+        public JsonResult SearchShipWithFlag(string searchTerm)
+        {
+            
+            List<Ship> results = SearchShip(searchTerm);
             List<ShipSearchResult> resultList = new List<ShipSearchResult>();
 
             foreach (Ship s in results)
@@ -72,7 +78,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpGet("{id}")]
-        public JsonResult Get(int id)
+        public JsonResult GetShip(int id)
         {
             Ship ship = _context.Ship.First(t => t.ShipId == id);
             return Json(ship);
