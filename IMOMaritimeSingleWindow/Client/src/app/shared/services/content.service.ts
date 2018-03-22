@@ -5,7 +5,7 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>('Register Port Call');
+    private contentSource = new BehaviorSubject<string>('Register User');
     contentName$ = this.contentSource.asObservable();
 
     private portCallFormSource = new BehaviorSubject<string>('Ship Location and Time');
