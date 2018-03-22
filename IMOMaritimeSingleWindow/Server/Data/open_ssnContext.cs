@@ -1305,13 +1305,6 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("user");
 
-                entity.HasIndex(e => e.NormalizedEmail)
-                    .HasName("EmailIndex");
-
-                entity.HasIndex(e => e.NormalizedUserName)
-                    .HasName("UserNameIndex")
-                    .IsUnique();
-
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
@@ -1327,10 +1320,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
 
                 entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
-
-                entity.Property(e => e.NormalizedEmail).HasColumnName("normalized_email");
-
-                entity.Property(e => e.NormalizedUserName).HasColumnName("normalized_user_name");
 
                 entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
 
