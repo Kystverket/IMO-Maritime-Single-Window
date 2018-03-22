@@ -39,7 +39,6 @@ export class ShipService {
     shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
 
     registerShip(newShip: any) {
-        console.log(newShip);
         return this.http.post(this.registerShipUrl, newShip)
                 .map(res => res.json());
     }    
