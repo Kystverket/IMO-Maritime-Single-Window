@@ -12,7 +12,7 @@ import '../../rxjs-operators';
 
 @Injectable()
 
-export class UserService extends BaseService {
+export class LoginService extends BaseService {
 
   baseUrl: string = '';
 
@@ -67,5 +67,5 @@ export class UserService extends BaseService {
 
   
   // REGISTER
-  
+
 }
