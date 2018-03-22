@@ -64,4 +64,8 @@ export class UserService extends BaseService {
   isLoggedIn() {
     return this.loggedIn;
   }
+
+  
+  // REGISTER
+  
 }

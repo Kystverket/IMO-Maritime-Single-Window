@@ -24,7 +24,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
-            Debug.WriteLine("NEW SHIP:\n" + newShip.ToString());
             try
             {
                 _context.Ship.Add(newShip);
