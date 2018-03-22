@@ -3,11 +3,13 @@ import { Http } from "@angular/http";
 import { of } from "rxjs/observable/of";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ShipModel } from "../models/ship-model";
+import { SearchService } from "./search.service";
 
 @Injectable()
 export class ShipService {
     constructor(private http: Http) {
-        this.actionUrl = 'api/ship/search/';
+        this.searchService = new SearchService(http);
+        this.actionUrl = 'api/ship/search';
         this.shipTypeUrl = 'api/shiptype/getall';
         this.hullTypeUrl = 'api/shiphulltype/getall';
         this.lengthTypeUrl = 'api/shiplengthtype/getall';
@@ -17,6 +19,7 @@ export class ShipService {
         this.registerShipUrl = 'api/ship/register';
     }
 
+    private searchService: SearchService;
     private actionUrl: string;
     private shipTypeUrl: string;
     private hullTypeUrl: string;
@@ -54,14 +57,8 @@ export class ShipService {
         console.log(data);
     }
 
-    public search(term: string) {
-        if (term === '') {
-            return of([]);
-        }
-
-        return this.http.get(this.actionUrl + term)
-            .map(res => res.json())
-            .toPromise();
+    search(term: string) {
+        return this.searchService.search(this.actionUrl, term);
     }
 
     getShipTypes() {
