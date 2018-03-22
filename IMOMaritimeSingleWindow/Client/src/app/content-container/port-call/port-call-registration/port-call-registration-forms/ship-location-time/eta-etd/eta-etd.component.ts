@@ -93,9 +93,9 @@ export class EtaEtdComponent implements OnInit {
       this.timeSequenceError = false;
     }
 
-    if (!this.dateSequenceError && !this.timeSequenceError && this.hasRequiredData(this.etaEtdModel)) {     
+    if (!this.dateSequenceError && !this.timeSequenceError && this.hasRequiredData(this.etaEtdModel)) {
       this.portCallService.setEtaEtdData(this.etaEtdModel);
-    }else {
+    } else {
       this.portCallService.setEtaEtdData(null);
     }
   }
@@ -124,5 +124,18 @@ export class EtaEtdComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.portCallService.etaEtdData$.subscribe((etaEtdData) => {
+      if (etaEtdData != null) {
+        this.etaEtdModel = etaEtdData;
+      }
+    });
+    
+    if (this.etaEtdModel != null) {
+      this.etaDateModel = { year: this.etaEtdModel.eta.year, month: this.etaEtdModel.eta.month, day: this.etaEtdModel.eta.day };
+      this.etaTimeModel = { hour: this.etaEtdModel.eta.hour, minute: this.etaEtdModel.eta.minute, second: 0 };
+
+      this.etdDateModel = { year: this.etaEtdModel.etd.year, month: this.etaEtdModel.etd.month, day: this.etaEtdModel.etd.day };
+      this.etdTimeModel = { hour: this.etaEtdModel.etd.hour, minute: this.etaEtdModel.etd.minute, second: 0 };
+    }
   }
 }
