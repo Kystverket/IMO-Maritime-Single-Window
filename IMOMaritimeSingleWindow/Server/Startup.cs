@@ -74,15 +74,14 @@ namespace IMOMaritimeSingleWindow
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionStringUserDb));
+            services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(options => options.UseNpgsql(connectionStringUserDb));
         
 
-          services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            services.AddScoped<SignInManager<AppUser>>();
-            // add identity
-            //services.AddIdentity<AppUser, PersonRole>();
-            var builder = services.AddIdentityCore<AppUser>(options =>
+            
+            //Add identity types
+            var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 // configure identity options
                 options.Password.RequireDigit = false;
@@ -100,13 +99,31 @@ namespace IMOMaritimeSingleWindow
                 //options.SignIn.RequireConfirmedEmail = true;
 
             });
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+            //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+            builder.AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
-          // Get options from app settings
-          var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            //Identity Services
+            services.AddScoped<SignInManager<ApplicationUser>>();
+            services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
+            services.AddScoped<RoleManager<ApplicationRole>, ApplicationRoleManager>();
+            services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
+            services.AddScoped<IRoleStore<ApplicationRole>, ApplicationRoleStore>();
+            var serviceProvider = services.BuildServiceProvider();
+            //ApplicationUserManager myUserManager = (ApplicationUserManager)serviceProvider.GetService(typeof(ApplicationUserManager));
+            //ApplicationRoleManager myRoleManager = (ApplicationRoleManager)serviceProvider.GetService(typeof(ApplicationRoleManager));
+            var myUserManager = (UserManager<ApplicationUser>)serviceProvider.GetService(typeof(UserManager<ApplicationUser>));
+            var myRoleManager = (RoleManager<ApplicationRole>)serviceProvider.GetService(typeof(RoleManager<ApplicationRole>));
+            services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+            
+            // Additional manager separate from ASP NET Identity
+            services.AddScoped<UserDbInitializer>();
+            
+            //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
+
+            // Get options from app settings
+            var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
           var appSettingsSection = Configuration.GetSection("AppSettings");
           services.Configure<AppSettings>(appSettingsSection);
@@ -179,7 +196,7 @@ namespace IMOMaritimeSingleWindow
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserDbContext dbContext)
         {
             app.Use(async (context, next) => {
                 await next();
@@ -208,7 +225,6 @@ namespace IMOMaritimeSingleWindow
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            
         }
     }
 }

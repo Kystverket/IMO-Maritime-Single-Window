@@ -15,12 +15,12 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")] 
     public class AccountsController : Controller
     {
-        private readonly ApplicationDbContext _appDbContext;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserDbContext _appDbContext;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMapper mapper, ApplicationDbContext appDbContext)
+        public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, UserDbContext appDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -37,11 +37,17 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userIdentity = _mapper.Map<AppUser>(model);
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            
+            if(userIdentity.NormalizedUserName == "ADMIN")
+            {
+                var user = await _userManager.FindByNameAsync(userIdentity.NormalizedUserName);
+                await _userManager.AddToRoleAsync(user, "admin");
+            }
 
             //await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
             await _appDbContext.SaveChangesAsync();

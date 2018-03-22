@@ -5,14 +5,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using IMOMaritimeSingleWindow.Models.Entities;
+using Microsoft.AspNetCore.Identity;
+using IMOMaritimeSingleWindow.ViewModels;
+using AutoMapper;
+using IMOMaritimeSingleWindow.Data;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class TestController : Controller
     {
-        
+
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
+        private readonly IMapper _mapper;
+
+        public TestController(UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
+            IMapper mapper)
+        {
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _userRoleManager = userRoleManager;
+            _mapper = mapper;
+        }
+
         [Authorize(Policy = "AdminUser")]
         // GET /api/test/admindata
         [HttpGet("admindata")]
@@ -27,5 +47,54 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(dataList);
         }
 
+        /**
+        [HttpGet("userid/{userName}")]
+        public async Task<JsonResult> GetUserIdByUserName(string userName)
+        {
+            AppUser user = await _userManager.GetUserAsync(userName)
+        }
+        */
+
+        /**
+        [HttpPost("userclaims")]
+        public async Task<JsonResult> GetUserClaims([FromBody]RegistrationViewModel model)
+        {
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var user = await _userManager.FindByEmailAsync(userIdentity.Email);
+            var claims = await _userManager.GetClaimsAsync(user);
+            return Json(claims);
+        }
+        */
+
+        [HttpPost("seed")]
+        public async Task SeedDatabase()
+        {
+            UserDbInitializer userDbInitializer = new UserDbInitializer(_userManager, _roleManager);
+            await userDbInitializer.SeedAsync();
+        }
+        
+        [HttpPost("getuserclaims")]
+        public async Task<JsonResult> GetUserClaims([FromBody]UserViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return new JsonResult(null);
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var user = await _userManager.FindByNameAsync(userIdentity.UserName);
+            var claims = await _userRoleManager.GetClaimsAsync(user);
+            return Json(claims);
+        }
+        [HttpGet("getuserclaims")]
+        public async Task<JsonResult> GetUserClaims()
+        {
+           
+            var user = await _userManager.FindByNameAsync("admin");
+            if (user == null)
+                return Json(null);
+            var claims = await _userRoleManager.GetClaimsAsync(user);
+            return Json(claims);
+        }
     }
+
+
+
 }

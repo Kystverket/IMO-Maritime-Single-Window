@@ -47,7 +47,8 @@ namespace IMOMaritimeSingleWindow.Auth
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity(string userName, string id)
+        public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id)
+            where TKey : IEquatable<TKey>
         {
             bool isAdmin = userName == "admin";
             var roleClaim = isAdmin ? new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.AdminAccess) :
@@ -55,7 +56,7 @@ namespace IMOMaritimeSingleWindow.Auth
 
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id),
+                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id.ToString()),
                 roleClaim
             });
         }

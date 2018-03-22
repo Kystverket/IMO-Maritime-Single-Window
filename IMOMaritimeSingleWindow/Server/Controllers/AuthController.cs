@@ -1,5 +1,4 @@
-
- 
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Auth;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Result = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Authorization;
+
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -22,14 +22,14 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
+        public AuthController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IJwtFactory jwtFactory,
             IOptions<JwtIssuerOptions> jwtOptions,
             ILogger<AuthController> logger)
@@ -117,7 +117,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var _user = await _userManager.FindByNameAsync(userName);
             _logger.LogInformation($"Generating JWT for user {_user.Id}");
-            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, _user.Id));
+            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, _user.Id));
         }
     }
 }
