@@ -12,7 +12,6 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int LocationSourceId { get; set; }
         public string LocationSourceName { get; set; }
-        public string SystemName { get; set; }
         public string Description { get; set; }
 
         public ICollection<Location> Location { get; set; }
