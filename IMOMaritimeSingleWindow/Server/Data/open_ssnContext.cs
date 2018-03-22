@@ -168,6 +168,11 @@ namespace IMOMaritimeSingleWindow.Data
         {
             get; set;
         }
+        public virtual DbSet<User> User
+        {
+            get; set;
+        }
+
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
@@ -1296,6 +1301,22 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipTypeGroupCode).HasColumnName("ship_type_group_code");
             });
 
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("user");
+
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("UserNameIndex")
+                    .IsUnique();
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.UserUuid).HasColumnName("user_uuid");
+            });
+
             modelBuilder.HasSequence("council_council_id_seq")
                 .HasMin(1)
                 .HasMax(2147483647);
@@ -1314,7 +1335,6 @@ namespace IMOMaritimeSingleWindow.Data
                 .HasMin(1)
                 .HasMax(2147483647);
         }
-
 
 
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
