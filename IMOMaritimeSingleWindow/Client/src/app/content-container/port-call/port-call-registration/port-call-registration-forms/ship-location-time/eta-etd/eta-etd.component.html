@@ -16,13 +16,12 @@
         <div class="form-group">
           <label for="eta_date_input">ETA</label>
           <div class="input-group">
-            <input id="eta_date_input" class="form-control" placeholder="yyyy-MM-dd" name="dp-eta" [showWeekNumbers]="true" [(ngModel)]="etaDateModel"
+            <input id="eta_date_input" class="form-control form-control-sm" placeholder="yyyy-MM-dd" name="dp-eta" [showWeekNumbers]="true" [(ngModel)]="etaDateModel"
               ngbDatepicker #eta="ngbDatepicker" (ngModelChange)="etaDateChanged($event)">
             <div class="input-group-append">
-              <button class="btn btn-ssn" (click)="eta.toggle()" type="button">
-                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" style="width: 1.4rem; cursor: pointer;" />
+              <button class="btn btn-sm btn-ssn" (click)="eta.toggle()" type="button">
+                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
               </button>
-              <p *ngIf="eta.isOpen()">test</p>
             </div>
           </div>
         </div>
@@ -35,11 +34,11 @@
         <div class="form-group">
           <label for="etd_date_input">ETD</label>
           <div class="input-group">
-            <input id="etd_date_input" class="form-control" placeholder="yyyy-MM-dd" name="dp-etd" [showWeekNumbers]="true" [(ngModel)]="etdDateModel"
+            <input id="etd_date_input" class="form-control form-control-sm" placeholder="yyyy-MM-dd" name="dp-etd" [showWeekNumbers]="true" [(ngModel)]="etdDateModel"
               ngbDatepicker #etd="ngbDatepicker" (ngModelChange)="etdDateChanged($event)">
             <div class="input-group-append">
-              <button class="btn btn-ssn" (click)="etd.toggle()" type="button">
-                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" style="width: 1.4rem; cursor: pointer;" />
+              <button class="btn btn-sm btn-ssn" (click)="etd.toggle()" type="button">
+                <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
               </button>
             </div>
           </div>
