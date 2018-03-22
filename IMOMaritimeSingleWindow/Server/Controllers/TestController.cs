@@ -46,14 +46,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             };
             return Json(dataList);
         }
-
-        /**
-        [HttpGet("userid/{userName}")]
-        public async Task<JsonResult> GetUserIdByUserName(string userName)
-        {
-            AppUser user = await _userManager.GetUserAsync(userName)
-        }
-        */
+        
 
         /**
         [HttpPost("userclaims")]
@@ -83,16 +76,33 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claims = await _userRoleManager.GetClaimsAsync(user);
             return Json(claims);
         }
-        [HttpGet("getuserclaims")]
-        public async Task<JsonResult> GetUserClaims()
+
+
+        [HttpGet("getuserclaims/{userName}")]
+        public async Task<JsonResult> GetUserClaims(string userName)
         {
            
-            var user = await _userManager.FindByNameAsync("admin");
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
-                return Json(null);
+            {
+                var jsonRes = new JsonResult($"User with username '{userName}' not found")
+                {
+                    StatusCode = 404
+                };
+                return jsonRes;
+            }
             var claims = await _userRoleManager.GetClaimsAsync(user);
             return Json(claims);
         }
+
+        [Authorize(Policy = "Port Call Registration")]
+        [HttpGet("canregisterportcall")]
+        public IActionResult CanRegisterPortCall()
+        {
+            //Authorization checks are made ... ^
+            return new OkObjectResult("Port call registration granted");
+        }
+
     }
 
 

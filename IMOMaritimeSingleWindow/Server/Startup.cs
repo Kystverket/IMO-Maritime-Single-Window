@@ -171,10 +171,28 @@ namespace IMOMaritimeSingleWindow
           // api user claim policy
           services.AddAuthorization(options =>
           {
-            options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
               //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
-              options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
+                options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
+
+                options.AddPolicy("RegisterPortCall", policy => policy.RequireClaim("", "")
+                                                    .RequireClaim("", "")
+                );
+
+              options.AddPolicy("Port Call Registration", policy =>
+                policy.RequireAssertion(context =>
+                    context.User.HasClaim(claim =>
+                        // User has the role of an admin
+                        (claim.Type == System.Security.Claims.ClaimTypes.Role && claim.Value == Constants.Strings.UserRoles.Admin) ||
+                        // ... or the role of an agent
+                        (claim.Type == System.Security.Claims.ClaimTypes.Role && claim.Value == Constants.Strings.UserRoles.Agent)
+                    ))
+                );
+              
+
           });
+
+        
 
 
 
@@ -198,6 +216,12 @@ namespace IMOMaritimeSingleWindow
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserDbContext dbContext)
         {
+
+            if (env.IsDevelopment())
+            {
+
+            }
+
             app.Use(async (context, next) => {
                 await next();
                 if (context.Response.StatusCode == 404 &&

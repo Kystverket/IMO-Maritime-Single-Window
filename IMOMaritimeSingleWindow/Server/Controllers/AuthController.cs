@@ -23,6 +23,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
@@ -30,11 +31,13 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         public AuthController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
             IJwtFactory jwtFactory,
             IOptions<JwtIssuerOptions> jwtOptions,
             ILogger<AuthController> logger)
         {
             _userManager = userManager;
+            _userRoleManager = userRoleManager;
             _signInManager = signInManager;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
@@ -115,9 +118,13 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
         {
-            var _user = await _userManager.FindByNameAsync(userName);
-            _logger.LogInformation($"Generating JWT for user {_user.Id}");
-            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, _user.Id));
+            var user = await _userManager.FindByNameAsync(userName);
+            var claims = await _userRoleManager.GetClaimsAsync(user);
+            var claimsJSON = Json(claims);
+            _logger.LogInformation($"Claims from user:\n{claimsJSON}");
+
+            _logger.LogInformation($"Generating JWT for user {user.Id}");
+            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, claims));
         }
     }
 }

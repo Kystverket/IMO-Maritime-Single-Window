@@ -49,7 +49,7 @@ namespace IMOMaritimeSingleWindow.Models.Entities
 
 
             /// <summary>
-            /// Gets a list of <see cref="Claim"/>s belonging to the specified <paramref name="user"/> as an asynchronous operation.
+            /// Gets a list of <see cref="System.Security.Claims.Claim"/>s belonging to the specified <paramref name="user"/> as an asynchronous operation.
             /// </summary>
             /// <param name="user">The user whose claims to retrieve.</param>
             /// <returns>

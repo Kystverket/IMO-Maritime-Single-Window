@@ -20,6 +20,12 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const string Register = "register", View = "view", Delete = "delete";
             }
+
+            public static class UserRoles
+            {
+                public static string Admin = "admin", Agent = "agent";
+            }
+
             
         }
         public enum LoginStates

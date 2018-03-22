@@ -8,7 +8,8 @@ using System.Security.Principal;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.Extensions.Options;
- 
+using System.Collections;
+using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Auth
 {
@@ -22,16 +23,31 @@ namespace IMOMaritimeSingleWindow.Auth
             ThrowIfInvalidOptions(_jwtOptions);
         }
 
+        
         public async Task<string> GenerateEncodedToken(string userName, ClaimsIdentity identity)
         {
-            var claims = new[]
-         {
+            var claims = new List<Claim>(new []
+            {
                  new Claim(JwtRegisteredClaimNames.Sub, userName),
                  new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                  new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol),
                  identity.FindFirst(Helpers.Constants.Strings.JwtClaimIdentifiers.Id)
-             };
+             });
+
+            //Remove leading url
+            List<Claim> shortClaims = new List<Claim>();
+            foreach(var claim in identity.Claims)
+            {
+                var splits = claim.Type.Split('/');
+                string shortType = splits[splits.Length - 1];
+                var c = new Claim(shortType, claim.Value);
+
+                shortClaims.Add(c);
+            }
+
+            claims.AddRange(shortClaims);
+            // claims.AddRange(identity.Claims);
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
@@ -47,18 +63,21 @@ namespace IMOMaritimeSingleWindow.Auth
             return encodedJwt;
         }
 
-        public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id)
+        public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, IList<Claim> rights)
             where TKey : IEquatable<TKey>
         {
-            bool isAdmin = userName == "admin";
+            /*bool isAdmin = userName == "admin";
             var roleClaim = isAdmin ? new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.AdminAccess) :
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.ApiAccess);
+           */
 
-            return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
+            var claimsIdentity = new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id.ToString()),
-                roleClaim
+                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id.ToString())
             });
+            claimsIdentity.AddClaims(rights);
+
+            return claimsIdentity;
         }
 
         /// <returns>Date converted to seconds since Unix epoch (Jan 1, 1970, midnight UTC).</returns>
