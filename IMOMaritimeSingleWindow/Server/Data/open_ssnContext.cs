@@ -8,47 +8,166 @@ namespace IMOMaritimeSingleWindow.Data
 {
     public partial class open_ssnContext : DbContext
     {
-        public virtual DbSet<Claim> Claim { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
-        public virtual DbSet<ContactMedium> ContactMedium { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<County> County { get; set; }
-        public virtual DbSet<CustomsCargo> CustomsCargo { get; set; }
-        public virtual DbSet<CustomsCargoType> CustomsCargoType { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
-        public virtual DbSet<Dpg> Dpg { get; set; }
-        public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
-        public virtual DbSet<DpgType> DpgType { get; set; }
-        public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<LocationSource> LocationSource { get; set; }
-        public virtual DbSet<LocationType> LocationType { get; set; }
-        public virtual DbSet<Locno> Locno { get; set; }
-        public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
-        public virtual DbSet<Municipality> Municipality { get; set; }
-        public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<PersonRole> PersonRole { get; set; }
-        public virtual DbSet<PortCall> PortCall { get; set; }
-        public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
-        public virtual DbSet<PortCallPurpose> PortCallPurpose { get; set; }
-        public virtual DbSet<PortCallStatus> PortCallStatus { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RoleClaim> RoleClaim { get; set; }
-        public virtual DbSet<Ship> Ship { get; set; }
-        public virtual DbSet<ShipBreadthType> ShipBreadthType { get; set; }
-        public virtual DbSet<ShipCertificate> ShipCertificate { get; set; }
-        public virtual DbSet<ShipCertificateType> ShipCertificateType { get; set; }
-        public virtual DbSet<ShipContact> ShipContact { get; set; }
-        public virtual DbSet<ShipFlagCode> ShipFlagCode { get; set; }
-        public virtual DbSet<ShipHistory> ShipHistory { get; set; }
-        public virtual DbSet<ShipHullType> ShipHullType { get; set; }
-        public virtual DbSet<ShipLengthType> ShipLengthType { get; set; }
-        public virtual DbSet<ShipMmsiMidCode> ShipMmsiMidCode { get; set; }
-        public virtual DbSet<ShipPowerType> ShipPowerType { get; set; }
-        public virtual DbSet<ShipSource> ShipSource { get; set; }
-        public virtual DbSet<ShipStatus> ShipStatus { get; set; }
-        public virtual DbSet<ShipType> ShipType { get; set; }
-        public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
+        public virtual DbSet<Claim> Claim
+        {
+            get; set;
+        }
+        public virtual DbSet<Company> Company
+        {
+            get; set;
+        }
+        public virtual DbSet<ContactMedium> ContactMedium
+        {
+            get; set;
+        }
+        public virtual DbSet<Country> Country
+        {
+            get; set;
+        }
+        public virtual DbSet<County> County
+        {
+            get; set;
+        }
+        public virtual DbSet<CustomsCargo> CustomsCargo
+        {
+            get; set;
+        }
+        public virtual DbSet<CustomsCargoType> CustomsCargoType
+        {
+            get; set;
+        }
+        public virtual DbSet<Department> Department
+        {
+            get; set;
+        }
+        public virtual DbSet<Dpg> Dpg
+        {
+            get; set;
+        }
+        public virtual DbSet<DpgOnBoard> DpgOnBoard
+        {
+            get; set;
+        }
+        public virtual DbSet<DpgType> DpgType
+        {
+            get; set;
+        }
+        public virtual DbSet<ImoHazardClass> ImoHazardClass
+        {
+            get; set;
+        }
+        public virtual DbSet<Location> Location
+        {
+            get; set;
+        }
+        public virtual DbSet<LocationSource> LocationSource
+        {
+            get; set;
+        }
+        public virtual DbSet<LocationType> LocationType
+        {
+            get; set;
+        }
+        public virtual DbSet<MarpolCategory> MarpolCategory
+        {
+            get; set;
+        }
+        public virtual DbSet<Municipality> Municipality
+        {
+            get; set;
+        }
+        public virtual DbSet<Person> Person
+        {
+            get; set;
+        }
+        public virtual DbSet<PersonRole> PersonRole
+        {
+            get; set;
+        }
+        public virtual DbSet<PortCall> PortCall
+        {
+            get; set;
+        }
+        public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose
+        {
+            get; set;
+        }
+        public virtual DbSet<PortCallPurpose> PortCallPurpose
+        {
+            get; set;
+        }
+        public virtual DbSet<PortCallStatus> PortCallStatus
+        {
+            get; set;
+        }
+        public virtual DbSet<Role> Role
+        {
+            get; set;
+        }
+        public virtual DbSet<RoleClaim> RoleClaim
+        {
+            get; set;
+        }
+        public virtual DbSet<Ship> Ship
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipBreadthType> ShipBreadthType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipCertificate> ShipCertificate
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipCertificateType> ShipCertificateType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipContact> ShipContact
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipFlagCode> ShipFlagCode
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipHistory> ShipHistory
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipHullType> ShipHullType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipLengthType> ShipLengthType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipMmsiMidCode> ShipMmsiMidCode
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipPowerType> ShipPowerType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipSource> ShipSource
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipStatus> ShipStatus
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipType> ShipType
+        {
+            get; set;
+        }
+        public virtual DbSet<ShipTypeGroup> ShipTypeGroup
+        {
+            get; set;
+        }
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
@@ -65,10 +184,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ClaimName)
                     .IsRequired()
                     .HasColumnName("claim_name");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<Company>(entity =>
@@ -103,8 +218,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ContactMediumType).HasColumnName("contact_medium_type");
 
                 entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.SystemName).HasColumnName("system_name");
             });
 
             modelBuilder.Entity<Country>(entity =>
@@ -204,10 +317,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("customs_cargo_type");
 
                 entity.Property(e => e.Description).HasColumnName("description");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<Department>(entity =>
@@ -338,10 +447,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.DpgTypeName)
                     .IsRequired()
                     .HasColumnName("dpg_type_name");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>
@@ -358,10 +463,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ImoHazardClassName).HasColumnName("imo_hazard_class_name");
 
                 entity.Property(e => e.ParentImoHazardClassId).HasColumnName("parent_imo_hazard_class_id");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
 
                 entity.HasOne(d => d.ParentImoHazardClass)
                     .WithMany(p => p.InverseParentImoHazardClass)
@@ -450,10 +551,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.LocationSourceName)
                     .IsRequired()
                     .HasColumnName("location_source_name");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<LocationType>(entity =>
@@ -467,23 +564,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.LocationType1)
                     .IsRequired()
                     .HasColumnName("location_type");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
-            });
-
-            modelBuilder.Entity<Locno>(entity =>
-            {
-                entity.HasKey(e => e.LocId);
-
-                entity.ToTable("locno");
-
-                entity.Property(e => e.LocId)
-                    .HasColumnName("loc_id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.LocNo).HasColumnName("loc_no");
             });
 
             modelBuilder.Entity<MarpolCategory>(entity =>
@@ -497,10 +577,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.MarpolCategory1)
                     .IsRequired()
                     .HasColumnName("marpol_category");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<Municipality>(entity =>
@@ -689,8 +765,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PortCallPurpose1)
                     .IsRequired()
                     .HasColumnName("port_call_purpose");
-
-                entity.Property(e => e.SystemName).HasColumnName("system_name");
             });
 
             modelBuilder.Entity<PortCallStatus>(entity =>
@@ -702,8 +776,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.PortCallStatus1).HasColumnName("port_call_status");
-
-                entity.Property(e => e.SystemName).HasColumnName("system_name");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -895,10 +967,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipBreadthType1)
                     .IsRequired()
                     .HasColumnName("ship_breadth_type");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipCertificate>(entity =>
@@ -1021,10 +1089,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .IsRequired()
                     .HasColumnName("ship_flag_code");
 
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
-
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.ShipFlagCode)
                     .HasForeignKey(d => d.CountryId)
@@ -1119,10 +1183,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipHullType1)
                     .IsRequired()
                     .HasColumnName("ship_hull_type");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipLengthType>(entity =>
@@ -1136,10 +1196,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipLengthType1)
                     .IsRequired()
                     .HasColumnName("ship_length_type");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipMmsiMidCode>(entity =>
@@ -1173,10 +1229,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipPowerType1)
                     .IsRequired()
                     .HasColumnName("ship_power_type");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipSource>(entity =>
@@ -1190,10 +1242,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipSource1)
                     .IsRequired()
                     .HasColumnName("ship_source");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipStatus>(entity =>
@@ -1209,10 +1257,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipStatus1)
                     .IsRequired()
                     .HasColumnName("ship_status");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.Entity<ShipType>(entity =>
@@ -1229,10 +1273,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipType1).HasColumnName("ship_type");
 
                 entity.Property(e => e.ShipTypeGroupId).HasColumnName("ship_type_group_id");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
 
                 entity.HasOne(d => d.ShipTypeGroup)
                     .WithMany(p => p.ShipType)
@@ -1254,10 +1294,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("ship_type_group");
 
                 entity.Property(e => e.ShipTypeGroupCode).HasColumnName("ship_type_group_code");
-
-                entity.Property(e => e.SystemName)
-                    .IsRequired()
-                    .HasColumnName("system_name");
             });
 
             modelBuilder.HasSequence("council_council_id_seq")
@@ -1268,7 +1304,9 @@ namespace IMOMaritimeSingleWindow.Data
                 .HasMin(1)
                 .HasMax(2147483647);
 
-            modelBuilder.HasSequence("ship_ship_id_seq").HasMin(1).HasMax(2147483647);
+            modelBuilder.HasSequence("ship_ship_id_seq")
+                .StartsAt(359004)
+                .HasMax(2147483647);
 
             modelBuilder.HasSequence("ship_status_id_seq").HasMin(101217);
 
