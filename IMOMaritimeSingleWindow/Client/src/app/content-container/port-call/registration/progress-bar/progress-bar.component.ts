@@ -11,10 +11,11 @@ import { PortCallService } from '../../../../shared/services/port-call.service';
 export class ProgressBarComponent implements OnInit {
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
-  menu_entries: MenuEntry[] = [
-    {title: "Ship, location & time",  iconPath: this.icon_path + "ship.png",       componentDescription: "Ship Location and Time" },
-    {title: "Port Call Details",      iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call Details" }
+  base_menu_entries: any = [
+    {name: "Ship, Location and Time", icon: "ship.png",       checked: true },
+    {name: "Port Call Details",       icon: "portcall.png",   checked: true }
   ];
+  menu_entries: any;
 
   constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
@@ -22,6 +23,12 @@ export class ProgressBarComponent implements OnInit {
     this.contentService.setPortCallForm(contentName);
   }
 
-  ngOnInit() { }
-
+  ngOnInit() { 
+    this.menu_entries = this.base_menu_entries;
+    this.portCallService.reportingForThisPortCallData$.subscribe((fal_forms) => {
+      if (fal_forms != null) {
+        this.menu_entries = this.base_menu_entries.concat(fal_forms);
+      }
+    });
+  }
 }

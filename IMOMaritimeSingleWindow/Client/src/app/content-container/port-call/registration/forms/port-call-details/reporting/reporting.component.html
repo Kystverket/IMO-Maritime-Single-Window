@@ -10,11 +10,13 @@
     </div>
   </div>
   <div class="card-body text-left">
-    <div class="form-check" *ngFor="let cb of checkboxes">
-      <input class="form-check-input" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
-      <label class="form-check-label" for="{{cb.name}}">
-        <img src="{{cb.icon}}" height="16px"> {{cb.name}}
-      </label>
-    </div>
+    <form class="form-inline">
+      <div class="form-check mx-2" *ngFor="let cb of checkboxes">
+        <input class="form-check-input" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
+        <label class="form-check-label" for="{{cb.name}}">
+          <img src="{{baseIconUrl}}{{cb.icon}}" height="16px">{{cb.name}}
+        </label>
+      </div>
+    </form>
   </div>
 </div>

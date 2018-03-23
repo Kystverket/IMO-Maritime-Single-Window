@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-reporting',
@@ -9,19 +10,25 @@ export class ReportingComponent implements OnInit {
 
   baseIconUrl: string = "assets/images/VoyageIcons/128x128/";
   checkboxes: any = [
-    {name: "Hazmat",  icon: this.baseIconUrl+"hazard.png", checked: false},
-    {name: "Bunkers", icon: this.baseIconUrl+"barrel.png", checked: false},
-    {name: "Cargo",   icon: this.baseIconUrl+"cargo.png",  checked: false}
+    {name: "Hazmat",  icon: "hazard.png", checked: false},
+    {name: "Bunkers", icon: "barrel.png", checked: false},
+    {name: "Cargo",   icon: "cargo.png",  checked: false}
   ];
 
-  constructor() { }
+  constructor(private portCallService: PortCallService) { }
 
   checkboxChecked(checkboxModel) {
     checkboxModel.checked = !checkboxModel.checked;
+
+    this.portCallService.setReportingForThisPortCallData(this.checkboxes);
   }
 
   ngOnInit() {
-
+    this.portCallService.reportingForThisPortCallData$.subscribe((data) => {
+      if(data != null){
+        this.checkboxes = data;
+      }
+    });
   }
 
 }
