@@ -83,13 +83,20 @@ export class EtaEtdComponent implements OnInit {
   }
 
   private validateData(): void {
-    this.dateSequenceError = after(this.etaDateModel, this.etdDateModel);
-    if (equals(this.etaDateModel, this.etdDateModel)) {
-      if (this.etaTimeModel != null && this.etdTimeModel != null) {
-        this.timeSequenceError = (this.etaTimeModel.hour > this.etdTimeModel.hour)
-          || ((this.etaTimeModel.hour == this.etdTimeModel.hour) && (this.etaTimeModel.minute >= this.etdTimeModel.minute));
+    if (this.etaDateModel.year != null && this.etdDateModel.year != null) {
+      this.dateSequenceError = after(this.etaDateModel, this.etdDateModel);
+      if (equals(this.etaDateModel, this.etdDateModel)) {
+        if ((this.etaTimeModel != null && this.etaTimeModel.hour != null) && (this.etdTimeModel != null && this.etdTimeModel.hour != null)) {
+          this.timeSequenceError = (this.etaTimeModel.hour > this.etdTimeModel.hour)
+            || ((this.etaTimeModel.hour == this.etdTimeModel.hour) && (this.etaTimeModel.minute >= this.etdTimeModel.minute));
+        } else { 
+          this.timeSequenceError = false;
+        }
+      } else {
+        this.timeSequenceError = false;
       }
     } else {
+      this.dateSequenceError = false;
       this.timeSequenceError = false;
     }
 
@@ -129,7 +136,7 @@ export class EtaEtdComponent implements OnInit {
         this.etaEtdModel = etaEtdData;
       }
     });
-    
+
     if (this.etaEtdModel != null) {
       this.etaDateModel = { year: this.etaEtdModel.eta.year, month: this.etaEtdModel.eta.month, day: this.etaEtdModel.eta.day };
       this.etaTimeModel = { hour: this.etaEtdModel.eta.hour, minute: this.etaEtdModel.eta.minute, second: 0 };

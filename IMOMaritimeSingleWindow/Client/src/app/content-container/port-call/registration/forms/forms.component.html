@@ -1,0 +1,5 @@
+<div [ngSwitch]="selectedComponent">
+    <app-ship-location-time *ngSwitchCase="'Ship, Location and Time'"></app-ship-location-time>
+    <app-port-call-details *ngSwitchCase="'Port Call Details'"></app-port-call-details>
+    <p *ngSwitchDefault>This is the default page</p>
+</div>

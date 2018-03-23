@@ -1,0 +1,22 @@
+<div class="card card-ssn text-center">
+  <div class="card-header bg-ssn text-ssn">
+    <div class="row">
+      <div class="col-2">
+        <img src="assets/images/VoyageIcons/128x128/white/verification-clipboard.png" height="32px" />
+      </div>
+      <div class="col-8">
+        <h4>Reporting for this port call</h4>
+      </div>
+    </div>
+  </div>
+  <div class="card-body text-left">
+    <form class="form-inline">
+      <div class="form-check mx-2" *ngFor="let cb of checkboxes">
+        <input class="form-check-input" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
+        <label class="form-check-label" for="{{cb.name}}">
+          <img src="{{baseIconUrl}}{{cb.icon}}" height="16px">{{cb.name}}
+        </label>
+      </div>
+    </form>
+  </div>
+</div>

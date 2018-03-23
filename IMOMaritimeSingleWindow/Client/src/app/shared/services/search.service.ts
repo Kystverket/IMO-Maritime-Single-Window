@@ -11,7 +11,6 @@ export class SearchService {
     public search(baseUrl: string, term: string) {
         
         let encoded_term:string = encodeURIComponent(term);
-        console.log(encoded_term);
 
         if (term === '') {
             return of([]);
