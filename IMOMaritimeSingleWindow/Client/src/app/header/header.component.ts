@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { UserService } from '../shared/services/user.service';
+import { LoginService } from '../shared/services/login.service';
 import { MenuEntry } from '../shared/models/menu-entry.interface';
 import { ContentService } from '../shared/services/content.service';
 
@@ -18,17 +18,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
-    {title: "USERS",       iconPath: this.icon_path + "pax.png",        componentDescription: "Register User" },
+    {title: "USERS",       iconPath: this.icon_path + "user.png",        componentDescription: "Register User" },
     {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship" },
     {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location" },
     {title: "COMPANIES",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Company" },
     {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Register Port Call" }
   ];
 
-  constructor(private userService: UserService, private contentService: ContentService) { }
+  constructor(private loginService: LoginService, private contentService: ContentService) { }
 
   logout() {
-    this.userService.logout();
+    this.loginService.logout();
   }
 
   setContent(contentName: string) {
@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscription = this.userService.authNavStatus$.subscribe(status => this.loggedIn = status);
+    this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
 
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
   }

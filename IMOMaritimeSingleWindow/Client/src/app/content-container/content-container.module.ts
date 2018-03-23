@@ -17,7 +17,7 @@ import { CompanyFormComponent } from './basis-data/company/company-form/company-
 import { ShipService } from '../shared/services/ship.service';
 import { CompanyService } from '../shared/services/company.service';
 import { CountryService } from '../shared/services/country.service';
-
+import { UserService } from '../shared/services/user.service';
 import { LocationService } from '../shared/services/location.service';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
 
@@ -50,7 +50,6 @@ import { PortCallModule } from './port-call/port-call.module';
     SearchCountryComponent,
     SearchShipFlagCodeComponent,
   ],
-  exports: [ContentContainerComponent],
-  providers: [ShipService, LocationService, CountryService, ShipFlagCodeService],
+  exports: [ContentContainerComponent]
 })
 export class ContentContainerModule { }
