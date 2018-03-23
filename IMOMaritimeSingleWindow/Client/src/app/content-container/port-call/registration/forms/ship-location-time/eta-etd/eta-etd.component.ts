@@ -83,13 +83,13 @@ export class EtaEtdComponent implements OnInit {
   }
 
   private validateData(): void {
-    if (this.etaDateModel.year != null && this.etdDateModel.year != null) {
+    if ((this.etaDateModel != null && this.etaDateModel.year != null) && (this.etdDateModel != null && this.etdDateModel.year != null)) {
       this.dateSequenceError = after(this.etaDateModel, this.etdDateModel);
       if (equals(this.etaDateModel, this.etdDateModel)) {
         if ((this.etaTimeModel != null && this.etaTimeModel.hour != null) && (this.etdTimeModel != null && this.etdTimeModel.hour != null)) {
           this.timeSequenceError = (this.etaTimeModel.hour > this.etdTimeModel.hour)
             || ((this.etaTimeModel.hour == this.etdTimeModel.hour) && (this.etaTimeModel.minute >= this.etdTimeModel.minute));
-        } else { 
+        } else {
           this.timeSequenceError = false;
         }
       } else {
