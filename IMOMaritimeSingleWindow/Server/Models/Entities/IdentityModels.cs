@@ -87,26 +87,17 @@ namespace IMOMaritimeSingleWindow.Models.Entities
         {
         }
 
+        /// <summary>
+        /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Models.Entities.UserRoleManager.GetClaimsAsync(TUser)"/>.
+        /// </summary>
         public override Task<IList<System.Security.Claims.Claim>> GetClaimsAsync(ApplicationUser user)
         {
-            
-            List<System.Security.Claims.Claim> claims = new List<System.Security.Claims.Claim>();
-
-            return base.GetClaimsAsync(user);
-            
-            
+            throw new NotImplementedException();
         }
 
         public override Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string userName)
         {
-
-            //Debugging
-            StackTrace stackTrace = new StackTrace();
-            Console.WriteLine("SetUserNameAsync in ApplicationUserManager called!");
-            Console.WriteLine(stackTrace.GetFrame(1).GetMethod().Name);
-            
             string _userName = userName.Split('@')[0];
-            
             return base.SetUserNameAsync(user, _userName);
         }
     }

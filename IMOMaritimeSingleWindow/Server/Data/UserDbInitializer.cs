@@ -31,28 +31,25 @@ namespace IMOMaritimeSingleWindow.Data
         public async Task SeedAsync()
         {
             
-            //If no roles exist
-            if(!_roleManager.Roles.Any())
-            {
-                var adminRole = new ApplicationRole("admin");
-                await _roleManager.CreateAsync(adminRole);
-                //Also add a default claim associated with that role
-                await _roleManager.AddClaimAsync(adminRole, new System.Security.Claims.Claim
-                (System.Security.Claims.ClaimTypes.Role, "admin"));
-            }
+            var adminRole = new ApplicationRole("admin");
+            await _roleManager.CreateAsync(adminRole);
+            //Also add a default claim associated with that role
+            await _roleManager.AddClaimAsync(adminRole, new System.Security.Claims.Claim
+            (System.Security.Claims.ClaimTypes.Role, "admin"));
 
+            ApplicationUser user;
             if(_userManager.FindByNameAsync("admin") != null)
             {
-                var user = new ApplicationUser
+                user = new ApplicationUser
                 {
                     UserName = "admin",
                     Email = "admin@test.no",
                     EmailConfirmed = true
                 };
                 await _userManager.CreateAsync(user, "Tester123");
-                
                 await _userManager.AddToRoleAsync(user, "admin");
             }
+            
             await Task.FromResult(0);
         }
 

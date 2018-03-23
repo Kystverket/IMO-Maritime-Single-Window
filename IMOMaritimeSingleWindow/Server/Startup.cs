@@ -171,15 +171,10 @@ namespace IMOMaritimeSingleWindow
           // api user claim policy
           services.AddAuthorization(options =>
           {
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-              //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
-                options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
+            options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+              
 
-                options.AddPolicy("RegisterPortCall", policy => policy.RequireClaim("", "")
-                                                    .RequireClaim("", "")
-                );
-
-              options.AddPolicy("Port Call Registration", policy =>
+            options.AddPolicy("Port Call Registration", policy =>
                 policy.RequireAssertion(context =>
                     context.User.HasClaim(claim =>
                         // User has the role of an admin

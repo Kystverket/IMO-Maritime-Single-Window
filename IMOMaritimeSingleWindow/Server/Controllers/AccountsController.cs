@@ -7,11 +7,13 @@ using IMOMaritimeSingleWindow.Models.Entities;
 using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")] 
     public class AccountsController : Controller
     {
@@ -28,6 +30,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _appDbContext = appDbContext;
         }
 
+        [Authorize(Roles = "admin")]
         // POST api/accounts/register
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
@@ -43,11 +46,6 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             
-            if(userIdentity.NormalizedUserName == "ADMIN")
-            {
-                var user = await _userManager.FindByNameAsync(userIdentity.NormalizedUserName);
-                await _userManager.AddToRoleAsync(user, "admin");
-            }
 
             //await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
             await _appDbContext.SaveChangesAsync();

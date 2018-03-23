@@ -32,8 +32,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _userRoleManager = userRoleManager;
             _mapper = mapper;
         }
-
-        [Authorize(Policy = "AdminUser")]
+        
         // GET /api/test/admindata
         [HttpGet("admindata")]
         public JsonResult GetAdminData()
