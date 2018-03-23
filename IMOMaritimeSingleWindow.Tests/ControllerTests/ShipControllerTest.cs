@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using IMOMaritimeSingleWindow.Controllers;
@@ -56,6 +58,36 @@ namespace IMOMaritimeSingleWindow.Tests
                     CallSign = "321GHI",
                     ImoNo = 111999,
                     MmsiNo = 123999
+                },
+
+                new Ship {
+                    // Empty test
+                },
+
+                new Ship {
+                    ShipName = "",
+                    CallSign = "",
+                    ImoNo = null,
+                    MmsiNo = 123789
+                },
+
+                new Ship {
+                    ShipName = null,
+                    CallSign = null,
+                    ImoNo = 321394893,
+                    MmsiNo = null
+                },
+
+                new Ship {
+                    ShipName = "",
+                    CallSign = "321ABCDEF"
+                },
+
+                new Ship {
+                    ShipName = null,
+                    CallSign = null,
+                    ImoNo = null,
+                    MmsiNo = null
                 }
             };
             
@@ -87,39 +119,23 @@ namespace IMOMaritimeSingleWindow.Tests
         [TestCase("1234")]
         public void SearchShip_returns_expected_result(string searchTerm)
         {
-            shipController.RegisterShip(data[0]);
-            shipController.RegisterShip(data[1]);
-            shipController.RegisterShip(data[2]);
+            foreach(Ship s in data)
+            {
+                shipController.RegisterShip(s);
+            }
             
             var expected = new List<Ship>();
             foreach(Ship s in data)
             {
-                if (s.ShipName.ToLower().StartsWith(searchTerm.ToLower()) 
-                || s.CallSign.ToLower().StartsWith(searchTerm.ToLower())
-                || s.ImoNo.ToString().ToLower().StartsWith(searchTerm.ToLower())
-                || s.MmsiNo.ToString().ToLower().StartsWith(searchTerm.ToLower())) expected.Add(s);
+                if (s.ShipName != null && s.ShipName.ToLower().StartsWith(searchTerm.ToLower()) 
+                || s.CallSign != null && s.CallSign.ToLower().StartsWith(searchTerm.ToLower())
+                || s.ImoNo != null && s.ImoNo.ToString().ToLower().StartsWith(searchTerm.ToLower())
+                || s.MmsiNo != null && s.MmsiNo.ToString().ToLower().StartsWith(searchTerm.ToLower())) expected.Add(s);
             }
 
             var result = shipController.SearchShip(searchTerm);
 
             Assert.That(result, Is.EqualTo(expected));
         }
-
-        public void SearchShip_does
-
-        // [TestCase("match", "match_shipName1", "match_shipName2", "noMatch_shipName3")]
-        // public void SearchShip_returns_expected_result(string searchTerm, params string[] shipNames)
-        // {
-        //     var expected = new List<Ship>();
-        //     foreach(string sn in shipNames)
-        //     {
-        //         Ship aShip = new Ship{ShipName = sn};
-        //         if (sn.ToLower().StartsWith(searchTerm.ToLower())) expected.Add(aShip);
-        //     }
-
-        //     var result = shipController.SearchShip(searchTerm);
-
-        //     Assert.That(result, Is.EqualTo(expected));
-        // }
     }
 }
