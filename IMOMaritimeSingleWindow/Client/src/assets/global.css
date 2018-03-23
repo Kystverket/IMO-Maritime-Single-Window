@@ -25,6 +25,9 @@ div .bg-ssn-light {
     margin-bottom: 50px;
 }
 
+.clickable {
+    cursor: pointer;
+}
 
 
 .btn-ssn { 
