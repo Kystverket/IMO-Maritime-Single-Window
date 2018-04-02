@@ -9,7 +9,10 @@ import { PurposeService } from './purpose.service';
 })
 export class PurposeComponent implements OnInit {
 
+  selectedPurposes: any[];
   purposeList: any[];
+
+  otherPurposeSelected = false;
 
   constructor(private purposeService: PurposeService) { }
 
@@ -17,6 +20,10 @@ export class PurposeComponent implements OnInit {
     this.purposeService.getPurposes().subscribe(
       data => this.purposeList = data
     );
+  }
+
+  purposeSelected() {
+    this.otherPurposeSelected = this.selectedPurposes.includes("Other");
   }
 
 }

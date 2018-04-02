@@ -15,8 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
-
-
+import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
 
 @NgModule({
   imports: [
@@ -37,7 +36,8 @@ import { PurposeComponent } from './registration/forms/port-call-details/purpose
     PortCallDetailsComponent,
     ReportingComponent,
     CrewPassengersDimensionsComponent,
-    PurposeComponent
+    PurposeComponent,
+    CargoComponent
   ],
   exports: [
     RegistrationComponent
