@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
+import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 
 
 
@@ -35,7 +36,8 @@ import { CrewPassengersDimensionsComponent } from './registration/forms/port-cal
     ConfirmDataComponent,
     PortCallDetailsComponent,
     ReportingComponent,
-    CrewPassengersDimensionsComponent
+    CrewPassengersDimensionsComponent,
+    PurposeComponent
   ],
   exports: [
     RegistrationComponent
