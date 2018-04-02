@@ -13,6 +13,7 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 
 
 
@@ -33,7 +34,8 @@ import { HttpModule } from '@angular/http';
     EtaEtdComponent,
     ConfirmDataComponent,
     PortCallDetailsComponent,
-    ReportingComponent
+    ReportingComponent,
+    CrewPassengersDimensionsComponent
   ],
   exports: [
     RegistrationComponent

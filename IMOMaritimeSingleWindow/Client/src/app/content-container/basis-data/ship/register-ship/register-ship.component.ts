@@ -11,6 +11,8 @@ import { ShipModel } from '../../../../shared/models/ship-model';
 })
 export class RegisterShipComponent implements OnInit {
 
+  shipModel: ShipModel;
+
   countrySelected: boolean;
   companySelected: boolean;
   shipFlagCodeSelected: boolean;
@@ -38,7 +40,7 @@ export class RegisterShipComponent implements OnInit {
 
 
 
-  constructor(private shipModel: ShipModel, private shipService: ShipService) { }
+  constructor(shipModel: ShipModel, private shipService: ShipService) { }
 
   selectShipType(shipType: any) {
     this.shipModel.shipTypeId = shipType.shipTypeId;
