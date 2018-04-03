@@ -80,6 +80,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("add")]
         public IActionResult Add([FromBody] PortCall portCall)
         {
+            Console.WriteLine("REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
             if (portCall == null)
             {
                 return BadRequest("Empty body");
