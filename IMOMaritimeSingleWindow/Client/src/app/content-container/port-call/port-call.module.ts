@@ -13,6 +13,8 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { OverviewComponent } from './overview/overview.component';
+import { PortCallComponent } from './port-call.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
@@ -37,10 +39,12 @@ import { CargoComponent } from './registration/forms/port-call-details/cargo/car
     ReportingComponent,
     CrewPassengersDimensionsComponent,
     PurposeComponent,
-    CargoComponent
+    CargoComponent,
+    OverviewComponent,
+    PortCallComponent
   ],
   exports: [
-    RegistrationComponent
+    PortCallComponent
   ]
 })
 export class PortCallModule { }
