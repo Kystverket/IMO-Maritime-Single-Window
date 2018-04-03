@@ -14,6 +14,18 @@ export class PortCallService {
 
   // Global
 
+  wipeServiceData() {
+    this.portCallModel = new PortCallModel();
+
+    this.shipDataSource.next(null);
+    this.locationDataSource.next(null);
+    this.etaEtdDataSource.next(null);
+    this.reportingForThisPortCallSource.next(null);
+    this.crewPassengersAndDimensionsSource.next(null);
+    this.cargoWeightSource.next(null);
+    this.portCallPurposeSource.next(null);
+  }
+
   savePortCall() {
     let portCall: any = this.portCallModel;
     this.http.post(this.savePortCallUrl, portCall).map(res => res.json()).subscribe(data => console.log(data));
@@ -63,11 +75,7 @@ export class PortCallService {
     } else {
       this.portCallModel.locationEta = null;
       this.portCallModel.locationEtd = null;
-    }
-    
-    console.log(this.portCallModel);
-    
-    
+    }    
     this.etaEtdDataSource.next(data);
   }
 
