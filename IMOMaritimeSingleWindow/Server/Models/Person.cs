@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -13,7 +13,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-    
+
         public ICollection<PersonRole> PersonRole { get; set; }
     }
 }

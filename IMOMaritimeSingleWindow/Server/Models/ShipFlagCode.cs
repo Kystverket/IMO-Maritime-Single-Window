@@ -13,7 +13,6 @@ namespace IMOMaritimeSingleWindow.Models
         public int ShipFlagCodeId { get; set; }
         public int CountryId { get; set; }
         public string ShipFlagCode1 { get; set; }
-        public string SystemName { get; set; }
         public string Description { get; set; }
 
         public Country Country { get; set; }

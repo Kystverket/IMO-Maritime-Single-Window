@@ -12,7 +12,6 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int ShipSourceId { get; set; }
         public string ShipSource1 { get; set; }
-        public string SystemName { get; set; }
         public string Description { get; set; }
 
         public ICollection<Ship> Ship { get; set; }

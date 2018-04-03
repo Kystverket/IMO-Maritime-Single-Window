@@ -11,9 +11,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export class AppComponent implements OnInit {
   
-  constructor(
-    private location: Location
-  ) { }
+  clientHeight: number;
+
+  constructor() { 
+    this.clientHeight = window.innerHeight;
+  }
 
   ngOnInit(): void {
   }

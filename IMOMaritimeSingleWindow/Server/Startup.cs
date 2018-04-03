@@ -206,6 +206,11 @@ namespace IMOMaritimeSingleWindow
             services.AddAutoMapper();
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+          // Fix for json self-referencing loop bug:
+          services.AddMvc().AddJsonOptions(
+            options => options.SerializerSettings.ReferenceLoopHandling = 
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore
+          );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

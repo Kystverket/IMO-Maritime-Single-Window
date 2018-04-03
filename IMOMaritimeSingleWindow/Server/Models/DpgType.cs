@@ -12,7 +12,6 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int DpgTypeId { get; set; }
         public string DpgTypeName { get; set; }
-        public string SystemName { get; set; }
         public string Description { get; set; }
 
         public ICollection<Dpg> Dpg { get; set; }

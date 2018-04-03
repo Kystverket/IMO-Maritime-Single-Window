@@ -12,7 +12,6 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int PortCallStatusId { get; set; }
         public string PortCallStatus1 { get; set; }
-        public string SystemName { get; set; }
         public string Description { get; set; }
 
         public ICollection<PortCall> PortCall { get; set; }
