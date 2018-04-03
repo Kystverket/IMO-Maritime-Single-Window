@@ -20,6 +20,19 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   actualDraughtError: string;
   airDraughtError: string;
 
+  constructor(private portCallService: PortCallService) { }
+
+  ngOnInit() {
+    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+      data => {
+        if (data != null) {
+          this.crewPassengersAndDimensionsModel = data;
+        }
+      }
+    );
+    this.validateData();
+  }
+
   numberOfCrewChanged($event) {
     this.checkForNumberOfCrewError($event);
     this.persistData();
@@ -30,7 +43,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     this.persistData();
   }
 
-  actualDraughtChanged($event) {    
+  actualDraughtChanged($event) {
     this.checkForActualDraughtError($event);
     this.persistData();
   }
@@ -76,7 +89,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     }
   }
 
-  private validateData() {    
+  private validateData() {
     this.checkForNumberOfCrewError(this.crewPassengersAndDimensionsModel.numberOfCrew);
     this.checkForNumberOfPassengersError(this.crewPassengersAndDimensionsModel.numberOfPassengers);
     this.checkForActualDraughtError(this.crewPassengersAndDimensionsModel.actualDraught);
@@ -86,18 +99,4 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   private persistData() {
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
-
-  constructor(private portCallService: PortCallService) { }
-
-  ngOnInit() {    
-    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
-      data => {        
-        if (data != null) {
-          this.crewPassengersAndDimensionsModel = data;
-        }
-      }
-    );
-    this.validateData();
-  }
-
 }
