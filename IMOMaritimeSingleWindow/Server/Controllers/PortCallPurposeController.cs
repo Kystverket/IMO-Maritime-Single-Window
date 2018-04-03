@@ -28,7 +28,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(resultList);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("portcall/{id}")]
+        public IActionResult GetByPortCallId(int id)
+        {
+            List<int> m2mList = (from p in _context.PortCallHasPortCallPurpose
+                                                where p.PortCallId == id
+                                                select p.PortCallPurposeId).ToList();
+
+            List<PortCallPurpose> resultList = _context.PortCallPurpose.Where(p => m2mList.Contains(p.PortCallPurposeId)).ToList();
+            return Json(resultList);
+
+        }
+
+        [HttpGet("get/{id}")]
         public IActionResult Get(int id)
         {
             PortCallPurpose purpose = _context.PortCallPurpose.FirstOrDefault(p => p.PortCallPurposeId == id);
@@ -38,6 +50,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(purpose);
         }
+
+
     }
 
 

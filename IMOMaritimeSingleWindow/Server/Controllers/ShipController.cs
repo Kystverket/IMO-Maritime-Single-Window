@@ -49,50 +49,26 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             
             List<Ship> results = SearchShip(searchTerm);
-            List<ShipSearchResult> resultList = new List<ShipSearchResult>();
+            List<ShipOverview> resultList = new List<ShipOverview>();
 
             foreach (Ship s in results)
             {
 
-                ShipSearchResult searchItem = new ShipSearchResult();
-                searchItem.ShipId = s.ShipId; // TODO: deal with nullpointerexception?
-                searchItem.ShipName = (s.ShipName != null) ? s.ShipName : string.Empty;
-                searchItem.CallSign = (s.CallSign != null) ? s.CallSign : string.Empty;
-                searchItem.ImoNo = s.ImoNo;
-                searchItem.MmsiNo = s.MmsiNo;
-                searchItem.ShipHullTypeId = s.ShipHullTypeId;
-                searchItem.ShipStatusId = s.ShipStatusId;
-                searchItem.ShipPowerTypeId =  s.ShipPowerTypeId;
-                searchItem.ShipBreadthTypeId = s.ShipBreadthTypeId;
-                searchItem.ShipLengthTypeId = s.ShipLengthTypeId;
-                searchItem.ShipSourceId = s.ShipSourceId;
-                searchItem.ShipFlagCodeId = s.ShipFlagCodeId;
-                searchItem.CompanyId = s.CompanyId;
-                searchItem.ShipTypeId = s.ShipTypeId;
-                searchItem.YearOfBuild = s.YearOfBuild;
-                searchItem.DeadweightTonnage = s.DeadweightTonnage;
-                searchItem.GrossTonnage = s.GrossTonnage;
-                searchItem.ShipLength = s.ShipLength;
-                searchItem.Breadth = s.Breadth;
-                searchItem.Power = s.Power;
-                searchItem.Height = s.Height;
-                searchItem.Draught = s.Draught;
-                searchItem.HasSideThrusters = s.HasSideThrusters;
-                searchItem.HasSideThrustersBack = s.HasSideThrustersBack;
-                searchItem.Remark = s.Remark;
+                ShipOverview searchItem = new ShipOverview();
+                searchItem.Ship = s;
                 
                 // Find country id so we can get the country's 2CC which is used to add flags
                 var cId = (from sfc in _context.ShipFlagCode
                            where sfc.ShipFlagCodeId == s.ShipFlagCodeId
                            select sfc.CountryId).FirstOrDefault();
 
-                searchItem.TwoCharCode = (from c in _context.Country
+                searchItem.Country = (from c in _context.Country
                                           where c.CountryId == cId
-                                          select c.TwoCharCode).First().ToString().ToLower();
+                                          select c).FirstOrDefault();
 
-                searchItem.ShipTypeName = (from st in _context.ShipType
-                                    where st.ShipTypeId == searchItem.ShipTypeId
-                                    select st.ShipType1).FirstOrDefault();
+                searchItem.ShipType = (from st in _context.ShipType
+                                    where st.ShipTypeId == searchItem.Ship.ShipTypeId
+                                    select st).FirstOrDefault();
 
 
                 resultList.Add(searchItem);
