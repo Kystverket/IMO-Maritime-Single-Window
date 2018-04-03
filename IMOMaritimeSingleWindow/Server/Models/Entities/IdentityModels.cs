@@ -142,7 +142,7 @@ namespace IMOMaritimeSingleWindow.Models.Entities
         }
 
     }
-
+    
     //TODO: Implement/extend UserClaimStore and disable AddClaimsAsync method
     
 
