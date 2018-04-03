@@ -27,9 +27,11 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTime? LocationAta { get; set; }
         public DateTime? NextLocationEta { get; set; }
         public DateTime? NextLocationAta { get; set; }
+        public int? PersonId { get; set; }
 
         public Location Location { get; set; }
         public Location NextLocation { get; set; }
+        public Person Person { get; set; }
         public PortCallStatus PortCallStatus { get; set; }
         public Location PreviousLocation { get; set; }
         public Ship Ship { get; set; }

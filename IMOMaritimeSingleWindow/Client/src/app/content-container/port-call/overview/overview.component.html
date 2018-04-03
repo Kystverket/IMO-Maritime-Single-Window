@@ -1,0 +1,37 @@
+<div>
+    <div *ngIf="overviewFound">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Ship</th>
+                        <th>Previous Location</th>
+                        <th>Location</th>
+                        <th>ETA</th>
+                        <th>ETD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ov of overviewModels">
+                        <td>
+                            {{ ov.shipOverview.ship.shipName }}</td>
+                        <td>
+                            <div *ngIf="ov.previousLocationOverview != null">
+                                <img src="assets/images/Flags/{{ov.previousLocationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
+                                {{ ov.previousLocationOverview.location.locationName }}
+                            </div>
+                        </td>
+                        <td>
+                            <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
+                            {{ ov.locationOverview.location.locationName }}
+                        </td>
+                        <td>{{ ov.portCall.locationEta | date: 'dd-MM-yyyy HH:mm:ss' }} </td>
+                        <td>{{ ov.portCall.locationEtd | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>

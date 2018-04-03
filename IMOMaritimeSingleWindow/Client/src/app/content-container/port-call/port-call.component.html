@@ -1,0 +1,5 @@
+<div [ngSwitch]="selectedComponent">
+    <app-overview *ngSwitchCase="'Overview'"></app-overview>  
+    <app-registration *ngSwitchCase="'Register Port Call'"></app-registration>
+    <p *ngSwitchDefault>This is the default page</p>
+</div>

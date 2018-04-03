@@ -62,7 +62,7 @@ export class ShipService {
 
     getShipTypes() {
         return this.http.get(this.shipTypeUrl)
-            .map(res => res.json());
+                .map(res => res.json());
     }
 
     getHullTypes() {
