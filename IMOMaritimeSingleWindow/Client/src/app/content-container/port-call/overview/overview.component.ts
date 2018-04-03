@@ -24,7 +24,7 @@ export class OverviewComponent implements OnInit {
   constructor(private overviewService: PortCallOverviewService) { }
 
   ngOnInit() {
-    this.overviewService.getPortCallsByLocation(this.myLocationId).subscribe(
+    this.overviewService.getPortCalls().subscribe(
       pcData => {
         pcData.forEach(pc => {
           this.overviewService.getOverview(pc.portCallId).subscribe(
