@@ -35,6 +35,17 @@ export class PortCallService {
     let uri:string = [this.getPurposeUrl, purposeId].join('/');
     return this.http.get(uri).map(res => res.json());
   }
+
+  resetPortCall() {
+    this.setShipData(null);
+    this.setLocationData(null);
+    this.setCargoWeightData(null);
+    this.setPortCallPurposeData(null);
+    this.setEtaEtdData(null);
+    this.setCrewPassengersAndDimensionsData(null);
+    this.setReportingForThisPortCallData(null);
+    this.portCallModel = new PortCallModel();
+  }
   
   setPortCall(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);

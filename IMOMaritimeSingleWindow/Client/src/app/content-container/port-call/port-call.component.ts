@@ -17,6 +17,7 @@ export class PortCallComponent implements OnInit {
   }
 
   selectRegister() {
+    this.portCallService.resetPortCall();
     this.contentService.setContent('Register Port Call');
   }
 
