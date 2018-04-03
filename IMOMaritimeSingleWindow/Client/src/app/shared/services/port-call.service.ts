@@ -66,7 +66,7 @@ export class PortCallService {
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
   setShipData(data) {
-    this.portCallModel.shipId = data != null ? data.shipId : null;    
+    this.portCallModel.shipId = data != null ? data.ship.shipId : null;    
     this.shipDataSource.next(data);
   }
 
