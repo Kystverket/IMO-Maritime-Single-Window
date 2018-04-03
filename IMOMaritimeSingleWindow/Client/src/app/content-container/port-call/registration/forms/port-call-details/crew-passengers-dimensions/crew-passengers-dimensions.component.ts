@@ -30,7 +30,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     this.persistData();
   }
 
-  actualDraughtChanged($event) {
+  actualDraughtChanged($event) {    
     this.checkForActualDraughtError($event);
     this.persistData();
   }
@@ -76,7 +76,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     }
   }
 
-  private validateData() {
+  private validateData() {    
     this.checkForNumberOfCrewError(this.crewPassengersAndDimensionsModel.numberOfCrew);
     this.checkForNumberOfPassengersError(this.crewPassengersAndDimensionsModel.numberOfPassengers);
     this.checkForActualDraughtError(this.crewPassengersAndDimensionsModel.actualDraught);
@@ -89,15 +89,15 @@ export class CrewPassengersDimensionsComponent implements OnInit {
 
   constructor(private portCallService: PortCallService) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
-      data => {
+      data => {        
         if (data != null) {
           this.crewPassengersAndDimensionsModel = data;
-          this.validateData();
         }
       }
     );
+    this.validateData();
   }
 
 }
