@@ -8,7 +8,7 @@ export class PortCallModel {
     previousLocationId: number;
     locationId: number;
     shipId: number;
-    portCallStatusId: number;
+    portCallStatusId: number = 100235;
     remark: string;
     previousLocationEtd: Date;
     previousLocationAtd: Date;
@@ -18,4 +18,5 @@ export class PortCallModel {
     locationAta: Date;
     nextLocationEta: Date;
     nextLocationAta: Date;
+    personId: number;
 }

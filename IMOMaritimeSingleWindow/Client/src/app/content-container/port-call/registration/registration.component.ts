@@ -6,8 +6,7 @@ import { ContentService } from '../../../shared/services/content.service';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
-  providers: [PortCallService]
+  styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 

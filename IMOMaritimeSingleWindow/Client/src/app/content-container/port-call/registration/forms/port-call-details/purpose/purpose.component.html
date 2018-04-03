@@ -1,0 +1,26 @@
+<div class="card card-ssn text-center">
+  <div class="card-header bg-ssn text-ssn">
+    <div class="row">
+      <div class="col-2">
+        <img src="assets/images/VoyageIcons/128x128/white/target.png" height="32px" />
+      </div>
+      <div class="col-8">
+        <h4>Port call purpose</h4>
+      </div>
+    </div>
+  </div>
+  <div class="card-body text-left">
+    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="5">
+      <option *ngFor="let purpose of purposeList" value="{{purpose.portCallPurposeId}}">{{ purpose.portCallPurpose1 }}</option>
+      <option>Other</option>
+    </select>
+    <pre>Model: {{ selectedPurposes | json }}</pre>
+    <div *ngIf="otherPurposeSelected" class="form-group">
+      <label class="control-label" for="other_purpose">Specify Other Purpose</label>
+      <div class="col">
+        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter other purpose"
+        />
+      </div>
+    </div>
+  </div>
+</div>
