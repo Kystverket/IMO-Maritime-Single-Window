@@ -13,10 +13,10 @@ export class PortCallComponent implements OnInit {
   constructor(private contentService: ContentService) { }
 
   ngOnInit() {
-    this.contentService.portCallName$.subscribe((content) => {
-      console.log(content);
-      this.selectedComponent = content;
-    })
+  }
+
+  selectRegister() {
+    this.contentService.setContent('Register Port Call');
   }
 
 }

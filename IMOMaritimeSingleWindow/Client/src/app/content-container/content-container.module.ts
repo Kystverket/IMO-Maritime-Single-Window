@@ -49,7 +49,7 @@ import { PortCallModule } from './port-call/port-call.module';
     CompanyFormComponent,
     SearchCompanyComponent,
     SearchCountryComponent,
-    SearchShipFlagCodeComponent,
+    SearchShipFlagCodeComponent
   ],
   exports: [ContentContainerComponent]
 })

@@ -30,7 +30,6 @@ export class OverviewComponent implements OnInit {
           this.overviewService.getOverview(pc.portCallId).subscribe(
             ovData => {
               this.overviewModels.push(ovData);
-              console.log(ovData);
             }
           )
         });

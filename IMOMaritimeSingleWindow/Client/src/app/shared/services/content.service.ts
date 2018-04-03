@@ -18,10 +18,6 @@ export class ContentService extends BaseService {
         this.contentSource.next(contentName);
     }
 
-    setPortCall(contentName: string) {
-        this.portCallSource.next(contentName);
-    }
-
     setPortCallForm(contentName: string) {
         this.portCallFormSource.next(contentName);
     }

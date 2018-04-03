@@ -1,32 +1,47 @@
 <div>
+    
+    
     <div *ngIf="overviewFound">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr class="bg-ssn text-ssn">
-                        <th>Ship</th>
-                        <th>Previous Location</th>
+                        <th colspan="2">Ship</th>
+                        <th colspan="2">Departure</th>
+                        <th colspan="2">Arrival</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Ship Name</th>
+                        <th>Call Sign</th>
+
+                        <th>Location</th>
+                        <th>ETD</th>
+
                         <th>Location</th>
                         <th>ETA</th>
-                        <th>ETD</th>
+
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let ov of overviewModels">
-                        <td>
-                            {{ ov.shipOverview.ship.shipName }}</td>
+                        <td>{{ ov.shipOverview.ship.shipName }}</td>
+                        <td>{{ ov.shipOverview.ship.callSign }}</td>
                         <td>
                             <div *ngIf="ov.previousLocationOverview != null">
-                                <img src="assets/images/Flags/{{ov.previousLocationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
-                                {{ ov.previousLocationOverview.location.locationName }}
+                                <img src="assets/images/Flags/{{ov.previousLocationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ ov.previousLocationOverview.location.locationName }}
                             </div>
                         </td>
+                        <td>{{ ov.portCall.previousLocationEtd | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
                         <td>
-                            <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
-                            {{ ov.locationOverview.location.locationName }}
+                            <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ ov.locationOverview.location.locationName }}
                         </td>
                         <td>{{ ov.portCall.locationEta | date: 'dd-MM-yyyy HH:mm:ss' }} </td>
-                        <td>{{ ov.portCall.locationEtd | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
+
+                        <td>
+                            <img src="assets/images/ActionIcons/32x32/icon-update.png" height="20px" />
+                        </td>
                     </tr>
                 </tbody>
             </table>
