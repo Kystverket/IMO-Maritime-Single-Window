@@ -9,6 +9,7 @@
                         <th colspan="2">Ship</th>
                         <th colspan="2">Departure</th>
                         <th colspan="2">Arrival</th>
+                        <th>Actions</th>
                     </tr>
                     <tr class="bg-ssn text-ssn">
                         <th>Ship Name</th>
@@ -19,6 +20,8 @@
 
                         <th>Location</th>
                         <th>ETA</th>
+
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +38,10 @@
                             <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ ov.locationOverview.location.locationName }}
                         </td>
                         <td>{{ ov.portCall.locationEta | date: 'dd-MM-yyyy HH:mm:ss' }} </td>
+
+                        <td>
+                            <img src="assets/images/ActionIcons/32x32/icon-update.png" height="20px" />
+                        </td>
                     </tr>
                 </tbody>
             </table>
