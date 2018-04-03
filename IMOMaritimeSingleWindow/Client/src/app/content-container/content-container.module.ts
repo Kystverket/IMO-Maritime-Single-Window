@@ -20,6 +20,7 @@ import { CountryService } from '../shared/services/country.service';
 import { UserService } from '../shared/services/user.service';
 import { LocationService } from '../shared/services/location.service';
 import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
+import { PortCallOverviewService } from '../shared/services/port-call-overview.service'
 
 import { SearchCountryComponent } from './basis-data/country/search-country/search-country.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';

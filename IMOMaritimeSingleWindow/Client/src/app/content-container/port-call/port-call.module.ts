@@ -13,6 +13,8 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { OverviewComponent } from './overview/overview.component';
+import { PortCallComponent } from './port-call.component';
 
 
 
@@ -33,10 +35,12 @@ import { HttpModule } from '@angular/http';
     EtaEtdComponent,
     ConfirmDataComponent,
     PortCallDetailsComponent,
-    ReportingComponent
+    ReportingComponent,
+    OverviewComponent,
+    PortCallComponent
   ],
   exports: [
-    RegistrationComponent
+    PortCallComponent
   ]
 })
 export class PortCallModule { }

@@ -8,6 +8,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Person()
         {
             PersonRole = new HashSet<PersonRole>();
+            PortCall = new HashSet<PortCall>();
         }
 
         public int PersonId { get; set; }
@@ -15,5 +16,6 @@ namespace IMOMaritimeSingleWindow.Models
         public string LastName { get; set; }
 
         public ICollection<PersonRole> PersonRole { get; set; }
+        public ICollection<PortCall> PortCall { get; set; }
     }
 }
