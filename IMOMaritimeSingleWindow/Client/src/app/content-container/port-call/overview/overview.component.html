@@ -1,4 +1,6 @@
 <div>
+    
+    
     <div *ngIf="overviewFound">
         <div class="table-responsive">
             <table class="table table-bordered">
@@ -25,14 +27,12 @@
                         <td>{{ ov.shipOverview.ship.callSign }}</td>
                         <td>
                             <div *ngIf="ov.previousLocationOverview != null">
-                                <img src="assets/images/Flags/{{ov.previousLocationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
-                                {{ ov.previousLocationOverview.location.locationName }}
+                                <img src="assets/images/Flags/{{ov.previousLocationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ ov.previousLocationOverview.location.locationName }}
                             </div>
                         </td>
                         <td>{{ ov.portCall.previousLocationEtd | date: 'dd-MM-yyyy HH:mm:ss' }}</td>
                         <td>
-                            <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> 
-                            {{ ov.locationOverview.location.locationName }}
+                            <img src="assets/images/Flags/{{ov.locationOverview.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ ov.locationOverview.location.locationName }}
                         </td>
                         <td>{{ ov.portCall.locationEta | date: 'dd-MM-yyyy HH:mm:ss' }} </td>
                     </tr>

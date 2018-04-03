@@ -40,7 +40,8 @@ import { PortCallComponent } from './port-call.component';
     PortCallComponent
   ],
   exports: [
-    PortCallComponent
+    PortCallComponent,
+    RegistrationComponent
   ]
 })
 export class PortCallModule { }
