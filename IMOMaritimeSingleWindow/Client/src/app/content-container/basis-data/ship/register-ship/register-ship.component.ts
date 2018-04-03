@@ -37,8 +37,8 @@ export class RegisterShipComponent implements OnInit {
   shipSourceDropdownString: string = "Select ship source";
 
 
-
-  constructor(private shipModel: ShipModel, private shipService: ShipService) { }
+  // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
+  constructor(public shipModel: ShipModel, private shipService: ShipService) { }
 
   selectShipType(shipType: any) {
     this.shipModel.shipTypeId = shipType.shipTypeId;

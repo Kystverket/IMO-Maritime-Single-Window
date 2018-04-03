@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship" },
     {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location" },
     {title: "COMPANIES",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Company" },
-    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Register Port Call" }
+    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call" }
   ];
 
   constructor(private loginService: LoginService, private contentService: ContentService) { }

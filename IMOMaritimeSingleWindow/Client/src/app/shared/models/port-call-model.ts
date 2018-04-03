@@ -2,13 +2,13 @@ import { EtaEtdDateTime } from './eta-etd-interface';
 import { EtaEtdModel } from './eta-etd-model';
 import { DatePipe } from '@angular/common';
 
-export class PortCallModel {XS
+export class PortCallModel {
     portCallId: number;
     nextLocationId: number;
     previousLocationId: number;
     locationId: number;
     shipId: number;
-    portCallStatusId: number;
+    portCallStatusId: number = 100235;
     remark: string;
     previousLocationEtd: Date;
     previousLocationAtd: Date;
@@ -18,4 +18,5 @@ export class PortCallModel {XS
     locationAta: Date;
     nextLocationEta: Date;
     nextLocationAta: Date;
+    personId: number;
 }

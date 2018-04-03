@@ -18,14 +18,6 @@ export class ConfirmDataComponent implements OnInit {
 
   constructor(private portCallService: PortCallService) { }
 
-  dateTimeFormat(number: number) {
-    if (number <= 9) {
-      return "0" + number;
-    } else {
-      return number;
-    }
-  }
-
   ngOnInit() {
     this.portCallService.shipData$.subscribe(
       data => {
@@ -45,5 +37,21 @@ export class ConfirmDataComponent implements OnInit {
         this.etaEtdModel = data;
       }
     );
+  }
+
+  dateTimeFormat(number: number) {
+    if (number <= 9) {
+      return "0" + number;
+    } else {
+      return number;
+    }
+  }
+
+  startPortCallRegistration() {
+    if (!this.shipFound || !this.locationFound || !this.dateTimeFound) {
+      return;
+    }
+
+    this.portCallService.savePortCall();
   }
 }
