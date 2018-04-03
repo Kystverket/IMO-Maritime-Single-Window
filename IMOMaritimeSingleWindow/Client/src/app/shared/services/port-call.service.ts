@@ -7,7 +7,7 @@ import { PortCallModel } from '../models/port-call-model';
 @Injectable()
 export class PortCallService {
 
-  private savePortCallUrl: string = "api/portcall/add";
+  private savePortCallUrl: string = "api/portcall/register";
   private portCallModel = new PortCallModel();
 
   constructor(private http: Http) { }

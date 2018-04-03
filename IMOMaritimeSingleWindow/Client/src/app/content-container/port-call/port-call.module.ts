@@ -45,7 +45,8 @@ import { PortCallService } from '../../shared/services/port-call.service';
     PortCallComponent
   ],
   exports: [
-    PortCallComponent
+    PortCallComponent,
+    RegistrationComponent
   ],
   providers: [
     PortCallService
