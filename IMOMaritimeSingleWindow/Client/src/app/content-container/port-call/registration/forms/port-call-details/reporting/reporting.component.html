@@ -12,8 +12,8 @@
   <div class="card-body text-left">
     <form class="form-inline">
       <div class="form-check mx-2" *ngFor="let cb of checkboxes">
-        <input class="form-check-input" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
-        <label class="form-check-label" for="{{cb.name}}">
+        <input class="form-check-input clickable" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
+        <label class="form-check-label clickable" for="{{cb.name}}">
           <img src="{{baseIconUrl}}{{cb.icon}}" height="16px">{{cb.name}}
         </label>
       </div>

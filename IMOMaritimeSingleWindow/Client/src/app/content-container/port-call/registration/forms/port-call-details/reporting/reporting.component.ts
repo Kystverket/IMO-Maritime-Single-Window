@@ -10,9 +10,13 @@ export class ReportingComponent implements OnInit {
 
   baseIconUrl: string = "assets/images/VoyageIcons/128x128/";
   checkboxes: any = [
-    {name: "Hazmat",  icon: "hazard.png", checked: false},
-    {name: "Bunkers", icon: "barrel.png", checked: false},
-    {name: "Cargo",   icon: "cargo.png",  checked: false}
+    {name: "Hazmat",        icon: "hazard.png", checked: false},
+    {name: "Bunkers",       icon: "barrel.png", checked: false},
+    {name: "Cargo",         icon: "cargo.png",  checked: false},
+    {name: "Ship Stores",   icon: "alcohol.png",  checked: false},
+    {name: "Crew",          icon: "crew.png",  checked: false},
+    {name: "Pax",           icon: "pax.png",  checked: false},
+    {name: "Waste",         icon: "trash.png",  checked: false}
   ];
 
   constructor(private portCallService: PortCallService) { }

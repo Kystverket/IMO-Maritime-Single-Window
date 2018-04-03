@@ -22,9 +22,12 @@ div .bg-ssn-light {
 }
 
 .card-ssn {
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
+.clickable {
+    cursor: pointer;
+}
 
 
 .btn-ssn { 

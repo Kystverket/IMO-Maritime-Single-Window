@@ -15,6 +15,10 @@ export class ProgressBarComponent implements OnInit {
     {name: "Ship, Location and Time", icon: "ship.png",       checked: true },
     {name: "Port Call Details",       icon: "portcall.png",   checked: true }
   ];
+  final_menu_entries: any = [
+    {name: "Confirm Port Call",       icon: "checkmark.png",  checked: true }
+  ]
+
   menu_entries: any;
 
   constructor(private contentService: ContentService, private portCallService: PortCallService) { }
@@ -24,10 +28,10 @@ export class ProgressBarComponent implements OnInit {
   }
 
   ngOnInit() { 
-    this.menu_entries = this.base_menu_entries;
+    this.menu_entries = this.base_menu_entries.concat(this.final_menu_entries);
     this.portCallService.reportingForThisPortCallData$.subscribe((fal_forms) => {
       if (fal_forms != null) {
-        this.menu_entries = this.base_menu_entries.concat(fal_forms);
+        this.menu_entries = this.base_menu_entries.concat(fal_forms).concat(this.final_menu_entries);
       }
     });
   }

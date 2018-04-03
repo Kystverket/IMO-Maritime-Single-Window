@@ -41,6 +41,7 @@
         </div>
       </div>
     </div>
+
     <div *ngIf="shipFound">
       <div class="table-responsive">
         <table class="table table-bordered">
@@ -51,6 +52,9 @@
               <th>Call sign</th>
               <th>IMO number</th>
               <th>MMSI number</th>
+              <th>Gross tonnage</th>
+              <th>Length</th>
+              <th>Ship type</th>
             </tr>
           </thead>
           <tbody>
@@ -62,6 +66,9 @@
               <td>{{ shipModel.callSign }}</td>
               <td>{{ shipModel.imoNo }}</td>
               <td>{{ shipModel.mmsiNo }}</td>
+              <td>{{ shipModel.grossTonnage }}</td>
+              <td>{{ shipModel.shipLength }}</td>
+              <td>{{ shipModel.shipTypeName }}</td>
             </tr>
           </tbody>
         </table>
