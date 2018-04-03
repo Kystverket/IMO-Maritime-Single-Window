@@ -18,6 +18,7 @@ import { PortCallComponent } from './port-call.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
+import { PortCallService } from '../../shared/services/port-call.service';
 
 @NgModule({
   imports: [
@@ -45,6 +46,9 @@ import { CargoComponent } from './registration/forms/port-call-details/cargo/car
   ],
   exports: [
     PortCallComponent
+  ],
+  providers: [
+    PortCallService
   ]
 })
 export class PortCallModule { }
