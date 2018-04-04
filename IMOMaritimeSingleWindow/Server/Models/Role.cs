@@ -12,7 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int RoleId { get; set; }
-        public string RoleName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public ICollection<PersonRole> PersonRole { get; set; }

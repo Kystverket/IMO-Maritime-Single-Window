@@ -13,11 +13,11 @@
 
     <ng-template #rt let-r="result" let-t="term">
       <div class="">
-        <img src="assets/images/Flags/{{r.twoCharCode}}.png" height="16px" />
-        <strong *ngIf="r.shipName">Name: </strong> {{ r.shipName }}
-        <strong *ngIf="r.callSign"> Call sign: </strong> {{ r.callSign }}
-        <strong *ngIf="r.imoNo"> IMO number: </strong> {{ r.imoNo }}
-        <strong *ngIf="r.mmsiNo"> MMSI number: </strong> {{ r.mmsiNo }}
+        <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+        <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
+        <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
+        <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
+        <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
       </div>
     </ng-template>
 
@@ -60,20 +60,20 @@
           <tbody>
             <tr>
               <td>
-                <img src="assets/images/Flags/{{shipModel.twoCharCode}}.png" height="20px" />
+                <img src="assets/images/Flags/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
               </td>
-              <td>{{ shipModel.shipName }}</td>
-              <td>{{ shipModel.callSign }}</td>
-              <td>{{ shipModel.imoNo }}</td>
-              <td>{{ shipModel.mmsiNo }}</td>
-              <td>{{ shipModel.grossTonnage }}</td>
-              <td>{{ shipModel.shipLength }}</td>
-              <td>{{ shipModel.shipTypeName }}</td>
+              <td>{{ shipModel.ship.name }}</td>
+              <td>{{ shipModel.ship.callSign }}</td>
+              <td>{{ shipModel.ship.imoNo }}</td>
+              <td>{{ shipModel.ship.mmsiNo }}</td>
+              <td>{{ shipModel.ship.grossTonnage }}</td>
+              <td>{{ shipModel.ship.shipLength }}</td>
+              <td> <div *ngIf="shipModel.shipType">{{ shipModel.shipType.name }}</div></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button class="btn btn-ssn" (click)="deselectShip()">
+      <button *ngIf="!portCallRegistered" class="btn btn-ssn" (click)="deselectShip()">
         <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
   </div>

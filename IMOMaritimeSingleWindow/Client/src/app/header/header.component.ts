@@ -18,11 +18,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
-    {title: "USERS",       iconPath: this.icon_path + "user.png",        componentDescription: "Register User" },
+    {title: "USERS",       iconPath: this.icon_path + "user.png",       componentDescription: "Register User" },
     {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship" },
     {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location" },
     {title: "COMPANIES",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Company" },
-    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Register Port Call" }
+    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call" }
   ];
 
   constructor(private loginService: LoginService, private contentService: ContentService) { }

@@ -4,6 +4,8 @@ import { PortCallModel } from '../../../shared/models/port-call-model';
 import { PortCallOverviewModel } from '../../../shared/models/port-call-overview-model';
 import { LocationModel } from '../../../shared/models/location-model';
 import { ShipModel } from '../../../shared/models/ship-model';
+import { PortCallService } from '../../../shared/services/port-call.service';
+import { ContentService } from '../../../shared/services/content.service';
 
 @Component({
   selector: 'app-overview',
@@ -21,16 +23,15 @@ export class OverviewComponent implements OnInit {
   overviewFound:boolean = false;
 
 
-  constructor(private overviewService: PortCallOverviewService) { }
+  constructor(private contentService: ContentService, private portCallService: PortCallService, private overviewService: PortCallOverviewService) { }
 
   ngOnInit() {
-    this.overviewService.getPortCallsByLocation(this.myLocationId).subscribe(
+    this.overviewService.getPortCalls().subscribe(
       pcData => {
         pcData.forEach(pc => {
           this.overviewService.getOverview(pc.portCallId).subscribe(
             ovData => {
               this.overviewModels.push(ovData);
-              console.log(ovData);
             }
           )
         });
@@ -39,9 +40,14 @@ export class OverviewComponent implements OnInit {
     );
   }
 
+  editPortCall(overviewModel: PortCallOverviewModel) {
+    this.portCallService.setPortCall(overviewModel);
+    this.contentService.setContent('Register Port Call');
+  }
+
   dtFormat(dateStr: string) {
     var date = new Date(dateStr);
-    return date.getFullYear() + " - " + date.getMonth() + " - " + date.getDate();
+    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
   }
 
 }

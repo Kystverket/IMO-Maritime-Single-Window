@@ -8,8 +8,8 @@ namespace IMOMaritimeSingleWindow.Helpers
 
         public int CompanyId {get; set;}
 
-        public string CompanyName {get; set;}
+        public string Name {get; set;}
 
-        public string CompanyOrgNo {get; set;}
+        public string OrgNo {get; set;}
     }
 }

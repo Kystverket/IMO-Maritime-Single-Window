@@ -11,7 +11,7 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int PortCallPurposeId { get; set; }
-        public string PortCallPurpose1 { get; set; }
+        public string Name { get; set; }
 
         public ICollection<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
     }

@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="!portCallRegistered" class="row">
   <div class="col-lg">
     <app-confirm-data></app-confirm-data>
   </div>

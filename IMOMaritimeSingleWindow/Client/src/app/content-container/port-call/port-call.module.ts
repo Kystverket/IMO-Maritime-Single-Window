@@ -15,8 +15,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
-
-
+import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
+import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
+import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
+import { PortCallService } from '../../shared/services/port-call.service';
 
 @NgModule({
   imports: [
@@ -36,11 +38,18 @@ import { PortCallComponent } from './port-call.component';
     ConfirmDataComponent,
     PortCallDetailsComponent,
     ReportingComponent,
+    CrewPassengersDimensionsComponent,
+    PurposeComponent,
+    CargoComponent,
     OverviewComponent,
     PortCallComponent
   ],
   exports: [
-    PortCallComponent
+    PortCallComponent,
+    RegistrationComponent
+  ],
+  providers: [
+    PortCallService
   ]
 })
 export class PortCallModule { }

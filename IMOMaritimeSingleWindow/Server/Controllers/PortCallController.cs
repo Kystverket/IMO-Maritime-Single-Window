@@ -77,8 +77,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(overview);
         }
 
-        [HttpPost("add")]
-        public IActionResult Add([FromBody] PortCall portCall)
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] PortCall portCall)
         {
             if (portCall == null)
             {
@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCall);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public JsonResult Get(int id)
         {
             PortCall portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == id);
@@ -122,6 +122,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             return (from pc in _context.PortCall
                     where pc.LocationId == id
                     select pc).ToList();
+        }
+
+        [HttpGet("get")]
+        public IActionResult GetAllJson()
+        {
+            List<PortCall> results = GetAll();
+            return Json(results);
+        }
+
+        public List<PortCall> GetAll()
+        {
+            return (from pc in _context.PortCall
+                    select pc).OrderBy(x => x.PortCallId).ToList();
         }
     }
 }

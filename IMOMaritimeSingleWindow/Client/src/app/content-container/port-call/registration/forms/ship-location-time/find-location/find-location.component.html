@@ -12,7 +12,7 @@
 
     <div class="card-body">
         <ng-template #rt let-r="result" let-t="term">
-            <strong *ngIf="r.locationName">Name: </strong> {{ r.locationName }}
+            <strong *ngIf="r.name">Name: </strong> {{ r.name }}
             <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
         </ng-template>
 
@@ -49,13 +49,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{{ locationModel.locationName }}</td>
+                            <td>{{ locationModel.name }}</td>
                             <td>{{ locationModel.locationCode }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-ssn" (click)="deselectLocation()">
+            <button *ngIf="!portCallRegistered" class="btn btn-ssn" (click)="deselectLocation()">
                 <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
     </div>

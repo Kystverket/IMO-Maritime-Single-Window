@@ -12,10 +12,11 @@ import { ShipService } from '../../../../../../shared/services/ship.service';
 export class FindShipComponent implements OnInit {
 
   shipModel: any;
-  shipFound = false;
+  shipFound: boolean = false;
+  portCallRegistered: boolean;
 
-  searching = false;
-  searchFailed = false;
+  searching: boolean = false;
+  searchFailed: boolean = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   constructor(private portCallService: PortCallService, private shipService: ShipService) { }
@@ -50,9 +51,16 @@ export class FindShipComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe((shipData) => {
-      this.shipModel = shipData;
-      this.shipFound = shipData != null;
-    });
+    this.portCallService.shipData$.subscribe(
+      shipData => {
+        this.shipModel = shipData;
+        this.shipFound = shipData != null;
+      }
+    );
+    this.portCallService.portCallRegistered$.subscribe(
+      registered => {
+        this.portCallRegistered = registered;
+      }
+    );
   }
 }

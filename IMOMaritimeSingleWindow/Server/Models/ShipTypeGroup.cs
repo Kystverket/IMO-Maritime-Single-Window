@@ -12,7 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int ShipTypeGroupId { get; set; }
         public string ShipTypeGroupCode { get; set; }
-        public string ShipTypeGroup1 { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public ICollection<ShipType> ShipType { get; set; }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PortCallService } from '../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-ship-location-time',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShipLocationTimeComponent implements OnInit {
 
-  constructor() { }
+  portCallRegistered: boolean;
+
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
+    this.portCallService.portCallRegistered$.subscribe(
+      regitered => {
+        this.portCallRegistered = regitered;
+      }
+    );
   }
 
 }

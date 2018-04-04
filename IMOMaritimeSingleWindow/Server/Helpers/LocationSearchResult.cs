@@ -8,7 +8,7 @@ namespace IMOMaritimeSingleWindow.Helpers
         public LocationSearchResult(){}
 
         public int LocationId { get; set; }
-        public string LocationName { get; set; }
+        public string Name { get; set; }
 
         public string LocationCode { get; set; }
     }

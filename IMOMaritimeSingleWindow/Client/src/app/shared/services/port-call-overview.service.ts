@@ -9,7 +9,9 @@ export class PortCallOverviewService {
     constructor(private http: Http) {
         this.getOverviewUrl = 'api/portcall/overview';
         this.getPortCallsByLocationUrl = 'api/portcall/location';
+        this.getPortCallsUrl = 'api/portcall/get'
     }
+    private getPortCallsUrl:string;
     private getOverviewUrl:string;
     private getPortCallsByLocationUrl:string;
     
@@ -31,6 +33,12 @@ export class PortCallOverviewService {
 
     getPortCallsByLocation(locationId: number) {
         let uri:string = [this.getPortCallsByLocationUrl, locationId].join('/');
+        return this.http.get(uri)
+                .map(res => res.json());
+    }
+
+    getPortCalls() {
+        let uri:string = this.getPortCallsUrl;
         return this.http.get(uri)
                 .map(res => res.json());
     }
