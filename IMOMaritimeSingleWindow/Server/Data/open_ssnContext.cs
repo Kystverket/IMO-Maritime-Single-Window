@@ -684,7 +684,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasColumnName("port_call_purpose");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<PortCallStatus>(entity =>
