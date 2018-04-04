@@ -10,8 +10,8 @@
     </div>
   </div>
   <div class="card-body text-left">
-    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="8">
-      <option *ngFor="let purpose of purposeList" value="{{ purpose.portCallPurposeId }}">{{ purpose.portCallPurpose1 }}</option>
+    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="5">
+      <option *ngFor="let purpose of purposeList" value="{{purpose.portCallPurposeId}}">{{ purpose.name }}</option>
       <option>Other</option>
     </select>
 
