@@ -11,13 +11,14 @@ export class PortCallComponent implements OnInit {
 
   selectedComponent: string;
   
-  constructor(private contentService: ContentService, private portCallService: PortCallService) { }l
+  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
   ngOnInit() {
   }
 
   selectRegister() {
-    this.portCallService.resetPortCall();
+    this.portCallService.wipeServiceData();
+    this.contentService.setPortCallForm('Ship, Location and Time');
     this.contentService.setContent('Register Port Call');
   }
 
