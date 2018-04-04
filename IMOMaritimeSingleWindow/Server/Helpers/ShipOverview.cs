@@ -11,6 +11,7 @@ namespace IMOMaritimeSingleWindow.Helpers {
 
         public Country Country {get; set;}
         
+        public ShipType ShipType {get; set;}
 
     }
 }

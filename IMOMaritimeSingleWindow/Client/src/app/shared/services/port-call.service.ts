@@ -3,16 +3,26 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
+import { PortCallOverviewModel } from '../models/port-call-overview-model';
 
 @Injectable()
 export class PortCallService {
 
-  private savePortCallUrl: string = "api/portcall/register";
-  private portCallModel = new PortCallModel();
+  
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.getPortCallUrl = "api/portcall/get";
+    this.savePortCallUrl = "api/portcall/register";
+    this.getPurposeUrl = "api/portcallpurpose/portcall"
+    this.portCallModel = new PortCallModel();
+   }
 
   // Global
+  private getPortCallUrl: string;
+  private savePortCallUrl: string;
+  private getPurposeUrl: string;
+  private portCallModel: PortCallModel;
+  
   
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
@@ -29,6 +39,44 @@ export class PortCallService {
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
   }
+
+  getPortCallById(portCallId: number) {
+    let uri:string = [this.getPortCallUrl, portCallId].join('/');
+
+    return this.http.get(uri)
+            .map(res => res.json());
+  }
+
+  getPortCallPurpose(purposeId: number) {
+    let uri:string = [this.getPurposeUrl, purposeId].join('/');
+    return this.http.get(uri).map(res => res.json());
+  }
+
+  setPortCall(overviewModel: PortCallOverviewModel) {
+    this.portCallRegistered.next(true);
+    this.setShipLocationTime(overviewModel); 
+
+  }
+
+  setShipLocationTime(overviewModel: PortCallOverviewModel) {
+    this.setShipData(overviewModel.shipOverview);
+    this.setLocationData(overviewModel.locationOverview.location);
+    this.getPortCallPurpose(overviewModel.portCall.portCallId).subscribe(data => {
+      console.log(data);
+      this.setPortCallPurposeData(data);
+    });
+    let etaData = new Date(overviewModel.portCall.locationEta);
+    let etdData = new Date(overviewModel.portCall.locationEtd);
+
+    let etaEtdData = {
+      eta: { year: etaData.getFullYear(), month: etaData.getMonth()+1, day: etaData.getDate(), hour: etaData.getHours(), minute: etaData.getMinutes() },
+      etd: { year: etdData.getFullYear(), month: etdData.getMonth()+1, day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
+    };
+    
+    this.setEtaEtdData(etaEtdData);
+  }
+  
+  
 
   savePortCall() {
     if (!this.portCallRegistered.value) {
@@ -49,17 +97,15 @@ export class PortCallService {
 
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
-  setShipData(data) {    
-    this.portCallModel.shipId = data != null ? data.shipId : null;    
+  setShipData(data) {
+    this.portCallModel.shipId = data != null ? data.ship.shipId : null;    
     this.shipDataSource.next(data);
   }
 
   private locationDataSource = new BehaviorSubject<any>(null);
   locationData$ = this.locationDataSource.asObservable();
   setLocationData(data) {
-    this.portCallModel.locationId = data != null ? data.locationId : null;
-    console.log(this.portCallModel);
-    
+    this.portCallModel.locationId = data != null ? data.locationId : null;    
     this.locationDataSource.next(data);
   }
 
