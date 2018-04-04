@@ -663,6 +663,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallPurposeId).HasColumnName("port_call_purpose_id");
 
+                entity.Property(e => e.PurposeIfUnknown).HasColumnName("purpose_if_unknown");
+
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallHasPortCallPurpose)
                     .HasForeignKey(d => d.PortCallId)
