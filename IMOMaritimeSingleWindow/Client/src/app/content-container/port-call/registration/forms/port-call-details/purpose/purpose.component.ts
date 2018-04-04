@@ -17,7 +17,7 @@ export class PurposeComponent implements OnInit {
   amountOfPurposes: number = 0;
 
   otherPurposeSelected: boolean = false;
-  otherPurposeName: string;
+  otherPurposeName: string = "";
 
   constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
 
@@ -44,7 +44,8 @@ export class PurposeComponent implements OnInit {
     if (purpose.portCallPurposeId != OTHER_PURPOSE_ID) {
       return purpose != null ? purpose.name : null;
     } else {
-      return "Other: \"" + this.otherPurposeName + "\"";
+      
+      return this.otherPurposeName == "" ? "Other purpose is undefined" : "Other: \"" + this.otherPurposeName + "\"";
     }
     
   }
