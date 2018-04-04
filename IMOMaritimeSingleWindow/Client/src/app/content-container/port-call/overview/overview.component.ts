@@ -40,7 +40,7 @@ export class OverviewComponent implements OnInit {
 
   dtFormat(dateStr: string) {
     var date = new Date(dateStr);
-    return date.getFullYear() + " - " + date.getMonth() + " - " + date.getDate();
+    return date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate();
   }
 
 }
