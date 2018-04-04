@@ -11,7 +11,7 @@ export class PortCallComponent implements OnInit {
 
   selectedComponent: string;
   
-  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
+  constructor(private contentService: ContentService, private portCallService: PortCallService) { }l
 
   ngOnInit() {
   }

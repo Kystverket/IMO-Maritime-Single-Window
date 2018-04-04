@@ -46,8 +46,13 @@ export class PortCallService {
     this.setReportingForThisPortCallData(null);
     this.portCallModel = new PortCallModel();
   }
-  
+
   setPortCall(overviewModel: PortCallOverviewModel) {
+   this.setShipLocationTime(overviewModel); 
+
+  }
+
+  setShipLocationTime(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);
     this.setLocationData(overviewModel.locationOverview.location);
     this.getPortCallPurpose(overviewModel.portCall.portCallId).subscribe(data => {
@@ -63,8 +68,9 @@ export class PortCallService {
     };
     
     this.setEtaEtdData(etaEtdData);
-
   }
+  
+  
 
   savePortCall() {
     let portCall: any = this.portCallModel;
