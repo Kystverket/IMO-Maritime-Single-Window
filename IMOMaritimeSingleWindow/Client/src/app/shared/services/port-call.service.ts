@@ -13,7 +13,7 @@ export class PortCallService {
   constructor(private http: Http) { }
 
   // Global
-
+  
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
 

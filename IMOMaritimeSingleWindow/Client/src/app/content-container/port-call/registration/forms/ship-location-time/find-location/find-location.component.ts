@@ -19,10 +19,11 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
 export class FindLocationComponent implements OnInit {
 
     locationModel: any;
-    locationFound = false;
+    locationFound: boolean = false;
+    portCallRegistered: boolean;
 
-    searching = false;
-    searchFailed = false;
+    searching: boolean = false;
+    searchFailed: boolean = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
     constructor(private portCallService: PortCallService, private locationService: LocationService) { }
@@ -57,9 +58,16 @@ export class FindLocationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.portCallService.locationData$.subscribe((locationData) => {
-            this.locationModel = locationData;
-            this.locationFound = locationData != null;
-        });
+        this.portCallService.locationData$.subscribe(
+            locationData => {
+                this.locationModel = locationData;
+                this.locationFound = locationData != null;
+            }
+        );
+        this.portCallService.portCallRegistered$.subscribe(
+            registered => {
+                this.portCallRegistered = registered;
+            }
+        );
     }
 }
