@@ -163,4 +163,10 @@ export class PortCallService {
     this.portCallPurposeSource.next(data);
   }
 
+  private otherPurposeNameSource = new BehaviorSubject<string>("");
+  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
+  setOtherPurposeName(data) {
+    this.otherPurposeNameSource.next(data);
+  }
+
 }
