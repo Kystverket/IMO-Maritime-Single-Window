@@ -74,9 +74,7 @@ export class PortCallService {
     };
     
     this.setEtaEtdData(etaEtdData);
-  }
-  
-  
+  } 
 
   savePortCall() {
     if (!this.portCallRegistered.value) {
@@ -163,6 +161,12 @@ export class PortCallService {
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
     this.portCallPurposeSource.next(data);
+  }
+
+  private otherPurposeNameSource = new BehaviorSubject<string>("");
+  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
+  setOtherPurposeName(data) {
+    this.otherPurposeNameSource.next(data);
   }
 
 }

@@ -5,13 +5,10 @@ import { BaseService } from './base.service';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>('Port Call');
+    private contentSource = new BehaviorSubject<string>('Register Port Call');
     contentName$ = this.contentSource.asObservable();
 
-    private portCallSource = new BehaviorSubject<string>('Register Port Call');
-    portCallName$ = this.portCallSource.asObservable();
-
-    private portCallFormSource = new BehaviorSubject<string>('Ship, Location and Time');
+    private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
     portCallFormName$ = this.portCallFormSource.asObservable();
 
     setContent(contentName: string) {        
