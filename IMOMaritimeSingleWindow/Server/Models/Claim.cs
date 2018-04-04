@@ -11,7 +11,7 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int ClaimId { get; set; }
-        public string ClaimName { get; set; }
+        public string Name { get; set; }
 
         public ICollection<RoleClaim> RoleClaim { get; set; }
     }

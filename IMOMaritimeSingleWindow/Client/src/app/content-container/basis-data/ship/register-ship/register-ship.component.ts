@@ -42,31 +42,31 @@ export class RegisterShipComponent implements OnInit {
 
   selectShipType(shipType: any) {
     this.shipModel.shipTypeId = shipType.shipTypeId;
-    this.shipTypeDropdownString = shipType.shipType1;
+    this.shipTypeDropdownString = shipType.name;
     this.shipTypeSelected = true;
   }
 
   selectHullType(hullType: any) {
     this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
-    this.hullTypeDropdownString = hullType.shipHullType1;
+    this.hullTypeDropdownString = hullType.name;
     this.hullTypeSelected = true;
   }
 
   selectLengthType(lengthType: any) {
     this.shipModel.shipLengthTypeId = lengthType.shipLengthTypeId;
-    this.lengthTypeDropdownString = lengthType.shipLengthType1;
+    this.lengthTypeDropdownString = lengthType.name;
     this.lengthTypeSelected = true;
   }
 
   selectBreadthType(breadthType: any) {
     this.shipModel.shipBreadthTypeId = breadthType.shipBreadthTypeId;
-    this.breadthTypeDropdownString = breadthType.shipBreadthType1;
+    this.breadthTypeDropdownString = breadthType.name;
     this.breadthTypeSelected = true;
   }
 
   selectPowerType(powerType: any) {
     this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
-    this.powerTypeDropdownString = powerType.shipPowerType1;
+    this.powerTypeDropdownString = powerType.name;
     this.powerTypeSelected = true;
   }
 

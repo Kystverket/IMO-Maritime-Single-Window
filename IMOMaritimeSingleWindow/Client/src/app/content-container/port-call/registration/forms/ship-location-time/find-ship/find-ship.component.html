@@ -14,7 +14,7 @@
     <ng-template #rt let-r="result" let-t="term">
       <div class="">
         <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
-        <strong *ngIf="r.ship.shipName">Name: </strong> {{ r.ship.shipName }}
+        <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
         <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
         <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
         <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
@@ -62,13 +62,13 @@
               <td>
                 <img src="assets/images/Flags/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
               </td>
-              <td>{{ shipModel.ship.shipName }}</td>
+              <td>{{ shipModel.ship.name }}</td>
               <td>{{ shipModel.ship.callSign }}</td>
               <td>{{ shipModel.ship.imoNo }}</td>
               <td>{{ shipModel.ship.mmsiNo }}</td>
               <td>{{ shipModel.ship.grossTonnage }}</td>
               <td>{{ shipModel.ship.shipLength }}</td>
-              <td> <div *ngIf="shipModel.shipType">{{ shipModel.shipType.shipType1 }}</div></td>
+              <td> <div *ngIf="shipModel.shipType">{{ shipModel.shipType.name }}</div></td>
             </tr>
           </tbody>
         </table>

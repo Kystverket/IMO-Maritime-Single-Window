@@ -13,7 +13,7 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int ImoHazardClassId { get; set; }
         public int? ParentImoHazardClassId { get; set; }
-        public string ImoHazardClassName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public ImoHazardClass ParentImoHazardClass { get; set; }

@@ -37,7 +37,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public List<Ship> SearchShip(string searchTerm)
         {
             return (from s in _context.Ship
-                    where EF.Functions.ILike(s.ShipName, searchTerm + '%')
+                    where EF.Functions.ILike(s.Name, searchTerm + '%')
                     || EF.Functions.ILike(s.CallSign, searchTerm + '%')
                     || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm + '%')
                     || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm + '%')

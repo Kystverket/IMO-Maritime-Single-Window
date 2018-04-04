@@ -11,7 +11,7 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int ShipHullTypeId { get; set; }
-        public string ShipHullType1 { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public ICollection<Ship> Ship { get; set; }

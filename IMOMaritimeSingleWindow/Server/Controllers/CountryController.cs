@@ -25,7 +25,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult Search(string searchTerm)
         {
             var matchingCompanies = (from c in _context.Country
-                                     where EF.Functions.ILike(c.Country1, searchTerm + '%')
+                                     where EF.Functions.ILike(c.Name, searchTerm + '%')
                                      select c).Take(10).ToList();
 
             List<CountrySearchResult> resultList = new List<CountrySearchResult>();
@@ -34,7 +34,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 CountrySearchResult searchItem = new CountrySearchResult();
                 searchItem.CountryId = c.CountryId;
-                searchItem.CountryName = (c.Country1 != null) ? c.Country1 : string.Empty;
+                searchItem.CountryName = (c.Name != null) ? c.Name : string.Empty;
                 searchItem.TwoCharCode = (c.TwoCharCode != null) ? c.TwoCharCode.ToLower() : string.Empty;
 
                 var flagCodes = (from fc in _context.ShipFlagCode
@@ -46,7 +46,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     ShipFlagCodeSearchResult sfcSearchResult = new ShipFlagCodeSearchResult();
                     sfcSearchResult.ShipFlagCodeId = sfc.ShipFlagCodeId;
-                    sfcSearchResult.ShipFlagCodeName = (sfc.ShipFlagCode1 != null) ? sfc.ShipFlagCode1 : string.Empty;
+                    sfcSearchResult.ShipFlagCodeName = (sfc.Name != null) ? sfc.Name : string.Empty;
                     flagCodeList.Add(sfcSearchResult);
                 }
                 searchItem.CountryFlagCodes = flagCodeList;
