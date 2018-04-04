@@ -11,12 +11,22 @@ import { ContentService } from '../../../shared/services/content.service';
 export class RegistrationComponent implements OnInit {
 
   selectedComponent: string;
+  portCallRegistered: boolean;
 
-  constructor(private contentService: ContentService) { }
+  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
-  ngOnInit() { 
-    this.contentService.portCallFormName$.subscribe((content) => {
-      this.selectedComponent = content;
-    });
+  ngOnInit() {
+    this.contentService.portCallFormName$.subscribe(
+      content => {
+        this.selectedComponent = content;
+      }
+    );
+    this.portCallService.portCallRegistered$.subscribe(
+      registered => {
+        this.portCallRegistered = registered;
+        
+        this.portCallRegistered = true; // Showing the progress bar for debug and development purposes
+      }
+    );
   }
 }

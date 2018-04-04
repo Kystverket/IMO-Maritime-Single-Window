@@ -13,18 +13,43 @@ export class PortCallService {
   constructor(private http: Http) { }
 
   // Global
+  
+  private portCallRegistered = new BehaviorSubject<boolean>(true);
+  portCallRegistered$ = this.portCallRegistered.asObservable();
 
-  savePortCall() {
-    let portCall: any = this.portCallModel;
-    this.http.post(this.savePortCallUrl, portCall).map(res => res.json()).subscribe(data => console.log(data));
+  wipeServiceData() {
+    this.portCallModel = new PortCallModel();
+    this.portCallRegistered.next(false);
+
+    this.shipDataSource.next(null);
+    this.locationDataSource.next(null);
+    this.etaEtdDataSource.next(null);
+    this.reportingForThisPortCallSource.next(null);
+    this.crewPassengersAndDimensionsSource.next(null);
+    this.cargoWeightSource.next(null);
+    this.portCallPurposeSource.next(null);
   }
 
+  savePortCall() {
+    if (!this.portCallRegistered.value) {
+      console.log("Saving port call to database...");
+      this.http.post(this.savePortCallUrl, this.portCallModel).map(res => res.json()).subscribe(
+        data => {
+          console.log("Success.");        
+          console.log(data);
+          this.portCallRegistered.next(true);
+        }
+      );
+    } else {
+      console.log("Port call already registered in the database."); 
+    }
+  }
 
   // Ship, Location and Time
 
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
-  setShipData(data) {
+  setShipData(data) {    
     this.portCallModel.shipId = data != null ? data.shipId : null;    
     this.shipDataSource.next(data);
   }
@@ -63,11 +88,7 @@ export class PortCallService {
     } else {
       this.portCallModel.locationEta = null;
       this.portCallModel.locationEtd = null;
-    }
-    
-    console.log(this.portCallModel);
-    
-    
+    }    
     this.etaEtdDataSource.next(data);
   }
 
