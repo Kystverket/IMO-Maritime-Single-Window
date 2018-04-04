@@ -682,7 +682,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallPurposeId).HasColumnName("port_call_purpose_id");
 
-                entity.Property(e => e.PortCallPurpose1)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("port_call_purpose");
             });
