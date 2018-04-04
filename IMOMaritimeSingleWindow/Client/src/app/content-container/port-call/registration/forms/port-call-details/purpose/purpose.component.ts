@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PurposeService } from './purpose.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
-const OTHER_PURPOSE_ID = 100249;
+const OTHER_PURPOSE_ID = "100249";
 
 @Component({
   selector: 'app-purpose',
@@ -16,7 +16,8 @@ export class PurposeComponent implements OnInit {
   purposeList: any[];
   amountOfPurposes: number = 0;
 
-  otherPurposeSelected = false;
+  otherPurposeSelected: boolean = false;
+  otherPurposeName: string;
 
   constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
 
@@ -40,8 +41,12 @@ export class PurposeComponent implements OnInit {
 
   getPurposeName(id: number) {
     let purpose = this.purposeList.find(p => p.portCallPurposeId == id);
-
-    return purpose != null ? purpose.portCallPurpose1 : null;    
+    if (purpose.portCallPurposeId != OTHER_PURPOSE_ID) {
+      return purpose != null ? purpose.name : null;
+    } else {
+      return "Other: \"" + this.otherPurposeName + "\"";
+    }
+    
   }
 
 }

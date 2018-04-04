@@ -10,16 +10,15 @@
     </div>
   </div>
   <div class="card-body text-left">
-    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="5">
+    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="8">
       <option *ngFor="let purpose of purposeList" value="{{purpose.portCallPurposeId}}">{{ purpose.name }}</option>
-      <option>Other</option>
     </select>
 
     <div *ngIf="otherPurposeSelected" class="form-group">
       <label class="control-label" for="other_purpose">Specify Other Purpose</label>
       <div class="col">
-        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter other purpose"
-        />
+        <input [(ngModel)]="otherPurposeName" name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose"
+          placeholder="Enter other purpose" />
       </div>
     </div>
 
@@ -36,8 +35,6 @@
           </tr>
         </tbody>
       </table>
-
-      <pre> {{ selectedPurposes | json }} </pre>
     </div>
   </div>
 </div>
