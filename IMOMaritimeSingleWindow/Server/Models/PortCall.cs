@@ -9,6 +9,7 @@ namespace IMOMaritimeSingleWindow.Models
         {
             CustomsCargo = new HashSet<CustomsCargo>();
             DpgOnBoard = new HashSet<DpgOnBoard>();
+            PortCallDetails = new HashSet<PortCallDetails>();
             PortCallHasPortCallPurpose = new HashSet<PortCallHasPortCallPurpose>();
         }
 
@@ -37,6 +38,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Ship Ship { get; set; }
         public ICollection<CustomsCargo> CustomsCargo { get; set; }
         public ICollection<DpgOnBoard> DpgOnBoard { get; set; }
+        public ICollection<PortCallDetails> PortCallDetails { get; set; }
         public ICollection<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
     }
 }

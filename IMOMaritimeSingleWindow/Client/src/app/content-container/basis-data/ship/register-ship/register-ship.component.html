@@ -119,7 +119,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-outline-primary" id="shipTypeDropdown" ngbDropdownToggle> {{ shipTypeDropdownString }}</button>
               <div ngbDropdownMenu aria-labelledby="shipTypeDropdown">
-                <button class="dropdown-item" *ngFor="let shipType of shipTypeList" (click)="selectShipType(shipType)">{{ shipType.shipType1 }}</button>
+                <button class="dropdown-item" *ngFor="let shipType of shipTypeList" (click)="selectShipType(shipType)">{{ shipType.name }}</button>
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-outline-primary" id="hullTypeDropdown" ngbDropdownToggle> {{ hullTypeDropdownString }}</button>
               <div ngbDropdownMenu aria-labelledby="hullTypeDropdown">
-                <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{ hullType.shipHullType1 }}</button>
+                <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{ hullType.name }}</button>
               </div>
             </div>
           </div>
@@ -157,7 +157,7 @@
               <div ngbDropdown class="d-inline-block">
                 <button class="btn btn-outline-primary" id="lengthTypeDropdown" ngbDropdownToggle> {{ lengthTypeDropdownString }} </button>
                 <div ngbDropdownMenu aria-labelledby="lengthTypeDropdown">
-                  <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.shipLengthType1 }}</button>
+                  <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.name }}</button>
                 </div>
               </div>
             </div>
@@ -178,7 +178,7 @@
               <div ngbDropdown class="d-inline-block">
                 <button class="btn btn-outline-primary" id="breadthTypeDropdown" ngbDropdownToggle> {{ breadthTypeDropdownString }} </button>
                 <div ngbDropdownMenu aria-labelledby="breadthTypeDropdown">
-                  <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.shipBreadthType1 }}</button>
+                  <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.name }}</button>
                 </div>
               </div>
             </div>
@@ -199,7 +199,7 @@
               <div ngbDropdown class="d-inline-block">
                 <button class="btn btn-outline-primary" id="powerTypeDropdown" ngbDropdownToggle> {{ powerTypeDropdownString }} </button>
                 <div ngbDropdownMenu aria-labelledby="powerTypeDropdown">
-                  <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.shipPowerType1 }}</button>
+                  <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.name }}</button>
                 </div>
               </div>
             </div>

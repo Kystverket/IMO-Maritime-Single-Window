@@ -25,8 +25,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult Search(string searchTerm)
         {
             var matchingCompanies = (from c in _context.Company
-                            where EF.Functions.ILike(c.CompanyName, searchTerm + '%')
-                            || EF.Functions.ILike(c.CompanyOrgNo, searchTerm + '%')
+                            where EF.Functions.ILike(c.Name, searchTerm + '%')
+                            || EF.Functions.ILike(c.OrgNo, searchTerm + '%')
                             select c).Take(10).ToList();
             
             List<CompanySearchResult> resultList = new List<CompanySearchResult>();
@@ -35,8 +35,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 CompanySearchResult searchItem = new CompanySearchResult();
                 searchItem.CompanyId = c.CompanyId;
-                searchItem.CompanyName = (c.CompanyName != null) ? c.CompanyName : string.Empty;
-                searchItem.CompanyOrgNo = (c.CompanyOrgNo != null) ? c.CompanyOrgNo : string.Empty;
+                searchItem.Name = (c.Name != null) ? c.Name : string.Empty;
+                searchItem.OrgNo = (c.OrgNo != null) ? c.OrgNo : string.Empty;
 
                 resultList.Add(searchItem);
             }

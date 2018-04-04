@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Models
         public string LocationCode { get; set; }
         public int? LocationNo { get; set; }
         public string PostCode { get; set; }
-        public string LocationName { get; set; }
+        public string Name { get; set; }
 
         public Country Country { get; set; }
         public Location LocationInLocation { get; set; }

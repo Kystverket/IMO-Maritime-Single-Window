@@ -12,7 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int MunicipalityId { get; set; }
         public int CountyId { get; set; }
-        public string MunicipalityName { get; set; }
+        public string Name { get; set; }
         public string MunicipalityNo { get; set; }
 
         public County County { get; set; }

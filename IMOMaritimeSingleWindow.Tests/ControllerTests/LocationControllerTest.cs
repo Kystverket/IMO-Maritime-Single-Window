@@ -34,7 +34,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 0, CountryId = 0, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = "12345678",
-                    LocationName = "ABC123"
+                    Name = "ABC123"
                 },
 
                 new Location 
@@ -42,7 +42,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 1, CountryId = 0, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = "12341234",
-                    LocationName = "ABC321"
+                    Name = "ABC321"
                 },
 
                 new Location 
@@ -50,7 +50,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 2, CountryId = 1, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = "12345612",
-                    LocationName = "ABX123"
+                    Name = "ABX123"
                 },
 
                 new Location 
@@ -58,7 +58,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 3, CountryId = 1, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = null,
-                    LocationName = "ABX123"
+                    Name = "ABX123"
                 },
 
                 new Location 
@@ -66,7 +66,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 4, CountryId = 1, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = "XYZXYZ",
-                    LocationName = null
+                    Name = null
                 },
 
                 new Location 
@@ -74,10 +74,10 @@ namespace IMOMaritimeSingleWindow.Tests
                     LocationId = 5, CountryId = 1, LocationTypeId = 0, LocationSourceId = 1234, PostCode = "",
                     
                     LocationCode = null,
-                    LocationName = null
+                    Name = null
                 },
                 new Location{},
-                new Location{LocationName = "123456789ABCdef", LocationCode = string.Empty}
+                new Location{Name = "123456789ABCdef", LocationCode = string.Empty}
             };
         
             queryableData = data.AsQueryable();
@@ -121,7 +121,7 @@ namespace IMOMaritimeSingleWindow.Tests
             {
                 if (loc.LocationCode != null 
                 && loc.LocationCode != string.Empty
-                && (loc.LocationName != null && loc.LocationName.ToUpper().StartsWith(searchTerm.ToUpper()) 
+                && (loc.Name != null && loc.Name.ToUpper().StartsWith(searchTerm.ToUpper()) 
                 || loc.LocationCode.ToUpper().StartsWith(searchTerm.ToUpper()))
                 ) expected.Add(loc);
             }
@@ -135,7 +135,7 @@ namespace IMOMaritimeSingleWindow.Tests
         public void SearchLocation_does_not_return_location_without_locationCode(string searchTerm)
         {
             locationController.RegisterLocation(new Location{
-                LocationName = "test1",
+                Name = "test1",
                 LocationCode = null
             });
 
@@ -148,7 +148,7 @@ namespace IMOMaritimeSingleWindow.Tests
         public void SearchLocation_does_not_return_location_with_empty_locationCode(string searchTerm)
         {
             locationController.RegisterLocation(new Location{
-                LocationName = "test1",
+                Name = "test1",
                 LocationCode = string.Empty
             });
 
