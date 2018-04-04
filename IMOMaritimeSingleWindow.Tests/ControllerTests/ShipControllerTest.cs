@@ -34,7 +34,7 @@ namespace IMOMaritimeSingleWindow.Tests
                 {
                     ShipId = 0, ShipHullTypeId = 0, ShipStatusId = 0, 
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    ShipName = "match_shipName0",
+                    Name = "match_shipName0",
                     CallSign = "ABC123",
                     ImoNo = 999111,
                     MmsiNo = 1234111
@@ -44,7 +44,7 @@ namespace IMOMaritimeSingleWindow.Tests
                 {
                     ShipId = 1, ShipHullTypeId = 0, ShipStatusId = 0, 
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    ShipName = "match_shipName1",
+                    Name = "match_shipName1",
                     CallSign = "321DEF",
                     ImoNo = 999222,
                     MmsiNo = 1234222,
@@ -54,7 +54,7 @@ namespace IMOMaritimeSingleWindow.Tests
                 {
                     ShipId = 2, ShipHullTypeId = 0, ShipStatusId = 0, 
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    ShipName = "noMatch_shipName2",
+                    Name = "noMatch_shipName2",
                     CallSign = "321GHI",
                     ImoNo = 111999,
                     MmsiNo = 123999
@@ -65,26 +65,26 @@ namespace IMOMaritimeSingleWindow.Tests
                 },
 
                 new Ship {
-                    ShipName = "",
+                    Name = "",
                     CallSign = "",
                     ImoNo = null,
                     MmsiNo = 123789
                 },
 
                 new Ship {
-                    ShipName = null,
+                    Name = null,
                     CallSign = null,
                     ImoNo = 321394893,
                     MmsiNo = null
                 },
 
                 new Ship {
-                    ShipName = "",
+                    Name = "",
                     CallSign = "321ABCDEF"
                 },
 
                 new Ship {
-                    ShipName = null,
+                    Name = null,
                     CallSign = null,
                     ImoNo = null,
                     MmsiNo = null
@@ -127,7 +127,7 @@ namespace IMOMaritimeSingleWindow.Tests
             var expected = new List<Ship>();
             foreach(Ship s in data)
             {
-                if (s.ShipName != null && s.ShipName.ToLower().StartsWith(searchTerm.ToLower()) 
+                if (s.Name != null && s.Name.ToLower().StartsWith(searchTerm.ToLower()) 
                 || s.CallSign != null && s.CallSign.ToLower().StartsWith(searchTerm.ToLower())
                 || s.ImoNo != null && s.ImoNo.ToString().ToLower().StartsWith(searchTerm.ToLower())
                 || s.MmsiNo != null && s.MmsiNo.ToString().ToLower().StartsWith(searchTerm.ToLower())) expected.Add(s);

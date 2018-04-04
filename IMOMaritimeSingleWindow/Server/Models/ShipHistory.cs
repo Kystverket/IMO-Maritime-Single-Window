@@ -14,12 +14,12 @@ namespace IMOMaritimeSingleWindow.Models
         public int? ImoNo { get; set; }
         public int? YearOfBuild { get; set; }
         public int? MmsiNo { get; set; }
-        public string ShipName { get; set; }
+        public string Name { get; set; }
         public string CallSign { get; set; }
         public int? DeadweightTonnage { get; set; }
         public int? GrossTonnage { get; set; }
         public int ShipLengthTypeId { get; set; }
-        public float? ShipLength { get; set; }
+        public float? Length { get; set; }
         public int ShipBreadthTypeId { get; set; }
         public float? Breadth { get; set; }
         public int ShipPowerTypeId { get; set; }

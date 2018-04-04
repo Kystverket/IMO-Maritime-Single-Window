@@ -1,7 +1,7 @@
 <div class="card-body">
     <ng-template #rt let-r="result" let-t="term">
-        <strong *ngIf="r.companyName">Name: </strong> {{ r.companyName }}
-        <strong *ngIf="r.companyOrgNo">Code: </strong> {{ r.companyOrgNo }}
+        <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+        <strong *ngIf="r.orgNo">Code: </strong> {{ r.orgNo }}
     </ng-template>
 
     <div *ngIf="!companySelected">
@@ -21,8 +21,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ companyModel.companyName }}</td>
-                        <td>{{ companyModel.companyOrgNo }}</td>
+                        <td>{{ companyModel.name }}</td>
+                        <td>{{ companyModel.orgNo }}</td>
                     </tr>
                 </tbody>
             </table>

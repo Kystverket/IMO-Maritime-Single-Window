@@ -19,7 +19,7 @@ namespace IMOMaritimeSingleWindow.Helpers {
         public int? ImoNo { get; set; }
         public int? YearOfBuild { get; set; }
         public int? MmsiNo { get; set; }
-        public string ShipName { get; set; }
+        public string Name { get; set; }
         public string CallSign { get; set; }
         public int? DeadweightTonnage { get; set; }
         public int? GrossTonnage { get; set; }

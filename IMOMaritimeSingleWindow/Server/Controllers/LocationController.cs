@@ -37,7 +37,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public List<Location> SearchLocation(string searchTerm)
         {
             return (from loc in _context.Location
-                            where (EF.Functions.ILike(loc.LocationName, searchTerm + '%')
+                            where (EF.Functions.ILike(loc.Name, searchTerm + '%')
                             || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
                             && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
                             select loc).Take(10).ToList();
@@ -54,7 +54,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 
                 LocationSearchResult searchItem = new LocationSearchResult();
                 searchItem.LocationId = loc.LocationId;
-                searchItem.LocationName = (loc.LocationName != null) ? loc.LocationName : string.Empty;
+                searchItem.Name = (loc.Name != null) ? loc.Name : string.Empty;
                 searchItem.LocationCode = (loc.LocationCode != null) ? loc.LocationCode : string.Empty;
 
                 resultList.Add(searchItem);

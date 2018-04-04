@@ -7,13 +7,13 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public ShipCertificateType()
         {
-            ShipCertificateNavigation = new HashSet<ShipCertificate>();
+            ShipCertificate = new HashSet<ShipCertificate>();
         }
 
         public int ShipCertificateTypeId { get; set; }
-        public string ShipCertificate { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
-        public ICollection<ShipCertificate> ShipCertificateNavigation { get; set; }
+        public ICollection<ShipCertificate> ShipCertificate { get; set; }
     }
 }

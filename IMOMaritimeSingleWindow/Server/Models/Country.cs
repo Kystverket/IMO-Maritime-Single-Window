@@ -15,7 +15,7 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int CountryId { get; set; }
-        public string Country1 { get; set; }
+        public string Name { get; set; }
         public string TwoCharCode { get; set; }
         public string ThreeCharCode { get; set; }
         public string CallCode { get; set; }

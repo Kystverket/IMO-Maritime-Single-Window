@@ -12,9 +12,9 @@ namespace IMOMaritimeSingleWindow.Models
         }
 
         public int CompanyId { get; set; }
-        public string CompanyName { get; set; }
+        public string Name { get; set; }
         public int? InvoiceReceiverNo { get; set; }
-        public string CompanyOrgNo { get; set; }
+        public string OrgNo { get; set; }
         public string Remark { get; set; }
         public bool IsActive { get; set; }
         public bool IsVerified { get; set; }
