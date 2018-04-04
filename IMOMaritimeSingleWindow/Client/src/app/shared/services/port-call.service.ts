@@ -74,9 +74,7 @@ export class PortCallService {
     };
     
     this.setEtaEtdData(etaEtdData);
-  }
-  
-  
+  } 
 
   savePortCall() {
     if (!this.portCallRegistered.value) {

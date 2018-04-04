@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PurposeService } from './purpose.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
+const OTHER_PURPOSE_ID = 100249;
+
 @Component({
   selector: 'app-purpose',
   templateUrl: './purpose.component.html',
@@ -12,6 +14,7 @@ export class PurposeComponent implements OnInit {
 
   selectedPurposes: any;
   purposeList: any[];
+  amountOfPurposes: number = 0;
 
   otherPurposeSelected = false;
 
@@ -19,15 +22,26 @@ export class PurposeComponent implements OnInit {
 
   ngOnInit() {
     this.purposeService.getPurposes().subscribe(
-      data => this.purposeList = data
+      data => {
+        this.purposeList = data;
+        this.amountOfPurposes = Object.keys(this.purposeList).length;
+      }
     );
     this.portCallService.portCallPurposeData$.subscribe(
-      data => this.selectedPurposes = data
+      data => {
+        this.selectedPurposes = data;
+      }
     );
   }
 
   purposeSelected() {
-    this.otherPurposeSelected = this.selectedPurposes.includes("Other");
+    this.otherPurposeSelected = this.selectedPurposes.includes(OTHER_PURPOSE_ID);
+  }
+
+  getPurposeName(id: number) {
+    let purpose = this.purposeList.find(p => p.portCallPurposeId == id);
+
+    return purpose != null ? purpose.portCallPurpose1 : null;    
   }
 
 }
