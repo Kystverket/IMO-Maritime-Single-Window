@@ -10,7 +10,8 @@
     </div>
   </div>
   <div class="card-body text-left">
-    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="8">
+    <label class="control-label" for="purposes">Select purposes for this port call. <small>Use CTRL+click to select multiple purposes.</small> </label>
+    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="8" id="purposes">
       <option *ngFor="let purpose of purposeList" value="{{purpose.portCallPurposeId}}">{{ purpose.name }}</option>
     </select>
 
