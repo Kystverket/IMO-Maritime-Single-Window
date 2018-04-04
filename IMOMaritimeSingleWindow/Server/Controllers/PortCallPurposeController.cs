@@ -24,7 +24,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            List<PortCallPurpose> resultList = _context.PortCallPurpose.ToList();
+            List<PortCallPurpose> resultList = _context.PortCallPurpose.Where(p => !EF.Functions.ILike(p.Name, "Other")).OrderBy(p => p.Name).ToList();
+            resultList.Add(_context.PortCallPurpose.Where(p => EF.Functions.ILike(p.Name, "Other")).FirstOrDefault());
             return Json(resultList);
         }
 
