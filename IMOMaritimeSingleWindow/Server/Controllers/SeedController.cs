@@ -42,5 +42,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             await _userDbInitializer.SeedMiscAsync();
         }
 
+        [HttpPost("seedTestBase")]
+        public async Task SeedMiscTestBase()
+        {
+            await _userDbInitializer.SeedTestBaseAsync();
+        }
+
     }
 }

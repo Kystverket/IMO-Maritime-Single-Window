@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
@@ -17,12 +18,19 @@ namespace IMOMaritimeSingleWindow.Controllers
     {
         private readonly UserDbContext _appDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMapper mapper, UserDbContext appDbContext)
+        public AccountsController(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
+            IMapper mapper,
+            UserDbContext appDbContext)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
             _appDbContext = appDbContext;
@@ -50,5 +58,17 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             return new OkObjectResult("Account created");
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("getallroles")]
+        public JsonResult GetAllRoles()
+        {
+            var rolesQueryAble = _roleManager.Roles;
+            var roles = from role in rolesQueryAble
+                        select role.Name;
+
+            return Json(roles);
+        }
+
     }
 }
