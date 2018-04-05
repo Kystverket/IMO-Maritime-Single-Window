@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")] 
-    public class AccountsController : Controller
+    public class AccountController : Controller
     {
         private readonly UserDbContext _appDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -22,7 +22,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public AccountsController(
+        public AccountController(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
@@ -59,14 +59,14 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("getallroles")]
-        public JsonResult GetAllRoles()
+        //[Authorize(Roles = "admin")]
+        [HttpGet("getrole/all")]
+        public IActionResult GetAllRoles()
         {
             var rolesQueryAble = _roleManager.Roles;
             var roles = from role in rolesQueryAble
                         select role.Name;
-
+            
             return Json(roles);
         }
 
