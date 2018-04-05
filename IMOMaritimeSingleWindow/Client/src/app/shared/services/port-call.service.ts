@@ -38,6 +38,7 @@ export class PortCallService {
     this.crewPassengersAndDimensionsSource.next(null);
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
+    this.otherPurposeNameSource.next("");
   }
 
   getPortCallById(portCallId: number) {
