@@ -30,6 +30,11 @@ export class InfoComponent implements OnInit {
       data => {
         if (data != null) {
           this.portCallShipInfo.find(p => p.description == "Ship Name:").data = data.ship.name;
+          this.portCallShipInfo.find(p => p.description == "Call Sign:").data = data.ship.callSign;
+          this.portCallShipInfo.find(p => p.description == "IMO no:").data = data.ship.imoNo;
+          this.portCallShipInfo.find(p => p.description == "Gross Tonnage:").data = data.ship.grossTonnage;
+          this.portCallShipInfo.find(p => p.description == "Length:").data = data.ship.length;
+          // this.portCallShipInfo.find(p => p.description == "Ship Type:").data = data.ship.type;
         }
       }
     );
