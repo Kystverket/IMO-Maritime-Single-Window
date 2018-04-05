@@ -10,17 +10,32 @@
     </div>
   </div>
   <div class="card-body text-left">
-    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="5">
+    <label class="control-label" for="purposes">Select purposes for this port call. <small>Use CTRL+click to select multiple purposes.</small> </label>
+    <select [(ngModel)]="selectedPurposes" (change)="purposeSelected()" class="custom-select" multiple size="8" id="purposes">
       <option *ngFor="let purpose of purposeList" value="{{purpose.portCallPurposeId}}">{{ purpose.name }}</option>
-      <option>Other</option>
     </select>
-    <pre>Model: {{ selectedPurposes | json }}</pre>
-    <div *ngIf="otherPurposeSelected" class="form-group">
-      <label class="control-label" for="other_purpose">Specify Other Purpose</label>
+
+    <div *ngIf="otherPurposeSelected" class="form-group form-inline mt-2">
+      <label class="control-label" for="other_purpose">Specify Other Purpose:</label>
       <div class="col">
-        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter other purpose"
-        />
+        <input [(ngModel)]="otherPurposeName" name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose"
+          placeholder="Enter other purpose" (ngModelChange)="setOtherPurposeName()" />
       </div>
+    </div>
+
+    <div class="table-responsive mt-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="bg-ssn text-ssn">
+            <th [attr.colspan]="amountOfPurposes">Selected Purposes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let purpose of selectedPurposes">{{ getPurposeName(purpose) }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
