@@ -38,6 +38,7 @@ export class PortCallService {
     this.crewPassengersAndDimensionsSource.next(null);
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
+    this.otherPurposeNameSource.next("");
   }
 
   getPortCallById(portCallId: number) {
@@ -74,9 +75,7 @@ export class PortCallService {
     };
     
     this.setEtaEtdData(etaEtdData);
-  }
-  
-  
+  } 
 
   savePortCall() {
     if (!this.portCallRegistered.value) {
@@ -114,20 +113,9 @@ export class PortCallService {
   setEtaEtdData(data) {
 
     if (data != null) {
-      let eta = new Date();
-      eta.setFullYear(data.eta.year);
-      // Haha, a JavaScript month ranges from 0 to 11
-      eta.setMonth(data.eta.month - 1);
-      eta.setDate(data.eta.day);
-      eta.setHours(data.eta.hour);
-      eta.setMinutes(data.eta.minute);
-
-      let etd = new Date();
-      etd.setFullYear(data.etd.year);
-      etd.setMonth(data.etd.month - 1);
-      etd.setDate(data.etd.day);
-      etd.setHours(data.etd.hour);
-      etd.setMinutes(data.etd.minute);
+      // UTC conversion
+      let eta = new Date(Date.UTC(data.eta.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
+      let etd = new Date(Date.UTC(data.etd.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
 
       this.portCallModel.locationEta = eta;
       this.portCallModel.locationEtd = etd;
@@ -163,6 +151,12 @@ export class PortCallService {
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
     this.portCallPurposeSource.next(data);
+  }
+
+  private otherPurposeNameSource = new BehaviorSubject<string>("");
+  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
+  setOtherPurposeName(data) {
+    this.otherPurposeNameSource.next(data);
   }
 
 }
