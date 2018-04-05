@@ -15,8 +15,8 @@
 
         <div class="col-lg-6">
           <div class="form-group row">
-            <label class="col-form-label-sm col-sm-4" for="number_of_crew">Number of crew</label>
-            <div class="col-sm-8 my-auto">
+            <label class="col-form-label-sm col-sm-4 col-md-3 col-lg-4" for="number_of_crew">Number of Crew</label>
+            <div class="col my-auto">
               <input name="number_of_crew" type="number" class="form-control form-control-sm" id="number_of_crew" placeholder="Enter number of crew"
                 (ngModelChange)="numberOfCrewChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfCrew" />
             </div>
@@ -28,8 +28,8 @@
 
         <div class="col-lg-6">
           <div class="form-group row">
-            <label class="col-form-label-sm col-sm-4" for="number_of_passengers">Number of Passengers</label>
-            <div class="col-sm-8 my-auto">
+            <label class="col-form-label-sm col-sm-5 col-md-4 col-lg-5" for="number_of_passengers">Number of Passengers</label>
+            <div class="col my-auto">
               <input name="number_of_passengers" type="number" class="form-control form-control-sm" id="number_of_passengers" placeholder="Enter number of passengers"
                 (ngModelChange)="numberOfPassengersChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfPassengers"
               />
@@ -45,8 +45,8 @@
 
         <div class="col-lg-6">
           <div class="form-group row">
-            <label class="col-form-label-sm col-sm-4" for="actual_draught">Actual Draught</label>
-            <div class="col-sm-8 my-auto">
+            <label class="col-form-label-sm col-sm-4 col-md-3 col-lg-4" for="actual_draught">Actual Draught</label>
+            <div class="col my-auto">
               <input name="actual_draught" type="number" class="form-control form-control-sm" id="actual_draught" placeholder="Enter actual draught"
                 (ngModelChange)="actualDraughtChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.actualDraught"
               />
@@ -59,8 +59,8 @@
 
         <div class="col-lg-6">
           <div class="form-group row">
-            <label class="col-form-label-sm col-sm-4" for="air_draught">Air Draught</label>
-            <div class="col-sm-8 my-auto">
+            <label class="col-form-label-sm col-sm-4 col-md-3 col-lg-4" for="air_draught">Air Draught</label>
+            <div class="col my-auto">
               <input name="air_draught" type="number" class="form-control form-control-sm" id="air_draught" placeholder="Enter air draught"
                 (ngModelChange)="airDraughtChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.airDraught" />
             </div>
