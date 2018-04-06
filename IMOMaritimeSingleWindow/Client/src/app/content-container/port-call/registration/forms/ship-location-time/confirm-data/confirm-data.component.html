@@ -5,16 +5,16 @@
         <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="32px" />
       </div>
       <div class="col-8">
-        <h4>Confirm Port Call</h4>
+        <h4 class="no-wrap">Confirm Port Call</h4>
       </div>
     </div>
   </div>
   <div class="card-body">
 
     <div *ngIf="!shipFound || !locationFound || !dateTimeFound">
-      <p *ngIf="!shipFound" class="mb-0">No ship selected.</p>
-      <p *ngIf="!locationFound" class="mb-0">No location selected.</p>
-      <p *ngIf="!dateTimeFound">ETA and ETD not set.</p>
+      <p *ngIf="!shipFound" class="no-wrap mb-0">No ship selected.</p>
+      <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
+      <p *ngIf="!dateTimeFound" class="no-wrap">ETA and ETD not set.</p>
       <button class="btn btn-ssn" disabled="true">
         <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Port Call</button>
     </div>
@@ -35,7 +35,7 @@
           <tbody>
             <tr>
               <td>
-                <img src="assets/images/Flags/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
+                <img src="assets/images/Flags/{{shipModel.country.twoCharCode | lowercase}}.png" height="20px" />
               </td>
               <td>{{ shipModel.ship.name }}</td>
               <td>{{ locationModel.name }}</td>
