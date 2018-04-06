@@ -23,10 +23,15 @@ div .bg-ssn-light {
 
 .card-ssn {
     margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .clickable {
     cursor: pointer;
+}
+
+.no-wrap {
+    white-space: nowrap;
 }
 
 
