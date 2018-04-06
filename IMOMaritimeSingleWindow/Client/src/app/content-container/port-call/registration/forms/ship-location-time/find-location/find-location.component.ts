@@ -63,7 +63,7 @@ export class FindLocationComponent implements OnInit {
             ovData => {
                 if (ovData != null) {
                     this.locationFound = ovData.locationOverview != null;
-                    this.locationModel = this.locationFound ? ovData : null;
+                    this.locationModel = this.locationFound ? ovData.locationOverview : null;
                 }
             }
         );
