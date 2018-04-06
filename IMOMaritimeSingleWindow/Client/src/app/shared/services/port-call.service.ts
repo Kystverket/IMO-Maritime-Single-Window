@@ -22,6 +22,8 @@ export class PortCallService {
   private savePortCallUrl: string;
   private getPurposeUrl: string;
   private portCallModel: PortCallModel;
+
+  
   
   
   private portCallRegistered = new BehaviorSubject<boolean>(true);
@@ -70,8 +72,8 @@ export class PortCallService {
     let etdData = new Date(overviewModel.portCall.locationEtd);
 
     let etaEtdData = {
-      eta: { year: etaData.getFullYear(), month: etaData.getMonth()+1, day: etaData.getDate(), hour: etaData.getHours(), minute: etaData.getMinutes() },
-      etd: { year: etdData.getFullYear(), month: etdData.getMonth()+1, day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
+      eta: { year: etaData.getFullYear(), month: etaData.getMonth(), day: etaData.getDate(), hour: etaData.getHours(), minute: etaData.getMinutes() },
+      etd: { year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
     };
     
     this.setEtaEtdData(etaEtdData);
@@ -115,7 +117,7 @@ export class PortCallService {
     if (data != null) {
       // UTC conversion
       let eta = new Date(Date.UTC(data.eta.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
-      let etd = new Date(Date.UTC(data.etd.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
+      let etd = new Date(Date.UTC(data.etd.year, (data.etd.month-1), data.eta.day, data.eta.hour, data.eta.minute));
 
       this.portCallModel.locationEta = eta;
       this.portCallModel.locationEtd = etd;

@@ -21,10 +21,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("overview/{id}")]
-        public IActionResult GetOverview(int id)
+        public PortCallOverview GetOverview(int id)
         {
-
             PortCallOverview overview = new PortCallOverview();
 
             PortCall pc = (from p in _context.PortCall
@@ -74,6 +72,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             overview.PreviousLocationOverview = previousLocationOverview;
             overview.NextLocationOverview = nextLocationOverview;
 
+            return overview;
+        }
+
+        [HttpGet("overview/{id}")]
+        public IActionResult GetOverviewJson(int id)
+        {
+            PortCallOverview overview = GetOverview(id);
             return Json(overview);
         }
 
@@ -135,6 +140,17 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             return (from pc in _context.PortCall
                     select pc).OrderBy(x => x.PortCallId).ToList();
+        }
+
+        [HttpGet("overview")]
+        public IActionResult GetAllOverview()
+        {
+            List<PortCallOverview> results = new List<PortCallOverview>();
+            foreach(PortCall p in _context.PortCall)
+            {
+                results.Add(GetOverview(p.PortCallId));
+            }
+            return Json(results);
         }
     }
 }
