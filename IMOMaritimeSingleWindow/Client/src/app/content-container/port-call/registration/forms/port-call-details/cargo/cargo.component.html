@@ -11,26 +11,34 @@
   </div>
   <div class="card-body text-left">
     <form>
-      <div class="form-group">
-        <label class="control-label" for="gross_gross_weight">Gross Gross Weight</label>
-        <div class="col">
-          <input name="gross_gross_weight" type="number" class="form-control form-control-sm" id="gross_gross_weight" placeholder="Enter gross gross weight"
-            [(ngModel)]="cargoModel.grossGrossWeight" (ngModelChange)="grossGrossWeightChanged($event)" />
-        </div>
-      </div>
-      <div *ngIf="grossGrossWeightError" class="alert alert-danger" role="alert">
-        <strong>{{ grossGrossWeightError }}</strong>
-      </div>
+      <div class="row">
 
-      <div class="form-group">
-        <label class="control-label" for="gross_weight">Gross Weight</label>
-        <div class="col">
-          <input name="gross_weight" type="number" class="form-control form-control-sm" id="gross_weight" placeholder="Enter gross weight"
-            [(ngModel)]="cargoModel.grossWeight" (ngModelChange)="grossWeightChanged($event)" />
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label class="col-form-label-sm col-sm-5 col-md-4 col-lg-5" for="gross_gross_weight">Gross Gross Weight</label>
+            <div class="col my-auto">
+              <input name="gross_gross_weight" type="number" class="form-control form-control-sm" placeholder="Enter gross gross weight"
+                [(ngModel)]="cargoModel.grossGrossWeight" (ngModelChange)="grossGrossWeightChanged($event)" />
+            </div>
+          </div>
+          <div *ngIf="grossGrossWeightError" class="alert alert-danger" role="alert">
+            <strong>{{ grossGrossWeightError }}</strong>
+          </div>
         </div>
-      </div>
-      <div *ngIf="grossWeightError" class="alert alert-danger" role="alert">
-        <strong>{{ grossWeightError }}</strong>
+
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label class="col-form-label-sm col-sm-4 col-md-3 col-lg-4" for="gross_weight">Gross Weight</label>
+            <div class="col my-auto">
+              <input name="gross_weight" type="number" class="form-control form-control-sm" placeholder="Enter gross weight" [(ngModel)]="cargoModel.grossWeight"
+                (ngModelChange)="grossWeightChanged($event)" />
+            </div>
+          </div>
+          <div *ngIf="grossWeightError" class="alert alert-danger" role="alert">
+            <strong>{{ grossWeightError }}</strong>
+          </div>
+        </div>
+
       </div>
     </form>
   </div>

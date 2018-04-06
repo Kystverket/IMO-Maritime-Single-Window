@@ -63,7 +63,6 @@ export class PortCallService {
     this.setShipData(overviewModel.shipOverview);
     this.setLocationData(overviewModel.locationOverview.location);
     this.getPortCallPurpose(overviewModel.portCall.portCallId).subscribe(data => {
-      console.log(data);
       this.setPortCallPurposeData(data);
     });
     let etaData = new Date(overviewModel.portCall.locationEta);
