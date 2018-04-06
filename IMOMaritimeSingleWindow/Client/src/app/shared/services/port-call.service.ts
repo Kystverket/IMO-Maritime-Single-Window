@@ -112,20 +112,9 @@ export class PortCallService {
   setEtaEtdData(data) {
 
     if (data != null) {
-      let eta = new Date();
-      eta.setFullYear(data.eta.year);
-      // Haha, a JavaScript month ranges from 0 to 11
-      eta.setMonth(data.eta.month - 1);
-      eta.setDate(data.eta.day);
-      eta.setHours(data.eta.hour);
-      eta.setMinutes(data.eta.minute);
-
-      let etd = new Date();
-      etd.setFullYear(data.etd.year);
-      etd.setMonth(data.etd.month - 1);
-      etd.setDate(data.etd.day);
-      etd.setHours(data.etd.hour);
-      etd.setMinutes(data.etd.minute);
+      // UTC conversion
+      let eta = new Date(Date.UTC(data.eta.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
+      let etd = new Date(Date.UTC(data.etd.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
 
       this.portCallModel.locationEta = eta;
       this.portCallModel.locationEtd = etd;
