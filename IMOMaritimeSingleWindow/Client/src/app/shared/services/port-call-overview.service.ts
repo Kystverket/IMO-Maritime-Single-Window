@@ -9,7 +9,7 @@ export class PortCallOverviewService {
     constructor(private http: Http) {
         this.getOverviewUrl = 'api/portcall/overview';
         this.getPortCallsByLocationUrl = 'api/portcall/location';
-        this.getPortCallsUrl = 'api/portcall/get'
+        this.getPortCallsUrl = 'api/portcall/get';
     }
     private getPortCallsUrl:string;
     private getOverviewUrl:string;
@@ -17,6 +17,9 @@ export class PortCallOverviewService {
     
     // private overviewDataSource = new BehaviorSubject<any>(null);
     // overviewData$ = this.overviewDataSource.asObservable();
+
+    private overviewDataSource = new BehaviorSubject<any>(null);
+    overviewData$ = this.overviewDataSource.asObservable();
 
     private portCallDataSource = new BehaviorSubject<any>(null);
     portCallData$ = this.portCallDataSource.asObservable();
@@ -41,5 +44,12 @@ export class PortCallOverviewService {
         let uri:string = this.getPortCallsUrl;
         return this.http.get(uri)
                 .map(res => res.json());
+    }
+
+    getOverviews() {
+        let uri:string = this.getOverviewUrl;
+        return this.http.get(uri)
+                .map(res => res.json());
+                // .subscribe(data => this.overviewDataSource.next(data));
     }
 }

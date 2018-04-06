@@ -21,12 +21,15 @@ import { CargoComponent } from './registration/forms/port-call-details/cargo/car
 import { PortCallService } from '../../shared/services/port-call.service';
 import { InfoComponent } from './registration/info/info.component';
 
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 @NgModule({
   imports: [
     NgbModule,
     CommonModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    Ng2SmartTableModule
   ],
   declarations: [
     RegistrationComponent,
