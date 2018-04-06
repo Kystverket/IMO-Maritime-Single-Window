@@ -40,6 +40,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             shipOverview.Country = (from c in _context.Country
                                     where c.CountryId == cId
                                     select c).FirstOrDefault();
+            shipOverview.ShipType = (from st in _context.ShipType
+                                    where st.ShipTypeId == shipOverview.Ship.ShipTypeId
+                                    select st).FirstOrDefault();
 
             LocationOverview locationOverview = new LocationOverview();
             locationOverview.Location = (from l in _context.Location

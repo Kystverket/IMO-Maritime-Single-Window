@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { EtaEtdDateTime } from '../eta-etd/eta-etd-date-time.interface';
+import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
+import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
 
 @Component({
   selector: 'app-confirm-data',
@@ -8,8 +10,8 @@ import { EtaEtdDateTime } from '../eta-etd/eta-etd-date-time.interface';
   styleUrls: ['./confirm-data.component.css']
 })
 export class ConfirmDataComponent implements OnInit {
-  shipModel: any;
-  locationModel: any;
+  shipModel: ShipOverviewModel;
+  locationModel: LocationOverviewModel;
   etaEtdModel: EtaEtdDateTime;
 
   shipFound: boolean;
@@ -19,18 +21,20 @@ export class ConfirmDataComponent implements OnInit {
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe(
-      data => {
-        this.shipFound = data != null;
-        this.shipModel = data;
+    this.portCallService.overviewData$.subscribe(
+      ovData => {
+        if (ovData != null) {
+          // Ship
+        this.shipFound = ovData.shipOverview != null;
+        this.shipModel = this.shipFound ? ovData.shipOverview : null;
+        // Location
+        this.locationFound = ovData.locationOverview != null;
+        this.locationModel = this.locationFound ? ovData.locationOverview : null;
+        }
+        
       }
     );
-    this.portCallService.locationData$.subscribe(
-      data => {
-        this.locationFound = data != null;
-        this.locationModel = data;
-      }
-    );
+    // ETA/ETD
     this.portCallService.etaEtdData$.subscribe(
       data => {
         this.dateTimeFound = data != null;

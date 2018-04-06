@@ -9,6 +9,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 
 import { LocationService } from '../../../../../../shared/services/location.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
 
 @Component({
     selector: 'app-find-location',
@@ -18,7 +19,7 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
 })
 export class FindLocationComponent implements OnInit {
 
-    locationModel: any;
+    locationModel: LocationOverviewModel;
     locationFound: boolean = false;
     portCallRegistered: boolean;
 
@@ -58,10 +59,12 @@ export class FindLocationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.portCallService.locationData$.subscribe(
-            locationData => {
-                this.locationModel = locationData;
-                this.locationFound = locationData != null;
+        this.portCallService.overviewData$.subscribe(
+            ovData => {
+                if (ovData != null) {
+                    this.locationFound = ovData.locationOverview != null;
+                    this.locationModel = this.locationFound ? ovData : null;
+                }
             }
         );
         this.portCallService.portCallRegistered$.subscribe(

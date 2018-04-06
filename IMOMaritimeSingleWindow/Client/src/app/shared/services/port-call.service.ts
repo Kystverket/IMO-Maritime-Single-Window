@@ -8,29 +8,43 @@ import { PortCallOverviewModel } from '../models/port-call-overview-model';
 @Injectable()
 export class PortCallService {
 
-  
-
   constructor(private http: Http) {
+    // Port call
     this.getPortCallUrl = "api/portcall/get";
     this.savePortCallUrl = "api/portcall/register";
     this.getPurposeUrl = "api/portcallpurpose/portcall"
     this.portCallModel = new PortCallModel();
-   }
 
-  // Global
+    // Overview
+    this.overviewModel = new PortCallOverviewModel();
+    this.getOverviewUrl = 'api/portcall/overview';
+    this.getPortCallsByLocationUrl = 'api/portcall/location';
+
+  }
+   
+  // Global port call
   private getPortCallUrl: string;
   private savePortCallUrl: string;
   private getPurposeUrl: string;
   private portCallModel: PortCallModel;
-
+  // Global overview
+  private overviewModel: PortCallOverviewModel;
+  private getOverviewUrl: string;
+  private getPortCallsByLocationUrl: string;
   
-  
-  
+  // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
 
+  private overviewDataSource = new BehaviorSubject<any>(null);
+  overviewData$ = this.overviewDataSource.asObservable();
+
+  // Overview methods
+
+
   wipeServiceData() {
     this.portCallModel = new PortCallModel();
+    this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
 
     this.shipDataSource.next(null);
@@ -41,6 +55,9 @@ export class PortCallService {
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
+
+    // Overview
+    this.overviewDataSource.next(null);
   }
 
   getPortCallById(portCallId: number) {
@@ -63,7 +80,7 @@ export class PortCallService {
 
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);
-    this.setLocationData(overviewModel.locationOverview.location);
+    this.setLocationData(overviewModel.locationOverview);
     this.getPortCallPurpose(overviewModel.portCall.portCallId).subscribe(data => {
       this.setPortCallPurposeData(data);
     });
@@ -81,7 +98,7 @@ export class PortCallService {
   savePortCall() {
     if (!this.portCallRegistered.value) {
       console.log("Saving port call to database...");
-      this.http.post(this.savePortCallUrl, this.portCallModel).map(res => res.json()).subscribe(
+      this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
         data => {
           console.log("Success.");        
           console.log(data);
@@ -98,15 +115,18 @@ export class PortCallService {
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
   setShipData(data) {
-    this.portCallModel.shipId = data != null ? data.ship.shipId : null;    
-    this.shipDataSource.next(data);
+    this.portCallModel.shipId = data != null ? data.ship.shipId : null; 
+    this.overviewModel.portCall = this.portCallModel;
+    this.overviewModel.shipOverview = data;
+    this.overviewDataSource.next(this.overviewModel);
   }
 
   private locationDataSource = new BehaviorSubject<any>(null);
   locationData$ = this.locationDataSource.asObservable();
   setLocationData(data) {
-    this.portCallModel.locationId = data != null ? data.locationId : null;    
-    this.locationDataSource.next(data);
+    this.portCallModel.locationId = data != null ? data.location.locationId : null;    
+    this.overviewModel.locationOverview = data;
+    this.overviewDataSource.next(this.overviewModel);
   }
 
   private etaEtdDataSource = new BehaviorSubject<any>(null);
@@ -125,6 +145,9 @@ export class PortCallService {
       this.portCallModel.locationEtd = null;
     }    
     this.etaEtdDataSource.next(data);
+    // Overview
+    this.overviewModel.portCall = this.portCallModel;
+    this.overviewDataSource.next(this.overviewModel);
   }
 
   // Port Call Details

@@ -30,34 +30,37 @@ export class InfoComponent implements OnInit {
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe(
+    this.portCallService.overviewData$.subscribe(
       data => {
         if (data != null) {
-          if (data.country != null) {
-            this.shipFlag = data.country.twoCharCode;
+          // Ship
+          if (data.shipOverview != null) {
+            if (data.shipOverview.country != null) {
+              this.shipFlag = data.shipOverview.country.twoCharCode;
+            }
+            this.portCallShipInfo.find(p => p.description == "Ship Name:").data = data.shipOverview.ship.name;
+            this.portCallShipInfo.find(p => p.description == "Call Sign:").data = data.shipOverview.ship.callSign;
+            this.portCallShipInfo.find(p => p.description == "IMO no:").data = data.shipOverview.ship.imoNo;
+            this.portCallShipInfo.find(p => p.description == "Gross Tonnage:").data = data.shipOverview.ship.grossTonnage;
+            this.portCallShipInfo.find(p => p.description == "Length:").data = data.shipOverview.ship.length;
+            console.log(data.shipOverview);
+            if (data.shipOverview.shipType != null) {
+              this.portCallShipInfo.find(p => p.description == "Ship Type:").data = data.shipOverview.shipType.name;
+            }
           }
-          this.portCallShipInfo.find(p => p.description == "Ship Name:").data = data.ship.name;
-          this.portCallShipInfo.find(p => p.description == "Call Sign:").data = data.ship.callSign;
-          this.portCallShipInfo.find(p => p.description == "IMO no:").data = data.ship.imoNo;
-          this.portCallShipInfo.find(p => p.description == "Gross Tonnage:").data = data.ship.grossTonnage;
-          this.portCallShipInfo.find(p => p.description == "Length:").data = data.ship.length;
-          if (data.shipType != null) {
-            this.portCallShipInfo.find(p => p.description == "Ship Type:").data = data.shipType.name;
+          // Location
+          if (data.locationOverview != null) {
+            if (data.locationOverview.country != null) {
+              this.locationFlag = data.locationOverview.country.twoCharCode.toLowerCase();
+            }
+            this.portCallLocationInfo.find(p => p.description == "Location:").data = data.locationOverview.location.name;
+            this.portCallLocationInfo.find(p => p.description == "Location Code:").data = data.locationOverview.location.locationCode;
           }
-        }
+        }        
       }
     );
-    this.portCallService.locationData$.subscribe(
-      data => {
-        if (data != null) {          
-          if (data.country != null) {
-            this.locationFlag = data.country.twoCharCode;
-          }
-          this.portCallLocationInfo.find(p => p.description == "Location:").data = data.name;
-          this.portCallLocationInfo.find(p => p.description == "Location Code:").data = data.locationCode;
-        }
-      }
-    );
+    
+    // ETA/ETD
     this.portCallService.etaEtdData$.subscribe(
       data => {
         if (data != null) {

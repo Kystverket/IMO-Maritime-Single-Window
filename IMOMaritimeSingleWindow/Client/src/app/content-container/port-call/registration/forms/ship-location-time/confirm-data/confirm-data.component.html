@@ -38,8 +38,8 @@
                 <img src="assets/images/Flags/{{shipModel.country.twoCharCode | lowercase}}.png" height="20px" />
               </td>
               <td>{{ shipModel.ship.name }}</td>
-              <td>{{ locationModel.name }}</td>
-              <td>{{ locationModel.locationCode }}</td>
+              <td>{{ locationModel.location.name }}</td>
+              <td>{{ locationModel.location.locationCode }}</td>
               <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
                 }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
               <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)

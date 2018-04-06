@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { ShipService } from '../../../../../../shared/services/ship.service';
+import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
 
 @Component({
   selector: 'app-find-ship',
@@ -11,7 +12,7 @@ import { ShipService } from '../../../../../../shared/services/ship.service';
 })
 export class FindShipComponent implements OnInit {
 
-  shipModel: any;
+  shipModel: ShipOverviewModel;
   shipFound: boolean = false;
   portCallRegistered: boolean;
 
@@ -51,10 +52,13 @@ export class FindShipComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe(
-      shipData => {
-        this.shipModel = shipData;
-        this.shipFound = shipData != null;
+    this.portCallService.overviewData$.subscribe(
+      ovData => {
+        if (ovData != null) {
+          this.shipFound = ovData.shipOverview != null;
+          this.shipModel = this.shipFound ? ovData.shipOverview : null;
+        }
+        
       }
     );
     this.portCallService.portCallRegistered$.subscribe(

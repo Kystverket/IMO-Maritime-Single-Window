@@ -48,16 +48,15 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             List<Location> results = SearchLocation(searchTerm);
             
-            List<LocationSearchResult> resultList = new List<LocationSearchResult>();
+            List<LocationOverview> resultList = new List<LocationOverview>();
             foreach(Location loc in results)
             {
                 
-                LocationSearchResult searchItem = new LocationSearchResult();
-                searchItem.LocationId = loc.LocationId;
-                searchItem.Name = (loc.Name != null) ? loc.Name : string.Empty;
-                searchItem.LocationCode = (loc.LocationCode != null) ? loc.LocationCode : string.Empty;
+                LocationOverview locationOverview = new LocationOverview();
+                locationOverview.Location = loc;
+                locationOverview.Country = _context.Country.Where(c => c.CountryId == loc.CountryId).FirstOrDefault();
 
-                resultList.Add(searchItem);
+                resultList.Add(locationOverview);
             }
             return Json(resultList);
         }
