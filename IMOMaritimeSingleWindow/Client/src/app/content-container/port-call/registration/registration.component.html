@@ -1,5 +1,5 @@
 <div class="jumbotron bg-ssn-light">
-  <div class="row card-ssn text-center">
+  <div class="row mb-3 text-center">
     <div class="col-2">
       <img src="assets/images/VoyageIcons/128x128/white/portcall.png" height="64px">
     </div>
@@ -7,8 +7,13 @@
       <h3 class="text-ssn display-4">REGISTER PORT CALL</h3>
     </div>
   </div>
+  <div class="row mb-3 text-ssn">
+    <div class="col">
+        <app-info *ngIf="portCallRegistered"></app-info>
+    </div>
+  </div>
 
   <app-forms></app-forms>
   
 </div>
-<app-progress-bar *ngIf="portCallRegistered" ></app-progress-bar>
+<app-progress-bar *ngIf="portCallRegistered"></app-progress-bar>

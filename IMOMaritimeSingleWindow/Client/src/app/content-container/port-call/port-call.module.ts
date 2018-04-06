@@ -19,6 +19,7 @@ import { CrewPassengersDimensionsComponent } from './registration/forms/port-cal
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
 import { PortCallService } from '../../shared/services/port-call.service';
+import { InfoComponent } from './registration/info/info.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
@@ -45,7 +46,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     PurposeComponent,
     CargoComponent,
     OverviewComponent,
-    PortCallComponent
+    PortCallComponent,
+    InfoComponent
   ],
   exports: [
     PortCallComponent,
