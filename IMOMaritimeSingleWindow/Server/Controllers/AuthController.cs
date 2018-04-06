@@ -56,6 +56,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userName = credentials.UserName;
             var password = credentials.Password;
+            _logger.LogDebug($"userName: {userName}\npassword: {password}");
 
             int res = await VerifyCredentials(userName, password);
             switch (res)
@@ -81,8 +82,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            _logger.LogDebug(jwt);
-            return new OkObjectResult(jwt);
+            _logger.LogError(jwt);
+            return new ContentResult
+            {
+                Content = jwt,
+                ContentType = "application/json; charset=utf-8",
+                StatusCode = 200
+            };
         }
 
         private async Task<int> VerifyCredentials(string userName, string password)

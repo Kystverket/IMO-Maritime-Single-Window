@@ -32,22 +32,21 @@ export class LoginService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-    register() {
-        //Not yet implemented
-    }
-
-   login(username, password) {
+   login(userName, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
+    console.log("login called!");
+
     return this.http
       .post(
-      this.baseUrl + '/auth/login',
-      JSON.stringify({ username, password }),{ headers }
+      this.baseUrl + 'auth/login',
+      JSON.stringify({ userName, password }),{ headers }
       )
       .map(res => res.json())
       .map(res => {
         localStorage.setItem('auth_token', res.auth_token);
+        localStorage.setItem('test', 'tetty');
         this.loggedIn = true;
         this._authNavStatusSource.next(true);
         return true;
@@ -64,8 +63,5 @@ export class LoginService extends BaseService {
   isLoggedIn() {
     return this.loggedIn;
   }
-
-  
-  // REGISTER
 
 }

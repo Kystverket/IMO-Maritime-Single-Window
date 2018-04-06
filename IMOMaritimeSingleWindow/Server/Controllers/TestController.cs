@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Helpers;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -32,7 +33,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             _userRoleManager = userRoleManager;
             _mapper = mapper;
         }
-        
+
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin)]
         // GET /api/test/admindata
         [HttpGet("admindata")]
         public JsonResult GetAdminData()

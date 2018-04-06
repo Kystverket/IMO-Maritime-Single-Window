@@ -4,9 +4,9 @@ import { Subscription } from 'rxjs';
 import { LoginService } from '../shared/services/login.service';
 import { MenuEntry } from '../shared/models/menu-entry.interface';
 import { ContentService } from '../shared/services/content.service';
-import { AccountService } from '../content-container/basis-data/user/account.service';
 import { Scopes } from './header.scopes';
-
+import { log } from 'util';
+import { AccountService } from '../shared/services/account.service';
 
 
 @Component({
@@ -33,15 +33,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   menu_entries: MenuEntry[];
 
+  private getRoles(){
+    //Gets the roles of the logged in user
+    this.accountService.getRoles().subscribe(
+      data => this.roles = data
+    );
+  }
+
   private setMenuEntries() {
-    this.roles = this.accountService.getAgentRole();
-    
-    /* if(this.roles.includes("admin")) {
-      this.menu_entries = this.menu_entries_all;
-    }
-    else if(this.roles.includes("agent")) {
-      this.menu_entries = this.menu_entries_all.filter(me => me.title == "PORT CALL");
-    } // else menu_entries remains empty */
+    this.getRoles();
+    console.log(this.roles);
 
     this.menu_entries = [];
     let entries : string[] = this.headerScopeService.getEntries("admin"); //TODO: get role of logged in user from backend
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private accountService: AccountService,
     private headerScopeService: Scopes) { }
+    
 
   logout() {
     this.loginService.logout();
@@ -73,10 +75,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.loggedIn = this.loginService.isLoggedIn();
+    //Temporarily solution not requiring login in GUI
+    if(true || !this.loggedIn){
+      var t = this.loginService.login("admin", "Tester123");
+      console.log("logged in?");
+      console.log("auth_token: " + localStorage.getItem("auth_token"));
+    }
+    
     this.headerScopeService.getEntries("admin");
     this.setMenuEntries();
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
-
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
   }
 

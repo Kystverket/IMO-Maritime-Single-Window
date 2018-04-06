@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Helpers
 
             public static class UserRoles
             {
-                public static string Admin = "admin", Agent = "agent";
+                public const string Admin = "admin", Agent = "agent";
             }
 
             

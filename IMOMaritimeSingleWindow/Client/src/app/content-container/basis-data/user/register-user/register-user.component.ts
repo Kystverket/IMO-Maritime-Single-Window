@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../shared/services/user.service';
 import { UserModel } from '../../../../shared/models/user-model';
-import { AccountService } from '../account.service';
 import { Role } from '../../../../shared/models/role-model';
+import { AccountService } from '../../../../shared/services/account.service';
 
 @Component({
   selector: 'app-register-user',
@@ -27,7 +27,7 @@ export class RegisterUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.accountService.getRoles().subscribe(
+    this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
   }

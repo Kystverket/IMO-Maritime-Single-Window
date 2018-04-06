@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { log } from "util";
 import { Attribute } from "@angular/compiler";
 import { forEach } from "@angular/router/src/utils/collection";
+import { log } from "util";
 
 
 @Injectable()
@@ -20,21 +20,31 @@ export class Scopes {
             "SHIPS" : [],
             "LOCATIONS" : [],
             "COMPANIES" : [],
-            "PORT CALL" : this.scopes.group2,
+            "PORT CALL" : this.scopes.group2.concat(this.scopes.group1),
         };
         this.entry_scope.USERS  = this.entry_scope.SHIPS = this.entry_scope.COMPANIES = this.entry_scope.LOCATIONS
                                 = this.scopes.group1;
+        log("onCreate()");
+    }
+
+    //Debug
+    listScopes(){
+        for (var key in this.entry_scope) {
+            console.log(key + " -> " + this.entry_scope[key]);
+            console.log(this.entry_scope[key]);
+        }
+    }
+
+    listScopesForRole(role: string) {
+        let entries: string[] = this.getEntries(role);
+        console.log("Menu entries accessible for user:");
+        for(let entry of entries)
+            console.log(entry);
     }
 
     getEntries(role: string){
 
         let entries: string[] = [];
-
-        for (var key in this.entry_scope) {
-            console.log(key + " -> " + this.entry_scope[key]);
-            console.log(this.entry_scope[key]);
-        }
-
         for (var key in this.entry_scope) {
             if (this.entry_scope.hasOwnProperty(key)) {
                 let roles: string[] = this.entry_scope[key];
@@ -42,15 +52,11 @@ export class Scopes {
                     entries.push(key);
             }
         }
-
-        log("Menu entries accessible for user:");
-        for(let entry of entries)
-            log(entry);
-
         return entries;
+    }
 
-        //this.entry_scope.forEach(a => a.forEach(s => console.log(s)));
-            
+    ngOnInit() {
+        log("onInit()");
     }
 
 }

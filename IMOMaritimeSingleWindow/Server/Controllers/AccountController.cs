@@ -70,5 +70,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(roles);
         }
 
+
+        [HttpGet("getrole")]
+        public IActionResult GetRole()
+        {
+            var userClaimsPrincipal = Request.HttpContext.User;
+            var role = userClaimsPrincipal.Claims
+                .Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)
+                .Select(f => f.Value);
+            return Json(role);
+        }
+
     }
 }
