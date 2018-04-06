@@ -88,17 +88,6 @@ ngOnInit() {
         }
       
       }));
-      // this.data.push({
-      //   ship: {
-      //     name: ovData.shipOverview.ship.name,
-      //     callSign: ovData.shipOverview.ship.callSign
-      //   },
-      //   portOfCall: {
-      //     locationName: ovData.locationOverview.location.name,
-      //     eta: ovData.portCall.locationEta,
-      //     etd: ovData.portCall.locationEtd
-      //   }
-      // });
     }
   )
   this.overviewService.getPortCalls().subscribe(
@@ -107,17 +96,6 @@ ngOnInit() {
         this.overviewService.getOverview(pc.portCallId).subscribe(
           ovData => {
             this.overviewModels.push(ovData);
-            // this.data.push({
-            //   ship: {
-            //     name: ovData.shipOverview.ship.name,
-            //     callSign: ovData.shipOverview.ship.callSign
-            //   },
-            //   portOfCall: {
-            //     locationName: ovData.locationOverview.location.name,
-            //     eta: ovData.portCall.locationEta,
-            //     etd: ovData.portCall.locationEtd
-            //   }
-            // });
           }
         )
       });
@@ -132,9 +110,5 @@ editPortCall(overviewModel: PortCallOverviewModel) {
   this.contentService.setContent('Register Port Call');
 }
 
-dtFormat(dateStr: string) {
-  var date = new Date('yyyy-MM-dd HH:mm');
-  return date.getFullYear() + "-" + (date.getMonth()-1) + "-" + date.getDate() + " " + date.getHours;
-}
 
 }
