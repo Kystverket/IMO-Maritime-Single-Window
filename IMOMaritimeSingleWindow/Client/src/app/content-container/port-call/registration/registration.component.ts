@@ -25,7 +25,7 @@ export class RegistrationComponent implements OnInit {
       registered => {
         this.portCallRegistered = registered;
         
-        this.portCallRegistered = true; // Showing the progress bar for debug and development purposes
+        //this.portCallRegistered = true; // Showing the progress bar for debug and development purposes
       }
     );
   }
