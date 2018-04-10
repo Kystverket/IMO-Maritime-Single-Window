@@ -1,6 +1,8 @@
 <div [ngSwitch]="selectedComponent">
     <app-ship-location-time *ngSwitchCase="'Ship, Location and Time'"></app-ship-location-time>
     <app-port-call-details *ngSwitchCase="'Port Call Details'"></app-port-call-details>
+
+    <app-confirmation *ngSwitchCase="'Confirm Port Call'"></app-confirmation>
     <div *ngSwitchDefault class="alert alert-danger" role="alert">
         This page is not implemented yet.
     </div>

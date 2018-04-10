@@ -22,6 +22,7 @@ import { PortCallService } from '../../shared/services/port-call.service';
 import { InfoComponent } from './registration/info/info.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ConfirmationComponent } from './registration/forms/confirmation/confirmation.component';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     CargoComponent,
     OverviewComponent,
     PortCallComponent,
-    InfoComponent
+    InfoComponent,
+    ConfirmationComponent
   ],
   exports: [
     PortCallComponent,
