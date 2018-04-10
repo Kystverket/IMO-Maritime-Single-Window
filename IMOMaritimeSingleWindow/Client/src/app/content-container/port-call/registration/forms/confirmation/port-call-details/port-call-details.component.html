@@ -7,22 +7,12 @@
       <table class="table table-bordered">
         <thead>
           <tr class="bg-ssn text-ssn">
-            <th>No. of Crew</th>
-            <th>No. of Passengers</th>
-            <th>Actual Draught</th>
-            <th>Air Draught</th>
-            <th>Gross Gross Weight</th>
-            <th>Gross Weight</th>
+            <th *ngFor="let entry of portCallDetailsInfo" class="no-wrap">{{ entry.description }}</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td *ngFor="let entry of portCallDetailsInfo">{{ entry.data }}</td>
           </tr>
         </tbody>
       </table>
