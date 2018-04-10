@@ -76,26 +76,20 @@ constructor(private datePipe: DatePipe, private contentService: ContentService, 
 
 ngOnInit() {
 
-  this.overviewService.getOverviews().subscribe(
-    ovData => {
-      this.dataSource.load(ovData.map(ov => {
-        return {
-          shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/>` + ov.shipOverview.ship.name + `</div>`,
-          callSign: ov.shipOverview.ship.callSign,
-          locationName: ov.locationOverview.location.name,
-          eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
-          etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
-        }      
-      }));
-      this.dataSource.refresh();
-    }
-  )
   this.overviewService.getPortCalls().subscribe(
     pcData => {
       pcData.forEach(pc => {
         this.overviewService.getOverview(pc.portCallId).subscribe(
-          ovData => {
-            this.overviewModels.push(ovData);
+          ov => {
+            this.overviewModels.push(ov);
+            this.dataSource.add( {
+              shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+              callSign: ov.shipOverview.ship.callSign,
+              locationName: ov.locationOverview.location.name,
+              eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
+              etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm')
+            });
+            this.dataSource.refresh();
           }
         )
       });
