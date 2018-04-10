@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 
 import { LoginService } from '../shared/services/login.service';
 import { MenuEntry } from '../shared/models/menu-entry.interface';
@@ -18,9 +19,9 @@ import { AccountService } from '../shared/services/account.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   menuIsCollapsed: boolean = true;
-  loggedIn: boolean;
   subscription: Subscription;
-  roles: any;
+  loggedIn: boolean;
+  roles: any = new Array();
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries_all: MenuEntry[] = [
@@ -33,17 +34,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   menu_entries: MenuEntry[];
 
-  private getRoles(){
+  private generateMenu() {
     //Gets the roles of the logged in user
-    this.accountService.getRoles().subscribe(
-      data => this.roles = data
+    this.accountService.getRoles()
+    .finally( () => this.setMenuEntries() )
+    .subscribe(
+      data => {
+        data.forEach(role => {
+          console.log(`role: ${role}`);
+          this.roles.push(role);
+        });
+        
+      }
+    );
+  }
+
+  private getAllRoles(){
+    //Gets the roles of the logged in user
+    this.accountService.getAllRoles().subscribe(
+      data => {
+        this.roles = data;
+        console.log("All Roles");
+        console.log(this.roles);
+      }
     );
   }
 
   private setMenuEntries() {
-    this.getRoles();
-    console.log(this.roles);
-
+    
     this.menu_entries = [];
     let entries : string[] = this.headerScopeService.getEntries("admin"); //TODO: get role of logged in user from backend
     for(let entry of entries){
@@ -54,15 +72,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log(this.menu_entries);
-
   }
 
   constructor(
     private loginService: LoginService,
     private contentService: ContentService,
     private accountService: AccountService,
-    private headerScopeService: Scopes) { }
+    private headerScopeService: Scopes) {
+      
+    }
     
 
   logout() {
@@ -75,13 +93,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loggedIn = this.loginService.isLoggedIn();
     //Temporarily solution not requiring login in GUI
-    if(true || !this.loggedIn){
-      var t = this.loginService.login("admin", "Tester123");
-      console.log("logged in?");
-      console.log("auth_token: " + localStorage.getItem("auth_token"));
+    if(!this.loginService.isLoggedIn()){
+        this.loginService.login("admin", "Tester123")
+        .subscribe(
+          result => {
+            if(result)
+              console.log("Login successful");
+              this.generateMenu();
+          }
+        )
     }
+
+    /* console.log("ALL ROLES");
+    this.getAllRoles();
+    console.log(this.roles);
+
+    console.log("ROLES FOR USER");
+    this.getRoles();
+    console.log(this.roles); */
     
     this.headerScopeService.getEntries("admin");
     this.setMenuEntries();
@@ -90,6 +120,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    // prevent memory leak by unsubscribing
     this.subscription.unsubscribe();
   }
 }

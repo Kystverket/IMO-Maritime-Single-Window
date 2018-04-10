@@ -70,7 +70,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(roles);
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpGet("getrole")]
         public IActionResult GetRole()
         {

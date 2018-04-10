@@ -26,6 +26,15 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string Admin = "admin", Agent = "agent";
             }
 
+            public static class MenuEntries
+            {
+                public const string USERS = "Users menu";
+                public const string SHIPS = "Ships menu";
+                public const string LOCATION = "Locations menu";
+                public const string COMPANIES = "Companies menu";
+                public const string PORT_CALL = "Port call menu";
+            }
+
             
         }
         public enum LoginStates

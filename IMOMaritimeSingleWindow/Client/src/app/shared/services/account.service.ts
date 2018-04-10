@@ -6,7 +6,7 @@ import { ConfigService } from "../utils/config.service";
 
 @Injectable()
 export class AccountService extends BaseRequest {
-    private accountBaseUrl = "account/";
+    private accountBaseUrl = "/account";
     private registerUrl : string;
     private rolesUrl : string;
     private actionUrl: string;
@@ -19,20 +19,24 @@ export class AccountService extends BaseRequest {
         super(configService);
         
         this.actionUrl = this.baseUrl + this.accountBaseUrl;
-        this.registerUrl = this.actionUrl + "register";
-        this.rolesUrl = this.actionUrl + "getrole";
+        this.registerUrl = this.actionUrl + "/register";
+        this.rolesUrl = this.actionUrl + "/getrole";
     }
 
     getAllRoles() {        
-        return this.http.get(this.rolesUrl)
+        return this.http.get(this.rolesUrl+"/all")
             .map(res => res.json());
     }
 
     getRoles(){
         var auth_headers = this.authRequestService.GetHeaders();
-        console.log(auth_headers);
+        auth_headers.forEach( element => console.log(element));
+        console.log("auth headers has header 'Authorization'?");
+        console.log(auth_headers.has("Authorization"));
+        console.log("auth_headers: " + auth_headers.get("Authorization"));
+        let options = new RequestOptions({ headers: auth_headers })
         return this.http
-            .get(this.rolesUrl)
+            .get(this.rolesUrl, options)
             .map(res => res.json());
     }
 }

@@ -24,7 +24,6 @@ export class Scopes {
         };
         this.entry_scope.USERS  = this.entry_scope.SHIPS = this.entry_scope.COMPANIES = this.entry_scope.LOCATIONS
                                 = this.scopes.group1;
-        log("onCreate()");
     }
 
     //Debug
@@ -53,10 +52,6 @@ export class Scopes {
             }
         }
         return entries;
-    }
-
-    ngOnInit() {
-        log("onInit()");
     }
 
 }

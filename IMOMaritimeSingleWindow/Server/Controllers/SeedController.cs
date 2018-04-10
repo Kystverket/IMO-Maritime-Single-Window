@@ -48,5 +48,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             await _userDbInitializer.SeedTestBaseAsync();
         }
 
+        [HttpPost("seedMenuEntries")]
+        public async Task SeedMenuEntries()
+        {
+            await _userDbInitializer.SeedMenuRightsAsync();
+        }
+
     }
 }

@@ -58,6 +58,28 @@ namespace IMOMaritimeSingleWindow.Data
             await SeedMiscRolesAsync();
             await SeedMiscUsersAsync();
         }
+
+        public async Task SeedMenuRightsAsync()
+        {
+            var adminRole = await _roleManager.FindByNameAsync(Constants.Strings.UserRoles.Admin);
+            var claims = new List<System.Security.Claims.Claim> {
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.USERS),
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.SHIPS),
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.LOCATION),
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.COMPANIES),
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.PORT_CALL)
+            };
+
+            foreach(var claim in claims)
+                await _roleManager.AddClaimAsync(adminRole, claim);
+
+            var agentRole = await _roleManager.FindByNameAsync(Constants.Strings.UserRoles.Agent);
+            await _roleManager.AddClaimAsync(
+                agentRole,
+                new System.Security.Claims.Claim("Menu", Constants.Strings.MenuEntries.PORT_CALL)
+            );
+        }
+
         public async Task SeedTestBaseAsync()
         {
             List<string> users = new List<string> { "user1", "user2", "user3" };
