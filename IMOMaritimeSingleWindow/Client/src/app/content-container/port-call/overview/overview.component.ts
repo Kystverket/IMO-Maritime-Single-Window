@@ -44,6 +44,8 @@ export class OverviewComponent implements OnInit {
   // Smart table
 
   tableSettings = {
+    mode: 'external',
+
     columns: {
       shipName: {
         title: 'Ship Name',
@@ -64,12 +66,6 @@ export class OverviewComponent implements OnInit {
       }
     }
   }
-    
-      
-     
-  
-
-
 
 constructor(private datePipe: DatePipe, private contentService: ContentService, private portCallService: PortCallService, private overviewService: PortCallOverviewService) {
 
@@ -84,6 +80,7 @@ ngOnInit() {
           ov => {
             this.overviewModels.push(ov);
             this.dataSource.add( {
+              overviewModel: ov,
               shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
               callSign: ov.shipOverview.ship.callSign,
               locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
@@ -103,6 +100,12 @@ ngOnInit() {
 
 editPortCall(overviewModel: PortCallOverviewModel) {
   this.portCallService.setPortCall(overviewModel);
+  this.contentService.setContent('Register Port Call');
+}
+
+onEdit(event) {
+  console.log(event.data);
+  this.portCallService.setPortCall(event.data.overviewModel);
   this.contentService.setContent('Register Port Call');
 }
 
