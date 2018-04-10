@@ -27,6 +27,23 @@ export class PortCallDetailsComponent implements OnInit {
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    
+    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+      data => {
+        if (data != null) {
+          this.portCallDetailsInfo.find(p => p.description == NO_OF_CREW).data = data.numberOfCrew;
+          this.portCallDetailsInfo.find(p => p.description == NO_OF_PASSENGERS).data = data.numberOfPassengers;
+          this.portCallDetailsInfo.find(p => p.description == ACTUAL_DRAUGHT).data = data.actualDraught;
+          this.portCallDetailsInfo.find(p => p.description == AIR_DRAUGHT).data = data.airDraught;
+        }
+      }
+    );
+    this.portCallService.cargoWeightData$.subscribe(
+      data => {
+        if (data != null) {
+          this.portCallDetailsInfo.find(p => p.description == GROSS_GROSS_WEIGHT).data = data.grossGrossWeight;
+          this.portCallDetailsInfo.find(p => p.description == GROSS_WEIGHT).data = data.grossWeight;
+        }
+      }
+    );
   }
 }
