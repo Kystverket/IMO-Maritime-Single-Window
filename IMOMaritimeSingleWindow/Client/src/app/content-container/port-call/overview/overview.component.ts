@@ -53,7 +53,8 @@ export class OverviewComponent implements OnInit {
         title: 'Call Sign'
       },
       locationName: {
-        title: 'Location Name'
+        title: 'Location Name',
+        type: 'html'
       },
       eta: {
         title: 'ETA',
@@ -85,7 +86,7 @@ ngOnInit() {
             this.dataSource.add( {
               shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
               callSign: ov.shipOverview.ship.callSign,
-              locationName: ov.locationOverview.location.name,
+              locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
               eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
               etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm')
             });
@@ -96,6 +97,7 @@ ngOnInit() {
       this.overviewFound = true;
     }
   );
+
 }
 
 
