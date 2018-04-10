@@ -46,7 +46,8 @@ export class OverviewComponent implements OnInit {
   tableSettings = {
     columns: {
       shipName: {
-        title: 'Ship Name'
+        title: 'Ship Name',
+        type: 'html'
       },
       callSign: {
         title: 'Call Sign'
@@ -56,7 +57,6 @@ export class OverviewComponent implements OnInit {
       },
       eta: {
         title: 'ETA',
-        type: 'html'
       },
       etd: {
         title: 'ETD'
@@ -80,14 +80,14 @@ ngOnInit() {
     ovData => {
       this.dataSource.load(ovData.map(ov => {
         return {
-          shipName: ov.shipOverview.ship.name,
+          shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/>` + ov.shipOverview.ship.name + `</div>`,
           callSign: ov.shipOverview.ship.callSign,
           locationName: ov.locationOverview.location.name,
           eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
           etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
-        }
-      
+        }      
       }));
+      this.dataSource.refresh();
     }
   )
   this.overviewService.getPortCalls().subscribe(
