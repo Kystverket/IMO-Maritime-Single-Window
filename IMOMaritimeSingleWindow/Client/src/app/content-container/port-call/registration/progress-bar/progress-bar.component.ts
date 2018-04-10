@@ -13,7 +13,7 @@ export class ProgressBarComponent implements OnInit {
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   base_menu_entries: any = [
     {name: "Ship, Location and Time", icon: "ship.png",       checked: true },
-    {name: "Port Call Details",       icon: "portcall.png",   checked: true }
+    {name: "Port Call Details",       icon: "verification-clipboard.png",   checked: true }
   ];
   final_menu_entries: any = [
     {name: "Confirm Port Call",       icon: "checkmark.png",  checked: true }
