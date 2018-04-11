@@ -6,13 +6,15 @@ import { HttpModule } from '@angular/http';
 import { ConfirmationComponent } from './confirmation.component';
 import { PortCallDetailsComponent } from './port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './port-call-details/selected-purposes/selected-purposes.component';
+import { SharedModule } from '../../../../../shared/components/shared.module';
 
 @NgModule({
   imports: [
     NgbModule,
     CommonModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    SharedModule
   ],
   declarations: [
     ConfirmationComponent,
