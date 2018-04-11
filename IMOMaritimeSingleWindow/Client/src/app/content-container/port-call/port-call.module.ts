@@ -23,6 +23,7 @@ import { InfoComponent } from './registration/info/info.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModule } from './registration/forms/confirmation/confirmation.module';
+import { SharedModule } from '../../shared/components/shared.module';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { ConfirmationModule } from './registration/forms/confirmation/confirmati
     FormsModule,
     HttpModule,
     Ng2SmartTableModule,
-    ConfirmationModule
+    ConfirmationModule,
+    SharedModule
   ],
   declarations: [
     RegistrationComponent,
