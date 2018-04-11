@@ -1,32 +1,17 @@
-<div class="card ssn-card text-center">
-  <div class="card-header bg-ssn text-ssn">
-    <div class="row">
-      <div class="col-2">
-        <img src="assets/images/VoyageIcons/128x128/white/verification-clipboard.png" height="32px" />
-      </div>
-      <div class="col-8">
-        <h4>
-          <span class="no-wrap">Port call</span>
-          <span class="no-wrap">Details</span>
-        </h4>
-      </div>
-    </div>
+<ssn-card title="Port Call Details" icon="verification-clipboard.png">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="bg-ssn text-ssn">
+          <th *ngFor="let entry of portCallDetailsInfo" class="no-wrap">{{ entry.description }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let entry of portCallDetailsInfo">{{ entry.data }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="card-body text-left">
-    <div class="table-responsive">
-      <table class="table table-bordered">
-        <thead>
-          <tr class="bg-ssn text-ssn">
-            <th *ngFor="let entry of portCallDetailsInfo" class="no-wrap">{{ entry.description }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td *ngFor="let entry of portCallDetailsInfo">{{ entry.data }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <app-selected-purposes></app-selected-purposes>
-  </div>
-</div>
+  <app-selected-purposes></app-selected-purposes>
+</ssn-card>

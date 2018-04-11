@@ -1,16 +1,4 @@
-<div class="card card-ssn text-center">
-  <div class="card-header bg-ssn text-ssn">
-    <div class="row">
-      <div class="col-2">
-        <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="32px" />
-      </div>
-      <div class="col-8">
-        <h4 class="no-wrap">Select Ship</h4>
-      </div>
-    </div>
-  </div>
-  <div class="card-body">
-
+<ssn-card title="Select Ship" icon="ship.png">
     <ng-template #rt let-r="result" let-t="term">
       <div class="">
         <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
@@ -21,7 +9,7 @@
       </div>
     </ng-template>
 
-    <div *ngIf="!shipFound">
+    <div *ngIf="!shipFound" class="text-center">
       <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
       <div class="row">
         <div class="col-2"></div>
@@ -76,5 +64,4 @@
       <button *ngIf="!portCallRegistered" class="btn btn-ssn" (click)="deselectShip()">
         <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-  </div>
-</div>
+  </ssn-card>
