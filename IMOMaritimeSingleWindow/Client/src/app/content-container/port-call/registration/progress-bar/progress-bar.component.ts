@@ -10,28 +10,28 @@ import { PortCallService } from '../../../../shared/services/port-call.service';
 })
 export class ProgressBarComponent implements OnInit {
 
-  icon_path = "assets/images/VoyageIcons/128x128/white/";
-  base_menu_entries: any = [
+  iconPath = "assets/images/VoyageIcons/128x128/white/";
+  baseMenuEntries: any = [
     {name: "Ship, Location and Time", icon: "ship.png",       checked: true },
-    {name: "Port Call Details",       icon: "portcall.png",   checked: true }
+    {name: "Port Call Details",       icon: "verification-clipboard.png",   checked: true }
   ];
-  final_menu_entries: any = [
+  finalMenuEntries: any = [
     {name: "Confirm Port Call",       icon: "checkmark.png",  checked: true }
   ]
 
-  menu_entries: any;
+  menuEntries: any;
 
   constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
-  setContent(contentName: string) {
+  setPortCallForm(contentName: string) {
     this.contentService.setPortCallForm(contentName);
   }
 
   ngOnInit() { 
-    this.menu_entries = this.base_menu_entries.concat(this.final_menu_entries);
-    this.portCallService.reportingForThisPortCallData$.subscribe((fal_forms) => {
-      if (fal_forms != null) {
-        this.menu_entries = this.base_menu_entries.concat(fal_forms).concat(this.final_menu_entries);
+    this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
+    this.portCallService.reportingForThisPortCallData$.subscribe((falForms) => {
+      if (falForms != null) {
+        this.menuEntries = this.baseMenuEntries.concat(falForms).concat(this.finalMenuEntries);
       }
     });
   }

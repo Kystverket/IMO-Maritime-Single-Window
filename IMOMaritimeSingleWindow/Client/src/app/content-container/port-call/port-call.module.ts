@@ -22,6 +22,7 @@ import { PortCallService } from '../../shared/services/port-call.service';
 import { InfoComponent } from './registration/info/info.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ConfirmationModule } from './registration/forms/confirmation/confirmation.module';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     CommonModule,
     FormsModule,
     HttpModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    ConfirmationModule
   ],
   declarations: [
     RegistrationComponent,

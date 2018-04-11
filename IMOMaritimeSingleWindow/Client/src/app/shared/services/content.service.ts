@@ -8,7 +8,7 @@ export class ContentService extends BaseService {
     private contentSource = new BehaviorSubject<string>('Register Port Call');
     contentName$ = this.contentSource.asObservable();
 
-    private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
+    private portCallFormSource = new BehaviorSubject<string>('Confirm Port Call');
     portCallFormName$ = this.portCallFormSource.asObservable();
 
     setContent(contentName: string) {        

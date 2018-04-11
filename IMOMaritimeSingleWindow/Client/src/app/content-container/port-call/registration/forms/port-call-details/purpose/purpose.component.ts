@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PurposeService } from './purpose.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { PurposeService } from '../../../../../../shared/services/purpose.service';
 
 const OTHER_PURPOSE_ID = "100249";
 
@@ -55,17 +55,4 @@ export class PurposeComponent implements OnInit {
   setOtherPurposeName() {
     this.portCallService.setOtherPurposeName(this.otherPurposeName);
   }
-
-  getPurposeName(id: number) {
-    if (this.purposeList != null) {
-      let purpose = this.purposeList.find(p => p.portCallPurposeId == id);
-      if (purpose.portCallPurposeId != OTHER_PURPOSE_ID) {
-        return purpose != null ? purpose.name : null;
-      } else {
-
-        return this.otherPurposeName == "" ? "Other purpose is undefined" : "Other: \"" + this.otherPurposeName + "\"";
-      }
-    }
-  }
-
 }

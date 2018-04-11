@@ -1,6 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../shared/services/port-call.service';
 
+const SHIP_NAME = "Ship Name:";
+const CALL_SIGN = "Call Sign:";
+const IMO_NO = "IMO no:";
+const GROSS_TONNAGE = "Gross Tonnage:";
+const LENGTH = "Length:";
+const SHIP_TYPE = "Ship Type:";
+
+const LOCATION = "Location:";
+const LOCATION_CODE = "Location Code:";
+const ETA = "ETA:";
+const ETD = "ETD:";
+
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
@@ -12,19 +24,19 @@ export class InfoComponent implements OnInit {
   locationFlag: string;
 
   portCallShipInfo: any[] = [
-    { description: "Ship Name:", data: null },
-    { description: "Call Sign:", data: null },
-    { description: "IMO no:", data: null },
-    { description: "Gross Tonnage:", data: null },
-    { description: "Length:", data: null },
-    { description: "Ship Type:", data: null }
+    { description: SHIP_NAME, data: null },
+    { description: CALL_SIGN, data: null },
+    { description: IMO_NO, data: null },
+    { description: GROSS_TONNAGE, data: null },
+    { description: LENGTH, data: null },
+    { description: SHIP_TYPE, data: null }
   ];
 
   portCallLocationInfo: any[] = [
-    { description: "Location:", data: null },
-    { description: "Location Code:", data: null },
-    { description: "ETA:", data: null },
-    { description: "ETD:", data: null }
+    { description: LOCATION, data: null },
+    { description: LOCATION_CODE, data: null },
+    { description: ETA, data: null },
+    { description: ETD, data: null }
   ];
 
   constructor(private portCallService: PortCallService) { }
@@ -38,14 +50,14 @@ export class InfoComponent implements OnInit {
             if (data.shipOverview.country != null) {
               this.shipFlag = data.shipOverview.country.twoCharCode;
             }
-            this.portCallShipInfo.find(p => p.description == "Ship Name:").data = data.shipOverview.ship.name;
-            this.portCallShipInfo.find(p => p.description == "Call Sign:").data = data.shipOverview.ship.callSign;
-            this.portCallShipInfo.find(p => p.description == "IMO no:").data = data.shipOverview.ship.imoNo;
-            this.portCallShipInfo.find(p => p.description == "Gross Tonnage:").data = data.shipOverview.ship.grossTonnage;
-            this.portCallShipInfo.find(p => p.description == "Length:").data = data.shipOverview.ship.length;
+            this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = data.shipOverview.ship.name;
+            this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = data.shipOverview.ship.callSign;
+            this.portCallShipInfo.find(p => p.description == IMO_NO).data = data.shipOverview.ship.imoNo;
+            this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = data.shipOverview.ship.grossTonnage;
+            this.portCallShipInfo.find(p => p.description == LENGTH).data = data.shipOverview.ship.length;
             console.log(data.shipOverview);
             if (data.shipOverview.shipType != null) {
-              this.portCallShipInfo.find(p => p.description == "Ship Type:").data = data.shipOverview.shipType.name;
+              this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = data.shipOverview.shipType.name;
             }
           }
           // Location
@@ -53,8 +65,8 @@ export class InfoComponent implements OnInit {
             if (data.locationOverview.country != null) {
               this.locationFlag = data.locationOverview.country.twoCharCode.toLowerCase();
             }
-            this.portCallLocationInfo.find(p => p.description == "Location:").data = data.locationOverview.location.name;
-            this.portCallLocationInfo.find(p => p.description == "Location Code:").data = data.locationOverview.location.locationCode;
+            this.portCallLocationInfo.find(p => p.description == LOCATION).data = data.locationOverview.location.name;
+            this.portCallLocationInfo.find(p => p.description == LOCATION_CODE).data = data.locationOverview.location.locationCode;
           }
         }        
       }
@@ -69,8 +81,8 @@ export class InfoComponent implements OnInit {
           let etd = data.etd.year + "-" + this.dateTimeFormat(data.etd.month) + "-" + this.dateTimeFormat(data.etd.day)
             + " " + this.dateTimeFormat(data.etd.hour) + ":" + this.dateTimeFormat(data.etd.minute);
 
-          this.portCallLocationInfo.find(p => p.description == "ETA:").data = eta;
-          this.portCallLocationInfo.find(p => p.description == "ETD:").data = etd;
+          this.portCallLocationInfo.find(p => p.description == ETA).data = eta;
+          this.portCallLocationInfo.find(p => p.description == ETD).data = etd;
         }
       }
     );
