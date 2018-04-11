@@ -8,8 +8,12 @@
   <div class="row" *ngIf="entry.checked">
     <div class="col">
       <ssn-card title="{{entry.name}}" icon="{{entry.icon}}">
-        <div class="text-center">
-          <img src="{{iconPath}}warning.png" height="24px" /> {{ entry.name }} information not delivered.
+        <div [ngSwitch]="entry.name">
+          <div *ngSwitchDefault class="text-center">
+            <img src="{{iconPath}}warning.png" height="24px" />
+            <span class="no-wrap">{{ entry.name }} information</span>
+            <span class="no-wrap">not delivered.</span>
+          </div>
         </div>
       </ssn-card>
     </div>
