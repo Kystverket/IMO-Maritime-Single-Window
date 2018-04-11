@@ -5,16 +5,16 @@ import { Observable } from 'rxjs/Rx';
 import { LoginService } from '../shared/services/login.service';
 import { MenuEntry } from '../shared/models/menu-entry.interface';
 import { ContentService } from '../shared/services/content.service';
-import { Scopes } from './header.scopes';
 import { log } from 'util';
 import { AccountService } from '../shared/services/account.service';
+import { MenuService } from './menu.service';
 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  providers: [AccountService, Scopes]
+  providers: [AccountService, MenuService]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   loggedIn: boolean;
   roles: any = new Array();
+  user_menu_entries: string[];
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries_all: MenuEntry[] = [
@@ -35,18 +36,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menu_entries: MenuEntry[];
 
   private generateMenu() {
-    //Gets the roles of the logged in user
-    this.accountService.getRoles()
-    .finally( () => this.setMenuEntries() )
+
+    /* this.menuService.getMenuEntries()
+    .finally( () => this.setMenuEntries()  )
     .subscribe(
       data => {
-        data.forEach(role => {
-          console.log(`role: ${role}`);
-          this.roles.push(role);
-        });
-        
+        this.user_menu_entries = data.menu_entries;
       }
-    );
+    ) */
+
+    this.menuService.getMenuEntries()
+    .finally( () => this.setMenuEntries()  )
+    .map(data => data.menu_entries)
+    .subscribe(
+      data => {
+        data.forEach(element => {
+          console.log(`entry: ${element}`)
+        });
+        this.user_menu_entries = data;
+      }
+    )
+
   }
 
   private getAllRoles(){
@@ -54,31 +64,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.accountService.getAllRoles().subscribe(
       data => {
         this.roles = data;
-        console.log("All Roles");
-        console.log(this.roles);
       }
     );
   }
 
   private setMenuEntries() {
     
+    //Populates the menu entry list with the entries the user has access to
     this.menu_entries = [];
-    let entries : string[] = this.headerScopeService.getEntries("admin"); //TODO: get role of logged in user from backend
-    for(let entry of entries){
+    for(let title of this.user_menu_entries){
       for(let meny_entry of this.menu_entries_all){
-        if(entry === meny_entry.title) {
+        if(title === meny_entry.title) {
           this.menu_entries.push(meny_entry);
         }
       }
     }
-
   }
 
   constructor(
     private loginService: LoginService,
     private contentService: ContentService,
     private accountService: AccountService,
-    private headerScopeService: Scopes) {
+    private menuService: MenuService
+    ) {
       
     }
     
@@ -101,6 +109,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
             if(result)
               console.log("Login successful");
               this.generateMenu();
+              //this.getMenuEntries();
+              //this.setMenuEntries();
           }
         )
     }
@@ -112,9 +122,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log("ROLES FOR USER");
     this.getRoles();
     console.log(this.roles); */
+
     
-    this.headerScopeService.getEntries("admin");
-    this.setMenuEntries();
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
   }

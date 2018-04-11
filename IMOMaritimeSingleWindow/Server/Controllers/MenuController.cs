@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 using IMOMaritimeSingleWindow.Helpers;
+using IMOMaritimeSingleWindow.Models.Entities;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -17,13 +18,13 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class MenuController : Controller
     {
-        private UserManager<IdentityUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        private UserManager<ApplicationUser> _userManager;
+        private RoleManager<ApplicationRole> _roleManager;
         private IAuthorizationService _authorizationService;
 
         public MenuController(
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             IAuthorizationService authorizationService)
         { 
             _userManager = userManager;
@@ -37,19 +38,26 @@ namespace IMOMaritimeSingleWindow.Controllers
         public async Task<IActionResult> GetMenuEntries()
         {
             var user = Request.HttpContext.User;
-            var roles = from claim in user.Claims
-                        where claim.Type.Equals(Constants.Strings.JwtClaimIdentifiers.Rol)
-                        select claim.Value;
+            var roles = user
+                .FindAll(claim => claim.Type == ClaimTypes.Role)
+                .Select(x => x.Value);
 
-            List<Claim> menuEntries = new List<Claim>();
+            List<string> menuEntries = new List<string>();
             foreach (var role in roles)
             {
-                var appRole = await _roleManager.FindByNameAsync("role");
+                var appRole = await _roleManager.FindByNameAsync(role);
                 var claimsForRole = await _roleManager.GetClaimsAsync(appRole);
-                menuEntries = menuEntries.Union(claimsForRole).ToList();
+                var menuClaims = from claim in claimsForRole
+                                 where claim.Type.Equals("Menu")
+                                 select claim.Value;
+                menuClaims = menuClaims.ToList();
+                menuEntries = menuClaims.Union(menuEntries).ToList();
             }
 
-            return Ok(menuEntries);
+            return Json(new
+            {
+                menu_entries = menuEntries
+            });
            
         }
 

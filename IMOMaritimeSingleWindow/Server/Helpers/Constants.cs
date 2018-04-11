@@ -28,11 +28,11 @@ namespace IMOMaritimeSingleWindow.Helpers
 
             public static class MenuEntries
             {
-                public const string USERS = "Users menu";
-                public const string SHIPS = "Ships menu";
-                public const string LOCATION = "Locations menu";
-                public const string COMPANIES = "Companies menu";
-                public const string PORT_CALL = "Port call menu";
+                public const string USERS = "USERS";
+                public const string SHIPS = "SHIPS";
+                public const string LOCATION = "LOCATIONS";
+                public const string COMPANIES = "COMPANIES";
+                public const string PORT_CALL = "PORT CALL";
             }
 
             
