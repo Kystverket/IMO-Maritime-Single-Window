@@ -8,7 +8,7 @@ import { PortCallService } from '../../../../../shared/services/port-call.servic
 })
 export class ConfirmationComponent implements OnInit {
 
-  iconPath = "assets/images/VoyageIcons/128x128/white/";
+  iconPath = "assets/images/VoyageIcons/128x128/";
   falForms: any;
 
   constructor(private portCallService: PortCallService) { }
