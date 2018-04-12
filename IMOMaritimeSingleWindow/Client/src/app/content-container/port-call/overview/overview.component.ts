@@ -93,8 +93,8 @@ export class OverviewComponent implements OnInit {
                 shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
                 callSign: ov.shipOverview.ship.callSign,
                 locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
-                eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
-                etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
+                eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
+                etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
                 actions: 'btn' // `<img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/>`
               });
               this.dataSource.refresh();
