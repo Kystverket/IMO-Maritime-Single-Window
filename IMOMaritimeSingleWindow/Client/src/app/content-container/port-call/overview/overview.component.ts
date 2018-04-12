@@ -66,12 +66,8 @@ export class OverviewComponent implements OnInit {
         title: 'Actions',
         type: 'custom',
         filter: false,
-        renderComponent: ButtonViewComponent,
-        onComponentInitFunction(instance) {
-          instance.save.subscribe(val => {
-            console.log(val.overviewModel);
-          });
-        }
+        sort: false,
+        renderComponent: ButtonViewComponent
       }
     }
   }
@@ -119,20 +115,16 @@ export class OverviewComponent implements OnInit {
   `,
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
-  renderValue: string;
+  // renderValue: string;
 
   @Input() value: string | number;
   @Input() rowData: any;
 
-  @Output() save: EventEmitter<any> = new EventEmitter();
+  @Output() edit: EventEmitter<any> = new EventEmitter();
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService) {
+  constructor(private contentService: ContentService, private portCallService: PortCallService) {}
 
-  }
-
-  ngOnInit() {
-    this.renderValue = this.value.toString().toUpperCase();
-  }
+  ngOnInit() {}
 
   onClick() {
     this.portCallService.setPortCall(this.rowData.overviewModel);
