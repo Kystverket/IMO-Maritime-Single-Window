@@ -28,7 +28,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 _context.Location.Add(newLocation);
                 _context.SaveChanges();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return BadRequest(e.Message + ":\n" + e.InnerException.Message);
             }
             return Ok(newLocation);
@@ -37,27 +39,27 @@ namespace IMOMaritimeSingleWindow.Controllers
         public List<Location> SearchLocation(string searchTerm)
         {
             return (from loc in _context.Location
-                            where (EF.Functions.ILike(loc.Name, searchTerm + '%')
-                            || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
-                            && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
-                            select loc).Take(10).ToList();
+                    where (EF.Functions.ILike(loc.Name, searchTerm + '%')
+                    || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
+                    && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
+                    select loc).Take(10).ToList();
         }
 
         [HttpGet("search/{searchTerm}")]
         public JsonResult SearchLocationJson(string searchTerm)
         {
             List<Location> results = SearchLocation(searchTerm);
-            
             List<LocationOverview> resultList = new List<LocationOverview>();
-            foreach(Location loc in results)
+
+            foreach (Location loc in results)
             {
-                
                 LocationOverview locationOverview = new LocationOverview();
                 locationOverview.Location = loc;
                 locationOverview.Country = _context.Country.Where(c => c.CountryId == loc.CountryId).FirstOrDefault();
 
                 resultList.Add(locationOverview);
             }
+
             return Json(resultList);
         }
 
