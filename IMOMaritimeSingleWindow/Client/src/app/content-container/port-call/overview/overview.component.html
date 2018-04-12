@@ -1,6 +1,9 @@
 <div>
     
-    <ng2-smart-table [settings]="tableSettings" [source]="dataSource"></ng2-smart-table>    
+    <div class="table-responsive">
+        <ng2-smart-table [settings]="tableSettings" [source]="dataSource"></ng2-smart-table>
+    </div>    
+    
     <div *ngIf="overviewFound">
         <div class="table-responsive">
             <table class="table table-bordered">
