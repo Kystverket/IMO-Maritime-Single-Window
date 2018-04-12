@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col">
+    <app-port-call-details></app-port-call-details>
+  </div>
+</div>
+
+<div *ngFor="let entry of falForms">
+  <div class="row my-1" *ngIf="entry.checked">
+    <div class="col text-ssn">
+      <img src="{{iconPath}}{{entry.icon}}" height="24px" /> {{ entry.name }} information not delivered.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr class="bg-ssn text-ssn">
+        <th [attr.colspan]="amountOfPurposes">Selected Purposes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td *ngFor="let purpose of selectedPurposes">{{ getPurposeName(purpose) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

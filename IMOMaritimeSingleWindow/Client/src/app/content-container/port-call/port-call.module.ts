@@ -22,6 +22,8 @@ import { PortCallService } from '../../shared/services/port-call.service';
 import { InfoComponent } from './registration/info/info.component';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ConfirmationModule } from './registration/forms/confirmation/confirmation.module';
+import { SharedModule } from '../../shared/components/shared.module';
 
 @NgModule({
   imports: [
@@ -30,6 +32,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     FormsModule,
     HttpModule,
     Ng2SmartTableModule,
+    ConfirmationModule,
+    SharedModule
   ],
   entryComponents: [ButtonViewComponent],
   declarations: [
