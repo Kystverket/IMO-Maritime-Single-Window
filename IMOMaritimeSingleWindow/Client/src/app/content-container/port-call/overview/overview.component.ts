@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 import { PortCallModel } from '../../../shared/models/port-call-model';
 import { PortCallOverviewModel } from '../../../shared/models/port-call-overview-model';
@@ -6,7 +6,7 @@ import { LocationModel } from '../../../shared/models/location-model';
 import { ShipModel } from '../../../shared/models/ship-model';
 import { PortCallService } from '../../../shared/services/port-call.service';
 import { ContentService } from '../../../shared/services/content.service';
-import { Ng2SmartTableModule, LocalDataSource, ServerDataSource } from 'ng2-smart-table';
+import { Ng2SmartTableModule, LocalDataSource, ServerDataSource, ViewCell } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
 import { HtmlParser } from '@angular/compiler';
 
@@ -43,16 +43,26 @@ export class OverviewComponent implements OnInit {
 
   // Smart table
 
+  editPortCall(overviewModel: PortCallOverviewModel) {
+    this.portCallService.setPortCall(overviewModel);
+    this.contentService.setContent('Register Port Call');
+  }
+
   tableSettings = {
     mode: 'external',
+    actions: false,
+    attr: {
+      class: 'table table-bordered',
+    },
 
     columns: {
       shipName: {
         title: 'Ship Name',
-        type: 'html'
+        type: 'html',
       },
       callSign: {
-        title: 'Call Sign'
+        title: 'Call Sign',
+        type: 'text',
       },
       locationName: {
         title: 'Location Name',
@@ -63,6 +73,17 @@ export class OverviewComponent implements OnInit {
       },
       etd: {
         title: 'ETD'
+      },
+      actions: {
+        title: 'Actions',
+        type: 'custom',
+        filter: false,
+        renderComponent: ButtonViewComponent,
+        onComponentInitFunction(instance) {
+          instance.save.subscribe(val => {
+            console.log(val.overviewModel);
+          });
+        }
       }
     }
   }
@@ -85,7 +106,8 @@ ngOnInit() {
               callSign: ov.shipOverview.ship.callSign,
               locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
               eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
-              etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm')
+              etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
+              actions: 'btn' // `<img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/>`
             });
             this.dataSource.refresh();
           }
@@ -98,16 +120,56 @@ ngOnInit() {
 }
 
 
-editPortCall(overviewModel: PortCallOverviewModel) {
-  this.portCallService.setPortCall(overviewModel);
-  this.contentService.setContent('Register Port Call');
-}
+
 
 onEdit(event) {
-  console.log(event.data);
   this.portCallService.setPortCall(event.data.overviewModel);
   this.contentService.setContent('Register Port Call');
 }
 
 
 }
+
+@Component({
+  selector: 'button-view',
+  template: `
+    <button (click)="onClick()"><img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/></button>
+  `,
+})
+export class ButtonViewComponent implements ViewCell, OnInit {
+  renderValue: string;
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() save: EventEmitter<any> = new EventEmitter();
+
+  constructor(private contentService: ContentService, private portCallService: PortCallService) {
+
+  }
+
+  ngOnInit() {
+    this.renderValue = this.value.toString().toUpperCase();
+  }
+
+  onClick() {
+    this.portCallService.setPortCall(this.rowData.overviewModel);
+    this.contentService.setContent('Register Port Call');
+  }
+  
+}
+
+// export class ButtonViewComponent implements ViewCell, OnInit {
+//   renderValue: string;
+
+//   @Input() value: string | number;
+//   @Input() rowData: any;
+
+//   ngOnInit() {
+//     this.renderValue = this.value.toString().toUpperCase();
+//   }
+
+//   onClick() {
+//     this.save.emit(this.rowData);
+//   }
+// }

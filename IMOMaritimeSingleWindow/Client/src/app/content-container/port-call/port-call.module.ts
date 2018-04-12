@@ -13,7 +13,7 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { OverviewComponent } from './overview/overview.component';
+import { OverviewComponent, ButtonViewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
@@ -29,8 +29,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     CommonModule,
     FormsModule,
     HttpModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
   ],
+  entryComponents: [ButtonViewComponent],
   declarations: [
     RegistrationComponent,
     ProgressBarComponent,
@@ -47,7 +48,8 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     CargoComponent,
     OverviewComponent,
     PortCallComponent,
-    InfoComponent
+    InfoComponent,
+    ButtonViewComponent
   ],
   exports: [
     PortCallComponent,

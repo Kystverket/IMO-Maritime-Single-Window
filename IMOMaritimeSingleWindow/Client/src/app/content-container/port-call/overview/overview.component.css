@@ -1,0 +1,23 @@
+/* Smart table */
+:root {
+    --color-primary: #002d50;
+    --color-primary-light: #37557c;
+    --color-primary-dark: #000128;
+    --color-primary-text: #ffffff;
+}
+
+
+:host /deep/ ng2-smart-table thead {
+    background-color: var(--color-primary);
+    color: var(--color-primary-text);
+    }
+    
+    :host /deep/ ng2-smart-table a { color:var(--color-primary-text); }
+    :host /deep/ ng2-smart-table a:link { color:var(--color-primary-light);}
+    :host /deep/ ng2-smart-table a:hover { color: var(--color-primary-text); }
+    :host /deep/ ng2-smart-table a:focus { color: var(--color-primary-text); }
+    
+    :host /deep/ tr.ng2-smart-row a { color: var(--color-primary-text); }
+    :host /deep/ tr.ng2-smart-row a:link { color: var(--color-primary); }
+    :host /deep/ tr.ng2-smart-row a:hover { color: var(--color-primary-light); }
+    :host /deep/ tr.ng2-smart-row a:focus { color: #ED1C24; }
