@@ -90,12 +90,14 @@ export class OverviewComponent implements OnInit {
               this.overviewModels.push(ov);
               this.dataSource.add({
                 overviewModel: ov,
-                shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+                shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
+                + `</div> <div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
                 callSign: ov.shipOverview.ship.callSign,
-                locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
+                locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
+                + `</div> <div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
                 eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
                 etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
-                actions: 'btn' // `<img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/>`
+                actions: 'btn'
               });
               this.dataSource.refresh();
             }
