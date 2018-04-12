@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 import { PortCallModel } from '../../../shared/models/port-call-model';
 import { PortCallOverviewModel } from '../../../shared/models/port-call-overview-model';
@@ -24,29 +24,17 @@ export class OverviewComponent implements OnInit {
   locations: LocationModel[];
   overviewModels: PortCallOverviewModel[] = [];
 
-  
   data = [];
   dataSource: LocalDataSource = new LocalDataSource();
-  
-  dataRow: {
-    ship: {
-      name: string,
-      callSign: string
-    },
-    portOfCall: {
-      locationName: string,
-      eta: Date,
-      etd: Date
-    }
-  }
-  overviewFound: boolean = false;
 
-  // Smart table
+  overviewFound: boolean = false;
 
   editPortCall(overviewModel: PortCallOverviewModel) {
     this.portCallService.setPortCall(overviewModel);
     this.contentService.setContent('Register Port Call');
   }
+
+  // Smart table
 
   tableSettings = {
     mode: 'external',
@@ -88,44 +76,36 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-constructor(private datePipe: DatePipe, private contentService: ContentService, private portCallService: PortCallService, private overviewService: PortCallOverviewService) {
+  constructor(private datePipe: DatePipe, private contentService: ContentService, private portCallService: PortCallService, private overviewService: PortCallOverviewService) {
 
- }
+  }
 
-ngOnInit() {
+  ngOnInit() {
 
-  this.overviewService.getPortCalls().subscribe(
-    pcData => {
-      pcData.forEach(pc => {
-        this.overviewService.getOverview(pc.portCallId).subscribe(
-          ov => {
-            this.overviewModels.push(ov);
-            this.dataSource.add( {
-              overviewModel: ov,
-              shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-              callSign: ov.shipOverview.ship.callSign,
-              locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
-              eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
-              etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
-              actions: 'btn' // `<img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/>`
-            });
-            this.dataSource.refresh();
-          }
-        )
-      });
-      this.overviewFound = true;
-    }
-  );
+    this.overviewService.getPortCalls().subscribe(
+      pcData => {
+        pcData.forEach(pc => {
+          this.overviewService.getOverview(pc.portCallId).subscribe(
+            ov => {
+              this.overviewModels.push(ov);
+              this.dataSource.add({
+                overviewModel: ov,
+                shipName: `<div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+                callSign: ov.shipOverview.ship.callSign,
+                locationName: `<div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
+                eta: this.datePipe.transform(ov.portCall.locationEta, 'dd/MM/yyyy - HH:mm'),
+                etd: this.datePipe.transform(ov.portCall.locationEtd, 'dd/MM/yyyy - HH:mm'),
+                actions: 'btn' // `<img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/>`
+              });
+              this.dataSource.refresh();
+            }
+          )
+        });
+        this.overviewFound = true;
+      }
+    );
 
-}
-
-
-
-
-onEdit(event) {
-  this.portCallService.setPortCall(event.data.overviewModel);
-  this.contentService.setContent('Register Port Call');
-}
+  }
 
 
 }
@@ -156,20 +136,5 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.portCallService.setPortCall(this.rowData.overviewModel);
     this.contentService.setContent('Register Port Call');
   }
-  
+
 }
-
-// export class ButtonViewComponent implements ViewCell, OnInit {
-//   renderValue: string;
-
-//   @Input() value: string | number;
-//   @Input() rowData: any;
-
-//   ngOnInit() {
-//     this.renderValue = this.value.toString().toUpperCase();
-//   }
-
-//   onClick() {
-//     this.save.emit(this.rowData);
-//   }
-// }
