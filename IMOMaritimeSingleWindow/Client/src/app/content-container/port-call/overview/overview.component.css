@@ -47,7 +47,6 @@
 
 :host /deep/ span.ng2-smart-page-link.page-link { 
     color: var(--color-primary-dark); 
-    background-color: white;
+    background-color: #dee2e6;
     border-color: #dee2e6;        
-    text-decoration: underline;
 }
