@@ -114,11 +114,11 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
 
-  limitInputToPositiveDecimal($event) {
-    return $event.charCode == 46 || ($event.charCode >= 48 && $event.charCode <= 57);
-  }
-
   limitInputToPositiveInteger($event) {
     return $event.charCode >= 48 && $event.charCode <= 57;
+  }
+
+  limitInputToPositiveDecimal($event) {
+    return $event.charCode == 46 || ($event.charCode >= 48 && $event.charCode <= 57);
   }
 }

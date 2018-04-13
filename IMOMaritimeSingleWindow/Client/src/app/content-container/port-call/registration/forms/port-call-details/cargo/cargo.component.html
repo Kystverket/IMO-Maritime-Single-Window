@@ -6,12 +6,13 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="gross_gross_weight">Gross Gross Weight</label>
           <div class="col my-auto">
-            <input name="gross_gross_weight" type="number" class="form-control form-control-sm" placeholder="Enter gross gross weight"
-              [(ngModel)]="cargoModel.grossGrossWeight" (ngModelChange)="grossGrossWeightChanged($event)" />
+            <input name="gross_gross_weight" #grossGrossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="grossGrossWeightChanged($event)" [(ngModel)]="cargoModel.grossGrossWeight"
+            />
           </div>
         </div>
-        <div *ngIf="grossGrossWeightError" class="alert alert-danger" role="alert">
-          <strong>{{ grossGrossWeightError }}</strong>
+        <div [hidden]="grossGrossWeight.valid" class="alert alert-danger">
+          <li [hidden]="!grossGrossWeight.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 
@@ -19,12 +20,13 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="gross_weight">Gross Weight</label>
           <div class="col my-auto">
-            <input name="gross_weight" type="number" class="form-control form-control-sm" placeholder="Enter gross weight" [(ngModel)]="cargoModel.grossWeight"
-              (ngModelChange)="grossWeightChanged($event)" />
+            <input name="gross_weight" #grossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="grossWeightChanged($event)" [(ngModel)]="cargoModel.grossWeight"
+            />
           </div>
         </div>
-        <div *ngIf="grossWeightError" class="alert alert-danger" role="alert">
-          <strong>{{ grossWeightError }}</strong>
+        <div [hidden]="grossWeight.valid" class="alert alert-danger">
+          <li [hidden]="!grossWeight.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 

@@ -8,6 +8,8 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
 })
 export class CargoComponent implements OnInit {
 
+  positiveDecimalRegex: string = '^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$';
+
   cargoModel = {
     grossGrossWeight: null,
     grossWeight: null
@@ -62,5 +64,9 @@ export class CargoComponent implements OnInit {
   private validateData() {
     this.checkForGrossGrossWeightError(this.cargoModel.grossGrossWeight);
     this.checkForGrossWeightError(this.cargoModel.grossWeight);
+  }
+
+  limitInputToPositiveDecimal($event) {
+    return $event.charCode == 46 || ($event.charCode >= 48 && $event.charCode <= 57);
   }
 }
