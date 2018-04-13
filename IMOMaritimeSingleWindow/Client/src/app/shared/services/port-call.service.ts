@@ -90,6 +90,7 @@ export class PortCallService {
   }
 
   setPortCall(overviewModel: PortCallOverviewModel) {
+    this.detailsModel = new PortCallDetailsModel(); // todo: get details from db
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
     this.setShipLocationTime(overviewModel); 
