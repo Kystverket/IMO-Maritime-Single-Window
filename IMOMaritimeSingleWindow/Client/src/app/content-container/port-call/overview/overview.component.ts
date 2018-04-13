@@ -42,6 +42,7 @@ export class OverviewComponent implements OnInit {
     attr: {
       class: 'table table-bordered',
     },
+    noDataMessage: '',
 
     columns: {
       shipName: {
@@ -68,7 +69,8 @@ export class OverviewComponent implements OnInit {
         filter: false,
         sort: false,
         renderComponent: ButtonViewComponent
-      }
+      },
+      
     }
   }
 
@@ -95,11 +97,11 @@ export class OverviewComponent implements OnInit {
                 etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
                 actions: 'btn'
               });
+              this.overviewFound = true;
               this.dataSource.refresh();
             }
           )
         });
-        this.overviewFound = true;
       }
     );
 
@@ -109,13 +111,10 @@ export class OverviewComponent implements OnInit {
 }
 
 @Component({
-  selector: 'button-view',
-  template: `
-    <button (click)="onClick()"><img src='assets/images/ActionIcons/32x32/icon-update.png' height='20px'/></button>
-  `,
+  selector: 'edit-button',
+  templateUrl: './edit-button.html'
 })
 export class ButtonViewComponent implements ViewCell, OnInit {
-  // renderValue: string;
 
   @Input() value: string | number;
   @Input() rowData: any;
