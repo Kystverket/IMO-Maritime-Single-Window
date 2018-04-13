@@ -16,7 +16,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")] 
     public class AccountController : Controller
     {
-        private readonly UserDbContext _appDbContext;
+        private readonly UserDbContext userDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -27,13 +27,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper,
-            UserDbContext appDbContext)
+            UserDbContext userDbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
-            _appDbContext = appDbContext;
+            this.userDbContext = userDbContext;
         }
 
         [Authorize(Roles = "admin")]
@@ -48,13 +48,13 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            var result = await _userManager.CreateAsync(userIdentity);
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             
-
-            //await _appDbContext.Persons.AddAsync(new Person { IdentityId = userIdentity.Id});
-            await _appDbContext.SaveChangesAsync();
+            //Create the Person associated with the ApplicationUser 
+            await userDbContext.Person.AddAsync(new Person { IdentityId = userIdentity.Id});
+            await userDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
