@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
+import { CrewPassengersAndDimensionsModel } from '../../content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crewPassengersAndDimensionsModel';
 
 @Injectable()
 export class PortCallService {
@@ -161,7 +162,7 @@ export class PortCallService {
 
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
-  setCrewPassengersAndDimensionsData(data) {
+  setCrewPassengersAndDimensionsData(data) {    
     this.crewPassengersAndDimensionsSource.next(data);
   }
 
