@@ -20,6 +20,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("portcall/{id}")]
+        public IActionResult GetByPortCallId(int id)
+        {
+            PortCallDetails portCallDetails = _context.PortCallDetails.Where(details => details.PortCallId == id).FirstOrDefault();
+            if (portCallDetails == null)
+            {
+                return NotFound();
+            }
+            return Json(portCallDetails);
+        }
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCallDetails portCallDetails)
         {
