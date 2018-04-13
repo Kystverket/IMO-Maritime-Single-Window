@@ -6,26 +6,27 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="number_of_crew">Number of Crew</label>
           <div class="col my-auto">
-            <input name="number_of_crew" type="number" class="form-control form-control-sm" id="number_of_crew" placeholder="Enter number of crew"
-              (ngModelChange)="numberOfCrewChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfCrew" />
+            <input name="number_of_crew" #numberOfCrew="ngModel" class="form-control form-control-sm" placeholder="Enter number of crew" 
+              pattern="{{positiveIntegerRegex}}" (keypress)="limitInputToPositiveInteger($event)" (ngModelChange)="persistData()" 
+              [(ngModel)]="crewPassengersAndDimensionsModel.numberOfCrew" />
           </div>
         </div>
-        <div *ngIf="numberOfCrewError" class="alert alert-danger" role="alert">
-          <strong>{{ numberOfCrewError }}</strong>
+        <div *ngIf="!isNumberOfCrewValid(numberOfCrew)" class="alert alert-danger">
+          <li *ngIf="numberOfCrew.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 
       <div class="col-lg-6">
         <div class="form-group row">
-          <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="number_of_passengers">Number of Passengers</label>
+          <label class="col-form-label-sm no-wrap col-sm-5 col-md-3 col-lg-5" for="number_of_passengers">Number of Passengers</label>
           <div class="col my-auto">
-            <input name="number_of_passengers" type="number" class="form-control form-control-sm" id="number_of_passengers" placeholder="Enter number of passengers"
-              (ngModelChange)="numberOfPassengersChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfPassengers"
-            />
+            <input name="number_of_passengers" #numberOfPassengers="ngModel" class="form-control form-control-sm" placeholder="Enter actual draught"
+              pattern="{{positiveIntegerRegex}}" (keypress)="limitInputToPositiveInteger($event)" (ngModelChange)="persistData()" 
+              [(ngModel)]="crewPassengersAndDimensionsModel.numberOfPassengers" />
           </div>
         </div>
-        <div *ngIf="numberOfPassengersError" class="alert alert-danger" role="alert">
-          <strong>{{ numberOfPassengersError }}</strong>
+        <div *ngIf="!isNumberOfPassengersValid(numberOfPassengers)" class="alert alert-danger">
+          <li *ngIf="numberOfPassengers.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 
@@ -36,12 +37,13 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="actual_draught">Actual Draught</label>
           <div class="col my-auto">
-            <input name="actual_draught" type="number" class="form-control form-control-sm" id="actual_draught" placeholder="Enter actual draught"
-              (ngModelChange)="actualDraughtChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.actualDraught" />
+            <input name="actual_draught" #actualDraught="ngModel" class="form-control form-control-sm" placeholder="Enter actual draught" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.actualDraught"
+            />
           </div>
         </div>
-        <div *ngIf="actualDraughtError" class="alert alert-danger" role="alert">
-          <strong>{{ actualDraughtError }}</strong>
+        <div *ngIf="!isActualDraughtValid(actualDraught)" class="alert alert-danger">
+          <li *ngIf="actualDraught.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 
@@ -49,12 +51,13 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="air_draught">Air Draught</label>
           <div class="col my-auto">
-            <input name="air_draught" type="number" class="form-control form-control-sm" id="air_draught" placeholder="Enter air draught"
-              (ngModelChange)="airDraughtChanged($event)" [(ngModel)]="crewPassengersAndDimensionsModel.airDraught" />
+            <input name="air_draught" #airDraught="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.airDraught"
+            />
           </div>
         </div>
-        <div *ngIf="airDraughtError" class="alert alert-danger" role="alert">
-          <strong>{{ airDraughtError }}</strong>
+        <div *ngIf="!isAirDraughtValid(airDraught)" class="alert alert-danger">
+          <li *ngIf="airDraught.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
 

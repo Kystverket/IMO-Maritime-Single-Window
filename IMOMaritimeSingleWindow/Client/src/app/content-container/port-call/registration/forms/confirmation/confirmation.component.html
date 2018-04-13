@@ -5,9 +5,17 @@
 </div>
 
 <div *ngFor="let entry of falForms">
-  <div class="row my-1" *ngIf="entry.checked">
-    <div class="col text-ssn">
-      <img src="{{iconPath}}{{entry.icon}}" height="24px" /> {{ entry.name }} information not delivered.
+  <div class="row" *ngIf="entry.checked">
+    <div class="col">
+      <ssn-card title="{{entry.name}}" icon="{{entry.icon}}">
+        <div [ngSwitch]="entry.name">
+          <div *ngSwitchDefault class="text-center">
+            <img src="{{iconPath}}warning.png" height="24px" />
+            <span class="no-wrap">{{ entry.name }} information</span>
+            <span class="no-wrap">not delivered.</span>
+          </div>
+        </div>
+      </ssn-card>
     </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
+import { CrewPassengersAndDimensionsModel } from '../../content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crewPassengersAndDimensionsModel';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 
 @Injectable()
@@ -189,6 +190,12 @@ export class PortCallService {
     this.detailsModel.airDraught = (data.airDraught != null) ? data.airDraught : null;
   }
 
+  private crewPassengersAndDimensionsError = new BehaviorSubject<boolean>(false);
+  crewPassengersAndDimensionsError$ = this.crewPassengersAndDimensionsError.asObservable();
+  setCrewPassengersAndDimensionsError(error: boolean) {
+    this.crewPassengersAndDimensionsError.next(error);
+  }
+
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {
@@ -196,6 +203,12 @@ export class PortCallService {
     this.cargoWeightSource.next(data);
     this.detailsModel.cargoGrossWeight = (data.grossWeight != null) ? data.grossWeight : null;
     this.detailsModel.cargoGrossGrossWeight = (data.grossGrossWeight != null) ? data.grossGrossWeight : null;
+  }
+
+  private cargoWeightError = new BehaviorSubject<boolean>(false);
+  cargoWeightError$ = this.cargoWeightError.asObservable();
+  setCargoWeightError(error: boolean) {
+    this.cargoWeightError.next(error);
   }
 
   private portCallPurposeSource = new BehaviorSubject<any>(null);

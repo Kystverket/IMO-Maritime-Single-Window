@@ -8,13 +8,15 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
 })
 export class CargoComponent implements OnInit {
 
+  positiveDecimalRegex: string = '^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$';
+
   cargoModel = {
     grossGrossWeight: null,
     grossWeight: null
   }
 
-  grossGrossWeightError: string;
-  grossWeightError: string;
+  grossGrossWeightError: boolean = false;
+  grossWeightError: boolean = false;
 
   constructor(private portCallService: PortCallService) { }
 
@@ -26,41 +28,30 @@ export class CargoComponent implements OnInit {
         }
       }
     );
-    this.validateData();
   }
 
-  private persistData() {
+  persistData() {
     this.portCallService.setCargoWeightData(this.cargoModel);
   }
 
-  grossGrossWeightChanged($event) {
-    this.checkForGrossGrossWeightError($event);
-    this.persistData();
+  isGrossGrossWeightValid(inputField: any): boolean {
+    this.grossGrossWeightError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  grossWeightChanged($event) {
-    this.checkForGrossWeightError($event);
-    this.persistData();
+  isGrossWeightValid(inputField: any): boolean {
+    this.grossWeightError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  private checkForGrossGrossWeightError(inputValue) {
-    if (inputValue < 0) {
-      this.grossGrossWeightError = "Gross gross weight must be a positive number.";
-    } else {
-      this.grossGrossWeightError = null;
-    }
+  private validateAllData(): void {
+    let errorPresent = this.grossGrossWeightError || this.grossWeightError;    
+    this.portCallService.setCargoWeightError(errorPresent);
   }
 
-  private checkForGrossWeightError(inputValue) {
-    if (inputValue < 0) {
-      this.grossWeightError = "Gross weight must be a positive number.";
-    } else {
-      this.grossWeightError = null;
-    }
-  }
-
-  private validateData() {
-    this.checkForGrossGrossWeightError(this.cargoModel.grossGrossWeight);
-    this.checkForGrossWeightError(this.cargoModel.grossWeight);
+  limitInputToPositiveDecimal($event) {
+    return $event.charCode == 46 || ($event.charCode >= 48 && $event.charCode <= 57);
   }
 }
