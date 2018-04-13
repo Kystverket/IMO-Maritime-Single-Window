@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { locateHostElement } from '@angular/core/src/render3/instructions';
 import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
-import { log } from 'util';
 
 @Component({
   selector: 'app-crew-passengers-dimensions',
@@ -20,12 +19,12 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     actualDraught: null,
     airDraught: null
   };
-  
-  numberOfCrewError: string;
-  numberOfPassengersError: string;
-  actualDraughtError: string;
-  airDraughtError: string;
-  
+
+  numberOfCrewError: boolean = false;
+  numberOfPassengersError: boolean = false;
+  actualDraughtError: boolean = false;
+  airDraughtError: boolean = false;
+
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -38,72 +37,38 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     );
   }
 
-  numberOfCrewChanged($event) {
-    this.hasNumberOfCrewError($event);
-    this.persistData();
+  isNumberOfCrewValid(inputField: any): boolean {
+    this.numberOfCrewError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  numberOfPassengersChanged($event) {
-    this.hasNumberOfPassengersError($event);
-    this.persistData();
+  isNumberOfPassengersValid(inputField: any): boolean {
+    this.numberOfPassengersError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  actualDraughtChanged($event) {
-    this.hasActualDraughtError($event);
-    this.persistData();
+  isActualDraughtValid(inputField: any): boolean {
+    this.actualDraughtError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  airDraughtChanged($event) {
-    this.hasAirDraughtError($event);
-    this.persistData();
+  isAirDraughtValid(inputField: any): boolean {
+    this.airDraughtError = !inputField.valid;
+    this.validateAllData();
+    return inputField.valid;
   }
 
-  private hasNumberOfCrewError(inputValue): boolean {
-    if (inputValue < 0) {
-      this.numberOfCrewError = "Number of crew must be a positive number.";
-    } else if (inputValue - Math.floor(inputValue) != 0) {
-      this.numberOfCrewError = "Number of crew must be a whole number.";
-    } else {
-      this.numberOfCrewError = null;
-      return false;
-    }
-    return true;
-  }
-
-  private hasNumberOfPassengersError(inputValue): boolean {
-    if (inputValue < 0) {
-      this.numberOfPassengersError = "Number of passengers must be a positive number.";
-    } else if (inputValue - Math.floor(inputValue) != 0) {
-      this.numberOfPassengersError = "Number of passengers must be a whole number.";
-    } else {
-      this.numberOfPassengersError = null;
-      return false;
-    }
-    return true;
-  }
-
-  private hasActualDraughtError(inputValue): boolean {
-    if (inputValue < 0) {
-      this.actualDraughtError = "Actual draught must be a positive number.";
-    } else {
-      this.actualDraughtError = null;
-      return false;
-    }
-    return true;
-  }
-
-  private hasAirDraughtError(inputValue): boolean {
-    if (inputValue < 0) {
-      this.airDraughtError = "Air draught must be a positive number.";
-    } else {
-      this.airDraughtError = null;
-      return false;
-    }
-    return true;
-  }
-
-  private persistData() {
+  persistData() {
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
+  }
+
+  private validateAllData(): void {
+    let errorPresent = this.numberOfCrewError || this.numberOfPassengersError
+      || this.actualDraughtError || this.airDraughtError;
+    this.portCallService.setCargoWeightError(errorPresent);
   }
 
   limitInputToPositiveInteger($event) {

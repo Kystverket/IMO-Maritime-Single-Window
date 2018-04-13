@@ -166,6 +166,12 @@ export class PortCallService {
     this.crewPassengersAndDimensionsSource.next(data);
   }
 
+  private crewPassengersAndDimensionsError = new BehaviorSubject<boolean>(false);
+  crewPassengersAndDimensionsError$ = this.crewPassengersAndDimensionsError.asObservable();
+  setCrewPassengersAndDimensionsError(error: boolean) {
+    this.crewPassengersAndDimensionsError.next(error);
+  }
+
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {

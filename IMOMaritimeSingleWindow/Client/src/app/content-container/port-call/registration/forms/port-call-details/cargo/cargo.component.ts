@@ -47,9 +47,7 @@ export class CargoComponent implements OnInit {
   }
 
   private validateAllData(): void {
-    let errorPresent = this.grossGrossWeightError || this.grossWeightError;
-    console.log(errorPresent);
-    
+    let errorPresent = this.grossGrossWeightError || this.grossWeightError;    
     this.portCallService.setCargoWeightError(errorPresent);
   }
 
