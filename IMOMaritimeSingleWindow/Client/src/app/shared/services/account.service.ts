@@ -3,6 +3,8 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { AuthRequest } from "./auth.request.service";
 import { BaseRequest } from "../utils/base.request";
 import { ConfigService } from "../utils/config.service";
+import { UserModel } from "../models/user-model";
+
 
 @Injectable()
 export class AccountService extends BaseRequest {
@@ -39,4 +41,8 @@ export class AccountService extends BaseRequest {
             .get(this.rolesUrl, options)
             .map(res => res.json());
     }
+
+
+    //createUser( { UserModel }  )
+
 }

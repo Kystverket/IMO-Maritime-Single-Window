@@ -20,20 +20,21 @@
       </div>
     </div>
 
-    <div class="card-body text-left">
-      <form>
+
+    <div id="personalia" class="card-body text-left">
+      <form #f="ngForm" novalidate (ngSubmit)="registerUser(f)">
 
         <div class="form-group">
           <label class="control-label" for="first_name">First name</label>
           <div class="col-sm-4">
-            <input id="first_name" class="form-control form-control-sm">
+            <input id="first_name" name="first_name" class="form-control form-control-sm" [(ngModel)]="user.firstName">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="last_name">Last name</label>
           <div class="col-sm-4">
-            <input id="last_name" class="form-control form-control-sm">
+            <input id="last_name" name="last_name" class="form-control form-control-sm" [(ngModel)]="user.lastName">
           </div>
         </div>
 
@@ -42,31 +43,24 @@
         <div class="form-group">
           <label class="control-label" for="email">Email</label>
           <div class="col-sm-4">
-            <input id="email" class="form-control form-control-sm">
+            <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.userName" #email="ngModel" tmFocus validateEmail>
+            <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="phone_number">Phone number</label>
           <div class="col-sm-4">
-            <input id="phone_number" class="form-control form-control-sm">
+            <input id="phone_number" name="phone_number" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber">
           </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label" for="user_name">User name</label>
-            <div class="col-sm-4">
-              <input id="user_name" class="form-control form-control-sm">
-            </div>
-          </div>
+          <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">CREATE USER</button>
+        </div>
 
-          <div class="form-group">
-              <label class="control-label" for="pwd">Password</label>
-              <div class="col-sm-4">
-                <input type=password id="pwd" class="form-control form-control-sm">
-              </div>
-            </div>
       </form>
+
     </div>
 
     <div class="card card-ssn text-center">
