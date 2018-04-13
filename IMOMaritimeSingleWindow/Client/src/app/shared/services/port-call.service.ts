@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
 
 @Injectable()
 export class PortCallService {
@@ -15,37 +16,51 @@ export class PortCallService {
     this.getPurposeUrl = "api/portcallpurpose/portcall"
     this.portCallModel = new PortCallModel();
 
+    // Details
+    this.saveDetailsUrl = "api/portcalldetails/register";
+    this.detailsModel = new PortCallDetailsModel();
+
     // Overview
     this.overviewModel = new PortCallOverviewModel();
     this.getOverviewUrl = 'api/portcall/overview';
     this.getPortCallsByLocationUrl = 'api/portcall/location';
 
   }
-   
+
+  // Global overview
+  private overviewModel: PortCallOverviewModel;
+  private getOverviewUrl: string;
+  private getPortCallsByLocationUrl: string; 
   // Global port call
   private getPortCallUrl: string;
   private savePortCallUrl: string;
   private getPurposeUrl: string;
   private portCallModel: PortCallModel;
-  // Global overview
-  private overviewModel: PortCallOverviewModel;
-  private getOverviewUrl: string;
-  private getPortCallsByLocationUrl: string;
+  // Global details
+  private saveDetailsUrl: string;
+  private detailsModel: PortCallDetailsModel;
   
   // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
+
+  private detailsDataSource = new BehaviorSubject<any>(null);
+  detailsData$ = this.detailsDataSource.asObservable();
+  private detailsRegistered = new BehaviorSubject<boolean>(true);
+  detailsRegistered$ = this.detailsRegistered.asObservable();
 
   private overviewDataSource = new BehaviorSubject<any>(null);
   overviewData$ = this.overviewDataSource.asObservable();
 
   // Overview methods
 
-
   wipeServiceData() {
     this.portCallModel = new PortCallModel();
+    this.detailsModel = new PortCallDetailsModel();    
     this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
+    this.detailsRegistered.next(false);
+
 
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
@@ -58,6 +73,8 @@ export class PortCallService {
 
     // Overview
     this.overviewDataSource.next(null);
+    // Details
+    this.detailsDataSource.next(null);
   }
 
   getPortCallById(portCallId: number) {
@@ -73,9 +90,9 @@ export class PortCallService {
   }
 
   setPortCall(overviewModel: PortCallOverviewModel) {
+    this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
     this.setShipLocationTime(overviewModel); 
-
   }
 
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
@@ -91,7 +108,6 @@ export class PortCallService {
       eta: { year: etaData.getFullYear(), month: etaData.getMonth(), day: etaData.getDate(), hour: etaData.getHours(), minute: etaData.getMinutes() },
       etd: { year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
     };
-    
     this.setEtaEtdData(etaEtdData);
   } 
 
@@ -103,6 +119,7 @@ export class PortCallService {
           console.log("Success.");        
           console.log(data);
           this.portCallRegistered.next(true);
+          this.detailsModel.portCallId = data.portCallId;
         }
       );
     } else {
@@ -155,25 +172,35 @@ export class PortCallService {
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
   private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
-  setReportingForThisPortCallData(data) {    
+  setReportingForThisPortCallData(data) {
+    this.detailsRegistered.next(false);
     this.reportingForThisPortCallSource.next(data);
   }
 
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
   setCrewPassengersAndDimensionsData(data) {
+    this.detailsRegistered.next(false); 
     this.crewPassengersAndDimensionsSource.next(data);
+    this.detailsModel.numberOfCrew = (data.numberOfCrew != null) ? data.numberOfCrew : null;
+    this.detailsModel.numberOfPassengers = (data.numberOfPassengers != null) ? data.numberOfPassengers : null;
+    this.detailsModel.actualDraught = (data.actualDraught != null) ? data.actualDraught : null;
+    this.detailsModel.airDraught = (data.airDraught != null) ? data.airDraught : null;
   }
 
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {
+    this.detailsRegistered.next(false);
     this.cargoWeightSource.next(data);
+    this.detailsModel.cargoGrossWeight = (data.grossWeight != null) ? data.grossWeight : null;
+    this.detailsModel.cargoGrossGrossWeight = (data.grossGrossWeight != null) ? data.grossGrossWeight : null;
   }
 
   private portCallPurposeSource = new BehaviorSubject<any>(null);
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
+    this.detailsRegistered.next(false);    
     this.portCallPurposeSource.next(data);
   }
 
@@ -181,6 +208,23 @@ export class PortCallService {
   otherPurposeName$ = this.otherPurposeNameSource.asObservable();
   setOtherPurposeName(data) {
     this.otherPurposeNameSource.next(data);
+  }
+
+  saveDetails() {
+    if (!this.detailsRegistered.value) {
+      console.log(this.overviewModel);
+      console.log(this.detailsModel);
+      console.log("Saving port call details to database...");
+      this.http.post(this.saveDetailsUrl, this.detailsModel).map(res => res.json()).subscribe(
+        data => {
+          console.log("Success.");
+          console.log(data);
+          this.detailsRegistered.next(true);
+        }
+      );
+    } else {
+      console.log("Port call details already registered in the database."); 
+    }
   }
 
 }

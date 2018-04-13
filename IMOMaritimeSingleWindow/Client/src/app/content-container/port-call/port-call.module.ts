@@ -24,6 +24,7 @@ import { InfoComponent } from './registration/info/info.component';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModule } from './registration/forms/confirmation/confirmation.module';
 import { SharedModule } from '../../shared/components/shared.module';
+import { ConfirmDetailsComponent } from './registration/forms/port-call-details/confirm-details/confirm-details.component';
 
 @NgModule({
   imports: [
@@ -53,7 +54,8 @@ import { SharedModule } from '../../shared/components/shared.module';
     OverviewComponent,
     PortCallComponent,
     InfoComponent,
-    ButtonViewComponent
+    ButtonViewComponent,
+    ConfirmDetailsComponent
   ],
   exports: [
     PortCallComponent,
