@@ -4,12 +4,14 @@ using IMOMaritimeSingleWindow.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 namespace IMOMaritimeSingleWindow.Data
 {
     public class UserDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
     {
 
         public DbSet<Person> Person { get; set; }
+        public DbSet<Password> Password { get; set; }
 
         public UserDbContext() { } /* Required for migrations */
 
@@ -54,9 +56,8 @@ namespace IMOMaritimeSingleWindow.Data
             builder.Entity<ApplicationRoleClaim>().ToTable(nameof(ApplicationRoleClaim));
             builder.Entity<ApplicationUserClaim>().ToTable(nameof(ApplicationUserClaim)); //To be coupled through role?
 
-
-            
-
+            builder.Entity<Password>().Property(p => p.PasswordId).UseNpgsqlSerialColumn();
+                
         }
     }
 }

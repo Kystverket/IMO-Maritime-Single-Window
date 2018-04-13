@@ -38,7 +38,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         [Authorize(Roles = "admin")]
         // POST api/accounts/register
-        [HttpPost("register")]
+        [HttpPost("registerwopw")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -50,14 +50,56 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var result = await _userManager.CreateAsync(userIdentity);
 
+            //TODO: Implement functionality for sending email to user with new account
+
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             //Create the Person associated with the ApplicationUser 
-            await userDbContext.Person.AddAsync(new Person { IdentityId = userIdentity.Id});
+            await userDbContext.Person.AddAsync(new Person
+            {
+                IdentityId = userIdentity.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            });
             await userDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
+        
+        // POST api/accounts/register
+        [HttpPost("registerwithpw")]
+        public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+
+            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            await userDbContext.SaveChangesAsync();
+
+            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+            //Create the Person associated with the ApplicationUser 
+            await userDbContext.Person.AddAsync(new Person {
+                IdentityId = userIdentity.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            });
+            
+            await userDbContext.Password.AddAsync(new Password
+            {
+                IdentityId = userIdentity.Id,
+                PasswordHash = userIdentity.PasswordHash
+            });
+
+            await userDbContext.SaveChangesAsync();
+
+            return new OkObjectResult("Account created");
+        }
+
 
         //[Authorize(Roles = "admin")]
         [HttpGet("getrole/all")]
