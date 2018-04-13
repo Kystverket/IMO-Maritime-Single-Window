@@ -97,11 +97,11 @@ export class OverviewComponent implements OnInit {
                 etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
                 actions: 'btn'
               });
-              this.overviewFound = true;
               this.dataSource.refresh();
             }
           )
         });
+        this.overviewFound = true;                                
       }
     );
 
