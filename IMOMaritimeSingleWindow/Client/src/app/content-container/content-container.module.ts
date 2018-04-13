@@ -27,6 +27,7 @@ import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-
 import { ShipFlagCodeService } from '../shared/services/ship-flag-code.service';
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
+import { OverviewComponent } from './port-call/overview/overview.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,7 @@ import { PortCallModule } from './port-call/port-call.module';
     CompanyFormComponent,
     SearchCompanyComponent,
     SearchCountryComponent,
-    SearchShipFlagCodeComponent
+    SearchShipFlagCodeComponent,
   ],
   exports: [ContentContainerComponent]
 })

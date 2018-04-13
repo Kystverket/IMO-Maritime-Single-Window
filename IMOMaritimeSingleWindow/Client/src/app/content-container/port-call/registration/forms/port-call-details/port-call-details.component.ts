@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PortCallService } from '../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-port-call-details',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./port-call-details.component.css']
 })
 export class PortCallDetailsComponent implements OnInit {
+  detailsRegistered: boolean;
 
-  constructor() { }
-
+  constructor(private portCallService: PortCallService) { }
+  
   ngOnInit() {
+    this.portCallService.detailsRegistered$.subscribe(
+      registered => {
+        this.detailsRegistered = registered;
+      }
+    );
   }
 
 }

@@ -55,7 +55,6 @@ export class ConfirmDataComponent implements OnInit {
     if (!this.shipFound || !this.locationFound || !this.dateTimeFound) {
       return;
     }
-
     this.portCallService.savePortCall();
   }
 }

@@ -1,5 +1,6 @@
 <ssn-card title="Select Location" icon="location.png">
     <ng-template #rt let-r="result" let-t="term">
+        <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
         <strong *ngIf="r.location.name">Name: </strong> {{ r.location.name }}
         <strong *ngIf="r.location.locationCode">Code: </strong> {{ r.location.locationCode }}
     </ng-template>
@@ -14,16 +15,15 @@
             </div>
             <div class="col-2">
                 <div *ngIf="searching">
-                    <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">
+                    <img class="mx-auto" src="assets/images/animations/location.gif" height="32px" />
                     <p>Searching</p>
                 </div>
                 <div *ngIf="searchFailed">
-                    <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+                    <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px" />
                     <p>No results</p>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div *ngIf="locationFound" class="text-center">
@@ -31,13 +31,17 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="bg-ssn text-ssn">
+                        <th>Country</th>
                         <th>Location Name</th>
                         <th>Location Code</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ locationModel.location.name }}</td>
+                        <td>
+                            <img src="assets/images/Flags/{{locationModel.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ locationModel.country.name }}
+                        </td>
+                        <td>{{ locationModel.location.name }} </td>
                         <td>{{ locationModel.location.locationCode }}</td>
                     </tr>
                 </tbody>

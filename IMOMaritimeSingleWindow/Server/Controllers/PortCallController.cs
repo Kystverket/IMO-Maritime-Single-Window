@@ -8,6 +8,7 @@ using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -41,8 +42,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                                     where c.CountryId == cId
                                     select c).FirstOrDefault();
             shipOverview.ShipType = (from st in _context.ShipType
-                                    where st.ShipTypeId == shipOverview.Ship.ShipTypeId
-                                    select st).FirstOrDefault();
+                                     where st.ShipTypeId == shipOverview.Ship.ShipTypeId
+                                     select st).FirstOrDefault();
 
             LocationOverview locationOverview = new LocationOverview();
             locationOverview.Location = (from l in _context.Location
@@ -55,19 +56,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             LocationOverview previousLocationOverview = new LocationOverview();
 
             previousLocationOverview.Location = (from l in _context.Location
-                                         where l.LocationId == pc.LocationId
-                                         select l).FirstOrDefault();
+                                                 where l.LocationId == pc.LocationId
+                                                 select l).FirstOrDefault();
             previousLocationOverview.Country = (from c in _context.Country
-                                        where c.CountryId == previousLocationOverview.Location.CountryId
-                                        select c).FirstOrDefault();
+                                                where c.CountryId == previousLocationOverview.Location.CountryId
+                                                select c).FirstOrDefault();
             LocationOverview nextLocationOverview = new LocationOverview();
 
             nextLocationOverview.Location = (from l in _context.Location
-                                         where l.LocationId == pc.LocationId
-                                         select l).FirstOrDefault();
+                                             where l.LocationId == pc.LocationId
+                                             select l).FirstOrDefault();
             nextLocationOverview.Country = (from c in _context.Country
-                                        where c.CountryId == nextLocationOverview.Location.CountryId
-                                        select c).FirstOrDefault();
+                                            where c.CountryId == nextLocationOverview.Location.CountryId
+                                            select c).FirstOrDefault();
 
             overview.PortCall = pc;
             overview.ShipOverview = shipOverview;
@@ -88,6 +89,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
+            
             if (portCall == null)
             {
                 return BadRequest("Empty body");
@@ -95,8 +97,14 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             try
             {
-                _context.PortCall.Add(portCall);
+                EntityEntry portCallEntity = _context.PortCall.Add(portCall);
                 _context.SaveChanges();
+
+                if (portCallEntity.Member("PortCallId") != null)
+                {
+                    portCall.PortCallId = (int) portCallEntity.Member("PortCallId").CurrentValue;
+                    return Json(portCall);
+                }
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {
@@ -104,7 +112,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
             }
 
-            return Json(portCall);
+            return BadRequest("Port call id not set");
         }
 
         [HttpGet("get/{id}")]
@@ -149,7 +157,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult GetAllOverview()
         {
             List<PortCallOverview> results = new List<PortCallOverview>();
-            foreach(PortCall p in _context.PortCall)
+            foreach (PortCall p in _context.PortCall)
             {
                 results.Add(GetOverview(p.PortCallId));
             }

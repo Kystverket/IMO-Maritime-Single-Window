@@ -21,3 +21,9 @@
     <app-purpose></app-purpose>
   </div>
 </div>
+
+<div *ngIf="!detailsRegistered" class="row">
+    <div class="col-lg">
+      <app-confirm-details></app-confirm-details>
+    </div>
+  </div>

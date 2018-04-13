@@ -1,4 +1,15 @@
-<div class="jumbotron">
-    <button class="btn btn-ssn" (click)="selectRegister()">Register New Port Call</button>
+<div clas="row">
+    <div class="col-6">
+        <ssn-card title='Create New Port Call' icon='portcall.png'>
+            <div class="text-center">
+                <button class="btn btn-ssn" (click)="selectRegister()">Register New Port Call</button>
+            </div>
+        </ssn-card>
+    </div>
 </div>
-<app-overview></app-overview>
+
+<div clas="row">
+    <div class="col">
+        <app-overview></app-overview>
+    </div>
+</div>

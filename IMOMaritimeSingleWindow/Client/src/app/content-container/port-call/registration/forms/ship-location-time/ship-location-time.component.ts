@@ -14,8 +14,8 @@ export class ShipLocationTimeComponent implements OnInit {
 
   ngOnInit() {
     this.portCallService.portCallRegistered$.subscribe(
-      regitered => {
-        this.portCallRegistered = regitered;
+      registered => {
+        this.portCallRegistered = registered;
       }
     );
   }
