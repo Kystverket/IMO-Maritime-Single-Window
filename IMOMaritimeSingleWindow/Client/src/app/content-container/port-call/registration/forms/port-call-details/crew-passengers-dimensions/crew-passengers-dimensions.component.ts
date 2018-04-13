@@ -36,7 +36,6 @@ export class CrewPassengersDimensionsComponent implements OnInit {
         }
       }
     );
-    this.validateData();
   }
 
   numberOfCrewChanged($event) {
@@ -101,13 +100,6 @@ export class CrewPassengersDimensionsComponent implements OnInit {
       return false;
     }
     return true;
-  }
-
-  private validateData() {
-    this.hasNumberOfCrewError(this.crewPassengersAndDimensionsModel.numberOfCrew);
-    this.hasNumberOfPassengersError(this.crewPassengersAndDimensionsModel.numberOfPassengers);
-    this.hasActualDraughtError(this.crewPassengersAndDimensionsModel.actualDraught);
-    this.hasAirDraughtError(this.crewPassengersAndDimensionsModel.airDraught);
   }
 
   private persistData() {

@@ -172,6 +172,12 @@ export class PortCallService {
     this.cargoWeightSource.next(data);
   }
 
+  private cargoWeightError = new BehaviorSubject<boolean>(false);
+  cargoWeightError$ = this.cargoWeightError.asObservable();
+  setCargoWeightError(error: boolean) {
+    this.cargoWeightError.next(error);
+  }
+
   private portCallPurposeSource = new BehaviorSubject<any>(null);
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
