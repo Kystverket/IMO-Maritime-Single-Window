@@ -40,7 +40,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         // GET: api/<controller>
         [Authorize]
         [HttpGet("getcategories")]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
             var headers = HttpContext.Request.Headers;
             var header_val = from x in headers
@@ -57,7 +57,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         // GET: api/<controller>
         [Authorize]
         [HttpGet("user")]
-        public async Task<IActionResult> GetUser()
+        public IActionResult GetUser()
         {
             
             var user = Request.HttpContext.User;

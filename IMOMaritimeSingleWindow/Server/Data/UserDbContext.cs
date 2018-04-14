@@ -4,6 +4,7 @@ using IMOMaritimeSingleWindow.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using IMOMaritimeSingleWindow.Extensions;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -12,6 +13,7 @@ namespace IMOMaritimeSingleWindow.Data
 
         public DbSet<Person> Person { get; set; }
         public DbSet<Password> Password { get; set; }
+        public DbSet<Test> Test { get; set; }
 
         public UserDbContext() { } /* Required for migrations */
 

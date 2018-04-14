@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design.Internal;
 using IMOMaritimeSingleWindow.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -15,20 +17,52 @@ namespace IMOMaritimeSingleWindow.Data
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        //private readonly ILogger<UserDbInitializer> _logger;
+        private readonly UserDbContext _context;
 
-        public UserDbInitializer(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public UserDbInitializer(
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager
+            //,ILogger<UserDbInitializer> logger
+            , UserDbContext context
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            //_logger = logger;
+            _context = context;
         }
 
 
+
+        /*
         public void Seed()
         {
             Task.Run(async () => { await SeedAsync(); }).Wait();
         }
+        */
 
-        public async Task SeedAsync()
+        public void Seed()
+        {
+        }
+
+        public async Task SeedAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                /*var calledMethod = System.Reflection.MethodBase.GetCurrentMethod();
+                _logger.LogError(nameof(UserDbInitializer) + $".{calledMethod}() was requested aborted");*/
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+            else
+            {
+                await SeedMiscAsync();
+
+            }
+                
+        }
+
+        private async Task SeedAdminAsync()
         {
             
             var adminRole = new ApplicationRole("admin");
@@ -53,13 +87,13 @@ namespace IMOMaritimeSingleWindow.Data
             await Task.FromResult(0);
         }
 
-        public async Task SeedMiscAsync()
+        private async Task SeedMiscAsync()
         {
             await SeedMiscRolesAsync();
             await SeedMiscUsersAsync();
         }
 
-        public async Task SeedMenuRightsAsync()
+        private async Task SeedMenuRightsAsync()
         {
             var adminRole = await _roleManager.FindByNameAsync(Constants.Strings.UserRoles.Admin);
             var claims = new List<System.Security.Claims.Claim> {
@@ -80,7 +114,7 @@ namespace IMOMaritimeSingleWindow.Data
             );
         }
 
-        public async Task SeedTestBaseAsync()
+        private async Task SeedTestBaseAsync()
         {
             List<string> users = new List<string> { "user1", "user2", "user3" };
             List<string> roles = new List<string> { "role1", "role2", "role3" };
@@ -127,6 +161,17 @@ namespace IMOMaritimeSingleWindow.Data
             await _userManager.AddToRoleAsync(customsOfficerUser, "customs_officer");
         }
 
+        private async Task SeedUser(string userName)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = userName,
+                Email = $"{userName}@test.no",
+                EmailConfirmed = false
+            };
+            await _userManager.CreateAsync(user);
+        }
+
         private async Task SeedUser(string userName, string password)
         {
             var user = new ApplicationUser
@@ -143,11 +188,11 @@ namespace IMOMaritimeSingleWindow.Data
             foreach(string userName in userNames)
             {
                 if (string.IsNullOrWhiteSpace(userName))
-                    throw new ArgumentNullException("Username is empty.");
+                    throw new ArgumentNullException("Username", "Username is empty.");
                 foreach (string roleName in roles)
                 {
                     if (string.IsNullOrWhiteSpace(roleName))
-                        throw new ArgumentNullException("Rolename is empty.");
+                        throw new ArgumentNullException("Rolename", "Rolename is empty.");
                     ApplicationRole role;
                     if ((role = await _roleManager.FindByNameAsync(roleName)) == null)
                         throw new ArgumentException($"role \"{roleName}\" does not exist");

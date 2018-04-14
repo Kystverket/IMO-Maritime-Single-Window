@@ -119,16 +119,6 @@ namespace IMOMaritimeSingleWindow.Models.Entities
 
     /// Stores
 
-    public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, UserDbContext, Guid,
-        ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin, ApplicationUserToken, ApplicationRoleClaim>
-   
-    {
-        public ApplicationUserStore(UserDbContext context)
-            :base(context)
-        {
-        }
-    }
-
     public class ApplicationRoleStore
 
         : RoleStore<ApplicationRole, UserDbContext, Guid, ApplicationUserRole, ApplicationRoleClaim>,

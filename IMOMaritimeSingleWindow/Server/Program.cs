@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using IMOMaritimeSingleWindow.Data;
 using Microsoft.Extensions.DependencyInjection;
 
+using IMOMaritimeSingleWindow.Extensions;
+
 namespace IMOMaritimeSingleWindow
 {
     public class Program
@@ -24,41 +26,12 @@ namespace IMOMaritimeSingleWindow
         public static void Main(string[] args)
         {
             var host = BuildWebHost(args);
-
-
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var context = services.GetRequiredService<UserDbContext>();
-                    //UserDbInitializer.Initialize(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
-            }
-
+            
+            host.SeedIdentityData().GetAwaiter().GetResult();
+            
             host.Run();
 
         }
-
-       /* public class TempDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-        {
-            public ApplicationDbContext CreateDbContext(string[] args)
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-                var builder = new DbContextOptions<ApplicationDbContext>();
-                var connectionString = configuration.GetConnectionString("DefaultConnection");
-                builder.
-            }
-        }
-        */
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)

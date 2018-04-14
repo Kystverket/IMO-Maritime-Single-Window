@@ -55,7 +55,9 @@ namespace IMOMaritimeSingleWindow
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
+
         {
+
             //Configure CORS with different policies
             services.AddCors(options =>
             {
@@ -214,7 +216,7 @@ namespace IMOMaritimeSingleWindow
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, UserDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
 
             if (env.IsDevelopment())
@@ -222,11 +224,20 @@ namespace IMOMaritimeSingleWindow
 
             }
 
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                if (!serviceScope.ServiceProvider.GetService<UserDbContext>().AllMigrationsApplied())
+                {
+                    serviceScope.ServiceProvider.GetService<UserDbContext>().Database.Migrate();
+                    serviceScope.ServiceProvider.GetService<UserDbContext>().EnsureSeeded();
+                }
+            }
+
             app.Use(async (context, next) => {
                 await next();
                 if (context.Response.StatusCode == 404 &&
                    !Path.HasExtension(context.Request.Path.Value) &&
-                   !context.Request.Path.Value.StartsWith("/api/"))
+                   !context.Request.Path.Value.StartsWith("/api/", StringComparison.Ordinal))
                 {
                     context.Request.Path = "/index.html";
                     await next();

@@ -18,6 +18,7 @@
     <Compile Remove="Migrations\20180321141014_Initial.Designer.cs" />
     <Compile Remove="Migrations\20180321141401_Initial.cs" />
     <Compile Remove="Migrations\20180321141401_Initial.Designer.cs" />
+    <Compile Remove="Models\Entities\IdentityManager.cs" />
   </ItemGroup>
 
   <ItemGroup>

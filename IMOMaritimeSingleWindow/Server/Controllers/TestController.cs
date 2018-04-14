@@ -34,21 +34,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Roles = Constants.Strings.UserRoles.Admin)]
-        // GET /api/test/admindata
-        [HttpGet("admindata")]
-        public JsonResult GetAdminData()
-        {
-            int totalBansThisWipe = 8;
-            List<string> dataList = new List<string>
-            {
-                "Wipe is scheduled for 8 PM CET on fridays, but admins can join 10 minutes earlier via this link: url",
-                $"{totalBansThisWipe} players have been banned from the server this wipe"
-            };
-            return Json(dataList);
-        }
-        
-
         /**
         [HttpPost("userclaims")]
         public async Task<JsonResult> GetUserClaims([FromBody]RegistrationViewModel model)
@@ -60,13 +45,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
         */
 
-        [HttpPost("seed")]
-        public async Task SeedDatabase()
-        {
-            UserDbInitializer userDbInitializer = new UserDbInitializer(_userManager, _roleManager);
-            await userDbInitializer.SeedAsync();
-        }
-        
         [HttpPost("getuserclaims")]
         public async Task<JsonResult> GetUserClaims([FromBody]UserViewModel model)
         {
@@ -82,7 +60,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("getuserclaims/{userName}")]
         public async Task<JsonResult> GetUserClaims(string userName)
         {
-           
+
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
             {
@@ -103,7 +81,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             //Authorization checks are made ... ^
             return new OkObjectResult("Port call registration granted");
         }
-        
+
     }
 
 
