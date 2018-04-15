@@ -104,10 +104,13 @@ namespace IMOMaritimeSingleWindow
             //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
 
-            var baseSeedPath = "Seed" + Path.DirectorySeparatorChar;
-            var userString = File.ReadAllText(baseSeedPath + "users.json");
-            var roleString = File.ReadAllText(baseSeedPath + "roles.json");
-            var userRoleString = File.ReadAllText(baseSeedPath + "user-roles.json");
+            var seedDataPaths = Configuration.GetSection("Paths").GetSection("SeedData");
+            var baseSeedPath = seedDataPaths.GetValue<string>("Base") + Path.DirectorySeparatorChar;
+            var userString = File.ReadAllText(baseSeedPath + seedDataPaths.GetValue<string>("Users"));
+            var roleString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("Roles"));
+            var userRoleString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("UserRoles"));
+            //var roleClaimsString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("RoleClaims"));
+
             SeedItems seedItems = new SeedItems
             {
                 UserBase = userString,
