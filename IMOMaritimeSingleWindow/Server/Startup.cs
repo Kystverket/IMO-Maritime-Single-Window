@@ -107,10 +107,12 @@ namespace IMOMaritimeSingleWindow
             var baseSeedPath = "Seed" + Path.DirectorySeparatorChar;
             var userString = File.ReadAllText(baseSeedPath + "users.json");
             var roleString = File.ReadAllText(baseSeedPath + "roles.json");
+            var userRoleString = File.ReadAllText(baseSeedPath + "user-roles.json");
             SeedItems seedItems = new SeedItems
             {
                 UserBase = userString,
-                RoleBase = roleString
+                RoleBase = roleString,
+                UserRoleBase = userRoleString
             };
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();

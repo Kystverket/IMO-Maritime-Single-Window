@@ -85,7 +85,7 @@ namespace IMOMaritimeSingleWindow.Data
                 await SeedUsersAsync();
                 await SeedRolesAsync();
             }
-            
+            await SeedUsersToRolesAsync();
         }
 
         public async Task SeedUsersAsync()
@@ -101,7 +101,8 @@ namespace IMOMaritimeSingleWindow.Data
                 ApplicationUser appUser = new ApplicationUser
                 {
                     Email = userModel.Email,
-                    UserName = userModel.Email
+                    UserName = userModel.Email,
+                    EmailConfirmed = true
                 };
 
                 var result = await _userManager.CreateAsync(appUser, userModel.Password);
@@ -148,6 +149,20 @@ namespace IMOMaritimeSingleWindow.Data
                 (System.Security.Claims.ClaimTypes.Role, roleName));
             }
             
+        }
+
+        private async Task SeedUsersToRolesAsync()
+        {
+            List<UserRoleSeed> usersRoles = new List<UserRoleSeed>();
+            usersRoles = JsonConvert.DeserializeObject<List<UserRoleSeed>>(SeedItems.UserRoleBase);
+
+            foreach (var user in usersRoles)
+            {
+                var appUser = await _userManager.FindByEmailAsync(user.Email);
+                if (appUser == null)
+                    continue;
+                await _userManager.AddToRolesAsync(appUser, user.Roles);
+            }
         }
 
 
