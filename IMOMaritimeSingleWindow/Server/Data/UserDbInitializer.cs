@@ -60,32 +60,14 @@ namespace IMOMaritimeSingleWindow.Data
         }
         */
 
-        private Task ResolveUsers()
-        {
-            var userModels = JsonConvert.DeserializeObject<List<RegistrationWithPasswordViewModel>>(SeedItems.UserBase);
-            if (userModels == null)
-                throw new TaskCanceledException("Could not convert to JSON or JSON is empty");
-
-            foreach (var userModel in userModels)
-            {
-                ApplicationUser appUser = new ApplicationUser
-                {
-                    Email = userModel.Email,
-                    UserName = userModel.Email
-                };
-                ApplicationUsers.Add(appUser);
-            }
-            return Task.CompletedTask;
-        }
-
         public async Task EnsureSeeded()
         {
             if (!_userManager.Users.Any())
-            {
                 await SeedUsersAsync();
+            if(!_roleManager.Roles.Any())
                 await SeedRolesAsync();
-            }
-            await SeedUsersToRolesAsync();
+            
+            await SeedMenuRightsAsync();
         }
 
         public async Task SeedUsersAsync()
@@ -141,14 +123,7 @@ namespace IMOMaritimeSingleWindow.Data
             JArray roleArray = JArray.Parse(SeedItems.RoleBase);
             var roleNames = roleArray.ToObject<List<string>>();
 
-            foreach(var roleName in roleNames)
-            {
-                var role = new ApplicationRole(roleName);
-                await _roleManager.CreateAsync(role);
-                await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim
-                (System.Security.Claims.ClaimTypes.Role, roleName));
-            }
-            
+            await SeedRoles(roleNames);
         }
 
         private async Task SeedUsersToRolesAsync()
@@ -176,41 +151,9 @@ namespace IMOMaritimeSingleWindow.Data
             }
             else
             {
-                await SeedMiscAsync();
-
+                await SeedUsersAsync();
             }
                 
-        }
-
-        private async Task SeedAdminAsync()
-        {
-            
-            var adminRole = new ApplicationRole("admin");
-            await _roleManager.CreateAsync(adminRole);
-            //Also add a default claim associated with that role
-            await _roleManager.AddClaimAsync(adminRole, new System.Security.Claims.Claim
-            (System.Security.Claims.ClaimTypes.Role, "admin"));
-
-            ApplicationUser user;
-            if(_userManager.FindByNameAsync("admin") != null)
-            {
-                user = new ApplicationUser
-                {
-                    UserName = "admin",
-                    Email = "admin@test.no",
-                    EmailConfirmed = true
-                };
-                await _userManager.CreateAsync(user, "Tester123");
-                await _userManager.AddToRoleAsync(user, "admin");
-            }
-            
-            await Task.FromResult(0);
-        }
-
-        private async Task SeedMiscAsync()
-        {
-            await SeedMiscRolesAsync();
-            await SeedMiscUsersAsync();
         }
 
         private async Task SeedMenuRightsAsync()
@@ -234,73 +177,6 @@ namespace IMOMaritimeSingleWindow.Data
             );
         }
 
-        private async Task SeedTestBaseAsync()
-        {
-            List<string> users = new List<string> { "user1", "user2", "user3" };
-            List<string> roles = new List<string> { "role1", "role2", "role3" };
-            string password = "Password123";
-            //Create users
-            foreach (string user in users)
-                await SeedUser(user, password);
-            await SeedRoles(roles);
-            await SeedUsersToRoles(users, roles);
-        }
-
-        private async Task SeedMiscRolesAsync()
-        {
-            var agentRole = new ApplicationRole("agent");
-            var customsOfficerRole = new ApplicationRole("customs_officer");
-            await _roleManager.CreateAsync(agentRole);
-            await _roleManager.CreateAsync(customsOfficerRole);
-
-            await _roleManager.AddClaimAsync(agentRole, new System.Security.Claims.Claim
-                (System.Security.Claims.ClaimTypes.Role, Constants.Strings.UserRoles.Agent));
-            await _roleManager.AddClaimAsync(customsOfficerRole, new System.Security.Claims.Claim
-                (System.Security.Claims.ClaimTypes.Role, "customs_officer"));
-        }
-
-        private async Task SeedMiscUsersAsync()
-        {
-            var agentUser = new ApplicationUser
-            {
-                UserName = "agent",
-                Email = "agent@test.no",
-                EmailConfirmed = true
-            };
-            var customsOfficerUser = new ApplicationUser
-            {
-                UserName = "customs_officer",
-                Email = "customs_officer@test.no",
-                EmailConfirmed = true
-            };
-
-            await _userManager.CreateAsync(agentUser, "Agent123");
-            await _userManager.AddToRoleAsync(agentUser, "agent");
-
-            await _userManager.CreateAsync(customsOfficerUser, "Cust123");
-            await _userManager.AddToRoleAsync(customsOfficerUser, "customs_officer");
-        }
-
-        private async Task SeedUser(string email)
-        {
-            var user = new ApplicationUser
-            {
-                Email = email,
-                EmailConfirmed = false
-            };
-            await _userManager.CreateAsync(user);
-        }
-
-        private async Task SeedUser(string email, string password)
-        {
-            var user = new ApplicationUser
-            {
-                Email = email,
-                EmailConfirmed = true
-            };
-            await _userManager.CreateAsync(user, password);
-        }
-
         private async Task SeedUsersToRoles(IList<string> userNames, IList<string> roles)
         {
             foreach(string userName in userNames)
@@ -318,21 +194,21 @@ namespace IMOMaritimeSingleWindow.Data
                     await _userManager.AddToRoleAsync(user, roleName);
                 }
             }
-
         }
 
-        private async Task SeedRoles(IList<string> rolesNames)
+        private async Task SeedRoles(IList<string> roleNames)
         {
-            foreach (string roleName in rolesNames)
+            foreach (var roleName in roleNames)
             {
                 if (string.IsNullOrWhiteSpace(roleName))
                     throw new ArgumentNullException("Rolename is empty.");
                 var role = new ApplicationRole(roleName);
-                await _roleManager.CreateAsync(role);
-                
-                var claim = new System.Security.Claims.Claim(
-                    System.Security.Claims.ClaimTypes.Role, roleName);
-                await _roleManager.AddClaimAsync(role, claim);
+                var result = await _roleManager.CreateAsync(role);
+                if (result.Succeeded)
+                    await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim
+                                        (System.Security.Claims.ClaimTypes.Role, roleName));
+                else
+                    throw new TaskCanceledException("role could not be created");
             }
         }
 

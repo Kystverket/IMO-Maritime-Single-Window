@@ -67,7 +67,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 case (int)Constants.LoginStates.InvalidCredentials:
                     _logger.LogDebug("Invalid credentials");
                     ModelState.AddModelError(string.Empty, "Invalid login attempt");
-                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid credentials. Please make sure you confirm your email address before logging in.", ModelState));
                 case (int)Constants.LoginStates.LockedOut:
                     _logger.LogWarning("User account is locked out.");
                     var forbiddenRequestObject = BadRequest(ModelState);

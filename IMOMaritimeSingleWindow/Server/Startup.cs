@@ -18,12 +18,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Cors;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.IdentityModel.Tokens;
 
 // Local namespaces
@@ -33,9 +31,6 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Models.Entities;
-//using IMOMaritimeSingleWindow.Services;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -58,6 +53,7 @@ namespace IMOMaritimeSingleWindow
 
         {
 
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CORS with different policies
             services.AddCors(options =>
             {
@@ -81,8 +77,8 @@ namespace IMOMaritimeSingleWindow
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            
-            //Add identity types
+
+            //Configure identity services
             var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 // configure identity options
@@ -98,51 +94,32 @@ namespace IMOMaritimeSingleWindow
                 options.Lockout.AllowedForNewUsers = true;
 
                 //Email options
-                //options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
 
             });
-            //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+
             builder.AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
 
-            var seedDataPaths = Configuration.GetSection("Paths").GetSection("SeedData");
-            var baseSeedPath = seedDataPaths.GetValue<string>("Base") + Path.DirectorySeparatorChar;
-            var userString = File.ReadAllText(baseSeedPath + seedDataPaths.GetValue<string>("Users"));
-            var roleString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("Roles"));
-            var userRoleString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("UserRoles"));
-            //var roleClaimsString = File.ReadAllText(baseSeedPath  + seedDataPaths.GetValue<string>("RoleClaims"));
+            //builder.AddSignInManager<SignInManager<ApplicationUser>>()
+                builder.AddUserManager<ApplicationUserManager>()
+                .AddRoleManager<ApplicationRoleManager>();
 
-            SeedItems seedItems = new SeedItems
-            {
-                UserBase = userString,
-                RoleBase = roleString,
-                UserRoleBase = userRoleString
-            };
-
-            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
-
-            //Identity Services
-            services.AddScoped<SignInManager<ApplicationUser>>();
-            services.AddScoped<UserManager<ApplicationUser>, ApplicationUserManager>();
-            services.AddScoped<RoleManager<ApplicationRole>, ApplicationRoleManager>();
             services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, ApplicationRoleStore>();
 
-            
             var serviceProvider = services.BuildServiceProvider();
 
-            //ApplicationUserManager myUserManager = (ApplicationUserManager)serviceProvider.GetService(typeof(ApplicationUserManager));
-            //ApplicationRoleManager myRoleManager = (ApplicationRoleManager)serviceProvider.GetService(typeof(ApplicationRoleManager));
+            //Configure database initializer service
+            serviceProvider = services.AddUserDbInitializer(serviceProvider, Configuration);
+            
             var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
 
             // Additional manager separate from ASP NET Identity
             services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
-
-            var myUserDbContext = serviceProvider.GetService<UserDbContext>();
+            
 
             // Custom services
-            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myUserDbContext, seedItems));
-            serviceProvider = services.BuildServiceProvider();
             
             //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
 
@@ -211,9 +188,6 @@ namespace IMOMaritimeSingleWindow
 
           });
 
-        
-
-
 
             /*services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);*/
@@ -252,6 +226,8 @@ namespace IMOMaritimeSingleWindow
                         serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                           .GetAwaiter().GetResult();
                     }
+                    serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
+                          .GetAwaiter().GetResult();
                 }
             }
 
