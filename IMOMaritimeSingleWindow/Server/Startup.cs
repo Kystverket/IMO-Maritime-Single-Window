@@ -104,6 +104,15 @@ namespace IMOMaritimeSingleWindow
             //builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
 
+            var baseSeedPath = "Seed" + Path.DirectorySeparatorChar;
+            var userString = File.ReadAllText(baseSeedPath + "users.json");
+            var roleString = File.ReadAllText(baseSeedPath + "roles.json");
+            SeedItems seedItems = new SeedItems
+            {
+                UserBase = userString,
+                RoleBase = roleString
+            };
+
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             //Identity Services
@@ -112,15 +121,23 @@ namespace IMOMaritimeSingleWindow
             services.AddScoped<RoleManager<ApplicationRole>, ApplicationRoleManager>();
             services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
             services.AddScoped<IRoleStore<ApplicationRole>, ApplicationRoleStore>();
+
+            
             var serviceProvider = services.BuildServiceProvider();
+
             //ApplicationUserManager myUserManager = (ApplicationUserManager)serviceProvider.GetService(typeof(ApplicationUserManager));
             //ApplicationRoleManager myRoleManager = (ApplicationRoleManager)serviceProvider.GetService(typeof(ApplicationRoleManager));
-            var myUserManager = (UserManager<ApplicationUser>)serviceProvider.GetService(typeof(UserManager<ApplicationUser>));
-            var myRoleManager = (RoleManager<ApplicationRole>)serviceProvider.GetService(typeof(RoleManager<ApplicationRole>));
-            services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
-            
+            var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+            var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
+
             // Additional manager separate from ASP NET Identity
-            services.AddScoped<UserDbInitializer>();
+            services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+
+            var myUserDbContext = serviceProvider.GetService<UserDbContext>();
+
+            // Custom services
+            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myUserDbContext, seedItems));
+            serviceProvider = services.BuildServiceProvider();
             
             //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
 
@@ -221,17 +238,19 @@ namespace IMOMaritimeSingleWindow
 
             if (env.IsDevelopment())
             {
-
-            }
-
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                if (!serviceScope.ServiceProvider.GetService<UserDbContext>().AllMigrationsApplied())
+                using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    serviceScope.ServiceProvider.GetService<UserDbContext>().Database.Migrate();
-                    serviceScope.ServiceProvider.GetService<UserDbContext>().EnsureSeeded();
+                    if (!serviceScope.ServiceProvider.GetService<UserDbContext>().AllMigrationsApplied())
+                    {
+                        serviceScope.ServiceProvider.GetService<UserDbContext>().Database.Migrate();
+                        
+                        serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
+                          .GetAwaiter().GetResult();
+                    }
                 }
             }
+
+            
 
             app.Use(async (context, next) => {
                 await next();

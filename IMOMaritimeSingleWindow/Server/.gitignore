@@ -262,3 +262,7 @@ __pycache__/
 
 # User directories
 Migrations/
+
+# Database seed data
+Seed/*
+!Seed/test-entries.json

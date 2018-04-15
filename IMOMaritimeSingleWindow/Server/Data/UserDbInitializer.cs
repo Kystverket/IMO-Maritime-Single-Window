@@ -1,4 +1,7 @@
 using System;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,29 +14,44 @@ using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.Extensions.Logging;
 
+using IMOMaritimeSingleWindow.ViewModels;
+
 namespace IMOMaritimeSingleWindow.Data
 {
-    public class UserDbInitializer
+    public class UserDbInitializer : IDisposable, IUserDbInitializer
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         //private readonly ILogger<UserDbInitializer> _logger;
-        private readonly UserDbContext _context;
+        private readonly UserDbContext _userDbContext;
+
+        //Hack because class does not yet have permission to access local files
+        public SeedItems SeedItems { get; set; }
+
+        private List<ApplicationUser> ApplicationUsers { get; set; }
+        private List<Person> Persons { get; set; }
+
+
 
         public UserDbInitializer(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager
             //,ILogger<UserDbInitializer> logger
-            , UserDbContext context
+            , UserDbContext context,
+            SeedItems seedItems
             )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             //_logger = logger;
-            _context = context;
+            _userDbContext = context;
+            SeedItems = seedItems;
         }
 
-
+        public void Dispose()
+        {
+            Console.WriteLine("disposed of");
+        }
 
         /*
         public void Seed()
@@ -42,9 +60,96 @@ namespace IMOMaritimeSingleWindow.Data
         }
         */
 
-        public void Seed()
+        private Task ResolveUsers()
         {
+            var userModels = JsonConvert.DeserializeObject<List<RegistrationWithPasswordViewModel>>(SeedItems.UserBase);
+            if (userModels == null)
+                throw new TaskCanceledException("Could not convert to JSON or JSON is empty");
+
+            foreach (var userModel in userModels)
+            {
+                ApplicationUser appUser = new ApplicationUser
+                {
+                    Email = userModel.Email,
+                    UserName = userModel.Email
+                };
+                ApplicationUsers.Add(appUser);
+            }
+            return Task.CompletedTask;
         }
+
+        public async Task EnsureSeeded()
+        {
+            if (!_userManager.Users.Any())
+            {
+                await SeedUsersAsync();
+                await SeedRolesAsync();
+            }
+            
+        }
+
+        public async Task SeedUsersAsync()
+        {
+            List<RegistrationWithPasswordViewModel> userModels = new List<RegistrationWithPasswordViewModel>();
+            userModels = JsonConvert.DeserializeObject<List<RegistrationWithPasswordViewModel>>(SeedItems.UserBase);
+
+            List<Person> persons = new List<Person>();
+            List<Password> passwords = new List<Password>();
+
+            foreach (var userModel in userModels)
+            {
+                ApplicationUser appUser = new ApplicationUser
+                {
+                    Email = userModel.Email,
+                    UserName = userModel.Email
+                };
+
+                var result = await _userManager.CreateAsync(appUser, userModel.Password);
+
+                if (result.Succeeded)
+                {
+                    var user = await _userManager.FindByEmailAsync(appUser.Email);
+
+                    persons.Add(new Person
+                    {
+                        FirstName = userModel.FirstName,
+                        LastName = userModel.LastName,
+                        IdentityId = user.Id
+                    });
+
+                    passwords.Add(new Password
+                    {
+                        IdentityId = user.Id,
+                        PasswordHash = user.PasswordHash
+                    });
+                }
+                else
+                {
+                    throw new TaskCanceledException("user could not be created");
+                }
+                
+            }
+            _userDbContext.AddRange(persons);
+            _userDbContext.AddRange(passwords);
+            _userDbContext.SaveChanges();
+            
+        }
+
+        private async Task SeedRolesAsync()
+        {
+            JArray roleArray = JArray.Parse(SeedItems.RoleBase);
+            var roleNames = roleArray.ToObject<List<string>>();
+
+            foreach(var roleName in roleNames)
+            {
+                var role = new ApplicationRole(roleName);
+                await _roleManager.CreateAsync(role);
+                await _roleManager.AddClaimAsync(role, new System.Security.Claims.Claim
+                (System.Security.Claims.ClaimTypes.Role, roleName));
+            }
+            
+        }
+
 
         public async Task SeedAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -161,23 +266,21 @@ namespace IMOMaritimeSingleWindow.Data
             await _userManager.AddToRoleAsync(customsOfficerUser, "customs_officer");
         }
 
-        private async Task SeedUser(string userName)
+        private async Task SeedUser(string email)
         {
             var user = new ApplicationUser
             {
-                UserName = userName,
-                Email = $"{userName}@test.no",
+                Email = email,
                 EmailConfirmed = false
             };
             await _userManager.CreateAsync(user);
         }
 
-        private async Task SeedUser(string userName, string password)
+        private async Task SeedUser(string email, string password)
         {
             var user = new ApplicationUser
             {
-                UserName = userName,
-                Email = $"{userName}@test.no",
+                Email = email,
                 EmailConfirmed = true
             };
             await _userManager.CreateAsync(user, password);

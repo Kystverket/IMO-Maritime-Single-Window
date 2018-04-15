@@ -27,8 +27,6 @@ namespace IMOMaritimeSingleWindow
         {
             var host = BuildWebHost(args);
             
-            host.SeedIdentityData().GetAwaiter().GetResult();
-            
             host.Run();
 
         }
