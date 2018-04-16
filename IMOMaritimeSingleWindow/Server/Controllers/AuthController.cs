@@ -82,7 +82,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            _logger.LogError(jwt);
+            _logger.LogInformation(jwt);
             return new ContentResult
             {
                 Content = jwt,

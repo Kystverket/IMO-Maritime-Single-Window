@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using IMOMaritimeSingleWindow.Models.IdentityExtensionModels;
-
 namespace IMOMaritimeSingleWindow.Data
 {
     public class UserDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
@@ -22,8 +20,6 @@ namespace IMOMaritimeSingleWindow.Data
             : base(options)
         {
         }
-
-        public virtual DbSet<AspNetClaim> Claim { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

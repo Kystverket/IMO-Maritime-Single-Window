@@ -103,7 +103,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //Temporarily solution not requiring login in GUI
     if(!this.loginService.isLoggedIn()){
-        this.loginService.login("admin", "Tester123")
+        this.loginService.login("admin@test.no", "Tester123")
         .subscribe(
           result => {
             if(result)

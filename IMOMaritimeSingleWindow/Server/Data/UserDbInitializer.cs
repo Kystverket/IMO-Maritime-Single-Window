@@ -63,9 +63,13 @@ namespace IMOMaritimeSingleWindow.Data
         public async Task EnsureSeeded()
         {
             if (!_userManager.Users.Any())
+            {
                 await SeedUsersAsync();
-            if(!_roleManager.Roles.Any())
-                await SeedRolesAsync();
+                if (!_roleManager.Roles.Any())
+                    await SeedRolesAsync();
+                await SeedUsersToRolesAsync();
+            }
+                
             
             await SeedMenuRightsAsync();
         }
@@ -137,6 +141,14 @@ namespace IMOMaritimeSingleWindow.Data
                 if (appUser == null)
                     continue;
                 await _userManager.AddToRolesAsync(appUser, user.Roles);
+                
+                foreach (var role in user.Roles)
+                {
+                    var claim = new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, role);
+                    await _userManager.AddClaimAsync(appUser, claim);
+                }
+                    
+                
             }
         }
 
