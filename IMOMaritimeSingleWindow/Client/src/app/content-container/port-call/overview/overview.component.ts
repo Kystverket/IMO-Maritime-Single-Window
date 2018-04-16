@@ -29,11 +29,6 @@ export class OverviewComponent implements OnInit {
 
   overviewFound: boolean = false;
 
-  editPortCall(overviewModel: PortCallOverviewModel) {
-    this.portCallService.setPortCall(overviewModel);
-    this.contentService.setContent('Register Port Call');
-  }
-
   // Smart table
 
   tableSettings = {
@@ -127,6 +122,12 @@ export class ButtonViewComponent implements ViewCell, OnInit {
 
   onClick() {
     this.portCallService.setPortCall(this.rowData.overviewModel);
+    this.portCallService.wipeDetailsData();
+    this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+      details => {
+        this.portCallService.setDetails(details);
+      }
+    )
     this.contentService.setContent('Register Port Call');
   }
 

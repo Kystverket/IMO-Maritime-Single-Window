@@ -19,6 +19,7 @@ export class PortCallService {
 
     // Details
     this.saveDetailsUrl = "api/portcalldetails/register";
+    this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall"
     this.detailsModel = new PortCallDetailsModel();
 
     // Overview
@@ -39,6 +40,7 @@ export class PortCallService {
   private portCallModel: PortCallModel;
   // Global details
   private saveDetailsUrl: string;
+  private getDetailsByPortCallIdUrl: string;
   private detailsModel: PortCallDetailsModel;
   
   // Subjects
@@ -66,16 +68,22 @@ export class PortCallService {
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
     this.etaEtdDataSource.next(null);
+    
+
+    // Overview
+    this.overviewDataSource.next(null);
+    // Details
+    this.wipeDetailsData();
+  }
+
+  wipeDetailsData() {
+    this.detailsRegistered.next(false);
     this.reportingForThisPortCallSource.next(null);
     this.crewPassengersAndDimensionsSource.next(null);
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
-
-    // Overview
-    this.overviewDataSource.next(null);
-    // Details
-    this.detailsDataSource.next(null);
+    this.detailsDataSource.next(null);    
   }
 
   getPortCallById(portCallId: number) {
@@ -91,10 +99,20 @@ export class PortCallService {
   }
 
   setPortCall(overviewModel: PortCallOverviewModel) {
-    this.detailsModel = new PortCallDetailsModel(); // todo: get details from db
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
     this.setShipLocationTime(overviewModel); 
+  }
+
+  setDetails(detailsModel: PortCallDetailsModel) {
+    if (this.detailsModel == null) {
+      this.wipeDetailsData();
+    } else {
+      this.detailsRegistered.next(true);
+      this.detailsDataSource.next(detailsModel);
+      this.setCrewPassengersAndDimensionsData(detailsModel);
+      this.setCargoWeightData(detailsModel);
+    }
   }
 
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
@@ -171,6 +189,13 @@ export class PortCallService {
 
   // Port Call Details
 
+  getDetailsByPortCallId(portCallId: number) {
+    let uri:string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
+
+    return this.http.get(uri)
+            .map(res => res.json());
+  }
+
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
   private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
@@ -183,11 +208,11 @@ export class PortCallService {
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
   setCrewPassengersAndDimensionsData(data) {
     this.detailsRegistered.next(false); 
-    this.crewPassengersAndDimensionsSource.next(data);
     this.detailsModel.numberOfCrew = (data.numberOfCrew != null) ? data.numberOfCrew : null;
     this.detailsModel.numberOfPassengers = (data.numberOfPassengers != null) ? data.numberOfPassengers : null;
     this.detailsModel.actualDraught = (data.actualDraught != null) ? data.actualDraught : null;
     this.detailsModel.airDraught = (data.airDraught != null) ? data.airDraught : null;
+    this.crewPassengersAndDimensionsSource.next(this.detailsModel);    
   }
 
   private crewPassengersAndDimensionsError = new BehaviorSubject<boolean>(false);
@@ -199,10 +224,11 @@ export class PortCallService {
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {
+    console.log("setCargoWeightData: " + data);
     this.detailsRegistered.next(false);
-    this.cargoWeightSource.next(data);
-    this.detailsModel.cargoGrossWeight = (data.grossWeight != null) ? data.grossWeight : null;
-    this.detailsModel.cargoGrossGrossWeight = (data.grossGrossWeight != null) ? data.grossGrossWeight : null;
+    this.detailsModel.cargoGrossWeight = (data.cargoGrossWeight != null) ? data.cargoGrossWeight : null;
+    this.detailsModel.cargoGrossGrossWeight = (data.cargoGrossGrossWeight != null) ? data.cargoGrossGrossWeight : null;
+    this.cargoWeightSource.next(this.detailsModel);    
   }
 
   private cargoWeightError = new BehaviorSubject<boolean>(false);

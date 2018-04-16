@@ -11,8 +11,8 @@ export class CargoComponent implements OnInit {
   positiveDecimalRegex: string = '^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$';
 
   cargoModel = {
-    grossGrossWeight: null,
-    grossWeight: null
+    cargoGrossGrossWeight: null,
+    cargoGrossWeight: null
   }
 
   grossGrossWeightError: boolean = false;
