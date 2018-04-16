@@ -87,6 +87,13 @@ namespace IMOMaritimeSingleWindow.Models.Entities
         {
         }
 
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user)
+        {
+            return base.CreateAsync(user);
+        }
+
+
+
         /// <summary>
         /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Models.Entities.UserRoleManager.GetClaimsAsync(TUser)"/>.
         /// </summary>

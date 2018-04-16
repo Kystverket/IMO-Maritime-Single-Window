@@ -71,8 +71,9 @@ namespace IMOMaritimeSingleWindow
             //Configure database contextes
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
+            var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(options => options.UseNpgsql(connectionStringUserDb));
+            services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(options => options.UseNpgsql(connectionStringUserTestDb));
         
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
