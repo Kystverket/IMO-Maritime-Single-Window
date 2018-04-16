@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
+using IMOMaritimeSingleWindow.Models.IdentityExtensionModels;
 
 namespace IMOMaritimeSingleWindow.Models.Entities
 {
@@ -85,6 +86,7 @@ namespace IMOMaritimeSingleWindow.Models.Entities
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 
         {
+            passwordHasher = new 
         }
 
         public override Task<IdentityResult> CreateAsync(ApplicationUser user)

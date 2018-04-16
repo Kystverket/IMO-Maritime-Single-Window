@@ -4,7 +4,8 @@ using IMOMaritimeSingleWindow.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using IMOMaritimeSingleWindow.Extensions;
+
+using IMOMaritimeSingleWindow.Models.IdentityExtensionModels;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -21,6 +22,8 @@ namespace IMOMaritimeSingleWindow.Data
             : base(options)
         {
         }
+
+        public virtual DbSet<AspNetClaim> Claim { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
