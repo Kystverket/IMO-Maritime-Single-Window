@@ -20,16 +20,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   errors: string;
   isRequesting: boolean;
   submitted: boolean = false;
-  credentials: Credentials = { username: '', password: ''}
+  credentials: Credentials = { userName: '', password: ''}
 
   constructor(private loginService: LoginService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
+    console.log({
+      "un": value.userName,
+      "pw": value.password
+    });
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.loginService.login(value.username, value.password)
+      this.loginService.login(value.userName, value.password)
       .finally(() => this.isRequesting = false)
       .subscribe( result => {
         if (result) {
@@ -43,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
-        this.credentials.username = param['username'];
+        //this.credentials.userName = param['userName'];
       }
     );
   }

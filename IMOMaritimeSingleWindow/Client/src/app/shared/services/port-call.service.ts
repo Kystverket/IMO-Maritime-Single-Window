@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
-import { CrewPassengersAndDimensionsModel } from '../../content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crewPassengersAndDimensionsModel';
+import { CrewPassengersAndDimensionsModel } from '../../main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crewPassengersAndDimensionsModel';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 
 @Injectable()
