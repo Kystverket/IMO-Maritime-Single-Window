@@ -6,15 +6,16 @@ import { HttpModule, XHRBackend } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from './login/login.component';
-import { HeaderComponent } from './header/header.component';
 
 import { ConfigService } from './shared/utils/config.service';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { LoginService } from './shared/services/login.service';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ContentContainerModule } from './content-container/content-container.module';
 import { ContentService } from './shared/services/content.service';
+import { MainContentComponent } from './main-content/main-content.component';
+import { HeaderComponent } from './main-content/header/header.component';
+import { ContentContainerModule } from './main-content/content-container/content-container.module';
 import { AccountService } from './shared/services/account.service';
 import { AuthRequest } from './shared/services/auth.request.service';
 
@@ -22,7 +23,8 @@ import { AuthRequest } from './shared/services/auth.request.service';
   declarations: [
     AppComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    MainContentComponent
   ],
   imports: [
     BrowserModule,

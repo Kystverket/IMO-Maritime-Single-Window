@@ -67,7 +67,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                           select c).FirstOrDefault();
 
                 searchItem.ShipType = (from st in _context.ShipType
-                                    where st.ShipTypeId == searchItem.Ship.ShipTypeId
+                                    where st.ShipTypeId == s.ShipTypeId
                                     select st).FirstOrDefault();
 
 

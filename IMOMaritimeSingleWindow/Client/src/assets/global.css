@@ -29,6 +29,10 @@ div .bg-ssn-light {
     cursor: pointer;
 }
 
+.no-wrap {
+    white-space: nowrap;
+}
+
 
 .btn-ssn { 
     color: var(--color-primary-text);
@@ -75,3 +79,4 @@ fieldset[disabled] .btn-ssn.active {
     color: var(--color-primary-light);
     background-color: var(--color-primary-text);
 }
+

@@ -1,0 +1,15 @@
+<div class="card ssn-card text-center my-2">
+  <div class="card-header bg-ssn text-ssn">
+    <div class="row">
+      <div class="col-2">
+        <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="32px" />
+      </div>
+      <div class="col-8">
+        <h4>{{title}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="card-body text-left">
+    <ng-content></ng-content>
+  </div>
+</div>

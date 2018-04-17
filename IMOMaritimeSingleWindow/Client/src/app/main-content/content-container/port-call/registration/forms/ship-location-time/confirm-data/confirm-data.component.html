@@ -1,0 +1,42 @@
+<ssn-card title="Confirm Port Call" icon="checkmark.png">
+  <div *ngIf="!shipFound || !locationFound || !dateTimeFound" class="text-center">
+    <p *ngIf="!shipFound" class="no-wrap mb-0">No ship selected.</p>
+    <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
+    <p *ngIf="!dateTimeFound" class="no-wrap">ETA and ETD not set.</p>
+    <button class="btn btn-ssn" disabled="true">
+      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Port Call</button>
+  </div>
+
+  <div *ngIf="shipFound && locationFound && dateTimeFound" class="text-center">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="bg-ssn text-ssn">
+            <th>Ship flag</th>
+            <th>Ship name</th>
+            <th>Location Name</th>
+            <th>Location Code</th>
+            <th>ETA</th>
+            <th>ETD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="assets/images/Flags/{{shipModel.country.twoCharCode | lowercase}}.png" height="20px" />
+            </td>
+            <td>{{ shipModel.ship.name }}</td>
+            <td>{{ locationModel.location.name }}</td>
+            <td>{{ locationModel.location.locationCode }}</td>
+            <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
+              }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
+            <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)
+              }} {{ dateTimeFormat(etaEtdModel.etd.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.minute) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-ssn" (click)="startPortCallRegistration()">
+      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Port Call</button>
+  </div>
+</ssn-card>
