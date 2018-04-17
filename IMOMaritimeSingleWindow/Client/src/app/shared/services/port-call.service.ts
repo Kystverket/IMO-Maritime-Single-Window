@@ -193,22 +193,18 @@ export class PortCallService {
   }
 
   // Port Call Details
-
   getDetailsByPortCallId(portCallId: number) {
     let uri: string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
     return this.http.get(uri).map(res => {
       if (res && res.ok) {
-        console.log("res: " + res.json());
         return res.json();
       } else {
         return res.status;
       }
     }).catch(e => {
-      console.log(e);
       return Observable.of(e);
     });
-    // return this.http.get(uri)
-    //   .map(res => res.json());
+
   }
 
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
@@ -239,7 +235,6 @@ export class PortCallService {
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {
-    console.log("setCargoWeightData: " + data);
     this.detailsRegistered.next(false);
     this.detailsModel.cargoGrossWeight = (data.cargoGrossWeight != null) ? data.cargoGrossWeight : null;
     this.detailsModel.cargoGrossGrossWeight = (data.cargoGrossGrossWeight != null) ? data.cargoGrossGrossWeight : null;

@@ -55,7 +55,6 @@ export class InfoComponent implements OnInit {
             this.portCallShipInfo.find(p => p.description == IMO_NO).data = data.shipOverview.ship.imoNo;
             this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = data.shipOverview.ship.grossTonnage;
             this.portCallShipInfo.find(p => p.description == LENGTH).data = data.shipOverview.ship.length;
-            console.log(data.shipOverview);
             if (data.shipOverview.shipType != null) {
               this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = data.shipOverview.shipType.name;
             }

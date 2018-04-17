@@ -31,7 +31,6 @@ export class OverviewComponent implements OnInit {
   overviewFound: boolean = false;
 
   // Smart table
-
   tableSettings = {
     mode: 'external',
     actions: false,
@@ -100,10 +99,7 @@ export class OverviewComponent implements OnInit {
         this.overviewFound = true;                                
       }
     );
-
   }
-
-
 }
 
 @Component({
@@ -130,11 +126,11 @@ export class ButtonViewComponent implements ViewCell, OnInit {
           if (details) {
               this.portCallService.setDetails(details);
           } else {
-            console.log("Empty details");
+            console.log("Empty details.");
           }
         },
         error => {
-          console.log("Error: " + error);
+          console.log("Get details error: " + error);
         },
         () => {
           this.contentService.setContent('Register Port Call');
@@ -142,9 +138,7 @@ export class ButtonViewComponent implements ViewCell, OnInit {
       );
     } catch (err) {
       console.log(err);
-    }
-      
-    // this.contentService.setContent('Register Port Call');
+    }      
   }
 
 }
