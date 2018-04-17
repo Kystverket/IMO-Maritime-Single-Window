@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContentService } from '../../../../shared/services/content.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-clearance',
@@ -8,9 +9,24 @@ import { ContentService } from '../../../../shared/services/content.service';
 })
 export class ClearanceComponent implements OnInit {
 
-  constructor(private contentService: ContentService) { }
+  clearanceModel: any = {
+    clearance: null,
+    remarks: null
+  }
 
-  ngOnInit() {
+  constructor(private contentService: ContentService, private modalService: NgbModal) { }
+
+  ngOnInit() {}
+
+  showWarningBox(content: any, clearance: boolean) {
+    this.clearanceModel.clearance = clearance;
+    this.modalService.open(content);
+  }
+
+  saveClearance(clearanceModel: any) {
+    console.log(clearanceModel);
+    console.log("not yet implemented ;)");
+    this.goBack();
   }
 
   goBack() {
