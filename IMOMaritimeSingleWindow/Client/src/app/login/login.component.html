@@ -1,33 +1,32 @@
-<div class="jumbotron bg-ssn text-ssn">
-  <h2>{{login_title}}</h2>
-  <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+<div class="container">
+  <div class="jumbotron bg-ssn-light text-ssn mt-5">
+    <h2>LOGIN</h2>
+    <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+      <div class="form-group row">
+        <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>
+        <div class="col my-auto">
+          <input id="email" name="email" type="email" class="form-control form-control-sm" required placeholder="Enter email address"
+            [(ngModel)]="credentials.username" #email="ngModel" tmFocus validateEmail>
+          <small *ngIf="!email.valid && (!email.pristine || submitted)" class="text-danger">Please enter a valid email</small>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Password:</label>
+        <div class="col my-auto">
+          <input id="password" name="password" type="password" class="form-control form-control-sm" required placeholder="Enter password"
+            [(ngModel)]="credentials.password">
+        </div>
+      </div>
 
       <div class="form-group">
-          <label for="email">Email address:</label>
-          <input required type="email" name="username" class="form-control" id="email" placeholder="Email" [(ngModel)]="credentials.username" #email="ngModel" tmFocus validateEmail>
-          <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
-        </div>
+        <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
+      </div>
 
-        <div class="form-group">
-          <label for="pwd">Password:</label>
-          <input required type="password" name="password" class="form-control" id="pwd" [(ngModel)]="credentials.password">
-        </div>
+      <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <strong>Something went wrong!</strong> {{errors}}
+      </div>
 
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox"> Remember me
-          </label>
-        </div>
-
-        <br>
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
-        </div>
-
-        <div *ngIf="errors" class="alert alert-danger" role="alert">
-          <strong>Something went wrong!</strong> {{errors}}
-        </div>
-
-  </form>
+    </form>
+  </div>
 </div>
