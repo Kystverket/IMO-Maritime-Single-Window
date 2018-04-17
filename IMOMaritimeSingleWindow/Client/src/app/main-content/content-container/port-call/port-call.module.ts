@@ -27,6 +27,7 @@ import { SharedModule } from '../../../shared/components/shared.module';
 import { ConfirmDetailsComponent } from './registration/forms/port-call-details/confirm-details/confirm-details.component';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { ClearanceComponent } from './clearance/clearance.component';
 
 @NgModule({
   imports: [
@@ -58,12 +59,14 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     InfoComponent,
     ConfirmDetailsComponent,
     ButtonRowComponent,
-    ViewPortCallComponent
+    ViewPortCallComponent,
+    ClearanceComponent
   ],
   exports: [
     PortCallComponent,
     RegistrationComponent,
-    ViewPortCallComponent
+    ViewPortCallComponent,
+    ClearanceComponent
   ],
   providers: [
     PortCallService

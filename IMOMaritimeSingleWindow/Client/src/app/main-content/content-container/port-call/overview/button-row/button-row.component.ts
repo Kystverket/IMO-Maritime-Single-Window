@@ -31,7 +31,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onClearanceClick() {
-    console.log('ding dong');
+    this.portCallService.setPortCall(this.rowData.overviewModel);
+    this.contentService.setContent('Port Call Clearance');
   }
 
 }
