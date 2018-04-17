@@ -9,6 +9,7 @@ import { ContentService } from '../../../shared/services/content.service';
 import { Ng2SmartTableModule, LocalDataSource, ServerDataSource, ViewCell } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
 import { HtmlParser } from '@angular/compiler';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-overview',
@@ -123,20 +124,27 @@ export class ButtonViewComponent implements ViewCell, OnInit {
   onClick() {
     this.portCallService.setPortCall(this.rowData.overviewModel);
     this.portCallService.wipeDetailsData();
-    this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
-      details => {
-        console.log(details);
-        if (details && details.error) {
-        } else {
-          this.portCallService.setDetails(details);
+    try {
+      this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+        details => {
+          if (details) {
+              this.portCallService.setDetails(details);
+          } else {
+            console.log("Empty details");
+          }
+        },
+        error => {
+          console.log("Error: " + error);
+        },
+        () => {
+          this.contentService.setContent('Register Port Call');
         }
-      },
-      error => {
-        console.log("Error: " + error);
-        this.portCallService.wipeDetailsData();
-      }
-    )
-    this.contentService.setContent('Register Port Call');
+      );
+    } catch (err) {
+      console.log(err);
+    }
+      
+    // this.contentService.setContent('Register Port Call');
   }
 
 }

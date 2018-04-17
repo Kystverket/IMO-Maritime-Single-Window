@@ -96,7 +96,6 @@ export class PortCallService {
   getPortCallPurpose(purposeId: number) {
     let uri: string = [this.getPurposeUrl, purposeId].join('/');
     return this.http.get(uri).map(res => {
-      console.log("res: " + res);
       return res.json();
     }).catch(e => {
       console.log(e);
@@ -197,9 +196,19 @@ export class PortCallService {
 
   getDetailsByPortCallId(portCallId: number) {
     let uri: string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
-
-    return this.http.get(uri)
-      .map(res => res.json());
+    return this.http.get(uri).map(res => {
+      if (res && res.ok) {
+        console.log("res: " + res.json());
+        return res.json();
+      } else {
+        return res.status;
+      }
+    }).catch(e => {
+      console.log(e);
+      return Observable.of(e);
+    });
+    // return this.http.get(uri)
+    //   .map(res => res.json());
   }
 
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
