@@ -20,14 +20,14 @@ namespace IMOMaritimeSingleWindow.Models
         public int ShipId { get; set; }
         public int PortCallStatusId { get; set; }
         public string Remark { get; set; }
-        public DateTime? PreviousLocationEtd { get; set; }
-        public DateTime? PreviousLocationAtd { get; set; }
-        public DateTime LocationEtd { get; set; }
-        public DateTime? LocationAtd { get; set; }
-        public DateTime LocationEta { get; set; }
-        public DateTime? LocationAta { get; set; }
-        public DateTime? NextLocationEta { get; set; }
-        public DateTime? NextLocationAta { get; set; }
+        public DateTimeOffset? PreviousLocationEtd { get; set; }
+        public DateTimeOffset? PreviousLocationAtd { get; set; }
+        public DateTimeOffset LocationEtd { get; set; }
+        public DateTimeOffset? LocationAtd { get; set; }
+        public DateTimeOffset LocationEta { get; set; }
+        public DateTimeOffset? LocationAta { get; set; }
+        public DateTimeOffset? NextLocationEta { get; set; }
+        public DateTimeOffset? NextLocationAta { get; set; }
         public int? PersonId { get; set; }
 
         public Location Location { get; set; }

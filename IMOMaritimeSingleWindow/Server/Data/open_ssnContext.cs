@@ -25,6 +25,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
+        public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonRole> PersonRole { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
@@ -490,6 +491,17 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasConstraintName("municipality_county_id_fkey");
             });
 
+            modelBuilder.Entity<Password>(entity =>
+            {
+                entity.ToTable("password");
+
+                entity.Property(e => e.PasswordId).HasColumnName("password_id");
+
+                entity.Property(e => e.Hash).HasColumnName("hash");
+
+                entity.Property(e => e.Salt).HasColumnName("salt");
+            });
+
             modelBuilder.Entity<Person>(entity =>
             {
                 entity.ToTable("person");
@@ -637,6 +649,20 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.NumberOfPassengers).HasColumnName("number_of_passengers");
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
+
+                entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
+
+                entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
+
+                entity.Property(e => e.ReportingHazmat).HasColumnName("reporting_hazmat");
+
+                entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
+
+                entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
+
+                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
@@ -1242,6 +1268,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
 
+                entity.Property(e => e.PasswordId).HasColumnName("password_id");
+
                 entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
 
                 entity.Property(e => e.PhoneNumberConfirmed)
@@ -1257,6 +1285,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.UserName).HasColumnName("user_name");
 
                 entity.Property(e => e.UserUuid).HasColumnName("user_uuid");
+
+                entity.HasOne(d => d.Password)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.PasswordId)
+                    .HasConstraintName("password_id_fkey");
             });
 
             modelBuilder.HasSequence("council_council_id_seq")

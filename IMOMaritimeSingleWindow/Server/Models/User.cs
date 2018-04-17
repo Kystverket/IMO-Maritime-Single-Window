@@ -20,5 +20,8 @@ namespace IMOMaritimeSingleWindow.Models
         public string UserName { get; set; }
         public int UserId { get; set; }
         public Guid? UserUuid { get; set; }
+        public int? PasswordId { get; set; }
+
+        public Password Password { get; set; }
     }
 }
