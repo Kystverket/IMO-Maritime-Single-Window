@@ -32,7 +32,7 @@ export class PortCallService {
   // Global overview
   private overviewModel: PortCallOverviewModel;
   private getOverviewUrl: string;
-  private getPortCallsByLocationUrl: string; 
+  private getPortCallsByLocationUrl: string;
   // Global port call
   private getPortCallUrl: string;
   private savePortCallUrl: string;
@@ -42,7 +42,7 @@ export class PortCallService {
   private saveDetailsUrl: string;
   private getDetailsByPortCallIdUrl: string;
   private detailsModel: PortCallDetailsModel;
-  
+
   // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
@@ -59,7 +59,7 @@ export class PortCallService {
 
   wipeServiceData() {
     this.portCallModel = new PortCallModel();
-    this.detailsModel = new PortCallDetailsModel();    
+    this.detailsModel = new PortCallDetailsModel();
     this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
     this.detailsRegistered.next(false);
@@ -68,7 +68,7 @@ export class PortCallService {
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
     this.etaEtdDataSource.next(null);
-    
+
 
     // Overview
     this.overviewDataSource.next(null);
@@ -83,29 +83,35 @@ export class PortCallService {
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
-    this.detailsDataSource.next(null);    
+    this.detailsDataSource.next(null);
   }
 
   getPortCallById(portCallId: number) {
-    let uri:string = [this.getPortCallUrl, portCallId].join('/');
+    let uri: string = [this.getPortCallUrl, portCallId].join('/');
 
     return this.http.get(uri)
-            .map(res => res.json());
+      .map(res => res.json());
   }
 
   getPortCallPurpose(purposeId: number) {
-    let uri:string = [this.getPurposeUrl, purposeId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    let uri: string = [this.getPurposeUrl, purposeId].join('/');
+    return this.http.get(uri).map(res => {
+      console.log("res: " + res);
+      return res.json();
+    }).catch(e => {
+      console.log(e);
+      return Observable.of(e);
+    });
   }
 
   setPortCall(overviewModel: PortCallOverviewModel) {
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
-    this.setShipLocationTime(overviewModel); 
+    this.setShipLocationTime(overviewModel);
   }
 
   setDetails(detailsModel: PortCallDetailsModel) {
-    if (this.detailsModel == null) {
+    if (detailsModel == null) {
       this.wipeDetailsData();
     } else {
       this.detailsRegistered.next(true);
@@ -129,21 +135,21 @@ export class PortCallService {
       etd: { year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
     };
     this.setEtaEtdData(etaEtdData);
-  } 
+  }
 
   savePortCall() {
     if (!this.portCallRegistered.value) {
       console.log("Saving port call to database...");
       this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
         data => {
-          console.log("Success.");        
+          console.log("Success.");
           console.log(data);
           this.portCallRegistered.next(true);
           this.detailsModel.portCallId = data.portCallId;
         }
       );
     } else {
-      console.log("Port call already registered in the database."); 
+      console.log("Port call already registered in the database.");
     }
   }
 
@@ -152,7 +158,7 @@ export class PortCallService {
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
   setShipData(data) {
-    this.portCallModel.shipId = data != null ? data.ship.shipId : null; 
+    this.portCallModel.shipId = data != null ? data.ship.shipId : null;
     this.overviewModel.portCall = this.portCallModel;
     this.overviewModel.shipOverview = data;
     this.overviewDataSource.next(this.overviewModel);
@@ -161,7 +167,7 @@ export class PortCallService {
   private locationDataSource = new BehaviorSubject<any>(null);
   locationData$ = this.locationDataSource.asObservable();
   setLocationData(data) {
-    this.portCallModel.locationId = data != null ? data.location.locationId : null;    
+    this.portCallModel.locationId = data != null ? data.location.locationId : null;
     this.overviewModel.locationOverview = data;
     this.overviewDataSource.next(this.overviewModel);
   }
@@ -172,15 +178,15 @@ export class PortCallService {
 
     if (data != null) {
       // UTC conversion
-      let eta = new Date(Date.UTC(data.eta.year, (data.eta.month-1), data.eta.day, data.eta.hour, data.eta.minute));
-      let etd = new Date(Date.UTC(data.etd.year, (data.etd.month-1), data.eta.day, data.eta.hour, data.eta.minute));
+      let eta = new Date(Date.UTC(data.eta.year, (data.eta.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
+      let etd = new Date(Date.UTC(data.etd.year, (data.etd.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
 
       this.portCallModel.locationEta = eta;
       this.portCallModel.locationEtd = etd;
     } else {
       this.portCallModel.locationEta = null;
       this.portCallModel.locationEtd = null;
-    }    
+    }
     this.etaEtdDataSource.next(data);
     // Overview
     this.overviewModel.portCall = this.portCallModel;
@@ -190,10 +196,10 @@ export class PortCallService {
   // Port Call Details
 
   getDetailsByPortCallId(portCallId: number) {
-    let uri:string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
+    let uri: string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
 
     return this.http.get(uri)
-            .map(res => res.json());
+      .map(res => res.json());
   }
 
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
@@ -207,12 +213,12 @@ export class PortCallService {
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
   setCrewPassengersAndDimensionsData(data) {
-    this.detailsRegistered.next(false); 
+    this.detailsRegistered.next(false);
     this.detailsModel.numberOfCrew = (data.numberOfCrew != null) ? data.numberOfCrew : null;
     this.detailsModel.numberOfPassengers = (data.numberOfPassengers != null) ? data.numberOfPassengers : null;
     this.detailsModel.actualDraught = (data.actualDraught != null) ? data.actualDraught : null;
     this.detailsModel.airDraught = (data.airDraught != null) ? data.airDraught : null;
-    this.crewPassengersAndDimensionsSource.next(this.detailsModel);    
+    this.crewPassengersAndDimensionsSource.next(this.detailsModel);
   }
 
   private crewPassengersAndDimensionsError = new BehaviorSubject<boolean>(false);
@@ -228,7 +234,7 @@ export class PortCallService {
     this.detailsRegistered.next(false);
     this.detailsModel.cargoGrossWeight = (data.cargoGrossWeight != null) ? data.cargoGrossWeight : null;
     this.detailsModel.cargoGrossGrossWeight = (data.cargoGrossGrossWeight != null) ? data.cargoGrossGrossWeight : null;
-    this.cargoWeightSource.next(this.detailsModel);    
+    this.cargoWeightSource.next(this.detailsModel);
   }
 
   private cargoWeightError = new BehaviorSubject<boolean>(false);
@@ -240,7 +246,7 @@ export class PortCallService {
   private portCallPurposeSource = new BehaviorSubject<any>(null);
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
-    this.detailsRegistered.next(false);    
+    this.detailsRegistered.next(false);
     this.portCallPurposeSource.next(data);
   }
 
@@ -263,7 +269,7 @@ export class PortCallService {
         }
       );
     } else {
-      console.log("Port call details already registered in the database."); 
+      console.log("Port call details already registered in the database.");
     }
   }
 

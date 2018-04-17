@@ -125,7 +125,15 @@ export class ButtonViewComponent implements ViewCell, OnInit {
     this.portCallService.wipeDetailsData();
     this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       details => {
-        this.portCallService.setDetails(details);
+        console.log(details);
+        if (details && details.error) {
+        } else {
+          this.portCallService.setDetails(details);
+        }
+      },
+      error => {
+        console.log("Error: " + error);
+        this.portCallService.wipeDetailsData();
       }
     )
     this.contentService.setContent('Register Port Call');
