@@ -36,14 +36,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             foreach (ShipFlagCode s in sfcList)
             {
                 ShipFlagCodeSearchResult searchResult = new ShipFlagCodeSearchResult();
-                searchResult.ShipFlagCodeId = s.ShipFlagCodeId;
-                searchResult.ShipFlagCodeName = (s.Name != null) ? s.Name : string.Empty;
-
-                string countryName = (from c in _context.Country
-                                      where c.CountryId == s.CountryId
-                                      select c.Name).FirstOrDefault();
-
-                searchResult.CountryName = (countryName != null) ? countryName : string.Empty;
+                searchResult.ShipFlagCode = s;
+                searchResult.Country = (from c in _context.Country
+                                where c.CountryId == s.CountryId
+                                select c).FirstOrDefault();
                 searchList.Add(searchResult);
             }
             return Json(searchList);

@@ -31,7 +31,7 @@ export class FindShipComponent implements OnInit {
         if (term.length >= 2) this.searching = true;
       })
       .switchMap(term => term.length < 2 ? [] :
-        this.shipService.search(term)
+        this.shipService.searchShip(term)
       )
       .do((text$) => {
         this.searching = false;

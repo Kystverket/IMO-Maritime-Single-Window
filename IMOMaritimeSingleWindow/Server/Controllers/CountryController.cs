@@ -45,8 +45,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 foreach(ShipFlagCode sfc in flagCodes)
                 {
                     ShipFlagCodeSearchResult sfcSearchResult = new ShipFlagCodeSearchResult();
-                    sfcSearchResult.ShipFlagCodeId = sfc.ShipFlagCodeId;
-                    sfcSearchResult.ShipFlagCodeName = (sfc.Name != null) ? sfc.Name : string.Empty;
+                    sfcSearchResult.ShipFlagCode = sfc;
                     flagCodeList.Add(sfcSearchResult);
                 }
                 searchItem.CountryFlagCodes = flagCodeList;
