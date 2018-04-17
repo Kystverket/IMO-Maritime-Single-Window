@@ -21,7 +21,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    console.log('ding dong');
+    this.portCallService.setPortCall(this.rowData.overviewModel);
+    this.contentService.setContent('View Port Call');
   }
 
   onEditClick() {
