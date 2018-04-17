@@ -9,6 +9,7 @@ import { ContentService } from '../../../../shared/services/content.service';
 import { Ng2SmartTableModule, LocalDataSource, ServerDataSource, ViewCell } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
 import { HtmlParser } from '@angular/compiler';
+import { ButtonRowComponent } from './button-row/button-row.component';
 
 @Component({
   selector: 'app-overview',
@@ -68,7 +69,7 @@ export class OverviewComponent implements OnInit {
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: ButtonViewComponent
+        renderComponent: ButtonRowComponent
       },
       
     }
@@ -107,27 +108,5 @@ export class OverviewComponent implements OnInit {
 
   }
 
-
-}
-
-@Component({
-  selector: 'edit-button',
-  templateUrl: './edit-button.html'
-})
-export class ButtonViewComponent implements ViewCell, OnInit {
-
-  @Input() value: string | number;
-  @Input() rowData: any;
-
-  @Output() edit: EventEmitter<any> = new EventEmitter();
-
-  constructor(private contentService: ContentService, private portCallService: PortCallService) {}
-
-  ngOnInit() {}
-
-  onClick() {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.contentService.setContent('Register Port Call');
-  }
 
 }
