@@ -1,6 +1,6 @@
 <ssn-card title="Select Location" icon="location.png">
     <ng-template #rt let-r="result" let-t="term">
-        <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+        <img src="assets/images/flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
         <strong *ngIf="r.location.name">Name: </strong> {{ r.location.name }}
         <strong *ngIf="r.location.locationCode">Code: </strong> {{ r.location.locationCode }}
     </ng-template>
@@ -39,7 +39,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <img src="assets/images/Flags/{{locationModel.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ locationModel.country.name }}
+                            <img src="assets/images/flags/128x128/{{locationModel.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ locationModel.country.name }}
                         </td>
                         <td>{{ locationModel.location.name }} </td>
                         <td>{{ locationModel.location.locationCode }}</td>
