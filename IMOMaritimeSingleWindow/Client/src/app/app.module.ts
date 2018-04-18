@@ -18,6 +18,7 @@ import { HeaderComponent } from './main-content/header/header.component';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
 import { AccountService } from './shared/services/account.service';
 import { AuthRequest } from './shared/services/auth.request.service';
+import { AuthService } from './shared/services/auth-service';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AuthRequest } from './shared/services/auth.request.service';
     LoginService,
     ContentService,
     AccountService,
+    AuthService,
     AuthRequest
   ],
   bootstrap: [AppComponent]

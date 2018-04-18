@@ -9,6 +9,9 @@ const routes: Routes = [
   },
   {
     path: '', component: MainContentComponent
+  },
+  {
+    path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'
   }
 ];
 

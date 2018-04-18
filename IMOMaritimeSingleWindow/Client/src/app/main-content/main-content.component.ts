@@ -16,7 +16,12 @@ export class MainContentComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("menu component loading...");
+    console.log({
+      "auth_token" : localStorage.getItem("auth_token")
+    });
     if(!this.loginService.isLoggedIn()) {
+      console.log("NOT LOGGED IN!");
       this.router.navigate(['/login']);
     }
   }

@@ -62,7 +62,7 @@ export class LoginService extends BaseService {
   }
 
   isLoggedIn() {
-    return this.loggedIn;
+    return this.loggedIn$;
   }
 
 }

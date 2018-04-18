@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
 import { LoginService } from '../shared/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../shared/services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -22,13 +23,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   submitted: boolean = false;
   credentials: Credentials = { userName: '', password: ''}
 
-  constructor(private loginService: LoginService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private loginService: LoginService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService
+  ) { }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
-    console.log({
-      "un": value.userName,
-      "pw": value.password
-    });
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';
@@ -37,6 +38,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       .finally(() => this.isRequesting = false)
       .subscribe( result => {
         if (result) {
+          this.authService.isAdmin()
+          .finally( () => this.router.navigate(['']) ) 
+          .subscribe( result =>  {
+            let isAdmin = result.valueOf();
+            console.log({ "isAdmin" : isAdmin });
+          })
           this.router.navigate(['']);
         }
       }, error => this.errors = error);

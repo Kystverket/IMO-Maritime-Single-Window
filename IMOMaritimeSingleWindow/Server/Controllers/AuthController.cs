@@ -132,5 +132,28 @@ namespace IMOMaritimeSingleWindow.Controllers
             _logger.LogInformation($"Generating JWT for user {user.Id}");
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, claims));
         }
+
+        /*
+        [Authorize]
+        [Route("admin")]
+        public IActionResult IsAdmin()
+        {
+            var roleClaim = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role);
+            var res = Json( new {
+                claimType = roleClaim.Type,
+                roleName = roleClaim.Value
+            });
+            return Ok(res);
+        }
+        */
+        
+        [Authorize]
+        [Route("admin")]
+        public IActionResult IsAdmin()
+        {
+            bool isAdmin = HttpContext.User.IsInRole(Constants.Strings.UserRoles.Admin);
+            return Ok(isAdmin);
+        }
+        
     }
 }
