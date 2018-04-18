@@ -7,7 +7,7 @@ using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

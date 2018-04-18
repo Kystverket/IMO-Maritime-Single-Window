@@ -30,7 +30,7 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 
 namespace IMOMaritimeSingleWindow
 {

@@ -1,7 +1,7 @@
 
 using System;
 
-namespace IMOMaritimeSingleWindow.Models.Entities
+namespace IMOMaritimeSingleWindow.Identity
 {
     public class Person
     {

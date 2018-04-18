@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Data;
 using System.Threading;
 
-namespace IMOMaritimeSingleWindow.Models.Entities
+namespace IMOMaritimeSingleWindow.Identity
 {
     public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, UserDbContext, Guid,
         ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin, ApplicationUserToken, ApplicationRoleClaim>,

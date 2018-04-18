@@ -9,7 +9,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design.Internal;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.Extensions.Logging;

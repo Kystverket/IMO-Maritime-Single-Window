@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace IMOMaritimeSingleWindow.Models.Entities
+namespace IMOMaritimeSingleWindow.Identity
 {
     /**
     public interface IUserRoleManager<TUser, TRole>

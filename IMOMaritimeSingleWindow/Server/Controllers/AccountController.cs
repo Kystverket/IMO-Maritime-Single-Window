@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;

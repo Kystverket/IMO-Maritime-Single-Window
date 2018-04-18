@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Data;
 
 

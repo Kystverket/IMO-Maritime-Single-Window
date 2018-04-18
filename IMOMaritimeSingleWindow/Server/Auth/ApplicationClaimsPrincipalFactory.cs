@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
 
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Microsoft.Extensions.DependencyInjection;

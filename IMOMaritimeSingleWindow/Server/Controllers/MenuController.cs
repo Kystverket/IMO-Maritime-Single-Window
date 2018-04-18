@@ -10,7 +10,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {

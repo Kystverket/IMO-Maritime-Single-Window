@@ -8,7 +8,7 @@
 //using AutoMapper;
 //using IMOMaritimeSingleWindow.ViewModels;
 
-//namespace IMOMaritimeSingleWindow.Models.Entities
+//namespace IMOMaritimeSingleWindow.Identity
 //{
 //    public class IdentityManager<TUser, TUserKey, TRole, TRoleKey>
 
