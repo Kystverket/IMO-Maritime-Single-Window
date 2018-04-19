@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
@@ -21,18 +21,39 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.contentService.setContent('View Port Call');
+    this.setContent('View Port Call');
   }
 
   onEditClick() {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.contentService.setContent('Register Port Call');
+    this.setContent('Register Port Call');
   }
 
   onClearanceClick() {
+    this.setContent('Port Call Clearance');
+  }
+
+  private setContent(content: string) {
     this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.contentService.setContent('Port Call Clearance');
+    this.portCallService.wipeDetailsData();
+    try {
+      this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+        details => {
+          if (details) {
+              this.portCallService.setDetails(details);
+          } else {
+            console.log("Empty details.");
+          }
+        },
+        error => {
+          console.log("Get details error: " + error);
+        },
+        () => {
+          this.contentService.setContent(content);
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }      
   }
 
 }
