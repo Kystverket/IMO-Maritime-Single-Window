@@ -13,7 +13,7 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { OverviewComponent, ButtonViewComponent } from './overview/overview.component';
+import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
@@ -25,6 +25,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModule } from './registration/forms/confirmation/confirmation.module';
 import { SharedModule } from '../../../shared/components/shared.module';
 import { ConfirmDetailsComponent } from './registration/forms/port-call-details/confirm-details/confirm-details.component';
+import { ButtonRowComponent } from './overview/button-row/button-row.component';
+import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { ClearanceComponent } from './clearance/clearance.component';
 
 @NgModule({
   imports: [
@@ -36,7 +39,7 @@ import { ConfirmDetailsComponent } from './registration/forms/port-call-details/
     ConfirmationModule,
     SharedModule
   ],
-  entryComponents: [ButtonViewComponent],
+  entryComponents: [ButtonRowComponent],
   declarations: [
     RegistrationComponent,
     ProgressBarComponent,
@@ -54,12 +57,16 @@ import { ConfirmDetailsComponent } from './registration/forms/port-call-details/
     OverviewComponent,
     PortCallComponent,
     InfoComponent,
-    ButtonViewComponent,
-    ConfirmDetailsComponent
+    ConfirmDetailsComponent,
+    ButtonRowComponent,
+    ViewPortCallComponent,
+    ClearanceComponent
   ],
   exports: [
     PortCallComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ViewPortCallComponent,
+    ClearanceComponent
   ],
   providers: [
     PortCallService
