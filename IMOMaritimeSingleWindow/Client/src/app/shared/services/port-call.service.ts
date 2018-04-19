@@ -82,7 +82,7 @@ export class PortCallService {
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
-    this.detailsDataSource.next(null);
+    this.detailsDataSource.next(new PortCallDetailsModel());
   }
 
   getPortCallById(portCallId: number) {
@@ -105,6 +105,8 @@ export class PortCallService {
   setPortCall(overviewModel: PortCallOverviewModel) {
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
+    console.log("set pc: " + this.detailsModel);
+    this.setDetails(this.detailsModel);
     this.setShipLocationTime(overviewModel);
   }
 
@@ -112,10 +114,12 @@ export class PortCallService {
     if (detailsModel == null) {
       this.wipeDetailsData();
     } else {
+      this.detailsModel = detailsModel;
       this.detailsRegistered.next(true);
       this.detailsDataSource.next(detailsModel);
       this.setCrewPassengersAndDimensionsData(detailsModel);
       this.setCargoWeightData(detailsModel);
+      this.setReportingForThisPortCallData(detailsModel);
     }
   }
 
@@ -179,15 +183,15 @@ export class PortCallService {
       let eta = new Date(Date.UTC(data.eta.year, (data.eta.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
       let etd = new Date(Date.UTC(data.etd.year, (data.etd.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
 
-      this.portCallModel.locationEta = eta;
-      this.portCallModel.locationEtd = etd;
+      this.overviewModel.portCall.locationEta = eta;
+      this.overviewModel.portCall.locationEtd = etd;
     } else {
-      this.portCallModel.locationEta = null;
-      this.portCallModel.locationEtd = null;
+      this.overviewModel.portCall.locationEta = null;
+      this.overviewModel.portCall.locationEtd = null;
     }
     this.etaEtdDataSource.next(data);
     // Overview
-    this.overviewModel.portCall = this.portCallModel;
+    // this.overviewModel.portCall = this.portCallModel;
     this.overviewDataSource.next(this.overviewModel);
   }
 
@@ -211,7 +215,16 @@ export class PortCallService {
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
   setReportingForThisPortCallData(data) {
     this.detailsRegistered.next(false);
+    // this.detailsDataSource.next(data);
+    this.detailsModel.reportingBunkers = data.reportingBunkers || null;
+    this.detailsModel.reportingCargo = data.reportingCargo || null;
+    this.detailsModel.reportingCrew = data.reportingCrew || null;
+    this.detailsModel.reportingHazmat = data.reportingHazmat || null;
+    this.detailsModel.reportingPax = data.reportingPax || null;
+    this.detailsModel.reportingShipStores = data.reportingShipStores || null;
+    this.detailsModel.reportingWaste = data.reportingWaste || null;
     this.reportingForThisPortCallSource.next(data);
+    this.detailsDataSource.next(this.detailsModel);
   }
 
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
