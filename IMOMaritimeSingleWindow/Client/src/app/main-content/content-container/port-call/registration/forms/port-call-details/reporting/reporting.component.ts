@@ -82,12 +82,7 @@ export class ReportingComponent implements OnInit {
         { name: "Pax", icon: "pax.png", checked: this.reportingModel.reportingPax || false },
         { name: "Waste", icon: "trash.png", checked: this.reportingModel.reportingWaste || false }
       ]; 
-    })
-    // this.portCallService.reportingForThisPortCallData$.subscribe((data) => {
-    //   if (data != null) {
-    //     this.checkboxes = data;
-    //   }
-    // });
+    });
   }
 
 }
