@@ -7,7 +7,7 @@
 <div *ngFor="let entry of falForms">
   <div class="row" *ngIf="entry.checked">
     <div class="col">
-      <ssn-card title="{{entry.name}}" icon="{{entry.icon}}">
+      <ssn-card title="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
         <div [ngSwitch]="entry.name">
           <div *ngSwitchDefault class="text-center">
             <img src="{{iconPath}}warning.png" height="24px" />
