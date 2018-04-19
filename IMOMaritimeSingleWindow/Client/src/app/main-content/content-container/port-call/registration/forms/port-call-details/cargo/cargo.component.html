@@ -6,8 +6,8 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="gross_gross_weight">Gross Gross Weight</label>
           <div class="col my-auto">
-            <input name="gross_gross_weight" #grossGrossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" pattern="{{positiveDecimalRegex}}"
-              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="cargoModel.grossGrossWeight"
+            <input name="gross_gross_weight" #grossGrossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter gross gross weight" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="cargoModel.cargoGrossGrossWeight"
             />
           </div>
         </div>
@@ -20,8 +20,8 @@
         <div class="form-group row">
           <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="gross_weight">Gross Weight</label>
           <div class="col my-auto">
-            <input name="gross_weight" #grossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" pattern="{{positiveDecimalRegex}}"
-              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="cargoModel.grossWeight"
+            <input name="gross_weight" #grossWeight="ngModel" class="form-control form-control-sm" placeholder="Enter gross weight" pattern="{{positiveDecimalRegex}}"
+              (keypress)="limitInputToPositiveDecimal($event)" (ngModelChange)="persistData()" [(ngModel)]="cargoModel.cargoGrossWeight"
             />
           </div>
         </div>

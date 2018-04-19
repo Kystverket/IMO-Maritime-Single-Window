@@ -1,7 +1,8 @@
 <div class="card-body">
     <ng-template #rt let-r="result" let-t="term">
-        <strong *ngIf="r.shipFlagCodeName">Code: </strong> {{ r.shipFlagCodeName }}
-        <strong *ngIf="r.countryName">Country: </strong> {{ r.countryName }}
+        <img *ngIf="r.country.twoCharCode" src="../../../../../../assets/images/Flags/{{ r.country.twoCharCode.toLowerCase() }}.png" height="16px"/>
+        <strong *ngIf="r.shipFlagCode.name">Code: </strong> {{ r.shipFlagCode.name }}
+        <strong *ngIf="r.country.name">Country: </strong> {{ r.country.name }}
     </ng-template>
 
     <div *ngIf="!shipFlagCodeSelected">
@@ -15,14 +16,16 @@
             <table class="table table-bordered">
                 <thead>
                     <tr class="bg-ssn text-ssn">
+                        <th>Country Flag</th>
                         <th>Ship Flag Code</th>
                         <th>Country</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ shipFlagCodeModel.shipFlagCodeName }}</td>
-                        <td>{{ shipFlagCodeModel.countryName }}</td>
+                        <td><img src="../../../../../../assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode.toLowerCase() }}.png" height="20px"/></td>
+                        <td>{{ shipFlagCodeModel.shipFlagCode.name }}</td>
+                        <td>{{ shipFlagCodeModel.country.name }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -10,6 +10,7 @@ import { Ng2SmartTableModule, LocalDataSource, ServerDataSource, ViewCell } from
 import { DatePipe } from '@angular/common';
 import { HtmlParser } from '@angular/compiler';
 import { ButtonRowComponent } from './button-row/button-row.component';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-overview',
@@ -30,13 +31,7 @@ export class OverviewComponent implements OnInit {
 
   overviewFound: boolean = false;
 
-  editPortCall(overviewModel: PortCallOverviewModel) {
-    this.portCallService.setPortCall(overviewModel);
-    this.contentService.setContent('Register Port Call');
-  }
-
   // Smart table
-
   tableSettings = {
     mode: 'external',
     actions: false,
@@ -105,8 +100,46 @@ export class OverviewComponent implements OnInit {
         this.overviewFound = true;                                
       }
     );
-
   }
+}
 
+@Component({
+  selector: 'edit-button',
+  templateUrl: './edit-button.html'
+})
+export class ButtonViewComponent implements ViewCell, OnInit {
+
+  @Input() value: string | number;
+  @Input() rowData: any;
+
+  @Output() edit: EventEmitter<any> = new EventEmitter();
+
+  constructor(private contentService: ContentService, private portCallService: PortCallService) {}
+
+  ngOnInit() {}
+
+  onClick() {
+    this.portCallService.setPortCall(this.rowData.overviewModel);
+    this.portCallService.wipeDetailsData();
+    try {
+      this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+        details => {
+          if (details) {
+              this.portCallService.setDetails(details);
+          } else {
+            console.log("Empty details.");
+          }
+        },
+        error => {
+          console.log("Get details error: " + error);
+        },
+        () => {
+          this.contentService.setContent('Register Port Call');
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }      
+  }
 
 }

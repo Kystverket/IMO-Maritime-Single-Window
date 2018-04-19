@@ -24,32 +24,20 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("search/{searchTerm}")]
         public IActionResult Search(string searchTerm)
         {
-            var matchingCompanies = (from c in _context.Country
+            var matchingCountries = (from c in _context.Country
                                      where EF.Functions.ILike(c.Name, searchTerm + '%')
                                      select c).Take(10).ToList();
 
             List<CountrySearchResult> resultList = new List<CountrySearchResult>();
 
-            foreach (Country c in matchingCompanies)
+            foreach (Country c in matchingCountries)
             {
                 CountrySearchResult searchItem = new CountrySearchResult();
-                searchItem.CountryId = c.CountryId;
-                searchItem.CountryName = (c.Name != null) ? c.Name : string.Empty;
-                searchItem.TwoCharCode = (c.TwoCharCode != null) ? c.TwoCharCode.ToLower() : string.Empty;
+                searchItem.Country = c;
 
-                var flagCodes = (from fc in _context.ShipFlagCode
+                searchItem.ShipFlagCodes = (from fc in _context.ShipFlagCode
                                     where fc.CountryId == c.CountryId
                                     select fc).ToList();
-
-                List<ShipFlagCodeSearchResult> flagCodeList = new List<ShipFlagCodeSearchResult>();
-                foreach(ShipFlagCode sfc in flagCodes)
-                {
-                    ShipFlagCodeSearchResult sfcSearchResult = new ShipFlagCodeSearchResult();
-                    sfcSearchResult.ShipFlagCodeId = sfc.ShipFlagCodeId;
-                    sfcSearchResult.ShipFlagCodeName = (sfc.Name != null) ? sfc.Name : string.Empty;
-                    flagCodeList.Add(sfcSearchResult);
-                }
-                searchItem.CountryFlagCodes = flagCodeList;
 
                 resultList.Add(searchItem);
             }

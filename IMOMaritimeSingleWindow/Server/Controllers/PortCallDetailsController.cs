@@ -26,7 +26,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             PortCallDetails portCallDetails = _context.PortCallDetails.Where(details => details.PortCallId == id).FirstOrDefault();
             if (portCallDetails == null)
             {
-                return NotFound();
+                return NoContent();
             }
             return Json(portCallDetails);
         }

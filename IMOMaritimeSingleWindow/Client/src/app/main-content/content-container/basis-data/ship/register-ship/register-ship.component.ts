@@ -115,7 +115,7 @@ export class RegisterShipComponent implements OnInit {
       data => { 
         this.shipFlagCodeSelected = data != null;
         if (this.shipFlagCodeSelected) {
-          this.shipModel.shipFlagCodeId = data.shipFlagCodeId;
+          this.shipModel.shipFlagCodeId = data.shipFlagCode.shipFlagCodeId;
         }
        }
     );
