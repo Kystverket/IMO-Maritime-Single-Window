@@ -68,7 +68,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   private validateAllData(): void {
     let errorPresent = this.numberOfCrewError || this.numberOfPassengersError
       || this.actualDraughtError || this.airDraughtError;
-    this.portCallService.setCargoWeightError(errorPresent);
+    this.portCallService.setCrewPassengersAndDimensionsError(errorPresent);
   }
 
   limitInputToPositiveInteger($event) {

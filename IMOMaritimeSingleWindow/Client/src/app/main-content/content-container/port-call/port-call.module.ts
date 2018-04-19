@@ -28,6 +28,7 @@ import { ConfirmDetailsComponent } from './registration/forms/port-call-details/
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 import { ClearanceComponent } from './clearance/clearance.component';
+import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { ClearanceComponent } from './clearance/clearance.component';
     ConfirmDetailsComponent,
     ButtonRowComponent,
     ViewPortCallComponent,
-    ClearanceComponent
+    ClearanceComponent,
+    SaveDetailsComponent
   ],
   exports: [
     PortCallComponent,
