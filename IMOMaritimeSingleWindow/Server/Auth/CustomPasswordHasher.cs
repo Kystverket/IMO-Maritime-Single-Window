@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 using Microsoft.AspNetCore.Identity;
 
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using System.Runtime.CompilerServices;
 
 namespace IMOMaritimeSingleWindow.Auth

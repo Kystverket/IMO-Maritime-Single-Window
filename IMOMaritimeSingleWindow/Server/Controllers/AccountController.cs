@@ -2,12 +2,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Person = IMOMaritimeSingleWindow.IdentityModels.Person;
+using Password = IMOMaritimeSingleWindow.IdentityModels.Password;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -16,7 +18,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")] 
     public class AccountController : Controller
     {
-        private readonly UserDbContext userDbContext;
+        private readonly userdbContext userDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -27,7 +29,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper,
-            UserDbContext userDbContext)
+            userdbContext userDbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;

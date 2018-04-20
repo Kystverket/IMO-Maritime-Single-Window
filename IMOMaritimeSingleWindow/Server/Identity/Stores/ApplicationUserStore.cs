@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Identity.Models;
 using System.Threading;
 
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
-    public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, UserDbContext, Guid,
+    public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, userdbContext, Guid,
         ApplicationUserClaim, ApplicationUserRole, ApplicationUserLogin, ApplicationUserToken, ApplicationRoleClaim>,
         IUserPasswordStore<ApplicationUser>
 
     {
-        public ApplicationUserStore(UserDbContext context)
+        public ApplicationUserStore(userdbContext context)
             : base(context)
         {
         }

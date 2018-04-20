@@ -9,7 +9,7 @@ using System.Threading;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design.Internal;
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.Extensions.Logging;
@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Data
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         //private readonly ILogger<UserDbInitializer> _logger;
-        private readonly UserDbContext _userDbContext;
+        private readonly userdbContext _userDbContext;
 
         //Hack because class does not yet have permission to access local files
         public SeedItems SeedItems { get; set; }
@@ -37,7 +37,7 @@ namespace IMOMaritimeSingleWindow.Data
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager
             //,ILogger<UserDbInitializer> logger
-            , UserDbContext context,
+            , userdbContext context,
             SeedItems seedItems
             )
         {

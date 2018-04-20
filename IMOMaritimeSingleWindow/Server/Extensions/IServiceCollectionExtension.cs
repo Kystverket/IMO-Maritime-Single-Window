@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Data;
 
 
@@ -35,7 +35,7 @@ namespace IMOMaritimeSingleWindow.Extensions
             //Dependencies for UserDbInitializer
             var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
-            var myUserDbContext = serviceProvider.GetService<UserDbContext>();
+            var myUserDbContext = serviceProvider.GetService<userdbContext>();
 
             //Add the database initializer service to the service collection
             services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myUserDbContext, seedItems));

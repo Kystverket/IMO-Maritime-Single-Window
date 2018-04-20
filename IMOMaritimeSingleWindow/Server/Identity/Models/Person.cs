@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace IMOMaritimeSingleWindow.Identity
+namespace IMOMaritimeSingleWindow.Identity.Models
 {
     public class Person
     {

@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 
 namespace IMOMaritimeSingleWindow.Extensions
 {
     public static class UserDbContextExtension
     {
-        public static void EnsureSeeded(this UserDbContext context)
+        public static void EnsureSeeded(this userdbContext context)
         {
             /*
             if (!context.Test.Any())

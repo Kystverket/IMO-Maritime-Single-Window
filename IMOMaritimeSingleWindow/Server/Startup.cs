@@ -30,7 +30,7 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -73,7 +73,7 @@ namespace IMOMaritimeSingleWindow
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
             var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<UserDbContext>(options => options.UseNpgsql(connectionStringUserTestDb));
+            services.AddEntityFrameworkNpgsql().AddDbContext<userdbContext>(options => options.UseNpgsql(connectionStringUserDb));
         
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow
 
             });
 
-            builder.AddEntityFrameworkStores<UserDbContext>().AddDefaultTokenProviders();
+            builder.AddEntityFrameworkStores<userdbContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
                 builder.AddUserManager<ApplicationUserManager>()
@@ -218,11 +218,12 @@ namespace IMOMaritimeSingleWindow
 
             if (env.IsDevelopment())
             {
+                /*
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    if (!serviceScope.ServiceProvider.GetService<UserDbContext>().AllMigrationsApplied())
+                    if (!serviceScope.ServiceProvider.GetService<userdbContext>().AllMigrationsApplied())
                     {
-                        serviceScope.ServiceProvider.GetService<UserDbContext>().Database.Migrate();
+                        serviceScope.ServiceProvider.GetService<userdbContext>().Database.Migrate();
                         
                         serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                           .GetAwaiter().GetResult();
@@ -230,6 +231,7 @@ namespace IMOMaritimeSingleWindow
                     //serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                     //      .GetAwaiter().GetResult();
                 }
+                */
             }
 
             

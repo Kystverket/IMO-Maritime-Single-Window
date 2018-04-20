@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace IMOMaritimeSingleWindow.Identity
+namespace IMOMaritimeSingleWindow.Identity.Models
 {
     public class Password
     {

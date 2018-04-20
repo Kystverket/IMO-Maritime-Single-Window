@@ -14,12 +14,13 @@ using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 //using IMOMaritimeSingleWindow.Models.IdentityExtensionModels;
 
-namespace IMOMaritimeSingleWindow.Identity
+namespace IMOMaritimeSingleWindow.Identity.Models
 {
     public class IdentityModels
     {
     }
-    public class ApplicationUserLogin : IdentityUserLogin<Guid> { }
+    public class ApplicationUserLogin : IdentityUserLogin<Guid> {
+    }
 
     public class ApplicationUserClaim : IdentityUserClaim<Guid> {
         

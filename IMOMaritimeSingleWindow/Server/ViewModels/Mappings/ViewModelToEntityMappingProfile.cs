@@ -1,5 +1,5 @@
 
-using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using AutoMapper;
  
 

@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Identity.Models;
 using System.Threading;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
     public class ApplicationRoleStore
 
-        : RoleStore<ApplicationRole, UserDbContext, Guid, ApplicationUserRole, ApplicationRoleClaim>,
+        : RoleStore<ApplicationRole, userdbContext, Guid, ApplicationUserRole, ApplicationRoleClaim>,
           IQueryableRoleStore<ApplicationRole>,
           IRoleStore<ApplicationRole>, IDisposable
 
     {
-        public ApplicationRoleStore(UserDbContext context)
+        public ApplicationRoleStore(userdbContext context)
             : base(context)
         {
         }

@@ -1,106 +1,271 @@
-
 using System;
-using IMOMaritimeSingleWindow.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using IMOMaritimeSingleWindow.Extensions;
-using IMOMaritimeSingleWindow.Helpers;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+using IMOMaritimeSingleWindow.IdentityModels;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public class UserDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
+    public partial class userdbContext : IdentityDbContext<User, Role, Guid>
     {
+        public virtual DbSet<Password> Password { get; set; }
+        public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<Role> Role { get; set; }
+        public virtual DbSet<RoleClaim> RoleClaim { get; set; }
+        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserClaim> UserClaim { get; set; }
+        public virtual DbSet<UserLogin> UserLogin { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
+        public virtual DbSet<UserToken> UserToken { get; set; }
+        
 
-        public DbSet<Person> Person { get; set; }
-        public DbSet<Password> Password { get; set; }
-
-        public UserDbContext() { } /* Required for migrations */
-
-        public UserDbContext(DbContextOptions<UserDbContext> options)
+        public userdbContext(DbContextOptions<userdbContext> options)
             : base(options)
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(builder);
-
-            builder.Entity<ApplicationUser>().ToTable("User");
-            builder.Entity<ApplicationRole>().ToTable("Role");
-            builder.Entity<ApplicationUserRole>().ToTable("ApplicationUserRole");
-            builder.Entity<ApplicationUserRole>().Property(ur => ur.RoleId).HasColumnName("ApplicationRoleId");
-            builder.Entity<ApplicationUserRole>().Property(ur => ur.UserId).HasColumnName("ApplicationUserId");
-
-            builder.Entity<ApplicationUserToken>().ToTable("ApplicationUserToken");
-            builder.Entity<ApplicationUserLogin>().ToTable("ApplicationUserLogin");
-            builder.Entity<ApplicationRoleClaim>().ToTable("ApplicationRoleRight");
-            builder.Entity<ApplicationUserClaim>().ToTable("ApplicationUserRight"); //To be coupled through role?
-
-            builder.Entity<ApplicationUser>().Ignore(entity => entity.PasswordHash);
-
-            foreach (var entity in builder.Model.GetEntityTypes())
+            modelBuilder.Entity<Password>(entity =>
             {
-                // Replace table names
-                var entityName = RenameTables.RenameName(entity.Relational().TableName);
-                entity.Relational().TableName = entityName.ToSnakeCase();
+                entity.HasKey(e => e.UserId);
 
-                // Replace column names            
-                foreach (var property in entity.GetProperties())
-                {
-                    var name = RenameTables.RenameName(property.Name);
-                    property.Relational().ColumnName = name.ToSnakeCase();
-                }
+                entity.ToTable("password");
 
-                foreach (var key in entity.GetKeys())
-                {
-                    var keyName = RenameTables.RenameName(key.Relational().Name);
-                    key.Relational().Name = keyName.ToSnakeCase();
-                }
+                entity.HasIndex(e => e.IdentityId)
+                    .HasName("ix_password_identity_id");
 
-                foreach (var key in entity.GetForeignKeys())
-                {
-                    var keyName = RenameTables.RenameName(key.Relational().Name);
-                    key.Relational().Name = keyName.ToSnakeCase();
-                }
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .ValueGeneratedNever();
 
-                foreach (var index in entity.GetIndexes())
-                {
-                    var indexName = RenameTables.RenameName(index.Relational().Name);
-                    index.Relational().Name = indexName.ToSnakeCase();
-                }
-            }
+                entity.Property(e => e.IdentityId).HasColumnName("identity_id");
 
+                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
 
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+                entity.HasOne(d => d.Identity)
+                    .WithMany(p => p.Password)
+                    .HasForeignKey(d => d.IdentityId)
+                    .HasConstraintName("fk_password_user_identity_id");
+            });
 
+            modelBuilder.Entity<Person>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
 
-            //builder.Entity<ApplicationUser>(entity => entity.ToTable(name: "ApplicationUser" ));
-            //builder.Entity<ApplicationRole>(entity => entity.ToTable(name: "ApplicationRole"));
-            //builder.Entity<ApplicationUserRole>(entity => entity.ToTable(name: "ApplicationUserRole"));
-            //builder.Entity<ApplicationUserToken>(entity => entity.ToTable(name: "ApplicationUserToken"));
-            //builder.Entity<ApplicationUserLogin>(entity => entity.ToTable(name: "ApplicationUserLogin"));
-            //builder.Entity<ApplicationRoleClaim>(entity => entity.ToTable(name: "ApplicationRoleClaim"));
-            //builder.Entity<ApplicationUserClaim>(entity => entity.ToTable(name: "ApplicationUserClaim"));
+                entity.ToTable("person");
 
+                entity.HasIndex(e => e.IdentityId)
+                    .HasName("ix_person_identity_id");
 
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .ValueGeneratedNever();
 
-            
-            
+                entity.Property(e => e.FirstName).HasColumnName("first_name");
 
-            /*
-            builder.Entity<ApplicationUser>().ToTable(nameof(ApplicationUser));
-            builder.Entity<ApplicationRole>().ToTable(nameof(ApplicationRole));
-            builder.Entity<ApplicationUserRole>().ToTable(nameof(ApplicationUserRole));
-            builder.Entity<ApplicationUserToken>().ToTable(nameof(ApplicationUserToken));
-            builder.Entity<ApplicationUserLogin>().ToTable(nameof(ApplicationUserLogin));
-            builder.Entity<ApplicationRoleClaim>().ToTable(nameof(ApplicationRoleClaim));
-            builder.Entity<ApplicationUserClaim>().ToTable(nameof(ApplicationUserClaim)); //To be coupled through role?
-            */
-            
-                
+                entity.Property(e => e.IdentityId).HasColumnName("identity_id");
+
+                entity.Property(e => e.LastName).HasColumnName("last_name");
+
+                entity.HasOne(d => d.Identity)
+                    .WithMany(p => p.Person)
+                    .HasForeignKey(d => d.IdentityId)
+                    .HasConstraintName("fk_person_user_identity_id");
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.ToTable("role");
+
+                entity.HasIndex(e => e.NormalizedName)
+                    .HasName("role_name_index")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.NormalizedName).HasColumnName("normalized_name");
+            });
+
+            modelBuilder.Entity<RoleClaim>(entity =>
+            {
+                entity.ToTable("role_claim");
+
+                entity.HasIndex(e => e.RoleId)
+                    .HasName("ix_role_claims_role_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ClaimType).HasColumnName("claim_type");
+
+                entity.Property(e => e.ClaimValue).HasColumnName("claim_value");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.RoleClaim)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("fk_role_claims_role_role_id");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("user");
+
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("email_index");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("user_name_index")
+                    .IsUnique();
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
+
+                entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
+
+                entity.Property(e => e.Email).HasColumnName("email");
+
+                entity.Property(e => e.EmailConfirmed).HasColumnName("email_confirmed");
+
+                entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
+
+                entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
+
+                entity.Property(e => e.NormalizedEmail).HasColumnName("normalized_email");
+
+                entity.Property(e => e.NormalizedUserName).HasColumnName("normalized_user_name");
+
+                entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+
+                entity.Property(e => e.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
+
+                entity.Property(e => e.SecurityStamp).HasColumnName("security_stamp");
+
+                entity.Property(e => e.TwoFactorEnabled).HasColumnName("two_factor_enabled");
+
+                entity.Property(e => e.UserName).HasColumnName("user_name");
+            });
+
+            modelBuilder.Entity<UserClaim>(entity =>
+            {
+                entity.ToTable("user_claim");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("ix_user_claims_user_id");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ClaimType).HasColumnName("claim_type");
+
+                entity.Property(e => e.ClaimValue).HasColumnName("claim_value");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserClaim)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("fk_user_claims_user_user_id");
+            });
+
+            modelBuilder.Entity<UserLogin>(entity =>
+            {
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+                entity.ToTable("user_login");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("ix_user_logins_user_id");
+
+                entity.Property(e => e.LoginProvider).HasColumnName("login_provider");
+
+                entity.Property(e => e.ProviderKey).HasColumnName("provider_key");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.ProviderDisplayName).HasColumnName("provider_display_name");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserLogin)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("fk_user_logins_user_user_id");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.RoleId });
+
+                entity.ToTable("user_role");
+
+                entity.HasIndex(e => e.RoleId)
+                    .HasName("ix_user_roles_role_id");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("fk_user_roles_role_role_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("fk_user_roles_user_user_id");
+            });
+
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.ToTable("user_token");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.LoginProvider).HasColumnName("login_provider");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.Value).HasColumnName("value");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserToken)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("fk_user_tokens_user_user_id");
+            });
         }
     }
 }

@@ -3,7 +3,7 @@
 //using System.Linq;
 //using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Identity;
-//using IMOMaritimeSingleWindow.Identity;
+//using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 
 //namespace IMOMaritimeSingleWindow.Models.IdentityExtensionModels
 //{

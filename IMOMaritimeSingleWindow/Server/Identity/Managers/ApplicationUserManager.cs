@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+using IMOMaritimeSingleWindow.Identity.Models;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
