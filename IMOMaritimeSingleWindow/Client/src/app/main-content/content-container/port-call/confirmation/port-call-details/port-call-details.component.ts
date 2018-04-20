@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
+import { PortCallService } from '../../../../../shared/services/port-call.service';
 
 const NO_OF_CREW = "No. of Crew";
 const NO_OF_PASSENGERS = "No. of Passengers";
