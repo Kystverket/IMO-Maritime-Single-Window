@@ -4,10 +4,10 @@ import { of } from "rxjs/observable/of";
 import { SearchService } from "./search.service";
 
 @Injectable()
-export class CompanyService {
+export class OrganizationService {
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
-        this.actionUrl = 'api/company/search';
+        this.actionUrl = 'api/organization/search';
     }
     
     private searchService: SearchService;

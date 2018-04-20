@@ -12,11 +12,11 @@ using Microsoft.EntityFrameworkCore;
 namespace IMOMaritimeSingleWindow.Controllers
 {
     [Route("api/[controller]")]
-    public class CompanyController : Controller
+    public class OrganizationController : Controller
     {
         readonly open_ssnContext _context;
 
-        public CompanyController(open_ssnContext context)
+        public OrganizationController(open_ssnContext context)
         {
             _context = context;
         }
@@ -24,19 +24,19 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("search/{searchTerm}")]
         public IActionResult Search(string searchTerm)
         {
-            var matchingCompanies = (from c in _context.Company
+            var matchingOrganizations = (from c in _context.Organization
                             where EF.Functions.ILike(c.Name, searchTerm + '%')
-                            || EF.Functions.ILike(c.OrgNo, searchTerm + '%')
+                            || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
                             select c).Take(10).ToList();
             
-            List<CompanySearchResult> resultList = new List<CompanySearchResult>();
+            List<OrganizationSearchResult> resultList = new List<OrganizationSearchResult>();
 
-            foreach (Company c in matchingCompanies)
+            foreach (Organization c in matchingOrganizations)
             {
-                CompanySearchResult searchItem = new CompanySearchResult();
-                searchItem.CompanyId = c.CompanyId;
+                OrganizationSearchResult searchItem = new OrganizationSearchResult();
+                searchItem.OrganizationId = c.OrganizationId;
                 searchItem.Name = (c.Name != null) ? c.Name : string.Empty;
-                searchItem.OrgNo = (c.OrgNo != null) ? c.OrgNo : string.Empty;
+                searchItem.OrgNo = (c.OrganizationNo != null) ? c.OrganizationNo : string.Empty;
 
                 resultList.Add(searchItem);
             }

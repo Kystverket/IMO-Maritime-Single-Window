@@ -12,7 +12,7 @@ import { ShipModel } from '../../../../../shared/models/ship-model';
 export class RegisterShipComponent implements OnInit {
 
   countrySelected: boolean;
-  companySelected: boolean;
+  organizationSelected: boolean;
   shipFlagCodeSelected: boolean;
 
   shipTypeSelected = false;
@@ -102,11 +102,11 @@ export class RegisterShipComponent implements OnInit {
       data => this.shipSourceList = data
     );
 
-    this.shipService.companyData$.subscribe(
+    this.shipService.organizationData$.subscribe(
       data => {
-        this.companySelected = data != null;
-        if (this.companySelected) {
-          this.shipModel.companyId = data.companyId;
+        this.organizationSelected = data != null;
+        if (this.organizationSelected) {
+          this.shipModel.organizationId = data.organizationId;
         }
       }
     );

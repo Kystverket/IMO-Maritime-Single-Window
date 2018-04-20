@@ -7,15 +7,17 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public Role()
         {
-            PersonRole = new HashSet<PersonRole>();
             RoleClaim = new HashSet<RoleClaim>();
+            UserRole = new HashSet<UserRole>();
         }
 
-        public int RoleId { get; set; }
-        public string Name { get; set; }
+        public string ConcurrencyStamp { get; set; }
         public string Description { get; set; }
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
+        public int RoleId { get; set; }
 
-        public ICollection<PersonRole> PersonRole { get; set; }
         public ICollection<RoleClaim> RoleClaim { get; set; }
+        public ICollection<UserRole> UserRole { get; set; }
     }
 }

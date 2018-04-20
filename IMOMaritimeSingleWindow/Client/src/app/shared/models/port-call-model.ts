@@ -18,5 +18,5 @@ export class PortCallModel {
     locationAta: Date;
     nextLocationEta: Date;
     nextLocationAta: Date;
-    personId: number;
+    userId: number;
 }
