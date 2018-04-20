@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
+import { FormMetaData } from '../models/form-meta-data.interface';
 
 @Injectable()
 export class PortCallService {
@@ -48,8 +49,8 @@ export class PortCallService {
 
   private detailsDataSource = new BehaviorSubject<any>(null);
   detailsData$ = this.detailsDataSource.asObservable();
-  private detailsRegistered = new BehaviorSubject<boolean>(true);
-  detailsRegistered$ = this.detailsRegistered.asObservable();
+  private detailsPristine = new BehaviorSubject<boolean>(true);
+  detailsPristine$ = this.detailsPristine.asObservable();
 
   private overviewDataSource = new BehaviorSubject<any>(null);
   overviewData$ = this.overviewDataSource.asObservable();
@@ -61,7 +62,7 @@ export class PortCallService {
     this.detailsModel = new PortCallDetailsModel();
     this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
-    this.detailsRegistered.next(false);
+    this.detailsPristine.next(false);
 
 
     this.shipDataSource.next(null);
@@ -76,7 +77,7 @@ export class PortCallService {
   }
 
   wipeDetailsData() {
-    this.detailsRegistered.next(false);
+    this.detailsPristine.next(false);
     this.reportingForThisPortCallSource.next(null);
     this.crewPassengersAndDimensionsSource.next(null);
     this.cargoWeightSource.next(null);
@@ -115,7 +116,7 @@ export class PortCallService {
       this.wipeDetailsData();
     } else {
       this.detailsModel = detailsModel;
-      this.detailsRegistered.next(true);
+      this.detailsPristine.next(true);
       this.detailsDataSource.next(detailsModel);
       this.setCrewPassengersAndDimensionsData(detailsModel);
       this.setCargoWeightData(detailsModel);
@@ -214,7 +215,7 @@ export class PortCallService {
   private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
   setReportingForThisPortCallData(data) {
-    this.detailsRegistered.next(false);
+    this.detailsPristine.next(false);
     // this.detailsDataSource.next(data);
     this.detailsModel.reportingBunkers = data.reportingBunkers || null;
     this.detailsModel.reportingCargo = data.reportingCargo || null;
@@ -230,7 +231,7 @@ export class PortCallService {
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
   setCrewPassengersAndDimensionsData(data) {
-    this.detailsRegistered.next(false);
+    this.detailsPristine.next(false);
     this.detailsModel.numberOfCrew = (data.numberOfCrew != null) ? data.numberOfCrew : null;
     this.detailsModel.numberOfPassengers = (data.numberOfPassengers != null) ? data.numberOfPassengers : null;
     this.detailsModel.actualDraught = (data.actualDraught != null) ? data.actualDraught : null;
@@ -247,22 +248,22 @@ export class PortCallService {
   private cargoWeightSource = new BehaviorSubject<any>(null);
   cargoWeightData$ = this.cargoWeightSource.asObservable();
   setCargoWeightData(data) {
-    this.detailsRegistered.next(false);
-    this.detailsModel.cargoGrossWeight = (data.cargoGrossWeight != null) ? data.cargoGrossWeight : null;
-    this.detailsModel.cargoGrossGrossWeight = (data.cargoGrossGrossWeight != null) ? data.cargoGrossGrossWeight : null;
+    this.detailsPristine.next(false);
+    this.detailsModel.cargoGrossWeight = data.cargoGrossWeight;
+    this.detailsModel.cargoGrossGrossWeight = data.cargoGrossGrossWeight;
     this.cargoWeightSource.next(this.detailsModel);
   }
 
-  private cargoWeightError = new BehaviorSubject<boolean>(false);
-  cargoWeightError$ = this.cargoWeightError.asObservable();
-  setCargoWeightError(error: boolean) {
-    this.cargoWeightError.next(error);
+  private cargoWeightMeta = new BehaviorSubject<FormMetaData>({ valid: true });
+  cargoWeightMeta$ = this.cargoWeightMeta.asObservable();
+  setCargoWeightMeta(metaData: FormMetaData) {
+    this.cargoWeightMeta.next(metaData);
   }
 
   private portCallPurposeSource = new BehaviorSubject<any>(null);
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
-    this.detailsRegistered.next(false);
+    this.detailsPristine.next(false);
     this.portCallPurposeSource.next(data);
   }
 
@@ -273,7 +274,7 @@ export class PortCallService {
   }
 
   saveDetails() {
-    if (!this.detailsRegistered.value) {
+    if (!this.detailsPristine.value) {
       console.log(this.overviewModel);
       console.log(this.detailsModel);
       console.log("Saving port call details to database...");
@@ -281,7 +282,7 @@ export class PortCallService {
         data => {
           console.log("Success.");
           console.log(data);
-          this.detailsRegistered.next(true);
+          this.detailsPristine.next(true);
         }
       );
     } else {

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 
 @Component({
@@ -8,15 +9,14 @@ import { PortCallService } from '../../../../../../../shared/services/port-call.
 })
 export class CargoComponent implements OnInit {
 
-  positiveDecimalRegex: string = '^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$';
+  positiveDecimalRegex: string = '^[0-9]+((\.[0-9]+){1})?$';
+
+  @ViewChild(NgForm) form: NgForm;
 
   cargoModel = {
     cargoGrossGrossWeight: null,
     cargoGrossWeight: null
   }
-
-  grossGrossWeightError: boolean = false;
-  grossWeightError: boolean = false;
 
   constructor(private portCallService: PortCallService) { }
 
@@ -27,28 +27,20 @@ export class CargoComponent implements OnInit {
           this.cargoModel = data;
         }
       }
-    );
+    );    
   }
 
   persistData() {
     this.portCallService.setCargoWeightData(this.cargoModel);
   }
 
-  isGrossGrossWeightValid(inputField: any): boolean {
-    this.grossGrossWeightError = !inputField.valid;
-    this.validateAllData();
-    return inputField.valid;
+  isValid(valid: boolean): boolean {
+    this.sendMetaData();
+    return valid;
   }
 
-  isGrossWeightValid(inputField: any): boolean {
-    this.grossWeightError = !inputField.valid;
-    this.validateAllData();
-    return inputField.valid;
-  }
-
-  private validateAllData(): void {
-    let errorPresent = this.grossGrossWeightError || this.grossWeightError;    
-    this.portCallService.setCargoWeightError(errorPresent);
+  private sendMetaData(): void {
+    this.portCallService.setCargoWeightMeta({ valid: this.form.valid });
   }
 
   limitInputToPositiveDecimal($event) {

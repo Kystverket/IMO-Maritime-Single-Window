@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
+import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.interface';
 
 @Component({
   selector: 'app-save-details',
@@ -18,11 +19,20 @@ export class SaveDetailsComponent implements OnInit {
   purposeFound: boolean;
 
   crewPassengersAndDimensionsError: boolean;
-  cargoError: boolean;
+  cargoMeta: FormMetaData = { valid: true };
+
+  dataIsPristine: boolean = true;
 
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
+
+    this.portCallService.detailsPristine$.subscribe(
+      detailsDataIsPristine => {
+        this.dataIsPristine = detailsDataIsPristine;
+      }
+    );
+
     // Reporting
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
@@ -66,9 +76,9 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
 
-    this.portCallService.cargoWeightError$.subscribe(
-      cargoError => {
-        this.cargoError = cargoError;
+    this.portCallService.cargoWeightMeta$.subscribe(
+      cargoMetaData => {
+        this.cargoMeta = cargoMetaData;
       }
     );
   }
@@ -78,5 +88,11 @@ export class SaveDetailsComponent implements OnInit {
       return;
     }
     this.portCallService.saveDetails();
+  }
+
+  test() {
+    if (!this.crewPassengersAndDimensionsError && this.cargoMeta.valid) {
+      console.log('ding dong');
+    }
   }
 }

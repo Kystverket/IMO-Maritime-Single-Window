@@ -10,8 +10,8 @@ import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsM
 })
 export class CrewPassengersDimensionsComponent implements OnInit {
 
-  positiveDecimalRegex: string = '^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$';
-  positiveIntegerRegex: string = '^[0-9]*';
+  positiveDecimalRegex: string = '^[0-9]+((\.[0-9]+){1})?$';
+  positiveIntegerRegex: string = '^[0-9]*$';
 
   crewPassengersAndDimensionsModel: CrewPassengersAndDimensionsModel = {
     numberOfCrew: null,
