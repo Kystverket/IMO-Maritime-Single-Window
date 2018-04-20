@@ -535,6 +535,10 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
+                entity.Property(e => e.Remark).HasColumnName("remark");
+
+                entity.Property(e => e.Cleared).HasColumnName("cleared");
+
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.OrganizationPortCall)
                     .HasForeignKey(d => d.OrganizationId)
