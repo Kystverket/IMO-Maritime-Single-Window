@@ -40,8 +40,8 @@ export class PortCallDetailsComponent implements OnInit {
     this.portCallService.cargoWeightData$.subscribe(
       data => {
         if (data != null) {
-          this.portCallDetailsInfo.find(p => p.description == GROSS_GROSS_WEIGHT).data = data.grossGrossWeight;
-          this.portCallDetailsInfo.find(p => p.description == GROSS_WEIGHT).data = data.grossWeight;
+          this.portCallDetailsInfo.find(p => p.description == GROSS_GROSS_WEIGHT).data = data.cargoGrossGrossWeight;
+          this.portCallDetailsInfo.find(p => p.description == GROSS_WEIGHT).data = data.cargoGrossWeight;
         }
       }
     );
