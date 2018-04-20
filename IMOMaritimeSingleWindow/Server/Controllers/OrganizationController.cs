@@ -29,18 +29,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                             || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
                             select c).Take(10).ToList();
             
-            List<OrganizationSearchResult> resultList = new List<OrganizationSearchResult>();
-
-            foreach (Organization c in matchingOrganizations)
-            {
-                OrganizationSearchResult searchItem = new OrganizationSearchResult();
-                searchItem.OrganizationId = c.OrganizationId;
-                searchItem.Name = (c.Name != null) ? c.Name : string.Empty;
-                searchItem.OrgNo = (c.OrganizationNo != null) ? c.OrganizationNo : string.Empty;
-
-                resultList.Add(searchItem);
-            }
-            return Json(resultList);
+            return Json(matchingOrganizations);
         }
 
         
