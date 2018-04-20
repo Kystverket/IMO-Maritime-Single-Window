@@ -7,8 +7,8 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public int PortCallDetailsId { get; set; }
         public int PortCallId { get; set; }
-        public int? CargoGrossWeight { get; set; }
-        public int? CargoGrossGrossWeight { get; set; }
+        public float? CargoGrossWeight { get; set; }
+        public float? CargoGrossGrossWeight { get; set; }
         public int? NumberOfCrew { get; set; }
         public int? NumberOfPassengers { get; set; }
         public float? ActualDraught { get; set; }
