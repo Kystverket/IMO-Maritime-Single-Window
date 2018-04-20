@@ -77,13 +77,13 @@ export class PortCallService {
   }
 
   wipeDetailsData() {
-    this.detailsPristine.next(false);
     this.reportingForThisPortCallSource.next(null);
     this.crewPassengersAndDimensionsSource.next(null);
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
     this.detailsDataSource.next(new PortCallDetailsModel());
+    this.detailsPristine.next(true);
   }
 
   getPortCallById(portCallId: number) {
@@ -116,20 +116,19 @@ export class PortCallService {
       this.wipeDetailsData();
     } else {
       this.detailsModel = detailsModel;
-      this.detailsPristine.next(true);
       this.detailsDataSource.next(detailsModel);
       this.setCrewPassengersAndDimensionsData(detailsModel);
       this.setCargoWeightData(detailsModel);
       this.setReportingForThisPortCallData(detailsModel);
     }
+
+    this.detailsPristine.next(true);
   }
 
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);
     this.setLocationData(overviewModel.locationOverview);
-    this.getPortCallPurpose(overviewModel.portCall.portCallId).subscribe(data => {
-      this.setPortCallPurposeData(data);
-    });
+    
     let etaData = new Date(overviewModel.portCall.locationEta);
     let etdData = new Date(overviewModel.portCall.locationEtd);
 
@@ -282,6 +281,7 @@ export class PortCallService {
         data => {
           console.log("Success.");
           console.log(data);
+           
           this.detailsPristine.next(true);
         }
       );

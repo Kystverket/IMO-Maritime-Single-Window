@@ -28,7 +28,7 @@ export class SaveDetailsComponent implements OnInit {
   ngOnInit() {
 
     this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {
+      detailsDataIsPristine => {        
         this.dataIsPristine = detailsDataIsPristine;
       }
     );
@@ -83,7 +83,6 @@ export class SaveDetailsComponent implements OnInit {
 
   saveDetails() {
     if (this.crewPassengersAndDimensionsMeta.valid && this.cargoMeta.valid) {
-      this.dataIsPristine = true;
       this.portCallService.saveDetails();
     }
   }
