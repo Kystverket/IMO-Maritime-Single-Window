@@ -57,7 +57,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             //Create the Person associated with the ApplicationUser 
             await userDbContext.Person.AddAsync(new Person
             {
-                IdentityId = userIdentity.Id,
+                UserId = userIdentity.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
@@ -84,14 +84,14 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             //Create the Person associated with the ApplicationUser 
             await userDbContext.Person.AddAsync(new Person {
-                IdentityId = userIdentity.Id,
+                UserId = userIdentity.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
             
             await userDbContext.Password.AddAsync(new Password
             {
-                IdentityId = userIdentity.Id,
+                UserId = userIdentity.Id,
                 PasswordHash = userIdentity.PasswordHash
             });
 

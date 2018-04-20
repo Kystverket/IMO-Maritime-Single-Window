@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Extensions;
+using IMOMaritimeSingleWindow.Helpers;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -25,8 +26,8 @@ namespace IMOMaritimeSingleWindow.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUser>().ToTable("ApplicationUser");
-            builder.Entity<ApplicationRole>().ToTable("ApplicationRole");
+            builder.Entity<ApplicationUser>().ToTable("User");
+            builder.Entity<ApplicationRole>().ToTable("Role");
             builder.Entity<ApplicationUserRole>().ToTable("ApplicationUserRole");
             builder.Entity<ApplicationUserRole>().Property(ur => ur.RoleId).HasColumnName("ApplicationRoleId");
             builder.Entity<ApplicationUserRole>().Property(ur => ur.UserId).HasColumnName("ApplicationUserId");
@@ -41,27 +42,32 @@ namespace IMOMaritimeSingleWindow.Data
             foreach (var entity in builder.Model.GetEntityTypes())
             {
                 // Replace table names
-                entity.Relational().TableName = entity.Relational().TableName.ToSnakeCase();
+                var entityName = RenameTables.RenameName(entity.Relational().TableName);
+                entity.Relational().TableName = entityName.ToSnakeCase();
 
                 // Replace column names            
                 foreach (var property in entity.GetProperties())
                 {
-                    property.Relational().ColumnName = property.Name.ToSnakeCase();
+                    var name = RenameTables.RenameName(property.Name);
+                    property.Relational().ColumnName = name.ToSnakeCase();
                 }
 
                 foreach (var key in entity.GetKeys())
                 {
-                    key.Relational().Name = key.Relational().Name.ToSnakeCase();
+                    var keyName = RenameTables.RenameName(key.Relational().Name);
+                    key.Relational().Name = keyName.ToSnakeCase();
                 }
 
                 foreach (var key in entity.GetForeignKeys())
                 {
-                    key.Relational().Name = key.Relational().Name.ToSnakeCase();
+                    var keyName = RenameTables.RenameName(key.Relational().Name);
+                    key.Relational().Name = keyName.ToSnakeCase();
                 }
 
                 foreach (var index in entity.GetIndexes())
                 {
-                    index.Relational().Name = index.Relational().Name.ToSnakeCase();
+                    var indexName = RenameTables.RenameName(index.Relational().Name);
+                    index.Relational().Name = indexName.ToSnakeCase();
                 }
             }
 
@@ -93,8 +99,7 @@ namespace IMOMaritimeSingleWindow.Data
             builder.Entity<ApplicationRoleClaim>().ToTable(nameof(ApplicationRoleClaim));
             builder.Entity<ApplicationUserClaim>().ToTable(nameof(ApplicationUserClaim)); //To be coupled through role?
             */
-
-            builder.Entity<Password>().Property(p => p.PasswordId).UseNpgsqlSerialColumn();
+            
                 
         }
     }

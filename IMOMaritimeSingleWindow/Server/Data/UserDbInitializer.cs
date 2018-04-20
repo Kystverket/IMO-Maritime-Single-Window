@@ -101,12 +101,12 @@ namespace IMOMaritimeSingleWindow.Data
                     {
                         FirstName = userModel.FirstName,
                         LastName = userModel.LastName,
-                        IdentityId = user.Id
+                        UserId = user.Id
                     });
 
                     passwords.Add(new Password
                     {
-                        IdentityId = user.Id,
+                        UserId = user.Id,
                         PasswordHash = user.PasswordHash
                     });
                 }

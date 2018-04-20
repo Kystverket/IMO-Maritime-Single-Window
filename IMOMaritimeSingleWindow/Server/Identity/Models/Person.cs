@@ -1,13 +1,14 @@
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
     public class Person
     {
-        public Guid Id { get; set; }
-        public Guid IdentityId { get; set; }
-        public ApplicationUser Identity { get; set; }  // navigation property
+        [Key]
+        public Guid UserId { get; set; } //Foreign key is primary key
+        public ApplicationUser Identity { get; set; }  // Navigation property
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

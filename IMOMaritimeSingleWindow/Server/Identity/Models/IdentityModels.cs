@@ -52,7 +52,6 @@ namespace IMOMaritimeSingleWindow.Identity
     }
     
     public class ApplicationUser : IdentityUser<Guid> {
-        public string CustomField { get; set; }
 
     }
 

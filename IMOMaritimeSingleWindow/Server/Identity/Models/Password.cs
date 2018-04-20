@@ -9,9 +9,10 @@ namespace IMOMaritimeSingleWindow.Identity
 {
     public class Password
     {
-        public int PasswordId { get; set; } //Primary key
-        public Guid IdentityId { get; set; }
-        public ApplicationUser Identity { get; set; } //Foreign key
+        [Key]
+        public Guid UserId { get; set; } //Foreign key is primary key
+
+        public ApplicationUser Identity { get; set; } //Navigational property
         public string PasswordHash { get; set; }
 
         /*
