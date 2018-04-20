@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { CompanyFormComponent } from './basis-data/company/company-form/company-form.component';
-import { RegisterCompanyComponent } from './basis-data/company/register-company/register-company.component';
-import { SearchCompanyComponent } from './basis-data/company/search-company/search-company.component';
+import { OrganizationFormComponent } from './basis-data/organization/organization-form/organization-form.component';
+import { RegisterOrganizationComponent } from './basis-data/organization/register-organization/register-organization.component';
+import { SearchOrganizationComponent } from './basis-data/organization/search-organization/search-organization.component';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
@@ -31,12 +31,12 @@ import { PortCallModule } from './port-call/port-call.module';
     EditUserComponent,
     RegisterShipComponent,
     RegisterLocationComponent,
-    RegisterCompanyComponent,
+    RegisterOrganizationComponent,
     UserFormComponent,
     ShipFormComponent,
     LocationFormComponent,
-    CompanyFormComponent,
-    SearchCompanyComponent,
+    OrganizationFormComponent,
+    SearchOrganizationComponent,
     SearchShipFlagCodeComponent,
   ],
   exports: [ContentContainerComponent]

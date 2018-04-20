@@ -31,8 +31,8 @@ export class ShipService {
     private registerShipUrl: string;
     private flagCodeSearchUrl: string;
 
-    private companyDataSource = new BehaviorSubject<any>(null);
-    companyData$ = this.companyDataSource.asObservable();
+    private organizationDataSource = new BehaviorSubject<any>(null);
+    organizationData$ = this.organizationDataSource.asObservable();
 
     private countryDataSource = new BehaviorSubject<any>(null);
     countryData$ = this.countryDataSource.asObservable();
@@ -45,8 +45,8 @@ export class ShipService {
                 .map(res => res.json());
     }    
 
-    setCompanyData(data) {
-        this.companyDataSource.next(data);
+    setOrganizationData(data) {
+        this.organizationDataSource.next(data);
     }
 
     setCountryData(data) {

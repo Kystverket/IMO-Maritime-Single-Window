@@ -2,11 +2,11 @@ using System;
 
 namespace IMOMaritimeSingleWindow.Helpers
 {
-    public class CompanySearchResult
+    public class OrganizationSearchResult
     {
-        public CompanySearchResult(){}
+        public OrganizationSearchResult(){}
 
-        public int CompanyId {get; set;}
+        public int OrganizationId {get; set;}
 
         public string Name {get; set;}
 

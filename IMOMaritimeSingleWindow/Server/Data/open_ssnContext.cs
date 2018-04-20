@@ -9,7 +9,7 @@ namespace IMOMaritimeSingleWindow.Data
     public partial class open_ssnContext : DbContext
     {
         public virtual DbSet<Claim> Claim { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
+        public virtual DbSet<ClaimType> ClaimType { get; set; }
         public virtual DbSet<ContactMedium> ContactMedium { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<County> County { get; set; }
@@ -25,9 +25,11 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
+        public virtual DbSet<Organization> Organization { get; set; }
+        public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
+        public virtual DbSet<OrganizationType> OrganizationType { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<PersonRole> PersonRole { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
         public virtual DbSet<PortCallDetails> PortCallDetails { get; set; }
         public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
@@ -51,6 +53,9 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<ShipType> ShipType { get; set; }
         public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserLogin> UserLogin { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
+        public virtual DbSet<UserToken> UserToken { get; set; }
 
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
@@ -63,34 +68,37 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("claim");
 
+                entity.HasIndex(e => e.ClaimTypeId)
+                    .HasName("fki_FK_claim_claim_type_id");
+
                 entity.Property(e => e.ClaimId).HasColumnName("claim_id");
 
-                entity.Property(e => e.Name)
+                entity.Property(e => e.ClaimTypeId).HasColumnName("claim_type_id");
+
+                entity.Property(e => e.ClaimValue).HasColumnName("claim_value");
+
+                entity.Property(e => e.Discriminator)
                     .IsRequired()
-                    .HasColumnName("name");
+                    .HasColumnName("discriminator");
+
+                entity.HasOne(d => d.ClaimType)
+                    .WithMany(p => p.Claim)
+                    .HasForeignKey(d => d.ClaimTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_claim_claim_type_id");
             });
 
-            modelBuilder.Entity<Company>(entity =>
+            modelBuilder.Entity<ClaimType>(entity =>
             {
-                entity.ToTable("company");
+                entity.ToTable("claim_type");
 
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+                entity.Property(e => e.ClaimTypeId).HasColumnName("claim_type_id");
 
-                entity.Property(e => e.InvoiceReceiverNo).HasColumnName("invoice_receiver_no");
-
-                entity.Property(e => e.IsActive).HasColumnName("is_active");
-
-                entity.Property(e => e.IsInvoiceReceiver).HasColumnName("is_invoice_receiver");
-
-                entity.Property(e => e.IsVerified).HasColumnName("is_verified");
+                entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
-
-                entity.Property(e => e.OrgNo).HasColumnName("org_no");
-
-                entity.Property(e => e.Remark).HasColumnName("remark");
             });
 
             modelBuilder.Entity<ContactMedium>(entity =>
@@ -491,6 +499,68 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasConstraintName("municipality_county_id_fkey");
             });
 
+            modelBuilder.Entity<Organization>(entity =>
+            {
+                entity.ToTable("organization");
+
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.InvoiceReceiverNo).HasColumnName("invoice_receiver_no");
+
+                entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+
+                entity.Property(e => e.OrganizationNo).HasColumnName("organization_no");
+
+                entity.Property(e => e.OrganizationTypeId).HasColumnName("organization_type_id");
+
+                entity.HasOne(d => d.OrganizationType)
+                    .WithMany(p => p.Organization)
+                    .HasForeignKey(d => d.OrganizationTypeId)
+                    .HasConstraintName("organization_organization_type_id_fkey");
+            });
+
+            modelBuilder.Entity<OrganizationPortCall>(entity =>
+            {
+                entity.ToTable("organization_port_call");
+
+                entity.Property(e => e.OrganizationPortCallId).HasColumnName("organization_port_call_id");
+
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
+
+                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.OrganizationPortCall)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("organization_port_call_organization_id_fkey");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.OrganizationPortCall)
+                    .HasForeignKey(d => d.PortCallId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("organization_port_call_port_call_id_fkey");
+            });
+
+            modelBuilder.Entity<OrganizationType>(entity =>
+            {
+                entity.ToTable("organization_type");
+
+                entity.Property(e => e.OrganizationTypeId).HasColumnName("organization_type_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+            });
+
             modelBuilder.Entity<Password>(entity =>
             {
                 entity.ToTable("password");
@@ -498,8 +568,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PasswordId).HasColumnName("password_id");
 
                 entity.Property(e => e.Hash).HasColumnName("hash");
-
-                entity.Property(e => e.Salt).HasColumnName("salt");
             });
 
             modelBuilder.Entity<Person>(entity =>
@@ -511,35 +579,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.FirstName).HasColumnName("first_name");
 
                 entity.Property(e => e.LastName).HasColumnName("last_name");
-            });
-
-            modelBuilder.Entity<PersonRole>(entity =>
-            {
-                entity.ToTable("person_role");
-
-                entity.HasIndex(e => e.PersonId)
-                    .HasName("ifk_rel_39pr");
-
-                entity.HasIndex(e => e.RoleId)
-                    .HasName("ifk_rel_40pr");
-
-                entity.Property(e => e.PersonRoleId).HasColumnName("person_role_id");
-
-                entity.Property(e => e.PersonId).HasColumnName("person_id");
-
-                entity.Property(e => e.RoleId).HasColumnName("role_id");
-
-                entity.HasOne(d => d.Person)
-                    .WithMany(p => p.PersonRole)
-                    .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("person_role_person_id_fkey");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.PersonRole)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("person_role_role_id_fkey");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
@@ -579,8 +618,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.NextLocationId).HasColumnName("next_location_id");
 
-                entity.Property(e => e.PersonId).HasColumnName("person_id");
-
                 entity.Property(e => e.PortCallStatusId).HasColumnName("port_call_status_id");
 
                 entity.Property(e => e.PreviousLocationAtd).HasColumnName("previous_location_atd");
@@ -593,6 +630,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ShipId).HasColumnName("ship_id");
 
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.PortCallLocation)
                     .HasForeignKey(d => d.LocationId)
@@ -603,11 +642,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.PortCallNextLocation)
                     .HasForeignKey(d => d.NextLocationId)
                     .HasConstraintName("port_call_next_location_id_fkey");
-
-                entity.HasOne(d => d.Person)
-                    .WithMany(p => p.PortCall)
-                    .HasForeignKey(d => d.PersonId)
-                    .HasConstraintName("port_call_person_id_fkey");
 
                 entity.HasOne(d => d.PortCallStatus)
                     .WithMany(p => p.PortCall)
@@ -625,6 +659,11 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.ShipId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("port_call_ship_id_fkey");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.PortCall)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_port_call_user_user_id");
             });
 
             modelBuilder.Entity<PortCallDetails>(entity =>
@@ -730,13 +769,19 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("role");
 
+                entity.HasIndex(e => e.NormalizedName)
+                    .HasName("RoleNameIndex")
+                    .IsUnique();
+
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasColumnName("name");
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.NormalizedName).HasColumnName("normalized_name");
             });
 
             modelBuilder.Entity<RoleClaim>(entity =>
@@ -744,10 +789,10 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("role_claim");
 
                 entity.HasIndex(e => e.ClaimId)
-                    .HasName("ifk_rel_42rc");
+                    .HasName("fki_FK_role_claim_claim_id");
 
                 entity.HasIndex(e => e.RoleId)
-                    .HasName("ifk_rel_41rc");
+                    .HasName("fki_FK_role_claim_role_id");
 
                 entity.Property(e => e.RoleClaimId).HasColumnName("role_claim_id");
 
@@ -759,20 +804,20 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.RoleClaim)
                     .HasForeignKey(d => d.ClaimId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("role_claim_claim_id_fkey");
+                    .HasConstraintName("FK_role_claim_claim_id");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RoleClaim)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("role_claim_role_id_fkey");
+                    .HasConstraintName("FK_role_claim_role_id");
             });
 
             modelBuilder.Entity<Ship>(entity =>
             {
                 entity.ToTable("ship");
 
-                entity.HasIndex(e => e.CompanyId)
+                entity.HasIndex(e => e.OrganizationId)
                     .HasName("ifk_rel_22");
 
                 entity.HasIndex(e => e.ShipBreadthTypeId)
@@ -805,7 +850,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.CallSign).HasColumnName("call_sign");
 
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 
@@ -853,9 +898,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.YearOfBuild).HasColumnName("year_of_build");
 
-                entity.HasOne(d => d.Company)
+                entity.HasOne(d => d.Organization)
                     .WithMany(p => p.Ship)
-                    .HasForeignKey(d => d.CompanyId)
+                    .HasForeignKey(d => d.OrganizationId)
                     .HasConstraintName("ship_company_id_fkey");
 
                 entity.HasOne(d => d.ShipBreadthType)
@@ -921,7 +966,7 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("ship_certificate");
 
-                entity.HasIndex(e => e.CompanyId)
+                entity.HasIndex(e => e.OrganizationId)
                     .HasName("ifk_rel_20");
 
                 entity.HasIndex(e => e.CountryId)
@@ -935,7 +980,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ShipCertificateId).HasColumnName("ship_certificate_id");
 
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
 
@@ -949,9 +994,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ShipId).HasColumnName("ship_id");
 
-                entity.HasOne(d => d.Company)
+                entity.HasOne(d => d.Organization)
                     .WithMany(p => p.ShipCertificate)
-                    .HasForeignKey(d => d.CompanyId)
+                    .HasForeignKey(d => d.OrganizationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("ship_certificate_company_id_fkey");
 
@@ -1057,7 +1102,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.CallSign).HasColumnName("call_sign");
 
-                entity.Property(e => e.CompanyId).HasColumnName("company_id");
+                entity.Property(e => e.CompanyId).HasColumnName("organization_id");
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 
@@ -1248,57 +1293,172 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("user");
 
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.OrganizationId)
+                    .HasName("fki_FK_user_organization_organization_id");
+
+                entity.HasIndex(e => e.PasswordId)
+                    .HasName("fki_FK_user_password_password_id");
+
+                entity.HasIndex(e => e.PersonId)
+                    .HasName("fki_FK_user_person_person_id");
+
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
 
                 entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
-                entity.Property(e => e.CustomField).HasColumnName("custom_field");
-
                 entity.Property(e => e.Email).HasColumnName("email");
 
                 entity.Property(e => e.EmailConfirmed).HasColumnName("email_confirmed");
 
-                entity.Property(e => e.LockoutEnabled)
-                    .HasColumnName("lockout_enabled")
-                    .HasDefaultValueSql("false");
+                entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
 
                 entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
 
-                entity.Property(e => e.PasswordHash).HasColumnName("password_hash");
+                entity.Property(e => e.NormalizedEmail).HasColumnName("normalized_email");
+
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
                 entity.Property(e => e.PasswordId).HasColumnName("password_id");
 
+                entity.Property(e => e.PersonId).HasColumnName("person_id");
+
                 entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
 
-                entity.Property(e => e.PhoneNumberConfirmed)
-                    .HasColumnName("phone_number_confirmed")
-                    .HasDefaultValueSql("false");
+                entity.Property(e => e.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
 
                 entity.Property(e => e.SecurityStamp).HasColumnName("security_stamp");
 
-                entity.Property(e => e.TwoFactorEnabled)
-                    .HasColumnName("two_factor_enabled")
-                    .HasDefaultValueSql("false");
+                entity.Property(e => e.TwoFactorEnabled).HasColumnName("two_factor_enabled");
 
-                entity.Property(e => e.UserName).HasColumnName("user_name");
-
-                entity.Property(e => e.UserUuid).HasColumnName("user_uuid");
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.OrganizationId);
 
                 entity.HasOne(d => d.Password)
                     .WithMany(p => p.User)
-                    .HasForeignKey(d => d.PasswordId)
-                    .HasConstraintName("password_id_fkey");
+                    .HasForeignKey(d => d.PasswordId);
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.PersonId);
             });
+
+            modelBuilder.Entity<UserLogin>(entity =>
+            {
+                entity.ToTable("user_login");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("fki_FK_user_logins_user_id");
+
+                entity.Property(e => e.UserLoginId).HasColumnName("user_login_id");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.LoginProvider)
+                    .IsRequired()
+                    .HasColumnName("login_provider");
+
+                entity.Property(e => e.ProviderDisplayName).HasColumnName("provider_display_name");
+
+                entity.Property(e => e.ProviderKey)
+                    .IsRequired()
+                    .HasColumnName("provider_key");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserLogin)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_user_login_user_id");
+            });
+
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.ToTable("user_role");
+
+                entity.HasIndex(e => e.RoleId)
+                    .HasName("fki_FK_user_role_role_id");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("fki_FK_user_role_user_id");
+
+                entity.Property(e => e.UserRoleId).HasColumnName("user_role_id");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_user_role_role_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRole)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_user_role_user_id");
+            });
+
+            modelBuilder.Entity<UserToken>(entity =>
+            {
+                entity.ToTable("user_token");
+
+                entity.HasIndex(e => e.UserId)
+                    .HasName("fki_FK_user_token_user_id");
+
+                entity.Property(e => e.UserTokenId).HasColumnName("user_token_id");
+
+                entity.Property(e => e.Discriminator)
+                    .IsRequired()
+                    .HasColumnName("discriminator");
+
+                entity.Property(e => e.LoginProvider)
+                    .IsRequired()
+                    .HasColumnName("login_provider");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("name");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.Property(e => e.Value).HasColumnName("value");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserToken)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_user_token_user_id");
+            });
+
+            modelBuilder.HasSequence("claim_claim_id_seq").HasMax(2147483647);
 
             modelBuilder.HasSequence("council_council_id_seq")
                 .HasMin(1)
                 .HasMax(2147483647);
 
+            modelBuilder.HasSequence("password_password_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("person_person_id_seq").HasMax(2147483647);
+
             modelBuilder.HasSequence("port_call_has_port_call_purpo_port_call_has_port_call_purpo_seq")
                 .HasMin(1)
                 .HasMax(2147483647);
+
+            modelBuilder.HasSequence("role_role_id_seq").HasMax(2147483647);
 
             modelBuilder.HasSequence("ship_ship_id_seq")
                 .StartsAt(359004)
@@ -1309,6 +1469,14 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.HasSequence("ship_status_ship_status_id_seq")
                 .HasMin(1)
                 .HasMax(2147483647);
+
+            modelBuilder.HasSequence("user_login_user_login_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("user_role_user_role_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("user_token_user_token_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("user_user_id_seq").HasMax(2147483647);
         }
 
 

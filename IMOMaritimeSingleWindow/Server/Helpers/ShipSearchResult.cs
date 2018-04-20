@@ -14,7 +14,7 @@ namespace IMOMaritimeSingleWindow.Helpers {
         public int? ShipLengthTypeId { get; set; }
         public int ShipSourceId { get; set; }
         public int ShipFlagCodeId { get; set; }
-        public int? CompanyId { get; set; }
+        public int? OrganizationId { get; set; }
         public int ShipTypeId { get; set; }
         public int? ImoNo { get; set; }
         public int? YearOfBuild { get; set; }
