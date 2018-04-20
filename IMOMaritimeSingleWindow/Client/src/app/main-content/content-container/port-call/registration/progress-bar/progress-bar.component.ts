@@ -29,8 +29,17 @@ export class ProgressBarComponent implements OnInit {
 
   ngOnInit() { 
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
-    this.portCallService.reportingForThisPortCallData$.subscribe((falForms) => {
-      if (falForms != null) {
+    this.portCallService.reportingForThisPortCallData$.subscribe((reportingData) => {
+      if (reportingData != null) {
+        let falForms = [
+          { name: "Hazmat", icon: "hazard.png", checked: reportingData.reportingHazmat || false },
+          { name: "Bunkers", icon: "barrel.png", checked: reportingData.reportingBunkers || false },
+          { name: "Cargo", icon: "cargo.png", checked: reportingData.reportingCargo || false },
+          { name: "Ship Stores", icon: "alcohol.png", checked: reportingData.reportingShipStores || false },
+          { name: "Crew", icon: "crew.png", checked: reportingData.reportingCrew || false },
+          { name: "Pax", icon: "pax.png", checked: reportingData.reportingPax || false },
+          { name: "Waste", icon: "trash.png", checked: reportingData.reportingWaste || false }
+        ];
         this.menuEntries = this.baseMenuEntries.concat(falForms).concat(this.finalMenuEntries);
       }
     });

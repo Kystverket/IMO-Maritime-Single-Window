@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
+import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.interface';
 
 @Component({
-  selector: 'app-confirm-details',
-  templateUrl: './confirm-details.component.html',
-  styleUrls: ['./confirm-details.component.css']
+  selector: 'app-save-details',
+  templateUrl: './save-details.component.html',
+  styleUrls: ['./save-details.component.css']
 })
-export class ConfirmDetailsComponent implements OnInit {
+export class SaveDetailsComponent implements OnInit {
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
   cargoModel: any;
@@ -15,17 +15,28 @@ export class ConfirmDetailsComponent implements OnInit {
   
   reportingFound: boolean;
   crewPassengersAndDimensionsFound: boolean;
-  cargoFound: boolean;  
+  cargoFound: boolean;
   purposeFound: boolean;
+
+  crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
+  cargoMeta: FormMetaData = { valid: true };
+
+  dataIsPristine: boolean = true;
 
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
+
+    this.portCallService.detailsPristine$.subscribe(
+      detailsDataIsPristine => {        
+        this.dataIsPristine = detailsDataIsPristine;
+      }
+    );
+
     // Reporting
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
-          this.reportingFound = true;
           this.reportingModel = reportingData;
         }
       }
@@ -34,7 +45,6 @@ export class ConfirmDetailsComponent implements OnInit {
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData != null) {
-          this.crewPassengersAndDimensionsFound = true;
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
@@ -57,14 +67,23 @@ export class ConfirmDetailsComponent implements OnInit {
         }
       }
     );
+
+    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+      cpadMetaData => {
+        this.crewPassengersAndDimensionsMeta = cpadMetaData;
+      }
+    );
+
+    this.portCallService.cargoWeightMeta$.subscribe(
+      cargoMetaData => {
+        this.cargoMeta = cargoMetaData;
+      }
+    );
   }
 
-  registerDetails() {
-    if (!this.crewPassengersAndDimensionsFound || !this.cargoFound) {
-      return;
+  saveDetails() {
+    if (this.crewPassengersAndDimensionsMeta.valid && this.cargoMeta.valid) {
+      this.portCallService.saveDetails();
     }
-    this.portCallService.saveDetails();
   }
-  
-
 }

@@ -11,7 +11,7 @@
               [(ngModel)]="crewPassengersAndDimensionsModel.numberOfCrew" />
           </div>
         </div>
-        <div *ngIf="!isNumberOfCrewValid(numberOfCrew)" class="alert alert-danger">
+        <div *ngIf="!isValid(numberOfCrew.valid)" class="alert alert-danger">
           <li *ngIf="numberOfCrew.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
@@ -25,7 +25,7 @@
               [(ngModel)]="crewPassengersAndDimensionsModel.numberOfPassengers" />
           </div>
         </div>
-        <div *ngIf="!isNumberOfPassengersValid(numberOfPassengers)" class="alert alert-danger">
+        <div *ngIf="!isValid(numberOfPassengers.valid)" class="alert alert-danger">
           <li *ngIf="numberOfPassengers.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
@@ -42,7 +42,7 @@
             />
           </div>
         </div>
-        <div *ngIf="!isActualDraughtValid(actualDraught)" class="alert alert-danger">
+        <div *ngIf="!isValid(actualDraught.valid)" class="alert alert-danger">
           <li *ngIf="actualDraught.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
@@ -56,7 +56,7 @@
             />
           </div>
         </div>
-        <div *ngIf="!isAirDraughtValid(airDraught)" class="alert alert-danger">
+        <div *ngIf="!isValid(airDraught.valid)" class="alert alert-danger">
           <li *ngIf="airDraught.hasError('pattern')"><small>Wrong format.</small></li>
         </div>
       </div>
