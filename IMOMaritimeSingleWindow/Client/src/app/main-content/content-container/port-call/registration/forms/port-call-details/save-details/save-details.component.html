@@ -1,8 +1,8 @@
 <ssn-card title="Save Port Call Details" icon="save.png">
   <div class="text-center" *ngIf="!dataIsPristine">
-    <p *ngIf="crewPassengersAndDimensionsError">cpad error</p>
+    <p *ngIf="!crewPassengersAndDimensionsMeta.valid">cpad error</p>
     <p *ngIf="!cargoMeta.valid">cargo error</p>
-    <button class="btn btn-ssn" (click)="test()" [disabled]="crewPassengersAndDimensionsError || !cargoMeta.valid">
+    <button class="btn btn-ssn" (click)="saveDetails()" [disabled]="!crewPassengersAndDimensionsMeta.valid || !cargoMeta.valid">
       <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
       <span>Save Details</span>
     </button>

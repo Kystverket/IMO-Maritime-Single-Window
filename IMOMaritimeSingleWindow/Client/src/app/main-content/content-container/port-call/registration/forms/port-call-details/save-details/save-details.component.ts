@@ -18,7 +18,7 @@ export class SaveDetailsComponent implements OnInit {
   cargoFound: boolean;
   purposeFound: boolean;
 
-  crewPassengersAndDimensionsError: boolean;
+  crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
   cargoMeta: FormMetaData = { valid: true };
 
   dataIsPristine: boolean = true;
@@ -37,7 +37,6 @@ export class SaveDetailsComponent implements OnInit {
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
-          this.reportingFound = true;
           this.reportingModel = reportingData;
         }
       }
@@ -46,7 +45,6 @@ export class SaveDetailsComponent implements OnInit {
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData != null) {
-          this.crewPassengersAndDimensionsFound = true;
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
@@ -70,9 +68,9 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
 
-    this.portCallService.crewPassengersAndDimensionsError$.subscribe(
-      cpadError => {
-        this.crewPassengersAndDimensionsError = cpadError;
+    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+      cpadMetaData => {
+        this.crewPassengersAndDimensionsMeta = cpadMetaData;
       }
     );
 
@@ -83,16 +81,10 @@ export class SaveDetailsComponent implements OnInit {
     );
   }
 
-  registerDetails() {
-    if (!this.crewPassengersAndDimensionsFound || !this.cargoFound) {
-      return;
-    }
-    this.portCallService.saveDetails();
-  }
-
-  test() {
-    if (!this.crewPassengersAndDimensionsError && this.cargoMeta.valid) {
-      console.log('ding dong');
+  saveDetails() {
+    if (this.crewPassengersAndDimensionsMeta.valid && this.cargoMeta.valid) {
+      this.dataIsPristine = true;
+      this.portCallService.saveDetails();
     }
   }
 }

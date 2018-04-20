@@ -239,10 +239,10 @@ export class PortCallService {
     this.crewPassengersAndDimensionsSource.next(this.detailsModel);
   }
 
-  private crewPassengersAndDimensionsError = new BehaviorSubject<boolean>(false);
-  crewPassengersAndDimensionsError$ = this.crewPassengersAndDimensionsError.asObservable();
-  setCrewPassengersAndDimensionsError(error: boolean) {
-    this.crewPassengersAndDimensionsError.next(error);
+  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({ valid: true });
+  crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
+  setcrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
+    this.crewPassengersAndDimensionsMeta.next(metaData);
   }
 
   private cargoWeightSource = new BehaviorSubject<any>(null);
