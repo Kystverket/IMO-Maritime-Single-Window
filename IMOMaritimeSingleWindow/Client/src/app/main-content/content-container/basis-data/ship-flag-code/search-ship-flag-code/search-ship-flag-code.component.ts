@@ -25,7 +25,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
     searchFailed = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-    constructor(private shipFlagCodeService: ShipFlagCodeService, private shipService: ShipService) { }
+    constructor(private shipService: ShipService) { }
 
     search = (text$: Observable<string>) =>
         text$
@@ -33,10 +33,10 @@ export class SearchShipFlagCodeComponent implements OnInit {
             .distinctUntilChanged()
             .do(() => this.searching = true)
             .switchMap(term => term.length < 2 ? [] :
-                this.shipFlagCodeService.search(term)
+                this.shipService.searchFlagCode(term)
             )
             .do(() => this.searching = false)
-            .merge(this.hideSearchingWhenUnsubscribed)
+            .merge(this.hideSearchingWhenUnsubscribed);
 
     formatter = (x: { shipFlagCodeId: string }) => x.shipFlagCodeId;
 

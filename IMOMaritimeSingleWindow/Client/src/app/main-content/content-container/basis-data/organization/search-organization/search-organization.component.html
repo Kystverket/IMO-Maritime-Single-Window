@@ -1,0 +1,33 @@
+<div class="card-body">
+    <ng-template #rt let-r="result" let-t="term">
+        <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+        <strong *ngIf="r.organizationNo">Org.no.: </strong> {{ r.organizationNo }}
+    </ng-template>
+
+    <div *ngIf="!organizationSelected">
+        <label for="search-organization">Search using organization name or organisation number</label>
+        <input id="search-organization" type="text" class="form-control mx-auto" [(ngModel)]="organizationModel" [ngbTypeahead]="search" [resultTemplate]="rt"
+            [inputFormatter]="formatter" (selectItem)="selectOrganization($event)" placeholder="Enter search here..."/>
+    </div>
+
+    <div *ngIf="organizationSelected">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Organization Name</th>
+                        <th>Organization Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ organizationModel.name }}</td>
+                        <td>{{ organizationModel.organizationNo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-ssn" (click)="deselectOrganization()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+</div>

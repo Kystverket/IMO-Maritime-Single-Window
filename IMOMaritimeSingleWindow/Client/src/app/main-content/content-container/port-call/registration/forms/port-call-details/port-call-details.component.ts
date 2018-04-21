@@ -7,16 +7,9 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
   styleUrls: ['./port-call-details.component.css']
 })
 export class PortCallDetailsComponent implements OnInit {
-  detailsRegistered: boolean;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor() { }
   
-  ngOnInit() {
-    this.portCallService.detailsRegistered$.subscribe(
-      registered => {
-        this.detailsRegistered = registered;
-      }
-    );
-  }
+  ngOnInit() { }
 
 }

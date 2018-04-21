@@ -31,19 +31,46 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallDetails);
         }
 
+        [HttpPost("update")]
+        public IActionResult Update([FromBody] PortCallDetails portCallDetails)
+        {
+            if (!validateDetails(portCallDetails))
+            {
+                return BadRequest("Invalid port call details from data.");
+            }
+            try
+            {
+                _context.PortCallDetails.Update(portCallDetails);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+            return Json(portCallDetails);
+        }
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCallDetails portCallDetails)
         {
             if (!validateDetails(portCallDetails))
             {
-                return Json("Invalid port call details form data.");
+                return BadRequest("Invalid port call details form data.");
             }
 
             try
             {
-                _context.PortCallDetails.Add(portCallDetails);
+                if (_context.PortCallDetails.Any(details => details.PortCallDetailsId == portCallDetails.PortCallDetailsId)) 
+                {
+                    _context.PortCallDetails.Update(portCallDetails);
+                }
+                else
+                {
+                    _context.PortCallDetails.Add(portCallDetails);
+                }
                 _context.SaveChanges();
-            } 
+            }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {
                 Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
@@ -55,8 +82,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private bool validateDetails(PortCallDetails portCallDetails)
         {
-            return (portCallDetails != null 
-                && portCallDetails.PortCallId >= 0 
+            return (portCallDetails != null
+                && portCallDetails.PortCallId >= 0
                 && (portCallDetails.CargoGrossWeight == null || portCallDetails.CargoGrossWeight >= 0)
                 && (portCallDetails.CargoGrossGrossWeight == null || portCallDetails.CargoGrossGrossWeight >= 0)
                 && (portCallDetails.NumberOfCrew == null || portCallDetails.NumberOfCrew >= 0)

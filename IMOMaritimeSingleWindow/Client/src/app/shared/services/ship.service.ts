@@ -9,7 +9,7 @@ import { SearchService } from "./search.service";
 export class ShipService {
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
-        this.actionUrl = 'api/ship/search';
+        this.shipSearchUrl = 'api/ship/search';
         this.shipTypeUrl = 'api/shiptype/getall';
         this.hullTypeUrl = 'api/shiphulltype/getall';
         this.lengthTypeUrl = 'api/shiplengthtype/getall';
@@ -17,10 +17,11 @@ export class ShipService {
         this.powerTypeUrl = 'api/shippowertype/getall';
         this.shipSourceUrl = 'api/shipsource/getall';
         this.registerShipUrl = 'api/ship/register';
+        this.flagCodeSearchUrl = 'api/shipflagcode/search';
     }
 
     private searchService: SearchService;
-    private actionUrl: string;
+    private shipSearchUrl: string;
     private shipTypeUrl: string;
     private hullTypeUrl: string;
     private lengthTypeUrl: string;
@@ -28,9 +29,10 @@ export class ShipService {
     private powerTypeUrl: string;
     private shipSourceUrl: string;
     private registerShipUrl: string;
+    private flagCodeSearchUrl: string;
 
-    private companyDataSource = new BehaviorSubject<any>(null);
-    companyData$ = this.companyDataSource.asObservable();
+    private organizationDataSource = new BehaviorSubject<any>(null);
+    organizationData$ = this.organizationDataSource.asObservable();
 
     private countryDataSource = new BehaviorSubject<any>(null);
     countryData$ = this.countryDataSource.asObservable();
@@ -43,8 +45,8 @@ export class ShipService {
                 .map(res => res.json());
     }    
 
-    setCompanyData(data) {
-        this.companyDataSource.next(data);
+    setOrganizationData(data) {
+        this.organizationDataSource.next(data);
     }
 
     setCountryData(data) {
@@ -56,8 +58,12 @@ export class ShipService {
         console.log(data);
     }
 
-    search(term: string) {
-        return this.searchService.search(this.actionUrl, term);
+    searchShip(term: string) {
+        return this.searchService.search(this.shipSearchUrl, term);
+    }
+
+    searchFlagCode(term: string) {
+        return this.searchService.search(this.flagCodeSearchUrl, term);
     }
 
     getShipTypes() {

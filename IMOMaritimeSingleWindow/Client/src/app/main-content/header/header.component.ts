@@ -25,12 +25,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user_menu_entries: string[];
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
-  menu_entries_all: MenuEntry[] = [
-    {title: "USERS",       iconPath: this.icon_path + "user.png",       componentDescription: "Register User"},
-    {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship"},
-    {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location"},
-    {title: "COMPANIES",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Company"},
-    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call"}
+  menu_entries: MenuEntry[] = [
+    {title: "USERS",       iconPath: this.icon_path + "user.png",       componentDescription: "Register User" },
+    {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship" },
+    {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location" },
+    {title: "ORGANIZATIONS",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Organization" },
+    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call" }
   ];
 
   menu_entries: MenuEntry[];

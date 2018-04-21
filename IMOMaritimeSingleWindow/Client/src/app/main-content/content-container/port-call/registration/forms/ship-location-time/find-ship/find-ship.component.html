@@ -1,7 +1,7 @@
 <ssn-card title="Select Ship" icon="ship.png">
     <ng-template #rt let-r="result" let-t="term">
       <div class="">
-        <img src="assets/images/Flags/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+        <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
         <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
         <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
         <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
@@ -48,7 +48,7 @@
           <tbody>
             <tr>
               <td>
-                <img src="assets/images/Flags/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
+                <img src="assets/images/Flags/128x128/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
               </td>
               <td>{{ shipModel.ship.name }}</td>
               <td>{{ shipModel.ship.callSign }}</td>

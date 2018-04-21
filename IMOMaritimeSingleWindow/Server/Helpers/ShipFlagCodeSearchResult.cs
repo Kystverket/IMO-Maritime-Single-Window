@@ -1,4 +1,5 @@
 using System;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Helpers
 {
@@ -6,10 +7,8 @@ namespace IMOMaritimeSingleWindow.Helpers
     {
         public ShipFlagCodeSearchResult(){}
 
-        public int ShipFlagCodeId {get; set;}
+        public ShipFlagCode ShipFlagCode {get; set;}
 
-        public string ShipFlagCodeName {get; set;}
-
-        public string CountryName {get; set;}
+        public Country Country {get; set;}
     }
 }

@@ -14,8 +14,8 @@ export class UserService {
     private actionUrl: string;
     private registerUserUrl: string;
 
-    // private companyDataSource = new BehaviorSubject<any>(null);
-    // companyData$ = this.companyDataSource.asObservable();
+    // private organizationDataSource = new BehaviorSubject<any>(null);
+    // organizationData$ = this.organizationDataSource.asObservable();
 
     // private countryDataSource = new BehaviorSubject<any>(null);
     // countryData$ = this.countryDataSource.asObservable();
