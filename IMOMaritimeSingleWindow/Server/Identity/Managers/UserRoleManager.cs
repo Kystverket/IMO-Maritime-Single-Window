@@ -22,7 +22,6 @@ namespace IMOMaritimeSingleWindow.Identity
     */
 
     /// <summary>
-
     /// Provides the API for managing users and their roles and associated claims.
     /// </summary>
     /// <typeparam name="TUser">The type representing a user.</typeparam>

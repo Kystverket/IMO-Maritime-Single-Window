@@ -9,7 +9,7 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Identity.Models;
 using System.Threading;
 
-using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Identity;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
