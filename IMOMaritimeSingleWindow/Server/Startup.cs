@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow
 
             });
 
-            builder.AddEntityFrameworkStores<userdbContext>().AddDefaultTokenProviders();
+            //builder.AddEntityFrameworkStores<userdbContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
                 builder.AddUserManager<ApplicationUserManager>()
@@ -111,7 +111,7 @@ namespace IMOMaritimeSingleWindow
             var serviceProvider = services.BuildServiceProvider();
 
             //Configure database initializer service
-            serviceProvider = services.AddUserDbInitializer(serviceProvider, Configuration);
+            //serviceProvider = services.AddUserDbInitializer(serviceProvider, Configuration);
             
             var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();

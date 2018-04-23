@@ -7,9 +7,10 @@ using Claim = System.Security.Claims.Claim;
 namespace IMOMaritimeSingleWindow.Repositories
 {
     //Should be Claim as a custom defined entity, but that one wasn't scaffolded yet ^^
-    interface IRoleClaimsRepository : IRepository<Claim, Guid>
+    public interface IRoleClaimsRepository<TKey> : IRepository<Claim, TKey>
+        where TKey : IEquatable<TKey>
     {
-        IEnumerable<Claim> GetClaimsForRole(Guid id);
+        IEnumerable<Claim> GetClaimsForRole(TKey id);
         IEnumerable<Claim> GetClaimsForRole(string roleName);
     }
 }

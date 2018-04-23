@@ -10,10 +10,15 @@ using System.Security.Claims;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class RoleClaimsRepository : Repository<Claim, Guid>, IRoleClaimsRepository
+    public class RoleClaimsRepository : Repository<Claim, Guid>, IRoleClaimsRepository<Guid>
     {
-        public RoleClaimsRepository(userdbContext context) : base(context)
+        public RoleClaimsRepository(open_ssnContext context) : base(context)
         {
+        }
+
+        public Claim Get(Guid id)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Claim> GetClaimsForRole(Guid id)
@@ -26,6 +31,10 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public IEnumerable<Claim> GetClaimsForRole(string roleName)
         {
+            //open_ssnContext.Set<RoleClaim>().
+              //  Where(roleClaim => roleClaim.Role);
+
+            //var claims =
             throw new NotImplementedException();
 
         }

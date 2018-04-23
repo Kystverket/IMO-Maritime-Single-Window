@@ -11,7 +11,7 @@ namespace IMOMaritimeSingleWindow.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TKey">The type of the primary key used for the entity</typeparam>
-    interface IRepository<TEntity, TKey>
+    public interface IRepository<TEntity, TKey>
         where TEntity : class
         where TKey : IEquatable<TKey>
     {

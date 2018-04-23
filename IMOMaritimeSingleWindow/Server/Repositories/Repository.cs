@@ -11,13 +11,13 @@ namespace IMOMaritimeSingleWindow.Repositories
         where TEntity : class
         where TKey : IEquatable<TKey>
     {
-        public Repository(userdbContext context) : base(context)
+        public Repository(open_ssnContext context) : base(context)
         {
         }
 
-        public userdbContext UserDbContext
+        public open_ssnContext open_ssnContext
         {
-            get { return Context as userdbContext; }
+            get { return Context as open_ssnContext; }
         }
     }
 }
