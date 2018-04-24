@@ -12,7 +12,6 @@ import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
 import { FormsComponent } from './registration/forms/forms.component';
-import { CargoComponent } from './registration/forms/port-call-details/cargo/cargo.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PortCallDetailsComponent } from './registration/forms/port-call-details/port-call-details.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
@@ -53,7 +52,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ReportingComponent,
     CrewPassengersDimensionsComponent,
     PurposeComponent,
-    CargoComponent,
     OverviewComponent,
     PortCallComponent,
     InfoComponent,

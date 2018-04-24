@@ -10,16 +10,13 @@ import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.
 export class SaveDetailsComponent implements OnInit {
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
-  cargoModel: any;
   purposeModel: any;
   
   reportingFound: boolean;
   crewPassengersAndDimensionsFound: boolean;
-  cargoFound: boolean;
   purposeFound: boolean;
 
   crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
-  cargoMeta: FormMetaData = { valid: true };
 
   dataIsPristine: boolean = true;
 
@@ -49,15 +46,6 @@ export class SaveDetailsComponent implements OnInit {
         }
       }
     );
-    // Cargo
-    this.portCallService.cargoWeightData$.subscribe(
-      cargoData => {
-        if (cargoData != null) {
-          this.cargoFound = true;
-          this.cargoModel = cargoData;
-        }
-      }
-    );
     // Purpose
     this.portCallService.portCallPurposeData$.subscribe(
       purposeData => {
@@ -73,16 +61,10 @@ export class SaveDetailsComponent implements OnInit {
         this.crewPassengersAndDimensionsMeta = cpadMetaData;
       }
     );
-
-    this.portCallService.cargoWeightMeta$.subscribe(
-      cargoMetaData => {
-        this.cargoMeta = cargoMetaData;
-      }
-    );
   }
 
   saveDetails() {
-    if (this.crewPassengersAndDimensionsMeta.valid && this.cargoMeta.valid) {
+    if (this.crewPassengersAndDimensionsMeta.valid) {
       this.portCallService.saveDetails();
     }
   }
