@@ -1,17 +1,12 @@
-<ssn-card title="Port Call Details" icon="verification-clipboard.png">
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead>
-        <tr class="bg-ssn text-ssn">
-          <th *ngFor="let entry of portCallDetailsInfo" class="no-wrap">{{ entry.description }}</th>
-        </tr>
-      </thead>
-      <tbody>
+<table-card title="Crew, Passengers and Dimensions" icon="crew.png" collapsible=true>
+  <tbody>
+    <tr>
+      <td *ngFor="let entry of portCallDetailsInfo" class="no-wrap px-1 mx-1">
         <tr>
-          <td *ngFor="let entry of portCallDetailsInfo">{{ entry.data }}</td>
+          <small>{{ entry.description }}</small>
         </tr>
-      </tbody>
-    </table>
-  </div>
-  <app-selected-purposes></app-selected-purposes>
-</ssn-card>
+        <tr>{{ entry.data }}</tr>
+      </td>
+    </tr>
+  </tbody>
+</table-card>

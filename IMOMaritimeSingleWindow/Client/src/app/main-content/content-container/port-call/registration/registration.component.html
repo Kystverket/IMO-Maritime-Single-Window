@@ -9,11 +9,8 @@
       <h4 class="text-ssn no-wrap">~ {{ selectedComponent }} ~</h4>
     </div>
   </div>
-  <div class="row mb-3 text-ssn">
-    <div class="col">
-        <app-info *ngIf="portCallRegistered"></app-info>
-    </div>
-  </div>
+
+  <app-info *ngIf="portCallRegistered"></app-info>
 
   <app-forms></app-forms>
   
