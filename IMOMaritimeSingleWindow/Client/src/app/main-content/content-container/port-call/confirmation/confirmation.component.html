@@ -1,9 +1,11 @@
+<!-- Port Call Details -->
 <div class="row mb-3">
   <div class="col">
     <app-port-call-details></app-port-call-details>
   </div>
 </div>
 
+<!-- FAL forms -->
 <div *ngFor="let entry of falForms">
   <div class="row mb-3" *ngIf="entry.checked">
     <div class="col">
@@ -18,5 +20,12 @@
         </div>
       </table-card>
     </div>
+  </div>
+</div>
+
+<!-- Clearance information -->
+<div class="row mb-3">
+  <div class="col">
+    <app-clearances></app-clearances>
   </div>
 </div>

@@ -7,6 +7,7 @@ import { SharedModule } from '../../../../shared/components/shared.module';
 import { ConfirmationComponent } from './confirmation.component';
 import { PortCallDetailsComponent } from './port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './port-call-details/selected-purposes/selected-purposes.component';
+import { ClearancesComponent } from './clearances/clearances.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SelectedPurposesComponent } from './port-call-details/selected-purposes
   declarations: [
     ConfirmationComponent,
     PortCallDetailsComponent,
-    SelectedPurposesComponent
+    SelectedPurposesComponent,
+    ClearancesComponent
   ],
   exports: [
     ConfirmationComponent,
