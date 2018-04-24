@@ -286,3 +286,9 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+IMOMaritimeSingleWindow/Server/appsettings\.Development\.json
+
+IMOMaritimeSingleWindow/Server/appsettings\.json
+
+IMOMaritimeSingleWindow/Server/Seed/
