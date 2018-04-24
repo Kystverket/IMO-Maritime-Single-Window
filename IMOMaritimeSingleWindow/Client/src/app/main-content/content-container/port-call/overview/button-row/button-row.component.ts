@@ -29,12 +29,13 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onClearanceClick() {
+    
     this.setContent('Port Call Clearance');
   }
 
   private setContent(content: string) {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
     this.portCallService.wipeDetailsData();
+    this.portCallService.setPortCall(this.rowData.overviewModel);
     try {
       this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
         details => {

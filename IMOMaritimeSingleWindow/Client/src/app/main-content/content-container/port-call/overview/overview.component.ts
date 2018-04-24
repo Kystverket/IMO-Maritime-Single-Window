@@ -21,7 +21,7 @@ export class OverviewComponent implements OnInit {
   portCalls: any;
   ships: ShipModel[];
   locations: LocationModel[];
-  overviewModels: PortCallOverviewModel[] = [];
+  overviewModels: any[] = [];
 
   data = [];
   dataSource: LocalDataSource = new LocalDataSource();

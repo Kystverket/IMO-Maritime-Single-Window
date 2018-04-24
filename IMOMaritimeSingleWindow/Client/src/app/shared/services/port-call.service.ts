@@ -6,6 +6,7 @@ import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { FormMetaData } from '../models/form-meta-data.interface';
+import { ClearanceModel } from '../models/clearance-model';
 
 @Injectable()
 export class PortCallService {
@@ -15,6 +16,7 @@ export class PortCallService {
     this.getPortCallUrl = "api/portcall/get";
     this.savePortCallUrl = "api/portcall/register";
     this.getPurposeUrl = "api/portcallpurpose/portcall"
+    this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.portCallModel = new PortCallModel();
 
     // Details
@@ -27,6 +29,10 @@ export class PortCallService {
     this.getOverviewUrl = 'api/portcall/overview';
     this.getPortCallsByLocationUrl = 'api/portcall/location';
 
+    // Clearance
+    // this.clearanceModel = new ClearanceModel();
+    this.saveClearanceUrl = "api/organizationportcall/save";
+    this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
   }
 
   // Global overview
@@ -37,11 +43,17 @@ export class PortCallService {
   private getPortCallUrl: string;
   private savePortCallUrl: string;
   private getPurposeUrl: string;
+  private getPortCallsByUserIdUrl: string;
   private portCallModel: PortCallModel;
   // Global details
   private saveDetailsUrl: string;
   private getDetailsByPortCallIdUrl: string;
   private detailsModel: PortCallDetailsModel;
+  // Global clearance
+  // private clearanceModel: ClearanceModel;
+  private getClearanceUrl: string;
+  private saveClearanceUrl: string;
+  private getClearanceListByPortCallUrl: string;
 
   // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
@@ -54,6 +66,9 @@ export class PortCallService {
 
   private overviewDataSource = new BehaviorSubject<any>(null);
   overviewData$ = this.overviewDataSource.asObservable();
+
+  private clearanceDataSource = new BehaviorSubject<any>(null);
+  clearanceData$ = this.clearanceDataSource.asObservable();
 
   // Overview methods
 
@@ -93,6 +108,13 @@ export class PortCallService {
       .map(res => res.json());
   }
 
+  // User
+  getPortCallsByUserId(userId: number) {
+    let uri: string = [this.getPortCallsByUserIdUrl, userId].join('/');
+    return this.http.get(uri)
+      .map(res => res.json());
+  }
+
   getPortCallPurpose(purposeId: number) {
     let uri: string = [this.getPurposeUrl, purposeId].join('/');
     return this.http.get(uri).map(res => {
@@ -109,6 +131,10 @@ export class PortCallService {
     console.log("set pc: " + this.detailsModel);
     this.setDetails(this.detailsModel);
     this.setShipLocationTime(overviewModel);
+    // NEW
+    overviewModel.clearanceList.forEach(c => console.log(c));
+    this.overviewModel.clearanceList = overviewModel.clearanceList;
+    this.overviewDataSource.next(this.overviewModel);
   }
 
   setDetails(detailsModel: PortCallDetailsModel) {
@@ -240,7 +266,7 @@ export class PortCallService {
 
   private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({ valid: true });
   crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
-  setcrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
+  setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
     this.crewPassengersAndDimensionsMeta.next(metaData);
   }
 
@@ -281,7 +307,7 @@ export class PortCallService {
         data => {
           console.log("Success.");
           console.log(data);
-           
+
           this.detailsPristine.next(true);
         }
       );
@@ -289,5 +315,40 @@ export class PortCallService {
       console.log("Port call details already registered in the database.");
     }
   }
+
+  getClearanceListForPortCall(portCallId: number) {
+    let uri: string = [this.getClearanceListByPortCallUrl, portCallId].join('/');
+
+    return this.http.get(uri).map(
+      res => res.json().catch(
+        e => {
+          return Observable.of(e);
+        }
+      )
+    );
+  }
+
+  setClearance(data) {
+    this.clearanceDataSource.next(data);
+  }
+
+  // Clearance
+  saveClearance(clearanceModel: ClearanceModel) {
+    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json().subscribe(
+      data => {
+        console.log("Clearance saved successfully.");
+        console.log(data);
+      }
+    ));
+  }
+
+  // saveClearance() {
+  //   this.http.post(this.saveClearanceUrl, this.clearanceModel).map(res => res.json()).subscribe(
+  //     data => {
+  //       console.log("Clearance saved successfully.");
+  //       console.log(data);
+  //     }
+  //   );
+  // }
 
 }
