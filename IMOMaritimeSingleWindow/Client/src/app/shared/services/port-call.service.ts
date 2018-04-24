@@ -59,10 +59,8 @@ export class PortCallService {
 
   wipeServiceData() {
     this.portCallModel = new PortCallModel();
-    this.detailsModel = new PortCallDetailsModel();
     this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
-    this.detailsPristine.next(false);
 
 
     this.shipDataSource.next(null);
@@ -82,6 +80,7 @@ export class PortCallService {
     this.cargoWeightSource.next(null);
     this.portCallPurposeSource.next(null);
     this.otherPurposeNameSource.next("");
+    this.detailsModel = new PortCallDetailsModel();
     this.detailsDataSource.next(new PortCallDetailsModel());
     this.detailsPristine.next(true);
   }
@@ -274,6 +273,7 @@ export class PortCallService {
 
   saveDetails() {
     if (!this.detailsPristine.value) {
+      this.detailsModel.portCallDetailsId = this.detailsModel.portCallId;
       console.log(this.overviewModel);
       console.log(this.detailsModel);
       console.log("Saving port call details to database...");
