@@ -14,7 +14,6 @@ export class SelectedPurposesComponent implements OnInit {
 
   selectedPurposes: any;
   purposeList: any[];
-  amountOfPurposes: number = 0;
 
   otherPurposeName: string = "";
 
@@ -24,7 +23,6 @@ export class SelectedPurposesComponent implements OnInit {
     this.purposeService.getPurposes().subscribe(
       data => {
         this.purposeList = data;
-        this.amountOfPurposes = Object.keys(this.purposeList).length;
       }
     );
     this.portCallService.portCallPurposeData$.subscribe(
