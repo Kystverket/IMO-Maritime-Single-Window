@@ -22,7 +22,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        public PortCallOverview GetOverview(int id)
+        private PortCallOverview GetOverview(int id)
         {
             PortCallOverview overview = new PortCallOverview();
 
@@ -70,13 +70,37 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             where c.CountryId == nextLocationOverview.Location.CountryId
                                             select c).FirstOrDefault();
 
+            List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
+            
+            List<OrganizationPortCall> clearanceList = (from opc in _context.OrganizationPortCall
+                                                        join o in orgList
+                                                        on opc.OrganizationId equals o.OrganizationId
+                                                        where opc.PortCallId == id
+                                                        select opc).ToList();
+
+
+            foreach (OrganizationPortCall c in clearanceList)
+            {
+                Console.WriteLine("PC: " + c.PortCall.PortCallId);
+                Console.WriteLine("ORG: " + c.Organization.Name);
+            }
+
+
+
             overview.PortCall = pc;
             overview.ShipOverview = shipOverview;
             overview.LocationOverview = locationOverview;
             overview.PreviousLocationOverview = previousLocationOverview;
             overview.NextLocationOverview = nextLocationOverview;
-
+            overview.ClearanceList = clearanceList;
             return overview;
+        }
+
+        [HttpGet("user/{id}")]
+        public IActionResult GetPortCallsByUserId(int id)
+        {
+            var portCallList = _context.PortCall.Where(pc => pc.UserId == id).ToList();
+            return Json(portCallList);
         }
 
         [HttpGet("overview/{id}")]
@@ -89,7 +113,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
-            
+
             if (portCall == null)
             {
                 return BadRequest("Empty body");
@@ -102,7 +126,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 if (portCallEntity.Member("PortCallId") != null)
                 {
-                    portCall.PortCallId = (int) portCallEntity.Member("PortCallId").CurrentValue;
+                    portCall.PortCallId = (int)portCallEntity.Member("PortCallId").CurrentValue;
                     return Json(portCall);
                 }
             }

@@ -45,7 +45,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.portCallService.setcrewPassengersAndDimensionsMeta({ valid: this.form.valid });
+    this.portCallService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
   }
 
   limitInputToPositiveInteger($event) {

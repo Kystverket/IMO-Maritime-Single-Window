@@ -3,8 +3,16 @@ namespace IMOMaritimeSingleWindow.Helpers
 {
     public static class Constants
     {
+        public static class Integers
+        {
+            public static class DatabaseTableIds {
+                public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
+                public const int ORGANIZATION_TYPE_COMPANY = 2;
+            }
+        }
         public static class Strings
         {
+            
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";

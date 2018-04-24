@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ContentService } from '../../../../shared/services/content.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PortCallService } from '../../../../shared/services/port-call.service';
+import { ClearanceModel } from '../../../../shared/models/clearance-model';
 
 @Component({
   selector: 'app-clearance',
@@ -14,9 +16,19 @@ export class ClearanceComponent implements OnInit {
     remarks: null
   }
 
-  constructor(private contentService: ContentService, private modalService: NgbModal) { }
+  clearanceList: any[] = [];
 
-  ngOnInit() {}
+
+  constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService) { }
+
+  ngOnInit() {
+    this.portCallService.overviewData$.subscribe(
+      data => {
+        this.clearanceList = data.clearanceList;
+        this.clearanceList.forEach(clearance => console.log(clearance));
+      }
+    )
+  }
 
   showWarningBox(content: any, clearance: boolean) {
     this.clearanceModel.clearance = clearance;
@@ -25,8 +37,7 @@ export class ClearanceComponent implements OnInit {
 
   saveClearance(clearanceModel: any) {
     console.log(clearanceModel);
-    console.log("not yet implemented ;)");
-    this.goBack();
+    this.portCallService.saveClearance(clearanceModel);
   }
 
   goBack() {
