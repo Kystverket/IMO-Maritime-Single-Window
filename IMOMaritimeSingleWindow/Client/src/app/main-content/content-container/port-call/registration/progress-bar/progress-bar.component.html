@@ -3,11 +3,11 @@
 
     <div *ngFor="let menuEntry of menuEntries">
       <div *ngIf="menuEntry.checked" class="mx-1 my-1">
-        <button class="btn btn-ssn btn-sm" (click)="setPortCallForm(menuEntry.name)">
+        <button class="btn btn-sm" [ngClass]="{'btn-danger': menuEntry.hasError, 'btn-ssn': !menuEntry.hasError}" (click)="setPortCallForm(menuEntry.name)">
           <img src="{{iconPath}}{{menuEntry.icon}}" height="24px" /> {{menuEntry.name}}
         </button>
       </div>
     </div>
-
+    
   </div>
 </div>
