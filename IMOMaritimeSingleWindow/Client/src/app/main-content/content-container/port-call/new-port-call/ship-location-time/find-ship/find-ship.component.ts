@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { ShipService } from '../../../../../../../shared/services/ship.service';
-import { ShipOverviewModel } from '../../../../../../../shared/models/ship-overview-model';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { ShipService } from '../../../../../../shared/services/ship.service';
+import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
 
 @Component({
   selector: 'app-find-ship',
@@ -14,7 +14,6 @@ export class FindShipComponent implements OnInit {
 
   shipModel: ShipOverviewModel;
   shipFound: boolean = false;
-  portCallRegistered: boolean;
 
   searching: boolean = false;
   searchFailed: boolean = false;
@@ -59,11 +58,6 @@ export class FindShipComponent implements OnInit {
           this.shipModel = this.shipFound ? ovData.shipOverview : null;
         }
         
-      }
-    );
-    this.portCallService.portCallRegistered$.subscribe(
-      registered => {
-        this.portCallRegistered = registered;
       }
     );
   }

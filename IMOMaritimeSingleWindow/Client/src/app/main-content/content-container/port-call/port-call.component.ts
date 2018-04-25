@@ -18,8 +18,7 @@ export class PortCallComponent implements OnInit {
 
   selectRegister() {
     this.portCallService.wipeServiceData();
-    this.contentService.setPortCallForm('Ship, Location and Time');
-    this.contentService.setContent('Register Port Call');
+    this.contentService.setContent('Register New Port Call');
   }
 
 }

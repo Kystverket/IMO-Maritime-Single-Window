@@ -8,6 +8,12 @@ import { SharedModule } from '../../../shared/components/shared.module';
 import { PortCallService } from '../../../shared/services/port-call.service';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
+import { NewPortCallComponent } from './new-port-call/new-port-call.component';
+import { ConfirmDataComponent } from './new-port-call/ship-location-time/confirm-data/confirm-data.component';
+import { EtaEtdComponent } from './new-port-call/ship-location-time/eta-etd/eta-etd.component';
+import { FindLocationComponent } from './new-port-call/ship-location-time/find-location/find-location.component';
+import { FindShipComponent } from './new-port-call/ship-location-time/find-ship/find-ship.component';
+import { ShipLocationTimeComponent } from './new-port-call/ship-location-time/ship-location-time.component';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
@@ -17,11 +23,6 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { ConfirmDataComponent } from './registration/forms/ship-location-time/confirm-data/confirm-data.component';
-import { EtaEtdComponent } from './registration/forms/ship-location-time/eta-etd/eta-etd.component';
-import { FindLocationComponent } from './registration/forms/ship-location-time/find-location/find-location.component';
-import { FindShipComponent } from './registration/forms/ship-location-time/find-ship/find-ship.component';
-import { ShipLocationTimeComponent } from './registration/forms/ship-location-time/ship-location-time.component';
 import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -59,10 +60,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ButtonRowComponent,
     ViewPortCallComponent,
     ClearanceComponent,
-    SaveDetailsComponent
+    SaveDetailsComponent,
+    NewPortCallComponent
   ],
   exports: [
     PortCallComponent,
+    NewPortCallComponent,
     RegistrationComponent,
     ViewPortCallComponent,
     ClearanceComponent

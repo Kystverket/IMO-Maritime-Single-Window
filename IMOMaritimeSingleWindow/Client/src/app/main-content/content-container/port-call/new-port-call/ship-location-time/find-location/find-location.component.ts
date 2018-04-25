@@ -7,9 +7,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-import { LocationService } from '../../../../../../../shared/services/location.service';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { LocationOverviewModel } from '../../../../../../../shared/models/location-overview-model';
+import { LocationService } from '../../../../../../shared/services/location.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
 
 @Component({
     selector: 'app-find-location',
@@ -21,7 +21,6 @@ export class FindLocationComponent implements OnInit {
 
     locationModel: LocationOverviewModel;
     locationFound: boolean = false;
-    portCallRegistered: boolean;
 
     searching: boolean = false;
     searchFailed: boolean = false;
@@ -65,11 +64,6 @@ export class FindLocationComponent implements OnInit {
                     this.locationFound = ovData.locationOverview != null;
                     this.locationModel = this.locationFound ? ovData.locationOverview : null;
                 }
-            }
-        );
-        this.portCallService.portCallRegistered$.subscribe(
-            registered => {
-                this.portCallRegistered = registered;
             }
         );
     }

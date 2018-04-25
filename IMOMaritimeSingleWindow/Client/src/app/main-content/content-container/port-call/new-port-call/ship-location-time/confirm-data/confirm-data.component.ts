@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { EtaEtdDateTime } from '../eta-etd/eta-etd-date-time.interface';
-import { ShipOverviewModel } from '../../../../../../../shared/models/ship-overview-model';
-import { LocationOverviewModel } from '../../../../../../../shared/models/location-overview-model';
+import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
+import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
+import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { ContentService } from '../../../../../../shared/services/content.service';
 
 @Component({
   selector: 'app-confirm-data',
@@ -18,7 +19,7 @@ export class ConfirmDataComponent implements OnInit {
   locationFound: boolean;
   dateTimeFound: boolean;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallService: PortCallService, private contentService: ContentService) { }
 
   ngOnInit() {
     this.portCallService.overviewData$.subscribe(
@@ -56,5 +57,7 @@ export class ConfirmDataComponent implements OnInit {
       return;
     }
     this.portCallService.savePortCall();
+    this.contentService.setPortCallForm("Port Call Details");
+    this.contentService.setContent("Register Port Call");
   }
 }

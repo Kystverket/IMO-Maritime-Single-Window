@@ -1,13 +1,13 @@
 <div class="border border-white table-card-header-bg p-1">
-  <div class="row text-center text-white my-auto">
-    <div class="col-2">
+  <div class="row text-center text-white px-4">
+    <div class="d-table-cell mr-auto">
       <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" />
     </div>
-    <div class="col-8">
+    <div class="d-table-cell mx-auto">
       <span>{{ title }}</span>
     </div>
-    <div class="col-2" *ngIf="collapsible">
-      <button class="btn btn-sm btn-outline-light" (click)="changeState()">
+    <div class="d-table-cell ml-auto">
+      <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (click)="changeState()">
         <img src="{{iconPath}}{{collapsedIcon}}" height="16px" class="clickable">
       </button>
     </div>
