@@ -30,8 +30,10 @@ export class PortCallService {
     this.getPortCallsByLocationUrl = 'api/portcall/location';
 
     // Clearance
+
     this.saveClearanceUrl = "api/organizationportcall/save";
     this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
+    this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
   }
 
   // Global overview
@@ -52,8 +54,7 @@ export class PortCallService {
   private getClearanceUrl: string;
   private saveClearanceUrl: string;
   private getClearanceListByPortCallUrl: string;
-  private cModel: ClearanceModel;
-
+  private registerClearanceAgenciesForPortCallUrl: string;
   // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
   portCallRegistered$ = this.portCallRegistered.asObservable();
@@ -168,6 +169,14 @@ export class PortCallService {
           console.log(data);
           this.portCallRegistered.next(true);
           this.detailsModel.portCallId = data.portCallId;
+          // add list of government agencies for clearance
+          console.log("Registering government clearance agencies to port call...");
+          this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
+            clearanceData => {
+              console.log("Clearance information added successfully.");
+              console.log(clearanceData);
+            }
+          ) 
         }
       );
     } else {

@@ -113,7 +113,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
-
             if (portCall == null)
             {
                 return BadRequest("Empty body");
@@ -121,6 +120,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             try
             {
+                
                 EntityEntry portCallEntity = _context.PortCall.Add(portCall);
                 _context.SaveChanges();
 
