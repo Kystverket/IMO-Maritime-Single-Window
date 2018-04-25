@@ -75,11 +75,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" *ngIf="clearanceModel.cleared" (click)="saveClearance(); close()">
+    <button class="btn btn-success" *ngIf="givingClearance" (click)="saveClearance(); close()">
       <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px">
       <span>Give Clearance</span>
     </button>
-    <button class="btn btn-danger" *ngIf="!clearanceModel.cleared" (click)="saveClearance(); close()">
+    <button class="btn btn-danger" *ngIf="!givingClearance" (click)="saveClearance(); close()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
       <span>Reject Clearance</span>
     </button>

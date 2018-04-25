@@ -15,6 +15,8 @@ export class ClearanceComponent implements OnInit {
 
   clearanceList: any[] = [];
 
+  givingClearance: boolean;
+
   constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -32,11 +34,12 @@ export class ClearanceComponent implements OnInit {
   }
 
   showWarningBox(content: any, clearance: boolean) {
-    this.clearanceModel.cleared = clearance;
+    this.givingClearance = clearance;
     this.modalService.open(content);
   }
 
   saveClearance() {    
+    this.clearanceModel.cleared = this.givingClearance;
     console.log(this.clearanceModel);
     this.portCallService.saveClearance(this.clearanceModel);
   }
