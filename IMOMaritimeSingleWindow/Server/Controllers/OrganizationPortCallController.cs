@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,36 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(results);
         }
 
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] PortCall portCall)
+        {
+            try
+            {
+                var clearanceAgencies = _context.Organization.Where(org => org.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
+                if (clearanceAgencies.Any())
+                {
+                    foreach (Organization agency in clearanceAgencies)
+                    {
+                        _context.OrganizationPortCall.Add(new OrganizationPortCall {
+                            OrganizationId = agency.OrganizationId,
+                            PortCallId = portCall.PortCallId
+                        });
+                    }
+                    _context.SaveChanges();
+                    return Json(portCall);
+                }
+                else
+                {
+                    return Json("Warning: clearance list for port call is empty: no government agencies could be found");
+                }
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
         [HttpPost("save")]
         public IActionResult Save([FromBody] OrganizationPortCall organizationPortCall)
         {
@@ -53,6 +84,5 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(organizationPortCall);
         }
-
     }
 }
