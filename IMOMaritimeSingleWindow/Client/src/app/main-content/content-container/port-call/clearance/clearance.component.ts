@@ -28,7 +28,7 @@ export class ClearanceComponent implements OnInit {
     )
     this.portCallService.clearanceData$.subscribe(
       data => {
-        this.clearanceModel = data;
+        if (data) this.clearanceModel = data;
       }
     );
   }
