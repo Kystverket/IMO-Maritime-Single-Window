@@ -34,6 +34,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("save")]
         public IActionResult Save([FromBody] OrganizationPortCall organizationPortCall)
         {
+            Console.WriteLine("ASDFASDFASDFASDFASDFHBY%THHY^HYH\n\n\n\n\nsdfg");
             try
             {
                 if (_context.OrganizationPortCall.Any(opc => opc.OrganizationPortCallId == organizationPortCall.OrganizationPortCallId))

@@ -27,7 +27,7 @@
       <ssn-card title="Clearance" icon="stamp.png">
         <div class="form-group">
           <label for="remarks">Remarks</label>
-          <textarea class="form-control" rows="3" id="remarks" [(ngModel)]="clearanceModel.remarks"></textarea>
+          <textarea class="form-control" rows="3" id="remarks" [(ngModel)]="clearanceModel.remark"></textarea>
         </div>
         <div class="text-center">
           <button class="btn btn-success" (click)="showWarningBox(content, true)">
@@ -65,21 +65,21 @@
     </button>
   </div>
   <div class="modal-body">
-    <div *ngIf="clearanceModel.remarks">
+    <div *ngIf="clearanceModel.remark">
       <span>Are you sure you want to submit a response with the following remarks:</span>
       <br>
-      <pre>{{ clearanceModel.remarks }}</pre>
+      <pre>{{ clearanceModel.remark }}</pre>
     </div>
-    <div *ngIf="!clearanceModel.remarks">
+    <div *ngIf="!clearanceModel.remark">
       Are you sure you want to submit a clearance response with no remarks?
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" *ngIf="clearanceModel.clearance" (click)="saveClearance(clearanceModel); close()">
+    <button class="btn btn-success" *ngIf="clearanceModel.cleared" (click)="saveClearance(); close()">
       <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px">
       <span>Give Clearance</span>
     </button>
-    <button class="btn btn-danger" *ngIf="!clearanceModel.clearance" (click)="saveClearance(clearanceModel); close()">
+    <button class="btn btn-danger" *ngIf="!clearanceModel.cleared" (click)="saveClearance(); close()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
       <span>Reject Clearance</span>
     </button>

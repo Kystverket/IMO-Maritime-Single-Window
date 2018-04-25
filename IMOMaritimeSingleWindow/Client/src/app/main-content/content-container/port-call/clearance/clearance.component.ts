@@ -11,13 +11,9 @@ import { ClearanceModel } from '../../../../shared/models/clearance-model';
 })
 export class ClearanceComponent implements OnInit {
 
-  clearanceModel: any = {
-    clearance: null,
-    remarks: null
-  }
+  clearanceModel: ClearanceModel = new ClearanceModel();
 
   clearanceList: any[] = [];
-
 
   constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService) { }
 
@@ -28,16 +24,21 @@ export class ClearanceComponent implements OnInit {
         this.clearanceList.forEach(clearance => console.log(clearance));
       }
     )
+    this.portCallService.clearanceData$.subscribe(
+      data => {
+        this.clearanceModel = data;
+      }
+    );
   }
 
   showWarningBox(content: any, clearance: boolean) {
-    this.clearanceModel.clearance = clearance;
+    this.clearanceModel.cleared = clearance;
     this.modalService.open(content);
   }
 
-  saveClearance(clearanceModel: any) {
-    console.log(clearanceModel);
-    this.portCallService.saveClearance(clearanceModel);
+  saveClearance() {    
+    console.log(this.clearanceModel);
+    this.portCallService.saveClearance(this.clearanceModel);
   }
 
   goBack() {

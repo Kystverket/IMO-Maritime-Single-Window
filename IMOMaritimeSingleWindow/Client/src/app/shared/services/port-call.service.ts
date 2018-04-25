@@ -30,7 +30,6 @@ export class PortCallService {
     this.getPortCallsByLocationUrl = 'api/portcall/location';
 
     // Clearance
-    // this.clearanceModel = new ClearanceModel();
     this.saveClearanceUrl = "api/organizationportcall/save";
     this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
   }
@@ -50,7 +49,6 @@ export class PortCallService {
   private getDetailsByPortCallIdUrl: string;
   private detailsModel: PortCallDetailsModel;
   // Global clearance
-  // private clearanceModel: ClearanceModel;
   private getClearanceUrl: string;
   private saveClearanceUrl: string;
   private getClearanceListByPortCallUrl: string;
@@ -77,11 +75,9 @@ export class PortCallService {
     this.overviewModel = new PortCallOverviewModel();
     this.portCallRegistered.next(false);
 
-
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
     this.etaEtdDataSource.next(null);
-
 
     // Overview
     this.overviewDataSource.next(null);
@@ -304,8 +300,8 @@ export class PortCallService {
 
     return this.http.get(uri).map(
       res => res.json().catch(
-        e => {
-          return Observable.of(e);
+        error => {
+          return Observable.of(error);
         }
       )
     );
@@ -316,7 +312,8 @@ export class PortCallService {
   }
 
   // Clearance
-  saveClearance(clearanceModel: ClearanceModel) {
+  saveClearance(clearanceModel: any) {
+    console.log('Saving clearance to database...');
     this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json().subscribe(
       data => {
         console.log("Clearance saved successfully.");
@@ -324,14 +321,4 @@ export class PortCallService {
       }
     ));
   }
-
-  // saveClearance() {
-  //   this.http.post(this.saveClearanceUrl, this.clearanceModel).map(res => res.json()).subscribe(
-  //     data => {
-  //       console.log("Clearance saved successfully.");
-  //       console.log(data);
-  //     }
-  //   );
-  // }
-
 }

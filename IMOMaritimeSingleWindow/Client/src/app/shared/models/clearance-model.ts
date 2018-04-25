@@ -3,5 +3,5 @@ export class ClearanceModel {
     organizationId: number;
     portCallId: number;
     remark: string;
-    clearance: boolean;
+    cleared: boolean;
 }

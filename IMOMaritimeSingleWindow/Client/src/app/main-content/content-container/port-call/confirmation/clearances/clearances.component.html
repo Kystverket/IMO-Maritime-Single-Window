@@ -7,15 +7,10 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Customs</td>
+    <tr *ngFor="let clearance of clearanceList">
+      <td>{{ clearance.organization.name }}</td>
       <td>Not reviewed</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Health dept.</td>
-      <td>Not reviewed</td>
-      <td></td>
+      <td>{{ clearance.remark }}</td>
     </tr>
   </tbody>
 </table-card>
