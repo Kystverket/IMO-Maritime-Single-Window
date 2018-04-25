@@ -139,8 +139,6 @@ export class PortCallService {
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.setDetails(this.detailsModel);
     this.setShipLocationTime(overviewModel);
-
-    overviewModel.clearanceList.forEach(c => console.log(c));
     this.overviewModel.clearanceList = overviewModel.clearanceList;
     this.overviewDataSource.next(this.overviewModel);
   }

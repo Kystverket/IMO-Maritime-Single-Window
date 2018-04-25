@@ -43,7 +43,6 @@ export class SelectedPurposesComponent implements OnInit {
     if (this.purposeList != null) {
       let purpose = this.purposeList.find(p => p.portCallPurposeId == id);
       if (purpose.portCallPurposeId != OTHER_PURPOSE_ID) {
-        console.log(purpose.name);
         return purpose != null ? purpose.name : null;
       } else {
         return this.otherPurposeName == "" ? "Other purpose is undefined" : "Other: \"" + this.otherPurposeName + "\"";
