@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
@@ -38,21 +39,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var clearanceAgencies = _context.Organization.Where(org => org.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
+                List<OrganizationPortCall> organizationPortCallList = new List<OrganizationPortCall>();
                 if (clearanceAgencies.Any())
                 {
                     foreach (Organization agency in clearanceAgencies)
                     {
-                        _context.OrganizationPortCall.Add(new OrganizationPortCall {
+                        OrganizationPortCall opc = new OrganizationPortCall {
                             OrganizationId = agency.OrganizationId,
                             PortCallId = portCall.PortCallId
-                        });
+                        };
+                        organizationPortCallList.Add(opc);
+                        _context.OrganizationPortCall.Add(opc);
                     }
                     _context.SaveChanges();
-                    return Json(portCall);
+                    return Json(organizationPortCallList);
                 }
                 else
                 {
-                    return Json("Warning: clearance list for port call is empty: no government agencies could be found");
+                    return BadRequest("Warning: clearance list for port call is empty: no government agencies could be found");
                 }
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
