@@ -55,9 +55,6 @@ export class PortCallService {
   private getClearanceListByPortCallUrl: string;
   private registerClearanceAgenciesForPortCallUrl: string;
   // Subjects
-  private portCallRegistered = new BehaviorSubject<boolean>(true);
-  portCallRegistered$ = this.portCallRegistered.asObservable();
-
   private detailsDataSource = new BehaviorSubject<any>(null);
   detailsData$ = this.detailsDataSource.asObservable();
   private detailsPristine = new BehaviorSubject<boolean>(true);
@@ -74,7 +71,6 @@ export class PortCallService {
   wipeServiceData() {
     this.portCallModel = new PortCallModel();
     this.overviewModel = new PortCallOverviewModel();
-    this.portCallRegistered.next(false);
 
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
@@ -122,7 +118,6 @@ export class PortCallService {
 
   setPortCall(overviewModel: PortCallOverviewModel) {
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
-    this.portCallRegistered.next(true);
     this.setDetails(this.detailsModel);
     this.setShipLocationTime(overviewModel);
 
@@ -147,7 +142,7 @@ export class PortCallService {
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);
     this.setLocationData(overviewModel.locationOverview);
-    
+
     let etaData = new Date(overviewModel.portCall.locationEta);
     let etdData = new Date(overviewModel.portCall.locationEtd);
 
@@ -159,26 +154,21 @@ export class PortCallService {
   }
 
   savePortCall() {
-    if (!this.portCallRegistered.value) {
-      console.log("Saving port call to database...");
-      this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
-        data => {
-          console.log("Success.");
-          console.log(data);
-          this.portCallRegistered.next(true);
-          this.detailsModel.portCallId = data.portCallId;
-          // add list of government agencies for clearance
-          console.log("Registering government clearance agencies to port call...");
-          this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
-            clearanceData => {
-              console.log("Clearance information added successfully.");
-            }
-          ) 
-        }
-      );
-    } else {
-      console.log("Port call already registered in the database.");
-    }
+    console.log("Saving port call to database...");
+    this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
+      data => {
+        console.log("Success.");
+        console.log(data);
+        this.detailsModel.portCallId = data.portCallId;
+        // add list of government agencies for clearance
+        console.log("Registering government clearance agencies to port call...");
+        this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
+          clearanceData => {
+            console.log("Clearance information added successfully.");
+          }
+        )
+      }
+    );
   }
 
   // Ship, Location and Time
@@ -319,7 +309,7 @@ export class PortCallService {
   // Clearance
   saveClearance(clearanceModel: ClearanceModel) {
     console.log('Saving clearance to database...');
-    this.http.post(this.saveClearanceUrl , clearanceModel).map(res => res.json()).subscribe(
+    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {
         console.log("Clearance saved successfully.");
         console.log(data);
