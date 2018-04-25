@@ -22,7 +22,7 @@ export class ClearanceComponent implements OnInit {
   ngOnInit() {
     this.portCallService.overviewData$.subscribe(
       data => {
-        this.clearanceList = data.clearanceList;
+        if (data) this.clearanceList = data.clearanceList;
       }
     )
     this.portCallService.clearanceData$.subscribe(
