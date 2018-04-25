@@ -30,7 +30,6 @@ export class PortCallService {
     this.getPortCallsByLocationUrl = 'api/portcall/location';
 
     // Clearance
-
     this.saveClearanceUrl = "api/organizationportcall/save";
     this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
     this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
@@ -124,10 +123,9 @@ export class PortCallService {
   setPortCall(overviewModel: PortCallOverviewModel) {
     this.detailsModel.portCallId = overviewModel.portCall.portCallId;
     this.portCallRegistered.next(true);
-    console.log("set pc: " + this.detailsModel);
     this.setDetails(this.detailsModel);
     this.setShipLocationTime(overviewModel);
-    // NEW
+
     overviewModel.clearanceList.forEach(c => console.log(c));
     this.overviewModel.clearanceList = overviewModel.clearanceList;
     this.overviewDataSource.next(this.overviewModel);
@@ -174,7 +172,6 @@ export class PortCallService {
           this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
             clearanceData => {
               console.log("Clearance information added successfully.");
-              console.log(clearanceData);
             }
           ) 
         }
@@ -220,7 +217,6 @@ export class PortCallService {
     }
     this.etaEtdDataSource.next(data);
     // Overview
-    // this.overviewModel.portCall = this.portCallModel;
     this.overviewDataSource.next(this.overviewModel);
   }
 
@@ -244,7 +240,6 @@ export class PortCallService {
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
   setReportingForThisPortCallData(data) {
     this.detailsPristine.next(false);
-    // this.detailsDataSource.next(data);
     this.detailsModel.reportingBunkers = data.reportingBunkers || null;
     this.detailsModel.reportingCargo = data.reportingCargo || null;
     this.detailsModel.reportingCrew = data.reportingCrew || null;
