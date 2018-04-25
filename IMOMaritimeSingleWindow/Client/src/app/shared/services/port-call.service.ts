@@ -52,6 +52,7 @@ export class PortCallService {
   private getClearanceUrl: string;
   private saveClearanceUrl: string;
   private getClearanceListByPortCallUrl: string;
+  private cModel: ClearanceModel;
 
   // Subjects
   private portCallRegistered = new BehaviorSubject<boolean>(true);
@@ -312,13 +313,16 @@ export class PortCallService {
   }
 
   // Clearance
-  saveClearance(clearanceModel: any) {
+  saveClearance(clearanceModel: ClearanceModel) {
     console.log('Saving clearance to database...');
-    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json().subscribe(
+    this.http.post(this.saveClearanceUrl , clearanceModel).map(res => res.json()).subscribe(
       data => {
         console.log("Clearance saved successfully.");
         console.log(data);
+      },
+      error => {
+        console.log("ERROR: ", error);
       }
-    ));
+    );
   }
 }
