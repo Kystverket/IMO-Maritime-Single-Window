@@ -23,7 +23,6 @@ export class ClearanceComponent implements OnInit {
     this.portCallService.overviewData$.subscribe(
       data => {
         this.clearanceList = data.clearanceList;
-        this.clearanceList.forEach(clearance => console.log(clearance));
       }
     )
     this.portCallService.clearanceData$.subscribe(
@@ -40,7 +39,6 @@ export class ClearanceComponent implements OnInit {
 
   saveClearance() {    
     this.clearanceModel.cleared = this.givingClearance;
-    console.log(this.clearanceModel);
     this.portCallService.saveClearance(this.clearanceModel);
   }
 

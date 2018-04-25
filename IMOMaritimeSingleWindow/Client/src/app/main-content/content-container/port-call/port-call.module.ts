@@ -26,7 +26,7 @@ import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -35,6 +35,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     FormsModule,
     HttpModule,
     Ng2SmartTableModule,
+    NgSelectModule,
     ConfirmationModule,
     SharedModule
   ],

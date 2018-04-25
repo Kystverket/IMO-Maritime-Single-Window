@@ -11,6 +11,7 @@ export class SaveDetailsComponent implements OnInit {
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
+  otherPurposeName: any;
   
   reportingFound: boolean;
   crewPassengersAndDimensionsFound: boolean;
@@ -56,6 +57,12 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
 
+    this.portCallService.otherPurposeName$.subscribe(
+      otherNameData => {
+        this.otherPurposeName = otherNameData;
+      }
+    )
+
     this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       cpadMetaData => {
         this.crewPassengersAndDimensionsMeta = cpadMetaData;
@@ -65,7 +72,7 @@ export class SaveDetailsComponent implements OnInit {
 
   saveDetails() {
     if (this.crewPassengersAndDimensionsMeta.valid) {
-      this.portCallService.saveDetails();
+      this.portCallService.saveDetails(this.purposeModel, this.otherPurposeName);
     }
   }
 }

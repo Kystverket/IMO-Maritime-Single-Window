@@ -8,6 +8,7 @@ namespace IMOMaritimeSingleWindow.Helpers
             public static class DatabaseTableIds {
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
+                public const int OTHER_PURPOSE_ID = 100249;
             }
         }
         public static class Strings

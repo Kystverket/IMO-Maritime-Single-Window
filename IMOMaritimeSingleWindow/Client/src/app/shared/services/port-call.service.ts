@@ -7,6 +7,7 @@ import { PortCallOverviewModel } from '../models/port-call-overview-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { FormMetaData } from '../models/form-meta-data.interface';
 import { ClearanceModel } from '../models/clearance-model';
+import { PortCallHasPortCallPurposeModel } from '../models/port-call-has-purpose-model';
 
 @Injectable()
 export class PortCallService {
@@ -15,13 +16,17 @@ export class PortCallService {
     // Port call
     this.getPortCallUrl = "api/portcall/get";
     this.savePortCallUrl = "api/portcall/register";
-    this.getPurposeUrl = "api/portcallpurpose/portcall"
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.portCallModel = new PortCallModel();
 
+    // Purpose
+    this.getPurposeUrl = "api/purpose/portcall";
+    this.getOtherNameUrl = "api/purpose/getothername";
+    this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
+
     // Details
     this.saveDetailsUrl = "api/portcalldetails/register";
-    this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall"
+    this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
     this.detailsModel = new PortCallDetailsModel();
 
     // Overview
@@ -42,9 +47,12 @@ export class PortCallService {
   // Global port call
   private getPortCallUrl: string;
   private savePortCallUrl: string;
-  private getPurposeUrl: string;
   private getPortCallsByUserIdUrl: string;
   private portCallModel: PortCallModel;
+  // Global purpose
+  private getPurposeUrl: string;
+  private getOtherNameUrl: string;
+  private setPurposeForPortCallUrl: string;
   // Global details
   private saveDetailsUrl: string;
   private getDetailsByPortCallIdUrl: string;
@@ -110,8 +118,19 @@ export class PortCallService {
       .map(res => res.json());
   }
 
-  getPortCallPurpose(purposeId: number) {
-    let uri: string = [this.getPurposeUrl, purposeId].join('/');
+  getPurposeByPortCallId(portCallId: number) {
+    let uri: string = [this.getPurposeUrl, portCallId].join('/');
+    return this.http.get(uri).map(res => {
+      return res.json();
+    }).catch(e => {
+      console.log(e);
+      return Observable.of(e);
+    });
+  }
+
+
+  getOtherName(portCallId: number) {
+    let uri: string = [this.getOtherNameUrl, portCallId].join('/');
     return this.http.get(uri).map(res => {
       return res.json();
     }).catch(e => {
@@ -140,14 +159,13 @@ export class PortCallService {
       this.setCrewPassengersAndDimensionsData(detailsModel);
       this.setReportingForThisPortCallData(detailsModel);
     }
-
     this.detailsPristine.next(true);
   }
 
   setShipLocationTime(overviewModel: PortCallOverviewModel) {
     this.setShipData(overviewModel.shipOverview);
     this.setLocationData(overviewModel.locationOverview);
-    
+
     let etaData = new Date(overviewModel.portCall.locationEta);
     let etdData = new Date(overviewModel.portCall.locationEtd);
 
@@ -173,7 +191,7 @@ export class PortCallService {
             clearanceData => {
               console.log("Clearance information added successfully.");
             }
-          ) 
+          )
         }
       );
     } else {
@@ -271,6 +289,7 @@ export class PortCallService {
   private portCallPurposeSource = new BehaviorSubject<any>(null);
   portCallPurposeData$ = this.portCallPurposeSource.asObservable();
   setPortCallPurposeData(data) {
+    if (data.find(p => p.name == "Other"))
     this.detailsPristine.next(false);
     this.portCallPurposeSource.next(data);
   }
@@ -281,8 +300,15 @@ export class PortCallService {
     this.otherPurposeNameSource.next(data);
   }
 
-  saveDetails() {
+  saveDetails(purposes: any, otherName: any) {
     if (!this.detailsPristine.value) {
+      var pcHasPurposeList = purposes.map(p => {
+        return {
+          portCallId: this.detailsModel.portCallId,
+          portCallPurposeId: p.portCallPurposeId,
+          purposeIfUnknown: (p.name == "Other") ? otherName : null
+        }
+      });
       this.detailsModel.portCallDetailsId = this.detailsModel.portCallId;
       console.log(this.overviewModel);
       console.log(this.detailsModel);
@@ -293,6 +319,14 @@ export class PortCallService {
           console.log(data);
 
           this.detailsPristine.next(true);
+
+          console.log("Saving port call purposes to database...");
+          this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
+            purposeData => {
+              console.log("Purposes successfully saved.");
+              console.log(purposeData);
+            }
+          )
         }
       );
     } else {
@@ -319,7 +353,7 @@ export class PortCallService {
   // Clearance
   saveClearance(clearanceModel: ClearanceModel) {
     console.log('Saving clearance to database...');
-    this.http.post(this.saveClearanceUrl , clearanceModel).map(res => res.json()).subscribe(
+    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {
         console.log("Clearance saved successfully.");
         console.log(data);

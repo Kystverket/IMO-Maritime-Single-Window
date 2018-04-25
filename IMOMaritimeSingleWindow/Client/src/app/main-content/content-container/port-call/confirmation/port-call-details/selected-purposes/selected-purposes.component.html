@@ -1,7 +1,7 @@
 <table-card title="Selected Purposes" icon="target.png" collapsible=true>
   <tbody class="border-top-0">
     <tr>
-      <td *ngFor="let purpose of selectedPurposes; let isFirst=first" [ngClass]="{'border-left': !isFirst}">{{ getPurposeName(purpose) }}</td>
+      <td *ngFor="let purpose of selectedPurposes; let isFirst=first" [ngClass]="{'border-left': !isFirst}"> {{ getPurposeName(purpose.portCallPurposeId) }} </td>
     </tr>
   </tbody>
 </table-card>

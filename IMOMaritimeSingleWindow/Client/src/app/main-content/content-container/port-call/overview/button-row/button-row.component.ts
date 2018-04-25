@@ -29,7 +29,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onClearanceClick() {
-    
+
     this.setContent('Port Call Clearance');
   }
 
@@ -41,21 +41,46 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
         details => {
           if (details) {
-              this.portCallService.setDetails(details);
+            this.portCallService.setDetails(details);
           } else {
             console.log("Empty details.");
           }
         },
         error => {
-          console.log("Get details error: " + error);
+          console.log("Get details error: ", error);
         },
-        () => {
-          this.contentService.setContent(content);
+
+      );
+
+      this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+        purposeData => {
+          if (purposeData) {
+            if (purposeData.find(p => p.name == "Other")) {
+              this.portCallService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
+                otherNameData => {
+                  this.portCallService.setOtherPurposeName(otherNameData);
+                  this.portCallService.setPortCallPurposeData(purposeData);
+                  this.contentService.setContent(content);
+
+                }
+              );
+            } else {
+              this.portCallService.setPortCallPurposeData(purposeData);
+              this.contentService.setContent(content);
+
+            }
+          } else {
+            console.log("Empty purpose.");
+          }
+        },
+        error => {
+          console.log("Get purpose error: ", error);
         }
       );
+
     } catch (err) {
       console.log(err);
-    }      
+    }
   }
 
 }
