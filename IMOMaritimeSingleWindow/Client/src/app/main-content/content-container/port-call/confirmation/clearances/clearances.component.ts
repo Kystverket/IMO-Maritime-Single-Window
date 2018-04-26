@@ -13,10 +13,10 @@ export class ClearancesComponent implements OnInit {
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.clearanceData$.subscribe(
+    this.portCallService.overviewData$.subscribe(
       data => {
         console.log(data);
-        if (data) this.clearanceList = data;
+        if (data) this.clearanceList = data.clearanceList;
       }
     )
   }

@@ -36,7 +36,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   private setContent(content: string) {
     this.portCallService.wipeDetailsData();
     this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.portCallService.setClearance(this.rowData.overviewModel.clearanceList); //hmmm
+    this.portCallService.setClearance(this.rowData.overviewModel.clearanceList[0]); //hmmm
     try {
       this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
         details => {

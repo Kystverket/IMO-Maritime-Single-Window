@@ -181,7 +181,8 @@ export class PortCallService {
         this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
           clearanceData => {
             console.log("Clearance information added successfully.");
-            this.setClearance(clearanceData);
+            this.overviewModel.clearanceList = clearanceData;
+            this.overviewDataSource.next(this.overviewModel);
           }
         )
       }
