@@ -15,6 +15,7 @@ export class ClearancesComponent implements OnInit {
   ngOnInit() {
     this.portCallService.clearanceData$.subscribe(
       data => {
+        console.log(data);
         if (data) this.clearanceList = data;
       }
     )
