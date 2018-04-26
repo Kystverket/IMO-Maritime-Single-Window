@@ -170,6 +170,7 @@ export class PortCallService {
   }
 
   savePortCall() {
+    this.overviewModel.portCall.portCallStatusId = 100235; // temporary, status id for incomplete port call
     console.log("Saving port call to database...");
     this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
       data => {
