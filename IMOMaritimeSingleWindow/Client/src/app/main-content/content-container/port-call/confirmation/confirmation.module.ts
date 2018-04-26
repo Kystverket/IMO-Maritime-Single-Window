@@ -8,6 +8,7 @@ import { ConfirmationComponent } from './confirmation.component';
 import { PortCallDetailsComponent } from './port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './port-call-details/selected-purposes/selected-purposes.component';
 import { ClearancesComponent } from './clearances/clearances.component';
+import { SaveAndSendComponent } from './save-and-send/save-and-send.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ClearancesComponent } from './clearances/clearances.component';
     ConfirmationComponent,
     PortCallDetailsComponent,
     SelectedPurposesComponent,
-    ClearancesComponent
+    ClearancesComponent,
+    SaveAndSendComponent
   ],
   exports: [
     ConfirmationComponent,
