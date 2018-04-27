@@ -110,17 +110,39 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(overview);
         }
 
+        [HttpPost("update")]
+        public IActionResult Update([FromBody] PortCall portCall)
+        {
+            if (portCall == null)
+            {
+                return BadRequest("Empty body.");
+            }
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCall.PortCallId))
+                {
+                    return BadRequest("Port call with id: " + portCall.PortCallId + " could not be found in database.");
+                }
+                _context.PortCall.Update(portCall);
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
             if (portCall == null)
             {
-                return BadRequest("Empty body");
+                return BadRequest("Empty body.");
             }
 
             try
             {
-                
                 EntityEntry portCallEntity = _context.PortCall.Add(portCall);
                 _context.SaveChanges();
 

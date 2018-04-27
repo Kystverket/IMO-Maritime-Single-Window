@@ -17,6 +17,7 @@ export class PortCallService {
     this.getPortCallUrl = "api/portcall/get";
     this.savePortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
+    this.updatePortCallUrl = "api/portcall/update";
     this.portCallModel = new PortCallModel();
 
     // Purpose
@@ -48,6 +49,7 @@ export class PortCallService {
   private getPortCallUrl: string;
   private savePortCallUrl: string;
   private getPortCallsByUserIdUrl: string;
+  private updatePortCallUrl: string;
   private portCallModel: PortCallModel;
   // Global purpose
   private getPurposeUrl: string;
@@ -188,6 +190,16 @@ export class PortCallService {
         )
       }
     );
+  }
+
+  updatePortCall(portCall: PortCallModel) {
+    console.log("Updating port call...");
+    this.http.post(this.savePortCallUrl, portCall).map(res => res.json()).subscribe(
+      data => {
+        console.log("Success");
+        console.log(data);
+      }
+    )
   }
 
   // Ship, Location and Time

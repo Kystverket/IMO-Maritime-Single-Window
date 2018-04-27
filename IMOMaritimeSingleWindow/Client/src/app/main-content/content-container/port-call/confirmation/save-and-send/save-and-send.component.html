@@ -1,0 +1,18 @@
+<ssn-card title="Save and Send" icon="save.png" class="text-center">
+  <div class="text-center">
+    <div *ngIf="!detailsDataIsPrisine" class="row">
+      <div class="col">
+        <span>Port Call Details are unsaved.</span>
+        <button class="btn btn-ssn" (click)="saveDetails()">
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-ssn" [disabled]="!detailsDataIsPrisine">
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
+      </div>
+    </div>
+  </div>
+</ssn-card>

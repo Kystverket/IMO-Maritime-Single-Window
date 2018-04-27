@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { PurposeService } from '../../../../../../shared/services/purpose.service';
+import { PortCallService } from '../../../../services/port-call.service';
+import { PurposeService } from '../../../../services/purpose.service';
 
 const OTHER_PURPOSE_ID = "100249";
 
