@@ -22,6 +22,7 @@ export class PortCallService {
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
     this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
+    this.removePurposeForPortCallUrl = "api/purpose/removepurposeforportcall";
     // Details
     this.saveDetailsUrl = "api/portcalldetails/register";
     this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
@@ -46,6 +47,7 @@ export class PortCallService {
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
   private setPurposeForPortCallUrl: string;
+  private removePurposeForPortCallUrl: string;
   // Global details
   private saveDetailsUrl: string;
   private getDetailsByPortCallIdUrl: string;
@@ -202,6 +204,7 @@ export class PortCallService {
     this.detailsPristine.next(false);
     this.otherPurposeNameSource.next(data);
   }
+  // Not used yet:
   private otherPurposeDataSource = new BehaviorSubject<any>(null);
   otherPurposeData$ = this.otherPurposeDataSource.asObservable();
   setOtherPurposeData(data) { // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
@@ -221,21 +224,32 @@ export class PortCallService {
     );
   }
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) { // NEW
-    var pcHasPurposeList = purposes.map(p => {
-      return {
-        portCallId: pcId,
-        portCallPurposeId: p.portCallPurposeId,
-        purposeIfUnknown: (p.name == "Other") ? otherName : null
-      }
-    });
-    console.log("Saving port call purposes to database...");
-    this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
-      purposeResponse => {
-        if (purposeResponse) this.detailsPristine.next(true);
-        console.log("Purposes successfully saved.");
-        console.log(purposeResponse);
-      }
-    )
+    if (purposes.length === 0) {
+      let uri = [this.removePurposeForPortCallUrl, pcId.toString()].join('/');
+      this.http.post(uri, null).map(res => res.json()).subscribe(
+        removePurposeResponse => {
+          if (removePurposeResponse) this.detailsPristine.next(true);
+          console.log(removePurposeResponse);
+        }
+      );
+    } else {
+      var pcHasPurposeList = purposes.map(p => {
+        return {
+          portCallId: pcId,
+          portCallPurposeId: p.portCallPurposeId,
+          purposeIfUnknown: (p.name == "Other") ? otherName : null
+        }
+      });
+      console.log("Saving port call purposes to database...");
+      this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
+        purposeResponse => {
+          if (purposeResponse) this.detailsPristine.next(true);
+          console.log("Purposes successfully saved.");
+          console.log(purposeResponse);
+        }
+      );
+    }
+    
   }
 
   // Get methods
