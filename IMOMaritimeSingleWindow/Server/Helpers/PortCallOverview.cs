@@ -14,5 +14,6 @@ namespace IMOMaritimeSingleWindow.Helpers
         public LocationOverview PreviousLocationOverview {get; set;}
         public LocationOverview NextLocationOverview {get; set;}
         public List<OrganizationPortCall> ClearanceList {get; set;}
+        public string Status {get; set;}
     }
 }
