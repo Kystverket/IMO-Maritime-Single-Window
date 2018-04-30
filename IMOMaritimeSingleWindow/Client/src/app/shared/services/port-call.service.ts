@@ -18,20 +18,16 @@ export class PortCallService {
     this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
-
     // Purpose
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
     this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
-
     // Details
     this.saveDetailsUrl = "api/portcalldetails/register";
     this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
-
     // Overview
     this.getOverviewUrl = 'api/portcall/overview';
     this.getPortCallsByLocationUrl = 'api/portcall/location';
-
     // Clearance
     this.saveClearanceUrl = "api/organizationportcall/save";
     this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
@@ -61,8 +57,6 @@ export class PortCallService {
   // Subjects
   private detailsPristine = new BehaviorSubject<boolean>(true);
   detailsPristine$ = this.detailsPristine.asObservable();
-
-
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -142,7 +136,6 @@ export class PortCallService {
       }
     )
   }
-
   // Get methods
   getPortCallById(portCallId: number) {
     let uri: string = [this.getPortCallUrl, portCallId].join('/');
@@ -172,6 +165,7 @@ export class PortCallService {
   private detailsIdentificationSource = new BehaviorSubject<any>(null);
   detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
   setDetailsIdentificationData(data) {
+    this.detailsPristine.next(false);
     this.detailsIdentificationSource.next(data);
   }
   // Crew, passengers and dimensions
@@ -205,6 +199,7 @@ export class PortCallService {
   private otherPurposeNameSource = new BehaviorSubject<string>("");
   otherPurposeName$ = this.otherPurposeNameSource.asObservable();
   setOtherPurposeName(data) {
+    this.detailsPristine.next(false);
     this.otherPurposeNameSource.next(data);
   }
   private otherPurposeDataSource = new BehaviorSubject<any>(null);
@@ -236,6 +231,7 @@ export class PortCallService {
     console.log("Saving port call purposes to database...");
     this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
       purposeResponse => {
+        if (purposeResponse) this.detailsPristine.next(true);
         console.log("Purposes successfully saved.");
         console.log(purposeResponse);
       }
