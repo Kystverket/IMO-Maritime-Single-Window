@@ -121,7 +121,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 if (!_context.PortCall.Any(pc => pc.PortCallId == portCall.PortCallId))
                 {
-                    return BadRequest("Port call with id: " + portCall.PortCallId + " could not be found in database.");
+                    return NotFound("Port call with id: " + portCall.PortCallId + " could not be found in database.");
                 }
                 _context.PortCall.Update(portCall);
                 return Json(portCall);
@@ -140,7 +140,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
                 {
-                    return BadRequest("Port call with id: " + portCallId + " could not be found in database.");
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
