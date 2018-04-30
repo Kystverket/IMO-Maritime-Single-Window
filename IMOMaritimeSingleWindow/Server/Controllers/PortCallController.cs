@@ -77,22 +77,15 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                         on opc.OrganizationId equals o.OrganizationId
                                                         where opc.PortCallId == id
                                                         select opc).ToList();
-
-
-            foreach (OrganizationPortCall c in clearanceList)
-            {
-                Console.WriteLine("PC: " + c.PortCall.PortCallId);
-                Console.WriteLine("ORG: " + c.Organization.Name);
-            }
-
-
-
+            string status = _context.PortCallStatus.Where(pcStatus => pcStatus.PortCallStatusId == pc.PortCallStatusId).Select(pcStatus => pcStatus.Name).FirstOrDefault();
+            
             overview.PortCall = pc;
             overview.ShipOverview = shipOverview;
             overview.LocationOverview = locationOverview;
             overview.PreviousLocationOverview = previousLocationOverview;
             overview.NextLocationOverview = nextLocationOverview;
             overview.ClearanceList = clearanceList;
+            overview.Status = status;
             return overview;
         }
 
