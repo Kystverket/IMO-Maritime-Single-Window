@@ -71,7 +71,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             select c).FirstOrDefault();
 
             List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
-            
+
             List<OrganizationPortCall> clearanceList = (from opc in _context.OrganizationPortCall
                                                         join o in orgList
                                                         on opc.OrganizationId equals o.OrganizationId
@@ -138,6 +138,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             try
             {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return BadRequest("Port call with id: " + portCallId + " could not be found in database.");
+                }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
                 _context.Update(portCall);
@@ -150,7 +154,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
             }
         }
-        
+
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
@@ -230,6 +234,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(results);
         }
 
-      
+
     }
 }
