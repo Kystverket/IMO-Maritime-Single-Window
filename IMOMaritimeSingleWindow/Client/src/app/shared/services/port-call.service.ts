@@ -15,26 +15,21 @@ export class PortCallService {
   constructor(private http: Http) {
     // Port call
     this.getPortCallUrl = "api/portcall/get";
-    this.savePortCallUrl = "api/portcall/register";
+    this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
-    this.portCallModel = new PortCallModel();
-
+    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
     // Purpose
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
     this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
-
+    this.removePurposeForPortCallUrl = "api/purpose/removepurposeforportcall";
     // Details
     this.saveDetailsUrl = "api/portcalldetails/register";
     this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
-    this.detailsModel = new PortCallDetailsModel();
-
     // Overview
-    this.overviewModel = new PortCallOverviewModel();
     this.getOverviewUrl = 'api/portcall/overview';
     this.getPortCallsByLocationUrl = 'api/portcall/location';
-
     // Clearance
     this.saveClearanceUrl = "api/organizationportcall/save";
     this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
@@ -42,66 +37,119 @@ export class PortCallService {
   }
 
   // Global overview
-  private overviewModel: PortCallOverviewModel;
   private getOverviewUrl: string;
   private getPortCallsByLocationUrl: string;
   // Global port call
   private getPortCallUrl: string;
-  private savePortCallUrl: string;
+  private registerNewPortCallUrl: string;
   private getPortCallsByUserIdUrl: string;
   private updatePortCallUrl: string;
-  private portCallModel: PortCallModel;
+  private updatePortCallStatusActualUrl: string;
   // Global purpose
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
   private setPurposeForPortCallUrl: string;
+  private removePurposeForPortCallUrl: string;
   // Global details
   private saveDetailsUrl: string;
   private getDetailsByPortCallIdUrl: string;
-  private detailsModel: PortCallDetailsModel;
   // Global clearance
   private getClearanceUrl: string;
   private saveClearanceUrl: string;
   private getClearanceListByPortCallUrl: string;
   private registerClearanceAgenciesForPortCallUrl: string;
   // Subjects
-  private detailsDataSource = new BehaviorSubject<any>(null);
-  detailsData$ = this.detailsDataSource.asObservable();
   private detailsPristine = new BehaviorSubject<boolean>(true);
   detailsPristine$ = this.detailsPristine.asObservable();
 
-  private overviewDataSource = new BehaviorSubject<any>(null);
-  overviewData$ = this.overviewDataSource.asObservable();
-
-  private clearanceDataSource = new BehaviorSubject<any>(null);
-  clearanceData$ = this.clearanceDataSource.asObservable();
-
-  // Overview methods
-
-  wipeServiceData() {
-    this.portCallModel = new PortCallModel();
-    this.overviewModel = new PortCallOverviewModel();
-
-    this.shipDataSource.next(null);
-    this.locationDataSource.next(null);
-    this.etaEtdDataSource.next(null);
-
-    // Overview
-    this.overviewDataSource.next(null);
-    // Details
-    this.wipeDetailsData();
+  // Helper method for ETA/ETD formatting
+  etaEtdDataFormat(arrival, departure) {
+    let etaData = new Date(arrival);
+    let etdData = new Date(departure);
+    return {
+      eta: {
+        year: etaData.getFullYear(), month: etaData.getMonth(), day: etaData.getDate(),
+        hour: etaData.getHours(), minute: etaData.getMinutes()
+      },
+      etd: {
+        year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(),
+        hour: etdData.getHours(), minute: etdData.getMinutes()
+      }
+    };
   }
 
-  wipeDetailsData() {
-    this.reportingForThisPortCallSource.next(null);
-    this.crewPassengersAndDimensionsSource.next(null);
-    this.portCallPurposeSource.next(null);
-    this.otherPurposeNameSource.next("");
-    this.detailsModel = new PortCallDetailsModel();
-    this.detailsDataSource.next(new PortCallDetailsModel());
-    this.detailsPristine.next(true);
+  /* * * * * * * * * * * * *
+   *                       *
+   *  == NEW PORT CALL ==  *
+   *                       *
+   * * * * * * * * * * * * */
+  // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
+  setPortCall(overview: PortCallOverviewModel) {
+    // SLT
+    this.setShipData(overview.shipOverview);
+    this.setLocationData(overview.locationOverview);
+    var etaEtd = this.etaEtdDataFormat(overview.portCall.locationEta, overview.portCall.locationEtd);
+    this.setEtaEtdData(etaEtd);
+    // Clearance list
+    this.setClearanceListData(overview.clearanceList);
+    this.setClearance(overview.clearanceList[0]);
   }
 
+  updatePortCall(portCall: PortCallModel) {
+    console.log("Updating port call...");
+    this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json()).subscribe(
+      data => {
+        console.log("Success");
+        console.log(data);
+      }
+    )
+  }
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
+  setShipData(data) {
+    this.shipDataSource.next(data);
+  }
+  // Location
+  private locationDataSource = new BehaviorSubject<any>(null);
+  locationData$ = this.locationDataSource.asObservable();
+  setLocationData(data) {  // NEW
+    this.locationDataSource.next(data);
+  }
+  // ETA / ETD
+  private etaEtdDataSource = new BehaviorSubject<any>(null);
+  etaEtdData$ = this.etaEtdDataSource.asObservable();
+  setEtaEtdData(data) {  // NEW
+    this.etaEtdDataSource.next(data);
+  }
+
+  // REGISTER NEW PORT CALL
+  registerNewPortCall(portCall: PortCallModel) {  // NEW
+    console.log("Registering new port call...");
+    this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json()).subscribe(
+      pcResponse => {
+        console.log("New port call successfully registered.");
+        // add list of government agencies for clearance
+        console.log("Registering government clearance agencies to port call...");
+        this.registerClearanceAgenciesForPortCall(pcResponse);
+        // Set details
+        let portCallDetails = new PortCallDetailsModel();
+        portCallDetails.portCallId = pcResponse.portCallId;
+        portCallDetails.portCallDetailsId = pcResponse.portCallId;
+        this.setDetails(portCallDetails);
+      }
+    )
+  }
+  // Set port call status to actual
+  updatePortCallStatusActual(portCallId: number) {
+    let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
+    console.log("Updating port call status to actual...");
+    this.http.post(uri, null).map(res => res.json()).subscribe(
+      updateStatusResponse => {
+        console.log("Status successfully updated.");
+      }
+    );
+  }
+  // Get methods
   getPortCallById(portCallId: number) {
     let uri: string = [this.getPortCallUrl, portCallId].join('/');
 
@@ -109,11 +157,123 @@ export class PortCallService {
       .map(res => res.json());
   }
 
-  // User
   getPortCallsByUserId(userId: number) {
     let uri: string = [this.getPortCallsByUserIdUrl, userId].join('/');
     return this.http.get(uri)
       .map(res => res.json());
+  }
+
+
+  /* * * * * * * * * * * * * * * 
+   *                           *
+   * == PORT CALL DETAILS ==   *
+   *                           *
+   * * * * * * * * * * * * * * */
+  setDetails(details: PortCallDetailsModel) {  // NEW
+    this.setCrewPassengersAndDimensionsData(details);
+    this.setReportingForThisPortCallData(details);
+    this.setDetailsIdentificationData(details);
+    this.detailsPristine.next(true);
+  }
+  private detailsIdentificationSource = new BehaviorSubject<any>(null);
+  detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
+  setDetailsIdentificationData(data) {
+    this.detailsPristine.next(false);
+    this.detailsIdentificationSource.next(data);
+  }
+  // Crew, passengers and dimensions
+  private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
+  crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
+  setCrewPassengersAndDimensionsData(data) { // NEW
+    this.detailsPristine.next(false);
+    this.crewPassengersAndDimensionsSource.next(data);
+  }
+  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({ valid: true });
+  crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
+  setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
+    this.crewPassengersAndDimensionsMeta.next(metaData);
+  }
+  // Reporting
+  // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
+  private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
+  reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
+  setReportingForThisPortCallData(data) {  // NEW
+    this.detailsPristine.next(false);
+    this.reportingForThisPortCallSource.next(data);
+  }
+  // Purpose
+  private portCallPurposeDataSource = new BehaviorSubject<any>(null);
+  portCallPurposeData$ = this.portCallPurposeDataSource.asObservable();
+  setPortCallPurposeData(data) { // NEW
+    this.detailsPristine.next(false);
+    this.portCallPurposeDataSource.next(data);
+  }
+  // User-specified purpose of type "Other"
+  private otherPurposeNameSource = new BehaviorSubject<string>("");
+  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
+  setOtherPurposeName(data) {
+    this.detailsPristine.next(false);
+    this.otherPurposeNameSource.next(data);
+  }
+  // Not used yet:
+  private otherPurposeDataSource = new BehaviorSubject<any>(null);
+  otherPurposeData$ = this.otherPurposeDataSource.asObservable();
+  setOtherPurposeData(data) { // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
+    this.otherPurposeDataSource.next(data);
+  }
+  // SAVE DETAILS
+  saveDetails(details: any, purposes: any, otherName: string) { // NEW
+    console.log("DETAILS: ", details, "\nPURPOSES: ", purposes);
+    details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
+    console.log("Saving port call details...");
+    this.http.post(this.saveDetailsUrl, details).map(res => res.json()).subscribe(
+      detailsResponse => {
+        console.log("Successfully saved port call details.");
+        this.savePurposesForPortCall(details.portCallId, purposes, otherName);
+      }
+    );
+  }
+  savePurposesForPortCall(pcId: number, purposes: any, otherName: string) { // NEW
+    if (purposes.length === 0) {
+      let uri = [this.removePurposeForPortCallUrl, pcId.toString()].join('/');
+      this.http.post(uri, null).map(res => res.json()).subscribe(
+        removePurposeResponse => {
+          if (removePurposeResponse) this.detailsPristine.next(true);
+          console.log(removePurposeResponse);
+        }
+      );
+    } else {
+      var pcHasPurposeList = purposes.map(p => {
+        return {
+          portCallId: pcId,
+          portCallPurposeId: p.portCallPurposeId,
+          purposeIfUnknown: (p.name == "Other") ? otherName : null
+        }
+      });
+      console.log("Saving port call purposes to database...");
+      this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
+        purposeResponse => {
+          if (purposeResponse) this.detailsPristine.next(true);
+          console.log("Purposes successfully saved.");
+          console.log(purposeResponse);
+        }
+      );
+    }
+    
+  }
+
+  // Get methods
+  getDetailsByPortCallId(portCallId: number) {
+    let uri: string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
+    return this.http.get(uri).map(res => {
+      if (res && res.ok) {
+        return res.json();
+      } else {
+        return res.status;
+      }
+    }).catch(e => {
+      return Observable.of(e);
+    });
   }
 
   getPurposeByPortCallId(portCallId: number) {
@@ -126,7 +286,6 @@ export class PortCallService {
     });
   }
 
-
   getOtherName(portCallId: number) {
     let uri: string = [this.getOtherNameUrl, portCallId].join('/');
     return this.http.get(uri).map(res => {
@@ -137,204 +296,38 @@ export class PortCallService {
     });
   }
 
-  setPortCall(overviewModel: PortCallOverviewModel) {
-    this.detailsModel.portCallId = overviewModel.portCall.portCallId;
-    this.setDetails(this.detailsModel);
-    this.setShipLocationTime(overviewModel);
-    this.overviewModel.clearanceList = overviewModel.clearanceList;
-    this.overviewDataSource.next(this.overviewModel);
+
+
+  /* * * * * * * * * * *  
+   *                   *
+   *  == CLEARANCE ==  *
+   *                   *
+   * * * * * * * * * * */
+  private clearanceDataSource = new BehaviorSubject<any>(null);
+  clearanceData$ = this.clearanceDataSource.asObservable();
+  setClearance(data) {
+    this.clearanceDataSource.next(data);
   }
 
-  setDetails(detailsModel: PortCallDetailsModel) {
-    if (detailsModel == null) {
-      this.wipeDetailsData();
-    } else {
-      this.detailsModel = detailsModel;
-      this.detailsDataSource.next(detailsModel);
-      this.setCrewPassengersAndDimensionsData(detailsModel);
-      this.setReportingForThisPortCallData(detailsModel);
-    }
-    this.detailsPristine.next(true);
+  // Clearance agencies list
+  private clearanceListDataSource = new BehaviorSubject<any>(null);
+  clearanceListData$ = this.clearanceListDataSource.asObservable();
+  setClearanceListData(data) {  // NEW
+    console.log("Clearance List: ", data);
+    this.clearanceListDataSource.next(data);
   }
 
-  setShipLocationTime(overviewModel: PortCallOverviewModel) {
-    this.setShipData(overviewModel.shipOverview);
-    this.setLocationData(overviewModel.locationOverview);
-
-    let etaData = new Date(overviewModel.portCall.locationEta);
-    let etdData = new Date(overviewModel.portCall.locationEtd);
-
-    let etaEtdData = {
-      eta: { year: etaData.getFullYear(), month: etaData.getMonth(), day: etaData.getDate(), hour: etaData.getHours(), minute: etaData.getMinutes() },
-      etd: { year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(), hour: etdData.getHours(), minute: etdData.getMinutes() },
-    };
-    this.setEtaEtdData(etaEtdData);
-  }
-
-  savePortCall() {
-    this.overviewModel.portCall.portCallStatusId = 100235; // temporary, status id for incomplete port call
-    console.log("Saving port call to database...");
-    this.http.post(this.savePortCallUrl, this.overviewModel.portCall).map(res => res.json()).subscribe(
+  saveClearance(clearanceModel: ClearanceModel) {
+    console.log('Saving clearance to database...');
+    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {
-        console.log("Success.");
+        console.log("Clearance saved successfully.");
         console.log(data);
-        this.detailsModel.portCallId = data.portCallId;
-        // add list of government agencies for clearance
-        console.log("Registering government clearance agencies to port call...");
-        this.http.post(this.registerClearanceAgenciesForPortCallUrl, data).map(res => res.json()).subscribe(
-          clearanceData => {
-            console.log("Clearance information added successfully.");
-            this.overviewModel.clearanceList = clearanceData;
-            this.overviewDataSource.next(this.overviewModel);
-          }
-        )
+      },
+      error => {
+        console.log("ERROR: ", error);
       }
     );
-  }
-
-  updatePortCall(portCall: PortCallModel) {
-    console.log("Updating port call...");
-    this.http.post(this.savePortCallUrl, portCall).map(res => res.json()).subscribe(
-      data => {
-        console.log("Success");
-        console.log(data);
-      }
-    )
-  }
-
-  // Ship, Location and Time
-
-  private shipDataSource = new BehaviorSubject<any>(null);
-  shipData$ = this.shipDataSource.asObservable();
-  setShipData(data) {
-    this.portCallModel.shipId = data != null ? data.ship.shipId : null;
-    this.overviewModel.portCall = this.portCallModel;
-    this.overviewModel.shipOverview = data;
-    this.overviewDataSource.next(this.overviewModel);
-  }
-
-  private locationDataSource = new BehaviorSubject<any>(null);
-  locationData$ = this.locationDataSource.asObservable();
-  setLocationData(data) {
-    this.portCallModel.locationId = data != null ? data.location.locationId : null;
-    this.overviewModel.locationOverview = data;
-    this.overviewDataSource.next(this.overviewModel);
-  }
-
-  private etaEtdDataSource = new BehaviorSubject<any>(null);
-  etaEtdData$ = this.etaEtdDataSource.asObservable();
-  setEtaEtdData(data) {
-
-    if (data != null) {
-      // UTC conversion
-      let eta = new Date(Date.UTC(data.eta.year, (data.eta.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
-      let etd = new Date(Date.UTC(data.etd.year, (data.etd.month - 1), data.eta.day, data.eta.hour, data.eta.minute));
-
-      this.overviewModel.portCall.locationEta = eta;
-      this.overviewModel.portCall.locationEtd = etd;
-    } else {
-      this.overviewModel.portCall.locationEta = null;
-      this.overviewModel.portCall.locationEtd = null;
-    }
-    this.etaEtdDataSource.next(data);
-    // Overview
-    this.overviewDataSource.next(this.overviewModel);
-  }
-
-  // Port Call Details
-  getDetailsByPortCallId(portCallId: number) {
-    let uri: string = [this.getDetailsByPortCallIdUrl, portCallId].join('/');
-    return this.http.get(uri).map(res => {
-      if (res && res.ok) {
-        return res.json();
-      } else {
-        return res.status;
-      }
-    }).catch(e => {
-      return Observable.of(e);
-    });
-
-  }
-
-  // This is a list of checkboxes that specify which FAL forms to include in this port call registration 
-  private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
-  reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
-  setReportingForThisPortCallData(data) {
-    this.detailsPristine.next(false);
-    this.detailsModel.reportingBunkers = data.reportingBunkers || null;
-    this.detailsModel.reportingCargo = data.reportingCargo || null;
-    this.detailsModel.reportingCrew = data.reportingCrew || null;
-    this.detailsModel.reportingHazmat = data.reportingHazmat || null;
-    this.detailsModel.reportingPax = data.reportingPax || null;
-    this.detailsModel.reportingShipStores = data.reportingShipStores || null;
-    this.detailsModel.reportingWaste = data.reportingWaste || null;
-    this.reportingForThisPortCallSource.next(data);
-    this.detailsDataSource.next(this.detailsModel);
-  }
-
-  private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
-  crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
-  setCrewPassengersAndDimensionsData(data) {
-    this.detailsPristine.next(false);
-    this.detailsModel.numberOfCrew = (data.numberOfCrew != null) ? data.numberOfCrew : null;
-    this.detailsModel.numberOfPassengers = (data.numberOfPassengers != null) ? data.numberOfPassengers : null;
-    this.detailsModel.actualDraught = (data.actualDraught != null) ? data.actualDraught : null;
-    this.detailsModel.airDraught = (data.airDraught != null) ? data.airDraught : null;
-    this.crewPassengersAndDimensionsSource.next(this.detailsModel);
-  }
-
-  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({ valid: true });
-  crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
-  setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
-    this.crewPassengersAndDimensionsMeta.next(metaData);
-  }
-
-  private portCallPurposeSource = new BehaviorSubject<any>(null);
-  portCallPurposeData$ = this.portCallPurposeSource.asObservable();
-  setPortCallPurposeData(data) {
-    if (data.find(p => p.name == "Other"))
-    this.detailsPristine.next(false);
-    this.portCallPurposeSource.next(data);
-  }
-
-  private otherPurposeNameSource = new BehaviorSubject<string>("");
-  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
-  setOtherPurposeName(data) {
-    this.otherPurposeNameSource.next(data);
-  }
-
-  saveDetails(purposes: any, otherName: any) {
-    if (!this.detailsPristine.value) {
-      var pcHasPurposeList = purposes.map(p => {
-        return {
-          portCallId: this.detailsModel.portCallId,
-          portCallPurposeId: p.portCallPurposeId,
-          purposeIfUnknown: (p.name == "Other") ? otherName : null
-        }
-      });
-      this.detailsModel.portCallDetailsId = this.detailsModel.portCallId;
-      console.log(this.overviewModel);
-      console.log(this.detailsModel);
-      console.log("Saving port call details to database...");
-      this.http.post(this.saveDetailsUrl, this.detailsModel).map(res => res.json()).subscribe(
-        data => {
-          console.log("Success.");
-          console.log(data);
-
-          this.detailsPristine.next(true);
-
-          console.log("Saving port call purposes to database...");
-          this.http.post(this.setPurposeForPortCallUrl, pcHasPurposeList).map(res => res.json()).subscribe(
-            purposeData => {
-              console.log("Purposes successfully saved.");
-              console.log(purposeData);
-            }
-          )
-        }
-      );
-    } else {
-      console.log("Port call details already registered in the database.");
-    }
   }
 
   getClearanceListForPortCall(portCallId: number) {
@@ -349,21 +342,35 @@ export class PortCallService {
     );
   }
 
-  setClearance(data) {
-    this.clearanceDataSource.next(data);
+  // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
+  registerClearanceAgenciesForPortCall(portCall: PortCallModel) { // NEW
+    this.http.post(this.registerClearanceAgenciesForPortCallUrl, portCall).map(res => res.json()).subscribe(
+      clearanceData => {
+        console.log("Clearance agency information successfully added to port call.");
+        this.clearanceListDataSource.next(clearanceData);
+      }
+    )
   }
 
-  // Clearance
-  saveClearance(clearanceModel: ClearanceModel) {
-    console.log('Saving clearance to database...');
-    this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
-      data => {
-        console.log("Clearance saved successfully.");
-        console.log(data);
-      },
-      error => {
-        console.log("ERROR: ", error);
-      }
-    );
+
+
+  // Wipe methods
+  wipeServiceData() {
+    this.shipDataSource.next(null);
+    this.locationDataSource.next(null);
+    this.etaEtdDataSource.next(null);
+    this.clearanceListDataSource.next(null);
+    // Details
+    this.wipeDetailsData();
+  }
+
+
+  wipeDetailsData() {
+    this.reportingForThisPortCallSource.next(null);
+    this.crewPassengersAndDimensionsSource.next(null);
+    this.portCallPurposeDataSource.next(null);
+    this.otherPurposeNameSource.next("");
+    this.detailsPristine.next(true);
   }
 }
+

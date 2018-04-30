@@ -56,6 +56,9 @@ export class OverviewComponent implements OnInit {
       etd: {
         title: 'ETD'
       },
+      status: {
+        title: 'Status'
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
@@ -88,6 +91,7 @@ export class OverviewComponent implements OnInit {
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
                 eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
                 etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+                status: ov.status,
                 actions: 'btn'
               });
               this.dataSource.refresh();

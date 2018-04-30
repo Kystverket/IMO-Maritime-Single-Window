@@ -20,9 +20,9 @@ export class ClearanceComponent implements OnInit {
   constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.overviewData$.subscribe(
+    this.portCallService.clearanceListData$.subscribe(
       data => {
-        if (data) this.clearanceList = data.clearanceList;
+        if (data) this.clearanceList = data;
       }
     )
     this.portCallService.clearanceData$.subscribe(

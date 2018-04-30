@@ -1,18 +1,28 @@
 <ssn-card title="Save and Send" icon="save.png" class="text-center">
   <div class="text-center">
-    <div *ngIf="!detailsDataIsPrisine" class="row">
-      <div class="col">
+    <div *ngIf="!detailsDataIsPristine" class="row">
+      <div *ngIf="detailsMeta.valid" class="col">
         <span>Port Call Details are unsaved.</span>
         <button class="btn btn-ssn" (click)="saveDetails()">
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+      </div>
+      <div *ngIf="!detailsMeta.valid" class="col">
+        <span>Error: Port Call Details contains invalid data.</span>
+        <button class="btn btn-ssn" disabled>
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
       </div>
     </div>
 
     <div class="row">
-      <div class="col">
-        <button class="btn btn-ssn" [disabled]="!detailsDataIsPrisine">
+      <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
+        <button class="btn btn-ssn" (click)="send()">
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
+      </div>
+      <div *ngIf="!(detailsDataIsPristine && detailsMeta.valid)" class="col">
+        <button class="btn btn-ssn" disabled>
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
       </div>
     </div>
+    
   </div>
 </ssn-card>

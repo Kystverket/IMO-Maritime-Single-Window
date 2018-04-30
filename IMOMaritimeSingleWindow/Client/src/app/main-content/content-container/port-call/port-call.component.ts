@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from '../../../shared/services/content.service';
 import { PortCallService } from '../../../shared/services/port-call.service';
+import { PortCallOverviewModel } from '../../../shared/models/port-call-overview-model';
 
 @Component({
   selector: 'app-port-call',
