@@ -133,6 +133,25 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        [HttpPost("updatestatus/actual/{portCallId}")]
+        public IActionResult SetStatusActual(int portCallId)
+        {
+            try
+            {
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+        
+
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
@@ -160,6 +179,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             return BadRequest("Port call id not set");
         }
+
 
         [HttpGet("get/{id}")]
         public JsonResult Get(int id)

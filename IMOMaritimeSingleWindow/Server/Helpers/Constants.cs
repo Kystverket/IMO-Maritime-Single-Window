@@ -9,6 +9,10 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
                 public const int OTHER_PURPOSE_ID = 100249;
+                public const int PORT_CALL_STATUS_ACTUAL = 100232;
+                public const int PORT_CALL_STATUS_CANCELLED = 100233;
+                public const int PORT_CALL_STATUS_EXECUTED = 100234;
+                public const int PORT_CALL_STATUS_INCOMPLETE = 100235;
             }
         }
         public static class Strings

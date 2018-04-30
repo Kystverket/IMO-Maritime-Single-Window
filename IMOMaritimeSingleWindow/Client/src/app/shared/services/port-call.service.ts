@@ -18,6 +18,7 @@ export class PortCallService {
     this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
+    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
     // Purpose
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
@@ -43,6 +44,7 @@ export class PortCallService {
   private registerNewPortCallUrl: string;
   private getPortCallsByUserIdUrl: string;
   private updatePortCallUrl: string;
+  private updatePortCallStatusActualUrl: string;
   // Global purpose
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
@@ -137,6 +139,17 @@ export class PortCallService {
         this.setDetails(portCallDetails);
       }
     )
+  }
+  // Set port call status to actual
+  updatePortCallStatusActual(portCallId: number) {
+    let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
+    console.log("Updating port call status to actual...");
+    this.http.post(uri, null).map(res => res.json()).subscribe(
+      updateStatusResponse => {
+        console.log("Status successfully updated.");
+        console.log(updateStatusResponse);
+      }
+    );
   }
   // Get methods
   getPortCallById(portCallId: number) {
