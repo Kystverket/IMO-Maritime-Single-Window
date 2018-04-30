@@ -36,6 +36,8 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   }
 
   persistData() {
+    console.log(this.crewPassengersAndDimensionsModel);
+    
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
 

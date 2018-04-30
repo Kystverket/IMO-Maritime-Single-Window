@@ -20,22 +20,18 @@ export class RegisterShipComponent implements OnInit {
   lengthTypeSelected = false;
   breadthTypeSelected = false;
   powerTypeSelected = false;
-  shipSourceSelected = false;
 
   shipTypeList: any[];
   hullTypeList: any[];
   lengthTypeList: any[];
   breadthTypeList: any[];
   powerTypeList: any[];
-  shipSourceList: any[];
 
   shipTypeDropdownString: string = "Select ship type";
   hullTypeDropdownString: string = "Select hull type";
   lengthTypeDropdownString: string = "Select type";
   breadthTypeDropdownString: string = "Select type";
   powerTypeDropdownString: string = "Select type";
-  shipSourceDropdownString: string = "Select ship source";
-
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(public shipModel: ShipModel, private shipService: ShipService) { }
@@ -70,12 +66,6 @@ export class RegisterShipComponent implements OnInit {
     this.powerTypeSelected = true;
   }
 
-  selectShipSource(shipSource: any) {
-    this.shipModel.shipSourceId = shipSource.shipSourceId;
-    this.shipSourceDropdownString = shipSource.shipSource1;
-    this.shipSourceSelected = true;
-  }
-
   registerShip(newShip: any) {
     this.shipService.registerShip(newShip);
   }
@@ -98,9 +88,6 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.getPowerTypes().subscribe(
       data => this.powerTypeList = data
     );
-    this.shipService.getShipSources().subscribe(
-      data => this.shipSourceList = data
-    );
 
     this.shipService.organizationData$.subscribe(
       data => {
@@ -119,8 +106,6 @@ export class RegisterShipComponent implements OnInit {
         }
        }
     );
-
-
 
   }
 

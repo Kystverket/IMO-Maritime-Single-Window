@@ -10,12 +10,12 @@ import { LocationFormComponent } from './basis-data/location/location-form/locat
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
-import { ShipFormComponent } from './basis-data/ship/ship-form/ship-form.component';
 import { EditUserComponent } from './basis-data/user/edit-user/edit-user.component';
 import { RegisterUserComponent } from './basis-data/user/register-user/register-user.component';
 import { UserFormComponent } from './basis-data/user/user-form/user-form.component';
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
+import { SharedModule } from '../../shared/components/shared.module';
 
 @NgModule({
   imports: [
@@ -23,7 +23,8 @@ import { PortCallModule } from './port-call/port-call.module';
     CommonModule,
     FormsModule,
     HttpModule,
-    PortCallModule
+    PortCallModule,
+    SharedModule
   ],
   declarations: [
     ContentContainerComponent,
@@ -33,7 +34,6 @@ import { PortCallModule } from './port-call/port-call.module';
     RegisterLocationComponent,
     RegisterOrganizationComponent,
     UserFormComponent,
-    ShipFormComponent,
     LocationFormComponent,
     OrganizationFormComponent,
     SearchOrganizationComponent,
