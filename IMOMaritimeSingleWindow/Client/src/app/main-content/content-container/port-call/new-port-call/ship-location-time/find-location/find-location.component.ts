@@ -58,11 +58,11 @@ export class FindLocationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.portCallService.overviewData$.subscribe(
-            ovData => {
-                if (ovData != null) {
-                    this.locationFound = ovData.locationOverview != null;
-                    this.locationModel = this.locationFound ? ovData.locationOverview : null;
+        this.portCallService.locationData$.subscribe(
+            locData => {
+                if (locData) {
+                    this.locationFound = true;
+                    this.locationModel = locData;
                 }
             }
         );
