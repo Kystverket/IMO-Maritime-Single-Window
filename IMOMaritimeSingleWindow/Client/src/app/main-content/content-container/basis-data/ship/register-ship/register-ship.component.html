@@ -71,15 +71,13 @@
                   <input id="ship_type_typeahead" name="ship_type_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedShipType"
                     [ngbTypeahead]="shipTypeSearch" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Search for a ship type"
                     (selectItem)="selectShipType($event)" #stt />
-                </div>    
+                </div>
                 <div *ngIf="shipTypeSearchFailed && stt.value != ''" class="col-3 text-center">
                   <small class="no-wrap">No</small>
                   <small class="no-wrap">results</small>
                 </div>
               </div>
             </div>
-            
-
             <div class="col-lg-6" *ngIf="shipTypeSelected">
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="ship_type">Ship Type</label>
@@ -94,11 +92,8 @@
                     </div>
                   </div>
                 </div>
-
-
               </div>
             </div>
-
             <div class="col-lg-6">
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="year_of_build">Year of Build</label>
@@ -113,7 +108,56 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="ship_length">Length</label>
+                <div class="col">
+                  <div class="input-group">
+                    <div ngbDropdown class="input-group-prepend">
+                      <button class="btn btn-sm btn-ssn" id="lengthTypeDropdown" ngbDropdownToggle> {{ lengthTypeDropdownString }} </button>
+                      <div ngbDropdownMenu aria-labelledby="lengthTypeDropdown">
+                        <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.name }}</button>
+                      </div>
+                    </div>
+                    <input [(ngModel)]="shipModel.shipLength" name="shipLength" type="number" class="form-control form-control-sm" id="ship_length"
+                      placeholder="Enter ship length" [disabled]="!lengthTypeSelected">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="ship_breadth">Breadth</label>
+                <div class="col">
+                  <div class="input-group">
+                    <div ngbDropdown class="input-group-prepend">
+                      <button class="btn btn-sm btn-ssn" id="breadthTypeDropdown" ngbDropdownToggle> {{ breadthTypeDropdownString }} </button>
+                      <div ngbDropdownMenu aria-labelledby="breadthTypeDropdown">
+                        <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.name }}</button>
+                      </div>
+                    </div>
+                    <input [(ngModel)]="shipModel.breadth" name="breadth" type="number" class="form-control form-control-sm" id="ship_breadth"
+                      placeholder="Enter ship breadth" [disabled]="!breadthTypeSelected">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="ship_power">Power</label>
+                <div class="col">
+                  <div class="input-group">
+                    <div ngbDropdown class="input-group-prepend">
+                      <button class="btn btn-sm btn-ssn" id="powerTypeDropdown" ngbDropdownToggle> {{ powerTypeDropdownString }} </button>
+                      <div ngbDropdownMenu aria-labelledby="powerTypeDropdown">
+                        <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.name }}</button>
+                      </div>
+                    </div>
+                    <input [(ngModel)]="shipModel.power" name="power" type="number" class="form-control form-control-sm" id="ship_power" placeholder="Enter ship power"
+                      [disabled]="!powerTypeSelected">
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-lg-6">
@@ -127,69 +171,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <label class="control-label" for="lengthTypeDropdown">Length</label>
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-10">
-                <div ngbDropdown class="d-inline-block">
-                  <button class="btn btn-sm btn-ssn" id="lengthTypeDropdown" ngbDropdownToggle> {{ lengthTypeDropdownString }} </button>
-                  <div ngbDropdownMenu aria-labelledby="lengthTypeDropdown">
-                    <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.name }}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-sm-11">
-                <input [(ngModel)]="shipModel.shipLength" name="shipLength" type="number" class="form-control form-control-sm" id="ship_length"
-                  placeholder="Enter ship length" [disabled]="!lengthTypeSelected">
-              </div>
-            </div>
-          </div>
-
-          <label class="control-labe" for="breadthTypeDropdown">Breadth</label>
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-10">
-                <div ngbDropdown class="d-inline-block">
-                  <button class="btn btn-sm btn-ssn" id="breadthTypeDropdown" ngbDropdownToggle> {{ breadthTypeDropdownString }} </button>
-                  <div ngbDropdownMenu aria-labelledby="breadthTypeDropdown">
-                    <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.name }}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-sm-11">
-                <input [(ngModel)]="shipModel.breadth" name="breadth" type="number" class="form-control form-control-sm" id="ship_breadth"
-                  placeholder="Enter ship breadth" [disabled]="!breadthTypeSelected">
-              </div>
-            </div>
-          </div>
-
-          <label class="control-label" for="ship_power_type">Power</label>
-          <div class="row">
-            <div class="form-group">
-              <div class="col-sm-10">
-                <div ngbDropdown class="d-inline-block">
-                  <button class="btn btn-sm btn-ssn" id="powerTypeDropdown" ngbDropdownToggle> {{ powerTypeDropdownString }} </button>
-                  <div ngbDropdownMenu aria-labelledby="powerTypeDropdown">
-                    <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.name }}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-sm-11">
-                <input [(ngModel)]="shipModel.power" name="power" type="number" class="form-control form-control-sm" id="ship_power" placeholder="Enter ship power"
-                  [disabled]="!powerTypeSelected">
               </div>
             </div>
           </div>
@@ -236,29 +217,27 @@
           </div>
 
           <div class="form-group">
-            <label for="has_side_thrusters">Side thrusters (select all that apply)</label>
-            <div class="card" id="has_side_thrusters">
+            <label class="col-form-label-sm" for="has_side_thrusters">Side thrusters</label>
+            <div class="card pt-2" id="has_side_thrusters">
               <div class="checkbox container">
-                <label>
+                <label class="col-form-label-sm">
                   <input [(ngModel)]="shipModel.hasSideThrusters" name="hasSideThrusters" type="checkbox" value=""> Side thrusters</label>
               </div>
               <div class="checkbox container">
-                <label>
+                <label class="col-form-label-sm">
                   <input [(ngModel)]="shipModel.hasSideThrustersFront" name="hasSideThrustersFront" type="checkbox" value=""> Front side thrusters</label>
               </div>
               <div class="checkbox container">
-                <label>
+                <label class="col-form-label-sm">
                   <input [(ngModel)]="shipModel.hasSideThrustersBack" name="hasSideThrustersBack" type="checkbox" value=""> Back side thrusters</label>
               </div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="remark">Remarks</label>
+            <label class="col-form-label-sm" for="remark">Remark</label>
             <textarea [(ngModel)]="shipModel.remark" name="remark" class="form-control form-control-sm" rows="4" id="remark"></textarea>
           </div>
-
-          <button class="btn btn-success" (click)="registerShip(shipModel)">Register ship</button>
         </form>
       </ssn-card>
     </div>
@@ -266,17 +245,13 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Flag Code" icon="flag.png">
-        <app-search-ship-flag-code></app-search-ship-flag-code>
-      </ssn-card>
+      <app-search-ship-flag-code></app-search-ship-flag-code>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Organization" icon="pax.png">
-        <app-search-organization></app-search-organization>
-      </ssn-card>
+      <app-search-organization></app-search-organization>
     </div>
   </div>
 

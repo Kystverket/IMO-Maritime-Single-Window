@@ -8,7 +8,6 @@ import { RegisterOrganizationComponent } from './basis-data/organization/registe
 import { SearchOrganizationComponent } from './basis-data/organization/search-organization/search-organization.component';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
-import { SearchShipFlagCodeComponent } from './basis-data/ship-flag-code/search-ship-flag-code/search-ship-flag-code.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
 import { EditUserComponent } from './basis-data/user/edit-user/edit-user.component';
 import { RegisterUserComponent } from './basis-data/user/register-user/register-user.component';
@@ -16,6 +15,7 @@ import { UserFormComponent } from './basis-data/user/user-form/user-form.compone
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
 import { SharedModule } from '../../shared/components/shared.module';
+import { SearchShipFlagCodeComponent } from './basis-data/ship/search-ship-flag-code/search-ship-flag-code.component';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { SharedModule } from '../../shared/components/shared.module';
     LocationFormComponent,
     OrganizationFormComponent,
     SearchOrganizationComponent,
-    SearchShipFlagCodeComponent,
+    SearchShipFlagCodeComponent
   ],
   exports: [ContentContainerComponent]
 })
