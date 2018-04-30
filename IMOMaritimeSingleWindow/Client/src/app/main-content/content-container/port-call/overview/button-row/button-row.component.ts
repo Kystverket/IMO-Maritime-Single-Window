@@ -22,12 +22,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    // this.setContent('View Port Call');
     this.setContent('View Port Call');
   }
 
   onEditClick() {
-    // this.setContent('Register Port Call');
     this.setContent('Register Port Call');
   }
 
@@ -72,7 +70,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   setDetails(content) {
     this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       detailsData => {
-        console.log("detailsData: ", detailsData);
         if (detailsData) {
           this.portCallService.setDetails(detailsData)
         }

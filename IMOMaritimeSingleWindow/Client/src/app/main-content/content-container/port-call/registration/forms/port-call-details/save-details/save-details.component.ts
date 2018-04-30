@@ -59,7 +59,6 @@ export class SaveDetailsComponent implements OnInit {
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
-          console.log("save details subscribe: ", cpadData);
           this.crewPassengersAndDimensionsModel = cpadData;
           this.detailsModel.numberOfCrew = cpadData.numberOfCrew;
           this.detailsModel.numberOfPassengers = cpadData.numberOfPassengers;

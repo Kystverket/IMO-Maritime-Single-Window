@@ -128,7 +128,6 @@ export class PortCallService {
     this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json()).subscribe(
       pcResponse => {
         console.log("New port call successfully registered.");
-        console.log(pcResponse);
         // add list of government agencies for clearance
         console.log("Registering government clearance agencies to port call...");
         this.registerClearanceAgenciesForPortCall(pcResponse);
@@ -147,7 +146,6 @@ export class PortCallService {
     this.http.post(uri, null).map(res => res.json()).subscribe(
       updateStatusResponse => {
         console.log("Status successfully updated.");
-        console.log(updateStatusResponse);
       }
     );
   }
@@ -231,7 +229,6 @@ export class PortCallService {
     this.http.post(this.saveDetailsUrl, details).map(res => res.json()).subscribe(
       detailsResponse => {
         console.log("Successfully saved port call details.");
-        console.log(detailsResponse);
         this.savePurposesForPortCall(details.portCallId, purposes, otherName);
       }
     );
