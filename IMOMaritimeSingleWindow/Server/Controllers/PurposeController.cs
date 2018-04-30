@@ -63,6 +63,23 @@ namespace IMOMaritimeSingleWindow.Controllers
             return BadRequest("Other name not found.");
         }
 
+        [HttpPost("removepurposeforportcall/{portCallId}")]
+        public IActionResult RemovePurposeForPortCall(int portCallId)
+        {
+            try
+            {
+                var removeList = _context.PortCallHasPortCallPurpose.Where(pcHasPurpose => pcHasPurpose.PortCallId == portCallId);
+                _context.PortCallHasPortCallPurpose.RemoveRange(removeList);
+                _context.SaveChanges();
+                return Json("Purposes removed from port call with ID: " + portCallId);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
         [HttpPost("setpurposeforportcall")]
         public IActionResult SetPurposeForPortCall([FromBody] List<PortCallHasPortCallPurpose> pcHasPurposeList)
         {

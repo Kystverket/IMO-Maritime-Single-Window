@@ -4,6 +4,7 @@ import { LocationOverviewModel } from '../../../../../../shared/models/location-
 import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { ContentService } from '../../../../../../shared/services/content.service';
+import { PortCallModel } from '../../../../../../shared/models/port-call-model';
 
 @Component({
   selector: 'app-confirm-data',
@@ -14,6 +15,7 @@ export class ConfirmDataComponent implements OnInit {
   shipModel: ShipOverviewModel;
   locationModel: LocationOverviewModel;
   etaEtdModel: EtaEtdDateTime;
+  portCallModel: PortCallModel = new PortCallModel();
 
   shipFound: boolean;
   locationFound: boolean;
@@ -22,26 +24,52 @@ export class ConfirmDataComponent implements OnInit {
   constructor(private portCallService: PortCallService, private contentService: ContentService) { }
 
   ngOnInit() {
-    this.portCallService.overviewData$.subscribe(
-      ovData => {
-        if (ovData != null) {
-          // Ship
-        this.shipFound = ovData.shipOverview != null;
-        this.shipModel = this.shipFound ? ovData.shipOverview : null;
-        // Location
-        this.locationFound = ovData.locationOverview != null;
-        this.locationModel = this.locationFound ? ovData.locationOverview : null;
+    this.portCallService.shipData$.subscribe(
+      shipData => {
+        if (shipData) {
+          console.log(shipData);
+          this.shipFound = true;
+          this.shipModel = shipData;
         }
-        
       }
     );
-    // ETA/ETD
+    this.portCallService.locationData$.subscribe(
+      locationData => {
+        if (locationData) {
+          console.log(locationData);
+          this.locationFound = true;
+          this.locationModel = locationData;
+        }
+      }
+    );
     this.portCallService.etaEtdData$.subscribe(
-      data => {
-        this.dateTimeFound = data != null;
-        this.etaEtdModel = data;
+      etaEtdData => {
+        if (etaEtdData) {
+          this.dateTimeFound =
+          this.etaEtdModel = etaEtdData;
+        }
       }
     );
+    // this.portCallService.overviewData$.subscribe(
+    //   ovData => {
+    //     if (ovData != null) {
+    //       // Ship
+    //     this.shipFound = ovData.shipOverview != null;
+    //     this.shipModel = this.shipFound ? ovData.shipOverview : null;
+    //     // Location
+    //     this.locationFound = ovData.locationOverview != null;
+    //     this.locationModel = this.locationFound ? ovData.locationOverview : null;
+    //     }
+        
+    //   }
+    // );
+    // // ETA/ETD
+    // this.portCallService.etaEtdData$.subscribe(
+    //   data => {
+    //     this.dateTimeFound = data != null;
+    //     this.etaEtdModel = data;
+    //   }
+    // );
   }
 
   dateTimeFormat(number: number) {
@@ -56,7 +84,16 @@ export class ConfirmDataComponent implements OnInit {
     if (!this.shipFound || !this.locationFound || !this.dateTimeFound) {
       return;
     }
-    this.portCallService.savePortCall();
+    this.portCallModel.shipId = this.shipModel.ship.shipId;
+    // this.portCallModel.portCallStatusId = PORT_CALL_STATUS_INCOMPLETE_ID;
+    this.portCallModel.portCallStatusId = 100235;
+    this.portCallModel.locationId = this.locationModel.location.locationId;
+    let eta = new Date(Date.UTC(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute));
+    let etd = new Date(Date.UTC(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute));
+    this.portCallModel.locationEta = eta;
+    this.portCallModel.locationEtd = etd;
+    console.log(this.portCallModel);
+    this.portCallService.registerNewPortCall(this.portCallModel);
     this.contentService.setPortCallForm("Port Call Details");
     this.contentService.setContent("Register Port Call");
   }
