@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
-
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-
+import 'rxjs/add/operator/map';
 import { ShipFlagCodeService } from '../../../../../shared/services/ship-flag-code.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+
+
 
 @Component({
     selector: 'app-search-ship-flag-code',
@@ -20,7 +18,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
 
     shipFlagCodeModel: any;
     shipFlagCodeSelected = false;
-    
+
     searching = false;
     searchFailed = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -31,11 +29,19 @@ export class SearchShipFlagCodeComponent implements OnInit {
         text$
             .debounceTime(300)
             .distinctUntilChanged()
-            .do(() => this.searching = true)
+            .do((term) => {
+                this.searchFailed = false;
+                if (term.length >= 2) this.searching = true;
+            })
             .switchMap(term => term.length < 2 ? [] :
                 this.shipService.searchFlagCode(term)
             )
-            .do(() => this.searching = false)
+            .do((text$) => {
+                this.searching = false;
+                if (text$.length == 0) {
+                    this.searchFailed = true;
+                }
+            })
             .merge(this.hideSearchingWhenUnsubscribed);
 
     formatter = (x: { shipFlagCodeId: string }) => x.shipFlagCodeId;
