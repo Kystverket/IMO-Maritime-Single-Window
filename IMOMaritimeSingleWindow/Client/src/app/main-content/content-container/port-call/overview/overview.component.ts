@@ -75,7 +75,7 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    var timeStart = Date.now();
     this.overviewService.getPortCalls().subscribe(
       pcData => {
         pcData.forEach(pc => {
@@ -98,7 +98,8 @@ export class OverviewComponent implements OnInit {
             }
           )
         });
-        this.overviewFound = true;                                
+        this.overviewFound = true;
+        console.log(Date.now() - timeStart);
       }
     );
   }

@@ -28,7 +28,6 @@ export class PortCallService {
     this.saveDetailsUrl = "api/portcalldetails/register";
     this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
     // Overview
-    this.getOverviewUrl = 'api/portcall/overview';
     this.getPortCallsByLocationUrl = 'api/portcall/location';
     // Clearance
     this.saveClearanceUrl = "api/organizationportcall/save";
@@ -37,7 +36,6 @@ export class PortCallService {
   }
 
   // Global overview
-  private getOverviewUrl: string;
   private getPortCallsByLocationUrl: string;
   // Global port call
   private getPortCallUrl: string;
