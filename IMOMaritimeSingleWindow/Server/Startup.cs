@@ -228,6 +228,7 @@ namespace IMOMaritimeSingleWindow
                         serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                           .GetAwaiter().GetResult();
                     }
+                    */
                     //serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                     //      .GetAwaiter().GetResult();
                 }

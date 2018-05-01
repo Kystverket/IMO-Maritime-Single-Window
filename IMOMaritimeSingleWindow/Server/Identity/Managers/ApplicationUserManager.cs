@@ -31,14 +31,20 @@ namespace IMOMaritimeSingleWindow.Identity
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 
         {
+
         }
 
         public override Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
-            return base.CreateAsync(user);
+            var result = base.CreateAsync(user);
+            return result;
         }
 
-
+        public override Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        {
+            
+            return base.CheckPasswordAsync(user, password);
+        }
 
         /// <summary>
         /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Models.Entities.UserRoleManager.GetClaimsAsync(TUser)"/>.

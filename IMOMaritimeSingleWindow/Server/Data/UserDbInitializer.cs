@@ -44,7 +44,7 @@ namespace IMOMaritimeSingleWindow.Data
             _userManager = userManager;
             _roleManager = roleManager;
             //_logger = logger;
-            _userDbContext = context;
+            _usertestContext = context;
             SeedItems = seedItems;
         }
 
@@ -116,9 +116,9 @@ namespace IMOMaritimeSingleWindow.Data
                 }
                 
             }
-            _userDbContext.AddRange(persons);
-            _userDbContext.AddRange(passwords);
-            _userDbContext.SaveChanges();
+            _usertestContext.AddRange(persons);
+            _usertestContext.AddRange(passwords);
+            _usertestContext.SaveChanges();
             
         }
 

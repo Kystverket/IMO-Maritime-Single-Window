@@ -3,16 +3,24 @@ import { Http } from "@angular/http";
 import { of } from "rxjs/observable/of";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserModel } from "../models/user-model";
+import { ConfigService } from "../utils/config.service";
+import { AuthRequest } from "./auth.request.service";
+import { BaseRequest } from "../utils/base.request";
 
 @Injectable()
-export class UserService {
-    constructor(private http: Http) {
+export class UserService extends BaseRequest {
+    constructor(private http: Http,
+        private authRequestService: AuthRequest,
+        configService: ConfigService
+    ) {
+        super(configService);
         this.actionUrl = 'api/user/search';
-        this.registerUserUrl = 'api/user/register';
+        this.registerUrl = 'api/user/register';
     }
-
+    
+    private accountBaseUrl = "/account";
     private actionUrl: string;
-    private registerUserUrl: string;
+    private registerUrl : string;
 
     // private organizationDataSource = new BehaviorSubject<any>(null);
     // organizationData$ = this.organizationDataSource.asObservable();
@@ -23,8 +31,8 @@ export class UserService {
     // private userFlagCodeDataSource = new BehaviorSubject<any>(null);
     // userFlagCodeData$ = this.userFlagCodeDataSource.asObservable();
 
-    registerUser(newUser: any) {
-        return this.http.post(this.registerUserUrl, newUser)
+    registerUser(newUser: UserModel) {
+        return this.http.post(this.registerUrl, newUser)
                 .map(res => res.json());
     }    
     

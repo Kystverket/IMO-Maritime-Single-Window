@@ -7,7 +7,7 @@ using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.M
 
 namespace IMOMaritimeSingleWindow.Extensions
 {
-    public static class UserDbContextExtension
+    public static class usertestContextExtension
     {
         public static void EnsureSeeded(this userdbContext context)
         {

@@ -35,7 +35,20 @@ namespace IMOMaritimeSingleWindow.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
-            this.userDbContext = userDbContext;
+            this.usertestContext = usertestContext;
+        }
+
+        //[Authorize(Roles = "admin")]
+        // POST api/accounts/register
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterR([FromBody]RegistrationViewModel model)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+
+            return new OkObjectResult("OK");
         }
 
         [Authorize(Roles = "admin")]
@@ -57,13 +70,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //Create the Person associated with the ApplicationUser 
-            await userDbContext.Person.AddAsync(new Person
+            await usertestContext.Person.AddAsync(new Person
             {
                 UserId = userIdentity.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
-            await userDbContext.SaveChangesAsync();
+            await usertestContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
@@ -80,7 +93,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
-            await userDbContext.SaveChangesAsync();
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
@@ -91,13 +103,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                 LastName = model.LastName
             });
             
-            await userDbContext.Password.AddAsync(new Password
+            await usertestContext.Password.AddAsync(new Password
             {
                 UserId = userIdentity.Id,
                 PasswordHash = userIdentity.PasswordHash
             });
-
-            await userDbContext.SaveChangesAsync();
+            
+            await usertestContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }

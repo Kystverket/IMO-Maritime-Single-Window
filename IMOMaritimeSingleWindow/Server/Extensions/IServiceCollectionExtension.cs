@@ -38,7 +38,7 @@ namespace IMOMaritimeSingleWindow.Extensions
             var myUserDbContext = serviceProvider.GetService<userdbContext>();
 
             //Add the database initializer service to the service collection
-            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myUserDbContext, seedItems));
+            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myusertestContext, seedItems));
             
             return services.BuildServiceProvider();
         }
