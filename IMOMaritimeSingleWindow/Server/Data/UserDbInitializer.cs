@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Data
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         //private readonly ILogger<UserDbInitializer> _logger;
-        private readonly usertestContext _usertestContext;
+        private readonly userdbContext _userDbContext;
 
         //Hack because class does not yet have permission to access local files
         public SeedItems SeedItems { get; set; }
@@ -37,14 +37,14 @@ namespace IMOMaritimeSingleWindow.Data
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager
             //,ILogger<UserDbInitializer> logger
-            , usertestContext context,
+            , userdbContext context,
             SeedItems seedItems
             )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             //_logger = logger;
-            _usertestContext = context;
+            _userDbContext = context;
             SeedItems = seedItems;
         }
 
@@ -116,9 +116,9 @@ namespace IMOMaritimeSingleWindow.Data
                 }
                 
             }
-            _usertestContext.AddRange(persons);
-            _usertestContext.AddRange(passwords);
-            _usertestContext.SaveChanges();
+            _userDbContext.AddRange(persons);
+            _userDbContext.AddRange(passwords);
+            _userDbContext.SaveChanges();
             
         }
 

@@ -8,8 +8,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Person = IMOMaritimeSingleWindow.TestModels.Person;
-using Password = IMOMaritimeSingleWindow.TestModels.Password;
+using Person = IMOMaritimeSingleWindow.IdentityModels.Person;
+using Password = IMOMaritimeSingleWindow.IdentityModels.Password;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -18,7 +18,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")] 
     public class AccountController : Controller
     {
-        private readonly usertestContext usertestContext;
+        private readonly userdbContext userDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,26 +29,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper,
-            usertestContext usertestContext)
+            userdbContext userDbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
-            this.usertestContext = usertestContext;
-        }
-
-        //[Authorize(Roles = "admin")]
-        // POST api/accounts/register
-        [HttpPost("register")]
-        public async Task<IActionResult> RegisterR([FromBody]RegistrationViewModel model)
-        {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var userIdentity = _mapper.Map<ApplicationUser>(model);
-
-            return new OkObjectResult("OK");
+            this.userDbContext = userDbContext;
         }
 
         [Authorize(Roles = "admin")]
@@ -70,13 +57,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //Create the Person associated with the ApplicationUser 
-            await usertestContext.Person.AddAsync(new Person
+            await userDbContext.Person.AddAsync(new Person
             {
                 UserId = userIdentity.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
-            await usertestContext.SaveChangesAsync();
+            await userDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }
@@ -93,23 +80,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            await userDbContext.SaveChangesAsync();
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //Create the Person associated with the ApplicationUser 
-            await usertestContext.Person.AddAsync(new Person {
-                IdentityId = userIdentity.Id,
+            await userDbContext.Person.AddAsync(new Person {
+                UserId = userIdentity.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName
             });
             
-            await usertestContext.Password.AddAsync(new Password
+            await userDbContext.Password.AddAsync(new Password
             {
                 UserId = userIdentity.Id,
                 PasswordHash = userIdentity.PasswordHash
             });
-            
-            await usertestContext.SaveChangesAsync();
+
+            await userDbContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }

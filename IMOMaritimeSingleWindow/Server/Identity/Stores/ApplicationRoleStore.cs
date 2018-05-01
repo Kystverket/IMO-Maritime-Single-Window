@@ -13,12 +13,12 @@ namespace IMOMaritimeSingleWindow.Identity
 {
     public class ApplicationRoleStore
 
-        : RoleStore<ApplicationRole, usertestContext, Guid, ApplicationUserRole, ApplicationRoleClaim>,
+        : RoleStore<ApplicationRole, userdbContext, Guid, ApplicationUserRole, ApplicationRoleClaim>,
           IQueryableRoleStore<ApplicationRole>,
           IRoleStore<ApplicationRole>, IDisposable
 
     {
-        public ApplicationRoleStore(usertestContext context)
+        public ApplicationRoleStore(userdbContext context)
             : base(context)
         {
         }

@@ -35,10 +35,10 @@ namespace IMOMaritimeSingleWindow.Extensions
             //Dependencies for UserDbInitializer
             var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
-            var myusertestContext = serviceProvider.GetService<usertestContext>();
+            var myUserDbContext = serviceProvider.GetService<userdbContext>();
 
             //Add the database initializer service to the service collection
-            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myusertestContext, seedItems));
+            services.AddSingleton<IUserDbInitializer>(dbi => new UserDbInitializer(myUserManager, myRoleManager, myUserDbContext, seedItems));
             
             return services.BuildServiceProvider();
         }

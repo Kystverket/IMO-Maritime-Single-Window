@@ -12,8 +12,7 @@ export class OrganizationService {
     
     private searchService: SearchService;
     private actionUrl: string;
-    
-    //Search either with organisation name or number 
+
     public search(term: string) {
         return this.searchService.search(this.actionUrl, term);
     }

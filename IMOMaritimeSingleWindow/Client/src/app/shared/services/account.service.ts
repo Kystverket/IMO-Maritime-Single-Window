@@ -42,9 +42,7 @@ export class AccountService extends BaseRequest {
             .map(res => res.json());
     }
 
-    registerUser(newUser: UserModel) {
-        return this.http.post(this.registerUrl, newUser)
-                .map(res => res.json());
-    }
+
+    //createUser( { UserModel }  )
 
 }

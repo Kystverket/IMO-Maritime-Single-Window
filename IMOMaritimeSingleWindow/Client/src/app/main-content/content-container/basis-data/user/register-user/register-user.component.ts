@@ -3,29 +3,25 @@ import { UserService } from '../../../../../shared/services/user.service';
 import { UserModel } from '../../../../../shared/models/user-model';
 import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
-import { CompanyService } from '../../../../../shared/services/company.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
 
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, UserService, AccountService, ShipService]
+  providers: [UserModel, UserService, AccountService]
 })
 
 export class RegisterUserComponent implements OnInit {
 
-  Selected: boolean;
-
-  companyTerm: string;
-  selectedRoles: any;
+  selectedRoles : any;
   roleList: any[];
   brandNew: boolean;
   errors: string;
   isRequesting: boolean;
-  submitted = false;
-  user: UserModel = {
+  submitted: boolean = false;
+  user: UserModel = { 
+    userName: '',
     email: '',
     phoneNumber: '',
     firstName: '',
@@ -38,26 +34,15 @@ export class RegisterUserComponent implements OnInit {
     private accountService: AccountService
     ) { }
 
-    logUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
-      if (valid) {
-        console.log(value);
-      }
-        return null;
-    }
-
   registerUser({ value, valid }: { value: UserModel, valid: boolean }) {
     this.submitted = true;
     this.isRequesting = true;
     this.errors = '';
-    if (valid) {
-      this.accountService.registerUser(value).subscribe(
-         result => {
-          if (result) {
-            console.log('account created!');
-          }
-         }, error => this.errors = error
-        );
+    if(valid) {
+      this.userService.registerUser(value);
     }
+
+    
   }
 
   ngOnInit() {

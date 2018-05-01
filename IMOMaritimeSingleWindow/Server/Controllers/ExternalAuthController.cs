@@ -20,13 +20,13 @@ namespace IMOMaritimeSingleWindow.Controllers
   [Route("api/[controller]/[action]")]
   public class ExternalAuthController : Controller
   {
-    private readonly usertestContext _appDbContext;
+    private readonly userdbContext _appDbContext;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IJwtFactory _jwtFactory;
     private readonly JwtIssuerOptions _jwtOptions;
     private static readonly HttpClient Client = new HttpClient();
 
-    public ExternalAuthController(UserManager<ApplicationUser> userManager, usertestContext appDbContext, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+    public ExternalAuthController(UserManager<ApplicationUser> userManager, userdbContext appDbContext, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
     {
       _userManager = userManager;
       _appDbContext = appDbContext;

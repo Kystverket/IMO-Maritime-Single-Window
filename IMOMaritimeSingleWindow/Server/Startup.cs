@@ -73,7 +73,7 @@ namespace IMOMaritimeSingleWindow
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
             var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<usertestContext>(options => options.UseNpgsql(connectionStringUserTestDb));
+            services.AddEntityFrameworkNpgsql().AddDbContext<userdbContext>(options => options.UseNpgsql(connectionStringUserDb));
         
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow
 
             });
 
-            builder.AddEntityFrameworkStores<usertestContext>().AddDefaultTokenProviders();
+            //builder.AddEntityFrameworkStores<userdbContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
                 builder.AddUserManager<ApplicationUserManager>()
@@ -218,22 +218,20 @@ namespace IMOMaritimeSingleWindow
 
             if (env.IsDevelopment())
             {
-                
+                /*
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    /*
-                    if (!serviceScope.ServiceProvider.GetService<usertestContext>().AllMigrationsApplied())
+                    if (!serviceScope.ServiceProvider.GetService<userdbContext>().AllMigrationsApplied())
                     {
-                        serviceScope.ServiceProvider.GetService<usertestContext>().Database.Migrate();
+                        serviceScope.ServiceProvider.GetService<userdbContext>().Database.Migrate();
                         
                         serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                           .GetAwaiter().GetResult();
                     }
-                    */
                     //serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                     //      .GetAwaiter().GetResult();
                 }
-                
+                */
             }
 
             
