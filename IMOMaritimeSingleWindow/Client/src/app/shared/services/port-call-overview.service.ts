@@ -15,9 +15,6 @@ export class PortCallOverviewService {
     private getOverviewUrl: string;
     private getPortCallsByLocationUrl: string;
 
-    // private overviewDataSource = new BehaviorSubject<any>(null);
-    // overviewData$ = this.overviewDataSource.asObservable();
-
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
 

@@ -52,13 +52,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-        [HttpGet("user/{id}")]
-        public IActionResult GetPortCallsByUserId(int id)
-        {
-            var portCallList = _context.PortCall.Where(pc => pc.UserId == id).ToList();
-            return Json(portCallList);
-        }
-
         // [HttpGet("overview/{id}")]
         // public IActionResult GetOverviewJson(int id)
         // {

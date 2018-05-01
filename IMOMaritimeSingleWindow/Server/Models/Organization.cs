@@ -11,6 +11,7 @@ namespace IMOMaritimeSingleWindow.Models
             Ship = new HashSet<Ship>();
             ShipCertificate = new HashSet<ShipCertificate>();
             User = new HashSet<User>();
+            Users = new HashSet<Users>();
         }
 
         public int OrganizationId { get; set; }
@@ -26,5 +27,6 @@ namespace IMOMaritimeSingleWindow.Models
         public ICollection<Ship> Ship { get; set; }
         public ICollection<ShipCertificate> ShipCertificate { get; set; }
         public ICollection<User> User { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

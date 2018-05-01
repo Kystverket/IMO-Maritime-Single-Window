@@ -10,10 +10,10 @@ namespace IMOMaritimeSingleWindow.Models
             RoleClaim = new HashSet<RoleClaim>();
         }
 
+        public Guid ClaimId { get; set; }
+        public Guid? ClaimTypeId { get; set; }
         public string ClaimValue { get; set; }
         public string Discriminator { get; set; }
-        public int ClaimId { get; set; }
-        public int ClaimTypeId { get; set; }
 
         public ClaimType ClaimType { get; set; }
         public ICollection<RoleClaim> RoleClaim { get; set; }

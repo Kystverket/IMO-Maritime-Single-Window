@@ -19,7 +19,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int? ShipPowerTypeId { get; set; }
         public int? ShipBreadthTypeId { get; set; }
         public int? ShipLengthTypeId { get; set; }
-        public int ShipSourceId { get; set; }
+        public int? ShipSourceId { get; set; }
         public int ShipFlagCodeId { get; set; }
         public int? OrganizationId { get; set; }
         public int ShipTypeId { get; set; }
