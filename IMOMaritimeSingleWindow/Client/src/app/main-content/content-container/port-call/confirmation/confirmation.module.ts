@@ -5,8 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../../shared/components/shared.module';
 import { ConfirmationComponent } from './confirmation.component';
-import { PortCallDetailsComponent } from './port-call-details/port-call-details.component';
-import { SelectedPurposesComponent } from './port-call-details/selected-purposes/selected-purposes.component';
+import { SaveAndSendComponent } from './save-and-send/save-and-send.component';
 
 @NgModule({
   imports: [
@@ -18,12 +17,10 @@ import { SelectedPurposesComponent } from './port-call-details/selected-purposes
   ],
   declarations: [
     ConfirmationComponent,
-    PortCallDetailsComponent,
-    SelectedPurposesComponent
+    SaveAndSendComponent
   ],
   exports: [
-    ConfirmationComponent,
-    SelectedPurposesComponent
+    ConfirmationComponent
   ]
 })
 export class ConfirmationModule { }

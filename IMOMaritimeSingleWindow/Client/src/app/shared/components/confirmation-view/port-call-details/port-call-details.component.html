@@ -1,0 +1,22 @@
+<div class="row mb-3">
+  <div class="col">
+    <table-card title="Crew, Passengers and Dimensions" icon="crew.png" collapsible=true>
+      <tbody>
+        <tr>
+          <td *ngFor="let entry of portCallDetailsInfo" class="no-wrap px-1 mx-1">
+            <tr>
+              <small>{{ entry.description }}</small>
+            </tr>
+            <tr>{{ entry.data }}</tr>
+          </td>
+        </tr>
+      </tbody>
+    </table-card>
+  </div>
+</div>
+
+<div class="row mb-3">
+  <div class="col">
+    <app-selected-purposes></app-selected-purposes>
+  </div>
+</div>

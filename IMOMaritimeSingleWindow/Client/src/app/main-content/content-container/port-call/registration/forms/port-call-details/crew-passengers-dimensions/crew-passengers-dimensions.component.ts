@@ -28,7 +28,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   ngOnInit() {
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       data => {
-        if (data != null) {
+        if (data) {
           this.crewPassengersAndDimensionsModel = data;
         }
       }
@@ -36,6 +36,8 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   }
 
   persistData() {
+    console.log(this.crewPassengersAndDimensionsModel);
+    
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
 
@@ -45,7 +47,7 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.portCallService.setcrewPassengersAndDimensionsMeta({ valid: this.form.valid });
+    this.portCallService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
   }
 
   limitInputToPositiveInteger($event) {

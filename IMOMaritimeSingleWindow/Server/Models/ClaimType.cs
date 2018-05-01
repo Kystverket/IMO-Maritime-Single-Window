@@ -10,7 +10,7 @@ namespace IMOMaritimeSingleWindow.Models
             Claim = new HashSet<Claim>();
         }
 
-        public int ClaimTypeId { get; set; }
+        public Guid ClaimTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

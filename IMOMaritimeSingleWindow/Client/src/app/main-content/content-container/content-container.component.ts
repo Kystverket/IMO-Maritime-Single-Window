@@ -11,9 +11,7 @@ export class ContentContainerComponent implements OnInit {
 
   selectedComponent: string;
 
-  constructor(
-    private contentService: ContentService    
-  ) {}
+  constructor(private contentService: ContentService) {}
 
   ngOnInit() {
     this.contentService.contentName$.subscribe((content) => {

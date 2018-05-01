@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Helpers
@@ -12,5 +13,7 @@ namespace IMOMaritimeSingleWindow.Helpers
         public LocationOverview LocationOverview {get; set;}
         public LocationOverview PreviousLocationOverview {get; set;}
         public LocationOverview NextLocationOverview {get; set;}
+        public List<OrganizationPortCall> ClearanceList {get; set;}
+        public string Status {get; set;}
     }
 }
