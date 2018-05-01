@@ -54,10 +54,11 @@ export class FindShipComponent implements OnInit {
     this.portCallService.shipData$.subscribe(
       shipData => {
         if (shipData != null) {
-          this.shipFound = shipData != null;
-          this.shipModel = this.shipFound ? shipData : null;
+          this.shipFound = true;
+          this.shipModel = shipData;
+        } else {
+          this.shipFound = false;
         }
-        
       }
     );
   }
