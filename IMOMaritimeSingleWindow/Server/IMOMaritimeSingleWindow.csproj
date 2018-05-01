@@ -6,20 +6,49 @@
     <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\UsersDAL.cs" />
+    <Compile Remove="Migrations\20180321140140_Initial.cs" />
+    <Compile Remove="Migrations\20180321140140_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180321140421_Initial.cs" />
+    <Compile Remove="Migrations\20180321140421_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180321140911_Initial.cs" />
+    <Compile Remove="Migrations\20180321140911_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180321141014_Initial.cs" />
+    <Compile Remove="Migrations\20180321141014_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180321141401_Initial.cs" />
+    <Compile Remove="Migrations\20180321141401_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180419112311_Inital.cs" />
+    <Compile Remove="Migrations\20180419112311_Inital.Designer.cs" />
+    <Compile Remove="Migrations\20180419112822_Inital.cs" />
+    <Compile Remove="Migrations\20180419112822_Inital.Designer.cs" />
+    <Compile Remove="Migrations\20180419113154_UserInitial.cs" />
+    <Compile Remove="Migrations\20180419113154_UserInitial.Designer.cs" />
+    <Compile Remove="Models\Entities\IdentityManager.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
-    <PackageReference Include="Moq" Version="4.8.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.2" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.0.1" />
-    <PackageReference Include="NUnit" Version="3.10.1" />
   </ItemGroup>
 
   <ItemGroup>

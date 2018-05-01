@@ -1,5 +1,5 @@
-﻿
-using IMOMaritimeSingleWindow.Models.Entities;
+
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using AutoMapper;
  
 
@@ -9,7 +9,8 @@ namespace IMOMaritimeSingleWindow.ViewModels.Mappings
     {
         public ViewModelToEntityMappingProfile()
         {
-            CreateMap<RegistrationViewModel, AppUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
+            CreateMap<RegistrationViewModel, ApplicationUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
+            CreateMap<RegistrationWithPasswordViewModel, ApplicationUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
         }
     }
 }

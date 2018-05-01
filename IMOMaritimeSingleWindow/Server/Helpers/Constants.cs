@@ -33,6 +33,21 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const string Register = "register", View = "view", Delete = "delete";
             }
+
+            public static class UserRoles
+            {
+                public const string Admin = "admin", Agent = "agent";
+            }
+
+            public static class MenuEntries
+            {
+                public const string USERS = "USERS";
+                public const string SHIPS = "SHIPS";
+                public const string LOCATION = "LOCATIONS";
+                public const string COMPANIES = "COMPANIES";
+                public const string PORT_CALL = "PORT CALL";
+            }
+
             
         }
         public enum LoginStates
