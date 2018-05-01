@@ -16,7 +16,7 @@ export class ShipModel {
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;
-    shipLength: number;
+    length: number;
     breadth: number;
     power: number;
     height: number;
