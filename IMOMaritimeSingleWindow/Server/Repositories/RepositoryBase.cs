@@ -21,7 +21,11 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public void Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
+            var dbSet = Context.Set<TEntity>();
+            //if (dbSet.Any())
+            //    dbSet.Update(entity);
+            //else
+                dbSet.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
@@ -53,5 +57,13 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             Context.Set<TEntity>().RemoveRange(entities);
         }
+
+        public TEntity Single(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().SingleOrDefault(predicate);
+        }
+
+        
+
     }
 }

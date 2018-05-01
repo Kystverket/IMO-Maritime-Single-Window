@@ -32,28 +32,49 @@ namespace IMOMaritimeSingleWindow.Repositories
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Organization> GetOrganizations(Guid id)
+        public User GetByNormalizedUserName(string normalizedUserName)
         {
-            var organizations = open_ssnContext.User
-                .Where(usr => usr.UserId == 1)
-                .Select(usr => usr.Organization)
-                .ToList();
-                
-            throw new NotImplementedException();
+            return open_ssnContext.Set<User>()
+                .Where(usr => usr.NormalizedEmail == normalizedUserName)
+                .FirstOrDefault();
         }
 
-        public IEnumerable<Organization> GetOrganizationsBy(Expression<Func<Organization, bool>> predicate)
+        public void AddPassword(User user, string passwordHash)
         {
-            throw new NotImplementedException();
+            var passwordEntry = Context.Set<Password>().Add(new Password { Hash = passwordHash });
+            user.Password = passwordEntry.Entity;
+            //user.PasswordId = passwordEntry.Entity.PasswordId;
+            Context.Set<User>().Update(user);
         }
 
-        public IEnumerable<Organization> GetOrganizationsByUserName(string userName)
+        public IQueryable<User> GetIqueryAble()
         {
-            return open_ssnContext.User
-                .Where(usr => usr.NormalizedEmail == userName)
-                .Select(usr => usr.Organization)
-                .ToList();
-
+            return Context.Set<User>().AsQueryable();
         }
+
+
+        //public IEnumerable<Organization> GetOrganizations(Guid id)
+        //{
+        //    var organizations = open_ssnContext.User
+        //        .Where(usr => usr.UserId == 1)
+        //        .Select(usr => usr.Organization)
+        //        .ToList();
+
+        //    throw new NotImplementedException();
+        //}
+
+        //public IEnumerable<Organization> GetOrganizationsBy(Expression<Func<Organization, bool>> predicate)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public IEnumerable<Organization> GetOrganizationsByUserName(string userName)
+        //{
+        //    return open_ssnContext.User
+        //        .Where(usr => usr.NormalizedEmail == userName)
+        //        .Select(usr => usr.Organization)
+        //        .ToList();
+
+        //}
     }
 }

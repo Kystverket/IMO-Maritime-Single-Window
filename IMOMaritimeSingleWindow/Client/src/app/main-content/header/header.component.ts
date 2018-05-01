@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   loggedIn: boolean;
   roles: any = new Array();
-  user_menu_entries: string[];
+  user_menu_entries: MenuEntry[];
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call" }
   ];
 
-  menu_entries: MenuEntry[];
 
   private generateMenu() {
 
@@ -45,13 +44,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     ) */
 
+    this.user_menu_entries = this.menu_entries;
+    return;
+
     this.menuService.getMenuEntries()
     .finally( () => this.setMenuEntries()  )
     .map(data => data.menu_entries)
     .subscribe(
       data => {
         data.forEach(element => {
-          console.log(`entry: ${element}`)
+          console.log(`entry: ${element}`);
         });
         this.user_menu_entries = data;
       }
@@ -59,8 +61,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   }
 
-  private getAllRoles(){
-    //Gets the roles of the logged in user
+  private getAllRoles() {
+    // Gets the roles of the logged in user
     this.accountService.getAllRoles().subscribe(
       data => {
         this.roles = data;
@@ -69,8 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private setMenuEntries() {
-    
-    //Populates the menu entry list with the entries the user has access to
+    // Populates the menu entry list with the entries the user has access to
     this.menu_entries = [];
     for(let title of this.user_menu_entries){
       for(let meny_entry of this.menu_entries_all){
@@ -101,8 +102,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //Temporarily solution not requiring login in GUI
-    if(!this.loginService.isLoggedIn()){
+    // Temporarily solution not requiring login in GUI
+    
+    if(true){
+      this.generateMenu();
+    } else {
+      if(!this.loginService.isLoggedIn()){
         this.loginService.login("admin@test.no", "Tester123")
         .subscribe(
           result => {
@@ -113,7 +118,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
               //this.setMenuEntries();
           }
         )
+      }
     }
+    
 
     /* console.log("ALL ROLES");
     this.getAllRoles();

@@ -3,15 +3,13 @@ import { UserService } from '../../../../../shared/services/user.service';
 import { UserModel } from '../../../../../shared/models/user-model';
 import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
-import { CompanyService } from '../../../../../shared/services/company.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
 
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, UserService, AccountService, ShipService]
+  providers: [UserModel, UserService, AccountService]
 })
 
 export class RegisterUserComponent implements OnInit {
@@ -61,9 +59,11 @@ export class RegisterUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    /*
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
+    */
   }
 
 

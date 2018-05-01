@@ -2,14 +2,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Person = IMOMaritimeSingleWindow.IdentityModels.Person;
-using Password = IMOMaritimeSingleWindow.IdentityModels.Password;
  
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -18,7 +17,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")] 
     public class AccountController : Controller
     {
-        private readonly userdbContext userDbContext;
+        private readonly open_ssnContext open_ssnContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -29,13 +28,12 @@ namespace IMOMaritimeSingleWindow.Controllers
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper,
-            userdbContext userDbContext)
+            open_ssnContext open_ssnContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _mapper = mapper;
-            this.usertestContext = usertestContext;
         }
 
         //[Authorize(Roles = "admin")]
@@ -68,16 +66,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             //TODO: Implement functionality for sending email to user with new account
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            //Create the Person associated with the ApplicationUser 
-            await usertestContext.Person.AddAsync(new Person
-            {
-                UserId = userIdentity.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            });
-            await usertestContext.SaveChangesAsync();
-
+            
             return new OkObjectResult("Account created");
         }
         
@@ -97,19 +86,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //Create the Person associated with the ApplicationUser 
-            await userDbContext.Person.AddAsync(new Person {
-                UserId = userIdentity.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            });
             
-            await usertestContext.Password.AddAsync(new Password
-            {
-                UserId = userIdentity.Id,
-                PasswordHash = userIdentity.PasswordHash
-            });
-            
-            await usertestContext.SaveChangesAsync();
 
             return new OkObjectResult("Account created");
         }

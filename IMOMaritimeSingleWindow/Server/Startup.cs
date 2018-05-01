@@ -31,6 +31,8 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Repositories;
+using IMOMaritimeSingleWindow.Identity.Stores;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -73,11 +75,8 @@ namespace IMOMaritimeSingleWindow
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
             var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<userdbContext>(options => options.UseNpgsql(connectionStringUserDb));
-        
-
-            services.AddSingleton<IJwtFactory, JwtFactory>();
-
+            services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
+       
 
             //Configure identity services
             var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -99,25 +98,40 @@ namespace IMOMaritimeSingleWindow
 
             });
 
-            //builder.AddEntityFrameworkStores<userdbContext>().AddDefaultTokenProviders();
+            //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
                 builder.AddUserManager<ApplicationUserManager>()
                 .AddRoleManager<ApplicationRoleManager>();
 
-            services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
-            services.AddScoped<IRoleStore<ApplicationRole>, ApplicationRoleStore>();
-
             var serviceProvider = services.BuildServiceProvider();
+            var context = serviceProvider.GetService<open_ssnContext>();
+            if (context == null) throw new Exception("no service for open_ssnContext found!");
 
-            //Configure database initializer service
-            //serviceProvider = services.AddUserDbInitializer(serviceProvider, Configuration);
+            //services.AddSingleton<IUnitOfWork<Guid>, UnitOfWork>();
+            services.AddAutoMapper();
+            services.TryAddScoped(ctx => new UnitOfWork(context));
+            serviceProvider = services.BuildServiceProvider();
+            var unitofwork = serviceProvider.GetService<UnitOfWork>();
+            var automapper = serviceProvider.GetService<IMapper>();
             
+            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, automapper));
+
+            serviceProvider = services.BuildServiceProvider();
+
             var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-            var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
+            //var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
 
             // Additional manager separate from ASP NET Identity
-            services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+            //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+
+
+            //Overriding service
+            services.Replace(ServiceDescriptor.Scoped<IUserValidator<ApplicationUser>, CustomUserValidator<ApplicationUser>>());
+
+            // Additional manager separate from ASP NET Identity
+            //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
             
 
             // Custom services
@@ -127,58 +141,60 @@ namespace IMOMaritimeSingleWindow
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
-          var appSettingsSection = Configuration.GetSection("AppSettings");
-          services.Configure<AppSettings>(appSettingsSection);
-          var appSettings = appSettingsSection.Get<AppSettings>();
-          SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
+            services.AddSingleton<IJwtFactory, JwtFactory>();
 
-          // Configure JwtIssuerOptions
-          services.Configure<JwtIssuerOptions>(options =>
-          {
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
+
+            // Configure JwtIssuerOptions
+            services.Configure<JwtIssuerOptions>(options =>
+            {
             options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
             options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
             options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-          });
+            });
 
-          var tokenValidationParameters = new TokenValidationParameters
-          {
-             ValidateIssuer = true,
-             ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
 
-             ValidateAudience = true,
-             ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+                ValidateAudience = true,
+                ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
-             ValidateIssuerSigningKey = true,
-             IssuerSigningKey = _signingKey,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = _signingKey,
 
-             RequireExpirationTime = false,
-             ValidateLifetime = true,
-             ClockSkew = TimeSpan.Zero
-          };
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
 
-          services.AddAuthentication(options =>
-          {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-          }).AddJwtBearer(configureOptions =>
+            }).AddJwtBearer(configureOptions =>
             {
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
                 configureOptions.SaveToken = true;
             }
-          ); //end AddJwtBearer
+            ); //end AddJwtBearer
 
-          // api user claim policy
-          services.AddAuthorization(options =>
-          {
+            // api user claim policy
+            services.AddAuthorization(options =>
+            {
             options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
               
 
             options.AddPolicy("Port Call Registration", policy =>
-                policy.RequireAssertion(context =>
-                    context.User.HasClaim(claim =>
+                policy.RequireAssertion(ahcontext =>
+                    ahcontext.User.HasClaim(claim =>
                         // User has the role of an admin
                         (claim.Type == System.Security.Claims.ClaimTypes.Role && claim.Value == Constants.Strings.UserRoles.Admin) ||
                         // ... or the role of an agent
@@ -186,8 +202,7 @@ namespace IMOMaritimeSingleWindow
                     ))
                 );
               
-
-          });
+            });
 
 
             /*services.AddSingleton<IEmailSender, EmailSender>();
@@ -201,8 +216,7 @@ namespace IMOMaritimeSingleWindow
 
                 });
             */
-
-            services.AddAutoMapper();
+            
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
           // Fix for json self-referencing loop bug:
@@ -221,14 +235,14 @@ namespace IMOMaritimeSingleWindow
                 /*
                 using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    if (!serviceScope.ServiceProvider.GetService<userdbContext>().AllMigrationsApplied())
+                    if (!serviceScope.ServiceProvider.GetService<open_ssnContext>().AllMigrationsApplied())
                     {
-                        serviceScope.ServiceProvider.GetService<userdbContext>().Database.Migrate();
+                        serviceScope.ServiceProvider.GetService<open_ssnContext>().Database.Migrate();
                         
                         serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                           .GetAwaiter().GetResult();
                     }
-                    */
+                    
                     //serviceScope.ServiceProvider.GetService<IUserDbInitializer>().EnsureSeeded()
                     //      .GetAwaiter().GetResult();
                 }

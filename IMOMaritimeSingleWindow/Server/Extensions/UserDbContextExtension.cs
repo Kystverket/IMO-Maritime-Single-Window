@@ -9,7 +9,7 @@ namespace IMOMaritimeSingleWindow.Extensions
 {
     public static class usertestContextExtension
     {
-        public static void EnsureSeeded(this userdbContext context)
+        public static void EnsureSeeded(this open_ssnContext context)
         {
             /*
             if (!context.Test.Any())
