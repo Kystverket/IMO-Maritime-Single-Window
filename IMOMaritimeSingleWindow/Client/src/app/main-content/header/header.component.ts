@@ -44,9 +44,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     ) */
 
+    // Hard-coded
     this.user_menu_entries = this.menu_entries;
-    return;
 
+    // This should instead be executed when database is ready to be queried
+    /*
     this.menuService.getMenuEntries()
     .finally( () => this.setMenuEntries()  )
     .map(data => data.menu_entries)
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user_menu_entries = data;
       }
     )
+    */
 
   }
 
@@ -74,8 +77,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Populates the menu entry list with the entries the user has access to
     this.menu_entries = [];
     for(let title of this.user_menu_entries){
-      for(let meny_entry of this.menu_entries_all){
-        if(title === meny_entry.title) {
+      for(let meny_entry of this.menu_entries){
+        if(title.title === meny_entry.title) {
           this.menu_entries.push(meny_entry);
         }
       }
@@ -102,39 +105,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Temporarily solution not requiring login in GUI
     
-    if(true){
       this.generateMenu();
-    } else {
+
+      // This should instead be executed when database is ready to be queried
+      
+      // Temporarily solution not requiring login in GUI
       if(!this.loginService.isLoggedIn()){
         this.loginService.login("admin@test.no", "Tester123")
         .subscribe(
           result => {
             if(result)
               console.log("Login successful");
-              this.generateMenu();
-              //this.getMenuEntries();
-              //this.setMenuEntries();
+            this.generateMenu();
+            //this.getMenuEntries();
+            //this.setMenuEntries();
           }
         )
       }
-    }
-    
 
-    /* console.log("ALL ROLES");
+      /* console.log("ALL ROLES");
     this.getAllRoles();
     console.log(this.roles);
 
     console.log("ROLES FOR USER");
     this.getRoles();
     console.log(this.roles); */
-
-    
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
   }
-
   ngOnDestroy() {
     // prevent memory leak by unsubscribing
     this.subscription.unsubscribe();
