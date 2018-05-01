@@ -30,7 +30,6 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? NextLocationEta { get; set; }
         public DateTimeOffset? NextLocationAta { get; set; }
         public Guid? UserId { get; set; }
-        public int? UsersId {get; set;}
 
         public Location Location { get; set; }
         public Location NextLocation { get; set; }
@@ -38,7 +37,6 @@ namespace IMOMaritimeSingleWindow.Models
         public Location PreviousLocation { get; set; }
         public Ship Ship { get; set; }
         public User User { get; set; }
-        public Users Users { get; set; }
         public ICollection<CustomsCargo> CustomsCargo { get; set; }
         public ICollection<DpgOnBoard> DpgOnBoard { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
