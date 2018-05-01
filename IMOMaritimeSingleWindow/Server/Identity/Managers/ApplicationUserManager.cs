@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
-using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.TestModels;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
@@ -31,14 +31,20 @@ namespace IMOMaritimeSingleWindow.Identity
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
 
         {
+
         }
 
         public override Task<IdentityResult> CreateAsync(ApplicationUser user)
         {
-            return base.CreateAsync(user);
+            var result = base.CreateAsync(user);
+            return result;
         }
 
-
+        public override Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
+        {
+            
+            return base.CheckPasswordAsync(user, password);
+        }
 
         /// <summary>
         /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Models.Entities.UserRoleManager.GetClaimsAsync(TUser)"/>.

@@ -18,6 +18,12 @@
     <Compile Remove="Migrations\20180321141014_Initial.Designer.cs" />
     <Compile Remove="Migrations\20180321141401_Initial.cs" />
     <Compile Remove="Migrations\20180321141401_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20180419112311_Inital.cs" />
+    <Compile Remove="Migrations\20180419112311_Inital.Designer.cs" />
+    <Compile Remove="Migrations\20180419112822_Inital.cs" />
+    <Compile Remove="Migrations\20180419112822_Inital.Designer.cs" />
+    <Compile Remove="Migrations\20180419113154_UserInitial.cs" />
+    <Compile Remove="Migrations\20180419113154_UserInitial.Designer.cs" />
     <Compile Remove="Models\Entities\IdentityManager.cs" />
   </ItemGroup>
 

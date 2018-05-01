@@ -28,7 +28,10 @@ namespace IMOMaritimeSingleWindow.Identity.Models
 
     public class ApplicationUserRole : IdentityUserRole<Guid> { }
 
-    public class ApplicationUserToken : IdentityUserToken<Guid> { }
+    public class ApplicationUserToken : IdentityUserToken<Guid> {
+        public ApplicationUser User { get; set; }
+        public string Discriminator { get; set; }
+    }
 
     public class ApplicationRoleClaim : IdentityRoleClaim<Guid> {  }
     
@@ -37,6 +40,8 @@ namespace IMOMaritimeSingleWindow.Identity.Models
 
     {
         public string Description { get; set; }
+
+        
 
         public ApplicationRole() :base() { } /* Needed for EF */
 
