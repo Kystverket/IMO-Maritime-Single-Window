@@ -17,11 +17,9 @@ import { ButtonRowComponent } from './button-row/button-row.component';
 })
 export class OverviewComponent implements OnInit {
 
-  myLocationId: number = 2328223; // temporary for testing
   portCalls: any;
   ships: ShipModel[];
   locations: LocationModel[];
-  overviewModels: any[] = [];
 
   data = [];
   dataSource: LocalDataSource = new LocalDataSource();
@@ -77,12 +75,13 @@ export class OverviewComponent implements OnInit {
   ngOnInit() {
     var timeStart = Date.now();
     this.overviewService.getPortCalls().subscribe(
-      pcData => {
-        pcData.forEach(pc => {
+      pcData => {        
+        let index = 0;
+        let finalIndex = pcData.length - 1;
+        pcData.forEach((pc) => {          
           this.overviewService.getOverview(pc.portCallId).subscribe(
             ov => {
-              this.overviewModels.push(ov);
-              this.dataSource.add({
+              this.dataSource.prepend({
                 overviewModel: ov,
                 shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
@@ -94,13 +93,14 @@ export class OverviewComponent implements OnInit {
                 status: ov.status,
                 actions: 'btn'
               });
-              this.dataSource.refresh();
+              // console.log(Date.now() - timeStart);
+            }, undefined, () => {
+              if (++index === finalIndex) this.overviewFound = true;
             }
-          )
+          )  
         });
-        this.overviewFound = true;
-        console.log(Date.now() - timeStart);
       }
     );
+    
   }
 }

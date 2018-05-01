@@ -8,6 +8,6 @@ export class LocationModel {
     locationCode: string;
     locationNo: number;
     postCode: string;
-    locationName: string;
+    name: string;
     country: any;
 }

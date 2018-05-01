@@ -63,6 +63,8 @@ export class FindLocationComponent implements OnInit {
                 if (locData) {
                     this.locationFound = true;
                     this.locationModel = locData;
+                } else {
+                    this.locationFound = false;
                 }
             }
         );
