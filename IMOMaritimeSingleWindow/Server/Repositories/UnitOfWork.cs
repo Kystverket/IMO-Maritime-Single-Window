@@ -17,7 +17,6 @@ namespace IMOMaritimeSingleWindow.Repositories
             RoleClaims = new RoleClaimsRepository(_context);
             Passwords = new PasswordRepository(_context);
             Persons = new PersonRepository(_context);
-            UserRoles = new UserRoleRepository(_context);
             Roles = new RoleRepository(_context);
             ClaimTypes = new ClaimTypeRepository(_context);
         }
@@ -27,7 +26,6 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IRoleClaimsRepository<Guid> RoleClaims { get; private set; }
         public IPasswordRepository<Guid> Passwords { get; private set; }
         public IPersonRepository<Guid> Persons { get; private set; }
-        public IUserRoleRepository<Guid> UserRoles { get; private set; }
         public IClaimTypeRepository<Guid> ClaimTypes { get; private set; }
 
         public int Complete()
@@ -41,19 +39,23 @@ namespace IMOMaritimeSingleWindow.Repositories
         }
 
         //Additional methods
-
+        // REMOVED due to removing table UserRole from database
+        // public IEnumerable<Claim> GetClaimsForUser(Guid userId)
+        // {
+        //     var userRoles = UserRoles.Find(u => u.UserId == userId).ToList();
+        //     var claims = new List<List<Claim>>();
+        //     foreach (var userRole in userRoles)
+        //     {
+        //         var role = Roles.Get(userRole.RoleId);
+        //         claims.Add(RoleClaims.GetClaimsForRole(role.RoleId).ToList());
+        //     }
+        //     //Remove duplicate claims originating from various roles    
+        //     var claimsList = claims.SelectMany(list => list).Distinct();
+        //     return claimsList;
+        // }
         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
         {
-            var userRoles = UserRoles.Find(u => u.UserId == userId).ToList();
-            var claims = new List<List<Claim>>();
-            foreach (var userRole in userRoles)
-            {
-                var role = Roles.Get(userRole.RoleId);
-                claims.Add(RoleClaims.GetClaimsForRole(role.RoleId).ToList());
-            }
-            //Remove duplicate claims originating from various roles    
-            var claimsList = claims.SelectMany(list => list).Distinct();
-            return claimsList;
+            return null;
         }
 
         public IEnumerable<System.Security.Claims.Claim> GetSystemClaims(IEnumerable<Claim> claims)
