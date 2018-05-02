@@ -30,6 +30,8 @@ export class ConfirmDataComponent implements OnInit {
           console.log(shipData);
           this.shipFound = true;
           this.shipModel = shipData;
+        } else {
+          this.shipFound = false;
         }
       }
     );
@@ -39,6 +41,8 @@ export class ConfirmDataComponent implements OnInit {
           console.log(locationData);
           this.locationFound = true;
           this.locationModel = locationData;
+        } else {
+          this.locationFound = false;
         }
       }
     );
@@ -47,29 +51,11 @@ export class ConfirmDataComponent implements OnInit {
         if (etaEtdData) {
           this.dateTimeFound =
           this.etaEtdModel = etaEtdData;
+        } else { 
+          this.dateTimeFound = false;
         }
       }
     );
-    // this.portCallService.overviewData$.subscribe(
-    //   ovData => {
-    //     if (ovData != null) {
-    //       // Ship
-    //     this.shipFound = ovData.shipOverview != null;
-    //     this.shipModel = this.shipFound ? ovData.shipOverview : null;
-    //     // Location
-    //     this.locationFound = ovData.locationOverview != null;
-    //     this.locationModel = this.locationFound ? ovData.locationOverview : null;
-    //     }
-        
-    //   }
-    // );
-    // // ETA/ETD
-    // this.portCallService.etaEtdData$.subscribe(
-    //   data => {
-    //     this.dateTimeFound = data != null;
-    //     this.etaEtdModel = data;
-    //   }
-    // );
   }
 
   dateTimeFormat(number: number) {
