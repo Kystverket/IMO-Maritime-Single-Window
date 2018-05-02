@@ -139,9 +139,17 @@ export class RegisterShipComponent implements OnInit {
 
   registerShip() {
     this.shipService.registerShip(this.shipModel).subscribe(
-      (res) => console.log(res)
+      result => {
+        console.log(result);
+        this.goBack();
+      }, error => {
+        console.log(error);        
+      }
     );
-    //this.contentService.setContent('Port Call');
+  }
+
+  private goBack() {
+    this.contentService.setContent('Port Call');
   }
 
 }
