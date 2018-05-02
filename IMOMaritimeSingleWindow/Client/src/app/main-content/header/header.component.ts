@@ -100,7 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setContent(contentName: string) {
-    this.setMenuEntries();
+    // this.setMenuEntries();
     this.contentService.setContent(contentName);
   }
 
