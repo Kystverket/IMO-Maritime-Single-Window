@@ -58,7 +58,7 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public IEnumerable<System.Security.Claims.Claim> GetSystemClaims(IEnumerable<Claim> claims)
         {
-            var systemClaims = claims.Join(ClaimTypes.GetAll(),
+            var systemClaims = claims.Join(_context.ClaimType,
                 c => c.ClaimTypeId,
                 ct => ct.ClaimTypeId,
                 (c, ct) => new System.Security.Claims.Claim

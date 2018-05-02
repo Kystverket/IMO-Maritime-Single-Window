@@ -66,10 +66,6 @@ namespace IMOMaritimeSingleWindow.Auth
         public ClaimsIdentity GenerateClaimsIdentity<TKey>(string userName, TKey id, IList<Claim> rights)
             where TKey : IEquatable<TKey>
         {
-            /*bool isAdmin = userName == "admin";
-            var roleClaim = isAdmin ? new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.AdminAccess) :
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, Helpers.Constants.Strings.JwtClaims.ApiAccess);
-           */
 
             var claimsIdentity = new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {

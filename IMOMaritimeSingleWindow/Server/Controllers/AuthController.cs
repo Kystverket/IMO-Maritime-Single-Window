@@ -125,7 +125,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            var claims = await _userRoleManager.GetClaimsAsync(user);
+            var claims = await _userManager.GetClaimsAsync(user);
             var claimsJSON = Json(claims);
             _logger.LogInformation($"Claims from user:\n{claimsJSON}");
 
