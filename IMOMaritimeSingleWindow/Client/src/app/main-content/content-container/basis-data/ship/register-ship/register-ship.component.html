@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Ship Identification" icon="ship.png">
+      <ssn-card header="Ship Identification" icon="ship.png">
         <form>
 
           <div class="row">
@@ -59,7 +59,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Ship Details" icon="ship.png">
+      <ssn-card header="Ship Details" icon="ship.png">
         <form>
 
           <div class="row">
@@ -263,7 +263,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Confirm Ship Registration" icon="checkmark.png">
+      <ssn-card header="Confirm Ship Registration" icon="checkmark.png">
         <div class="text-center" *ngIf="!(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected)">
           <p *ngIf="!shipModel.name">Ship name not set.</p>
           <p *ngIf="!shipModel.callSign">Call sign not set.</p>
