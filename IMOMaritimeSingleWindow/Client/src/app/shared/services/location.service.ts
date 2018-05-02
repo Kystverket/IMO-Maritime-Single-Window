@@ -7,13 +7,20 @@ import { SearchService } from "./search.service";
 export class LocationService {
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
-        this.actionUrl = 'api/location/search/';
+        this.searchUrl = 'api/location/search/';
+        this.getLocationTypesUrl = 'api/locationtype/getall';
     }
 
     private searchService: SearchService;
-    private actionUrl: string;
+    private searchUrl: string;
+    private getLocationTypesUrl: string;
 
     public search(term: string) {
-        return this.searchService.search(this.actionUrl, term);
+        return this.searchService.search(this.searchUrl, term);
+    }
+
+    public getLocationTypes() {
+        return this.http.get(this.getLocationTypesUrl)
+                .map(res => res.json());
     }
 }
