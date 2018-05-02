@@ -71,7 +71,6 @@
             </div>
           </div>
 
-
         </form>
       </ssn-card>
     </div>
@@ -89,8 +88,7 @@
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
         </div>
 
-        <div *ngIf="organizationTypeSelected && organizationModel.name && 0 < organizationModel.name.length && organizationModel.organizationNo && 0 < organizationModel.organizationNo.length"
-          class="text-center">
+        <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -98,8 +96,8 @@
                   <th>Organization Name</th>
                   <th>Organization Type</th>
                   <th>Organization Number</th>
-                  <th *ngIf="organizationModel.description && 0 < organizationModel.description.length">Description</th>
-                  <th *ngIf="organizationModel.invoiceReceiverNo && 0 < organizationModel.invoiceReceiverNo.length">Invoice Receiver Number</th>
+                  <th *ngIf="organizationModel.description">Description</th>
+                  <th *ngIf="organizationModel.invoiceReceiverNo">Invoice Receiver Number</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,8 +105,8 @@
                   <td>{{ organizationModel.name }}</td>
                   <td>{{ selectedOrganizationType.name }}</td>
                   <td>{{ organizationModel.organizationNo }}</td>
-                  <td *ngIf="organizationModel.description && 0 < organizationModel.description.length">{{organizationModel.description}}</td>
-                  <td *ngIf="organizationModel.invoiceReceiverNo && 0 < organizationModel.invoiceReceiverNo.length">{{ organizationModel.invoiceReceiverNo }}</td>
+                  <td *ngIf="organizationModel.description">{{organizationModel.description}}</td>
+                  <td *ngIf="organizationModel.invoiceReceiverNo">{{ organizationModel.invoiceReceiverNo }}</td>
                 </tr>
               </tbody>
             </table>

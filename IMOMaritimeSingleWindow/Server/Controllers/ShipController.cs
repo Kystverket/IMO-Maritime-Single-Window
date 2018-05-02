@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             } catch (Exception e) {
                 return BadRequest(e.Message + ":\n" + e.InnerException.Message);
             }
-            return Ok(newShip);
+            return Json(newShip);
         }
 
         public List<Ship> SearchShip(string searchTerm)
