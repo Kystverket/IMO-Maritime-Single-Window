@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { OrganizationModel } from '../../../../../shared/models/organization-model';
 import { ShipModel } from '../../../../../shared/models/ship-model';
+import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
 
 @Component({
@@ -11,7 +13,6 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class RegisterShipComponent implements OnInit {
 
-  countrySelected: boolean;
   organizationSelected: boolean;
   shipFlagCodeSelected: boolean;
 
@@ -35,8 +36,53 @@ export class RegisterShipComponent implements OnInit {
   breadthTypeDropdownString: string = "Select type";
   powerTypeDropdownString: string = "Select type";
 
+  shipFlagCodeModel: any;
+  organizationModel: OrganizationModel;
+
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
-  constructor(public shipModel: ShipModel, private shipService: ShipService) { }
+  constructor(public shipModel: ShipModel, private shipService: ShipService, private contentService: ContentService) { }
+
+  ngOnInit() {
+    this.shipService.getShipTypes().subscribe(
+      data => this.shipTypeList = data
+    );
+    this.shipService.getHullTypes().subscribe(
+      data => this.hullTypeList = data
+    );
+    this.shipService.getLengthTypes().subscribe(
+      data => this.lengthTypeList = data
+    );
+    this.shipService.getBreadthTypes().subscribe(
+      data => this.breadthTypeList = data
+    );
+    this.shipService.getPowerTypes().subscribe(
+      data => this.powerTypeList = data
+    );
+
+    this.shipService.shipFlagCodeData$.subscribe(
+      data => {
+        if (data) {
+          this.shipFlagCodeModel = data;
+          this.shipModel.shipFlagCodeId = data.shipFlagCode.shipFlagCodeId;
+          this.shipFlagCodeSelected = true;
+        } else {
+          this.shipFlagCodeSelected = false;
+        }
+      }
+    );
+
+    this.shipService.organizationData$.subscribe(
+      data => {
+        if (data) {
+          this.organizationModel = data;
+          this.shipModel.organizationId = data.organizationId;
+          this.organizationSelected = true;
+        } else {
+          this.organizationSelected = false;
+        }
+      }
+    );
+  }
 
   shipTypeSearch = (text$: Observable<string>) =>
     text$
@@ -49,12 +95,12 @@ export class RegisterShipComponent implements OnInit {
         : this.shipTypeList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       )
       .do((text$) => {
-        if (text$.length == 0) {          
+        if (text$.length == 0) {
           this.shipTypeSearchFailed = true;
         }
       });
 
-  formatter = (x: {name: string}) => x.name;
+  formatter = (x: { name: string }) => x.name;
 
   selectShipType(shipType: any) {
     this.shipModel.shipTypeId = shipType.shipTypeId;
@@ -91,47 +137,11 @@ export class RegisterShipComponent implements OnInit {
     this.powerTypeSelected = true;
   }
 
-  registerShip(newShip: any) {
-    this.shipService.registerShip(newShip);
-  }
-
-
-
-  ngOnInit() {
-    this.shipService.getShipTypes().subscribe(
-      data => this.shipTypeList = data
+  registerShip() {
+    this.shipService.registerShip(this.shipModel).subscribe(
+      (res) => console.log(res)
     );
-    this.shipService.getHullTypes().subscribe(
-      data => this.hullTypeList = data
-    );
-    this.shipService.getLengthTypes().subscribe(
-      data => this.lengthTypeList = data
-    );
-    this.shipService.getBreadthTypes().subscribe(
-      data => this.breadthTypeList = data
-    );
-    this.shipService.getPowerTypes().subscribe(
-      data => this.powerTypeList = data
-    );
-
-    this.shipService.organizationData$.subscribe(
-      data => {
-        this.organizationSelected = data != null;
-        if (this.organizationSelected) {
-          this.shipModel.organizationId = data.organizationId;
-        }
-      }
-    );
-
-    this.shipService.shipFlagCodeData$.subscribe(
-      data => {
-        this.shipFlagCodeSelected = data != null;
-        if (this.shipFlagCodeSelected) {
-          this.shipModel.shipFlagCodeId = data.shipFlagCode.shipFlagCodeId;
-        }
-      }
-    );
-
+    this.contentService.setContent('Port Call');
   }
 
 }

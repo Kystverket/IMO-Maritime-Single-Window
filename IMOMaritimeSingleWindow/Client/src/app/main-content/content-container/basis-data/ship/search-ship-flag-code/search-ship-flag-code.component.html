@@ -42,7 +42,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode.toLowerCase() }}.png" height="20px" />
+                                <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
                             </td>
                             <td>{{ shipFlagCodeModel.shipFlagCode.name }}</td>
                             <td>{{ shipFlagCodeModel.country.name }}</td>
