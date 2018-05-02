@@ -8,7 +8,7 @@ namespace IMOMaritimeSingleWindow.Data
 {
     public partial class open_ssnContext : DbContext
     {
-         public virtual DbSet<Claim> Claim { get; set; }
+        public virtual DbSet<Claim> Claim { get; set; }
         public virtual DbSet<ClaimType> ClaimType { get; set; }
         public virtual DbSet<ContactMedium> ContactMedium { get; set; }
         public virtual DbSet<Country> Country { get; set; }
@@ -54,7 +54,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
 
 
@@ -1312,6 +1311,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.PersonId)
                     .HasName("fki_FK_user_person_person_id1");
 
+                entity.HasIndex(e => e.RoleId)
+                    .HasName("fki_FK_user_role_id");
+
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
                     .ValueGeneratedNever();
@@ -1340,6 +1342,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PhoneNumberConfirmed).HasColumnName("phone_number_confirmed");
 
+                entity.Property(e => e.RoleId).HasColumnName("role_id");
+
                 entity.Property(e => e.SecurityStamp).HasColumnName("security_stamp");
 
                 entity.Property(e => e.TwoFactorEnabled).HasColumnName("two_factor_enabled");
@@ -1358,6 +1362,11 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.PersonId)
                     .HasConstraintName("FK_user_person_person_id1");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.User)
+                    .HasForeignKey(d => d.RoleId)
+                    .HasConstraintName("FK_user_role_id");
             });
 
             modelBuilder.Entity<UserLogin>(entity =>
@@ -1386,39 +1395,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_user_login_user_id1");
-            });
-
-            modelBuilder.Entity<UserRole>(entity =>
-            {
-                entity.ToTable("user_role");
-
-                entity.HasIndex(e => e.RoleId)
-                    .HasName("fki_FK_user_role_role_id1");
-
-                entity.HasIndex(e => e.UserId)
-                    .HasName("fki_FK_user_role_user_id1");
-
-                entity.Property(e => e.UserRoleId)
-                    .HasColumnName("user_role_id")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Discriminator).HasColumnName("discriminator");
-
-                entity.Property(e => e.RoleId).HasColumnName("role_id");
-
-                entity.Property(e => e.UserId).HasColumnName("user_id");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.UserRole)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_user_role_role_id1");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRole)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_user_role_user_id1");
             });
 
             modelBuilder.Entity<UserToken>(entity =>

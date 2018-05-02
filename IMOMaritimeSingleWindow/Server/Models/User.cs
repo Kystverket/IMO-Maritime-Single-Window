@@ -9,7 +9,6 @@ namespace IMOMaritimeSingleWindow.Models
         {
             PortCall = new HashSet<PortCall>();
             UserLogin = new HashSet<UserLogin>();
-            UserRole = new HashSet<UserRole>();
             UserToken = new HashSet<UserToken>();
         }
 
@@ -28,13 +27,14 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public string ConcurrencyStamp { get; set; }
         public int? AccessFailedCount { get; set; }
+        public Guid? RoleId { get; set; }
 
         public Organization Organization { get; set; }
         public Password Password { get; set; }
         public Person Person { get; set; }
+        public Role Role { get; set; }
         public ICollection<PortCall> PortCall { get; set; }
         public ICollection<UserLogin> UserLogin { get; set; }
-        public ICollection<UserRole> UserRole { get; set; }
         public ICollection<UserToken> UserToken { get; set; }
     }
 }

@@ -85,7 +85,7 @@ export class OverviewComponent implements OnInit {
                 overviewModel: ov,
                 shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-                callSign: ov.shipOverview.ship.callSign,
+                callSign: ov.shipOverview.ship.callSign || "",
                 locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
                 eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
