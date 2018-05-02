@@ -102,8 +102,8 @@ export class RegisterShipComponent implements OnInit {
 
   formatter = (x: { name: string }) => x.name;
 
-  selectShipType(shipType: any) {
-    this.shipModel.shipTypeId = shipType.shipTypeId;
+  selectShipType($event: any) {
+    this.shipModel.shipTypeId = $event.item.shipTypeId;
     this.shipTypeSelected = true;
   }
 
@@ -141,7 +141,7 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.registerShip(this.shipModel).subscribe(
       (res) => console.log(res)
     );
-    this.contentService.setContent('Port Call');
+    //this.contentService.setContent('Port Call');
   }
 
 }
