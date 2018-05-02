@@ -8,7 +8,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Role()
         {
             RoleClaim = new HashSet<RoleClaim>();
-            UserRole = new HashSet<UserRole>();
+            User = new HashSet<User>();
         }
 
         public Guid RoleId { get; set; }
@@ -18,6 +18,6 @@ namespace IMOMaritimeSingleWindow.Models
         public string ConcurrencyStamp { get; set; }
 
         public ICollection<RoleClaim> RoleClaim { get; set; }
-        public ICollection<UserRole> UserRole { get; set; }
+        public ICollection<User> User { get; set; }
     }
 }
