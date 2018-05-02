@@ -21,10 +21,13 @@ export class LoginService extends BaseService {
   // Observable navItem stream
   authNavStatus$ = this._authNavStatusSource.asObservable();
 
+  private _loggedInSource = new BehaviorSubject<boolean>(false);
+  loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
 
   constructor(private http: Http, private configService: ConfigService) {
     super();
+    localStorage.removeItem("auth_token");
     this.loggedIn = !!localStorage.getItem('auth_token');
     // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in
@@ -32,23 +35,20 @@ export class LoginService extends BaseService {
     this.baseUrl = configService.getApiURI();
   }
 
-    register() {
-        //Not yet implemented
-    }
-
-   login(username, password) {
+   login(userName, password) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
+    console.log("login called!");
     return this.http
       .post(
       this.baseUrl + '/auth/login',
-      JSON.stringify({ username, password }),{ headers }
+      JSON.stringify({ userName, password }),{ headers }
       )
       .map(res => res.json())
       .map(res => {
         localStorage.setItem('auth_token', res.auth_token);
-        this.loggedIn = true;
+        this._loggedInSource.next(true);
         this._authNavStatusSource.next(true);
         return true;
       })
@@ -62,10 +62,7 @@ export class LoginService extends BaseService {
   }
 
   isLoggedIn() {
-    return this.loggedIn;
+    return this.loggedIn$;
   }
-
-  
-  // REGISTER
 
 }

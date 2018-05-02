@@ -16,6 +16,9 @@ import { ContentService } from './shared/services/content.service';
 import { MainContentComponent } from './main-content/main-content.component';
 import { HeaderComponent } from './main-content/header/header.component';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
+import { AccountService } from './shared/services/account.service';
+import { AuthRequest } from './shared/services/auth.request.service';
+import { AuthService } from './shared/services/auth-service';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,10 @@ import { ContentContainerModule } from './main-content/content-container/content
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
     ConfigService,
     LoginService,
-    ContentService
+    ContentService,
+    AccountService,
+    AuthService,
+    AuthRequest
   ],
   bootstrap: [AppComponent]
 })

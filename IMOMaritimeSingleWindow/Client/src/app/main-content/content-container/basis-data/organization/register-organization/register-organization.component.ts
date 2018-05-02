@@ -8,7 +8,7 @@ import { ContentService } from '../../../../../shared/services/content.service';
   selector: 'app-register-organization',
   templateUrl: './register-organization.component.html',
   styleUrls: ['./register-organization.component.css'],
-  providers: [OrganizationModel, OrganizationService, ContentService]
+  providers: [OrganizationModel, OrganizationService]
 })
 export class RegisterOrganizationComponent implements OnInit {
   organizationTypeSelected: boolean;
@@ -28,7 +28,7 @@ export class RegisterOrganizationComponent implements OnInit {
 
   registerOrganization() {
     this.organizationService.registerOrganization(this.organizationModel);
-    this.contentService.setContent("Port Call"); // doesn't work?
+    this.contentService.setContent("Port Call");
   }
 
   selectOrganizationType(organizationType: any) {

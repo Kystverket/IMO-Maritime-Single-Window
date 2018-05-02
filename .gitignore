@@ -7,6 +7,14 @@
 *.userosscache
 *.sln.docstates
 
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

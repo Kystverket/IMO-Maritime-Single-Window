@@ -1,72 +1,15 @@
-<div class="jumbotron bg-ssn-light">
-  <div class="row card-ssn text-center">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/user.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER USER</h3>
-    </div>
-  </div>
 
-  <div class="card card-ssn text-center">
-    <div class="card-header bg-ssn text-ssn">
-      <div class="row">
-        <div class="col-2">
-          <img src="assets/images/VoyageIcons/128x128/white/user-info.png" height="32px" />
-        </div>
-        <div class="col-8">
-          <h4>Personalia</h4>
-        </div>
+<div class="container">
+  <div class="jumbotron bg-ssn-light">
+    <div class="row card-ssn text-center">
+      <div class="col-2">
+        <img src="assets/images/VoyageIcons/128x128/white/user.png" height="64px">
+      </div>
+      <div class="col-8">
+        <h3 class="text-ssn display-4">REGISTER USER</h3>
       </div>
     </div>
-
-    <div class="card-body text-left">
-      <form>
-
-        <div class="form-group">
-          <label class="control-label" for="first_name">First name</label>
-          <div class="col-sm-4">
-            <input id="first_name" class="form-control form-control-sm">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label" for="last_name">Last name</label>
-          <div class="col-sm-4">
-            <input id="last_name" class="form-control form-control-sm">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label" for="email">Email</label>
-          <div class="col-sm-4">
-            <input id="email" class="form-control form-control-sm">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="control-label" for="phone_number">Phone number</label>
-          <div class="col-sm-4">
-            <input id="phone_number" class="form-control form-control-sm">
-          </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label" for="user_name">User name</label>
-            <div class="col-sm-4">
-              <input id="user_name" class="form-control form-control-sm">
-            </div>
-          </div>
-
-          <div class="form-group">
-              <label class="control-label" for="pwd">Password</label>
-              <div class="col-sm-4">
-                <input type=password id="pwd" class="form-control form-control-sm">
-              </div>
-            </div>
-      </form>
-    </div>
-
+  
     <div class="card card-ssn text-center">
       <div class="card-header bg-ssn text-ssn">
         <div class="row">
@@ -74,20 +17,93 @@
             <img src="assets/images/VoyageIcons/128x128/white/user-info.png" height="32px" />
           </div>
           <div class="col-8">
-            <h4>Rights</h4>
+            <h4>Personalia</h4>
           </div>
         </div>
       </div>
+  
+  
+      <div id="personalia" class="card-body text-left">
+        <form #f="ngForm" novalidate>
+  
+          <div class="form-group">
+            <label class="control-label" for="first_name">First name</label>
+            <div class="col-sm-4">
+              <input id="first_name" name="firstName" class="form-control form-control-sm" [(ngModel)]="user.firstName">
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label class="control-label" for="last_name">Last name</label>
+            <div class="col-sm-4">
+              <input id="last_name" name="lastName" class="form-control form-control-sm" [(ngModel)]="user.lastName">
+            </div>
+          </div>
+  
+          
+  
+          <div class="form-group">
+            <label class="control-label" for="email">Email</label>
+            <div class="col-sm-4">
+              <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" tmFocus validateEmail>
+              <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label class="control-label" for="phone_number">Phone number</label>
+            <div class="col-sm-4">
+              <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber">
+            </div>
+          </div>
 
-      <div class="card-body text-left">
-        <form>
-          To be continued :)
+          <!-- <app-search-company></app-search-company> -->
+
+          <button type="submit" (click)="registerUser(f)" class="btn btn-light" [disabled]="f.invalid || isRequesting">CREATE USER</button>
+  
         </form>
-    <button class="btn btn-success">Register user</button>
-        
       </div>
+  
+      <div class="card card-ssn text-center">
+        <div class="card-header bg-ssn text-ssn">
+          <div class="row">
+            <div class="col-2">
+              <img src="assets/images/VoyageIcons/128x128/white/user-info.png" height="32px" />
+            </div>
+            <div class="col-8">
+              <h4>Rights</h4>
+            </div>
+          </div>
+        </div>
+  
+        
+  
+        <div class="card-body text-left">
+  
+            <div class="col-8">
+              <h4>User roles</h4>
+            </div>
+            <div class="card-body">
+              
+              <label class="control-label" for="role">Roles</label>
+              <select [(ngModel)]="selectedRoles" name="role-select" class="custom-select" multiple size="5">
+                <option *ngFor="let role of roleList" value="{{role}}">{{ role }}</option>
+              </select>
+            </div>
+  
+            <h3>Selected roles:</h3>
+            <ul>
+              <li *ngFor="let role of selectedRoles">{{ role }}</li>
+            </ul>
+  
+          <button class="btn btn-success">Register user</button>
+          
+          
+  
+        </div>
+      </div>
+  
+      
     </div>
-
-    
   </div>
 </div>

@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OrganizationFormComponent } from './basis-data/organization/organization-form/organization-form.component';
 import { RegisterOrganizationComponent } from './basis-data/organization/register-organization/register-organization.component';
 import { SearchOrganizationComponent } from './basis-data/organization/search-organization/search-organization.component';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
@@ -35,7 +34,6 @@ import { SearchShipFlagCodeComponent } from './basis-data/ship/search-ship-flag-
     RegisterOrganizationComponent,
     UserFormComponent,
     LocationFormComponent,
-    OrganizationFormComponent,
     SearchOrganizationComponent,
     SearchShipFlagCodeComponent
   ],

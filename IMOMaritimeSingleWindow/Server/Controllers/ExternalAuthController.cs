@@ -7,7 +7,7 @@ using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Models.Entities;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,13 +20,13 @@ namespace IMOMaritimeSingleWindow.Controllers
   [Route("api/[controller]/[action]")]
   public class ExternalAuthController : Controller
   {
-    private readonly ApplicationDbContext _appDbContext;
-    private readonly UserManager<AppUser> _userManager;
+    private readonly open_ssnContext _appDbContext;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly IJwtFactory _jwtFactory;
     private readonly JwtIssuerOptions _jwtOptions;
     private static readonly HttpClient Client = new HttpClient();
 
-    public ExternalAuthController(UserManager<AppUser> userManager, ApplicationDbContext appDbContext, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+    public ExternalAuthController(UserManager<ApplicationUser> userManager, open_ssnContext appDbContext, IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
     {
       _userManager = userManager;
       _appDbContext = appDbContext;

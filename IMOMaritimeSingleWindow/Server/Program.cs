@@ -15,6 +15,9 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using IMOMaritimeSingleWindow.Data;
+using Microsoft.Extensions.DependencyInjection;
+
+using IMOMaritimeSingleWindow.Extensions;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -22,23 +25,11 @@ namespace IMOMaritimeSingleWindow
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
+            var host = BuildWebHost(args);
+            
+            host.Run();
 
-       /* public class TempDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-        {
-            public ApplicationDbContext CreateDbContext(string[] args)
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-                var builder = new DbContextOptions<ApplicationDbContext>();
-                var connectionString = configuration.GetConnectionString("DefaultConnection");
-                builder.
-            }
         }
-        */
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
