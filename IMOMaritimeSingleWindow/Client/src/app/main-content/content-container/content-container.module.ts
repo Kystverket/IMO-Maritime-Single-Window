@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SharedModule } from '../../shared/components/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
 import { RegisterOrganizationComponent } from './basis-data/organization/register-organization/register-organization.component';
