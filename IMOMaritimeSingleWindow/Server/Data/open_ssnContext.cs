@@ -58,6 +58,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<UserToken> UserToken { get; set; }
 
 
+
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
         public open_ssnContext() { }
@@ -79,6 +80,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.CertificateNumber).HasColumnName("certificate_number");
 
                 entity.Property(e => e.DateOfIssue).HasColumnName("date_of_issue");
+
+                entity.Property(e => e.OwnerName).HasColumnName("owner_name");
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
 
@@ -891,6 +894,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.CallSign).HasColumnName("call_sign");
 
                 entity.Property(e => e.CertificateOfRegistryId).HasColumnName("certificate_of_registry_id");
+
+                entity.Property(e => e.DateOfKeelLaying).HasColumnName("date_of_keel_laying");
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 

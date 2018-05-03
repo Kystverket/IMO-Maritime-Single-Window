@@ -36,8 +36,8 @@ namespace IMOMaritimeSingleWindow.Tests
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
                     Name = "match_shipName0",
                     CallSign = "ABC123",
-                    ImoNo = 999111,
-                    MmsiNo = 1234111
+                    ImoNo = "999111",
+                    MmsiNo = "1234111"
                 },
 
                 new Ship 
@@ -46,8 +46,8 @@ namespace IMOMaritimeSingleWindow.Tests
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
                     Name = "match_shipName1",
                     CallSign = "321DEF",
-                    ImoNo = 999222,
-                    MmsiNo = 1234222,
+                    ImoNo = "999222",
+                    MmsiNo = "1234222",
                 },
 
                 new Ship 
@@ -56,8 +56,8 @@ namespace IMOMaritimeSingleWindow.Tests
                     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
                     Name = "noMatch_shipName2",
                     CallSign = "321GHI",
-                    ImoNo = 111999,
-                    MmsiNo = 123999
+                    ImoNo = "111999",
+                    MmsiNo = "123999"
                 },
 
                 new Ship {
@@ -68,13 +68,13 @@ namespace IMOMaritimeSingleWindow.Tests
                     Name = "",
                     CallSign = "",
                     ImoNo = null,
-                    MmsiNo = 123789
+                    MmsiNo = "123789"
                 },
 
                 new Ship {
                     Name = null,
                     CallSign = null,
-                    ImoNo = 321394893,
+                    ImoNo = "321394893",
                     MmsiNo = null
                 },
 
