@@ -20,6 +20,7 @@ namespace IMOMaritimeSingleWindow.Models
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public int? OrganizationTypeId { get; set; }
+        public string ImoCompanyNumber { get; set; }
 
         public OrganizationType OrganizationType { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
