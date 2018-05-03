@@ -2,8 +2,8 @@ export class LocationModel {
     locationId: number;
     locationInLocationId: number;
     countryId: number;
-    locationType: number;
-    locationSource: number;
+    locationTypeId: number;
+    locationSourceId: number;
     municipalityId: number;
     locationCode: string;
     locationNo: number;

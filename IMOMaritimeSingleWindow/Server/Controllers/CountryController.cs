@@ -44,6 +44,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(resultList);
         }
 
+        [HttpGet("getall")]
+        public IActionResult GetAll()
+        {
+            var countries = _context.Country.ToList();
+            return Json(countries);
+        }
+
 
 
 
