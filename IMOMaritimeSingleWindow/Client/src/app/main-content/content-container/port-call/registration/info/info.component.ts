@@ -4,6 +4,7 @@ import { PortCallService } from '../../../../../shared/services/port-call.servic
 const SHIP_NAME = "Ship Name:";
 const CALL_SIGN = "Call Sign:";
 const IMO_NO = "IMO no:";
+const MMSI_NO = "MMSI no:";
 const GROSS_TONNAGE = "Gross Tonnage:";
 const LENGTH = "Length:";
 const SHIP_TYPE = "Ship Type:";
@@ -27,6 +28,7 @@ export class InfoComponent implements OnInit {
     { description: SHIP_NAME, data: null },
     { description: CALL_SIGN, data: null },
     { description: IMO_NO, data: null },
+    { description: MMSI_NO, data: null},
     { description: GROSS_TONNAGE, data: null },
     { description: LENGTH, data: null },
     { description: SHIP_TYPE, data: null }
@@ -51,6 +53,7 @@ export class InfoComponent implements OnInit {
           this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = shipData.ship.name;
           this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = shipData.ship.callSign;
           this.portCallShipInfo.find(p => p.description == IMO_NO).data = shipData.ship.imoNo;
+          this.portCallShipInfo.find(p => p.description == MMSI_NO).data = shipData.ship.mmsiNo;
           this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = shipData.ship.grossTonnage;
           this.portCallShipInfo.find(p => p.description == LENGTH).data = shipData.ship.length;
         }
