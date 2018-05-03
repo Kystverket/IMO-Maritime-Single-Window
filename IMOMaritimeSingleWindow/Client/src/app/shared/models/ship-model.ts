@@ -25,4 +25,6 @@ export class ShipModel {
     hasSideThrustersFront: boolean;
     hasSideThrustersBack: boolean;
     remark: string;
+    certificateOfRegistryId: number;
+    inmarsatCallNumber: string;
 }
