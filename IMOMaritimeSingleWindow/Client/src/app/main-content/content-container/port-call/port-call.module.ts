@@ -61,7 +61,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ViewPortCallComponent,
     ClearanceComponent,
     SaveDetailsComponent,
-    NewPortCallComponent
+    NewPortCallComponent,
   ],
   exports: [
     PortCallComponent,

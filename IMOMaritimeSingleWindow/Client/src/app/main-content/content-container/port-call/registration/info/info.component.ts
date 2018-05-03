@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { ConstantsService } from '../../../../../shared/services/constants.service';
 
 const SHIP_NAME = "Ship Name:";
 const CALL_SIGN = "Call Sign:";
@@ -17,7 +18,8 @@ const ETD = "ETD:";
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.css']
+  styleUrls: ['./info.component.css'],
+  providers: [ConstantsService]
 })
 export class InfoComponent implements OnInit {
 
@@ -28,10 +30,10 @@ export class InfoComponent implements OnInit {
     { description: SHIP_NAME, data: null },
     { description: CALL_SIGN, data: null },
     { description: IMO_NO, data: null },
-    { description: MMSI_NO, data: null},
+    { description: MMSI_NO, data: null },
     { description: GROSS_TONNAGE, data: null },
     { description: LENGTH, data: null },
-    { description: SHIP_TYPE, data: null }
+    { description: SHIP_TYPE, data: null },
   ];
 
   portCallLocationInfo: any[] = [
@@ -41,9 +43,12 @@ export class InfoComponent implements OnInit {
     { description: ETD, data: null }
   ];
 
-  constructor(private portCallService: PortCallService) { }
+  contactMediumList: any;
+
+  constructor(private constantsService: ConstantsService, private portCallService: PortCallService) { }
 
   ngOnInit() {
+    // Contact medium
     // Ship
     this.portCallService.shipData$.subscribe(
       shipData => {
@@ -56,6 +61,21 @@ export class InfoComponent implements OnInit {
           this.portCallShipInfo.find(p => p.description == MMSI_NO).data = shipData.ship.mmsiNo;
           this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = shipData.ship.grossTonnage;
           this.portCallShipInfo.find(p => p.description == LENGTH).data = shipData.ship.length;
+          this.constantsService.getContactMediumList().subscribe(
+            results => {
+              if (results) {
+                this.contactMediumList = results;
+                if (shipData.contactList.length > 0) {
+                  this.contactMediumList.forEach(contactMedium => {
+                    let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
+                    if (value) {
+                      this.portCallShipInfo.push({ description: contactMedium.contactMediumType, data: value.contactValue })
+                    }
+                  });
+                }
+              }
+            }
+          );
         }
       }
     );

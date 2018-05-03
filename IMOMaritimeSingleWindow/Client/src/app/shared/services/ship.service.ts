@@ -18,6 +18,7 @@ export class ShipService {
         this.shipSourceUrl = 'api/shipsource/getall';
         this.registerShipUrl = 'api/ship/register';
         this.flagCodeSearchUrl = 'api/shipflagcode/search';
+        this.getContactListForShipUrl = 'api/shipcontact/ship';
     }
 
     private searchService: SearchService;
@@ -30,6 +31,7 @@ export class ShipService {
     private shipSourceUrl: string;
     private registerShipUrl: string;
     private flagCodeSearchUrl: string;
+    private getContactListForShipUrl: string;
 
     private organizationDataSource = new BehaviorSubject<any>(null);
     organizationData$ = this.organizationDataSource.asObservable();
@@ -95,5 +97,13 @@ export class ShipService {
         return this.http.get(this.shipSourceUrl)
                 .map(res => res.json());
     }
+
+    getContactList(shipId: number) {
+        let uri: string = [this.getContactListForShipUrl, shipId].join('/');
+        return this.http.get(uri)
+                .map(res => res.json());
+    }
+
+    
     
 }
