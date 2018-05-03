@@ -39,7 +39,10 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? HasSideThrustersFront { get; set; }
         public bool? HasSideThrustersBack { get; set; }
         public string Remark { get; set; }
+        public int? CertificateOfRegistryId { get; set; }
+        public string InmarsatCallNumber { get; set; }
 
+        public CertificateOfRegistry CertificateOfRegistry { get; set; }
         public Organization Organization { get; set; }
         public ShipBreadthType ShipBreadthType { get; set; }
         public ShipFlagCode ShipFlagCode { get; set; }
