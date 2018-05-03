@@ -27,4 +27,5 @@ export class ShipModel {
     remark: string;
     certificateOfRegistryId: number;
     inmarsatCallNumber: string;
+    dateOfKeelLaying: Date;
 }
