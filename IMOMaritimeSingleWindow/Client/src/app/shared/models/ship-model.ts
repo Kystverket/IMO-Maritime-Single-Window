@@ -11,8 +11,8 @@ export class ShipModel {
     shipTypeId: number;
     imoNo: string;
     yearOfBuild: number;
-    mmsiNo: string;
-    name: string;
+    mmsiNo: number;
+    name: number;
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;
