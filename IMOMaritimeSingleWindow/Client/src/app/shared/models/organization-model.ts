@@ -6,4 +6,5 @@ export class OrganizationModel {
     description: string;
     isActive: boolean;
     organizationTypeId: number;
+    imoCompanyNumber: string;
 }
