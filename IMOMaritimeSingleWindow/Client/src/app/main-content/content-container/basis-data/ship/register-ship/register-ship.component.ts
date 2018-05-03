@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { OrganizationModel } from '../../../../../shared/models/organization-model';
 import { ShipModel } from '../../../../../shared/models/ship-model';
@@ -13,8 +14,7 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class RegisterShipComponent implements OnInit {
 
-  organizationSelected: boolean;
-  shipFlagCodeSelected: boolean;
+  @ViewChild(NgForm) form: NgForm;
 
   hullTypeSelected = false;
   lengthTypeSelected = false;
@@ -38,6 +38,9 @@ export class RegisterShipComponent implements OnInit {
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
+
+  shipFlagCodeSelected: boolean;
+  organizationSelected: boolean;
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(public shipModel: ShipModel, private shipService: ShipService, private contentService: ContentService) { }
@@ -82,6 +85,9 @@ export class RegisterShipComponent implements OnInit {
         }
       }
     );
+
+    console.log(this.form);
+    
   }
 
   shipTypeSearch = (text$: Observable<string>) =>

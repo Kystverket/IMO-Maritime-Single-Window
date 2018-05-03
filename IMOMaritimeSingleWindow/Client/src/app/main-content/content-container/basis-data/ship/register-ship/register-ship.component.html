@@ -7,11 +7,10 @@
       <h3 class="text-ssn display-4">REGISTER SHIP</h3>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col">
-      <ssn-card header="Ship Identification" icon="ship.png">
-        <form>
+  <form #form="ngForm">
+    <div class="row">
+      <div class="col">
+        <ssn-card header="Ship Identification" icon="ship.png">
 
           <div class="row">
             <div class="col-lg-6">
@@ -51,16 +50,13 @@
               </div>
             </div>
           </div>
-
-        </form>
-      </ssn-card>
+        </ssn-card>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col">
-      <ssn-card header="Ship Details" icon="ship.png">
-        <form>
+    <div class="row">
+      <div class="col">
+        <ssn-card header="Ship Details" icon="ship.png">
 
           <div class="row">
             <div class="col-lg-6" *ngIf="!shipTypeSelected">
@@ -180,8 +176,11 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_height">Height</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.height" name="height" type="number" class="form-control form-control-sm" id="ship_height" placeholder="Enter ship height">
+                  <input [(ngModel)]="shipModel.height" #height="ngModel" positiveNumber name="height" type="number" class="form-control form-control-sm" id="height" placeholder="Enter ship height">
                 </div>
+              </div>
+              <div *ngIf="!height.valid" class="alert alert-danger">
+                <li *ngIf="height.hasError('positiveNumberError')"><small>Number must be positive.</small></li>
               </div>
             </div>
             <div class="col-lg-6">
@@ -244,10 +243,10 @@
             <label class="col-form-label-sm" for="remark">Remark</label>
             <textarea [(ngModel)]="shipModel.remark" name="remark" class="form-control form-control-sm" rows="4" id="remark"></textarea>
           </div>
-        </form>
-      </ssn-card>
+        </ssn-card>
+      </div>
     </div>
-  </div>
+  </form>
 
   <div class="row">
     <div class="col">
