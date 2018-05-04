@@ -10,6 +10,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
 import { FormsModule } from '@angular/forms';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
+import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
     ClearancesComponent,
     PositiveNumberValidator,
     NumberValidator,
-    IntegerValidator
+    IntegerValidator,
+    ContactSelectComponent
   ],
   exports: [
     SsnCardComponent,
@@ -32,7 +34,8 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
     ConfirmationViewComponent,
     PositiveNumberValidator,
     NumberValidator,
-    IntegerValidator
+    IntegerValidator,
+    ContactSelectComponent
   ]
 })
 export class SharedModule { }

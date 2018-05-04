@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { of } from "rxjs/observable/of";
-import { BehaviorSubject, Subject } from 'rxjs';
-import { ShipModel } from "../models/ship-model";
+import { BehaviorSubject } from "rxjs";
 import { SearchService } from "./search.service";
 
 @Injectable()
@@ -45,8 +43,8 @@ export class ShipService {
     registerShip(newShip: any) {
         return this.http.post(this.registerShipUrl, newShip)
                 .map(res => res.json());
-    }    
-
+    }
+    
     setOrganizationData(data) {
         this.organizationDataSource.next(data);
     }
@@ -104,6 +102,6 @@ export class ShipService {
                 .map(res => res.json());
     }
 
-    
+
     
 }

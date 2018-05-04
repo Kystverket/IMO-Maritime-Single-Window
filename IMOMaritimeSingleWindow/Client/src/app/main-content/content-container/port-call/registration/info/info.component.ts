@@ -48,7 +48,6 @@ export class InfoComponent implements OnInit {
   constructor(private constantsService: ConstantsService, private portCallService: PortCallService) { }
 
   ngOnInit() {
-    // Contact medium
     // Ship
     this.portCallService.shipData$.subscribe(
       shipData => {
@@ -69,7 +68,7 @@ export class InfoComponent implements OnInit {
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {
-                      this.portCallShipInfo.push({ description: contactMedium.contactMediumType, data: value.contactValue })
+                      this.portCallShipInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue })
                     }
                   });
                 }
