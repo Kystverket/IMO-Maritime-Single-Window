@@ -95,8 +95,19 @@
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="year_of_build">Year of Build</label>
                 <div class="col">
                   <input [(ngModel)]="shipModel.yearOfBuild" name="yearOfBuild" type="number" class="form-control form-control-sm" id="year_of_build"
-                    placeholder="Enter year of build" />
+                    placeholder="Enter year of build" #yearOfBuild="ngModel" numberValidator integerValidator positiveNumberValidator />
                 </div>
+              </div>
+              <div *ngIf="!yearOfBuild.valid" class="alert alert-danger">
+                <li *ngIf="yearOfBuild.hasError('notNumberError')">
+                  <small>Year of build must be a number.</small>
+                </li>
+                <li *ngIf="yearOfBuild.hasError('notIntegerError')">
+                  <small>Year of build must be an integer.</small>
+                </li>
+                <li *ngIf="yearOfBuild.hasError('notPositiveNumberError')">
+                  <small>Year of build must be a positive number.</small>
+                </li>
               </div>
             </div>
           </div>
@@ -176,11 +187,20 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_height">Height</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.height" #height="ngModel" positiveNumber name="height" type="number" class="form-control form-control-sm" id="height" placeholder="Enter ship height">
+                  <input [(ngModel)]="shipModel.height" #height="ngModel" numberValidator integerValidator positiveNumberValidator name="height" type="number" class="form-control form-control-sm"
+                    id="height" placeholder="Enter ship height">
                 </div>
               </div>
               <div *ngIf="!height.valid" class="alert alert-danger">
-                <li *ngIf="height.hasError('positiveNumberError')"><small>Height must be a positive number.</small></li>
+                <li *ngIf="height.hasError('notNumberError')">
+                  <small>Height must be a number.</small>
+                </li>
+                <li *ngIf="height.hasError('notIntegerError')">
+                  <small>Height must be an integer.</small>
+                </li>
+                <li *ngIf="height.hasError('notPositiveNumberError')">
+                  <small>Height must be a positive number.</small>
+                </li>
               </div>
             </div>
             <div class="col-lg-6">

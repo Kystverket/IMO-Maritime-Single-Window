@@ -8,6 +8,8 @@ import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { FormsModule } from '@angular/forms';
+import { NumberValidator } from './utils/custom-validators/number-validator.directive';
+import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 
 @NgModule({
   imports: [
@@ -20,13 +22,17 @@ import { FormsModule } from '@angular/forms';
     SelectedPurposesComponent,
     PortCallDetailsComponent,
     ClearancesComponent,
-    PositiveNumberValidator
+    PositiveNumberValidator,
+    NumberValidator,
+    IntegerValidator
   ],
   exports: [
     SsnCardComponent,
     TableCardComponent,
     ConfirmationViewComponent,
-    PositiveNumberValidator
+    PositiveNumberValidator,
+    NumberValidator,
+    IntegerValidator
   ]
 })
 export class SharedModule { }
