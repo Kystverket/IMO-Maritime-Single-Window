@@ -1,3 +1,23 @@
-<p>
-  contact-select works!
-</p>
+<ssn-card header="Contact information" icon="contact.png">
+  <div class="text-center">
+    <label for="contact_info">Select contact information</label>
+  </div>
+  <ng-select id="contact_info" [items]="contactDataList" [multiple]="true" [closeOnSelect]="true" bindLabel="name" placeholder="Select purposes"
+    [(ngModel)]="selectedContactMediums" (change)="contactMediumSelected()">
+  </ng-select>
+
+  <div *ngFor="let contactMedium of selectedContactMediums; let i = index" class="form-group row mt-3">
+    <div class="col my-auto">
+      <div class="input-group input-group-sm">
+
+        <div class="input-group-prepend">
+          <span class="input-group-text bg-ssn text-white">{{ contactMedium.name }}</span>
+        </div>
+
+        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter other purpose"
+          [(ngModel)]="selectedContactMediums[i].value" (ngModelChange)="contactInfoChanged(contactMedium, $event)" />
+      </div>
+    </div>
+
+  </div>
+</ssn-card>

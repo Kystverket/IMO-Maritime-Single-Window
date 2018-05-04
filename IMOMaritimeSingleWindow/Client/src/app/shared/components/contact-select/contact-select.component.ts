@@ -7,9 +7,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactSelectComponent implements OnInit {
 
+  contactDataList: any = [
+    { name: 'E-mail', value: '' },
+    { name: 'Inmarsat', value: '' }
+  ];
+  selectedContactMediums = [];
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  contactMediumSelected() {
+    console.log(this.selectedContactMediums);
+    
+  }
+
+  contactInfoChanged(contactMedium: any, $event: any) {
+    console.log(contactMedium);
+    console.log($event);    
+  }
 }
