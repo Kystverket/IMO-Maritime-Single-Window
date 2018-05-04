@@ -2,25 +2,27 @@
   <div class="text-center">
     <label for="contact_info">Select contact information</label>
   </div>
-  <ng-select id="contact_info" [items]="contactDataList" [multiple]="true" [closeOnSelect]="true" bindLabel="name" placeholder="Select purposes"
-    [(ngModel)]="selectedContactMediums" (change)="contactMediumSelected()">
+  <ng-select id="contact_info" [items]="contactList" [multiple]="true" [closeOnSelect]="true" bindLabel="contactMedium.contactMediumType"
+    placeholder="Select purposes" [(ngModel)]="selectedContactModels" (change)="contactMediumSelected()">
   </ng-select>
 
-  <div *ngFor="let contactMedium of selectedContactMediums; let i = index" class="form-group row mt-3">
+  <div *ngFor="let contactMedium of selectedContactModels; let i = index" class="form-group row mt-3">
     <div class="col">
       <div class="input-group input-group-sm">
 
         <div class="input-group-prepend">
-          <span class="input-group-text bg-ssn text-white">{{ contactMedium.name }}</span>
+          <span class="input-group-text bg-ssn text-white">{{ contactMedium.contactMedium.contactMediumType }}</span>
         </div>
 
-        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter other purpose"
-          [(ngModel)]="selectedContactMediums[i].value" (ngModelChange)="contactInfoChanged(contactMedium, $event)" />
+        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter {{ contactMedium.contactMedium.contactMediumType }}"
+          [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium, $event)"
+        />
 
         <div class="input-group-append">
           <div class="input-group-text bg-ssn text-white">
-            <input type="radio" id="{{i}}" name="preferredRadios">
-            <label class="form-check-label" for="{{i}}"> Preferred</label>
+            <input type="radio" id="{{i}}" name="preferredRadios" [value]="true" [(ngModel)]="selectedContactModels[i].isPreferred" 
+              (ngModelChange)="preferredSet(selectedContactModels[i])" [checked]="selectedContactModels[i].isPreferred" >
+            <label class="form-check-label" for="{{i}}">Preferred</label>
           </div>
         </div>
       </div>
