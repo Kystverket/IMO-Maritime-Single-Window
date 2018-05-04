@@ -13,9 +13,6 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class RegisterShipComponent implements OnInit {
 
-  organizationSelected: boolean;
-  shipFlagCodeSelected: boolean;
-
   hullTypeSelected = false;
   lengthTypeSelected = false;
   breadthTypeSelected = false;
@@ -38,6 +35,9 @@ export class RegisterShipComponent implements OnInit {
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
+
+  shipFlagCodeSelected: boolean;
+  organizationSelected: boolean;
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(public shipModel: ShipModel, private shipService: ShipService, private contentService: ContentService) { }
@@ -82,6 +82,7 @@ export class RegisterShipComponent implements OnInit {
         }
       }
     );
+    
   }
 
   shipTypeSearch = (text$: Observable<string>) =>
