@@ -8,6 +8,7 @@ import { ContentService } from '../../shared/services/content.service';
 import { log } from 'util';
 import { AccountService } from '../../shared/services/account.service';
 import { MenuService } from './menu.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   loggedIn: boolean;
   roles: any = new Array();
   user_menu_entries: MenuEntry[];
+  userName: string = "default";
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
@@ -89,7 +91,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private contentService: ContentService,
     private accountService: AccountService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private router: Router
     ) {
       
     }
@@ -97,6 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 
   setContent(contentName: string) {
@@ -105,13 +109,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
+      this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
+      this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
+
+      console.log("is logged in when loading header component? " + this.loggedIn );
+
       this.generateMenu();
+
+      if(this.loggedIn){
+        this.accountService.getUserName().subscribe(
+          result => {
+            if(result) {
+              console.log({"result": result});
+              this.userName = result;
+            }
+          }
+        )
+      }
 
       // This should instead be executed when database is ready to be queried
       
       // Temporarily solution not requiring login in GUI
-      if(!this.loginService.isLoggedIn()){
+      /* if(!this.loginService.isLoggedIn()){
         this.loginService.login("admin@test.no", "Tester123")
         .subscribe(
           result => {
@@ -122,7 +141,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             //this.setMenuEntries();
           }
         )
-      }
+      } */
 
       /* console.log("ALL ROLES");
     this.getAllRoles();
@@ -131,8 +150,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     console.log("ROLES FOR USER");
     this.getRoles();
     console.log(this.roles); */
-    this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
-    this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
+    
   }
   ngOnDestroy() {
     // prevent memory leak by unsubscribing
