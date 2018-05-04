@@ -21,6 +21,32 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpPost("save")]
+        public IActionResult SaveShipContact(List<ShipContact> shipContactList)
+        {
+            try
+            {
+                foreach (ShipContact shipContact in shipContactList)
+                {
+                    if (_context.ShipContact.Any(sc => sc.ShipContactId == shipContact.ShipContactId))
+                    {
+                        _context.ShipContact.Update(shipContact);
+                    }
+                    else
+                    {
+                        _context.ShipContact.Add(shipContact);
+                    }
+                }
+                _context.SaveChanges();
+                return Json(shipContactList);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
         [HttpGet("ship/{shipId}")]
         public IActionResult GetContactListForShip(int shipId)
         {
