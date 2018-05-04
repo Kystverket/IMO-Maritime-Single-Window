@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { SharedModule } from '../../../shared/components/shared.module';
+import { SharedModule } from '../../../shared/shared.module';
 import { PortCallService } from '../../../shared/services/port-call.service';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
