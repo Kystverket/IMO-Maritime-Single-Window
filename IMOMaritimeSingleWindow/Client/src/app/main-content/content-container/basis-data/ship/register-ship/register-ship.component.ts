@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { OrganizationModel } from '../../../../../shared/models/organization-model';
 import { ShipModel } from '../../../../../shared/models/ship-model';
@@ -13,8 +12,6 @@ import { ShipService } from '../../../../../shared/services/ship.service';
   providers: [ShipModel, ShipService]
 })
 export class RegisterShipComponent implements OnInit {
-
-  @ViewChild(NgForm) form: NgForm;
 
   hullTypeSelected = false;
   lengthTypeSelected = false;
@@ -85,8 +82,6 @@ export class RegisterShipComponent implements OnInit {
         }
       }
     );
-
-    console.log(this.form);
     
   }
 
