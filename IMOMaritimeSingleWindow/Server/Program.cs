@@ -23,9 +23,27 @@ namespace IMOMaritimeSingleWindow
 {
     public class Program
     {
+        private static readonly Dictionary<string, string> defaults =
+        new Dictionary<string, string> {
+            { WebHostDefaults.EnvironmentKey, "development" }
+        };
+
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+
+            var host = new WebHostBuilder()
+                .UseConfiguration(config)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseKestrel()
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            //var host = BuildWebHost(args);
             
             host.Run();
 

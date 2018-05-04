@@ -1,7 +1,5 @@
 ﻿using IMOMaritimeSingleWindow.Tests.Data;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
-using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
 using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
@@ -19,7 +17,7 @@ namespace IMOMaritimeSingleWindow.Tests
         {
             InMemoryDatabaseContext = StorageBuilder.GetInMemContextWithRoleData();
             UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
-            var configuration = new MapperConfiguration(cfg => new MappingConfiguration().Configure(cfg));
+            var configuration = new MapperConfiguration(cfg => new IdentityEntitiesToModelsMappingProfile());
             var mapper = configuration.CreateMapper();
             RoleStore = new RoleStore(UnitOfWork, mapper);
         }

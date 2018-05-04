@@ -1,10 +1,12 @@
 using System.Linq;
+using System;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
+using IMOMaritimeSingleWindow.Repositories;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -47,6 +49,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
             return new OkObjectResult("OK");
+        }
+
+        [Authorize]
+        [HttpGet("user/name")]
+        public async Task<IActionResult> GetUserName()
+        {
+            var idClaim = User.Claims.FirstOrDefault(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id);
+            var userId = idClaim.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return Json(user.UserName);
         }
 
         [Authorize(Roles = "admin")]
@@ -92,10 +104,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("getrole/all")]
         public IActionResult GetAllRoles()
         {
+            return Ok("temporarily passes");
             var rolesQueryAble = _roleManager.Roles;
             var roles = from role in rolesQueryAble
                         select role.Name;
