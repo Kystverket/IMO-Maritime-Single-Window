@@ -368,7 +368,13 @@
   <div class="row">
     <div class="col">
       <ssn-card header="Confirm Ship Registration" icon="checkmark.png">
-        <div class="text-center" *ngIf="!(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected)">
+
+        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected)">
+          <div *ngIf="!form.valid" class="text-center">
+            <div class="alert alert-danger">
+              There are errors in the form that needs to be resolved.
+            </div>
+          </div>
           <p *ngIf="!shipModel.name">Ship name not set.</p>
           <p *ngIf="!shipModel.callSign">Call sign not set.</p>
           <p *ngIf="!shipModel.imoNo">IMO number not set.</p>
@@ -388,7 +394,7 @@
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
         </div>
 
-        <div class="text-center" *ngIf="shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected">
+        <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
