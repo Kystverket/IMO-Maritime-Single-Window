@@ -14,6 +14,7 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? DateOfIssue { get; set; }
         public string CertificateNumber { get; set; }
         public int? PortLocationId { get; set; }
+        public string OwnerName { get; set; }
 
         public Location CertificateOfRegistryNavigation { get; set; }
         public ICollection<Ship> Ship { get; set; }

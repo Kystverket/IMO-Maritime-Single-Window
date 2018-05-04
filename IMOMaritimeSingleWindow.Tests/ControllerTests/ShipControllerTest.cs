@@ -30,53 +30,53 @@ namespace IMOMaritimeSingleWindow.Tests
             mockShips = new Mock<DbSet<Ship>>();
             data = new List<Ship>
             {
-                new Ship 
-                {
-                    ShipId = 0, ShipHullTypeId = 0, ShipStatusId = 0, 
-                    ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    Name = "match_shipName0",
-                    CallSign = "ABC123",
-                    ImoNo = 999111,
-                    MmsiNo = 1234111
-                },
+                // new Ship 
+                // {
+                //     ShipId = 0, ShipHullTypeId = 0, ShipStatusId = 0, 
+                //     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
+                //     Name = "match_shipName0",
+                //     CallSign = "ABC123",
+                //     ImoNo = "999111",
+                //     MmsiNo = "1234111"
+                // },
 
-                new Ship 
-                {
-                    ShipId = 1, ShipHullTypeId = 0, ShipStatusId = 0, 
-                    ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    Name = "match_shipName1",
-                    CallSign = "321DEF",
-                    ImoNo = 999222,
-                    MmsiNo = 1234222,
-                },
+                // new Ship 
+                // {
+                //     ShipId = 1, ShipHullTypeId = 0, ShipStatusId = 0, 
+                //     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
+                //     Name = "match_shipName1",
+                //     CallSign = "321DEF",
+                //     ImoNo = "999222",
+                //     MmsiNo = "1234222",
+                // },
 
-                new Ship 
-                {
-                    ShipId = 2, ShipHullTypeId = 0, ShipStatusId = 0, 
-                    ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
-                    Name = "noMatch_shipName2",
-                    CallSign = "321GHI",
-                    ImoNo = 111999,
-                    MmsiNo = 123999
-                },
+                // new Ship 
+                // {
+                //     ShipId = 2, ShipHullTypeId = 0, ShipStatusId = 0, 
+                //     ShipSourceId = 0, ShipFlagCodeId = 0, ShipTypeId = 0,
+                //     Name = "noMatch_shipName2",
+                //     CallSign = "321GHI",
+                //     ImoNo = "111999",
+                //     MmsiNo = "123999"
+                // },
 
-                new Ship {
-                    // Empty test
-                },
+                // new Ship {
+                //     // Empty test
+                // },
 
-                new Ship {
-                    Name = "",
-                    CallSign = "",
-                    ImoNo = null,
-                    MmsiNo = 123789
-                },
+                // new Ship {
+                //     Name = "",
+                //     CallSign = "",
+                //     ImoNo = null,
+                //     MmsiNo = "123789"
+                // },
 
-                new Ship {
-                    Name = null,
-                    CallSign = null,
-                    ImoNo = 321394893,
-                    MmsiNo = null
-                },
+                // new Ship {
+                //     Name = null,
+                //     CallSign = null,
+                //     ImoNo = "321394893",
+                //     MmsiNo = null
+                // },
 
                 new Ship {
                     Name = "",
