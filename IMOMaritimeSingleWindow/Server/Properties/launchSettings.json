@@ -21,7 +21,13 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:5000/"
+      "applicationUrl": "http://localhost:4200/"
+    },
+    "IMOMSW-Debug-STAGING": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
     }
   }
 }
