@@ -4,4 +4,5 @@ export class ShipOverviewModel {
     ship: ShipModel;
     country: any;
     shipType: any;
+    contactList: any;
 }

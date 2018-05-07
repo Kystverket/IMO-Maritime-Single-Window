@@ -39,8 +39,8 @@ import { AuthService } from './shared/services/auth-service';
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
     ConfigService,
     LoginService,
-    ContentService,
     AccountService,
+    ContentService,
     AuthService,
     AuthRequest
   ],

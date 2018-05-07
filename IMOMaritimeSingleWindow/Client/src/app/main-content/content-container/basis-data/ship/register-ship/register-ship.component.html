@@ -11,7 +11,6 @@
     <div class="row">
       <div class="col">
         <ssn-card header="Ship Identification" icon="ship.png">
-
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
@@ -361,6 +360,12 @@
 
   <div class="row">
     <div class="col">
+      <app-contact-select></app-contact-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
       <app-search-organization></app-search-organization>
     </div>
   </div>
@@ -369,7 +374,7 @@
     <div class="col">
       <ssn-card header="Confirm Ship Registration" icon="checkmark.png">
 
-        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && organizationSelected)">
+        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
           <div *ngIf="!form.valid" class="text-center">
             <div class="alert alert-danger">
               There are errors in the form that needs to be resolved.
@@ -389,6 +394,7 @@
           <p *ngIf="!shipModel.grossTonnage">Gross tonnage not set.</p>
           <p *ngIf="!shipModel.deadweightTonnage">Deadweight tonnage not set.</p>
           <p *ngIf="!shipFlagCodeSelected">Flag code not selected.</p>
+          <p *ngIf="!contactSelected">At least one contact medium must be provided.</p>
           <p *ngIf="!organizationSelected">Organization not selected.</p>
           <button class="btn btn-ssn" disabled>
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
@@ -481,6 +487,8 @@
               </tbody>
             </table>
           </div>
+
+          <app-selected-contact-mediums></app-selected-contact-mediums>
 
           <div class="table-responsive">
             <table class="table table-bordered">
