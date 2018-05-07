@@ -10,7 +10,7 @@ namespace IMOMaritimeSingleWindow.Tests.ManagerTests
 {
     public class UserManagerTest : UserTestBase
     {
-        private UserManager<ApplicationUser> userManager;
+        //private UserManager<ApplicationUser> userManager;
         public UserManagerTest() : base() {
             //userManager = new UserManager<ApplicationUser>(store: UserStore);
         }

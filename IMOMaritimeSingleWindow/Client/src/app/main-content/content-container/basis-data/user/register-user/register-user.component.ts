@@ -84,11 +84,9 @@ export class RegisterUserComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
-    /*
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
-    */
   }
 
 

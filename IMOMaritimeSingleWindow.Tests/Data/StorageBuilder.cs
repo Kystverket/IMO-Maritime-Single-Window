@@ -9,6 +9,11 @@ namespace IMOMaritimeSingleWindow.Tests.Data
 {
     public static class StorageBuilder
     {
+        public static open_ssnContext GetContext()
+        {
+            // var options = --GET CONNECTION STRING--
+            return new open_ssnContext(/*OPTIONS*/);
+        }
 
         public static open_ssnContext GetInMemContext()
         {

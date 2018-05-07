@@ -29,10 +29,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
     {title: "USERS",       iconPath: this.icon_path + "user.png",       componentDescription: "Register User" },
-    {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: "Register Ship" },
-    {title: "LOCATIONS",   iconPath: this.icon_path + "location.png",   componentDescription: "Register Location" },
-    {title: "ORGANIZATIONS",   iconPath: this.icon_path + "pax.png",        componentDescription: "Register Organization" },
-    {title: "PORT CALL",   iconPath: this.icon_path + "portcall.png",   componentDescription: "Port Call" }
+    {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: 'Register Ship' },
+    {title: 'LOCATIONS',   iconPath: this.icon_path + 'location.png',   componentDescription: 'Register Location' },
+    {title: 'ORGANIZATIONS',   iconPath: this.icon_path + 'pax.png',        componentDescription: 'Register Organization' },
+    {title: 'PORT CALL',   iconPath: this.icon_path + 'portcall.png',   componentDescription: 'Port Call' }
   ];
 
 
@@ -78,9 +78,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private setMenuEntries() {
     // Populates the menu entry list with the entries the user has access to
     this.menu_entries = [];
-    for(let title of this.user_menu_entries){
-      for(let meny_entry of this.menu_entries){
-        if(title.title === meny_entry.title) {
+    for (let title of this.user_menu_entries){
+      for (let meny_entry of this.menu_entries){
+        if (title.title === meny_entry.title) {
           this.menu_entries.push(meny_entry);
         }
       }
@@ -112,19 +112,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
       this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
-      console.log("is logged in when loading header component? " + this.loggedIn );
+      console.log('is logged in when loading header component? ' + this.loggedIn );
 
       this.generateMenu();
 
-      if(this.loggedIn){
+      if (this.loggedIn) {
         this.accountService.getUserName().subscribe(
           result => {
-            if(result) {
-              console.log({"result": result});
+            if (result) {
+              console.log({'result': result});
               this.userName = result;
             }
           }
-        )
+        );
       }
 
       // This should instead be executed when database is ready to be queried

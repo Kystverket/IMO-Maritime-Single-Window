@@ -104,10 +104,13 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpGet("getrole/all")]
         public IActionResult GetAllRoles()
         {
+            var roleMan = _roleManager as ApplicationRoleManager;
+            var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
+            return Ok(roleNames);
             return Ok("temporarily passes");
             var rolesQueryAble = _roleManager.Roles;
             var roles = from role in rolesQueryAble

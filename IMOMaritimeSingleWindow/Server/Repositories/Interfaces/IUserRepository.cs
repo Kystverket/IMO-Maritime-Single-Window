@@ -19,5 +19,6 @@ namespace IMOMaritimeSingleWindow.Repositories
         //IEnumerable<Organization> GetOrganizationsByUserName(string userName);
         //IEnumerable<Organization> GetOrganizationsBy(Expression<Func<Organization, bool>> predicate);
         IQueryable<User> GetIqueryAble();
+        Role GetRole(Guid userId);
     }
 }
