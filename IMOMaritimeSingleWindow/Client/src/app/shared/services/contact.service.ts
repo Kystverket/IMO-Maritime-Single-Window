@@ -13,7 +13,7 @@ export class ContactService {
     private contactDataSource = new BehaviorSubject<any>(null);
     contactData$ = this.contactDataSource.asObservable();
     
-    setContactData(data: ContactModel) {
+    setContactData(data: ContactModel[]) {
         this.contactDataSource.next(data);
     }
     
