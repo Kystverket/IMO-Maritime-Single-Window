@@ -3,7 +3,7 @@
     <label for="contact_info">Select contact information</label>
   </div>
   <ng-select id="contact_info" [items]="contactList" [multiple]="true" [closeOnSelect]="true" bindLabel="contactMedium.contactMediumType"
-    placeholder="Select purposes" [(ngModel)]="selectedContactModels" (change)="contactMediumSelected()">
+    placeholder="Select contact mediums" [(ngModel)]="selectedContactModels" (change)="contactMediumSelected()">
   </ng-select>
 
   <div *ngFor="let contactMedium of selectedContactModels; let i = index" class="form-group row mt-3">
@@ -14,7 +14,7 @@
           <span class="input-group-text bg-ssn text-white">{{ contactMedium.contactMedium.contactMediumType }}</span>
         </div>
 
-        <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter {{ contactMedium.contactMedium.contactMediumType }}"
+        <input id="contact_value" name="contactValue" type="text" class="form-control form-control-sm" placeholder="Enter {{ contactMedium.contactMedium.contactMediumType }}"
           [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium)"
         />
 
