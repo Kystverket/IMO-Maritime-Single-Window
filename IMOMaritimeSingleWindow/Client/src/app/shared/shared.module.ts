@@ -12,6 +12,7 @@ import { TableCardComponent } from './components/table-card/table-card.component
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
+import { ContactService } from './services/contact.service';
 
 @NgModule({
   imports: [
@@ -37,6 +38,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     NumberValidator,
     IntegerValidator,
     ContactSelectComponent
+  ],
+  providers: [
+    ContactService
   ]
 })
 export class SharedModule { }

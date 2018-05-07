@@ -4,6 +4,8 @@ import { OrganizationModel } from '../../../../../shared/models/organization-mod
 import { ShipModel } from '../../../../../shared/models/ship-model';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { ContactModel } from '../../../../../shared/models/contact-model';
+import { ContactService } from '../../../../../shared/services/contact.service';
 
 @Component({
   selector: 'app-register-ship',
@@ -39,8 +41,10 @@ export class RegisterShipComponent implements OnInit {
   shipFlagCodeSelected: boolean;
   organizationSelected: boolean;
 
+  selectedContactModels: ContactModel[];
+
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
-  constructor(public shipModel: ShipModel, private shipService: ShipService, private contentService: ContentService) { }
+  constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService, private contentService: ContentService) { }
 
   ngOnInit() {
     this.shipService.getShipTypes().subscribe(
@@ -83,6 +87,13 @@ export class RegisterShipComponent implements OnInit {
       }
     );
     
+    this.contactService.contactData$.subscribe(
+      data => {
+        if (data) {
+          this.selectedContactModels = data;
+        }
+      }
+    );
   }
 
   shipTypeSearch = (text$: Observable<string>) =>
