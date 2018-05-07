@@ -13,7 +13,7 @@ export class TableCardComponent implements OnInit {
   icon: string;
 
   @Input()
-  title: string;
+  header: string;
 
   @Input()
   collapsible: boolean;

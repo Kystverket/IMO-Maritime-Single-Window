@@ -4,7 +4,7 @@
       <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" />
     </div>
     <div class="d-table-cell mx-auto">
-      <span>{{ title }}</span>
+      <span>{{ header }}</span>
     </div>
     <div class="d-table-cell ml-auto">
       <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (click)="changeState()">

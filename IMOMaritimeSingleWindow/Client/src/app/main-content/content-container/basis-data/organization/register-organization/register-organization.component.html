@@ -1,7 +1,7 @@
 <div class="jumbotron bg-ssn-light text-center">
   <div class="row">
     <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
+      <img src="assets/images/VoyageIcons/128x128/white/pax.png" height="64px">
     </div>
     <div class="col-8">
       <h3 class="text-ssn display-4">REGISTER ORGANIZATION</h3>
@@ -10,13 +10,13 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Organization Information" icon="ship.png">
+      <ssn-card header="Organization Information" icon="pax.png">
         <form>
 
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="organization_type_dropdown">Organization Type</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="organization_type_dropdown">Organization Type</label>
                 <div class="col">
                   <div ngbDropdown>
                     <button class="btn btn-sm btn-ssn" id="organization_type_dropdown" ngbDropdownToggle> {{ organizationTypeDropdownString }}</button>
@@ -32,7 +32,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="organization_name">Organization Name</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="organization_name">Organization Name</label>
                 <div class="col">
                   <input [(ngModel)]="organizationModel.name" name="organizationName" type="text" class="form-control form-control-sm" id="organization_name"
                     placeholder="Enter organization name" />
@@ -41,7 +41,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="organization_no">Organization Number</label>
+                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4 col-xl-3" for="organization_no">Organization Number</label>
                 <div class="col">
                   <input [(ngModel)]="organizationModel.organizationNo" name="organizationNo" type="text" class="form-control form-control-sm"
                     id="organization_no" placeholder="Enter organization number">
@@ -53,7 +53,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="invoice_receiver_no">Invoice Receiver Number</label>
+                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-5 col-xl-4" for="invoice_receiver_no">Invoice Receiver Number</label>
                 <div class="col">
                   <input [(ngModel)]="organizationModel.invoiceReceiverNo" name="invoiceReceiverNo" type="text" class="form-control form-control-sm"
                     id="invoice_receiver_no" placeholder="Enter invoice receiver number">
@@ -62,7 +62,7 @@
             </div>
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="description">Description</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-2" for="description">Description</label>
                 <div class="col">
                   <input [(ngModel)]="organizationModel.description" name="description" type="text" class="form-control form-control-sm" id="description"
                     placeholder="Enter description">
@@ -71,7 +71,6 @@
             </div>
           </div>
 
-
         </form>
       </ssn-card>
     </div>
@@ -79,7 +78,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Confirm Organization Registration" icon="checkmark.png">
+      <ssn-card header="Confirm Organization Registration" icon="checkmark.png">
         <div *ngIf="!organizationTypeSelected || !organizationModel.name || 0 === organizationModel.name.length || !organizationModel.organizationNo || 0 === organizationModel.organizationNo.length"
           class="text-center">
           <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
@@ -89,8 +88,7 @@
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
         </div>
 
-        <div *ngIf="organizationTypeSelected && organizationModel.name && 0 < organizationModel.name.length && organizationModel.organizationNo && 0 < organizationModel.organizationNo.length"
-          class="text-center">
+        <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -98,8 +96,8 @@
                   <th>Organization Name</th>
                   <th>Organization Type</th>
                   <th>Organization Number</th>
-                  <th *ngIf="organizationModel.description && 0 < organizationModel.description.length">Description</th>
-                  <th *ngIf="organizationModel.invoiceReceiverNo && 0 < organizationModel.invoiceReceiverNo.length">Invoice Receiver Number</th>
+                  <th *ngIf="organizationModel.description">Description</th>
+                  <th *ngIf="organizationModel.invoiceReceiverNo">Invoice Receiver Number</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,8 +105,8 @@
                   <td>{{ organizationModel.name }}</td>
                   <td>{{ selectedOrganizationType.name }}</td>
                   <td>{{ organizationModel.organizationNo }}</td>
-                  <td *ngIf="organizationModel.description && 0 < organizationModel.description.length">{{organizationModel.description}}</td>
-                  <td *ngIf="organizationModel.invoiceReceiverNo && 0 < organizationModel.invoiceReceiverNo.length">{{ organizationModel.invoiceReceiverNo }}</td>
+                  <td *ngIf="organizationModel.description">{{organizationModel.description}}</td>
+                  <td *ngIf="organizationModel.invoiceReceiverNo">{{ organizationModel.invoiceReceiverNo }}</td>
                 </tr>
               </tbody>
             </table>

@@ -18,7 +18,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int? LocationInLocationId { get; set; }
         public int CountryId { get; set; }
         public int LocationTypeId { get; set; }
-        public int LocationSourceId { get; set; }
+        public int? LocationSourceId { get; set; }
         public int? MunicipalityId { get; set; }
         public string LocationCode { get; set; }
         public int? LocationNo { get; set; }
@@ -30,6 +30,7 @@ namespace IMOMaritimeSingleWindow.Models
         public LocationSource LocationSource { get; set; }
         public LocationType LocationType { get; set; }
         public Municipality Municipality { get; set; }
+        public CertificateOfRegistry CertificateOfRegistry { get; set; }
         public ICollection<Department> Department { get; set; }
         public ICollection<Location> InverseLocationInLocation { get; set; }
         public ICollection<PortCall> PortCallLocation { get; set; }

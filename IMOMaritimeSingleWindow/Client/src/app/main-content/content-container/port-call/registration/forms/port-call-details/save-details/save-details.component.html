@@ -1,4 +1,4 @@
-<ssn-card title="Save Port Call Details" icon="save.png">
+<ssn-card header="Save Port Call Details" icon="save.png">
   <div class="text-center" *ngIf="!dataIsPristine">
     <p *ngIf="!crewPassengersAndDimensionsMeta.valid">cpad error</p>
     <button class="btn btn-ssn" (click)="saveDetails()" [disabled]="!crewPassengersAndDimensionsMeta.valid">

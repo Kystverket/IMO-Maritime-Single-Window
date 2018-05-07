@@ -9,6 +9,7 @@ namespace IMOMaritimeSingleWindow.Data
 {
     public partial class open_ssnContext : DbContext
     {
+        public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
         public virtual DbSet<ClaimType> ClaimType { get; set; }
         public virtual DbSet<ContactMedium> ContactMedium { get; set; }
@@ -58,12 +59,40 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<UserToken> UserToken { get; set; }
 
 
+
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
         public open_ssnContext() { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CertificateOfRegistry>(entity =>
+            {
+                entity.ToTable("certificate_of_registry");
+
+                entity.HasIndex(e => e.CertificateNumber)
+                    .HasName("unique_certificate_number")
+                    .IsUnique();
+
+                entity.Property(e => e.CertificateOfRegistryId)
+                    .HasColumnName("certificate_of_registry_id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.CertificateNumber).HasColumnName("certificate_number");
+
+                entity.Property(e => e.DateOfIssue).HasColumnName("date_of_issue");
+
+                entity.Property(e => e.OwnerName).HasColumnName("owner_name");
+
+                entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
+
+                entity.HasOne(d => d.CertificateOfRegistryNavigation)
+                    .WithOne(p => p.CertificateOfRegistry)
+                    .HasForeignKey<CertificateOfRegistry>(d => d.CertificateOfRegistryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_certificate_of_registry_port_location_id");
+            });
+
             modelBuilder.Entity<Claim>(entity =>
             {
                 entity.ToTable("claim");
@@ -411,7 +440,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location)
                     .HasForeignKey(d => d.LocationSourceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("location_location_source_id_fkey");
 
                 entity.HasOne(d => d.LocationType)
@@ -500,6 +528,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.ImoCompanyNumber).HasColumnName("imo_company_number");
 
                 entity.Property(e => e.InvoiceReceiverNo).HasColumnName("invoice_receiver_no");
 
@@ -822,6 +852,9 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("ship");
 
+                entity.HasIndex(e => e.CertificateOfRegistryId)
+                    .HasName("fki_FK_ship_certificate_of_registry_id");
+
                 entity.HasIndex(e => e.OrganizationId)
                     .HasName("ifk_rel_22");
 
@@ -855,6 +888,10 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.CallSign).HasColumnName("call_sign");
 
+                entity.Property(e => e.CertificateOfRegistryId).HasColumnName("certificate_of_registry_id");
+
+                entity.Property(e => e.DateOfKeelLaying).HasColumnName("date_of_keel_laying");
+
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 
                 entity.Property(e => e.Draught).HasColumnName("draught");
@@ -870,6 +907,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Height).HasColumnName("height");
 
                 entity.Property(e => e.ImoNo).HasColumnName("imo_no");
+
+                entity.Property(e => e.InmarsatCallNumber).HasColumnName("inmarsat_call_number");
 
                 entity.Property(e => e.Length).HasColumnName("length");
 
@@ -902,6 +941,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ShipTypeId).HasColumnName("ship_type_id");
 
                 entity.Property(e => e.YearOfBuild).HasColumnName("year_of_build");
+
+                entity.HasOne(d => d.CertificateOfRegistry)
+                    .WithMany(p => p.Ship)
+                    .HasForeignKey(d => d.CertificateOfRegistryId)
+                    .HasConstraintName("FK_ship_certificate_of_registry_id");
 
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.Ship)

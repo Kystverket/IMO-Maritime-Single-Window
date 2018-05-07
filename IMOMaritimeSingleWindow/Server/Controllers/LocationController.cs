@@ -33,7 +33,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 return BadRequest(e.Message + ":\n" + e.InnerException.Message);
             }
-            return Ok(newLocation);
+            return Json(newLocation);
         }
 
         public List<Location> SearchLocation(string searchTerm)

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { OrganizationModel } from '../../../../../shared/models/organization-model';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
 import { ContentService } from '../../../../../shared/services/content.service';
+import { OrganizationService } from '../../../../../shared/services/organization.service';
 
 @Component({
   selector: 'app-register-organization',
@@ -27,8 +26,15 @@ export class RegisterOrganizationComponent implements OnInit {
   }
 
   registerOrganization() {
-    this.organizationService.registerOrganization(this.organizationModel);
-    this.contentService.setContent("Port Call");
+    this.organizationService.registerOrganization(this.organizationModel).subscribe(
+      result => {
+        console.log(result);
+        this.contentService.setContent("Port Call");    
+      }, error => {
+        console.log(error);
+      }
+    );
+    
   }
 
   selectOrganizationType(organizationType: any) {

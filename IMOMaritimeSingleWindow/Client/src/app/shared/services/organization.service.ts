@@ -20,11 +20,7 @@ export class OrganizationService {
 
     public registerOrganization(newOrganization: OrganizationModel) {
         return this.http.post(this.registerOrganizationUrl, newOrganization)
-            .map(res => res.json()).subscribe(
-                orgData => {
-                    console.log(orgData);
-                }
-            );
+            .map(res => res.json());
     }
 
 
