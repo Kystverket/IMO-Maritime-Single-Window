@@ -84,7 +84,7 @@ namespace IMOMaritimeSingleWindow
             var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
+            //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
        
 
             //Configure identity services
@@ -190,7 +190,7 @@ namespace IMOMaritimeSingleWindow
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             }
 
-            
+
 
             /*services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);*/
@@ -203,12 +203,12 @@ namespace IMOMaritimeSingleWindow
 
                 });
             */
-            
-          //// Fix for json self-referencing loop bug:
-          //services.AddMvc().AddJsonOptions(
-          //  options => options.SerializerSettings.ReferenceLoopHandling = 
-          //  Newtonsoft.Json.ReferenceLoopHandling.Ignore
-          //);
+
+            // Fix for json self-referencing loop bug:
+            services.AddMvc().AddJsonOptions(
+              options => options.SerializerSettings.ReferenceLoopHandling =
+              Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

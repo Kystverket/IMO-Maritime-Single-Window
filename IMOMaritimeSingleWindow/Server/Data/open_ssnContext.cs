@@ -1499,6 +1499,7 @@ namespace IMOMaritimeSingleWindow.Data
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
         public override void Dispose()
         {
+            ChangeTracker.DetectChanges();
             Debug.WriteLine("open_ssnContext disposed of: " + GetHashCode());
             base.Dispose();
         }

@@ -15,6 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    
     "IMOMaritimeSingleWindow": {
       "commandName": "Project",
       "launchBrowser": false,
@@ -30,4 +31,5 @@
       }
     }
   }
+  
 }
