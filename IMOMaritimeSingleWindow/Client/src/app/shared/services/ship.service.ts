@@ -52,7 +52,7 @@ export class ShipService {
     }
 
     saveShipContactList(shipContactList: ShipContactModel[]) {
-        this.http.post(this.saveShipContactListUrl, shipContactList).map(
+        return this.http.post(this.saveShipContactListUrl, shipContactList).map(
             res => {
                 return res.json();
             }).catch(e => {

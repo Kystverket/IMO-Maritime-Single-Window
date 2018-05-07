@@ -6,6 +6,7 @@ import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
 import { ContactModel } from '../../../../../shared/models/contact-model';
 import { ContactService } from '../../../../../shared/services/contact.service';
+import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
 
 @Component({
   selector: 'app-register-ship',
@@ -86,7 +87,7 @@ export class RegisterShipComponent implements OnInit {
         }
       }
     );
-    
+
     this.contactService.contactData$.subscribe(
       data => {
         if (data) {
@@ -153,9 +154,23 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.registerShip(this.shipModel).subscribe(
       result => {
         console.log(result);
+        let shipContactList = this.selectedContactModels.map(contactModel => {
+          return new ShipContactModel(this.shipModel, contactModel);
+        });
+        this.saveShipContactList(shipContactList);
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  saveShipContactList(shipContactList: ShipContactModel[]) {
+    this.shipService.saveShipContactList(shipContactList).subscribe(
+      result => {
+        console.log(result);
         this.goBack();
       }, error => {
-        console.log(error);        
+        console.log(error);
       }
     );
   }
