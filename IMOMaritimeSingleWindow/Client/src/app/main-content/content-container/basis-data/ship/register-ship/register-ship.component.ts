@@ -154,6 +154,7 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.registerShip(this.shipModel).subscribe(
       result => {
         console.log(result);
+        this.shipModel.shipId = result.shipId;
         let shipContactList = this.selectedContactModels.map(contactModel => {
           return new ShipContactModel(this.shipModel, contactModel);
         });
