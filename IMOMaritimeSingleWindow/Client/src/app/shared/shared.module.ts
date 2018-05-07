@@ -13,6 +13,7 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { ContactService } from './services/contact.service';
+import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { ContactService } from './services/contact.service';
     PositiveNumberValidator,
     NumberValidator,
     IntegerValidator,
-    ContactSelectComponent
+    ContactSelectComponent,
+    SelectedContactMediumsComponent
   ],
   exports: [
     SsnCardComponent,
@@ -37,7 +39,8 @@ import { ContactService } from './services/contact.service';
     PositiveNumberValidator,
     NumberValidator,
     IntegerValidator,
-    ContactSelectComponent
+    ContactSelectComponent,
+    SelectedContactMediumsComponent
   ],
   providers: [
     ContactService
