@@ -36,6 +36,8 @@ export class InfoComponent implements OnInit {
     { description: SHIP_TYPE, data: null },
   ];
 
+  shipContactInfo: any[] = [];
+
   portCallLocationInfo: any[] = [
     { description: LOCATION, data: null },
     { description: LOCATION_CODE, data: null },
@@ -68,7 +70,9 @@ export class InfoComponent implements OnInit {
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {
-                      this.portCallShipInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue })
+                      console.log(value);
+                      
+                      this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
                     }
                   });
                 }
