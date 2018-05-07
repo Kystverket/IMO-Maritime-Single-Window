@@ -7,7 +7,7 @@ import { ContactService } from '../../services/contact.service';
   selector: 'app-contact-select',
   templateUrl: './contact-select.component.html',
   styleUrls: ['./contact-select.component.css'],
-  providers: [ConstantsService, ContactService]
+  providers: [ConstantsService]
 })
 export class ContactSelectComponent implements OnInit {
 
