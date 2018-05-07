@@ -27,7 +27,7 @@ export class LoginService extends BaseService {
 
   constructor(private http: Http, private configService: ConfigService) {
     super();
-    localStorage.removeItem("auth_token");
+    //localStorage.removeItem("auth_token");
     this.loggedIn = !!localStorage.getItem('auth_token');
     // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in

@@ -47,4 +47,12 @@ export class AccountService extends BaseRequest {
                 .map(res => res.json());
     }
 
+    getUserName(){
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http
+            .get(this.actionUrl + "/user/name", options)
+            .map(res => res.json());
+    }
+
 }

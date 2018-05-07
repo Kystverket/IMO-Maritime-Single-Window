@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
+        //private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
@@ -31,13 +31,13 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         public AuthController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
+            //UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
             IJwtFactory jwtFactory,
             IOptions<JwtIssuerOptions> jwtOptions,
             ILogger<AuthController> logger)
         {
             _userManager = userManager;
-            _userRoleManager = userRoleManager;
+            //_userRoleManager = userRoleManager;
             _signInManager = signInManager;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
@@ -46,6 +46,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         // POST api/auth/login
         [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]CredentialsViewModel credentials)
         {
@@ -73,6 +74,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                     var forbiddenRequestObject = BadRequest(ModelState);
                     forbiddenRequestObject.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status403Forbidden;
                     return forbiddenRequestObject;
+                default:
+                    return new ForbidResult();
             }
             
             var identity = await GetClaimsIdentity(userName);
@@ -116,21 +119,23 @@ namespace IMOMaritimeSingleWindow.Controllers
             else
             {
                 // await _userManager.AccessFailedAsync(_user);
-                var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
-                _logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
+                //var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
+                //_logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
+                return (int)Constants.LoginStates.InvalidCredentials;
             }
-            return (int)Constants.LoginStates.InvalidCredentials;
+            
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            var claims = await _userRoleManager.GetClaimsAsync(user);
+            var claims = await _userManager.GetClaimsAsync(user);
             var claimsJSON = Json(claims);
             _logger.LogInformation($"Claims from user:\n{claimsJSON}");
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
-            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, claims));
+            var roleName = (await _userManager.GetRolesAsync(user))[0];
+            return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
 
         /*
@@ -154,6 +159,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             bool isAdmin = HttpContext.User.IsInRole(Constants.Strings.UserRoles.Admin);
             return Ok(isAdmin);
         }
+        
         
     }
 }
