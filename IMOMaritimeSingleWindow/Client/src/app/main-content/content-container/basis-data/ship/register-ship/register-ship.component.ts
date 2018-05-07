@@ -4,6 +4,9 @@ import { OrganizationModel } from '../../../../../shared/models/organization-mod
 import { ShipModel } from '../../../../../shared/models/ship-model';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { ContactModel } from '../../../../../shared/models/contact-model';
+import { ContactService } from '../../../../../shared/services/contact.service';
+import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
 
 @Component({
   selector: 'app-register-ship',
@@ -35,12 +38,14 @@ export class RegisterShipComponent implements OnInit {
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
+  selectedContactModels: ContactModel[];
 
   shipFlagCodeSelected: boolean;
   organizationSelected: boolean;
+  contactSelected: boolean;  
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
-  constructor(public shipModel: ShipModel, private shipService: ShipService, private contentService: ContentService) { }
+  constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService, private contentService: ContentService) { }
 
   ngOnInit() {
     this.shipService.getShipTypes().subscribe(
@@ -82,7 +87,18 @@ export class RegisterShipComponent implements OnInit {
         }
       }
     );
-    
+
+    this.contactService.wipeServiceData();
+    this.contactService.contactData$.subscribe(
+      data => {
+        if (data && data.length !== 0) {
+          this.selectedContactModels = data;
+          this.contactSelected = true;
+        } else {
+          this.contactSelected = false;
+        }
+      }
+    );
   }
 
   shipTypeSearch = (text$: Observable<string>) =>
@@ -102,6 +118,22 @@ export class RegisterShipComponent implements OnInit {
       });
 
   formatter = (x: { name: string }) => x.name;
+
+  // For autofilling data when testing gui:
+  // autoFillData() {
+  //   // this.selectShipType(this.shipTypeList[0]);
+  //   this.selectHullType(this.hullTypeList[0]);
+  //   this.selectBreadthType(this.breadthTypeList[0]);
+  //   this.selectLengthType(this.lengthTypeList[0]);
+  //   this.selectPowerType(this.powerTypeList[0]);
+  //   this.shipModel.breadth = 1;
+  //   this.shipModel.length = 2;
+  //   this.shipModel.power = 3;
+  //   this.shipModel.name = "test1234"
+  //   this.shipModel.callSign = "1234";
+  //   this.shipModel.imoNo = 1234;
+  //   this.shipModel.mmsiNo = 1234;
+  // }
 
   selectShipType($event: any) {
     this.shipModel.shipTypeId = $event.item.shipTypeId;
@@ -141,10 +173,32 @@ export class RegisterShipComponent implements OnInit {
   registerShip() {
     this.shipService.registerShip(this.shipModel).subscribe(
       result => {
-        console.log(result);
-        this.goBack();
+        this.shipModel.shipId = result.shipId;
+        var shipContactList = this.selectedContactModels.map(contactModel => {
+          var shipContact = new ShipContactModel();
+          shipContact.shipId = this.shipModel.shipId;
+          shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
+          shipContact.contactValue = contactModel.contactValue;
+          shipContact.isPreferred = contactModel.isPreferred;
+          shipContact.comments = contactModel.comments;
+          return shipContact;
+        });
+        this.saveShipContactList(shipContactList);
       }, error => {
-        console.log(error);        
+        console.log(error);
+      }
+    );
+  }
+
+  saveShipContactList(shipContactList: ShipContactModel[]) {
+    this.shipService.saveShipContactList(shipContactList).subscribe(
+      result => {
+        if (result) {
+          console.log(result);
+          this.goBack();
+        }
+      }, error => {
+        console.log(error);
       }
     );
   }

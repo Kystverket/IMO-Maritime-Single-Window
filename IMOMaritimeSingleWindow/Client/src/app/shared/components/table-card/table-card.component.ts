@@ -18,12 +18,18 @@ export class TableCardComponent implements OnInit {
   @Input()
   collapsible: boolean;
 
-  collapsed: boolean = false;
-  collapsedIcon: string = "arrowhead-down.png"
+  @Input()
+  collapsed: boolean;
+
+  collapsedIcon: string;
 
   constructor() { }
 
   ngOnInit() {
+    if (this.collapsed == null) {
+      this.collapsed = false;
+    }
+    this.collapsedIcon = this.collapsed ? "arrowhead-left.png" : "arrowhead-down.png";
   }
 
   changeState() {

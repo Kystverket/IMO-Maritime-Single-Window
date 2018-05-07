@@ -3,9 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { SharedModule } from '../../../shared/shared.module';
 import { PortCallService } from '../../../shared/services/port-call.service';
+import { SharedModule } from '../../../shared/shared.module';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
 import { NewPortCallComponent } from './new-port-call/new-port-call.component';
@@ -27,7 +28,6 @@ import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -61,7 +61,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ViewPortCallComponent,
     ClearanceComponent,
     SaveDetailsComponent,
-    NewPortCallComponent
+    NewPortCallComponent,
   ],
   exports: [
     PortCallComponent,
