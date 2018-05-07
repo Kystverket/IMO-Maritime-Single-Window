@@ -22,7 +22,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpPost("savelist")]
-        public IActionResult SaveShipContactList(List<ShipContact> shipContactList)
+        public IActionResult SaveShipContactList([FromBody] List<ShipContact> shipContactList)
         {
             try
             {

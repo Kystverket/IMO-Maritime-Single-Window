@@ -9,10 +9,10 @@ export class ShipModel {
     shipFlagCodeId: number;
     organizationId: number;
     shipTypeId: number;
-    imoNo: string;
+    imoNo: number;
     yearOfBuild: number;
     mmsiNo: number;
-    name: number;
+    name: string;
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;

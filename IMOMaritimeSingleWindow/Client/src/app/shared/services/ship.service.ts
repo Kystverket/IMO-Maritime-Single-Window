@@ -52,12 +52,8 @@ export class ShipService {
     }
 
     saveShipContactList(shipContactList: ShipContactModel[]) {
-        return this.http.post(this.saveShipContactListUrl, shipContactList).map(
-            res => {
-                return res.json();
-            }).catch(e => {
-                return Observable.of(e);
-            });
+        console.log(shipContactList);
+        return this.http.post(this.saveShipContactListUrl, shipContactList).map(res => res.json());
     }
 
     setOrganizationData(data) {

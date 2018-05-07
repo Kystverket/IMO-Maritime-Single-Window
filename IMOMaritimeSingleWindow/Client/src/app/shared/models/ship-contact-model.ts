@@ -8,12 +8,4 @@ export class ShipContactModel {
     contactValue: string;
     isPreferred: boolean;
     comments: string;
-
-    constructor(ship: ShipModel, contact: ContactModel) {
-        this.shipId = ship.shipId;
-        this.contactMediumId = contact.contactMediumId;
-        this.contactValue = contact.contactValue;
-        this.isPreferred = contact.isPreferred;
-        this.comments = contact.comments;
-    }
 }

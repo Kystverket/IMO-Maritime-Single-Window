@@ -92,6 +92,7 @@ export class RegisterShipComponent implements OnInit {
       data => {
         if (data) {
           this.selectedContactModels = data;
+          console.log(this.selectedContactModels);
         }
       }
     );
@@ -114,6 +115,22 @@ export class RegisterShipComponent implements OnInit {
       });
 
   formatter = (x: { name: string }) => x.name;
+
+  // For autofilling data when testing gui:
+  // autoFillData() {
+  //   // this.selectShipType(this.shipTypeList[0]);
+  //   this.selectHullType(this.hullTypeList[0]);
+  //   this.selectBreadthType(this.breadthTypeList[0]);
+  //   this.selectLengthType(this.lengthTypeList[0]);
+  //   this.selectPowerType(this.powerTypeList[0]);
+  //   this.shipModel.breadth = 1;
+  //   this.shipModel.length = 2;
+  //   this.shipModel.power = 3;
+  //   this.shipModel.name = "test1234"
+  //   this.shipModel.callSign = "1234";
+  //   this.shipModel.imoNo = 1234;
+  //   this.shipModel.mmsiNo = 1234;
+  // }
 
   selectShipType($event: any) {
     this.shipModel.shipTypeId = $event.item.shipTypeId;
@@ -153,10 +170,15 @@ export class RegisterShipComponent implements OnInit {
   registerShip() {
     this.shipService.registerShip(this.shipModel).subscribe(
       result => {
-        console.log(result);
         this.shipModel.shipId = result.shipId;
-        let shipContactList = this.selectedContactModels.map(contactModel => {
-          return new ShipContactModel(this.shipModel, contactModel);
+        var shipContactList = this.selectedContactModels.map(contactModel => {
+          var shipContact = new ShipContactModel();
+          shipContact.shipId = this.shipModel.shipId;
+          shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
+          shipContact.contactValue = contactModel.contactValue;
+          shipContact.isPreferred = contactModel.isPreferred;
+          shipContact.comments = contactModel.comments;
+          return shipContact;
         });
         this.saveShipContactList(shipContactList);
       }, error => {
@@ -168,8 +190,10 @@ export class RegisterShipComponent implements OnInit {
   saveShipContactList(shipContactList: ShipContactModel[]) {
     this.shipService.saveShipContactList(shipContactList).subscribe(
       result => {
-        console.log(result);
-        this.goBack();
+        if (result) {
+          console.log(result);
+          this.goBack();
+        }
       }, error => {
         console.log(error);
       }
