@@ -15,7 +15,7 @@
         </div>
 
         <input name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose" placeholder="Enter {{ contactMedium.contactMedium.contactMediumType }}"
-          [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium, $event)"
+          [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium)"
         />
 
         <div class="input-group-append">

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ConstantsService } from '../../services/constants.service';
-import { ContactMediumModel } from '../../models/contact-medium-model';
 import { ContactModel } from '../../models/contact-model';
+import { ConstantsService } from '../../services/constants.service';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-contact-select',
   templateUrl: './contact-select.component.html',
   styleUrls: ['./contact-select.component.css'],
-  providers: [ConstantsService]
+  providers: [ConstantsService, ContactService]
 })
 export class ContactSelectComponent implements OnInit {
 
@@ -15,30 +15,21 @@ export class ContactSelectComponent implements OnInit {
 
   selectedContactModels: ContactModel[];
 
-  constructor(private constantsService: ConstantsService) { }
+  constructor(private constantsService: ConstantsService, private contactService: ContactService) { }
 
   ngOnInit() {
     this.constantsService.getContactMediumList().subscribe(
       data => {
-        console.log(data);
-
         if (data) this.contactList = data.map(d => {
           let contactModel = new ContactModel();
           contactModel.contactMedium = d;
-          console.log(contactModel);
-
           return contactModel;
         });
       }
     );
   }
 
-  contactMediumSelected() {
-    console.log(this.selectedContactModels);
-
-  }
-
-  preferredSet(selectedContactModel: ContactModel) {    
+  preferredSet(selectedContactModel: ContactModel) {
     let newUpdatedContactMediums = this.selectedContactModels.map(
       oldContactModel => {
         if (oldContactModel.contactMedium.contactMediumId === selectedContactModel.contactMedium.contactMediumId) return selectedContactModel;
@@ -49,8 +40,11 @@ export class ContactSelectComponent implements OnInit {
     );
   }
 
-  contactInfoChanged(contactMedium: ContactModel, $event: any) {
-    console.log(contactMedium);
-    console.log($event);
+  contactMediumSelected() {
+    this.contactService.setContactData(this.selectedContactModels);
+  }
+
+  contactInfoChanged(contactMedium: ContactModel) {
+    this.contactService.setContactData(this.selectedContactModels);
   }
 }
