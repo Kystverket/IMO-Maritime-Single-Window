@@ -38,11 +38,11 @@ export class RegisterShipComponent implements OnInit {
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
+  selectedContactModels: ContactModel[];
 
   shipFlagCodeSelected: boolean;
   organizationSelected: boolean;
-
-  selectedContactModels: ContactModel[];
+  contactSelected: boolean;  
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService, private contentService: ContentService) { }
@@ -88,11 +88,14 @@ export class RegisterShipComponent implements OnInit {
       }
     );
 
+    this.contactService.wipeServiceData();
     this.contactService.contactData$.subscribe(
       data => {
-        if (data) {
+        if (data && data.length !== 0) {
           this.selectedContactModels = data;
-          console.log(this.selectedContactModels);
+          this.contactSelected = true;
+        } else {
+          this.contactSelected = false;
         }
       }
     );

@@ -10,6 +10,10 @@ export class ContactService {
     
     constructor() {}
 
+    wipeServiceData() {
+        this.contactDataSource.next(null);
+    }
+
     private contactDataSource = new BehaviorSubject<any>(null);
     contactData$ = this.contactDataSource.asObservable();
     
