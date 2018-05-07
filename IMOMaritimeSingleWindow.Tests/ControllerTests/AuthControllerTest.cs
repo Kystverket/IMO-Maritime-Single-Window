@@ -7,6 +7,7 @@ using IMOMaritimeSingleWindow.ViewModels;
 using Moq;
 using NUnit.Framework;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Tests.ControllerTests
 {
@@ -54,9 +55,9 @@ namespace IMOMaritimeSingleWindow.Tests.ControllerTests
          
         }
 
-        public async void FirstTest()
+        public void FirstTest()
         {
-
+            Assert.True(1 == 1);
         }
 
 

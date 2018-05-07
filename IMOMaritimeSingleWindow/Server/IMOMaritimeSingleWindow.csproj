@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="Models\Entities\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

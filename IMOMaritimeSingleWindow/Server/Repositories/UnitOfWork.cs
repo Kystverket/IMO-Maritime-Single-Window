@@ -37,30 +37,28 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             _context.Dispose();
         }
-
-        //Additional methods
-        // REMOVED due to removing table UserRole from database
-        // public IEnumerable<Claim> GetClaimsForUser(Guid userId)
-        // {
-        //     var userRoles = UserRoles.Find(u => u.UserId == userId).ToList();
-        //     var claims = new List<List<Claim>>();
-        //     foreach (var userRole in userRoles)
-        //     {
-        //         var role = Roles.Get(userRole.RoleId);
-        //         claims.Add(RoleClaims.GetClaimsForRole(role.RoleId).ToList());
-        //     }
-        //     //Remove duplicate claims originating from various roles    
-        //     var claimsList = claims.SelectMany(list => list).Distinct();
-        //     return claimsList;
-        // }
+        
+         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
+        {
+            var user = Users.Get(userId);
+            if (user == null)
+                throw new ArgumentException(nameof(userId) + "does not belong to any user");
+            var roleId = user.RoleId;
+            if (!roleId.HasValue)
+                throw new ArgumentException("user with given " + nameof(userId) + " does not belong to any role, and therefore has no claims.");
+            var claims = RoleClaims.GetClaimsForRole(roleId.Value);
+            return claims;
+        }
+        /*
         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
         {
             return null;
         }
+        */
 
         public IEnumerable<System.Security.Claims.Claim> GetSystemClaims(IEnumerable<Claim> claims)
         {
-            var systemClaims = claims.Join(ClaimTypes.GetAll(),
+            var systemClaims = claims.Join(_context.ClaimType,
                 c => c.ClaimTypeId,
                 ct => ct.ClaimTypeId,
                 (c, ct) => new System.Security.Claims.Claim
