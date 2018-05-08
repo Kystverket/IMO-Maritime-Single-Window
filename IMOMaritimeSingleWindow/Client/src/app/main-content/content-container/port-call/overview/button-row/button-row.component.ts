@@ -5,11 +5,14 @@ import { PortCallService } from '../../../../../shared/services/port-call.servic
 import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
+import { AccountService } from '../../../../../shared/services/account.service';
+import { ConstantsService } from '../../../../../shared/services/constants.service';
 
 @Component({
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
-  styleUrls: ['./button-row.component.css']
+  styleUrls: ['./button-row.component.css'],
+  providers: [ConstantsService]
 })
 export class ButtonRowComponent implements ViewCell, OnInit {
 
@@ -19,10 +22,28 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
   overviewData: any[];
+  userClaims: any[];
+  claimList: any[];
 
-  constructor(private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
+  constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.constantsService.getClaimList().subscribe(
+      results => {
+        if (results) {
+          console.log(results);
+          this.claimList = results;
+        }
+      }
+    );
+    this.accountService.userClaimsData$.subscribe(
+      results => {
+        if (results) {
+          console.log(results);
+          this.userClaims = results;
+        }
+      }
+    );
     this.overviewService.overviewData$.subscribe(
       results => {
         if (results) this.overviewData = results;
