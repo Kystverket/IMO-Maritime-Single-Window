@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { ConstantsService } from '../../../../../shared/services/constants.service';
 
 const SHIP_NAME = "Ship Name:";
 const CALL_SIGN = "Call Sign:";
 const IMO_NO = "IMO no:";
+const MMSI_NO = "MMSI no:";
 const GROSS_TONNAGE = "Gross Tonnage:";
 const LENGTH = "Length:";
 const SHIP_TYPE = "Ship Type:";
@@ -16,7 +18,8 @@ const ETD = "ETD:";
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.css']
+  styleUrls: ['./info.component.css'],
+  providers: [ConstantsService]
 })
 export class InfoComponent implements OnInit {
 
@@ -27,10 +30,13 @@ export class InfoComponent implements OnInit {
     { description: SHIP_NAME, data: null },
     { description: CALL_SIGN, data: null },
     { description: IMO_NO, data: null },
+    { description: MMSI_NO, data: null },
     { description: GROSS_TONNAGE, data: null },
     { description: LENGTH, data: null },
-    { description: SHIP_TYPE, data: null }
+    { description: SHIP_TYPE, data: null },
   ];
+
+  shipContactInfo: any[] = [];
 
   portCallLocationInfo: any[] = [
     { description: LOCATION, data: null },
@@ -39,38 +45,53 @@ export class InfoComponent implements OnInit {
     { description: ETD, data: null }
   ];
 
-  constructor(private portCallService: PortCallService) { }
+  contactMediumList: any;
+
+  constructor(private constantsService: ConstantsService, private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.overviewData$.subscribe(
-      data => {
-        if (data != null) {
-          // Ship
-          if (data.shipOverview != null) {
-            if (data.shipOverview.country != null) {
-              this.shipFlag = data.shipOverview.country.twoCharCode;
+    // Ship
+    this.portCallService.shipData$.subscribe(
+      shipData => {
+        if (shipData) {
+          if (shipData.country) this.shipFlag = shipData.country.twoCharCode.toLowerCase();
+          if (shipData.shipType) this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = shipData.shipType.name;
+          this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = shipData.ship.name;
+          this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = shipData.ship.callSign;
+          this.portCallShipInfo.find(p => p.description == IMO_NO).data = shipData.ship.imoNo;
+          this.portCallShipInfo.find(p => p.description == MMSI_NO).data = shipData.ship.mmsiNo;
+          this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = shipData.ship.grossTonnage;
+          this.portCallShipInfo.find(p => p.description == LENGTH).data = shipData.ship.length;
+          this.constantsService.getContactMediumList().subscribe(
+            results => {
+              if (results) {
+                this.contactMediumList = results;
+                if (shipData && shipData.contactList.length > 0) {
+                  this.contactMediumList.forEach(contactMedium => {
+                    let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
+                    if (value) {
+                      console.log(value);
+                      
+                      this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
+                    }
+                  });
+                }
+              }
             }
-            this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = data.shipOverview.ship.name;
-            this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = data.shipOverview.ship.callSign;
-            this.portCallShipInfo.find(p => p.description == IMO_NO).data = data.shipOverview.ship.imoNo;
-            this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = data.shipOverview.ship.grossTonnage;
-            this.portCallShipInfo.find(p => p.description == LENGTH).data = data.shipOverview.ship.length;
-            if (data.shipOverview.shipType != null) {
-              this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = data.shipOverview.shipType.name;
-            }
-          }
-          // Location
-          if (data.locationOverview != null) {
-            if (data.locationOverview.country != null) {
-              this.locationFlag = data.locationOverview.country.twoCharCode.toLowerCase();
-            }
-            this.portCallLocationInfo.find(p => p.description == LOCATION).data = data.locationOverview.location.name;
-            this.portCallLocationInfo.find(p => p.description == LOCATION_CODE).data = data.locationOverview.location.locationCode;
-          }
-        }        
+          );
+        }
       }
     );
-    
+    // Location
+    this.portCallService.locationData$.subscribe(
+      locationData => {
+        if (locationData) {
+          if (locationData.country) this.locationFlag = locationData.country.twoCharCode.toLowerCase();
+          this.portCallLocationInfo.find(p => p.description == LOCATION).data = locationData.location.name;
+          this.portCallLocationInfo.find(p => p.description == LOCATION_CODE).data = locationData.location.locationCode;
+        }
+      }
+    );
     // ETA/ETD
     this.portCallService.etaEtdData$.subscribe(
       data => {

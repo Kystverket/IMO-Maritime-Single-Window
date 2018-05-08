@@ -14,8 +14,8 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTime? ExpireDate { get; set; }
         public string Description { get; set; }
 
-        public Organization Organization { get; set; }
         public Country Country { get; set; }
+        public Organization Organization { get; set; }
         public Ship Ship { get; set; }
         public ShipCertificateType ShipCertificateType { get; set; }
     }

@@ -51,13 +51,14 @@ export class FindShipComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portCallService.overviewData$.subscribe(
-      ovData => {
-        if (ovData != null) {
-          this.shipFound = ovData.shipOverview != null;
-          this.shipModel = this.shipFound ? ovData.shipOverview : null;
+    this.portCallService.shipData$.subscribe(
+      shipData => {
+        if (shipData != null) {
+          this.shipFound = true;
+          this.shipModel = shipData;
+        } else {
+          this.shipFound = false;
         }
-        
       }
     );
   }

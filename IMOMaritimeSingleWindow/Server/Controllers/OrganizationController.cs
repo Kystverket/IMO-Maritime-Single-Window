@@ -32,8 +32,20 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(matchingOrganizations);
         }
 
-        
+        [HttpPost("register")]
+        public IActionResult RegisterOrganization([FromBody] Organization newOrganization)
+        {
+            try
+            {
+                _context.Organization.Add(newOrganization);
+                _context.SaveChanges();
+            } catch (Exception e) {
+                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+            }
+            return Json(newOrganization);
+        }
 
+        
 
     }
 }

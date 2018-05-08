@@ -22,105 +22,124 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        private PortCallOverview GetOverview(int id)
+        private PortCallOverview GetOverview(int portCallId)
         {
-            PortCallOverview overview = new PortCallOverview();
-
-            PortCall pc = (from p in _context.PortCall
-                           where p.PortCallId == id
-                           select p).FirstOrDefault();
-
-
-            ShipOverview shipOverview = new ShipOverview();
-            shipOverview.Ship = (from s in _context.Ship
-                                 where s.ShipId == pc.ShipId
-                                 select s).FirstOrDefault();
-            var cId = (from sfc in _context.ShipFlagCode
-                       where sfc.ShipFlagCodeId == shipOverview.Ship.ShipFlagCodeId
-                       select sfc.CountryId).FirstOrDefault();
-            shipOverview.Country = (from c in _context.Country
-                                    where c.CountryId == cId
-                                    select c).FirstOrDefault();
-            shipOverview.ShipType = (from st in _context.ShipType
-                                     where st.ShipTypeId == shipOverview.Ship.ShipTypeId
-                                     select st).FirstOrDefault();
-
-            LocationOverview locationOverview = new LocationOverview();
-            locationOverview.Location = (from l in _context.Location
-                                         where l.LocationId == pc.LocationId
-                                         select l).FirstOrDefault();
-            locationOverview.Country = (from c in _context.Country
-                                        where c.CountryId == locationOverview.Location.CountryId
-                                        select c).FirstOrDefault();
-
-            LocationOverview previousLocationOverview = new LocationOverview();
-
-            previousLocationOverview.Location = (from l in _context.Location
-                                                 where l.LocationId == pc.LocationId
-                                                 select l).FirstOrDefault();
-            previousLocationOverview.Country = (from c in _context.Country
-                                                where c.CountryId == previousLocationOverview.Location.CountryId
-                                                select c).FirstOrDefault();
-            LocationOverview nextLocationOverview = new LocationOverview();
-
-            nextLocationOverview.Location = (from l in _context.Location
-                                             where l.LocationId == pc.LocationId
-                                             select l).FirstOrDefault();
-            nextLocationOverview.Country = (from c in _context.Country
-                                            where c.CountryId == nextLocationOverview.Location.CountryId
-                                            select c).FirstOrDefault();
-
             List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
-            
-            List<OrganizationPortCall> clearanceList = (from opc in _context.OrganizationPortCall
-                                                        join o in orgList
-                                                        on opc.OrganizationId equals o.OrganizationId
-                                                        where opc.PortCallId == id
-                                                        select opc).ToList();
 
+            var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+            .Include(pc => pc.Ship.ShipType)
+            .Include(pc => pc.Ship.ShipFlagCode.Country)
+            .Include(pc => pc.Ship.ShipContact)
+            .Include(pc => pc.Location.Country)
+            .Include(pc => pc.OrganizationPortCall)
+            .Include(pc => pc.PortCallStatus).FirstOrDefault();
+            PortCallOverview overview = new PortCallOverview();
+            overview.PortCall = portCall;
 
-            foreach (OrganizationPortCall c in clearanceList)
-            {
-                Console.WriteLine("PC: " + c.PortCall.PortCallId);
-                Console.WriteLine("ORG: " + c.Organization.Name);
-            }
-
-
-
-            overview.PortCall = pc;
-            overview.ShipOverview = shipOverview;
-            overview.LocationOverview = locationOverview;
-            overview.PreviousLocationOverview = previousLocationOverview;
-            overview.NextLocationOverview = nextLocationOverview;
-            overview.ClearanceList = clearanceList;
+            overview.ShipOverview = new ShipOverview { Ship = portCall.Ship, ShipType = portCall.Ship.ShipType, Country = portCall.Ship.ShipFlagCode.Country, ContactList = portCall.Ship.ShipContact.ToList() };
+            overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
+            overview.Status = portCall.PortCallStatus.Name;
+            overview.ClearanceList = (from opc in portCall.OrganizationPortCall
+                                      join o in orgList
+                                      on opc.OrganizationId equals o.OrganizationId
+                                      select opc).ToList();
             return overview;
         }
-
-        [HttpGet("user/{id}")]
-        public IActionResult GetPortCallsByUserId(int id)
+        [HttpGet("overview/{portCallId}")]
+        public IActionResult GetOverviewJson(int portCallId)
         {
-            var portCallList = _context.PortCall.Where(pc => pc.UserId == id).ToList();
-            return Json(portCallList);
-        }
-
-        [HttpGet("overview/{id}")]
-        public IActionResult GetOverviewJson(int id)
-        {
-            PortCallOverview overview = GetOverview(id);
+            var timeStart = DateTime.Now;
+            var overview = GetOverview(portCallId);
+            Console.WriteLine("\n\n\n" + (DateTime.Now - timeStart) + "\n\n\n");            
             return Json(overview);
         }
+
+
+        // [HttpGet("overview/{id}")]
+        // public IActionResult GetOverviewJson(int id)
+        // {
+        //     PortCallOverview overview = GetOverview(id);
+        //     return Json(overview);
+        // }
+
+        [HttpPost("update")]
+        public IActionResult Update([FromBody] PortCall portCall)
+        {
+            if (portCall == null)
+            {
+                return BadRequest("Empty body.");
+            }
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCall.PortCallId))
+                {
+                    return NotFound("Port call with id: " + portCall.PortCallId + " could not be found in database.");
+                }
+                _context.PortCall.Update(portCall);
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPost("updatestatus/actual/{portCallId}")]
+        public IActionResult SetStatusActual(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPost("updatestatus/cancelled/{portCallId}")]
+        public IActionResult SetStatusCancelled(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CANCELLED;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
 
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {
             if (portCall == null)
             {
-                return BadRequest("Empty body");
+                return BadRequest("Empty body.");
             }
 
             try
             {
-                
                 EntityEntry portCallEntity = _context.PortCall.Add(portCall);
                 _context.SaveChanges();
 
@@ -138,6 +157,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             return BadRequest("Port call id not set");
         }
+
 
         [HttpGet("get/{id}")]
         public JsonResult Get(int id)
@@ -188,6 +208,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(results);
         }
 
-      
+
     }
 }

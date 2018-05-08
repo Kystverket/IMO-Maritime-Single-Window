@@ -5,27 +5,99 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using Microsoft.AspNetCore.Identity;
+using IMOMaritimeSingleWindow.ViewModels;
+using IMOMaritimeSingleWindow.Repositories;
+using AutoMapper;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Helpers;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class TestController : Controller
     {
-        
-        [Authorize(Policy = "AdminUser")]
-        // GET /api/test/admindata
-        [HttpGet("admindata")]
-        public JsonResult GetAdminData()
+        private readonly IUnitOfWork<Guid> _unitOfWork;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
+        //private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
+        private readonly IMapper _mapper;
+
+        public TestController(UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            //UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
+            IMapper mapper,
+            IUnitOfWork<Guid> unitOfWork)
         {
-            int totalBansThisWipe = 8;
-            List<string> dataList = new List<string>
+            _userManager = userManager;
+            _roleManager = roleManager;
+            //_userRoleManager = userRoleManager;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+        }
+
+        /**
+        [HttpPost("userclaims")]
+        public async Task<JsonResult> GetUserClaims([FromBody]RegistrationViewModel model)
+        {
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var user = await _userManager.FindByEmailAsync(userIdentity.Email);
+            var claims = await _userManager.GetClaimsAsync(user);
+            return Json(claims);
+        }
+        */
+
+        [HttpPost("getuserclaims")]
+        public async Task<JsonResult> GetUserClaims([FromBody]UserViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return new JsonResult(null);
+            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var user = await _userManager.FindByNameAsync(userIdentity.UserName);
+            //var claims = await _userRoleManager.GetClaimsAsync(user);
+            var claims = "";
+            return Json(claims);
+        }
+
+
+        [HttpGet("getuserclaims/{userName}")]
+        public async Task<JsonResult> GetUserClaims(string userName)
+        {
+
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
             {
-                "Wipe is scheduled for 8 PM CET on fridays, but admins can join 10 minutes earlier via this link: url",
-                $"{totalBansThisWipe} players have been banned from the server this wipe"
-            };
-            return Json(dataList);
+                var jsonRes = new JsonResult($"User with username '{userName}' not found")
+                {
+                    StatusCode = 404
+                };
+                return jsonRes;
+            }
+            var claims = await _userManager.GetClaimsAsync(user);
+            //var claims = await _userRoleManager.GetClaimsAsync(user);
+
+            return Json(claims);
+        }
+
+        [Authorize(AuthenticationSchemes = default)]
+        [Authorize(Policy = "Port Call Registration")]
+        [HttpGet("canregisterportcall")]
+        public IActionResult CanRegisterPortCall()
+        {
+            //Authorization checks are made ... ^
+            return new OkObjectResult("Port call registration granted");
+        }
+
+        [Authorize(Policy = "PortCallClearance")]
+        [HttpGet("canSetPortCallClearance")]
+        public IActionResult CanClearPortCall()
+        {
+            return Ok(true);
         }
 
     }
+
+
+
 }

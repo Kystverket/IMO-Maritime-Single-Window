@@ -11,23 +11,24 @@ export class PortCallOverviewService {
         this.getPortCallsByLocationUrl = 'api/portcall/location';
         this.getPortCallsUrl = 'api/portcall/get';
     }
-    private getPortCallsUrl:string;
-    private getOverviewUrl:string;
-    private getPortCallsByLocationUrl:string;
-    
-    // private overviewDataSource = new BehaviorSubject<any>(null);
-    // overviewData$ = this.overviewDataSource.asObservable();
+    private getPortCallsUrl: string;
+    private getOverviewUrl: string;
+    private getPortCallsByLocationUrl: string;
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
 
+    setOverviewData(data) {
+        this.overviewDataSource.next(data);
+    }
+
     private portCallDataSource = new BehaviorSubject<any>(null);
     portCallData$ = this.portCallDataSource.asObservable();
-    
+
     getOverview(portCallId: number) {
-        let uri:string = [this.getOverviewUrl, portCallId].join('/');
+        let uri: string = [this.getOverviewUrl, portCallId].join('/');
         return this.http.get(uri)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     setPortCallData(data) {
@@ -35,21 +36,20 @@ export class PortCallOverviewService {
     }
 
     getPortCallsByLocation(locationId: number) {
-        let uri:string = [this.getPortCallsByLocationUrl, locationId].join('/');
+        let uri: string = [this.getPortCallsByLocationUrl, locationId].join('/');
         return this.http.get(uri)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getPortCalls() {
-        let uri:string = this.getPortCallsUrl;
+        let uri: string = this.getPortCallsUrl;
         return this.http.get(uri)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getOverviews() {
-        let uri:string = this.getOverviewUrl;
+        let uri: string = this.getOverviewUrl;
         return this.http.get(uri)
-                .map(res => res.json());
-                // .subscribe(data => this.overviewDataSource.next(data));
+            .map(res => res.json());
     }
 }

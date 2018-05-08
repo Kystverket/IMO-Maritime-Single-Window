@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.interface';
+import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
 
 @Component({
   selector: 'app-save-details',
@@ -8,6 +9,7 @@ import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.
   styleUrls: ['./save-details.component.css']
 })
 export class SaveDetailsComponent implements OnInit {
+  detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
@@ -30,27 +32,47 @@ export class SaveDetailsComponent implements OnInit {
         this.dataIsPristine = detailsDataIsPristine;
       }
     );
-
+    // Database Identification
+    this.portCallService.detailsIdentificationData$.subscribe(
+      identificationData => {
+        if (identificationData) {
+          this.detailsModel.portCallDetailsId = identificationData.portCallDetailsId;
+          this.detailsModel.portCallId = identificationData.portCallId;
+        }
+      }
+    )
     // Reporting
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
-        if (reportingData != null) {
-          this.reportingModel = reportingData;
+        if (reportingData) {
+          this.detailsModel.reportingBunkers = reportingData.reportingBunkers;
+          this.detailsModel.reportingCargo = reportingData.reportingCargo;
+          this.detailsModel.reportingCrew = reportingData.reportingCrew;
+          this.detailsModel.reportingHazmat = reportingData.reportingHazmat;
+          this.detailsModel.reportingPax = reportingData.reportingPax;
+          this.detailsModel.reportingShipStores = reportingData.reportingShipStores;
+          this.detailsModel.reportingWaste = reportingData.reportingWaste;
         }
       }
     );
     // Crew, passengers, and dimensions
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
-        if (cpadData != null) {
+        if (cpadData) {
           this.crewPassengersAndDimensionsModel = cpadData;
+          this.detailsModel.numberOfCrew = cpadData.numberOfCrew;
+          this.detailsModel.numberOfPassengers = cpadData.numberOfPassengers;
+          this.detailsModel.airDraught = cpadData.airDraught;
+          this.detailsModel.actualDraught = cpadData.actualDraught;
+          console.log(this.crewPassengersAndDimensionsModel);
+          
         }
       }
     );
     // Purpose
     this.portCallService.portCallPurposeData$.subscribe(
       purposeData => {
-        if (purposeData != null) {
+        if (purposeData) {
           this.purposeFound = true;
           this.purposeModel = purposeData;
         }
@@ -72,7 +94,11 @@ export class SaveDetailsComponent implements OnInit {
 
   saveDetails() {
     if (this.crewPassengersAndDimensionsMeta.valid) {
-      this.portCallService.saveDetails(this.purposeModel, this.otherPurposeName);
+      this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
+      this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
+      this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
+      this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
+      this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
     }
   }
 }

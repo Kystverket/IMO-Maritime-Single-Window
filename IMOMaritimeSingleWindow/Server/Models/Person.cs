@@ -10,9 +10,9 @@ namespace IMOMaritimeSingleWindow.Models
             User = new HashSet<User>();
         }
 
+        public Guid PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int PersonId { get; set; }
 
         public ICollection<User> User { get; set; }
     }
