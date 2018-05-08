@@ -28,7 +28,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
-    this.constantsService.getClaimList().subscribe(
+    this.constantsService.GetPortCallClaimList().subscribe(
       results => {
         if (results) {
           console.log(results);

@@ -27,5 +27,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claimList = _context.Claim.Include(c => c.ClaimType).ToList();
             return Json(claimList);
         }
+
+        [HttpGet("type/portcall")]
+        public IActionResult GetAllTypePortCall()
+        {
+            var portCallClaimList = _context.Claim.Where(c => Constants.Guids.CLAIM_TYPE_PORT_CALL_GUID.Equals(c.ClaimTypeId.ToString())).Include(c => c.ClaimType).ToList();
+            return Json(portCallClaimList);
+        }
+
+        [HttpGet("type/menu")]
+        public IActionResult GetAllTypeMenu()
+        {
+            var menuClaimList = _context.Claim.Where(c => Constants.Guids.CLAIM_TYPE_MENU_GUID.Equals(c.ClaimTypeId.ToString())).Include(c => c.ClaimType).ToList();
+            return Json(menuClaimList);
+        }
     }
 }

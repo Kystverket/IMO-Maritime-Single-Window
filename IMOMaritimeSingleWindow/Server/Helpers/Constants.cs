@@ -1,11 +1,14 @@
 
+using System;
+
 namespace IMOMaritimeSingleWindow.Helpers
 {
     public static class Constants
     {
         public static class Integers
         {
-            public static class DatabaseTableIds {
+            public static class DatabaseTableIds 
+            {
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
                 public const int OTHER_PURPOSE_ID = 100249;
@@ -15,9 +18,15 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const int PORT_CALL_STATUS_INCOMPLETE = 100235;
             }
         }
+
+        public static class Guids
+        {
+            public const string CLAIM_TYPE_PORT_CALL_GUID = "5ce3757c-23a9-45ce-b68a-b6c7f06c7c2c";
+            public const string CLAIM_TYPE_MENU_GUID = "99ce0e81-867b-467d-a1a8-a098feb2b77b";
+        }
+
         public static class Strings
         {
-            
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";
