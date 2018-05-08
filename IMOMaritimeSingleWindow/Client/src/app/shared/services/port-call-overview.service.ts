@@ -18,6 +18,10 @@ export class PortCallOverviewService {
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
 
+    setOverviewData(data) {
+        this.overviewDataSource.next(data);
+    }
+
     private portCallDataSource = new BehaviorSubject<any>(null);
     portCallData$ = this.portCallDataSource.asObservable();
 
@@ -47,6 +51,5 @@ export class PortCallOverviewService {
         let uri: string = this.getOverviewUrl;
         return this.http.get(uri)
             .map(res => res.json());
-        // .subscribe(data => this.overviewDataSource.next(data));
     }
 }
