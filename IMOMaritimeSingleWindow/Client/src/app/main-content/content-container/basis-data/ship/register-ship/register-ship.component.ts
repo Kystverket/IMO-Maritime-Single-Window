@@ -26,12 +26,14 @@ export class RegisterShipComponent implements OnInit {
   lengthTypeSelected = false;
   breadthTypeSelected = false;
   powerTypeSelected = false;
+  shipStatusSelected = false;
 
   shipTypeList: any[];
   hullTypeList: any[];
   lengthTypeList: any[];
   breadthTypeList: any[];
   powerTypeList: any[];
+  shipStatusList: any[];
 
   selectedShipType: any;
   shipTypeSelected: boolean = false;
@@ -41,6 +43,7 @@ export class RegisterShipComponent implements OnInit {
   lengthTypeDropdownString: string = "Select type";
   breadthTypeDropdownString: string = "Select type";
   powerTypeDropdownString: string = "Select type";
+  shipStatusDropdownString: string = "Select status";
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
@@ -69,6 +72,9 @@ export class RegisterShipComponent implements OnInit {
     );
     this.shipService.getPowerTypes().subscribe(
       data => this.powerTypeList = data
+    );
+    this.shipService.getShipStatusList().subscribe(
+      data => this.shipStatusList = data
     );
 
     this.shipService.shipFlagCodeData$.subscribe(
@@ -175,6 +181,12 @@ export class RegisterShipComponent implements OnInit {
     this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
     this.powerTypeDropdownString = powerType.name;
     this.powerTypeSelected = true;
+  }
+
+  selectShipStatus(shipStatus: any) {
+    this.shipModel.shipStatusId = shipStatus.shipStatusId;
+    this.shipStatusDropdownString = shipStatus.name;
+    this.shipStatusSelected = true;
   }
 
   registerShip() {

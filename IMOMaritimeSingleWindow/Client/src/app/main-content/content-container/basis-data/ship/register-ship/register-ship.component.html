@@ -220,6 +220,9 @@
                 </li>
               </div>
             </div>
+          </div>
+
+          <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="hull_type_dropdown">Hull Type</label>
@@ -228,6 +231,19 @@
                     <button class="btn btn-sm btn-ssn" id="hull_type_dropdown" ngbDropdownToggle> {{ hullTypeDropdownString }}</button>
                     <div ngbDropdownMenu aria-labelledby="hull_type_dropdown">
                       <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{ hullType.name }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_status_dropdown">Ship Status</label>
+                <div class="col">
+                  <div ngbDropdown>
+                    <button class="btn btn-sm btn-ssn" id="ship_status_dropdown" ngbDropdownToggle> {{ shipStatusDropdownString }}</button>
+                    <div ngbDropdownMenu aria-labelledby="ship_status_dropdown">
+                      <button class="dropdown-item" *ngFor="let shipStatus of shipStatusList" (click)="selectShipStatus(shipStatus)">{{ shipStatus.name }}</button>
                     </div>
                   </div>
                 </div>
@@ -389,6 +405,7 @@
           <p *ngIf="!shipModel.breadth || !breadthTypeSelected">Ship breadth not set.</p>
           <p *ngIf="!shipModel.power || !powerTypeSelected">Ship power not set.</p>
           <p *ngIf="!hullTypeSelected">Hull type not selected.</p>
+          <p *ngIf="!shipStatusSelected">Ship status not set.</p>          
           <p *ngIf="!shipModel.height">Ship height not set.</p>
           <p *ngIf="!shipModel.draught">Ship draught not set.</p>
           <p *ngIf="!shipModel.grossTonnage">Gross tonnage not set.</p>
@@ -431,6 +448,7 @@
                   <th>Breadth</th>
                   <th>Power</th>
                   <th>Hull Type</th>
+                  <th>Status</th>                  
                   <th>Height</th>
                   <th>Draught</th>
                   <th>Gross Tonnage</th>
@@ -448,6 +466,7 @@
                   <td>{{ powerTypeDropdownString }}
                     <br>{{ shipModel.power }}</td>
                   <td>{{ hullTypeDropdownString }}</td>
+                  <td>{{ shipStatusDropdownString }}</td>                  
                   <td>{{ shipModel.height }}</td>
                   <td>{{ shipModel.draught }}</td>
                   <td>{{ shipModel.grossTonnage }}</td>
