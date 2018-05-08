@@ -28,6 +28,7 @@ import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { CancelComponent } from './cancel/cancel.component';
 
 @NgModule({
   imports: [
@@ -62,6 +63,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ClearanceComponent,
     SaveDetailsComponent,
     NewPortCallComponent,
+    CancelComponent,
   ],
   exports: [
     PortCallComponent,
