@@ -15,6 +15,7 @@ export class ShipService {
     private breadthTypeUrl: string;
     private powerTypeUrl: string;
     private shipSourceUrl: string;
+    private shipStatusListUrl: string;
     private registerShipUrl: string;
     private flagCodeSearchUrl: string;
     private getContactListForShipUrl: string;
@@ -29,6 +30,7 @@ export class ShipService {
         this.breadthTypeUrl = 'api/shipbreadthtype/getall';
         this.powerTypeUrl = 'api/shippowertype/getall';
         this.shipSourceUrl = 'api/shipsource/getall';
+        this.shipStatusListUrl = 'api/shipstatus/getall';
         this.registerShipUrl = 'api/ship/register';
         this.flagCodeSearchUrl = 'api/shipflagcode/search';
         this.getContactListForShipUrl = 'api/shipcontact/ship';
@@ -105,6 +107,11 @@ export class ShipService {
     getShipSources() {
         return this.http.get(this.shipSourceUrl)
             .map(res => res.json());
+    }
+
+    getShipStatusList() {
+        return this.http.get(this.shipStatusListUrl)
+            .map (res => res.json());
     }
 
     getContactList(shipId: number) {
