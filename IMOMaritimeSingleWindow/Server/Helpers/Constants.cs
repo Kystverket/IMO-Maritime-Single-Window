@@ -27,6 +27,11 @@ namespace IMOMaritimeSingleWindow.Helpers
 
         public static class Strings
         {
+            public static class DatabaseTableStrings
+            {
+                public const string CLAIM_TYPE_PORT_CALL_NAME = "Port Call";
+                public const string CLAIM_TYPE_MENU_NAME = "Menu";
+            }
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";

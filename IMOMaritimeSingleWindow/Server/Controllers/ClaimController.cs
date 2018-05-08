@@ -8,6 +8,7 @@ using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using IMOMaritimeSingleWindow.Repositories;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -15,30 +16,41 @@ namespace IMOMaritimeSingleWindow.Controllers
     public class ClaimController : Controller
     {
         readonly open_ssnContext _context;
+        readonly UnitOfWork _unitOfWork;
 
-        public ClaimController(open_ssnContext context)
+        public ClaimController(IUnitOfWork<Guid> unitOfWork)
         {
-            _context = context;
+            // _context = context;
+            _unitOfWork = unitOfWork as UnitOfWork;
+
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var claimList = _context.Claim.Include(c => c.ClaimType).ToList();
+            var claimList = _unitOfWork.GetAllClaims().ToList();
             return Json(claimList);
         }
 
         [HttpGet("type/portcall")]
         public IActionResult GetAllTypePortCall()
         {
-            var portCallClaimList = _context.Claim.Where(c => Constants.Guids.CLAIM_TYPE_PORT_CALL_GUID.Equals(c.ClaimTypeId.ToString())).Include(c => c.ClaimType).ToList();
-            return Json(portCallClaimList);
+            try
+            {
+                var portCallClaimList = _unitOfWork.GetClaimsByType(Constants.Strings.DatabaseTableStrings.CLAIM_TYPE_PORT_CALL_NAME).ToList();
+                return Json(portCallClaimList);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("type/menu")]
         public IActionResult GetAllTypeMenu()
         {
-            var menuClaimList = _context.Claim.Where(c => Constants.Guids.CLAIM_TYPE_MENU_GUID.Equals(c.ClaimTypeId.ToString())).Include(c => c.ClaimType).ToList();
+            var menuClaimList = _unitOfWork.GetClaimsByType(Constants.Strings.DatabaseTableStrings.CLAIM_TYPE_MENU_NAME).ToList();
             return Json(menuClaimList);
         }
     }
