@@ -4,6 +4,7 @@ import { Credentials } from '../shared/models/credentials.interface';
 import { LoginService } from '../shared/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/services/auth-service';
+import { AccountService } from '../shared/services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private loginService: LoginService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private accountService: AccountService
   ) { }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
@@ -36,19 +38,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (valid) {
       this.loginService.login(value.userName, value.password)
       .finally(() => this.isRequesting = false)
-      .subscribe( result => {
+      .subscribe(result => 
+        {
+        // Login succeeded
         if (result) {
-          this.authService.isAdmin()
-          .finally( () => this.router.navigate(['']) ) 
-          .subscribe( result =>  {
-            let isAdmin = result.valueOf();
-            console.log({ "isAdmin" : isAdmin });
-          })
-          this.router.navigate(['']);
+          // Set user claims observable so they are
+          // available for the entire application
+          this.accountService.getUserClaims()
+          // Navigate to root when done
+          .finally( () => this.router.navigate(['']) )  
+          .subscribe(result => 
+            {
+              if(result) {
+                this.accountService.setUserClaims(result);
+              }
+            })
         }
-      }, error => this.errors = error);
+        // Login failed
+        }, error => this.errors = error
+      )
+      }
     }
-  }
 
   ngOnInit() {
     this.subscription = this.activatedRoute.queryParams.subscribe(
@@ -62,4 +72,5 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
 }

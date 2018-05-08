@@ -111,12 +111,20 @@ namespace IMOMaritimeSingleWindow.Controllers
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
             return Ok(roleNames);
-            return Ok("temporarily passes");
-            var rolesQueryAble = _roleManager.Roles;
-            var roles = from role in rolesQueryAble
-                        select role.Name;
-            
-            return Json(roles);
+        }
+
+        [Authorize]
+        [HttpGet("user/claims")]
+        public async Task<IActionResult> GetUserClaims()
+        {
+            var userIdClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Id).FirstOrDefault();
+            if (userIdClaim == null)
+                return new BadRequestObjectResult("id not present on jwt");
+            var userId = userIdClaim.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            var claims = await _userManager.GetClaimsAsync(user);
+            return Json(claims);
         }
 
         [Authorize(Roles = "admin")]

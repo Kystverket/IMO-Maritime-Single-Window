@@ -67,10 +67,18 @@ namespace IMOMaritimeSingleWindow
             //Configure CORS with different policies
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                    b => b.WithOrigins("http://localhost"));
-                options.AddPolicy("AllowAnyOrigin",
-                    b => b.AllowAnyOrigin());
+                options.AddPolicy("AllowLocalhost",
+                    b => {
+                        b.WithOrigins(new string[] {
+                            "http://localhost:4200",
+                            "https://localhost:4200"
+                        });
+                        b.WithMethods(new string[]
+                        {
+                            "GET", "OPTIONS", "POST", "UPDATE"
+                        });
+                        b.AllowAnyHeader();
+                    });
 
                 //Brute force policy if all else fails
                 //NB: Only ever use in development!
@@ -159,7 +167,7 @@ namespace IMOMaritimeSingleWindow
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging())
+            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging() || HostingEnvironment.IsDevelopment())
             {
                 //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
                 services.AddJWTOptions(Configuration);
@@ -224,10 +232,8 @@ namespace IMOMaritimeSingleWindow
                     await next();
                 }
             });
-
-            //app.UseCors("AllowAnyOrigin");
-            app.UseCors("AllowAllAny");
-            //app.UseCors("AllowSpecificOrigin");
+            
+            app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
             
