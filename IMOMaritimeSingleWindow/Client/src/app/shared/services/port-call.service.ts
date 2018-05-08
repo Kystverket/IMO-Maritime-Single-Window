@@ -12,29 +12,6 @@ import { PortCallHasPortCallPurposeModel } from '../models/port-call-has-purpose
 @Injectable()
 export class PortCallService {
 
-  constructor(private http: Http) {
-    // Port call
-    this.getPortCallUrl = "api/portcall/get";
-    this.registerNewPortCallUrl = "api/portcall/register";
-    this.getPortCallsByUserIdUrl = "api/portcall/user";
-    this.updatePortCallUrl = "api/portcall/update";
-    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
-    // Purpose
-    this.getPurposeUrl = "api/purpose/portcall";
-    this.getOtherNameUrl = "api/purpose/getothername";
-    this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
-    this.removePurposeForPortCallUrl = "api/purpose/removepurposeforportcall";
-    // Details
-    this.saveDetailsUrl = "api/portcalldetails/register";
-    this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
-    // Overview
-    this.getPortCallsByLocationUrl = 'api/portcall/location';
-    // Clearance
-    this.saveClearanceUrl = "api/organizationportcall/save";
-    this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
-    this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
-  }
-
   // Global overview
   private getPortCallsByLocationUrl: string;
   // Global port call
@@ -43,6 +20,7 @@ export class PortCallService {
   private getPortCallsByUserIdUrl: string;
   private updatePortCallUrl: string;
   private updatePortCallStatusActualUrl: string;
+  private updatePortCallStatusCancelledUrl: string;
   // Global purpose
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
@@ -60,6 +38,32 @@ export class PortCallService {
   private detailsPristine = new BehaviorSubject<boolean>(true);
   detailsPristine$ = this.detailsPristine.asObservable();
 
+  constructor(private http: Http) {
+    // Port call
+    this.getPortCallUrl = "api/portcall/get";
+    this.registerNewPortCallUrl = "api/portcall/register";
+    this.getPortCallsByUserIdUrl = "api/portcall/user";
+    this.updatePortCallUrl = "api/portcall/update";
+    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
+    this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    // Purpose
+    this.getPurposeUrl = "api/purpose/portcall";
+    this.getOtherNameUrl = "api/purpose/getothername";
+    this.setPurposeForPortCallUrl = "api/purpose/setpurposeforportcall";
+    this.removePurposeForPortCallUrl = "api/purpose/removepurposeforportcall";
+    // Details
+    this.saveDetailsUrl = "api/portcalldetails/register";
+    this.getDetailsByPortCallIdUrl = "api/portcalldetails/portcall";
+    // Overview
+    this.getPortCallsByLocationUrl = 'api/portcall/location';
+    // Clearance
+    this.saveClearanceUrl = "api/organizationportcall/save";
+    this.getClearanceListByPortCallUrl = "api/organizationportcall/portcall";
+    this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
+  }
+
+  
+
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
     let etaData = new Date(arrival);
@@ -74,6 +78,12 @@ export class PortCallService {
         hour: etdData.getHours(), minute: etdData.getMinutes()
       }
     };
+  }
+
+  private updateOverviewSource = new BehaviorSubject<any>(null);
+  updateOverview$ = this.updateOverviewSource.asObservable();
+  setUpdateOverview(data) {
+    this.updateOverviewSource.next(data);
   }
 
   /* * * * * * * * * * * * *
@@ -144,6 +154,17 @@ export class PortCallService {
     this.http.post(uri, null).map(res => res.json()).subscribe(
       updateStatusResponse => {
         console.log("Status successfully updated.");
+      }
+    );
+  }
+  // Set port call status to cancelled
+  updatePortCallStatusCancelled(portCallId: number) {
+    let uri = [this.updatePortCallStatusCancelledUrl, portCallId].join('/');
+    console.log("Updating port call status to cancelled...");
+    this.http.post(uri, null).map(res => res.json()).subscribe(
+      updateStatusResponse => {
+        console.log(updateStatusResponse);
+        console.log("Port call successfully cancelled.");
       }
     );
   }
