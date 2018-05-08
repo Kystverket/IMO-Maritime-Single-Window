@@ -1,15 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PortCallOverviewService } from '../../../../shared/services/port-call-overview.service';
-import { PortCallModel } from '../../../../shared/models/port-call-model';
-import { PortCallOverviewModel } from '../../../../shared/models/port-call-overview-model';
-import { LocationModel } from '../../../../shared/models/location-model';
-import { ShipModel } from '../../../../shared/models/ship-model';
-import { PortCallService } from '../../../../shared/services/port-call.service';
-import { ContentService } from '../../../../shared/services/content.service';
-import { Ng2SmartTableModule, LocalDataSource, ServerDataSource, ViewCell } from 'ng2-smart-table';
 import { DatePipe } from '@angular/common';
-import { HtmlParser } from '@angular/compiler';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { LocalDataSource } from 'ng2-smart-table';
+import { LocationModel } from '../../../../shared/models/location-model';
+import { PortCallOverviewModel } from '../../../../shared/models/port-call-overview-model';
+import { ShipModel } from '../../../../shared/models/ship-model';
+import { ContentService } from '../../../../shared/services/content.service';
+import { PortCallOverviewService } from '../../../../shared/services/port-call-overview.service';
+import { PortCallService } from '../../../../shared/services/port-call.service';
+import { ButtonRowComponent } from './button-row/button-row.component';
 
 @Component({
   selector: 'app-overview',
@@ -19,11 +17,9 @@ import { Observable } from 'rxjs/Observable';
 })
 export class OverviewComponent implements OnInit {
 
-  myLocationId: number = 2328223; // temporary for testing
   portCalls: any;
   ships: ShipModel[];
   locations: LocationModel[];
-  overviewModels: PortCallOverviewModel[] = [];
 
   data = [];
   dataSource: LocalDataSource = new LocalDataSource();
@@ -58,12 +54,15 @@ export class OverviewComponent implements OnInit {
       etd: {
         title: 'ETD'
       },
+      status: {
+        title: 'Status'
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: ButtonViewComponent
+        renderComponent: ButtonRowComponent
       },
       
     }
@@ -74,71 +73,40 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.overviewService.overviewData$.subscribe(
+      results => {
+        if (results) {
+          this.dataSource.load(results);
+        }
+      }
+    )
     this.overviewService.getPortCalls().subscribe(
-      pcData => {
-        pcData.forEach(pc => {
+      pcData => {        
+        let index = 0;
+        let finalIndex = pcData.length - 1;
+        pcData.forEach((pc) => {          
           this.overviewService.getOverview(pc.portCallId).subscribe(
             ov => {
-              this.overviewModels.push(ov);
-              this.dataSource.add({
+              this.data.push({
                 overviewModel: ov,
                 shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
-                + `</div> <div> <img src='assets/images/Flags/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-                callSign: ov.shipOverview.ship.callSign,
+                + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+                callSign: ov.shipOverview.ship.callSign || "",
                 locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
-                + `</div> <div> <img src='assets/images/Flags/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
+                + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
                 eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
                 etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+                status: ov.status,
                 actions: 'btn'
               });
-              this.dataSource.refresh();
+              this.overviewService.setOverviewData(this.data);
+            }, undefined, () => {
+              if (++index === finalIndex) this.overviewFound = true;
             }
-          )
+          )  
         });
-        this.overviewFound = true;                                
       }
     );
+    
   }
-}
-
-@Component({
-  selector: 'edit-button',
-  templateUrl: './edit-button.html'
-})
-export class ButtonViewComponent implements ViewCell, OnInit {
-
-  @Input() value: string | number;
-  @Input() rowData: any;
-
-  @Output() edit: EventEmitter<any> = new EventEmitter();
-
-  constructor(private contentService: ContentService, private portCallService: PortCallService) {}
-
-  ngOnInit() {}
-
-  onClick() {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.portCallService.wipeDetailsData();
-    try {
-      this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
-        details => {
-          if (details) {
-              this.portCallService.setDetails(details);
-          } else {
-            console.log("Empty details.");
-          }
-        },
-        error => {
-          console.log("Get details error: " + error);
-        },
-        () => {
-          this.contentService.setContent('Register Port Call');
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }      
-  }
-
 }

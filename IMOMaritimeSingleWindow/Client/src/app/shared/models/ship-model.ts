@@ -7,16 +7,16 @@ export class ShipModel {
     shipLengthTypeId: number;
     shipSourceId: number;
     shipFlagCodeId: number;
-    companyId: number;
+    organizationId: number;
     shipTypeId: number;
     imoNo: number;
     yearOfBuild: number;
     mmsiNo: number;
-    shipName: string;
+    name: string;
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;
-    shipLength: number;
+    length: number;
     breadth: number;
     power: number;
     height: number;
@@ -25,4 +25,7 @@ export class ShipModel {
     hasSideThrustersFront: boolean;
     hasSideThrustersBack: boolean;
     remark: string;
+    certificateOfRegistryId: number;
+    inmarsatCallNumber: string;
+    dateOfKeelLaying: Date;
 }

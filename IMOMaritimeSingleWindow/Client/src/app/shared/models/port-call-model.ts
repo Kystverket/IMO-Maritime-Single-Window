@@ -8,7 +8,7 @@ export class PortCallModel {
     previousLocationId: number;
     locationId: number;
     shipId: number;
-    portCallStatusId: number = 100235; // default status. todo: define elsewhere
+    portCallStatusId: number;
     remark: string;
     previousLocationEtd: Date;
     previousLocationAtd: Date;
@@ -18,5 +18,5 @@ export class PortCallModel {
     locationAta: Date;
     nextLocationEta: Date;
     nextLocationAta: Date;
-    personId: number;
+    userId: number;
 }

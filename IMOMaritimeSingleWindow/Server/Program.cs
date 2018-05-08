@@ -15,30 +15,39 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using IMOMaritimeSingleWindow.Data;
+using Microsoft.Extensions.DependencyInjection;
+
+using IMOMaritimeSingleWindow.Extensions;
 
 namespace IMOMaritimeSingleWindow
 {
     public class Program
     {
+        private static readonly Dictionary<string, string> defaults =
+        new Dictionary<string, string> {
+            { WebHostDefaults.EnvironmentKey, "development" }
+        };
+
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
-        }
 
-       /* public class TempDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
-        {
-            public ApplicationDbContext CreateDbContext(string[] args)
-            {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-                var builder = new DbContextOptions<ApplicationDbContext>();
-                var connectionString = configuration.GetConnectionString("DefaultConnection");
-                builder.
-            }
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .Build();
+
+            var host = new WebHostBuilder()
+                .UseConfiguration(config)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseKestrel()
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            //var host = BuildWebHost(args);
+            
+            host.Run();
+
         }
-        */
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)

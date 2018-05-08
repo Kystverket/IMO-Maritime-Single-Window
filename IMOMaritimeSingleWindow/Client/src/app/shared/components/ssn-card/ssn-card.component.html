@@ -5,11 +5,16 @@
         <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="32px" />
       </div>
       <div class="col-8">
-        <h4>{{title}}</h4>
+        <h4>{{header}}</h4>
+      </div>
+      <div class="col-2" *ngIf="collapsible">
+        <button class="btn btn-sm btn-outline-light" (click)="changeState()">
+          <img src="{{iconPath}}{{collapsedIcon}}" height="24px" class="clickable">
+        </button>
       </div>
     </div>
   </div>
-  <div class="card-body text-left">
+  <div class="card-body text-left" *ngIf="!collapsed">
     <ng-content></ng-content>
   </div>
 </div>

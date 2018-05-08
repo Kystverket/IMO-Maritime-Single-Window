@@ -1,13 +1,13 @@
 export class LocationModel {
-    location_id: number;
-    location_in_location_id: number;
-    country_id: number;
-    location_type: number;
-    location_source: number;
-    municipality_id: number;
-    location_code: string;
-    location_no: number;
-    post_code: string;
-    location_name: string;
+    locationId: number;
+    locationInLocationId: number;
+    countryId: number;
+    locationTypeId: number;
+    locationSourceId: number;
+    municipalityId: number;
+    locationCode: string;
+    locationNo: number;
+    postCode: string;
+    name: string;
     country: any;
 }

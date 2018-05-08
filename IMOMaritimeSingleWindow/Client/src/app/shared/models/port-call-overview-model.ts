@@ -9,4 +9,6 @@ export class PortCallOverviewModel {
     locationOverview: LocationOverviewModel;
     nextLocationOverview: LocationOverviewModel;
     previousLocationOverview: LocationOverviewModel;
+    clearanceList: any;
+    status: any;
 }

@@ -1,0 +1,53 @@
+<ssn-card header="Select Location" icon="location.png">
+    <ng-template #rt let-r="result" let-t="term">
+        <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+        <strong *ngIf="r.location.name">Name: </strong> {{ r.location.name }}
+        <strong *ngIf="r.location.locationCode">Code: </strong> {{ r.location.locationCode }}
+    </ng-template>
+
+    <div *ngIf="!locationFound" class="text-center">
+        <label for="search-location">Search using location name or location code</label>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+                    [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" />
+            </div>
+            <div class="col-2">
+                <div *ngIf="searching">
+                    <img class="mx-auto" src="assets/images/animations/location.gif" height="32px" />
+                    <p>Searching</p>
+                </div>
+                <div *ngIf="searchFailed">
+                    <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px" />
+                    <p>No results</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="locationFound" class="text-center">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-ssn text-ssn">
+                        <th>Country</th>
+                        <th>Location Name</th>
+                        <th>Location Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <img src="assets/images/Flags/128x128/{{locationModel.country.twoCharCode.toLowerCase()}}.png" height="20px" /> {{ locationModel.country.name }}
+                        </td>
+                        <td>{{ locationModel.location.name }} </td>
+                        <td>{{ locationModel.location.locationCode }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-ssn" (click)="deselectLocation()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+</ssn-card>

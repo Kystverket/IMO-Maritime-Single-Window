@@ -3,7 +3,7 @@ import { Http } from "@angular/http";
 
 @Injectable()
 export class PurposeService {
-    private purposeUrl = "api/portcallpurpose/all";
+    private purposeUrl = "api/purpose/all";
 
     constructor(private http: Http) { }
 

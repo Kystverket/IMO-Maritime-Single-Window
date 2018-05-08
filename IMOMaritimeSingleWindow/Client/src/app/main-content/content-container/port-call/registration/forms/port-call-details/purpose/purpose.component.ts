@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+// import { CommonModule } from '@angular/common';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 import { PurposeService } from '../../../../../../../shared/services/purpose.service';
+import { Observable } from 'rxjs/Observable';
 
-const OTHER_PURPOSE_ID = "100249";
+const OTHER_PURPOSE_ID = 100249;
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-purpose',
   templateUrl: './purpose.component.html',
   styleUrls: ['./purpose.component.css'],
@@ -12,8 +15,8 @@ const OTHER_PURPOSE_ID = "100249";
 })
 export class PurposeComponent implements OnInit {
 
-  selectedPurposes: any;
-  purposeList: any[];
+  selectedPurposes = [];
+  purposeList: any[] = []
   amountOfPurposes: number = 0;
 
   otherPurposeSelected: boolean = false;
@@ -28,11 +31,12 @@ export class PurposeComponent implements OnInit {
         this.amountOfPurposes = Object.keys(this.purposeList).length;
       }
     );
+    // this.selectedPurposes = this.portCallService.portCallPurposeData$;
     this.portCallService.portCallPurposeData$.subscribe(
       data => {
-        if (data != null) {
+        if (data) {
           this.selectedPurposes = data;
-          this.otherPurposeSelected = this.selectedPurposes.includes(OTHER_PURPOSE_ID);      
+          this.otherPurposeSelected = (this.selectedPurposes.find(p => p.portCallPurposeId == OTHER_PURPOSE_ID) != null);
         }
       }
     );
@@ -44,9 +48,8 @@ export class PurposeComponent implements OnInit {
   }
 
   purposeSelected() {
-    this.otherPurposeSelected = this.selectedPurposes.includes(OTHER_PURPOSE_ID);
-
     this.portCallService.setPortCallPurposeData(this.selectedPurposes);
+    console.log("SELECTED: ", this.selectedPurposes);
     if (this.otherPurposeSelected) {
       this.setOtherPurposeName();
     }
