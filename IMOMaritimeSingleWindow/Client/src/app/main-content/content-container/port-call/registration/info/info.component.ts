@@ -9,6 +9,7 @@ const MMSI_NO = "MMSI no:";
 const GROSS_TONNAGE = "Gross Tonnage:";
 const LENGTH = "Length:";
 const SHIP_TYPE = "Ship Type:";
+const SHIP_STATUS = "Ship Status:"
 
 const LOCATION = "Location:";
 const LOCATION_CODE = "Location Code:";
@@ -34,6 +35,7 @@ export class InfoComponent implements OnInit {
     { description: GROSS_TONNAGE, data: null },
     { description: LENGTH, data: null },
     { description: SHIP_TYPE, data: null },
+    { description: SHIP_STATUS, data: null }
   ];
 
   shipContactInfo: any[] = [];
@@ -56,6 +58,7 @@ export class InfoComponent implements OnInit {
         if (shipData) {
           if (shipData.country) this.shipFlag = shipData.country.twoCharCode.toLowerCase();
           if (shipData.shipType) this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = shipData.shipType.name;
+          if (shipData.shipStatus) this.portCallShipInfo.find(p => p.description == SHIP_STATUS).data = shipData.shipStatus.name;
           this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = shipData.ship.name;
           this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = shipData.ship.callSign;
           this.portCallShipInfo.find(p => p.description == IMO_NO).data = shipData.ship.imoNo;
