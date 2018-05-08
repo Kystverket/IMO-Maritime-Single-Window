@@ -30,13 +30,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipType)
             .Include(pc => pc.Ship.ShipFlagCode.Country)
             .Include(pc => pc.Ship.ShipContact)
+            .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
-            overview.ShipOverview = new ShipOverview { Ship = portCall.Ship, ShipType = portCall.Ship.ShipType, Country = portCall.Ship.ShipFlagCode.Country, ContactList = portCall.Ship.ShipContact.ToList() };
+            overview.ShipOverview = new ShipOverview 
+            { 
+                Ship = portCall.Ship, 
+                ShipType = portCall.Ship.ShipType, 
+                Country = portCall.Ship.ShipFlagCode.Country, 
+                ShipStatus = portCall.Ship.ShipStatus,
+                ContactList = portCall.Ship.ShipContact.ToList() 
+            };
             overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
