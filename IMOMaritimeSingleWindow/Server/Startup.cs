@@ -167,7 +167,7 @@ namespace IMOMaritimeSingleWindow
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging())
+            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging() || HostingEnvironment.IsDevelopment())
             {
                 //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
                 services.AddJWTOptions(Configuration);

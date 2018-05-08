@@ -120,7 +120,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.accountService.getUserName().subscribe(
           result => {
             if (result) {
-              console.log({'result': result});
               this.userName = result;
             }
           }
