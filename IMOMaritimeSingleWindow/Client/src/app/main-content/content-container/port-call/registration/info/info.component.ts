@@ -66,7 +66,7 @@ export class InfoComponent implements OnInit {
             results => {
               if (results) {
                 this.contactMediumList = results;
-                if (shipData && shipData.contactList.length > 0) {
+                if (shipData && shipData.contactList != null && shipData.contactList.length > 0) {
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {

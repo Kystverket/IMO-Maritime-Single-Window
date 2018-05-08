@@ -133,19 +133,7 @@ export class PortCallService {
   // REGISTER NEW PORT CALL
   registerNewPortCall(portCall: PortCallModel) {  // NEW
     console.log("Registering new port call...");
-    this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json()).subscribe(
-      pcResponse => {
-        console.log("New port call successfully registered.");
-        // add list of government agencies for clearance
-        console.log("Registering government clearance agencies to port call...");
-        this.registerClearanceAgenciesForPortCall(pcResponse);
-        // Set details
-        let portCallDetails = new PortCallDetailsModel();
-        portCallDetails.portCallId = pcResponse.portCallId;
-        portCallDetails.portCallDetailsId = pcResponse.portCallId;
-        this.setDetails(portCallDetails);
-      }
-    )
+    return this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json());
   }
   // Set port call status to actual
   updatePortCallStatusActual(portCallId: number) {

@@ -14,6 +14,7 @@ import { NumberValidator } from './utils/custom-validators/number-validator.dire
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { ContactService } from './services/contact.service';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { SelectedContactMediumsComponent } from './components/selected-contact-m
     NumberValidator,
     IntegerValidator,
     ContactSelectComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    ConfirmationModalComponent
   ],
   exports: [
     SsnCardComponent,
@@ -40,10 +42,14 @@ import { SelectedContactMediumsComponent } from './components/selected-contact-m
     NumberValidator,
     IntegerValidator,
     ContactSelectComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    ConfirmationModalComponent
   ],
   providers: [
     ContactService
+  ],
+  entryComponents: [
+    ConfirmationModalComponent
   ]
 })
 export class SharedModule { }
