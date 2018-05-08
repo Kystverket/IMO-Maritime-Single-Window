@@ -1,24 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { of } from "rxjs/observable/of";
-import { BehaviorSubject, Subject } from 'rxjs';
-import { ShipModel } from "../models/ship-model";
+import { BehaviorSubject, Observable } from "rxjs";
 import { SearchService } from "./search.service";
+import { ShipContactModel } from "../models/ship-contact-model";
 
 @Injectable()
 export class ShipService {
-    constructor(private http: Http) {
-        this.searchService = new SearchService(http);
-        this.shipSearchUrl = 'api/ship/search';
-        this.shipTypeUrl = 'api/shiptype/getall';
-        this.hullTypeUrl = 'api/shiphulltype/getall';
-        this.lengthTypeUrl = 'api/shiplengthtype/getall';
-        this.breadthTypeUrl = 'api/shipbreadthtype/getall';
-        this.powerTypeUrl = 'api/shippowertype/getall';
-        this.shipSourceUrl = 'api/shipsource/getall';
-        this.registerShipUrl = 'api/ship/register';
-        this.flagCodeSearchUrl = 'api/shipflagcode/search';
-    }
 
     private searchService: SearchService;
     private shipSearchUrl: string;
@@ -28,8 +15,29 @@ export class ShipService {
     private breadthTypeUrl: string;
     private powerTypeUrl: string;
     private shipSourceUrl: string;
+    private shipStatusListUrl: string;
     private registerShipUrl: string;
     private flagCodeSearchUrl: string;
+    private getContactListForShipUrl: string;
+    private saveShipContactListUrl: string;
+
+    constructor(private http: Http) {
+        this.searchService = new SearchService(http);
+        this.shipSearchUrl = 'api/ship/search';
+        this.shipTypeUrl = 'api/shiptype/getall';
+        this.hullTypeUrl = 'api/shiphulltype/getall';
+        this.lengthTypeUrl = 'api/shiplengthtype/getall';
+        this.breadthTypeUrl = 'api/shipbreadthtype/getall';
+        this.powerTypeUrl = 'api/shippowertype/getall';
+        this.shipSourceUrl = 'api/shipsource/getall';
+        this.shipStatusListUrl = 'api/shipstatus/getall';
+        this.registerShipUrl = 'api/ship/register';
+        this.flagCodeSearchUrl = 'api/shipflagcode/search';
+        this.getContactListForShipUrl = 'api/shipcontact/ship';
+        this.saveShipContactListUrl = 'api/shipcontact/savelist'
+    }
+
+
 
     private organizationDataSource = new BehaviorSubject<any>(null);
     organizationData$ = this.organizationDataSource.asObservable();
@@ -42,8 +50,13 @@ export class ShipService {
 
     registerShip(newShip: any) {
         return this.http.post(this.registerShipUrl, newShip)
-                .map(res => res.json());
-    }    
+            .map(res => res.json());
+    }
+
+    saveShipContactList(shipContactList: ShipContactModel[]) {
+        console.log(shipContactList);
+        return this.http.post(this.saveShipContactListUrl, shipContactList).map(res => res.json());
+    }
 
     setOrganizationData(data) {
         this.organizationDataSource.next(data);
@@ -68,32 +81,45 @@ export class ShipService {
 
     getShipTypes() {
         return this.http.get(this.shipTypeUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getHullTypes() {
         return this.http.get(this.hullTypeUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getLengthTypes() {
         return this.http.get(this.lengthTypeUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getBreadthTypes() {
         return this.http.get(this.breadthTypeUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getPowerTypes() {
         return this.http.get(this.powerTypeUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     getShipSources() {
         return this.http.get(this.shipSourceUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
-    
+
+    getShipStatusList() {
+        return this.http.get(this.shipStatusListUrl)
+            .map (res => res.json());
+    }
+
+    getContactList(shipId: number) {
+        let uri: string = [this.getContactListForShipUrl, shipId].join('/');
+        return this.http.get(uri)
+            .map(res => res.json());
+    }
+
+
+
 }

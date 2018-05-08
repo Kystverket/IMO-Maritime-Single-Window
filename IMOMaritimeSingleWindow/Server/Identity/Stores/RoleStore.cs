@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -70,6 +70,11 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 throw new ArgumentNullException(nameof(role));
             }
             return Task.FromResult(role.Name);
+        }
+
+        public Task<IList<Role>> GetAllRoles(CancellationToken cancellation = default)
+        {
+            return Task.FromResult<IList<Role>>(_unitOfWork.Roles.GetAll().ToList());
         }
 
         public Task SetNormalizedRoleNameAsync(ApplicationRole role, string normalizedName, CancellationToken cancellationToken)

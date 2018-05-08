@@ -1,6 +1,6 @@
 <div class="row mb-3">
   <div class="col">
-    <table-card title="Ship" icon="ship.png">
+    <table-card header="Ship" icon="ship.png">
       <tbody>
         <tr>
           <td>
@@ -13,13 +13,28 @@
             <tr>{{ entry.data }}</tr>
           </td>
         </tr>
+      </tbody>
+    </table-card>
+    <table-card header="Ship Contact Information" icon="contact.png" collapsible=true collapsed=true>
+      <tbody>
+        <tr>
+          <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
+            <tr>
+              <small>{{ entry.description }}
+                <span *ngIf="entry.isPreferred"> (preferred)</span>
+              </small>
+            </tr>
+            <tr>{{ entry.data }}</tr>
+          </td>
+        </tr>
+      </tbody>
     </table-card>
   </div>
 </div>
 
 <div class="row mb-3">
   <div class="col">
-    <table-card title="Location" icon="location.png">
+    <table-card header="Location" icon="location.png">
       <tbody>
         <tr>
           <td>

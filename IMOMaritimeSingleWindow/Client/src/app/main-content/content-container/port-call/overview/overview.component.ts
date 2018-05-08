@@ -73,7 +73,13 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    var timeStart = Date.now();
+    this.overviewService.overviewData$.subscribe(
+      results => {
+        if (results) {
+          this.dataSource.load(results);
+        }
+      }
+    )
     this.overviewService.getPortCalls().subscribe(
       pcData => {        
         let index = 0;
@@ -81,11 +87,11 @@ export class OverviewComponent implements OnInit {
         pcData.forEach((pc) => {          
           this.overviewService.getOverview(pc.portCallId).subscribe(
             ov => {
-              this.dataSource.prepend({
+              this.data.push({
                 overviewModel: ov,
                 shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-                callSign: ov.shipOverview.ship.callSign,
+                callSign: ov.shipOverview.ship.callSign || "",
                 locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
                 + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
                 eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
@@ -93,7 +99,7 @@ export class OverviewComponent implements OnInit {
                 status: ov.status,
                 actions: 'btn'
               });
-              // console.log(Date.now() - timeStart);
+              this.overviewService.setOverviewData(this.data);
             }, undefined, () => {
               if (++index === finalIndex) this.overviewFound = true;
             }

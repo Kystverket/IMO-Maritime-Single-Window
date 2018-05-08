@@ -1,0 +1,16 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr class="bg-ssn text-ssn">
+        <th colspan=3>Selected Contact Mediums</th>
+      </tr>
+    </thead>
+    <tbody class="text-left">
+      <tr *ngFor="let contactModel of selectedContactModels">
+        <td class="bg-ssn text-ssn">{{ contactModel.contactMedium.contactMediumType }}</td>
+        <td [attr.colspan]="!contactModel.isPreferred ? 2 : null">{{ contactModel.contactValue ? contactModel.contactValue : 'Value not set' }}</td>
+        <td *ngIf="contactModel.isPreferred">Preferred</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -16,7 +16,6 @@ export class ClearancesComponent implements OnInit {
     this.portCallService.clearanceListData$.subscribe(
       clearanceListData => {
         if (clearanceListData) {
-          console.log(clearanceListData);          
           this.clearanceList = clearanceListData;
         }
       }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrganizationFormComponent } from './organization-form.component';
+import { CancelComponent } from './cancel.component';
 
-describe('OrganizationFormComponent', () => {
-  let component: OrganizationFormComponent;
-  let fixture: ComponentFixture<OrganizationFormComponent>;
+describe('CancelComponent', () => {
+  let component: CancelComponent;
+  let fixture: ComponentFixture<CancelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OrganizationFormComponent ]
+      declarations: [ CancelComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrganizationFormComponent);
+    fixture = TestBed.createComponent(CancelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
