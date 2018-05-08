@@ -49,6 +49,8 @@ export class InfoComponent implements OnInit {
 
   contactMediumList: any;
 
+  shipHasContactInfo: boolean = false;
+
   constructor(private constantsService: ConstantsService, private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -66,15 +68,14 @@ export class InfoComponent implements OnInit {
           this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = shipData.ship.grossTonnage;
           this.portCallShipInfo.find(p => p.description == LENGTH).data = shipData.ship.length;
           this.constantsService.getContactMediumList().subscribe(
-            results => {
+            results => {              
               if (results) {
                 this.contactMediumList = results;
                 if (shipData && shipData.contactList != null && shipData.contactList.length > 0) {
+                  this.shipHasContactInfo = true;
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {
-                      console.log(value);
-                      
                       this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
                     }
                   });
