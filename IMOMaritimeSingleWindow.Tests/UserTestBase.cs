@@ -28,7 +28,7 @@ namespace IMOMaritimeSingleWindow.Tests
         {
             InMemoryDatabaseContext = StorageBuilder.GetInMemContext();
             UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
-            var configuration = new MapperConfiguration(cfg => new MappingConfiguration().Configure(cfg));
+            var configuration = new MapperConfiguration(cfg => new IdentityEntitiesToModelsMappingProfile());
             var mapper = configuration.CreateMapper();
             UserStore = new UserStore(UnitOfWork, mapper);
 

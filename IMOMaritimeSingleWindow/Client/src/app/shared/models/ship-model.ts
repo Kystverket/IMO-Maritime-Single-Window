@@ -1,7 +1,7 @@
 export class ShipModel {
     shipId: number;
     shipHullTypeId: number;
-    shipStatusId: number=101216;
+    shipStatusId: number;
     shipPowerTypeId: number;
     shipBreadthTypeId: number;
     shipLengthTypeId: number;
@@ -9,10 +9,10 @@ export class ShipModel {
     shipFlagCodeId: number;
     organizationId: number;
     shipTypeId: number;
-    imoNo: string;
+    imoNo: number;
     yearOfBuild: number;
     mmsiNo: number;
-    name: number;
+    name: string;
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;

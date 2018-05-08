@@ -98,8 +98,10 @@
   
           <button class="btn btn-success">Register user</button>
           
-          
+          <button class="btn" (click)="canSetPortCallClearance()">Check clearance</button>
   
+          <p *ngIf="canClear">I can set clearance for portcalls!</p>
+
         </div>
       </div>
   

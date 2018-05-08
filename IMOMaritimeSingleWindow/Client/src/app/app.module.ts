@@ -19,6 +19,7 @@ import { ContentContainerModule } from './main-content/content-container/content
 import { AccountService } from './shared/services/account.service';
 import { AuthRequest } from './shared/services/auth.request.service';
 import { AuthService } from './shared/services/auth-service';
+import { ConfirmationModalComponent } from './shared/components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +40,8 @@ import { AuthService } from './shared/services/auth-service';
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
     ConfigService,
     LoginService,
-    ContentService,
     AccountService,
+    ContentService,
     AuthService,
     AuthRequest
   ],

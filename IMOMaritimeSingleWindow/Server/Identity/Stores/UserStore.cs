@@ -97,6 +97,20 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
 
+        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        {
+            if (!HasPassword(user).GetAwaiter().GetResult())
+                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
+            else
+            {
+                var passwordHash = GetPasswordHashAsync(user).GetAwaiter().GetResult();
+
+                var appUser = _mapper.Map<ApplicationUser>(user);
+                SetPasswordHashAsync(appUser, passwordHash).GetAwaiter().GetResult();
+                return Task.FromResult(appUser);
+            }
+        }
+        
         public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -109,7 +123,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = _mapper.Map<ApplicationUser>(_user);
+            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
             return Task.FromResult(appUser);
         }
 
@@ -124,7 +138,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = _mapper.Map<ApplicationUser>(_user);
+            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
             return Task.FromResult(appUser);
         }
 
@@ -198,7 +212,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             var appUserList = new List<ApplicationUser>();
             foreach (var user in userList)
             {
-                var appUser = _mapper.Map<ApplicationUser>(user);
+                var appUser = ConvertToApplicationUser(user).GetAwaiter().GetResult();
                 appUserList.Add(appUser);
             }
             return appUserList.AsQueryable();

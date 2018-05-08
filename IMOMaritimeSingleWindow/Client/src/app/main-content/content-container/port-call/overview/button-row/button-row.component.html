@@ -1,7 +1,7 @@
 <div class="d-table">
   <div class="d-table-row">
 
-    <div class="d-table-cell">
+    <div class="d-table-cell pl-1">
       <button class="btn btn-sm btn-ssn" (click)="onViewClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/eye.png' height='20px' />
@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell">
+    <div class="d-table-cell pl-1">
       <button class="btn btn-sm btn-ssn" (click)="onEditClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/edit.png' height='20px' />
@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell">
+    <div class="d-table-cell pl-1">
       <button class="btn btn-sm btn-ssn" (click)="onClearanceClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/stamp.png' height='20px' />
@@ -28,5 +28,38 @@
       </button>
     </div>
 
+    <div class="d-table-cell pl-1">
+      <button class="btn btn-sm btn-ssn" (click)="onCancelClick(content)">
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/cancel.png' height='20px' />
+        </div>
+        <small class="text-center text-white">CANCEL</small>
+      </button>
+    </div>
   </div>
 </div>
+
+<ng-template #content let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Cancel Port Call</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>Are you sure you wish to cancel this port call?</span>
+      <br>
+      <pre></pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="cancelPortCall(); close()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <span>Cancel Port Call</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close()">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>

@@ -22,11 +22,18 @@ export class AuthService extends BaseRequest {
 
    isAdmin() : Observable<boolean> {
     let auth_header = this.authService.GetHeaders();
-    let options = new RequestOptions({ headers: auth_header })
+    let options = new RequestOptions({ headers: auth_header });
         return this.http
             .get(this.actionUrl + "/admin", options)
             .map(res => res.json());
    }
 
-
+   canSetClearance(): Observable<any> {
+    let auth_header = this.authService.GetHeaders();
+    let options = new RequestOptions({ headers: auth_header });
+    return this.http
+      //.get(this.actionUrl + "/canSetPortCallClearance", options);
+      .get("api/test/canSetPortCallClearance", options)
+      .map(res => res.json());
+   }
 }
