@@ -70,11 +70,11 @@ export class PortCallService {
     let etdData = new Date(departure);
     return {
       eta: {
-        year: etaData.getFullYear(), month: etaData.getMonth(), day: etaData.getDate(),
+        year: etaData.getFullYear(), month: etaData.getMonth() + 1, day: etaData.getDate(),
         hour: etaData.getHours(), minute: etaData.getMinutes()
       },
       etd: {
-        year: etdData.getFullYear(), month: etdData.getMonth(), day: etdData.getDate(),
+        year: etdData.getFullYear(), month: etdData.getMonth() + 1, day: etdData.getDate(),
         hour: etdData.getHours(), minute: etdData.getMinutes()
       }
     };
@@ -332,7 +332,6 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
   setClearanceListData(data) {  // NEW
-    console.log("Clearance List: ", data);
     this.clearanceListDataSource.next(data);
   }
 

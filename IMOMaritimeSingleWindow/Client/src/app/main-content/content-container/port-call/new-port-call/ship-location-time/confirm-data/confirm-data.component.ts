@@ -74,11 +74,10 @@ export class ConfirmDataComponent implements OnInit {
     // this.portCallModel.portCallStatusId = PORT_CALL_STATUS_INCOMPLETE_ID;
     this.portCallModel.portCallStatusId = 100235;
     this.portCallModel.locationId = this.locationModel.location.locationId;
-    let eta = new Date(Date.UTC(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute));
-    let etd = new Date(Date.UTC(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute));
+    let eta = new Date(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute);
+    let etd = new Date(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.etd.day, this.etaEtdModel.etd.hour, this.etaEtdModel.etd.minute);
     this.portCallModel.locationEta = eta;
     this.portCallModel.locationEtd = etd;
-    console.log(this.portCallModel);
     this.portCallService.registerNewPortCall(this.portCallModel);
     this.contentService.setPortCallForm("Port Call Details");
     this.contentService.setContent("Register Port Call");

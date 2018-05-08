@@ -101,6 +101,7 @@ export class EtaEtdComponent implements OnInit {
     }
 
     if (!this.dateSequenceError && !this.timeSequenceError && this.hasRequiredData(this.etaEtdModel)) {
+      console.log(this.etaEtdModel);
       this.portCallService.setEtaEtdData(this.etaEtdModel);
     } else {
       this.portCallService.setEtaEtdData(null);
