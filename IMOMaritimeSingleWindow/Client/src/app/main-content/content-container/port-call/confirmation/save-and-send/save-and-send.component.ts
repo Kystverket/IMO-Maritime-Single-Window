@@ -76,11 +76,10 @@ export class SaveAndSendComponent implements OnInit {
     this.detailsModel.reportingWaste = this.reportingModel.reportingWaste;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
     console.log("META: ", this.detailsMeta.valid, "\nPRISTINE: ", this.detailsDataIsPristine);
-    
   }
 
   send() {
-    this.portCallService.updatePortCallStatusActual(this.detailsModel.portCallId);
+    this.portCallService.updatePortCallStatusActual(this.detailsIdentificationModel.portCallId);
     this.contentService.setContent("Port Call");
   }
 
