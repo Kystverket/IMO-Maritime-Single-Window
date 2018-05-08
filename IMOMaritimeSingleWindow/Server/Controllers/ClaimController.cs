@@ -24,7 +24,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var claimList = _context.Claim.ToList();
+            var claimList = _context.Claim.Include(c => c.ClaimType).ToList();
             return Json(claimList);
         }
     }
