@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  providers: [AccountService, MenuService]
+  providers: [MenuService]
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   roles: any = new Array();
   user_menu_entries: MenuEntry[];
   userName: string = "default";
+  userClaims: any;
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
@@ -112,8 +113,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
       this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
-      console.log('is logged in when loading header component? ' + this.loggedIn );
-
       this.generateMenu();
 
       if (this.loggedIn) {
@@ -124,6 +123,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
           }
         );
+        this.accountService.userClaimsData$
+        .subscribe(claims => {
+          if(claims) {
+            this.userClaims = claims;
+          }
+        })
+        
       }
 
       // This should instead be executed when database is ready to be queried

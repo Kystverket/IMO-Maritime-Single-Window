@@ -50,12 +50,9 @@ export class LoginComponent implements OnInit, OnDestroy {
           .subscribe(result => 
             {
               if(result) {
-                console.log(result);
                 this.accountService.setUserClaims(result);
               }
             })
-
-          
         }
         // Login failed
         }, error => this.errors = error
