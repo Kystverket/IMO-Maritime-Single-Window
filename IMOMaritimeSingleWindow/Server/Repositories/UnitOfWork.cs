@@ -50,7 +50,19 @@ namespace IMOMaritimeSingleWindow.Repositories
             return claims;
         }
 
-         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
+
+        public IEnumerable<Claim> GetClaimsByType(string typeName)
+        {
+            var claimType = ClaimTypes.Find(ct => typeName.Equals(ct.Name)).FirstOrDefault();
+            if (claimType == null)
+            {
+                throw new ArgumentException("Claim type " + typeName + " does not exist.");
+            }
+            var claims = Claims.Find(c => c.ClaimTypeId == claimType.ClaimTypeId);
+            return claims;
+        }
+
+        public IEnumerable<Claim> GetClaimsForUser(Guid userId)
         {
             var user = Users.Get(userId);
             if (user == null)

@@ -127,6 +127,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(claims);
         }
 
+       /*  [Authorize]
+        [HttpGet("user/claims")]
+        public IActionResult GetUserClaims()
+        {
+            var roleClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Rol).FirstOrDefault();
+            var role = open_ssnContext.Role.Where(r => r.Name.Equals(roleClaim.Value)).FirstOrDefault();
+            var userClaims = open_ssnContext.RoleClaim.Where(rc => rc.RoleId == role.RoleId).Select(rc => rc.Claim).ToList();
+            return Json(userClaims);
+        } */
+
         [Authorize(Roles = "admin")]
         [HttpGet("getrole")]
         public IActionResult GetRole()

@@ -233,7 +233,8 @@ namespace IMOMaritimeSingleWindow
                 }
             });
             
-            app.UseCors(policyName: "AllowLocalhost");
+            app.UseCors("AllowAllAny");
+            // app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
             

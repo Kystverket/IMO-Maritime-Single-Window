@@ -1,7 +1,7 @@
 export class ShipModel {
     shipId: number;
     shipHullTypeId: number;
-    shipStatusId: number=101216;
+    shipStatusId: number;
     shipPowerTypeId: number;
     shipBreadthTypeId: number;
     shipLengthTypeId: number;

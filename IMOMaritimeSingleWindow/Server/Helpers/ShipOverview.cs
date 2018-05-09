@@ -14,6 +14,8 @@ namespace IMOMaritimeSingleWindow.Helpers {
         
         public ShipType ShipType {get; set;}
 
+        public ShipStatus ShipStatus {get; set;}
+
         public List<ShipContact> ContactList {get; set;}
 
     }

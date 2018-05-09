@@ -7,6 +7,12 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 import { ContactModel } from '../../../../../shared/models/contact-model';
 import { ContactService } from '../../../../../shared/services/contact.service';
 import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
+import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+const RESULT_SUCCES: string = "Ship was successfully saved to the database.";
+const RESULT_FAILURE: string = "There was a problem when trying to save the ship to the database. Please try again later.";
+const RESULT_SAVED_WITHOUT_CONTACT: string = "Ship was saved to the database, but there was an error when trying to save the ship's contact information. Please provide this information later.";
 
 @Component({
   selector: 'app-register-ship',
@@ -20,12 +26,14 @@ export class RegisterShipComponent implements OnInit {
   lengthTypeSelected = false;
   breadthTypeSelected = false;
   powerTypeSelected = false;
+  shipStatusSelected = false;
 
   shipTypeList: any[];
   hullTypeList: any[];
   lengthTypeList: any[];
   breadthTypeList: any[];
   powerTypeList: any[];
+  shipStatusList: any[];
 
   selectedShipType: any;
   shipTypeSelected: boolean = false;
@@ -35,6 +43,7 @@ export class RegisterShipComponent implements OnInit {
   lengthTypeDropdownString: string = "Select type";
   breadthTypeDropdownString: string = "Select type";
   powerTypeDropdownString: string = "Select type";
+  shipStatusDropdownString: string = "Select status";
 
   shipFlagCodeModel: any;
   organizationModel: OrganizationModel;
@@ -45,7 +54,8 @@ export class RegisterShipComponent implements OnInit {
   contactSelected: boolean;  
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
-  constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService, private contentService: ContentService) { }
+  constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService, 
+    private contentService: ContentService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.shipService.getShipTypes().subscribe(
@@ -62,6 +72,9 @@ export class RegisterShipComponent implements OnInit {
     );
     this.shipService.getPowerTypes().subscribe(
       data => this.powerTypeList = data
+    );
+    this.shipService.getShipStatusList().subscribe(
+      data => this.shipStatusList = data
     );
 
     this.shipService.shipFlagCodeData$.subscribe(
@@ -170,6 +183,12 @@ export class RegisterShipComponent implements OnInit {
     this.powerTypeSelected = true;
   }
 
+  selectShipStatus(shipStatus: any) {
+    this.shipModel.shipStatusId = shipStatus.shipStatusId;
+    this.shipStatusDropdownString = shipStatus.name;
+    this.shipStatusSelected = true;
+  }
+
   registerShip() {
     this.shipService.registerShip(this.shipModel).subscribe(
       result => {
@@ -186,6 +205,7 @@ export class RegisterShipComponent implements OnInit {
         this.saveShipContactList(shipContactList);
       }, error => {
         console.log(error);
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
       }
     );
   }
@@ -195,16 +215,31 @@ export class RegisterShipComponent implements OnInit {
       result => {
         if (result) {
           console.log(result);
-          this.goBack();
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
         }
       }, error => {
         console.log(error);
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_WARNING, RESULT_SAVED_WITHOUT_CONTACT);
       }
     );
   }
 
   private goBack() {
     this.contentService.setContent('Port Call');
+  }
+
+  private openConfirmationModal(modalType: string, bodyText: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.modalType = modalType;
+    modalRef.componentInstance.bodyText = bodyText;
+    modalRef.result.then(
+      result => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      },
+      reason => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      }
+    );
   }
 
 }

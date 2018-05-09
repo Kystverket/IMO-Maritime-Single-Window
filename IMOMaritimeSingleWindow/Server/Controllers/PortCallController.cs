@@ -30,13 +30,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipType)
             .Include(pc => pc.Ship.ShipFlagCode.Country)
             .Include(pc => pc.Ship.ShipContact)
+            .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
-            overview.ShipOverview = new ShipOverview { Ship = portCall.Ship, ShipType = portCall.Ship.ShipType, Country = portCall.Ship.ShipFlagCode.Country, ContactList = portCall.Ship.ShipContact.ToList() };
+            overview.ShipOverview = new ShipOverview 
+            { 
+                Ship = portCall.Ship, 
+                ShipType = portCall.Ship.ShipType, 
+                Country = portCall.Ship.ShipFlagCode.Country, 
+                ShipStatus = portCall.Ship.ShipStatus,
+                ContactList = portCall.Ship.ShipContact.ToList() 
+            };
             overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
@@ -48,9 +56,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("overview/{portCallId}")]
         public IActionResult GetOverviewJson(int portCallId)
         {
-            var timeStart = DateTime.Now;
             var overview = GetOverview(portCallId);
-            Console.WriteLine("\n\n\n" + (DateTime.Now - timeStart) + "\n\n\n");            
             return Json(overview);
         }
 
@@ -96,6 +102,28 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPost("updatestatus/cancelled/{portCallId}")]
+        public IActionResult SetStatusCancelled(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CANCELLED;
                 _context.Update(portCall);
                 _context.SaveChanges();
                 return Json(portCall);
