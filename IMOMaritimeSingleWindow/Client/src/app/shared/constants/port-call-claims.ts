@@ -1,10 +1,12 @@
 export class PortCallClaims {
     static TYPE = "Port Call";
-    static permissions = {
-        register: false,        
+    static buttonRowPermissions = {
         view: false,
         edit: false,
         clearance: false,
         cancel: false,
+    }
+    static portCallPermissions = {
+        register: false
     }
 }
