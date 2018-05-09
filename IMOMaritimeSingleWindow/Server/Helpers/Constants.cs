@@ -50,7 +50,7 @@ namespace IMOMaritimeSingleWindow.Helpers
 
             public static class UserRoles
             {
-                public const string Admin = "admin", Agent = "agent";
+                public const string Admin = "admin", Agent = "agent", Customs = "customs", HealthAgency = "health_agency";
             }
 
             public static class MenuEntries

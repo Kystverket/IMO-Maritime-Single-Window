@@ -3,15 +3,18 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 import { Http, RequestOptions } from '@angular/http';
 import { PortCallModel } from '../models/port-call-model';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class PortCallOverviewService {
-    constructor(private http: Http) {
+    constructor(private http: Http, private authRequestService: AuthRequest) {
         this.getOverviewUrl = 'api/portcall/overview';
         this.getPortCallsByLocationUrl = 'api/portcall/location';
         this.getPortCallsUrl = 'api/portcall/get';
+        this.getPortCallsForUserUrl = 'api/portcall/foruser';
     }
     private getPortCallsUrl: string;
+    private getPortCallsForUserUrl: string;
     private getOverviewUrl: string;
     private getPortCallsByLocationUrl: string;
 
@@ -42,8 +45,11 @@ export class PortCallOverviewService {
     }
 
     getPortCalls() {
-        let uri: string = this.getPortCallsUrl;
-        return this.http.get(uri)
+        // let uri: string = this.getPortCallsUrl;
+        let auth_headers = this.authRequestService.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers });
+        let uri: string = this.getPortCallsForUserUrl;
+        return this.http.get(uri, options)
             .map(res => res.json());
     }
 

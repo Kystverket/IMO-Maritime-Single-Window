@@ -9,6 +9,7 @@ using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -37,13 +38,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
-            overview.ShipOverview = new ShipOverview 
-            { 
-                Ship = portCall.Ship, 
-                ShipType = portCall.Ship.ShipType, 
-                Country = portCall.Ship.ShipFlagCode.Country, 
+            overview.ShipOverview = new ShipOverview
+            {
+                Ship = portCall.Ship,
+                ShipType = portCall.Ship.ShipType,
+                Country = portCall.Ship.ShipFlagCode.Country,
                 ShipStatus = portCall.Ship.ShipStatus,
-                ContactList = portCall.Ship.ShipContact.ToList() 
+                ContactList = portCall.Ship.ShipContact.ToList()
             };
             overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
             overview.Status = portCall.PortCallStatus.Name;
@@ -59,6 +60,65 @@ namespace IMOMaritimeSingleWindow.Controllers
             var overview = GetOverview(portCallId);
             return Json(overview);
         }
+
+
+        [Authorize]
+        [HttpGet("foruser")]
+        public IActionResult GetPortCallsByUser()
+        {
+            List<PortCall> portCallList = new List<PortCall>();
+            var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+            var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
+            Console.WriteLine("userId: " + userId);
+            Console.WriteLine("userRole: " + userRole);
+
+            var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
+                                    .Include(u => u.Organization.OrganizationType)
+                                    .FirstOrDefault();
+
+            switch (userRole)
+            {
+                // Admin
+                case Constants.Strings.UserRoles.Admin:
+                    portCallList = _context.PortCall.ToList();
+                    break;
+                // Agent                    
+                case Constants.Strings.UserRoles.Agent:
+                    portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            (opc.OrganizationId == dbUser.OrganizationId)
+                                            || (opc.PortCall.UserId != null && opc.PortCall.UserId.ToString().Equals(userId))
+                                            ).Select(opc => opc.PortCall).ToList();
+                    break;
+                // Customs
+                case Constants.Strings.UserRoles.Customs:
+                    portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            ).Select(opc => opc.PortCall).ToList();
+                    break;
+                // Health agency
+                case Constants.Strings.UserRoles.HealthAgency:
+                    portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            ).Select(opc => opc.PortCall).ToList();
+                    break;
+                // Other government agencies not listed in Constants.Strings.UserRoles
+                default:
+                    if (dbUser.Organization.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY)
+                    {
+                        portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            ).Select(opc => opc.PortCall).ToList();
+                    }
+                    break;
+
+            }
+            return Json(portCallList);
+        }
+
 
 
         // [HttpGet("overview/{id}")]
