@@ -25,7 +25,6 @@ export class PortCallComponent implements OnInit {
           keys.forEach(key => {
             this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
           })
-          // this.permissions.register = userClaimsTypePortCall.some(pcClaim => pcClaim.value == PortCallClaims.REGISTER);
         }
       }
     );
