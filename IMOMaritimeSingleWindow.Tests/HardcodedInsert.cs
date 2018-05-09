@@ -88,7 +88,101 @@ namespace IMOMaritimeSingleWindow.Tests
             UnitOfWork.Complete();
         }
 
-        
+        [Test]
+        public void UpdateAdmin()
+        {
+            var regClaim = UnitOfWork.Claims.Find(cl => cl.ClaimValue == "Register").FirstOrDefault();
+            var clearClaim = UnitOfWork.Claims.Find(cl => cl.ClaimValue == "Clearance").FirstOrDefault();
+
+            var adminRole = UnitOfWork.Roles.GetByNormalizedName("ADMIN");
+
+            UnitOfWork.RoleClaims.AddClaimsToRole(new List<Claim> { regClaim, clearClaim }, adminRole.RoleId);
+            UnitOfWork.Complete();
+        }
+
+        [Test]
+        public void UpdateAdmin2()
+        {
+            var cancelClaim = UnitOfWork.Claims.Find(cl => cl.ClaimValue == "Cancel").FirstOrDefault();
+
+            var adminRole = UnitOfWork.Roles.GetByNormalizedName("ADMIN");
+
+            UnitOfWork.RoleClaims.Add(new RoleClaim
+            {
+                Claim = cancelClaim,
+                Role = adminRole
+            });
+            UnitOfWork.Complete();
+        }
+
+
+        [Test]
+        public void InsertUser()
+        {
+            Password pw = new Password
+            {
+                Hash = "XXXXXXXX"
+            };
+            Role role = UnitOfWork.Roles.GetByNormalizedName("XXXX");
+            User usr = new User
+            {
+                Email = "xxxx@test.no",
+                EmailConfirmed = true,
+                NormalizedEmail = "XXXX@TEST.NO",
+                Password = pw,
+                Role = role
+            };
+            
+            UnitOfWork.Users.Add(usr);
+            UnitOfWork.Complete();
+            
+            Assert.True(true);
+        }
+
+        [Test]
+        public void InsertRole()
+        {
+            Role role = new Role
+            {
+                Name = "xxxx",
+                NormalizedName = "XXXX",
+                Description = "XXXX"
+            };
+
+            UnitOfWork.Roles.Add(role);
+            UnitOfWork.Complete();
+
+            var menuClaims = UnitOfWork.GetClaimsByType("Menu").ToList();
+            var portCallMenuClaim = UnitOfWork.GetClaimsByType("Menu").FirstOrDefault(cl => cl.ClaimValue == "PORT CALL");
+            var portCallClaims = UnitOfWork.GetClaimsByType("Port Call")
+                .Where(cl => cl.ClaimValue == "Clearance" || cl.ClaimValue == "View")
+                .ToList();
+
+            var claimsList = new List<Claim> { portCallMenuClaim };
+            claimsList.AddRange(portCallClaims);
+            UnitOfWork.RoleClaims.AddClaimsToRole(claimsList, role.RoleId);
+            UnitOfWork.Complete();
+
+            Assert.True(true);
+
+        }
+
+        [Test]
+        public void InsertRegisterClaim()
+        {
+            var pcClaimType = UnitOfWork.ClaimTypes.Find(ct => ct.Name == "Port Call").FirstOrDefault();
+            Claim regClaim = new Claim
+            {
+                ClaimValue = "Cancel",
+                ClaimType = pcClaimType
+            };
+
+            UnitOfWork.Claims.Add(regClaim);
+            UnitOfWork.Complete();
+
+            Assert.True(true);
+        }
+
 
         [Test]
         public void Passes()
