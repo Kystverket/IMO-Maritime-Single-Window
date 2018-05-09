@@ -4,4 +4,5 @@ export class PortCallClaims {
     static EDIT = "Edit";
     static CLEARANCE = "Clearance";
     static CANCEL = "Cancel";
+    static REGISTER = "Register";
 }

@@ -39,11 +39,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       userClaims => {
         if (userClaims) {
           let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
-          // Set action button permissions
-          this.permissions.view = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.VIEW));
-          this.permissions.edit = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.EDIT));
-          this.permissions.clearance = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.CLEARANCE));
-          this.permissions.cancel = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.CANCEL));
+          var keys = Object.keys(this.permissions);
+          keys.forEach(key => {          
+            this.permissions[key] = (userClaimsTypePortCall.some(d => d.value.toUpperCase() == key.toString().toUpperCase()));
+          });
         }
       }
     );
