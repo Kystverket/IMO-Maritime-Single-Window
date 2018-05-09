@@ -24,12 +24,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   overviewData: any[];
 
-  permissions = {
-    view: false,
-    edit: false,
-    clearance: false,
-    cancel: false
-  };
+  permissions = PortCallClaims.permissions;
 
   constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
