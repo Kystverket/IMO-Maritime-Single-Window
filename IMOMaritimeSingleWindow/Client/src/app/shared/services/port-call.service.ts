@@ -146,11 +146,7 @@ export class PortCallService {
   updatePortCallStatusActual(portCallId: number) {
     let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
     console.log("Updating port call status to actual...");
-    this.http.post(uri, null).map(res => res.json()).subscribe(
-      updateStatusResponse => {
-        console.log("Status successfully updated.");
-      }
-    );
+    return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled
   updatePortCallStatusCancelled(portCallId: number) {

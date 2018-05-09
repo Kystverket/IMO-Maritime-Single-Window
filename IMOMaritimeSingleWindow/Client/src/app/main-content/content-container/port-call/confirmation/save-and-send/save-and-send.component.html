@@ -35,11 +35,11 @@
     <div class="row" *ngIf="portCallStatus != STATUS_ACTUAL">
       <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
         <button class="btn btn-ssn" (click)="send()">
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
       <div *ngIf="!(detailsDataIsPristine && detailsMeta.valid)" class="col">
         <button class="btn btn-ssn" disabled>
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
+          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
     </div>
 
