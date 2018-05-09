@@ -23,7 +23,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
   overviewData: any[];
-  userClaims: any[];
 
   permissions = {
     view: false,
@@ -37,14 +36,14 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   ngOnInit() {
 
     this.accountService.userClaimsData$.subscribe(
-      userClaimsData => {
-        if (userClaimsData) {
-          let userClaimsTypePortCall = userClaimsData.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
+      userClaims => {
+        if (userClaims) {
+          let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
           // Set action button permissions
-          this.permissions.view = (userClaimsTypePortCall.find(d => d.value == PortCallClaims.VIEW) != null)
-          this.permissions.edit = (userClaimsTypePortCall.find(d => d.value == PortCallClaims.EDIT) != null)
-          this.permissions.clearance = (userClaimsTypePortCall.find(d => d.value == PortCallClaims.CLEARANCE) != null)
-          this.permissions.cancel = (userClaimsTypePortCall.find(d => d.value == PortCallClaims.CANCEL) != null)     
+          this.permissions.view = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.VIEW));
+          this.permissions.edit = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.EDIT));
+          this.permissions.clearance = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.CLEARANCE));
+          this.permissions.cancel = (userClaimsTypePortCall.some(d => d.value == PortCallClaims.CANCEL));
         }
       }
     );
