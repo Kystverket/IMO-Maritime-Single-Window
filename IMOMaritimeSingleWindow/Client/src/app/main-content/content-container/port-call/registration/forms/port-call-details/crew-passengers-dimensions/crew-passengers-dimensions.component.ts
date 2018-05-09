@@ -11,9 +11,6 @@ import { NgForm } from '@angular/forms';
 })
 export class CrewPassengersDimensionsComponent implements OnInit {
 
-  positiveDecimalRegex: string = '^[0-9]+((\.[0-9]+){1})?$';
-  positiveIntegerRegex: string = '^[0-9]*$';
-
   @ViewChild(NgForm) form: NgForm;
 
   crewPassengersAndDimensionsModel: CrewPassengersAndDimensionsModel = {
@@ -48,13 +45,5 @@ export class CrewPassengersDimensionsComponent implements OnInit {
 
   private sendMetaData(): void {
     this.portCallService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
-  }
-
-  limitInputToPositiveInteger($event) {
-    return $event.charCode >= 48 && $event.charCode <= 57;
-  }
-
-  limitInputToPositiveDecimal($event) {
-    return $event.charCode == 46 || ($event.charCode >= 48 && $event.charCode <= 57);
   }
 }

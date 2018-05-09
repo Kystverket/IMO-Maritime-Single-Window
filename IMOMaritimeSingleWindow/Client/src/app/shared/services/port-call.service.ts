@@ -93,7 +93,7 @@ export class PortCallService {
    * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: PortCallOverviewModel) {
-    // SLT
+    // Ship Location Time
     this.setShipData(overview.shipOverview);
     this.setLocationData(overview.locationOverview);
     var etaEtd = this.etaEtdDataFormat(overview.portCall.locationEta, overview.portCall.locationEtd);
@@ -101,6 +101,7 @@ export class PortCallService {
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setClearance(overview.clearanceList[0]);
+    this.setPortCallStatus(overview.status);
   }
 
   updatePortCall(portCall: PortCallModel) {
@@ -130,6 +131,12 @@ export class PortCallService {
     this.etaEtdDataSource.next(data);
   }
 
+  private portCallStatusSource = new BehaviorSubject<any>(null);
+  portCallStatusData$ = this.portCallStatusSource.asObservable();
+  setPortCallStatus(data) {
+    this.portCallStatusSource.next(data);
+  }
+
   // REGISTER NEW PORT CALL
   registerNewPortCall(portCall: PortCallModel) {  // NEW
     console.log("Registering new port call...");
@@ -139,11 +146,7 @@ export class PortCallService {
   updatePortCallStatusActual(portCallId: number) {
     let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
     console.log("Updating port call status to actual...");
-    this.http.post(uri, null).map(res => res.json()).subscribe(
-      updateStatusResponse => {
-        console.log("Status successfully updated.");
-      }
-    );
+    return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled
   updatePortCallStatusCancelled(portCallId: number) {
