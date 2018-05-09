@@ -64,8 +64,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         );
       } 
     }
-    console.log("user menu after generating menu:");
-    console.log(this.user_menu_entries);
 
     /* this.menu_entries = [];
     for (let title of this.user_menu_entries){
