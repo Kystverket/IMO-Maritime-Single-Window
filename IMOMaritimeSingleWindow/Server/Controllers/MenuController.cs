@@ -34,31 +34,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [Authorize]
-        [HttpGet("menuEntries")]
-        public async Task<IActionResult> GetMenuEntries()
+        [HttpGet("entries")]
+        public IActionResult GetMenuEntries()
         {
-            var user = Request.HttpContext.User;
-            var roles = user
-                .FindAll(claim => claim.Type == ClaimTypes.Role)
-                .Select(x => x.Value);
-
-            List<string> menuEntries = new List<string>();
-            foreach (var role in roles)
-            {
-                var appRole = await _roleManager.FindByNameAsync(role);
-                var claimsForRole = await _roleManager.GetClaimsAsync(appRole);
-                var menuClaims = from claim in claimsForRole
-                                 where claim.Type.Equals("Menu")
-                                 select claim.Value;
-                menuClaims = menuClaims.ToList();
-                menuEntries = menuClaims.Union(menuEntries).ToList();
-            }
-
-            return Json(new
-            {
-                menu_entries = menuEntries
-            });
-           
+            var menuEntries = User.FindAll(claim => claim.Type == "Menu").ToList();
+            return Ok(menuEntries);
         }
 
 
