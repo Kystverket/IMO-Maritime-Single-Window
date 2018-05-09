@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PortCallDetailsModel } from '../../../../../../shared/models/port-call-details-model';
 import { ConfirmationModalComponent } from '../../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 
-const RESULT_SUCCES: string = "Port call was successfully saved to the database. You will now be taken to the wizard for reigstering the rest of the information.";
+const RESULT_SUCCES: string = "Port call was successfully saved to the database. You will now be taken to the wizard for registering the rest of the information for this port call.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the new port call to the database. Please try again later.";
 
 @Component({

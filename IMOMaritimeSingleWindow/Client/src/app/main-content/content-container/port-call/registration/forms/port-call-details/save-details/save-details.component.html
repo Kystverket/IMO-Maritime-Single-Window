@@ -1,14 +1,31 @@
 <ssn-card header="Save Port Call Details" icon="save.png">
   <div class="text-center" *ngIf="!dataIsPristine">
-    <p *ngIf="!crewPassengersAndDimensionsMeta.valid">cpad error</p>
-    <button class="btn btn-ssn" (click)="saveDetails()" [disabled]="!crewPassengersAndDimensionsMeta.valid">
+    <div *ngIf="!crewPassengersAndDimensionsMeta.valid">
+      <div class="alert alert-danger">
+        <strong>You can't save port call details.</strong>
+        <li *ngIf="!crewPassengersAndDimensionsMeta.valid">
+          <small>There are errors in "Crew, Passengers and Dimensions"</small>
+        </li>
+      </div>
+      <button class="btn btn-ssn" disabled>
+        <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+        <span>Save Details</span>
+      </button>
+    </div>
+
+    <button class="btn btn-ssn" (click)="saveDetails()" *ngIf="crewPassengersAndDimensionsMeta.valid">
       <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
       <span>Save Details</span>
     </button>
   </div>
 
   <div class="text-center" *ngIf="dataIsPristine">
-    The data in this form is unchanged.
+    <span>The data in this form is unchanged.</span>
+    <br>
+    <button class="btn btn-ssn mt-2" disabled>
+      <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+      <span>Save Details</span>
+    </button>
   </div>
 
 </ssn-card>
