@@ -93,7 +93,7 @@ export class PortCallService {
    * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: PortCallOverviewModel) {
-    // SLT
+    // Ship Location Time
     this.setShipData(overview.shipOverview);
     this.setLocationData(overview.locationOverview);
     var etaEtd = this.etaEtdDataFormat(overview.portCall.locationEta, overview.portCall.locationEtd);
@@ -101,6 +101,7 @@ export class PortCallService {
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setClearance(overview.clearanceList[0]);
+    this.setPortCallStatus(overview.status);
   }
 
   updatePortCall(portCall: PortCallModel) {
@@ -128,6 +129,12 @@ export class PortCallService {
   etaEtdData$ = this.etaEtdDataSource.asObservable();
   setEtaEtdData(data) {  // NEW
     this.etaEtdDataSource.next(data);
+  }
+
+  private portCallStatusSource = new BehaviorSubject<any>(null);
+  portCallStatusData$ = this.portCallStatusSource.asObservable();
+  setPortCallStatus(data) {
+    this.portCallStatusSource.next(data);
   }
 
   // REGISTER NEW PORT CALL

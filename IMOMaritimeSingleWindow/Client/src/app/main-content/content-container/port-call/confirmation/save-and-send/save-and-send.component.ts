@@ -20,6 +20,9 @@ export class SaveAndSendComponent implements OnInit {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
+  portCallStatus: string;
+  STATUS_ACTUAL = "Actual";
+
   constructor(private contentService: ContentService, private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -58,6 +61,11 @@ export class SaveAndSendComponent implements OnInit {
         this.detailsMeta = metaData;
       }
     );
+    this.portCallService.portCallStatusData$.subscribe(
+      statusData => {
+        this.portCallStatus = statusData;
+      }
+    ); 
   }
 
   saveDetails() {
@@ -80,6 +88,10 @@ export class SaveAndSendComponent implements OnInit {
 
   send() {
     this.portCallService.updatePortCallStatusActual(this.detailsIdentificationModel.portCallId);
+    this.goBack();
+  }
+
+  goBack() {
     this.contentService.setContent("Port Call");
   }
 

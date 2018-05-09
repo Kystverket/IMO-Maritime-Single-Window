@@ -1,19 +1,38 @@
 <ssn-card header="Save and Send" icon="save.png" class="text-center">
   <div class="text-center">
     <div *ngIf="!detailsDataIsPristine" class="row">
+
       <div *ngIf="detailsMeta.valid" class="col">
-        <span>Port Call Details are unsaved.</span>
-        <button class="btn btn-ssn" (click)="saveDetails()">
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+        <div class="alert alert-warning">
+          <span>Warning: Port Call Details are unsaved.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="saveDetails()">
+            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+        </div>
       </div>
+
       <div *ngIf="!detailsMeta.valid" class="col">
-        <span>Error: Port Call Details contains invalid data.</span>
-        <button class="btn btn-ssn" disabled>
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+        <div class="alert alert-danger">
+          <span>Error: Port Call Details contains invalid data.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" disabled>
+            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+        </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="portCallStatus == STATUS_ACTUAL">
+      <div class="col">
+        <div class="text-center">
+          <span>Port call is already active. You can still update the information.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="goBack()">
+            <img src="assets/images/VoyageIcons/128x128/white/left-arrow.png" height="24px"> Return to overview</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="portCallStatus != STATUS_ACTUAL">
       <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
@@ -23,6 +42,6 @@
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Send</button>
       </div>
     </div>
-    
+
   </div>
 </ssn-card>
