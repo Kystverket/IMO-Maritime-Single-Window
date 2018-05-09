@@ -4,6 +4,8 @@ import { Credentials } from '../shared/models/credentials.interface';
 import { LoginService } from '../shared/services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../shared/services/auth-service';
+import { AccountService } from '../shared/services/account.service';
+import { ContentService } from '../shared/services/content.service';
 
 @Component({
   selector: 'app-login',
@@ -21,12 +23,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   errors: string;
   isRequesting: boolean;
   submitted: boolean = false;
-  credentials: Credentials = { userName: '', password: ''}
+  credentials: Credentials = { userName: '', password: '' }
 
-  constructor(private loginService: LoginService,
+  constructor(
+    private loginService: LoginService,
+    private contentService: ContentService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private accountService: AccountService
   ) { }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
@@ -35,18 +40,27 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errors = '';
     if (valid) {
       this.loginService.login(value.userName, value.password)
-      .finally(() => this.isRequesting = false)
-      .subscribe( result => {
-        if (result) {
-          this.authService.isAdmin()
-          .finally( () => this.router.navigate(['']) ) 
-          .subscribe( result =>  {
-            let isAdmin = result.valueOf();
-            console.log({ "isAdmin" : isAdmin });
-          })
-          this.router.navigate(['']);
-        }
-      }, error => this.errors = error);
+        .finally(() => this.isRequesting = false)
+        .subscribe(result => {
+          // Login succeeded
+          if (result) {
+            // Set user claims observable so they are
+            // available for the entire application
+            this.accountService.getUserClaims()
+              // Navigate to root when done
+              .finally(() => {
+                this.contentService.setContent("Port Call");
+                this.router.navigate(['']);
+              })
+              .subscribe(result => {
+                if (result) {
+                  this.accountService.setUserClaims(result);
+                }
+              })
+          }
+          // Login failed
+        }, error => this.errors = error
+        )
     }
   }
 
@@ -62,4 +76,5 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
 }

@@ -56,9 +56,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("overview/{portCallId}")]
         public IActionResult GetOverviewJson(int portCallId)
         {
-            var timeStart = DateTime.Now;
             var overview = GetOverview(portCallId);
-            Console.WriteLine("\n\n\n" + (DateTime.Now - timeStart) + "\n\n\n");            
             return Json(overview);
         }
 

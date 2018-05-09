@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { AuthRequest } from "./auth.request.service";
 import { BaseRequest } from "../utils/base.request";
@@ -12,6 +14,9 @@ export class AccountService extends BaseRequest {
     private registerUrl : string;
     private rolesUrl : string;
     private actionUrl: string;
+
+    private userClaimsDataSource = new BehaviorSubject<any>(null);
+    userClaimsData$ = this.userClaimsDataSource.asObservable();
 
     constructor(
         private http: Http,
@@ -29,7 +34,6 @@ export class AccountService extends BaseRequest {
         return this.http.get(this.rolesUrl+"/all")
             .map(res => res.json());
     }
-
     getRoles(){
         var auth_headers = this.authRequestService.GetHeaders();
         auth_headers.forEach( element => console.log(element));
@@ -41,6 +45,18 @@ export class AccountService extends BaseRequest {
             .get(this.rolesUrl, options)
             .map(res => res.json());
     }
+
+    getUserClaims() {
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http.get(this.actionUrl + "/user/claims", options)
+            .map(res => res.json());
+    }
+    setUserClaims(data) {
+        this.userClaimsDataSource.next(data);
+    }
+
+    
 
     registerUser(newUser: UserModel) {
         return this.http.post(this.registerUrl, newUser)

@@ -5,11 +5,15 @@ import { PortCallService } from '../../../../../shared/services/port-call.servic
 import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
+import { AccountService } from '../../../../../shared/services/account.service';
+import { ConstantsService } from '../../../../../shared/services/constants.service';
+import { PortCallClaims } from '../../../../../shared/constants/port-call-claims';
 
 @Component({
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
-  styleUrls: ['./button-row.component.css']
+  styleUrls: ['./button-row.component.css'],
+  providers: [ConstantsService]
 })
 export class ButtonRowComponent implements ViewCell, OnInit {
 
@@ -20,9 +24,24 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   overviewData: any[];
 
-  constructor(private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
+  permissions = PortCallClaims.buttonRowPermissions;
+
+  constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
+
+    this.accountService.userClaimsData$.subscribe(
+      userClaims => {
+        if (userClaims) {
+          let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
+          var keys = Object.keys(this.permissions);
+          keys.forEach(key => {          
+            this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
+          });
+        }
+      }
+    );
+
     this.overviewService.overviewData$.subscribe(
       results => {
         if (results) this.overviewData = results;
@@ -47,7 +66,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   cancelPortCall() {
-    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);    
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
     let pcId = this.rowData.overviewModel.portCall.portCallId;
     this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = "Cancelled";
     this.overviewService.setOverviewData(this.overviewData);

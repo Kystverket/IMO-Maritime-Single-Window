@@ -111,13 +111,31 @@ namespace IMOMaritimeSingleWindow.Controllers
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
             return Ok(roleNames);
-            return Ok("temporarily passes");
-            var rolesQueryAble = _roleManager.Roles;
-            var roles = from role in rolesQueryAble
-                        select role.Name;
-            
-            return Json(roles);
         }
+
+        [Authorize]
+        [HttpGet("user/claims")]
+        public async Task<IActionResult> GetUserClaims()
+        {
+            var userIdClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Id).FirstOrDefault();
+            if (userIdClaim == null)
+                return new BadRequestObjectResult("id not present on jwt");
+            var userId = userIdClaim.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            var claims = await _userManager.GetClaimsAsync(user);
+            return Json(claims);
+        }
+
+       /*  [Authorize]
+        [HttpGet("user/claims")]
+        public IActionResult GetUserClaims()
+        {
+            var roleClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Rol).FirstOrDefault();
+            var role = open_ssnContext.Role.Where(r => r.Name.Equals(roleClaim.Value)).FirstOrDefault();
+            var userClaims = open_ssnContext.RoleClaim.Where(rc => rc.RoleId == role.RoleId).Select(rc => rc.Claim).ToList();
+            return Json(userClaims);
+        } */
 
         [Authorize(Roles = "admin")]
         [HttpGet("getrole")]
