@@ -24,7 +24,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   overviewData: any[];
 
-  permissions = PortCallClaims.permissions;
+  permissions = PortCallClaims.buttonRowPermissions;
 
   constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
@@ -36,7 +36,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
           var keys = Object.keys(this.permissions);
           keys.forEach(key => {          
-            this.permissions[key] = (userClaimsTypePortCall.some(d => d.value.toUpperCase() == key.toString().toUpperCase()));
+            this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
           });
         }
       }

@@ -13,7 +13,7 @@ import { PortCallClaims } from '../../../shared/constants/port-call-claims';
 export class PortCallComponent implements OnInit {
 
   selectedComponent: string;
-  permissions = PortCallClaims.permissions;
+  permissions = PortCallClaims.portCallPermissions;
   constructor(private accountService: AccountService, private contentService: ContentService, private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -21,10 +21,14 @@ export class PortCallComponent implements OnInit {
       userClaims => {
         if (userClaims) {
           let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE);
+          var keys = Object.keys(this.permissions);
+          keys.forEach(key => {
+            this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
+          })
           // this.permissions.register = userClaimsTypePortCall.some(pcClaim => pcClaim.value == PortCallClaims.REGISTER);
         }
       }
-    )
+    );
   }
 
   selectRegister() {
