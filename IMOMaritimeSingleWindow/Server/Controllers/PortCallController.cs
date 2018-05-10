@@ -69,8 +69,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             List<PortCall> portCallList = new List<PortCall>();
             var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
             var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
-            Console.WriteLine("userId: " + userId);
-            Console.WriteLine("userRole: " + userRole);
 
             var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
                                     .Include(u => u.Organization.OrganizationType)
@@ -93,6 +91,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
                 // Health agency
@@ -100,6 +99,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
                 // Other government agencies not listed in Constants.Strings.UserRoles
@@ -109,6 +109,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                         portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
                                             ).Select(opc => opc.PortCall).ToList();
                     }
                     break;

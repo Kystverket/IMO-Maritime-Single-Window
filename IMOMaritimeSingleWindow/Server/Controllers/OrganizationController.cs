@@ -8,6 +8,7 @@ using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -21,14 +22,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [Authorize]
+        [HttpGet("foruser")]
+        public IActionResult GetOrganizationForUser()
+        {
+            var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+            var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
+            var organization = _context.User.Where(usr => usr.OrganizationId != null && usr.UserId.ToString().Equals(userId)).Select(usr => usr.Organization).Include(o => o.OrganizationType).FirstOrDefault();
+            return Json(organization);
+        }
+
         [HttpGet("search/{searchTerm}")]
         public IActionResult Search(string searchTerm)
         {
             var matchingOrganizations = (from c in _context.Organization
-                            where EF.Functions.ILike(c.Name, searchTerm + '%')
-                            || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
-                            select c).Take(10).ToList();
-            
+                                         where EF.Functions.ILike(c.Name, searchTerm + '%')
+                                         || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
+                                         select c).Take(10).ToList();
+
             return Json(matchingOrganizations);
         }
 
@@ -39,13 +50,15 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 _context.Organization.Add(newOrganization);
                 _context.SaveChanges();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return BadRequest(e.Message + ":\n" + e.InnerException.Message);
             }
             return Json(newOrganization);
         }
 
-        
+
 
     }
 }
