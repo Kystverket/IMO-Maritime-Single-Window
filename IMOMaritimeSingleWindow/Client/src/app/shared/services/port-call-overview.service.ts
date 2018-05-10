@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs';
 import { Http, RequestOptions } from '@angular/http';
-import { PortCallModel } from '../models/port-call-model';
+import { BehaviorSubject } from 'rxjs';
 import { AuthRequest } from './auth.request.service';
 
 @Injectable()
@@ -20,9 +18,14 @@ export class PortCallOverviewService {
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
-
     setOverviewData(data) {
         this.overviewDataSource.next(data);
+    }
+
+    private draftOverviewDataSource = new BehaviorSubject<any>(null);
+    draftOverviewData$ = this.draftOverviewDataSource.asObservable();
+    setDraftData(data) {
+        this.draftOverviewDataSource.next(data);
     }
 
     private portCallDataSource = new BehaviorSubject<any>(null);
