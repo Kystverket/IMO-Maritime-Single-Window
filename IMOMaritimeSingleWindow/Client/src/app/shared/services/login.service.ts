@@ -50,10 +50,17 @@ export class LoginService extends BaseService {
       )
       .map(res => res.json())
       .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this._loggedInSource.next(true);
-        this._authNavStatusSource.next(true);
-        return true;
+        if(res) {
+          localStorage.setItem('auth_token', res.auth_token);
+          this.loggedIn = true;
+          this._loggedInSource.next(true);
+          this._authNavStatusSource.next(true);
+          return true;
+        }
+        this._loggedInSource.next(false);
+        this._authNavStatusSource.next(false);
+        return false;
+        
       })
       .catch(this.handleError);
   }
@@ -62,11 +69,12 @@ export class LoginService extends BaseService {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user-claims');
     this.loggedIn = false;
+    this._loggedInSource.next(false);
     this._authNavStatusSource.next(false);
   }
 
   isLoggedIn() {
-    return this.loggedIn$;
+    return this.loggedIn;
   }
 
 }

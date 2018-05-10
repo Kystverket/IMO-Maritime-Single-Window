@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errors = '';
     if (valid) {
       this.loginService.login(value.userName, value.password)
-        .finally(() => this.isRequesting = false)
         .subscribe(result => {
           // Login succeeded
           if (result) {
@@ -49,6 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.accountService.getUserClaims()
               // Navigate to root when done
               .finally(() => {
+                this.isRequesting = false;
                 this.contentService.setContent("Port Call");
                 this.router.navigate(['']);
               })
