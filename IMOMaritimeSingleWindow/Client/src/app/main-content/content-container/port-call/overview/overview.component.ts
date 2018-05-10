@@ -124,7 +124,7 @@ export class OverviewComponent implements OnInit {
                   this.overviewService.setOverviewData(this.overviewList);
                   this.overviewService.setDraftData(this.draftOverviewList);
                 }, undefined, () => {
-                  if (++index === finalIndex) this.overviewFound = true;
+                  if (index++ >= finalIndex) this.overviewFound = true;
                 }
               )
             });

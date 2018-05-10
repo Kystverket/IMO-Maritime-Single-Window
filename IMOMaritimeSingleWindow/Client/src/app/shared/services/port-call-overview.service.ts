@@ -48,7 +48,6 @@ export class PortCallOverviewService {
     }
 
     getPortCalls() {
-        // let uri: string = this.getPortCallsUrl;
         let auth_headers = this.authRequestService.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers });
         let uri: string = this.getPortCallsForUserUrl;
