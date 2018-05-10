@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs';
 import { Http } from '@angular/http';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { FormMetaData } from '../models/form-meta-data.interface';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
-import { PortCallDetailsModel } from '../models/port-call-details-model';
-import { FormMetaData } from '../models/form-meta-data.interface';
-import { ClearanceModel } from '../models/clearance-model';
-import { PortCallHasPortCallPurposeModel } from '../models/port-call-has-purpose-model';
 
 @Injectable()
 export class PortCallService {
@@ -62,7 +60,7 @@ export class PortCallService {
     this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
   }
 
-  
+
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -100,7 +98,6 @@ export class PortCallService {
     this.setEtaEtdData(etaEtd);
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
-    this.setClearance(overview.clearanceList[0]);
     this.setPortCallStatus(overview.status);
   }
 
@@ -269,7 +266,7 @@ export class PortCallService {
         }
       );
     }
-    
+
   }
 
   // Get methods
@@ -326,7 +323,7 @@ export class PortCallService {
     this.clearanceListDataSource.next(data);
   }
 
-  saveClearance(clearanceModel: ClearanceModel) {
+  saveClearance(clearanceModel: any) {
     console.log('Saving clearance to database...');
     this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {
