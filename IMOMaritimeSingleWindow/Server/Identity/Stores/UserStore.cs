@@ -16,14 +16,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly RoleStore _roleStore;
 
         public UserStore(
             UnitOfWork unitOfWork,
+            RoleStore roleStore,
             IMapper mapper = default
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _roleStore = roleStore;
         }
 
 
