@@ -177,6 +177,9 @@ export class OverviewComponent implements OnInit {
       organizationResult => {
         if (organizationResult) {
           this.userIsGovernmentAgency = (organizationResult.organizationType && organizationResult.organizationType.name == OrganizationTypes.GOVERNMENT_AGENCY_STRING);
+          if (this.userIsGovernmentAgency) {
+            this.portCallService.setClearance(organizationResult);
+          }
         }
         this.userOrganization = organizationResult;
         this.loadOverview();
