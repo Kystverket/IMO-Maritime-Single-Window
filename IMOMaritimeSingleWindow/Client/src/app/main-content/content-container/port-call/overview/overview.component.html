@@ -5,23 +5,24 @@
     </div>
 </div>
 
-<div class="table-responsive">
-    <table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
-        <thead>
-            <tr>
-                <th>Active Port Calls</th>
-            </tr>
-        </thead>
-    </table>
+<table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
+    <thead>
+        <tr>
+            <th>Active Port Calls</th>
+        </tr>
+    </thead>
+</table>
+<div class="table-responsive mb-3">
     <ng2-smart-table [settings]="tableSettings" [source]="overviewSource"></ng2-smart-table>
 </div>
-<div class="table-responsive">
-    <table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
-        <thead>
-            <tr>
-                <th>Port Call Drafts</th>
-            </tr>
-        </thead>
-    </table>
+
+<table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
+    <thead>
+        <tr>
+            <th>Port Call Drafts</th>
+        </tr>
+    </thead>
+</table>
+<div class="table-responsive mb-3">
     <ng2-smart-table [settings]="tableSettings" [source]="draftOverviewSource"></ng2-smart-table>
 </div>
