@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
 import { FormMetaData } from '../models/form-meta-data.interface';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class PortCallService {
@@ -19,6 +20,7 @@ export class PortCallService {
   private updatePortCallUrl: string;
   private updatePortCallStatusActualUrl: string;
   private updatePortCallStatusCancelledUrl: string;
+  private deletePortCallUrl: string;
   // Global purpose
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
@@ -36,7 +38,7 @@ export class PortCallService {
   private detailsPristine = new BehaviorSubject<boolean>(true);
   detailsPristine$ = this.detailsPristine.asObservable();
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private authRequestService: AuthRequest) {
     // Port call
     this.getPortCallUrl = "api/portcall/get";
     this.registerNewPortCallUrl = "api/portcall/register";
@@ -44,6 +46,7 @@ export class PortCallService {
     this.updatePortCallUrl = "api/portcall/update";
     this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.deletePortCallUrl = 'api/portcall/delete';
     // Purpose
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
@@ -127,7 +130,7 @@ export class PortCallService {
   setEtaEtdData(data) {  // NEW
     this.etaEtdDataSource.next(data);
   }
-
+  // Status
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
   setPortCallStatus(data) {
@@ -137,7 +140,10 @@ export class PortCallService {
   // REGISTER NEW PORT CALL
   registerNewPortCall(portCall: PortCallModel) {  // NEW
     console.log("Registering new port call...");
-    return this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json());
+    let authHeaders = this.authRequestService.GetHeaders();
+    let options = new RequestOptions({ headers: authHeaders });
+    let uri: string = this.registerNewPortCallUrl;
+    return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Set port call status to actual
   updatePortCallStatusActual(portCallId: number) {
@@ -155,6 +161,15 @@ export class PortCallService {
         console.log("Port call successfully cancelled.");
       }
     );
+  }
+  // Delete port call draft
+  deletePortCallDraft(portCall: PortCallModel) {
+    console.log("Deleting port call...");
+    let authHeaders = this.authRequestService.GetHeaders();
+    let options = new RequestOptions({ headers: authHeaders });
+    let uri: string = this.deletePortCallUrl;
+
+    return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Get methods
   getPortCallById(portCallId: number) {

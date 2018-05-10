@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
-import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
-import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { ContentService } from '../../../../../../shared/services/content.service';
-import { PortCallModel } from '../../../../../../shared/models/port-call-model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PortCallDetailsModel } from '../../../../../../shared/models/port-call-details-model';
 import { ConfirmationModalComponent } from '../../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { PortCallStatusTypes } from '../../../../../../shared/constants/port-call-status-types';
+import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
+import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
+import { PortCallDetailsModel } from '../../../../../../shared/models/port-call-details-model';
+import { PortCallModel } from '../../../../../../shared/models/port-call-model';
+import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
+import { ContentService } from '../../../../../../shared/services/content.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
 const RESULT_SUCCES: string = "Port call was successfully saved to the database. You will now be taken to the wizard for registering the rest of the information for this port call.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the new port call to the database. Please try again later.";
@@ -30,6 +31,7 @@ export class ConfirmDataComponent implements OnInit {
   constructor(private portCallService: PortCallService, private contentService: ContentService, private modalService: NgbModal) { }
 
   ngOnInit() {
+
     this.portCallService.shipData$.subscribe(
       shipData => {
         if (shipData) {
@@ -75,7 +77,7 @@ export class ConfirmDataComponent implements OnInit {
   startPortCallRegistration() {
     this.portCallModel.shipId = this.shipModel.ship.shipId;
     // this.portCallModel.portCallStatusId = PORT_CALL_STATUS_INCOMPLETE_ID;
-    this.portCallModel.portCallStatusId = 100235;
+    this.portCallModel.portCallStatusId = PortCallStatusTypes.DRAFT_ID;
     this.portCallModel.locationId = this.locationModel.location.locationId;
     let eta = new Date(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute);
     let etd = new Date(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.etd.day, this.etaEtdModel.etd.hour, this.etaEtdModel.etd.minute);

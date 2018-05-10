@@ -63,8 +63,6 @@ export class AccountService extends BaseRequest {
         this.userClaimsDataSource.next(data);
     }
 
-
-
     registerUser(newUser: UserModel) {
         return this.http.post(this.registerUrl, newUser)
             .map(res => res.json());
