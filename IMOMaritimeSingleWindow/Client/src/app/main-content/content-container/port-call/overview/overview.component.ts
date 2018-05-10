@@ -24,6 +24,7 @@ export class OverviewComponent implements OnInit {
   draftOverviewList = [];
   clearedByUserAgencyOverviewList = [];
   userOrganization: any;
+  userIsGovernmentAgency: boolean = false;
   overviewSource: LocalDataSource = new LocalDataSource();
   draftOverviewSource: LocalDataSource = new LocalDataSource();
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
@@ -128,8 +129,7 @@ export class OverviewComponent implements OnInit {
                       this.draftOverviewList.push(row);
                     }
                     // Case: user is a government clearance agency and the port call has already been cleared by the agency
-                    else if (this.userOrganization
-                      && this.userOrganization.organizationType.name == OrganizationTypes.GOVERNMENT_AGENCY_STRING
+                    else if (this.userIsGovernmentAgency
                       && ov.clearanceList
                       && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared)) {
                       this.clearedByUserAgencyOverviewList.push(row);
@@ -175,8 +175,9 @@ export class OverviewComponent implements OnInit {
     )
     this.organizationService.getOrganizationForUser().subscribe(
       organizationResult => {
-        if (organizationResult)
-          console.log(organizationResult);
+        if (organizationResult) {
+          this.userIsGovernmentAgency = (organizationResult.organizationType && organizationResult.organizationType.name == OrganizationTypes.GOVERNMENT_AGENCY_STRING);
+        }
         this.userOrganization = organizationResult;
         this.loadOverview();
       }
