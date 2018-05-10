@@ -1,9 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { LocationModel } from '../../../../shared/models/location-model';
-import { PortCallOverviewModel } from '../../../../shared/models/port-call-overview-model';
-import { ShipModel } from '../../../../shared/models/ship-model';
 import { ContentService } from '../../../../shared/services/content.service';
 import { PortCallOverviewService } from '../../../../shared/services/port-call-overview.service';
 import { PortCallService } from '../../../../shared/services/port-call.service';
@@ -17,12 +14,11 @@ import { ButtonRowComponent } from './button-row/button-row.component';
 })
 export class OverviewComponent implements OnInit {
 
-  portCalls: any;
-  ships: ShipModel[];
-  locations: LocationModel[];
-
-  data = [];
-  dataSource: LocalDataSource = new LocalDataSource();
+  STATUS_DRAFT = "Incomplete";
+  overviewList = [];
+  draftOverviewList = [];
+  overviewSource: LocalDataSource = new LocalDataSource();
+  draftOverviewSource: LocalDataSource = new LocalDataSource();
 
   overviewFound: boolean = false;
 
@@ -64,7 +60,7 @@ export class OverviewComponent implements OnInit {
         sort: false,
         renderComponent: ButtonRowComponent
       },
-      
+
     }
   }
 
@@ -76,37 +72,66 @@ export class OverviewComponent implements OnInit {
     this.overviewService.overviewData$.subscribe(
       results => {
         if (results) {
-          this.dataSource.load(results);
+          this.overviewSource.load(results);
+        }
+      }
+    )
+    this.overviewService.draftOverviewData$.subscribe(
+      results => {
+        if (results) {
+          this.draftOverviewSource.load(results);
         }
       }
     )
     this.overviewService.getPortCalls().subscribe(
-      pcData => {        
-        let index = 0;
-        let finalIndex = pcData.length - 1;
-        pcData.forEach((pc) => {          
-          this.overviewService.getOverview(pc.portCallId).subscribe(
-            ov => {
-              this.data.push({
-                overviewModel: ov,
-                shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
-                + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-                callSign: ov.shipOverview.ship.callSign || "",
-                locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
-                + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
-                eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
-                etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
-                status: ov.status,
-                actions: 'btn'
-              });
-              this.overviewService.setOverviewData(this.data);
-            }, undefined, () => {
-              if (++index === finalIndex) this.overviewFound = true;
-            }
-          )  
-        });
+      pcData => {
+        if (pcData) {
+          if (pcData.length === 0) {
+            this.overviewFound = true;
+          } else {
+            let index = 0;
+            let finalIndex = pcData.length - 1;
+            pcData.forEach((pc) => {
+              this.overviewService.getOverview(pc.portCallId).subscribe(
+                ov => {
+                  if (ov.status != this.STATUS_DRAFT) {
+                    this.overviewList.push({
+                      overviewModel: ov,
+                      shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
+                        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+                      callSign: ov.shipOverview.ship.callSign || "",
+                      locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
+                        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
+                      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
+                      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+                      status: ov.status,
+                      actions: 'btn'
+                    });
+                  } else {
+                    this.draftOverviewList.push({
+                      overviewModel: ov,
+                      shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
+                        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
+                      callSign: ov.shipOverview.ship.callSign || "",
+                      locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
+                        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
+                      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
+                      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+                      status: ov.status,
+                      actions: 'btn'
+                    });
+                  }
+                  this.overviewService.setOverviewData(this.overviewList);
+                  this.overviewService.setDraftData(this.draftOverviewList);
+                }, undefined, () => {
+                  if (index++ >= finalIndex) this.overviewFound = true;
+                }
+              )
+            });
+          }
+        }
       }
     );
-    
+
   }
 }

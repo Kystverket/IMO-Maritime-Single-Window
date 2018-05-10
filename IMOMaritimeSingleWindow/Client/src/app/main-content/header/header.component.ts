@@ -9,6 +9,7 @@ import { log } from 'util';
 import { AccountService } from '../../shared/services/account.service';
 import { MenuService } from './menu.service';
 import { Router } from '@angular/router';
+import { MenuClaims } from '../../shared/constants/menu-claims';
 
 
 @Component({
@@ -38,33 +39,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
 
   private generateMenu() {
-
-    /* this.menuService.getMenuEntries()
-    .finally( () => this.setMenuEntries()  )
-    .subscribe(
-      data => {
-        this.user_menu_entries = data.menu_entries;
-      }
-    ) */
-
-    // Hard-coded
-    this.user_menu_entries = this.menu_entries;
-
-    // This should instead be executed when database is ready to be queried
-    /*
-    this.menuService.getMenuEntries()
-    .finally( () => this.setMenuEntries()  )
-    .map(data => data.menu_entries)
-    .subscribe(
-      data => {
-        data.forEach(element => {
-          console.log(`entry: ${element}`);
-        });
-        this.user_menu_entries = data;
-      }
-    )
-    */
-
+    this.setMenuEntries();
   }
 
   private getAllRoles() {
@@ -78,14 +53,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private setMenuEntries() {
     // Populates the menu entry list with the entries the user has access to
-    this.menu_entries = [];
+
+    this.user_menu_entries = [];
+    for(let menu_entry of this.menu_entries) {
+      let title = menu_entry.title;
+      if(this.permissions[title]) {
+        this.user_menu_entries
+        .push(this.menu_entries
+          .find(me => me.title == title)
+        );
+      } 
+    }
+
+    /* this.menu_entries = [];
     for (let title of this.user_menu_entries){
       for (let meny_entry of this.menu_entries){
         if (title.title === meny_entry.title) {
           this.menu_entries.push(meny_entry);
         }
       }
-    }
+    } */
   }
 
   constructor(
@@ -109,11 +96,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.contentService.setContent(contentName);
   }
 
+  permissions = MenuClaims.PERMISSIONS;
+
   ngOnInit() {
       this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
       this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
-      this.generateMenu();
+      this.accountService.userClaimsData$
+      //.finally(() => this.generateMenu())
+      .subscribe(
+        userClaims => {
+          if(userClaims) {
+            let userClaimsTypeMenu = userClaims.filter(
+              claim => claim.type == MenuClaims.TYPE
+            );
+            var keys = Object.keys(this.permissions);
+            keys.forEach(key => {
+              this.permissions[key] = (userClaimsTypeMenu.some(
+                claim => claim.value == key
+              ))
+            });
+            this.generateMenu();
+          }
+        }
+      )
 
       if (this.loggedIn) {
         this.accountService.getUserName().subscribe(
@@ -123,13 +129,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
           }
         );
-        this.accountService.userClaimsData$
-        .subscribe(claims => {
-          if(claims) {
-            this.userClaims = claims;
-          }
-        })
-        
       }
 
       // This should instead be executed when database is ready to be queried

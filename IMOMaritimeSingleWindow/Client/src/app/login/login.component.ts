@@ -55,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               .subscribe(result => {
                 if (result) {
                   this.accountService.setUserClaims(result);
+                  localStorage.setItem("user-claims", JSON.stringify(result));
                 }
               })
           }
