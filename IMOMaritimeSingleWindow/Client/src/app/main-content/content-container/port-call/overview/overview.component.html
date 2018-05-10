@@ -1,7 +1,13 @@
+<div id="overlay" *ngIf="!overviewFound">
+    <div id="loading-box" class="text-center">
+        <img src='assets/images/animations/portcall.gif'/>
+        <h1>LOADING PORT CALLS</h1>
+    </div>
+</div>
+
 <div class="table-responsive">
     <ng2-smart-table [settings]="tableSettings" [source]="overviewSource"></ng2-smart-table>
-    <br>
+</div>
+<div class="table-responsive">
     <ng2-smart-table [settings]="tableSettings" [source]="draftOverviewSource"></ng2-smart-table>
-    <img *ngIf="!overviewFound!" src='assets/images/animations/portcall.gif' style="margin-left:auto" style="left: 50%; position: relative"
-    />
 </div>
