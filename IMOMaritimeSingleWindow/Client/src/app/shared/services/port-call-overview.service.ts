@@ -7,14 +7,12 @@ import { AuthRequest } from './auth.request.service';
 export class PortCallOverviewService {
     constructor(private http: Http, private authRequestService: AuthRequest) {
         this.getOverviewUrl = 'api/portcall/overview';
-        this.getPortCallsByLocationUrl = 'api/portcall/location';
         this.getPortCallsUrl = 'api/portcall/get';
         this.getPortCallsForUserUrl = 'api/portcall/foruser';
     }
     private getPortCallsUrl: string;
     private getPortCallsForUserUrl: string;
     private getOverviewUrl: string;
-    private getPortCallsByLocationUrl: string;
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
@@ -28,6 +26,12 @@ export class PortCallOverviewService {
         this.draftOverviewDataSource.next(data);
     }
 
+    private clearedByUserAgencyDataSource = new BehaviorSubject<any>(null);
+    clearedByUserAgencyOverviewData$ = this.clearedByUserAgencyDataSource.asObservable();
+    setClearedData(data) {
+        this.clearedByUserAgencyDataSource.next(data);
+    }
+
     private portCallDataSource = new BehaviorSubject<any>(null);
     portCallData$ = this.portCallDataSource.asObservable();
 
@@ -39,12 +43,6 @@ export class PortCallOverviewService {
 
     setPortCallData(data) {
         this.portCallDataSource.next(data);
-    }
-
-    getPortCallsByLocation(locationId: number) {
-        let uri: string = [this.getPortCallsByLocationUrl, locationId].join('/');
-        return this.http.get(uri)
-            .map(res => res.json());
     }
 
     getPortCalls() {

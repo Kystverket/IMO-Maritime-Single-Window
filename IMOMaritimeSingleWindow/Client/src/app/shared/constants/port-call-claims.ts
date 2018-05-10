@@ -7,6 +7,8 @@ export class PortCallClaims {
         cancel: false,
     }
     static portCallPermissions = {
-        register: false
+        register: false,
+        edit: false,
+        clearance: false
     }
 }
