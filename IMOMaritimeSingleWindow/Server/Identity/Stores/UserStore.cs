@@ -59,26 +59,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            Debug.WriteLine("my method is called!");
-
-            //var _user = _mapper.Map<User>(user);
-            Person person = new Person
-            {
-                FirstName = user.FirstName
-            };
+            
+            Person person = _mapper.Map<ApplicationUser, Person>(user);
 
             Password password = new Password
             {
                 Hash = user.PasswordHash
             };
 
-            var _user = new User
-            {
-                Email = user.Email,
-                NormalizedEmail = user.NormalizedEmail,
-                Person = person,
-                Password = password
-            };
+            var _user = _mapper.Map<ApplicationUser, User>(user);
+            _user.Person = person;
+            _user.Password = password;
 
             _unitOfWork.Users.Add(_user);
 
