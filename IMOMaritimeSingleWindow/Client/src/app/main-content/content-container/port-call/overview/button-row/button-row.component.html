@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit && !portCallIsCancelled">
       <button class="btn btn-sm btn-ssn" (click)="onEditClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/edit.png' height='20px' />
@@ -19,7 +19,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
+    <div class="d-table-cell pl-1" *ngIf="permissions.clearance && !portCallIsCancelled">
       <button class="btn btn-sm btn-ssn" (click)="onClearanceClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/stamp.png' height='20px' />
@@ -28,7 +28,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.cancel">
+    <div class="d-table-cell pl-1" *ngIf="permissions.cancel && !portCallIsCancelled">
       <button class="btn btn-sm btn-ssn" (click)="onCancelClick(cancelModal)">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/cancel.png' height='20px' />
@@ -37,7 +37,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
+    <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft && !portCallIsCancelled">
       <button class="btn btn-sm btn-ssn" (click)="onDeleteClick(deleteModal)">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/trash.png' height='20px' />

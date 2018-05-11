@@ -77,7 +77,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             switch (userRole)
             {
                 // Admin
-                case Constants.Strings.UserRoles.Admin:
+                case Constants.Strings.UserRoles.SuperAdmin:
                     portCallList = _context.PortCall.ToList();
                     break;
                 // Agent                    
@@ -115,7 +115,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     break;
 
             }
-            return Json(portCallList);
+            return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
         }
 
         [HttpPost("update")]
