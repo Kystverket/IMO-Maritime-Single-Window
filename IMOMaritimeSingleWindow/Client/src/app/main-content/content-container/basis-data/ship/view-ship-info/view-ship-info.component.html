@@ -1,5 +1,13 @@
-<button class="btn-ssn" (click)="registerNewShip()">Register new ship</button>
-<ssn-card header="Find Ship" icon="ship.png">
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-4">
+    <ssn-card header='Register New Ship' icon='ship.png'>
+      <div class="text-center">
+        <button class="btn btn-ssn" (click)="registerNewShip()">Register New Ship</button>
+      </div>
+    </ssn-card>
+  </div>
+</div>
+<ssn-card header="Ship Search" icon="ship.png">
   <ng-template #rt let-r="result" let-t="term">
     <div class="">
       <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
@@ -11,7 +19,9 @@
   </ng-template>
 
   <div *ngIf="!shipFound" class="text-center">
-    <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
+    <label>View information about existing ships.</label>
+    <br>
+    <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number:</label>
     <div class="row">
       <div class="col-2"></div>
       <div class="col-8">
@@ -36,7 +46,7 @@
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
   </div>
 </ssn-card>
-<div class="jumbotron bg-ssn-light">
+<div class="jumbotron bg-ssn-light" *ngIf="shipFound">
   <div class="row mb-3">
     <div class="col">
       <table-card header="Ship" icon="ship.png">
@@ -54,7 +64,7 @@
           </tr>
         </tbody>
       </table-card>
-      <table-card header="Ship Contact Information" icon="contact.png" collapsible=true collapsed=true>
+      <table-card header="Ship Contact Information" icon="contact.png" collapsible=true collapsed=false>
         <tbody *ngIf="shipHasContactInfo">
           <tr>
             <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
