@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="portCallStatus == STATUS_ACTUAL">
+    <div class="row" *ngIf="portCallStatus == STATUS_ACTIVE">
       <div class="col">
         <div class="text-center">
           <span>Port call is already active. You can still update the information.</span>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="portCallStatus != STATUS_ACTUAL">
+    <div class="row" *ngIf="portCallStatus != STATUS_ACTIVE">
       <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>

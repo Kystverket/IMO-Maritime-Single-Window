@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs';
-import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { FormMetaData } from '../models/form-meta-data.interface';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallOverviewModel } from '../models/port-call-overview-model';
-import { PortCallDetailsModel } from '../models/port-call-details-model';
-import { FormMetaData } from '../models/form-meta-data.interface';
-import { ClearanceModel } from '../models/clearance-model';
-import { PortCallHasPortCallPurposeModel } from '../models/port-call-has-purpose-model';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class PortCallService {
@@ -19,8 +18,9 @@ export class PortCallService {
   private registerNewPortCallUrl: string;
   private getPortCallsByUserIdUrl: string;
   private updatePortCallUrl: string;
-  private updatePortCallStatusActualUrl: string;
+  private updatePortCallStatusActiveUrl: string;
   private updatePortCallStatusCancelledUrl: string;
+  private deletePortCallUrl: string;
   // Global purpose
   private getPurposeUrl: string;
   private getOtherNameUrl: string;
@@ -38,14 +38,15 @@ export class PortCallService {
   private detailsPristine = new BehaviorSubject<boolean>(true);
   detailsPristine$ = this.detailsPristine.asObservable();
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private authRequestService: AuthRequest) {
     // Port call
     this.getPortCallUrl = "api/portcall/get";
     this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
-    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
+    this.updatePortCallStatusActiveUrl = "api/portcall/updatestatus/actual"
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.deletePortCallUrl = 'api/portcall/delete';
     // Purpose
     this.getPurposeUrl = "api/purpose/portcall";
     this.getOtherNameUrl = "api/purpose/getothername";
@@ -62,7 +63,7 @@ export class PortCallService {
     this.registerClearanceAgenciesForPortCallUrl = "api/organizationportcall/register";
   }
 
-  
+
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -100,7 +101,6 @@ export class PortCallService {
     this.setEtaEtdData(etaEtd);
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
-    this.setClearance(overview.clearanceList[0]);
     this.setPortCallStatus(overview.status);
   }
 
@@ -130,7 +130,7 @@ export class PortCallService {
   setEtaEtdData(data) {  // NEW
     this.etaEtdDataSource.next(data);
   }
-
+  // Status
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
   setPortCallStatus(data) {
@@ -140,11 +140,14 @@ export class PortCallService {
   // REGISTER NEW PORT CALL
   registerNewPortCall(portCall: PortCallModel) {  // NEW
     console.log("Registering new port call...");
-    return this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json());
+    let authHeaders = this.authRequestService.GetHeaders();
+    let options = new RequestOptions({ headers: authHeaders });
+    let uri: string = this.registerNewPortCallUrl;
+    return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Set port call status to actual
-  updatePortCallStatusActual(portCallId: number) {
-    let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
+  updatePortCallStatusActive(portCallId: number) {
+    let uri = [this.updatePortCallStatusActiveUrl, portCallId].join('/');
     console.log("Updating port call status to actual...");
     return this.http.post(uri, null).map(res => res.json());
   }
@@ -158,6 +161,15 @@ export class PortCallService {
         console.log("Port call successfully cancelled.");
       }
     );
+  }
+  // Delete port call draft
+  deletePortCallDraft(portCall: PortCallModel) {
+    console.log("Deleting port call...");
+    let authHeaders = this.authRequestService.GetHeaders();
+    let options = new RequestOptions({ headers: authHeaders });
+    let uri: string = this.deletePortCallUrl;
+
+    return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Get methods
   getPortCallById(portCallId: number) {
@@ -269,7 +281,7 @@ export class PortCallService {
         }
       );
     }
-    
+
   }
 
   // Get methods
@@ -326,7 +338,7 @@ export class PortCallService {
     this.clearanceListDataSource.next(data);
   }
 
-  saveClearance(clearanceModel: ClearanceModel) {
+  saveClearance(clearanceModel: any) {
     console.log('Saving clearance to database...');
     this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {

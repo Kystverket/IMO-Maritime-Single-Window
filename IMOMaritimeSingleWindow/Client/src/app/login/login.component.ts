@@ -1,13 +1,13 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
-import { LoginService } from '../shared/services/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../shared/services/auth-service';
 import { AccountService } from '../shared/services/account.service';
+import { AuthService } from '../shared/services/auth-service';
 import { ContentService } from '../shared/services/content.service';
+import { LoginService } from '../shared/services/login.service';
 
 @Component({
   selector: 'app-login',

@@ -7,15 +7,15 @@ namespace IMOMaritimeSingleWindow.Helpers
     {
         public static class Integers
         {
-            public static class DatabaseTableIds 
+            public static class DatabaseTableIds
             {
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
                 public const int OTHER_PURPOSE_ID = 100249;
-                public const int PORT_CALL_STATUS_ACTUAL = 100232;
+                public const int PORT_CALL_STATUS_ACTIVE = 100232;
                 public const int PORT_CALL_STATUS_CANCELLED = 100233;
-                public const int PORT_CALL_STATUS_EXECUTED = 100234;
-                public const int PORT_CALL_STATUS_INCOMPLETE = 100235;
+                public const int PORT_CALL_STATUS_COMPLETED = 100234;
+                public const int PORT_CALL_STATUS_DRAFT = 100235;
             }
         }
 
@@ -36,7 +36,7 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const string Rol = "rol", Id = "id";
             }
-        
+
             public static class JwtClaims
             {
                 public const string ApiAccess = "api_access";
@@ -50,7 +50,7 @@ namespace IMOMaritimeSingleWindow.Helpers
 
             public static class UserRoles
             {
-                public const string Admin = "admin", Agent = "agent";
+                public const string Admin = "admin", Agent = "agent", Customs = "customs", HealthAgency = "health_agency", SuperAdmin = "super_admin";
             }
 
             public static class MenuEntries
@@ -62,7 +62,7 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string PORT_CALL = "PORT CALL";
             }
 
-            
+
         }
         public enum LoginStates
         {
