@@ -26,18 +26,6 @@ export class MainContentComponent implements OnInit {
         JSON.parse(user_claims)
       );
     }
-      
-
-    /*
-    console.log({
-      "auth_token" : localStorage.getItem("auth_token")
-    });
-    if(!this.loginService.isLoggedIn()) {
-      console.log("NOT LOGGED IN!");
-      this.router.navigate(['/login']);
-    }
-  }
-  */
   }
   
 }

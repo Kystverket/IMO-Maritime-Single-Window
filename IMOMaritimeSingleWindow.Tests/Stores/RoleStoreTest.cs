@@ -15,7 +15,7 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
 {
     public class RoleStoreTest : RoleTestBase
     {
-        private ApplicationRole _role;
+        private readonly ApplicationRole _role;
 
         public RoleStoreTest() : base()
         {
@@ -27,6 +27,13 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
         public void AddedRoleCanBeFoundByRoleName()
         {
             Assert.NotNull(_role);
+        }
+
+        [Test]
+        public async Task CanGetRoleByRoleName()
+        {
+            var role = await RoleStore.FindByNameAsync("ADMIN");
+            Assert.NotNull(role);
         }
 
         [Test]

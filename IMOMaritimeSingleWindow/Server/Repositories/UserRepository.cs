@@ -61,7 +61,10 @@ namespace IMOMaritimeSingleWindow.Repositories
             return Context.Set<User>().AsQueryable();
         }
 
-        
+        public void Update(User user)
+        {
+            Context.Set<User>().Update(user);
+        }
 
 
         //public IEnumerable<Organization> GetOrganizations(Guid id)

@@ -42,7 +42,14 @@ namespace IMOMaritimeSingleWindow.Identity
         {
             return base.CreateAsync(user);
         }
-        
+
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            user.EmailConfirmed = true;
+            return base.CreateAsync(user, password);
+        }
+
+
 
         /*
         /// <summary>

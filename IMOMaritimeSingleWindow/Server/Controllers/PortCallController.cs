@@ -76,8 +76,12 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             switch (userRole)
             {
-                // Admin
+                // Super Admin
                 case Constants.Strings.UserRoles.SuperAdmin:
+                    portCallList = _context.PortCall.ToList();
+                    break;
+                // Admin
+                case Constants.Strings.UserRoles.Admin:
                     portCallList = _context.PortCall.ToList();
                     break;
                 // Agent                    

@@ -33,9 +33,35 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             return context;
         }
 
+        public static open_ssnContext GetInMemContextUserAndRoleData()
+        {
+            open_ssnContext context = GetInMemContext();
+            AddUnconnectedUsers(context);
+            AddRoleData(context);
+            return context;
+        }
+
         public static IUnitOfWork<Guid> GetUnitOfWork(open_ssnContext context)
         {
             return new UnitOfWork(context);
+        }
+
+        public static void AddUnconnectedUsers(open_ssnContext context)
+        {
+            Password pw = new Password
+            {
+                Hash = "XXXXXXXX"
+            };
+            User usr = new User
+            {
+                Email = "test@test.no",
+                EmailConfirmed = true,
+                NormalizedEmail = "TEST@TEST.NO",
+                Password = pw
+            };
+
+            context.Set<User>().Add(usr);
+            context.SaveChanges();
         }
 
         private static void AddRoleData(open_ssnContext context)
@@ -43,14 +69,12 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             var con = context as DbContext;
             ClaimType claimType = new ClaimType
             {
-                ClaimTypeId = Guid.NewGuid(),
                 Name = "Port Call",
                 Description = "Claim type for claims related to port call."
             };
 
             Role role = new Role
             {
-                RoleId = Guid.NewGuid(),
                 Name = "admin",
                 NormalizedName = "ADMIN",
                 Description = "Administrator role"
@@ -67,13 +91,11 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             {
                 new Claim
                 {
-                    ClaimId = Guid.NewGuid(),
                     ClaimType = claimType,
                     ClaimValue = "View"
                 },
                 new Claim
                 {
-                    ClaimId = Guid.NewGuid(),
                     ClaimType = claimType,
                     ClaimValue = "Edit"
                 }
@@ -84,7 +106,6 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             foreach (var claim in claims)
                 roleClaims.Add(new RoleClaim
                 {
-                    RoleClaimId = Guid.NewGuid(),
                     Role = role,
                     Claim = claim
                 });
@@ -98,7 +119,6 @@ namespace IMOMaritimeSingleWindow.Tests.Data
 
             role = new Role
             {
-                RoleId = Guid.NewGuid(),
                 Name = "customs",
                 NormalizedName = "CUSTOMS",
                 Description = "Customs role"
@@ -114,7 +134,6 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             claims.Insert(1,
                 new Claim
                 {
-                    ClaimId = Guid.NewGuid(),
                     ClaimType = claimType,
                     ClaimValue = "Clearance"
                 });
@@ -123,7 +142,6 @@ namespace IMOMaritimeSingleWindow.Tests.Data
             foreach (var claim in claims)
                 roleClaims.Add(new RoleClaim
                 {
-                    RoleClaimId = Guid.NewGuid(),
                     Role = role,
                     Claim = claim
                 });
