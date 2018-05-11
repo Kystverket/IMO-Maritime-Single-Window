@@ -1,6 +1,6 @@
 export class PortCallStatusTypes {
-    static ACTIVE = "Actual";
-    static DRAFT = "Incomplete";
+    static ACTIVE = "Active";
+    static DRAFT = "Draft";
     static CANCELLED = "Cancelled";
     static COMPLETED = "Executed";
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { OrganizationTypes } from '../../../../shared/constants/organization-types';
 import { PortCallClaims } from '../../../../shared/constants/port-call-claims';
+import { PortCallStatusTypes } from '../../../../shared/constants/port-call-status-types';
 import { AccountService } from '../../../../shared/services/account.service';
 import { ContentService } from '../../../../shared/services/content.service';
 import { OrganizationService } from '../../../../shared/services/organization.service';
@@ -18,7 +19,6 @@ import { ButtonRowComponent } from './button-row/button-row.component';
 })
 export class OverviewComponent implements OnInit {
 
-  STATUS_DRAFT = "Incomplete";
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
@@ -125,7 +125,7 @@ export class OverviewComponent implements OnInit {
                   if (ov) {
                     let row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
-                    if (ov.status == this.STATUS_DRAFT) {
+                    if (ov.status == PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
                     }
                     // Case: user is a government clearance agency and the port call has already been cleared by the agency

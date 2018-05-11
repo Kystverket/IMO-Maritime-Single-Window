@@ -91,7 +91,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
-                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
                 // Health agency
@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
-                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
                 // Other government agencies not listed in Constants.Strings.UserRoles
@@ -109,7 +109,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                         portCallList = _context.OrganizationPortCall
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
-                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
                                             ).Select(opc => opc.PortCall).ToList();
                     }
                     break;
@@ -117,15 +117,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(portCallList);
         }
-
-
-
-        // [HttpGet("overview/{id}")]
-        // public IActionResult GetOverviewJson(int id)
-        // {
-        //     PortCallOverview overview = GetOverview(id);
-        //     return Json(overview);
-        // }
 
         [HttpPost("update")]
         public IActionResult Update([FromBody] PortCall portCall)
@@ -150,8 +141,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("updatestatus/actual/{portCallId}")]
-        public IActionResult SetStatusActual(int portCallId)
+        [HttpPost("updatestatus/active/{portCallId}")]
+        public IActionResult SetStatusActive(int portCallId)
         {
             try
             {
@@ -160,7 +151,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
-                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTIVE;
                 _context.Update(portCall);
                 _context.SaveChanges();
                 return Json(portCall);
@@ -239,7 +230,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
                 portCall.UserId = Guid.Parse(userId);
-                var statusDraftId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_INCOMPLETE;
+                var statusDraftId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
                 portCall.PortCallStatusId = statusDraftId;
                 _context.PortCall.Add(portCall);
                 _context.SaveChanges();

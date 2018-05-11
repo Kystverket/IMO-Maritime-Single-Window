@@ -18,7 +18,7 @@ export class PortCallService {
   private registerNewPortCallUrl: string;
   private getPortCallsByUserIdUrl: string;
   private updatePortCallUrl: string;
-  private updatePortCallStatusActualUrl: string;
+  private updatePortCallStatusActiveUrl: string;
   private updatePortCallStatusCancelledUrl: string;
   private deletePortCallUrl: string;
   // Global purpose
@@ -44,7 +44,7 @@ export class PortCallService {
     this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
-    this.updatePortCallStatusActualUrl = "api/portcall/updatestatus/actual"
+    this.updatePortCallStatusActiveUrl = "api/portcall/updatestatus/actual"
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
     this.deletePortCallUrl = 'api/portcall/delete';
     // Purpose
@@ -146,8 +146,8 @@ export class PortCallService {
     return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Set port call status to actual
-  updatePortCallStatusActual(portCallId: number) {
-    let uri = [this.updatePortCallStatusActualUrl, portCallId].join('/');
+  updatePortCallStatusActive(portCallId: number) {
+    let uri = [this.updatePortCallStatusActiveUrl, portCallId].join('/');
     console.log("Updating port call status to actual...");
     return this.http.post(uri, null).map(res => res.json());
   }

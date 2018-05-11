@@ -76,7 +76,6 @@ export class ConfirmDataComponent implements OnInit {
 
   startPortCallRegistration() {
     this.portCallModel.shipId = this.shipModel.ship.shipId;
-    // this.portCallModel.portCallStatusId = PORT_CALL_STATUS_INCOMPLETE_ID;
     this.portCallModel.portCallStatusId = PortCallStatusTypes.DRAFT_ID;
     this.portCallModel.locationId = this.locationModel.location.locationId;
     let eta = new Date(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute);
