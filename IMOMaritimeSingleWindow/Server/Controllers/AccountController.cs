@@ -112,6 +112,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
+            roleNames.Remove("super_admin");
             return Ok(roleNames);
         }
 

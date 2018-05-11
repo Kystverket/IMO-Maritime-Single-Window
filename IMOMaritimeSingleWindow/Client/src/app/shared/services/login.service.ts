@@ -1,3 +1,5 @@
+// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ConfigService } from '../utils/config.service';
@@ -6,6 +8,7 @@ import { BaseService } from "./base.service";
 
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx'; 
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
@@ -25,11 +28,14 @@ export class LoginService extends BaseService {
   private _loggedInSource = new BehaviorSubject<boolean>(false);
   loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
+  private jwtHelper: any;
 
   constructor(
     private http: Http,
     private configService: ConfigService,
-    private accountService: AccountService) {
+    private accountService: AccountService,
+    private jwtHelperService: JwtHelperService
+    ) {
 
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
@@ -37,6 +43,9 @@ export class LoginService extends BaseService {
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in
     this._authNavStatusSource.next(this.loggedIn);
     this.baseUrl = configService.getApiURI();
+    this.jwtHelperService = new JwtHelperService({
+      tokenGetter: () => { return localStorage.getItem(""); }
+    });
   }
 
    login(userName, password) {
@@ -50,10 +59,17 @@ export class LoginService extends BaseService {
       )
       .map(res => res.json())
       .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this._loggedInSource.next(true);
-        this._authNavStatusSource.next(true);
-        return true;
+        if(res) {
+          localStorage.setItem('auth_token', res.auth_token);
+          this.loggedIn = true;
+          this._loggedInSource.next(true);
+          this._authNavStatusSource.next(true);
+          return true;
+        }
+        this._loggedInSource.next(false);
+        this._authNavStatusSource.next(false);
+        return false;
+        
       })
       .catch(this.handleError);
   }
@@ -62,11 +78,18 @@ export class LoginService extends BaseService {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user-claims');
     this.loggedIn = false;
+    this._loggedInSource.next(false);
     this._authNavStatusSource.next(false);
   }
 
+  // Tips from https://ryanchenkie.com/angular-authentication-using-route-guards
   isLoggedIn() {
-    return this.loggedIn$;
+    // Get token from localStorage
+    const token = localStorage.getItem("auth_token");
+    // Check whether the token is expired
+    let isExpired = this.jwtHelperService.isTokenExpired(token);
+    
+    return !isExpired;
   }
 
 }

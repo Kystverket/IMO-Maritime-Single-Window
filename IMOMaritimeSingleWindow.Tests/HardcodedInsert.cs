@@ -16,14 +16,22 @@ namespace IMOMaritimeSingleWindow.Tests
 
     public class HardCodedBase
     {
-        protected open_ssnContext RealDatabaseContext;
+        protected open_ssnContext DatabaseContext;
         protected readonly UnitOfWork UnitOfWork;
 
         public HardCodedBase()
         {
-            RealDatabaseContext = StorageBuilder.GetContext();
-            //RealDatabaseContext = StorageBuilder.GetInMemContextWithRoleData();
-            UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(RealDatabaseContext);
+            // Using real database
+            //var RealDatabaseContext = StorageBuilder.GetContext();
+            //UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(RealDatabaseContext);
+            //DatabaseContext = RealDatabaseContext;
+
+            // Using in-memory database
+            var InMemoryDatabaseContext = StorageBuilder.GetInMemContextWithRoleData();
+            DatabaseContext = InMemoryDatabaseContext;
+            UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
+
+            // Configure auto-mapper
             var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>());
             var mapper = configuration.CreateMapper();
         }
