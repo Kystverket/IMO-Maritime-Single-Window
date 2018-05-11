@@ -6,8 +6,7 @@
         <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>
         <div class="col my-auto">
           <input id="email" name="userName" type="email" class="form-control form-control-sm" required placeholder="Enter email address"
-            [(ngModel)]="credentials.userName" #email="ngModel" tmFocus validateEmail>
-          <small *ngIf="!email.valid && (!email.pristine || submitted)" class="text-danger">Please enter a valid email</small>
+            [(ngModel)]="credentials.userName" #email="ngModel" tmFocus>
         </div>
       </div>
 
@@ -24,7 +23,7 @@
       </div>
 
       <div *ngIf="errors" class="alert alert-danger" role="alert">
-        <strong>Something went wrong!</strong> {{errors}}
+        <span>{{errors}}</span>
       </div>
 
     </form>
