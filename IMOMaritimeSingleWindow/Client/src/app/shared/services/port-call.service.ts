@@ -44,7 +44,7 @@ export class PortCallService {
     this.registerNewPortCallUrl = "api/portcall/register";
     this.getPortCallsByUserIdUrl = "api/portcall/user";
     this.updatePortCallUrl = "api/portcall/update";
-    this.updatePortCallStatusActiveUrl = "api/portcall/updatestatus/actual"
+    this.updatePortCallStatusActiveUrl = "api/portcall/updatestatus/active"
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
     this.deletePortCallUrl = 'api/portcall/delete';
     // Purpose
