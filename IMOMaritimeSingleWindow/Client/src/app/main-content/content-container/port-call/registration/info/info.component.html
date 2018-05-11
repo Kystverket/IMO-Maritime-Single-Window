@@ -29,8 +29,10 @@
         </tr>
       </tbody>
       <tbody class="text-center" *ngIf="!shipHasContactInfo">
-        <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
-        No contact information for this ship has been provided.
+        <div class="my-3">
+          <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
+          <span>No contact information for has been provided for this ship.</span>
+        </div>
       </tbody>
     </table-card>
   </div>
