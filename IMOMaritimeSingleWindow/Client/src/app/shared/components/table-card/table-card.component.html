@@ -3,7 +3,7 @@
     <div class="d-table-cell mr-auto">
       <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" />
     </div>
-    <div class="d-table-cell mx-auto">
+    <div class="d-table-cell m-auto">
       <span>{{ header }}</span>
     </div>
     <div class="d-table-cell ml-auto">
@@ -14,7 +14,7 @@
   </div>
 </div>
 <div *ngIf="!collapsed" class="table-responsive border-bottom border-left border-right border-white text-white">
-  <table class="table">
+  <table class="table mb-0">
     <ng-content></ng-content>
   </table>
 </div>
