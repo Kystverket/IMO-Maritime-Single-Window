@@ -1,6 +1,7 @@
 <div [ngSwitch]="selectedComponent">
   <app-register-user *ngSwitchCase="'Register User'"></app-register-user>
   <app-edit-user *ngSwitchCase="'Edit User'"></app-edit-user>
+  <app-view-ship-info *ngSwitchCase="'Ship'"></app-view-ship-info>
   <app-register-ship *ngSwitchCase="'Register Ship'"></app-register-ship>
   <app-register-location *ngSwitchCase="'Register Location'"></app-register-location>
   <app-register-organization *ngSwitchCase="'Register Organization'"></app-register-organization>

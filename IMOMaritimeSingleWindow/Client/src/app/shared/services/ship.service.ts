@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { SearchService } from "./search.service";
+import { BehaviorSubject } from "rxjs";
 import { ShipContactModel } from "../models/ship-contact-model";
+import { SearchService } from "./search.service";
 
 @Injectable()
 export class ShipService {
@@ -47,6 +47,13 @@ export class ShipService {
 
     private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
     shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
+
+    private shipOverviewDataSource = new BehaviorSubject<any>(null);
+    shipOverviewData$ = this.shipOverviewDataSource.asObservable();
+
+    setShipOverviewData(data) {
+        this.shipOverviewDataSource.next(data);
+    }
 
     registerShip(newShip: any) {
         return this.http.post(this.registerShipUrl, newShip)
@@ -111,7 +118,7 @@ export class ShipService {
 
     getShipStatusList() {
         return this.http.get(this.shipStatusListUrl)
-            .map (res => res.json());
+            .map(res => res.json());
     }
 
     getContactList(shipId: number) {

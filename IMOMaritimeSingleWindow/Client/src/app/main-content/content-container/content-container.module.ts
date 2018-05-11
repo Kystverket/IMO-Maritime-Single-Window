@@ -10,6 +10,7 @@ import { RegisterOrganizationComponent } from './basis-data/organization/registe
 import { SearchOrganizationComponent } from './basis-data/organization/search-organization/search-organization.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship/search-ship-flag-code/search-ship-flag-code.component';
+import { ViewShipInfoComponent } from './basis-data/ship/view-ship-info/view-ship-info.component';
 import { EditUserComponent } from './basis-data/user/edit-user/edit-user.component';
 import { RegisterUserComponent } from './basis-data/user/register-user/register-user.component';
 import { UserFormComponent } from './basis-data/user/user-form/user-form.component';
@@ -35,7 +36,8 @@ import { PortCallModule } from './port-call/port-call.module';
     UserFormComponent,
     LocationFormComponent,
     SearchOrganizationComponent,
-    SearchShipFlagCodeComponent
+    SearchShipFlagCodeComponent,
+    ViewShipInfoComponent
   ],
   exports: [ContentContainerComponent]
 })
