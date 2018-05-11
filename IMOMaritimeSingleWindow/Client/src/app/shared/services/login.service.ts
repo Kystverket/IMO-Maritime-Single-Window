@@ -8,6 +8,7 @@ import { BaseService } from "./base.service";
 
 import { Observable } from 'rxjs/Rx';
 import { BehaviorSubject } from 'rxjs/Rx'; 
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
@@ -27,11 +28,14 @@ export class LoginService extends BaseService {
   private _loggedInSource = new BehaviorSubject<boolean>(false);
   loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
+  private jwtHelper: any;
 
   constructor(
     private http: Http,
     private configService: ConfigService,
-    private accountService: AccountService) {
+    private accountService: AccountService,
+    private jwtHelperService: JwtHelperService
+    ) {
 
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
@@ -39,6 +43,9 @@ export class LoginService extends BaseService {
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in
     this._authNavStatusSource.next(this.loggedIn);
     this.baseUrl = configService.getApiURI();
+    this.jwtHelperService = new JwtHelperService({
+      tokenGetter: () => { return localStorage.getItem(""); }
+    });
   }
 
    login(userName, password) {
@@ -75,8 +82,14 @@ export class LoginService extends BaseService {
     this._authNavStatusSource.next(false);
   }
 
+  // Tips from https://ryanchenkie.com/angular-authentication-using-route-guards
   isLoggedIn() {
-    return this.loggedIn;
+    // Get token from localStorage
+    const token = localStorage.getItem("auth_token");
+    // Check whether the token is expired
+    let isExpired = this.jwtHelperService.isTokenExpired(token);
+    
+    return !isExpired;
   }
 
 }

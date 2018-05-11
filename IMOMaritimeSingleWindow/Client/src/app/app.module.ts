@@ -19,6 +19,7 @@ import { AuthService } from './shared/services/auth-service';
 import { ConfirmationModalComponent } from './shared/components/confirmation-modal/confirmation-modal.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
+import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,11 @@ import { LoginAuthGuard } from './auth/guards/login-auth.guard';
     HttpModule,
     ContentContainerModule,
     AppRoutingModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: function() { return localStorage.getItem("auth_token"); }
+      }
+    }),
     NgbModule.forRoot()
   ],
   providers: [
@@ -43,7 +49,8 @@ import { LoginAuthGuard } from './auth/guards/login-auth.guard';
     AuthService,
     AuthRequest,
     AuthGuard,
-    LoginAuthGuard
+    LoginAuthGuard,
+    JwtHelperService
   ],
   bootstrap: [AppComponent]
 })
