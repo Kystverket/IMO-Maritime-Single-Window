@@ -20,8 +20,6 @@ export class OrganizationService {
         this.getOrganizationForUserUrl = 'api/organization/foruser';
     }
 
-
-
     public registerOrganization(newOrganization: OrganizationModel) {
         return this.http.post(this.registerOrganizationUrl, newOrganization)
             .map(res => res.json());

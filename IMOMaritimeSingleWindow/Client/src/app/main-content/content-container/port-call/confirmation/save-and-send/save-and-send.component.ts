@@ -26,13 +26,13 @@ export class SaveAndSendComponent implements OnInit {
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
   portCallStatus: string;
-  STATUS_ACTUAL = "Actual";
+  STATUS_ACTIVE = "Active";
 
   constructor(private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {        
+      detailsDataIsPristine => {
         this.detailsDataIsPristine = detailsDataIsPristine;
       }
     );
@@ -70,7 +70,7 @@ export class SaveAndSendComponent implements OnInit {
       statusData => {
         this.portCallStatus = statusData;
       }
-    ); 
+    );
   }
 
   saveDetails() {
@@ -92,7 +92,7 @@ export class SaveAndSendComponent implements OnInit {
   }
 
   send() {
-    this.portCallService.updatePortCallStatusActual(this.detailsIdentificationModel.portCallId).subscribe(
+    this.portCallService.updatePortCallStatusActive(this.detailsIdentificationModel.portCallId).subscribe(
       updateStatusResponse => {
         console.log("Status successfully updated.");
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
