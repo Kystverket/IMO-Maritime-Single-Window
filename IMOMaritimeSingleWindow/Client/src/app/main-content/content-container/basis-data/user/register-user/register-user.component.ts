@@ -6,13 +6,14 @@ import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
 import { AuthService } from '../../../../../shared/services/auth-service';
 import { LoginService } from '../../../../../shared/services/login.service';
+import { ShipService } from '../../../../../shared/services/ship.service';
 
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, UserService, AccountService]
+  providers: [UserModel, UserService, AccountService, ShipService]
 })
 
 export class RegisterUserComponent implements OnInit {
@@ -20,7 +21,7 @@ export class RegisterUserComponent implements OnInit {
   Selected: boolean;
 
   companyTerm: string;
-  selectedRoles: any;
+  selectedRole: any;
   roleList: any[];
   subscription: Subscription;
   loggedIn: boolean;
@@ -34,7 +35,6 @@ export class RegisterUserComponent implements OnInit {
     firstName: '',
     lastName: ''
   };
-  canClear: boolean;
 
   constructor(
     private userModel: UserModel,
@@ -66,7 +66,8 @@ export class RegisterUserComponent implements OnInit {
     }
   }
 
-  canSetPortCallClearance(): void {
+
+  /* canSetPortCallClearance(): void {
     if (!this.loggedIn) {
       return;
     }
@@ -80,7 +81,7 @@ export class RegisterUserComponent implements OnInit {
           console.log(error.status);
       }
     );
-  }
+  } */
 
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);

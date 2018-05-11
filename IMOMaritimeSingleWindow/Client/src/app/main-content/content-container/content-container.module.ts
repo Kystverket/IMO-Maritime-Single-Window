@@ -15,6 +15,7 @@ import { RegisterUserComponent } from './basis-data/user/register-user/register-
 import { UserFormComponent } from './basis-data/user/user-form/user-form.component';
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { PortCallModule } from './port-call/port-call.module';
     FormsModule,
     HttpModule,
     PortCallModule,
+    NgSelectModule,
     SharedModule
   ],
   declarations: [
