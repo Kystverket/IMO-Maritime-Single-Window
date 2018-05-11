@@ -27,11 +27,13 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   permissions = PortCallClaims.buttonRowPermissions;
   portCallIsDraft: boolean = false;
+  portCallIsCancelled: boolean = false;
 
   constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.portCallIsDraft = (this.rowData.overviewModel.status == PortCallStatusTypes.DRAFT);
+    this.portCallIsCancelled = (this.rowData.overviewModel.status == PortCallStatusTypes.CANCELLED);
     this.accountService.userClaimsData$.subscribe(
       userClaims => {
         if (userClaims) {
