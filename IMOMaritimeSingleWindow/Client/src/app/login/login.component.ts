@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
+
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router'; 
 import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
 import { AccountService } from '../shared/services/account.service';
@@ -40,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.errors = '';
     if (valid) {
       this.loginService.login(value.userName, value.password)
-        .finally(() => this.isRequesting = false)
         .subscribe(result => {
           // Login succeeded
           if (result) {
@@ -49,6 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.accountService.getUserClaims()
               // Navigate to root when done
               .finally(() => {
+                this.isRequesting = false;
                 this.contentService.setContent("Port Call");
                 this.router.navigate(['']);
               })
@@ -66,6 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // subscribe to router event
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];

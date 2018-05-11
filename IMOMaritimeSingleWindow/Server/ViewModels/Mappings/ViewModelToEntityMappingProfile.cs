@@ -9,8 +9,20 @@ namespace IMOMaritimeSingleWindow.ViewModels.Mappings
     {
         public ViewModelToEntityMappingProfile()
         {
-            CreateMap<RegistrationViewModel, ApplicationUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
-            CreateMap<RegistrationWithPasswordViewModel, ApplicationUser>().ForMember(au => au.UserName, map => map.MapFrom(vm => vm.Email));
+            CreateMap<RegistrationViewModel, ApplicationUser>()
+                .ForMember(destination => destination.UserName,
+                    map => map.MapFrom(source => source.Email))
+                .ForMember(destination => destination.NormalizedEmail,
+                    opt => opt.MapFrom(source => source.Email.ToUpper()))
+                .ForMember(destination => destination.NormalizedUserName,
+                    opt => opt.MapFrom(source => source.Email.ToUpper()));
+            CreateMap<RegistrationWithPasswordViewModel, ApplicationUser>()
+                .ForMember(destination => destination.UserName,
+                    map => map.MapFrom(source => source.Email))
+                .ForMember(destination => destination.NormalizedEmail,
+                    opt => opt.MapFrom(source => source.Email.ToUpper()))
+                .ForMember(destination => destination.NormalizedUserName,
+                    opt => opt.MapFrom(source => source.Email.ToUpper()));
         }
     }
 }

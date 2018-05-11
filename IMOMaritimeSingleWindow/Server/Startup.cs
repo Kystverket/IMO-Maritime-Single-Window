@@ -143,7 +143,8 @@ namespace IMOMaritimeSingleWindow
             var automapper = serviceProvider.GetService<IMapper>();
             
             services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
-            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, automapper));
+            var roleStore = serviceProvider.GetService<RoleStore>();
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
 
             serviceProvider = services.BuildServiceProvider();
 
