@@ -22,7 +22,7 @@ export class MenuService extends BaseRequest {
 
     getMenuEntries() {
         var auth_headers = this.authRequestService.GetHeaders();
-        let url : string = `${this.actionUrl}/menuEntries`;
+        let url : string = `${this.actionUrl}/entries`;
         let options = new RequestOptions({ headers: auth_headers })
         return this.http
             .get(url, options)

@@ -14,9 +14,26 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 {
     public partial class UserStore : IUserRoleStore<ApplicationUser>
     {
-        public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
+        public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var role = _roleStore.FindByNameAsync(roleName).GetAwaiter().GetResult();
+            if (role == null)
+                throw new ArgumentException($"no role with rolename \"{roleName}\" exists!");
+
+            var _user = FindByIdAsync(user.Id.ToString()).GetAwaiter().GetResult();
+
+            User User = _unitOfWork.Users.Get(user.Id);
+            if (User.Role != null)
+                throw new Exception("User already belong to a role. Call update instead.");
+            Role Role = _unitOfWork.Roles.GetByNormalizedName(roleName);
+            User.Role = Role;
+
+            // Update user
+            _unitOfWork.Users.Update(User);
+            _unitOfWork.Complete();
+            
+            return Task.CompletedTask;
+            
         }
 
         public Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken)

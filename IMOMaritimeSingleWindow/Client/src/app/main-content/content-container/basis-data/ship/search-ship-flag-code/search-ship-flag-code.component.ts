@@ -27,13 +27,13 @@ export class SearchShipFlagCodeComponent implements OnInit {
 
     search = (text$: Observable<string>) =>
         text$
-            .debounceTime(300)
+            .debounceTime(50)
             .distinctUntilChanged()
             .do((term) => {
                 this.searchFailed = false;
-                if (term.length >= 2) this.searching = true;
+                if (term.length >= 1) this.searching = true;
             })
-            .switchMap(term => term.length < 2 ? [] :
+            .switchMap(term => term.length < 1 ? [] :
                 this.shipService.searchFlagCode(term)
             )
             .do((text$) => {

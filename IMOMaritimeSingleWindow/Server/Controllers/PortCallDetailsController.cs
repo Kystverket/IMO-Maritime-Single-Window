@@ -62,7 +62,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             try
             {
-                if (_context.PortCallDetails.Any(details => details.PortCallDetailsId == portCallDetails.PortCallDetailsId)) 
+                if (_context.PortCallDetails.Any(details => details.PortCallDetailsId == portCallDetails.PortCallDetailsId))
                 {
                     _context.PortCallDetails.Update(portCallDetails);
                 }

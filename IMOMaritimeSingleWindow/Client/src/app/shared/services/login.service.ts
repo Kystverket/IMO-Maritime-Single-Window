@@ -1,3 +1,5 @@
+// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
+
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ConfigService } from '../utils/config.service';
@@ -9,6 +11,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
+import { AccountService } from './account.service';
 
 @Injectable()
 
@@ -25,9 +28,12 @@ export class LoginService extends BaseService {
   loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
 
-  constructor(private http: Http, private configService: ConfigService) {
+  constructor(
+    private http: Http,
+    private configService: ConfigService,
+    private accountService: AccountService) {
+
     super();
-    //localStorage.removeItem("auth_token");
     this.loggedIn = !!localStorage.getItem('auth_token');
     // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
     // header component resulting in authed user nav links disappearing despite the fact user is still logged in
@@ -39,7 +45,6 @@ export class LoginService extends BaseService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    console.log("login called!");
     return this.http
       .post(
       this.baseUrl + '/auth/login',
@@ -47,22 +52,31 @@ export class LoginService extends BaseService {
       )
       .map(res => res.json())
       .map(res => {
-        localStorage.setItem('auth_token', res.auth_token);
-        this._loggedInSource.next(true);
-        this._authNavStatusSource.next(true);
-        return true;
+        if(res) {
+          localStorage.setItem('auth_token', res.auth_token);
+          this.loggedIn = true;
+          this._loggedInSource.next(true);
+          this._authNavStatusSource.next(true);
+          return true;
+        }
+        this._loggedInSource.next(false);
+        this._authNavStatusSource.next(false);
+        return false;
+        
       })
       .catch(this.handleError);
   }
 
   logout() {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('user-claims');
     this.loggedIn = false;
+    this._loggedInSource.next(false);
     this._authNavStatusSource.next(false);
   }
 
   isLoggedIn() {
-    return this.loggedIn$;
+    return this.loggedIn;
   }
 
 }

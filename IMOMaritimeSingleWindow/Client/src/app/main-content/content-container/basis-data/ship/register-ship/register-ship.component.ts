@@ -116,12 +116,12 @@ export class RegisterShipComponent implements OnInit {
 
   shipTypeSearch = (text$: Observable<string>) =>
     text$
-      .debounceTime(200)
+      .debounceTime(50)
       .distinctUntilChanged()
       .do(() => {
         this.shipTypeSearchFailed = false;
       })
-      .map(term => term.length < 2 ? []
+      .map(term => term.length < 1 ? []
         : this.shipTypeList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       )
       .do((text$) => {

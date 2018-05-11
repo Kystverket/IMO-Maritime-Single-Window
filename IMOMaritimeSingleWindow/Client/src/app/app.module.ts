@@ -5,28 +5,26 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, XHRBackend } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { LoginComponent } from './login/login.component';
-
 import { ConfigService } from './shared/utils/config.service';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { LoginService } from './shared/services/login.service';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { ContentService } from './shared/services/content.service';
-import { MainContentComponent } from './main-content/main-content.component';
 import { HeaderComponent } from './main-content/header/header.component';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
 import { AccountService } from './shared/services/account.service';
 import { AuthRequest } from './shared/services/auth.request.service';
 import { AuthService } from './shared/services/auth-service';
 import { ConfirmationModalComponent } from './shared/components/confirmation-modal/confirmation-modal.component';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HeaderComponent,
-    MainContentComponent
+    routedComponents
   ],
   imports: [
     BrowserModule,
@@ -43,7 +41,9 @@ import { ConfirmationModalComponent } from './shared/components/confirmation-mod
     AccountService,
     ContentService,
     AuthService,
-    AuthRequest
+    AuthRequest,
+    AuthGuard,
+    LoginAuthGuard
   ],
   bootstrap: [AppComponent]
 })

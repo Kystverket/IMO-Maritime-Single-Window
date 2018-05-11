@@ -27,7 +27,7 @@ export class SearchOrganizationComponent implements OnInit {
 
     search = (text$: Observable<string>) =>
         text$
-            .debounceTime(300)
+            .debounceTime(150)
             .distinctUntilChanged()
             .do((term) => {
                 this.searchFailed = false;
