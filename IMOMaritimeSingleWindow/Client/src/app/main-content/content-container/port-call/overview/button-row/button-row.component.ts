@@ -24,6 +24,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
   overviewData: any[];
+  draftOverviewData: any[];
+  clearedOverviewData: any[];
 
   permissions = PortCallClaims.buttonRowPermissions;
   portCallIsDraft: boolean = false;
@@ -50,6 +52,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       results => {
         if (results) this.overviewData = results;
       }
+    );
+    this.overviewService.draftOverviewData$.subscribe(
+      results => {
+        if (results) this.draftOverviewData = results;
+      }
+    );
+    this.overviewService.clearedByUserAgencyOverviewData$.subscribe(
+      results => {
+        if (results) this.clearedOverviewData = results;
+      }
     )
   }
 
@@ -74,19 +86,34 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   cancelPortCall() {
-    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
     let pcId = this.rowData.overviewModel.portCall.portCallId;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = "Cancelled";
-    this.overviewService.setOverviewData(this.overviewData);
+    this.rowData.overviewModel.status = PortCallStatusTypes.CANCELLED;
+    if (this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId)) {
+      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.overviewService.setOverviewData(this.overviewData);
+    }
+    if (this.draftOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
+      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.overviewService.setDraftData(this.draftOverviewData);
+    }
+    if (this.clearedOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
+      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.overviewService.setClearedData(this.clearedOverviewData);
+    }
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
+
   }
 
   deletePortCall() {
     this.portCallService.deletePortCallDraft(this.rowData.overviewModel.portCall).subscribe(
       deleteResponse => {
         if (deleteResponse) {
-          console.log(deleteResponse);
-          let newOverviewData = this.overviewData.filter(row => row !== this.rowData);
+          let newOverviewData = this.overviewData.filter(row => row != this.rowData);
+          let newDraftData = this.draftOverviewData.filter(row => row != this.rowData);
+          let newClearedData = this.clearedOverviewData.filter(row => row != this.rowData);
           this.overviewService.setOverviewData(newOverviewData);
+          this.overviewService.setDraftData(newDraftData);
+          this.overviewService.setClearedData(newClearedData);
         }
       }, error => {
         console.log(error);
