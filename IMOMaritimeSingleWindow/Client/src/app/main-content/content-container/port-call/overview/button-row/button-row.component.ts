@@ -88,16 +88,17 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   cancelPortCall() {
     let pcId = this.rowData.overviewModel.portCall.portCallId;
     this.rowData.overviewModel.status = PortCallStatusTypes.CANCELLED;
+    var htmlStatus = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
     if (this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
       this.overviewService.setOverviewData(this.overviewData);
     }
     if (this.draftOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
       this.overviewService.setDraftData(this.draftOverviewData);
     }
     if (this.clearedOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
+      this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
     this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
