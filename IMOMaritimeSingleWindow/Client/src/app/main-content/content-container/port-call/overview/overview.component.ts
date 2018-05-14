@@ -132,7 +132,7 @@ export class OverviewComponent implements OnInit {
                     // Case: user is a government clearance agency and the port call has already been cleared by the agency
                     else if (this.userIsGovernmentAgency
                       && ov.clearanceList
-                      && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared)) {
+                      && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared != null)) {
                       this.clearedByUserAgencyOverviewList.push(row);
                     }
                     // Case: default
