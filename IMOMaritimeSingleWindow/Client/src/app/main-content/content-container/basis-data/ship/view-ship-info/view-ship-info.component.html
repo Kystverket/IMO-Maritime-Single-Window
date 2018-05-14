@@ -64,7 +64,7 @@
           </tr>
         </tbody>
       </table-card>
-      <table-card header="Ship Contact Information" icon="contact.png" collapsible=true collapsed=false>
+      <table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
         <tbody *ngIf="shipHasContactInfo">
           <tr>
             <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
@@ -78,7 +78,10 @@
           </tr>
         </tbody>
         <tbody class="text-center" *ngIf="!shipHasContactInfo">
-          <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px"> No contact information for this ship has been provided.
+          <div class="my-3">
+            <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
+            <span>No contact information for this ship has been provided.</span>
+          </div>
         </tbody>
       </table-card>
     </div>
