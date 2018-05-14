@@ -94,11 +94,11 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       this.overviewService.setOverviewData(this.overviewData);
     }
     if (this.draftOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
+      this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
       this.overviewService.setDraftData(this.draftOverviewData);
     }
     if (this.clearedOverviewData.find(r => r.overviewModel.portCallId == pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
+      this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
     this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
