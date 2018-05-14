@@ -4,7 +4,6 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import { OrganizationService } from '../../../../../shared/services/organization.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
 
 
 
@@ -23,7 +22,7 @@ export class SearchOrganizationComponent implements OnInit {
     searchFailed = false;
     hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-    constructor(private organizationService: OrganizationService, private shipService: ShipService) { }
+    constructor(private organizationService: OrganizationService) { }
 
     search = (text$: Observable<string>) =>
         text$
@@ -48,15 +47,21 @@ export class SearchOrganizationComponent implements OnInit {
 
     selectOrganization($event) {
         this.organizationSelected = true;
-        this.shipService.setOrganizationData($event.item);
+        this.organizationService.setOrganizationData($event.item);
     }
 
     deselectOrganization() {
         this.organizationSelected = false;
-        this.organizationModel = null;
-        this.shipService.setOrganizationData(this.organizationModel);
+        this.organizationService.setOrganizationData(null);
     }
 
     ngOnInit() {
+        this.organizationService.organizationData$.subscribe(
+            results => {
+                if (results) {
+                    this.organizationModel = results;
+                }
+            }
+        );
     }
 }
