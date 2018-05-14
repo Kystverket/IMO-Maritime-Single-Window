@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
+using System.Security.Claims;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
@@ -42,8 +43,15 @@ namespace IMOMaritimeSingleWindow.Identity
             return base.CreateAsync(user);
         }
 
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            user.EmailConfirmed = true;
+            return base.CreateAsync(user, password);
+        }
 
 
+
+        /*
         /// <summary>
         /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Identity.Models.UserRoleManager.GetClaimsAsync(TUser)"/>.
         /// </summary>
@@ -52,7 +60,7 @@ namespace IMOMaritimeSingleWindow.Identity
             throw new NotImplementedException();
         }
 
-        /*
+        
         public override Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string userName)
         {
             string _userName = userName.Split('@')[0];

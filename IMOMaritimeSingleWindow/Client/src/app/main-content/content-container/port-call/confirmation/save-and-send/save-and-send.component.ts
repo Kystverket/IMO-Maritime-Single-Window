@@ -3,6 +3,11 @@ import { ContentService } from '../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
 import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
 import { FormMetaData } from '../../../../../shared/models/form-meta-data.interface';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+
+const RESULT_SUCCES: string = "This port call has been activated, and is now awaiting clearance.";
+const RESULT_FAILURE: string = "There was a problem when trying to activate this port call. Please try again later.";
 
 @Component({
   selector: 'app-save-and-send',
@@ -20,11 +25,14 @@ export class SaveAndSendComponent implements OnInit {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
+  portCallStatus: string;
+  STATUS_ACTIVE = "Active";
+
+  constructor(private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {        
+      detailsDataIsPristine => {
         this.detailsDataIsPristine = detailsDataIsPristine;
       }
     );
@@ -58,6 +66,11 @@ export class SaveAndSendComponent implements OnInit {
         this.detailsMeta = metaData;
       }
     );
+    this.portCallService.portCallStatusData$.subscribe(
+      statusData => {
+        this.portCallStatus = statusData;
+      }
+    );
   }
 
   saveDetails() {
@@ -76,12 +89,37 @@ export class SaveAndSendComponent implements OnInit {
     this.detailsModel.reportingWaste = this.reportingModel.reportingWaste;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
     console.log("META: ", this.detailsMeta.valid, "\nPRISTINE: ", this.detailsDataIsPristine);
-    
   }
 
   send() {
-    this.portCallService.updatePortCallStatusActual(this.detailsModel.portCallId);
+    this.portCallService.updatePortCallStatusActive(this.detailsIdentificationModel.portCallId).subscribe(
+      updateStatusResponse => {
+        console.log("Status successfully updated.");
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
+      },
+      error => {
+        console.log(error);
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+      }
+    );
+  }
+
+  goBack() {
     this.contentService.setContent("Port Call");
+  }
+
+  private openConfirmationModal(modalType: string, bodyText: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.modalType = modalType;
+    modalRef.componentInstance.bodyText = bodyText;
+    modalRef.result.then(
+      result => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      },
+      reason => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      }
+    );
   }
 
 }

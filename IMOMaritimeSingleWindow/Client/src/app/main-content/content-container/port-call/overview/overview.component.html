@@ -1,4 +1,43 @@
-    <div class="table-responsive">
-        <ng2-smart-table [settings]="tableSettings" [source]="dataSource"></ng2-smart-table>
-        <img *ngIf="!overviewFound!" src='assets/images/animations/portcall.gif' style="margin-left:auto" style="left: 50%; position: relative"/>
+<div id="overlay" *ngIf="!overviewFound">
+    <div id="loading-box" class="text-center">
+        <img src='assets/images/animations/portcall.gif' />
+        <h1>LOADING PORT CALLS</h1>
     </div>
+</div>
+
+<table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
+    <thead>
+        <tr>
+            <th>Active Port Calls</th>
+        </tr>
+    </thead>
+</table>
+<div class="table-responsive mb-3">
+    <ng2-smart-table [settings]="tableSettings" [source]="overviewSource"></ng2-smart-table>
+</div>
+
+<div *ngIf="permissions.edit">
+    <table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
+        <thead>
+            <tr>
+                <th>Port Call Drafts</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="table-responsive mb-3">
+        <ng2-smart-table [settings]="tableSettings" [source]="draftOverviewSource"></ng2-smart-table>
+    </div>
+</div>
+
+<div *ngIf="userIsGovernmentAgency">
+    <table class="table table-bordered text-center bg-ssn text-white mx-auto mb-0">
+        <thead>
+            <tr>
+                <th>Cleared Port Calls</th>
+            </tr>
+        </thead>
+    </table>
+    <div class="table-responsive mb-3">
+        <ng2-smart-table [settings]="tableSettings" [source]="clearedByUserAgencyOverviewSource"></ng2-smart-table>
+    </div>
+</div>

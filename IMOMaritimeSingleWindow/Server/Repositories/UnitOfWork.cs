@@ -19,6 +19,7 @@ namespace IMOMaritimeSingleWindow.Repositories
             Persons = new PersonRepository(_context);
             Roles = new RoleRepository(_context);
             ClaimTypes = new ClaimTypeRepository(_context);
+            Claims = new ClaimRepository(_context);
         }
 
         public IUserRepository<Guid> Users { get; private set; }
@@ -27,6 +28,7 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IPasswordRepository<Guid> Passwords { get; private set; }
         public IPersonRepository<Guid> Persons { get; private set; }
         public IClaimTypeRepository<Guid> ClaimTypes { get; private set; }
+        public IClaimRepository<Guid> Claims { get; private set; }
 
         public int Complete()
         {
@@ -38,29 +40,43 @@ namespace IMOMaritimeSingleWindow.Repositories
             _context.Dispose();
         }
 
-        //Additional methods
-        // REMOVED due to removing table UserRole from database
-        // public IEnumerable<Claim> GetClaimsForUser(Guid userId)
-        // {
-        //     var userRoles = UserRoles.Find(u => u.UserId == userId).ToList();
-        //     var claims = new List<List<Claim>>();
-        //     foreach (var userRole in userRoles)
-        //     {
-        //         var role = Roles.Get(userRole.RoleId);
-        //         claims.Add(RoleClaims.GetClaimsForRole(role.RoleId).ToList());
-        //     }
-        //     //Remove duplicate claims originating from various roles    
-        //     var claimsList = claims.SelectMany(list => list).Distinct();
-        //     return claimsList;
-        // }
+        public IEnumerable<System.Security.Claims.Claim> GetAllClaims()
+        {
+            var claims = (from c in _context.Claim
+                      join ct in _context.ClaimType
+                      on c.ClaimTypeId equals ct.ClaimTypeId
+                      select new System.Security.Claims.Claim(ct.Name, c.ClaimValue))
+                      .AsEnumerable();
+            return claims;
+        }
+
+
+        public IEnumerable<Claim> GetClaimsByType(string typeName)
+        {
+            var claimType = ClaimTypes.Find(ct => typeName.Equals(ct.Name)).FirstOrDefault();
+            if (claimType == null)
+            {
+                throw new ArgumentException("Claim type " + typeName + " does not exist.");
+            }
+            var claims = Claims.Find(c => c.ClaimTypeId == claimType.ClaimTypeId);
+            return claims;
+        }
+
         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
         {
-            return null;
+            var user = Users.Get(userId);
+            if (user == null)
+                throw new ArgumentException(nameof(userId) + "does not belong to any user");
+            var roleId = user.RoleId;
+            if (!roleId.HasValue)
+                throw new ArgumentException("user with given " + nameof(userId) + " does not belong to any role, and therefore has no claims.");
+            var claims = RoleClaims.GetClaimsForRole(roleId.Value);
+            return claims;
         }
 
         public IEnumerable<System.Security.Claims.Claim> GetSystemClaims(IEnumerable<Claim> claims)
         {
-            var systemClaims = claims.Join(ClaimTypes.GetAll(),
+            var systemClaims = claims.Join(_context.ClaimType,
                 c => c.ClaimTypeId,
                 ct => ct.ClaimTypeId,
                 (c, ct) => new System.Security.Claims.Claim

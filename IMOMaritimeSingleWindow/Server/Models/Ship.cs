@@ -25,7 +25,6 @@ namespace IMOMaritimeSingleWindow.Models
         public int ShipTypeId { get; set; }
         public int? ImoNo { get; set; }
         public int? YearOfBuild { get; set; }
-        public int? MmsiNo { get; set; }
         public string Name { get; set; }
         public string CallSign { get; set; }
         public int? DeadweightTonnage { get; set; }
@@ -39,7 +38,12 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? HasSideThrustersFront { get; set; }
         public bool? HasSideThrustersBack { get; set; }
         public string Remark { get; set; }
+        public int? CertificateOfRegistryId { get; set; }
+        public string InmarsatCallNumber { get; set; }
+        public int? MmsiNo { get; set; }
+        public DateTimeOffset? DateOfKeelLaying { get; set; }
 
+        public CertificateOfRegistry CertificateOfRegistry { get; set; }
         public Organization Organization { get; set; }
         public ShipBreadthType ShipBreadthType { get; set; }
         public ShipFlagCode ShipFlagCode { get; set; }

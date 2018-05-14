@@ -1,9 +1,9 @@
-<ssn-card title="Confirm Port Call" icon="checkmark.png">
+<ssn-card header="Confirm Port Call" icon="checkmark.png">
   <div *ngIf="!shipFound || !locationFound || !dateTimeFound" class="text-center">
     <p *ngIf="!shipFound" class="no-wrap mb-0">No ship selected.</p>
     <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
     <p *ngIf="!dateTimeFound" class="no-wrap">ETA and ETD not set.</p>
-    <button class="btn btn-ssn" disabled="true">
+    <button class="btn btn-ssn" disabled>
       <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Port Call</button>
   </div>
 

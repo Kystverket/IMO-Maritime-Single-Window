@@ -1,13 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCell } from 'ng2-smart-table';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { PortCallClaims } from '../../../../../shared/constants/port-call-claims';
+import { PortCallStatusTypes } from '../../../../../shared/constants/port-call-status-types';
 import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
+import { AccountService } from '../../../../../shared/services/account.service';
+import { ConstantsService } from '../../../../../shared/services/constants.service';
+import { ContentService } from '../../../../../shared/services/content.service';
+import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
+import { PortCallService } from '../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
-  styleUrls: ['./button-row.component.css']
+  styleUrls: ['./button-row.component.css'],
+  providers: [ConstantsService]
 })
 export class ButtonRowComponent implements ViewCell, OnInit {
 
@@ -16,9 +23,34 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
+  overviewData: any[];
+
+  permissions = PortCallClaims.buttonRowPermissions;
+  portCallIsDraft: boolean = false;
+  portCallIsCancelled: boolean = false;
+
+  constructor(private constantsService: ConstantsService, private accountService: AccountService, private overviewService: PortCallOverviewService, private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    this.portCallIsDraft = (this.rowData.overviewModel.status == PortCallStatusTypes.DRAFT);
+    this.portCallIsCancelled = (this.rowData.overviewModel.status == PortCallStatusTypes.CANCELLED);
+    this.accountService.userClaimsData$.subscribe(
+      userClaims => {
+        if (userClaims) {
+          let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
+          var keys = Object.keys(this.permissions);
+          keys.forEach(key => {
+            this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
+          });
+        }
+      }
+    );
+
+    this.overviewService.overviewData$.subscribe(
+      results => {
+        if (results) this.overviewData = results;
+      }
+    )
   }
 
   onViewClick() {
@@ -31,6 +63,35 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   onClearanceClick() {
     this.setContent('Port Call Clearance');
+  }
+
+  onCancelClick(content: any) {
+    this.modalService.open(content);
+  }
+
+  onDeleteClick(content: any) {
+    this.modalService.open(content);
+  }
+
+  cancelPortCall() {
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
+    let pcId = this.rowData.overviewModel.portCall.portCallId;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId == pcId).status = "Cancelled";
+    this.overviewService.setOverviewData(this.overviewData);
+  }
+
+  deletePortCall() {
+    this.portCallService.deletePortCallDraft(this.rowData.overviewModel.portCall).subscribe(
+      deleteResponse => {
+        if (deleteResponse) {
+          console.log(deleteResponse);
+          let newOverviewData = this.overviewData.filter(row => row !== this.rowData);
+          this.overviewService.setOverviewData(newOverviewData);
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
   }
 
   private setContent(content: string) {  // NEW CLEANUP
@@ -73,15 +134,15 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         if (detailsData) {
           this.portCallService.setDetails(detailsData)
         }
-        else { 
+        else {
           console.log("No details information has been registered for this port call.");
           let portCallDetails = new PortCallDetailsModel();
           portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
           portCallDetails.portCallId = this.rowData.overviewModel.portCall.portCallId;
           this.portCallService.setDetails(portCallDetails);
         }
-        this.contentService.setContent(content);        
-      
+        this.contentService.setContent(content);
+
       },
       error => {
         console.log("Get Details Error: ", error);

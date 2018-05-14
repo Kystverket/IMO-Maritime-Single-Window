@@ -39,6 +39,15 @@ namespace IMOMaritimeSingleWindow.Repositories
                 .FirstOrDefault();
         }
 
+        public Role GetRole(Guid userId)
+        {
+            var user = Get(userId);
+            return Context.Set<Role>()
+                .Where(rol => rol.RoleId == user.RoleId)
+                .FirstOrDefault();
+        }
+
+
         public void AddPassword(User user, string passwordHash)
         {
             var passwordEntry = Context.Set<Password>().Add(new Password { Hash = passwordHash });
@@ -50,6 +59,11 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IQueryable<User> GetIqueryAble()
         {
             return Context.Set<User>().AsQueryable();
+        }
+
+        public void Update(User user)
+        {
+            Context.Set<User>().Update(user);
         }
 
 

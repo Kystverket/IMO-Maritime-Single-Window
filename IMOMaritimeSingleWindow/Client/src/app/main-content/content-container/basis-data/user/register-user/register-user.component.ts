@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { UserService } from '../../../../../shared/services/user.service';
 import { UserModel } from '../../../../../shared/models/user-model';
 import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
+import { AuthService } from '../../../../../shared/services/auth-service';
+import { LoginService } from '../../../../../shared/services/login.service';
 
 
 @Component({
@@ -19,6 +22,8 @@ export class RegisterUserComponent implements OnInit {
   companyTerm: string;
   selectedRoles: any;
   roleList: any[];
+  subscription: Subscription;
+  loggedIn: boolean;
   brandNew: boolean;
   errors: string;
   isRequesting: boolean;
@@ -29,11 +34,14 @@ export class RegisterUserComponent implements OnInit {
     firstName: '',
     lastName: ''
   };
+  canClear: boolean;
 
   constructor(
     private userModel: UserModel,
     private userService: UserService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private authService: AuthService,
+    private loginService: LoginService
     ) { }
 
     logUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
@@ -58,12 +66,27 @@ export class RegisterUserComponent implements OnInit {
     }
   }
 
+  canSetPortCallClearance(): void {
+    if (!this.loggedIn) {
+      return;
+    }
+    this.authService.canSetClearance().subscribe(
+      result => {
+        if (result) {
+          console.log(result);
+          this.canClear = true;
+        }
+      }, error => {
+          console.log(error.status);
+      }
+    );
+  }
+
   ngOnInit() {
-    /*
+    this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
-    */
   }
 
 

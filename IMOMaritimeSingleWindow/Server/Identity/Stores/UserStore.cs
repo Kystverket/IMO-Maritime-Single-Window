@@ -16,14 +16,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly RoleStore _roleStore;
 
         public UserStore(
             UnitOfWork unitOfWork,
+            RoleStore roleStore,
             IMapper mapper = default
             )
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _roleStore = roleStore;
         }
 
 
@@ -59,26 +62,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            Debug.WriteLine("my method is called!");
-
-            //var _user = _mapper.Map<User>(user);
-            Person person = new Person
-            {
-                FirstName = user.FirstName
-            };
+            
+            Person person = _mapper.Map<ApplicationUser, Person>(user);
 
             Password password = new Password
             {
                 Hash = user.PasswordHash
             };
 
-            var _user = new User
-            {
-                Email = user.Email,
-                NormalizedEmail = user.NormalizedEmail,
-                Person = person,
-                Password = password
-            };
+            var _user = _mapper.Map<ApplicationUser, User>(user);
+            _user.Person = person;
+            _user.Password = password;
 
             _unitOfWork.Users.Add(_user);
 
@@ -97,6 +91,20 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
 
+        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        {
+            if (!HasPassword(user).GetAwaiter().GetResult())
+                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
+            else
+            {
+                var passwordHash = GetPasswordHashAsync(user).GetAwaiter().GetResult();
+
+                var appUser = _mapper.Map<ApplicationUser>(user);
+                SetPasswordHashAsync(appUser, passwordHash).GetAwaiter().GetResult();
+                return Task.FromResult(appUser);
+            }
+        }
+        
         public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -109,7 +117,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = _mapper.Map<ApplicationUser>(_user);
+            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
             return Task.FromResult(appUser);
         }
 
@@ -124,7 +132,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = _mapper.Map<ApplicationUser>(_user);
+            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
             return Task.FromResult(appUser);
         }
 
@@ -198,7 +206,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             var appUserList = new List<ApplicationUser>();
             foreach (var user in userList)
             {
-                var appUser = _mapper.Map<ApplicationUser>(user);
+                var appUser = ConvertToApplicationUser(user).GetAwaiter().GetResult();
                 appUserList.Add(appUser);
             }
             return appUserList.AsQueryable();

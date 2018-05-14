@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Models;
 using System.Threading;
 
 namespace IMOMaritimeSingleWindow.Identity.Stores
@@ -18,6 +19,20 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             }
             user.PasswordHash = passwordHash;
             return Task.CompletedTask;
+        }
+
+        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
+        {
+            if (HasPassword(user).GetAwaiter().GetResult())
+            {
+                Password password = _unitOfWork.Passwords.Get(user.PasswordId.Value);
+                string passwordHash = password.Hash;
+                return Task.FromResult<string>(passwordHash);
+            } else
+            {
+                throw new NullReferenceException(nameof(user.PasswordId));
+            }
+            
         }
 
         public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken = default)
@@ -37,6 +52,11 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult(false);
             return Task.FromResult(_user.PasswordHash != null);
+        }
+
+        public Task<bool> HasPassword(User user, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(user.PasswordId.HasValue);
         }
     }
 }

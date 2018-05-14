@@ -9,9 +9,9 @@
   <div *ngFor="let entry of falForms">
     <div class="row mb-3" *ngIf="entry.checked">
       <div class="col">
-        <table-card title="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
+        <table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
           <div [ngSwitch]="entry.name">
-            <div *ngSwitchDefault class="text-center mt-3">
+            <div *ngSwitchDefault class="text-center my-3">
               <img src="{{iconPath}}warning.png" height="24px" />
               <span class="no-wrap">{{ entry.name }} information</span>
               <span class="no-wrap">is marked for delivery,</span>

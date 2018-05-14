@@ -25,7 +25,6 @@ namespace IMOMaritimeSingleWindow.Repositories
                     Claim = claim
                 });
             }
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Claim> GetClaimsForRole(Guid roleId)
