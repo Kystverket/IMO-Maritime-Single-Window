@@ -47,20 +47,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(claims);
         }
         */
-
-        [HttpPost("getuserclaims")]
-        public async Task<JsonResult> GetUserClaims([FromBody]UserViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return new JsonResult(null);
-            var userIdentity = _mapper.Map<ApplicationUser>(model);
-            var user = await _userManager.FindByNameAsync(userIdentity.UserName);
-            //var claims = await _userRoleManager.GetClaimsAsync(user);
-            var claims = "";
-            return Json(claims);
-        }
-
-
+        
         [HttpGet("getuserclaims/{userName}")]
         public async Task<JsonResult> GetUserClaims(string userName)
         {

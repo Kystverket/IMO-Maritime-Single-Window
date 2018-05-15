@@ -4,5 +4,6 @@ export class ShipOverviewModel {
     ship: ShipModel;
     country: any;
     shipType: any;
+    shipStatus: any;
     contactList: any;
 }

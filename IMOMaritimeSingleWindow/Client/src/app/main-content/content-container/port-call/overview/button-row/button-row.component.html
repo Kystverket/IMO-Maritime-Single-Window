@@ -1,7 +1,7 @@
 <div class="d-table">
   <div class="d-table-row">
 
-    <div class="d-table-cell pl-1">
+    <div class="d-table-cell pl-1" *ngIf="permissions.view">
       <button class="btn btn-sm btn-ssn" (click)="onViewClick()">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/eye.png' height='20px' />
@@ -10,8 +10,15 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1">
-      <button class="btn btn-sm btn-ssn" (click)="onEditClick()">
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/edit.png' height='20px' />
+        </div>
+        <small class="text-center text-white">EDIT</small>
+      </button>
+
+      <button class="btn btn-sm btn-ssn" (click)="onEditClick()" *ngIf="!portCallIsCancelled">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/edit.png' height='20px' />
         </div>
@@ -19,8 +26,15 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1">
-      <button class="btn btn-sm btn-ssn" (click)="onClearanceClick()">
+    <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/stamp.png' height='20px' />
+        </div>
+        <small class="text-center text-white">CLEAR</small>
+      </button>
+
+      <button class="btn btn-sm btn-ssn" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/stamp.png' height='20px' />
         </div>
@@ -28,18 +42,42 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1">
-      <button class="btn btn-sm btn-ssn" (click)="onCancelClick(content)">
+    <div class="d-table-cell pl-1" *ngIf="permissions.cancel && !portCallIsDraft">
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsDraft || portCallIsCancelled" disabled>
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/cancel.png' height='20px' />
+        </div>
+        <small class="text-center text-white">CANCEL</small>
+      </button>
+
+      <button class="btn btn-sm btn-ssn" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
         <div class="mx-auto">
           <img src='assets/images/VoyageIcons/128x128/white/cancel.png' height='20px' />
         </div>
         <small class="text-center text-white">CANCEL</small>
       </button>
     </div>
+
+    <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft && !portCallIsCancelled">
+      <button class="btn btn-sm btn-ssn" *ngIf="!portCallIsDraft || portCallIsCancelled" disabled>
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/trash.png' height='20px' />
+        </div>
+        <small class="text-center text-white">DELETE</small>
+      </button>
+
+      <button class="btn btn-sm btn-ssn" (click)="onDeleteClick(deleteModal)" *ngIf="!(!portCallIsDraft || portCallIsCancelled)">
+        <div class="mx-auto">
+          <img src='assets/images/VoyageIcons/128x128/white/trash.png' height='20px' />
+        </div>
+        <small class="text-center text-white">DELETE</small>
+      </button>
+    </div>
+
   </div>
 </div>
 
-<ng-template #content let-close="close">
+<ng-template #cancelModal let-close="close">
   <div class="modal-header">
     <h4 class="modal-title">Cancel Port Call</h4>
     <button type="button" class="close" aria-label="Close" (click)="close()">
@@ -50,13 +88,38 @@
     <div>
       <span>Are you sure you wish to cancel this port call?</span>
       <br>
-      <pre></pre>
+      <span>This action cannot be undone.</span>
     </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="cancelPortCall(); close()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
       <span>Cancel Port Call</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close()">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Port Call</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>Are you sure you wish to delete this port call?</span>
+      <br>
+      <span>This action cannot be undone.</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="deletePortCall(); close()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <span>Delete Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close()">
       <span>Exit</span>

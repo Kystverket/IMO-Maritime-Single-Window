@@ -11,12 +11,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
- 
+
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
     //[Authorize]
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     public class AccountController : Controller
     {
         private readonly open_ssnContext open_ssnContext;
@@ -38,12 +38,14 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
+
+
         //[Authorize(Roles = "admin")]
         // POST api/accounts/register
         [HttpPost("register")]
         public async Task<IActionResult> RegisterR([FromBody]RegistrationViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var userIdentity = _mapper.Map<ApplicationUser>(model);
@@ -78,10 +80,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             //TODO: Implement functionality for sending email to user with new account
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             return new OkObjectResult("Account created");
         }
-        
+
         // POST api/accounts/register
         [HttpPost("registerwithpw")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
@@ -98,7 +100,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             //Create the Person associated with the ApplicationUser 
-            
+
 
             return new OkObjectResult("Account created");
         }
@@ -110,13 +112,22 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
+            roleNames.Remove("super_admin");
             return Ok(roleNames);
-            return Ok("temporarily passes");
-            var rolesQueryAble = _roleManager.Roles;
-            var roles = from role in rolesQueryAble
-                        select role.Name;
-            
-            return Json(roles);
+        }
+
+        [Authorize]
+        [HttpGet("user/claims")]
+        public async Task<IActionResult> GetUserClaims()
+        {
+            var userIdClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Id).FirstOrDefault();
+            if (userIdClaim == null)
+                return new BadRequestObjectResult("id not present on jwt");
+            var userId = userIdClaim.Value;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            var claims = await _userManager.GetClaimsAsync(user);
+            return Json(claims);
         }
 
         [Authorize(Roles = "admin")]

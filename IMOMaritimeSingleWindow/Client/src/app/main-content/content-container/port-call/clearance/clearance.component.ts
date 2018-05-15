@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ContentService } from '../../../../shared/services/content.service';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PortCallService } from '../../../../shared/services/port-call.service';
 import { ClearanceModel } from '../../../../shared/models/clearance-model';
+import { ContentService } from '../../../../shared/services/content.service';
+import { PortCallService } from '../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-clearance',
@@ -22,12 +22,16 @@ export class ClearanceComponent implements OnInit {
   ngOnInit() {
     this.portCallService.clearanceListData$.subscribe(
       data => {
-        if (data) this.clearanceList = data;
-      }
-    )
-    this.portCallService.clearanceData$.subscribe(
-      data => {
-        if (data) this.clearanceModel = data;
+        if (data) {
+          this.clearanceList = data;
+          this.portCallService.clearanceData$.subscribe(
+            clearanceUser => {
+              if (clearanceUser) {
+                this.clearanceModel = this.clearanceList.find(cl => cl.organizationId === clearanceUser.organizationId);
+              }
+            }
+          )
+        }
       }
     );
   }
@@ -37,7 +41,7 @@ export class ClearanceComponent implements OnInit {
     this.modalService.open(content);
   }
 
-  saveClearance() {    
+  saveClearance() {
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
   }

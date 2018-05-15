@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-4">
+    <ssn-card header='Register New Ship' icon='ship.png'>
+      <div class="text-center">
+        <button class="btn btn-ssn" (click)="registerNewShip()">Register New Ship</button>
+      </div>
+    </ssn-card>
+  </div>
+</div>
+<ssn-card header="Ship Search" icon="ship.png">
+  <ng-template #rt let-r="result" let-t="term">
+    <div class="">
+      <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+      <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
+      <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
+      <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
+      <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
+    </div>
+  </ng-template>
+
+  <div *ngIf="!shipFound" class="text-center">
+    <label>View information about existing ships.</label>
+    <br>
+    <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number:</label>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <input id="find-ship" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipModel" [ngbTypeahead]="search"
+          [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectShip($event)" />
+      </div>
+      <div class="col-2">
+        <div *ngIf="searching">
+          <img class="mx-auto" src="assets/images/animations/ship.gif" height="32px">
+          <p>Searching</p>
+        </div>
+        <div *ngIf="searchFailed">
+          <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+          <p>No results</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="shipFound" class="text-center">
+    <button class="btn btn-ssn" (click)="deselectShip()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+</ssn-card>
+<div class="jumbotron bg-ssn-light" *ngIf="shipFound">
+  <div class="row mb-3">
+    <div class="col">
+      <table-card header="Ship" icon="ship.png">
+        <tbody>
+          <tr>
+            <td>
+              <img *ngIf="shipFlag" src="assets/images/Flags/128x128/{{shipFlag | lowercase}}.png" class="my-2" height="32px">
+            </td>
+            <td *ngFor="let entry of shipInfo" class="no-wrap px-1 mx-1">
+              <tr>
+                <small>{{ entry.description }}</small>
+              </tr>
+              <tr>{{ entry.data }}</tr>
+            </td>
+          </tr>
+        </tbody>
+      </table-card>
+      <table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
+        <tbody *ngIf="shipHasContactInfo">
+          <tr>
+            <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
+              <tr>
+                <small>{{ entry.description }}
+                  <span *ngIf="entry.isPreferred"> (preferred)</span>
+                </small>
+              </tr>
+              <tr>{{ entry.data }}</tr>
+            </td>
+          </tr>
+        </tbody>
+        <tbody class="text-center" *ngIf="!shipHasContactInfo">
+          <div class="my-3">
+            <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
+            <span>No contact information for this ship has been provided.</span>
+          </div>
+        </tbody>
+      </table-card>
+    </div>
+  </div>
+</div>

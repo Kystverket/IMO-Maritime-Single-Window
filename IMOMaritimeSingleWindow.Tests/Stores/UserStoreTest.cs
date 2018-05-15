@@ -9,6 +9,7 @@ using IMOMaritimeSingleWindow.ViewModels.Mappings;
 
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
+using IMOMaritimeSingleWindow.Tests.Constants;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using NUnit.Framework;
@@ -19,7 +20,7 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
 
     public class UserStoreTest : UserTestBase
     {
-        public UserStoreTest() : base(){ }
+        public UserStoreTest() : base(InMemoryDatabaseTypes.CLEAN){ }
 
 
         //Make a clean state between each test

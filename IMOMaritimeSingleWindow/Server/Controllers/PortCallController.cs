@@ -9,6 +9,7 @@ using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -30,13 +31,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipType)
             .Include(pc => pc.Ship.ShipFlagCode.Country)
             .Include(pc => pc.Ship.ShipContact)
+            .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
-            overview.ShipOverview = new ShipOverview { Ship = portCall.Ship, ShipType = portCall.Ship.ShipType, Country = portCall.Ship.ShipFlagCode.Country, ContactList = portCall.Ship.ShipContact.ToList() };
+            overview.ShipOverview = new ShipOverview
+            {
+                Ship = portCall.Ship,
+                ShipType = portCall.Ship.ShipType,
+                Country = portCall.Ship.ShipFlagCode.Country,
+                ShipStatus = portCall.Ship.ShipStatus,
+                ContactList = portCall.Ship.ShipContact.ToList()
+            };
             overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
@@ -48,19 +57,70 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("overview/{portCallId}")]
         public IActionResult GetOverviewJson(int portCallId)
         {
-            var timeStart = DateTime.Now;
             var overview = GetOverview(portCallId);
-            Console.WriteLine("\n\n\n" + (DateTime.Now - timeStart) + "\n\n\n");            
             return Json(overview);
         }
 
 
-        // [HttpGet("overview/{id}")]
-        // public IActionResult GetOverviewJson(int id)
-        // {
-        //     PortCallOverview overview = GetOverview(id);
-        //     return Json(overview);
-        // }
+        [Authorize]
+        [HttpGet("foruser")]
+        public IActionResult GetPortCallsByUser()
+        {
+            List<PortCall> portCallList = new List<PortCall>();
+            var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+            var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
+
+            var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
+                                    .Include(u => u.Organization.OrganizationType)
+                                    .FirstOrDefault();
+
+            switch (userRole)
+            {
+                // Super Admin
+                case Constants.Strings.UserRoles.SuperAdmin:
+                    portCallList = _context.PortCall.ToList();
+                    break;
+                // Admin
+                case Constants.Strings.UserRoles.Admin:
+                    portCallList = _context.PortCall.ToList();
+                    break;
+                // Agent                    
+                case Constants.Strings.UserRoles.Agent:
+                    portCallList = _context.OrganizationPortCall.Where(opc => opc.OrganizationId == dbUser.OrganizationId)
+                                                                .Select(opc => opc.PortCall)
+                                                                .Union(_context.PortCall.Where(pc => pc.UserId != null && pc.UserId.ToString().Equals(userId))).ToList();
+                    break;
+                // Customs
+                case Constants.Strings.UserRoles.Customs:
+                    portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            ).Select(opc => opc.PortCall).ToList();
+                    break;
+                // Health agency
+                case Constants.Strings.UserRoles.HealthAgency:
+                    portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            ).Select(opc => opc.PortCall).ToList();
+                    break;
+                // Other government agencies not listed in Constants.Strings.UserRoles
+                default:
+                    if (dbUser.Organization.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY)
+                    {
+                        portCallList = _context.OrganizationPortCall
+                                            .Where(opc =>
+                                            opc.OrganizationId == dbUser.OrganizationId
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            ).Select(opc => opc.PortCall).ToList();
+                    }
+                    break;
+
+            }
+            return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
+        }
 
         [HttpPost("update")]
         public IActionResult Update([FromBody] PortCall portCall)
@@ -85,8 +145,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("updatestatus/actual/{portCallId}")]
-        public IActionResult SetStatusActual(int portCallId)
+        [HttpPost("updatestatus/active/{portCallId}")]
+        public IActionResult SetStatusActive(int portCallId)
         {
             try
             {
@@ -95,7 +155,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
-                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTUAL;
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTIVE;
                 _context.Update(portCall);
                 _context.SaveChanges();
                 return Json(portCall);
@@ -129,33 +189,62 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] PortCall portCall)
+        [Authorize]
+        [HttpPost("delete")]
+        public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
-            if (portCall == null)
-            {
-                return BadRequest("Empty body.");
-            }
-
+            Console.WriteLine(portCall.PortCallId + "\n" + portCall.UserId.ToString());
             try
             {
-                EntityEntry portCallEntity = _context.PortCall.Add(portCall);
-                _context.SaveChanges();
-
-                if (portCallEntity.Member("PortCallId") != null)
+                var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+                var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
+                if (userRole.Equals(Constants.Strings.UserRoles.Admin) || (portCall.UserId != null && portCall.UserId.ToString().Equals(userId)))
                 {
-                    portCall.PortCallId = (int)portCallEntity.Member("PortCallId").CurrentValue;
-                    return Json(portCall);
+                    PortCall removePortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId)
+                                                        .Include(pc => pc.PortCallDetails)
+                                                        .Include(pc => pc.OrganizationPortCall)
+                                                        .Include(pc => pc.PortCallHasPortCallPurpose)
+                                                        .Include(pc => pc.CustomsCargo)
+                                                        .Include(pc => pc.DpgOnBoard).FirstOrDefault();
+                    _context.PortCallDetails.RemoveRange(removePortCall.PortCallDetails.AsEnumerable());
+                    _context.OrganizationPortCall.RemoveRange(removePortCall.OrganizationPortCall.AsEnumerable());
+                    _context.PortCallHasPortCallPurpose.RemoveRange(removePortCall.PortCallHasPortCallPurpose.AsEnumerable());
+                    _context.CustomsCargo.RemoveRange(removePortCall.CustomsCargo.AsEnumerable());
+                    _context.DpgOnBoard.RemoveRange(removePortCall.DpgOnBoard.AsEnumerable());
+                    _context.PortCall.Remove(removePortCall);
+
+                    _context.SaveChanges();
+                    return Json("Port call deleted.");
                 }
+                return BadRequest("Delete request denied: you must either be an administrator or the user who created the port call in order to delete it.");
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {
                 Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
                 return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
             }
+        }
 
-            return BadRequest("Port call id not set");
+
+        [Authorize]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] PortCall portCall)
+        {
+            try
+            {
+                var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+                portCall.UserId = Guid.Parse(userId);
+                var statusDraftId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
+                portCall.PortCallStatusId = statusDraftId;
+                _context.PortCall.Add(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
         }
 
 

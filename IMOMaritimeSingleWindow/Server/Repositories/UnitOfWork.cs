@@ -19,6 +19,7 @@ namespace IMOMaritimeSingleWindow.Repositories
             Persons = new PersonRepository(_context);
             Roles = new RoleRepository(_context);
             ClaimTypes = new ClaimTypeRepository(_context);
+            Claims = new ClaimRepository(_context);
         }
 
         public IUserRepository<Guid> Users { get; private set; }
@@ -27,6 +28,7 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IPasswordRepository<Guid> Passwords { get; private set; }
         public IPersonRepository<Guid> Persons { get; private set; }
         public IClaimTypeRepository<Guid> ClaimTypes { get; private set; }
+        public IClaimRepository<Guid> Claims { get; private set; }
 
         public int Complete()
         {
@@ -37,8 +39,30 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             _context.Dispose();
         }
-        
-         public IEnumerable<Claim> GetClaimsForUser(Guid userId)
+
+        public IEnumerable<System.Security.Claims.Claim> GetAllClaims()
+        {
+            var claims = (from c in _context.Claim
+                      join ct in _context.ClaimType
+                      on c.ClaimTypeId equals ct.ClaimTypeId
+                      select new System.Security.Claims.Claim(ct.Name, c.ClaimValue))
+                      .AsEnumerable();
+            return claims;
+        }
+
+
+        public IEnumerable<Claim> GetClaimsByType(string typeName)
+        {
+            var claimType = ClaimTypes.Find(ct => typeName.Equals(ct.Name)).FirstOrDefault();
+            if (claimType == null)
+            {
+                throw new ArgumentException("Claim type " + typeName + " does not exist.");
+            }
+            var claims = Claims.Find(c => c.ClaimTypeId == claimType.ClaimTypeId);
+            return claims;
+        }
+
+        public IEnumerable<Claim> GetClaimsForUser(Guid userId)
         {
             var user = Users.Get(userId);
             if (user == null)
@@ -49,12 +73,6 @@ namespace IMOMaritimeSingleWindow.Repositories
             var claims = RoleClaims.GetClaimsForRole(roleId.Value);
             return claims;
         }
-        /*
-        public IEnumerable<Claim> GetClaimsForUser(Guid userId)
-        {
-            return null;
-        }
-        */
 
         public IEnumerable<System.Security.Claims.Claim> GetSystemClaims(IEnumerable<Claim> claims)
         {

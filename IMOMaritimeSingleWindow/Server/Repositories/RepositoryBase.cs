@@ -21,11 +21,7 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public void Add(TEntity entity)
         {
-            var dbSet = Context.Set<TEntity>();
-            //if (dbSet.Any())
-            //    dbSet.Update(entity);
-            //else
-                dbSet.Add(entity);
+            Context.Set<TEntity>().Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)

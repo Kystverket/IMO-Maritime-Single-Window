@@ -9,6 +9,7 @@ const MMSI_NO = "MMSI no:";
 const GROSS_TONNAGE = "Gross Tonnage:";
 const LENGTH = "Length:";
 const SHIP_TYPE = "Ship Type:";
+const SHIP_STATUS = "Ship Status:"
 
 const LOCATION = "Location:";
 const LOCATION_CODE = "Location Code:";
@@ -34,6 +35,7 @@ export class InfoComponent implements OnInit {
     { description: GROSS_TONNAGE, data: null },
     { description: LENGTH, data: null },
     { description: SHIP_TYPE, data: null },
+    { description: SHIP_STATUS, data: null }
   ];
 
   shipContactInfo: any[] = [];
@@ -47,6 +49,8 @@ export class InfoComponent implements OnInit {
 
   contactMediumList: any;
 
+  shipHasContactInfo: boolean = false;
+
   constructor(private constantsService: ConstantsService, private portCallService: PortCallService) { }
 
   ngOnInit() {
@@ -56,6 +60,7 @@ export class InfoComponent implements OnInit {
         if (shipData) {
           if (shipData.country) this.shipFlag = shipData.country.twoCharCode.toLowerCase();
           if (shipData.shipType) this.portCallShipInfo.find(p => p.description == SHIP_TYPE).data = shipData.shipType.name;
+          if (shipData.shipStatus) this.portCallShipInfo.find(p => p.description == SHIP_STATUS).data = shipData.shipStatus.name;
           this.portCallShipInfo.find(p => p.description == SHIP_NAME).data = shipData.ship.name;
           this.portCallShipInfo.find(p => p.description == CALL_SIGN).data = shipData.ship.callSign;
           this.portCallShipInfo.find(p => p.description == IMO_NO).data = shipData.ship.imoNo;
@@ -63,15 +68,14 @@ export class InfoComponent implements OnInit {
           this.portCallShipInfo.find(p => p.description == GROSS_TONNAGE).data = shipData.ship.grossTonnage;
           this.portCallShipInfo.find(p => p.description == LENGTH).data = shipData.ship.length;
           this.constantsService.getContactMediumList().subscribe(
-            results => {
+            results => {              
               if (results) {
                 this.contactMediumList = results;
                 if (shipData && shipData.contactList != null && shipData.contactList.length > 0) {
+                  this.shipHasContactInfo = true;
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipData.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {
-                      console.log(value);
-                      
                       this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
                     }
                   });
