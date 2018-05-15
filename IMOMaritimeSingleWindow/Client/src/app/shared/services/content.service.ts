@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
-import { BaseService } from './base.service';
 import { AccountService } from './account.service';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>('Port Call');
+    private contentSource = new BehaviorSubject<string>('Organization');
     contentName$ = this.contentSource.asObservable();
 
     private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
     portCallFormName$ = this.portCallFormSource.asObservable();
 
-    constructor(private accountService: AccountService){
+    constructor(private accountService: AccountService) {
         super();
     }
 
@@ -26,5 +25,5 @@ export class ContentService extends BaseService {
         this.portCallFormSource.next(contentName);
     }
 
-    
+
 }

@@ -59,7 +59,10 @@
               <tr>
                 <small>{{ entry.description }}</small>
               </tr>
-              <tr>{{ entry.data }}</tr>
+              <tr *ngIf="entry.data">{{ entry.data }}</tr>
+              <tr *ngIf="!entry.data">
+                <div class="font-italic">Not provided.</div>
+              </tr>
             </td>
           </tr>
         </tbody>
