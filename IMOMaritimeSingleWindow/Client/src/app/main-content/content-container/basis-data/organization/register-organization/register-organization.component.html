@@ -79,11 +79,11 @@
   <div class="row">
     <div class="col">
       <ssn-card header="Confirm Organization Registration" icon="checkmark.png">
-        <div *ngIf="!organizationTypeSelected || !organizationModel.name || 0 === organizationModel.name.length || !organizationModel.organizationNo || 0 === organizationModel.organizationNo.length"
+        <div *ngIf="!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo"
           class="text-center">
           <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
-          <p *ngIf="!organizationModel.name || 0 === organizationModel.name.length" class="no-wrap mb-0">Organization name not set.</p>
-          <p *ngIf="!organizationModel.organizationNo || 0 === organizationModel.organizationNo.length" class="no-wrap">Organization number not set.</p>
+          <p *ngIf="!organizationModel.name" class="no-wrap mb-0">Organization name not set.</p>
+          <p *ngIf="!organizationModel.organizationNo" class="no-wrap">Organization number not set.</p>
           <button class="btn btn-ssn" disabled>
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
         </div>

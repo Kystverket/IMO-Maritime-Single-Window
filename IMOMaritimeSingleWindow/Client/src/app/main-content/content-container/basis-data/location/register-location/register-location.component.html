@@ -10,36 +10,13 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Location Information" icon="pax.png">
+      <ssn-card header="Location Information" icon="pax.png">
         <form>
 
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="location_name">Location Name</label>
-                <div class="col">
-                  <input [(ngModel)]="locationModel.name" name="locationName" type="text" class="form-control form-control-sm" id="location_name"
-                    placeholder="Enter location name" />
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6">
-              <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="location_code">Location Code</label>
-                <div class="col">
-                  <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm" id="location_code"
-                    placeholder="Enter location code" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-
-            <div class="col-lg-6">
-              <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="location_type_dropdown">Location Type</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_type_dropdown">Location Type</label>
                 <div class="col">
                   <div ngbDropdown>
                     <button class="btn btn-sm btn-ssn" id="location_type_dropdown" ngbDropdownToggle> {{ locationTypeDropdownString }}</button>
@@ -50,10 +27,34 @@
                 </div>
               </div>
             </div>
+          </div>
 
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_name">Location Name</label>
+                <div class="col">
+                  <input [(ngModel)]="locationModel.name" name="locationName" type="text" class="form-control form-control-sm" id="location_name"
+                    placeholder="Enter location name" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_code">Location Code</label>
+                <div class="col">
+                  <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm" id="location_code"
+                    placeholder="Enter location code" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
             <div class="col-lg-6" *ngIf="!countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="country_typeahead">Country</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-2 col-xl-2" for="country_typeahead">Country</label>
                 <ng-template #rt let-r="result" let-t="term">{{ r.name }}</ng-template>
                 <div class="col">
                   <input id="country_typeahead" name="country_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedCountry"
@@ -66,10 +67,9 @@
                 </div>
               </div>
             </div>
-
             <div class="col-lg-6" *ngIf="countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="country">Country</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-2 col-xl-2" for="country">Country</label>
                 <div class="col">
                   <div class="input-group">
                     <input id="country" name="country" type="text" class="form-control form-control-sm" [ngModel]="selectedCountry.name" disabled="true"
@@ -83,13 +83,9 @@
                 </div>
               </div>
             </div>
-
-          </div>
-
-          <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="location_post_code">Post Code</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_post_code">Post Code</label>
                 <div class="col">
                   <input [(ngModel)]="locationModel.postCode" name="locationPostCode" type="text" class="form-control form-control-sm" id="location_post_code"
                     placeholder="Enter location post code" />
@@ -106,10 +102,19 @@
   <div class="row">
     <div class="col">
       <div class="text-center">
-          <ssn-card title="Confirm Location Registration" icon="checkmark.png">
-              <button class="btn btn-ssn" (click)="registerLocation()">
-                <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Location</button>
-            </ssn-card>
+        <ssn-card header="Confirm Location Registration" icon="checkmark.png">
+          <div class="text-center" *ngIf="!(locationTypeSelected && locationModel.name && countrySelected)">
+            <p *ngIf="!locationTypeSelected" class="no-wrap mb-0">No location type selected.</p>
+            <p *ngIf="!locationModel.name" class="no-wrap mb-0">No location name set.</p>
+            <p *ngIf="!countrySelected" class="no-wrap mb-0">No country selected.</p>
+            <button class="btn btn-ssn" disabled>
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Location</button>
+          </div>
+          <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected">
+            <button class="btn btn-ssn" (click)="registerLocation()">
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Location</button>
+          </div>
+        </ssn-card>
       </div>
     </div>
   </div>

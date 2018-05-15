@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { title: "USERS", iconPath: this.icon_path + "user.png", componentDescription: "Register User" },
     { title: "SHIPS", iconPath: this.icon_path + "ship.png", componentDescription: "Ship" },
     { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', componentDescription: 'Register Location' },
-    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', componentDescription: 'Register Organization' },
+    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', componentDescription: 'Organization' },
     { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', componentDescription: 'Port Call' }
   ];
 
