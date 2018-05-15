@@ -15,6 +15,7 @@ import { RegisterUserComponent } from './basis-data/user/register-user/register-
 import { UserFormComponent } from './basis-data/user/user-form/user-form.component';
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
+import { ViewOrganizationInfoComponent } from './basis-data/organization/view-organization-info/view-organization-info.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { PortCallModule } from './port-call/port-call.module';
     UserFormComponent,
     LocationFormComponent,
     SearchShipFlagCodeComponent,
-    ViewShipInfoComponent
+    ViewShipInfoComponent,
+    ViewOrganizationInfoComponent
   ],
   exports: [ContentContainerComponent]
 })

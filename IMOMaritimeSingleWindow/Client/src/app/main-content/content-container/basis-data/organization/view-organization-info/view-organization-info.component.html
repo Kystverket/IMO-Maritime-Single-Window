@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-4">
+    <ssn-card header='Register New Organization' icon='pax.png'>
+      <div class="text-center">
+        <button class="btn btn-ssn" (click)="registerNewOrganization()">Register New Organization</button>
+      </div>
+    </ssn-card>
+  </div>
+</div>
+<ssn-card header="Organization Search" icon="pax.png">
+  <div *ngIf="!organizationFound">
+    <app-search-organization></app-search-organization>
+  </div>
+
+  <div *ngIf="organizationFound" class="text-center">
+    <button class="btn btn-ssn" (click)="deselectOrganization()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+  <br>
+
+  <div class="jumbotron bg-ssn-light" *ngIf="organizationFound">
+    <div class="row mb-3">
+      <div class="col">
+        <table-card header="Organization Information" icon="pax.png">
+          <tbody>
+            <tr>
+              <td *ngFor="let entry of organizationInfo" class="no-wrap px-1 mx-1">
+                <tr>
+                  <small>{{ entry.description }}</small>
+                </tr>
+                <tr *ngIf="entry.data">{{ entry.data }}</tr>
+                <tr *ngIf="!entry.data">
+                  <div class="font-italic">Not provided.</div>
+                </tr>
+              </td>
+            </tr>
+          </tbody>
+        </table-card>
+      </div>
+    </div>
+  </div>
+</ssn-card>
