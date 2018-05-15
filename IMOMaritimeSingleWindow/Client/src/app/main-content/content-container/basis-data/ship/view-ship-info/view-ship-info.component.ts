@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { ShipOverviewModel } from '../../../../../shared/models/ship-overview-model';
 import { ConstantsService } from '../../../../../shared/services/constants.service';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
@@ -18,7 +16,7 @@ const SHIP_STATUS = "Ship Status:"
   selector: 'app-view-ship-info',
   templateUrl: './view-ship-info.component.html',
   styleUrls: ['./view-ship-info.component.css'],
-  providers: [ConstantsService, ShipService]
+  providers: [ConstantsService]
 })
 export class ViewShipInfoComponent implements OnInit {
 
@@ -27,12 +25,8 @@ export class ViewShipInfoComponent implements OnInit {
   shipHasContactInfo: boolean = false;
   shipContactInfo: any[] = [];
 
-  shipModel: ShipOverviewModel;
+  shipModel: any;
   shipFound: boolean = false;
-
-  searching: boolean = false;
-  searchFailed: boolean = false;
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   shipInfo: any[] = [
     { description: SHIP_NAME, data: null },
@@ -45,32 +39,8 @@ export class ViewShipInfoComponent implements OnInit {
     { description: SHIP_STATUS, data: null }
   ];
 
-  search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .do((term) => {
-        this.searchFailed = false;
-        if (term.length >= 2) this.searching = true;
-      })
-      .switchMap(term => term.length < 2 ? [] :
-        this.shipService.searchShip(term)
-      )
-      .do((text$) => {
-        this.searching = false;
-        if (text$.length == 0) {
-          this.searchFailed = true;
-        }
-      })
-      .merge(this.hideSearchingWhenUnsubscribed);
-
-  formatter = (x: { shipId: string }) => x.shipId;
-
-  selectShip($event) {
-    this.shipService.setShipOverviewData($event.item);
-  }
-
   deselectShip() {
+    this.shipFound = false;
     this.shipService.setShipOverviewData(null);
   }
 
