@@ -6,7 +6,7 @@ import { AccountService } from './account.service';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>('Register Location');
+    private contentSource = new BehaviorSubject<string>('Port Call');
     contentName$ = this.contentSource.asObservable();
 
     private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
@@ -17,8 +17,6 @@ export class ContentService extends BaseService {
     }
 
     setContent(contentName: string) {
-        //TODO: Check if user has right to access
-        //this.accountService.getAgentRoles();
         this.contentSource.next(contentName);
     }
 
