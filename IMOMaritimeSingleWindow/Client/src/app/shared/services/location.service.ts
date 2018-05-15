@@ -25,12 +25,7 @@ export class LocationService {
     }
 
     public registerLocation(newLocation: LocationModel) {
-        return this.http.post(this.registerLocationUrl, newLocation)
-                .map(res => res.json()).subscribe(
-                    locData => {
-                        console.log(locData);
-                    }
-                );
+        return this.http.post(this.registerLocationUrl, newLocation).map(res => res.json());
     }
 
     public getLocationTypes() {

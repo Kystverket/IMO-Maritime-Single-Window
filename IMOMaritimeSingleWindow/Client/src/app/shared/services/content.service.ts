@@ -17,8 +17,6 @@ export class ContentService extends BaseService {
     }
 
     setContent(contentName: string) {
-        //TODO: Check if user has right to access
-        //this.accountService.getAgentRoles();
         this.contentSource.next(contentName);
     }
 
