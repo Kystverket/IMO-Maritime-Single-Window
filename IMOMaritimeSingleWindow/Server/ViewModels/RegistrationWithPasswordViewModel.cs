@@ -16,5 +16,6 @@ namespace IMOMaritimeSingleWindow.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string RoleName { get; set; }
+        public int OrganizationId { get; set; }
     }
 }

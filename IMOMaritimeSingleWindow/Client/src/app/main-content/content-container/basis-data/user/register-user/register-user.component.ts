@@ -6,15 +6,15 @@ import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
 import { AuthService } from '../../../../../shared/services/auth-service';
 import { LoginService } from '../../../../../shared/services/login.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
 import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
+import { OrganizationService } from '../../../../../shared/services/organization.service';
 
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, UserService, AccountService, ShipService]
+  providers: [UserModel, UserService, AccountService]
 })
 
 export class RegisterUserComponent implements OnInit {
@@ -36,7 +36,8 @@ export class RegisterUserComponent implements OnInit {
     firstName: '',
     lastName: '',
     password: '',
-    roleName: ''
+    roleName: '',
+    organizationId: ''
   };
   isDrafted: boolean;
 
@@ -45,7 +46,8 @@ export class RegisterUserComponent implements OnInit {
     private userService: UserService,
     private accountService: AccountService,
     private authService: AuthService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private organizationService: OrganizationService
     ) { }
 
     saveUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
@@ -126,6 +128,16 @@ export class RegisterUserComponent implements OnInit {
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
+
+    this.organizationService.organizationData$.subscribe(
+      result => {
+        if(result){
+          this.user.organizationId = result.organizationId;
+          console.log(result);
+        }
+      }
+    )
+
   }
 
 
