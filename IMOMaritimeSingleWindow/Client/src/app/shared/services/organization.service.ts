@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, RequestOptions } from "@angular/http";
+import { BehaviorSubject } from "rxjs";
 import { OrganizationModel } from "../models/organization-model";
 import { AuthRequest } from "./auth.request.service";
 import { SearchService } from "./search.service";
@@ -18,6 +19,14 @@ export class OrganizationService {
         this.registerOrganizationUrl = 'api/organization/register';
         this.getOrganizationTypesUrl = 'api/organizationtype/getall';
         this.getOrganizationForUserUrl = 'api/organization/foruser';
+    }
+
+
+    private organizationDataSource = new BehaviorSubject<any>(null);
+    organizationData$ = this.organizationDataSource.asObservable();
+
+    public setOrganizationData(data) {
+        this.organizationDataSource.next(data);
     }
 
     public registerOrganization(newOrganization: OrganizationModel) {

@@ -1,15 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs/Rx';
-
-import { LoginService } from '../../shared/services/login.service';
-import { MenuEntry } from '../../shared/models/menu-entry.interface';
-import { ContentService } from '../../shared/services/content.service';
-import { log } from 'util';
-import { AccountService } from '../../shared/services/account.service';
-import { MenuService } from './menu.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { MenuClaims } from '../../shared/constants/menu-claims';
+import { MenuEntry } from '../../shared/models/menu-entry.interface';
+import { AccountService } from '../../shared/services/account.service';
+import { ContentService } from '../../shared/services/content.service';
+import { LoginService } from '../../shared/services/login.service';
+import { MenuService } from './menu.service';
+
 
 
 @Component({
@@ -30,11 +28,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
-    {title: "USERS",       iconPath: this.icon_path + "user.png",       componentDescription: "Register User" },
-    {title: "SHIPS",       iconPath: this.icon_path + "ship.png",       componentDescription: 'Register Ship' },
-    {title: 'LOCATIONS',   iconPath: this.icon_path + 'location.png',   componentDescription: 'Register Location' },
-    {title: 'ORGANIZATIONS',   iconPath: this.icon_path + 'pax.png',        componentDescription: 'Register Organization' },
-    {title: 'PORT CALL',   iconPath: this.icon_path + 'portcall.png',   componentDescription: 'Port Call' }
+    { title: "USERS", iconPath: this.icon_path + "user.png", componentDescription: "Register User" },
+    { title: "SHIPS", iconPath: this.icon_path + "ship.png", componentDescription: "Ship" },
+    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', componentDescription: 'Register Location' },
+    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', componentDescription: 'Register Organization' },
+    { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', componentDescription: 'Port Call' }
   ];
 
 
@@ -55,14 +53,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     // Populates the menu entry list with the entries the user has access to
 
     this.user_menu_entries = [];
-    for(let menu_entry of this.menu_entries) {
+    for (let menu_entry of this.menu_entries) {
       let title = menu_entry.title;
-      if(this.permissions[title]) {
+      if (this.permissions[title]) {
         this.user_menu_entries
-        .push(this.menu_entries
-          .find(me => me.title == title)
-        );
-      } 
+          .push(this.menu_entries
+            .find(me => me.title == title)
+          );
+      }
     }
 
     /* this.menu_entries = [];
@@ -81,10 +79,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private menuService: MenuService,
     private router: Router
-    ) {
-      
-    }
-    
+  ) {
+
+  }
+
 
   logout() {
     this.loginService.logout();
@@ -99,14 +97,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   permissions = MenuClaims.PERMISSIONS;
 
   ngOnInit() {
-      this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
-      this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
+    this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
+    this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
-      this.accountService.userClaimsData$
+    this.accountService.userClaimsData$
       //.finally(() => this.generateMenu())
       .subscribe(
         userClaims => {
-          if(userClaims) {
+          if (userClaims) {
             let userClaimsTypeMenu = userClaims.filter(
               claim => claim.type == MenuClaims.TYPE
             );
@@ -121,40 +119,40 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       )
 
-      if (this.loggedIn) {
-        this.accountService.getUserName().subscribe(
-          result => {
-            if (result) {
-              this.userName = result;
-            }
+    if (this.loggedIn) {
+      this.accountService.getUserName().subscribe(
+        result => {
+          if (result) {
+            this.userName = result;
           }
-        );
-      }
+        }
+      );
+    }
 
-      // This should instead be executed when database is ready to be queried
-      
-      // Temporarily solution not requiring login in GUI
-      /* if(!this.loginService.isLoggedIn()){
-        this.loginService.login("admin@test.no", "Tester123")
-        .subscribe(
-          result => {
-            if(result)
-              console.log("Login successful");
-            this.generateMenu();
-            //this.getMenuEntries();
-            //this.setMenuEntries();
-          }
-        )
-      } */
+    // This should instead be executed when database is ready to be queried
 
-      /* console.log("ALL ROLES");
-    this.getAllRoles();
-    console.log(this.roles);
+    // Temporarily solution not requiring login in GUI
+    /* if(!this.loginService.isLoggedIn()){
+      this.loginService.login("admin@test.no", "Tester123")
+      .subscribe(
+        result => {
+          if(result)
+            console.log("Login successful");
+          this.generateMenu();
+          //this.getMenuEntries();
+          //this.setMenuEntries();
+        }
+      )
+    } */
 
-    console.log("ROLES FOR USER");
-    this.getRoles();
-    console.log(this.roles); */
-    
+    /* console.log("ALL ROLES");
+  this.getAllRoles();
+  console.log(this.roles);
+
+  console.log("ROLES FOR USER");
+  this.getRoles();
+  console.log(this.roles); */
+
   }
   ngOnDestroy() {
     // prevent memory leak by unsubscribing

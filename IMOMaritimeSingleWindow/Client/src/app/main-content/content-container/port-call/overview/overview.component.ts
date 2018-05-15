@@ -60,7 +60,8 @@ export class OverviewComponent implements OnInit {
         title: 'ETD'
       },
       status: {
-        title: 'Status'
+        title: 'Status',
+        type: 'html'
       },
       actions: {
         title: 'Actions',
@@ -73,7 +74,7 @@ export class OverviewComponent implements OnInit {
     }
   }
 
-  overviewRow(ov) {
+  overviewRow(ov, isCancelled: boolean) {
     let row = {
       overviewModel: ov,
       shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
@@ -83,7 +84,7 @@ export class OverviewComponent implements OnInit {
         + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
       eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
       etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
-      status: ov.status,
+      status: (isCancelled) ? `<div class="text-danger">` + ov.status + `</div>` : ov.status,
       actions: 'btn'
     }
     return row;
@@ -123,7 +124,7 @@ export class OverviewComponent implements OnInit {
               this.overviewService.getOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
-                    let row = this.overviewRow(ov);
+                    let row = this.overviewRow(ov, ov.status == PortCallStatusTypes.CANCELLED);
                     // Case: port call is incomplete (status: draft)
                     if (ov.status == PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
@@ -131,7 +132,7 @@ export class OverviewComponent implements OnInit {
                     // Case: user is a government clearance agency and the port call has already been cleared by the agency
                     else if (this.userIsGovernmentAgency
                       && ov.clearanceList
-                      && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared)) {
+                      && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared != null)) {
                       this.clearedByUserAgencyOverviewList.push(row);
                     }
                     // Case: default

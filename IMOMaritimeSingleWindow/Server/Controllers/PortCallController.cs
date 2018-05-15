@@ -197,7 +197,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-                Console.WriteLine("userId: " + userId);
                 var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
                 if (userRole.Equals(Constants.Strings.UserRoles.Admin) || (portCall.UserId != null && portCall.UserId.ToString().Equals(userId)))
                 {
@@ -211,6 +210,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     _context.OrganizationPortCall.RemoveRange(removePortCall.OrganizationPortCall.AsEnumerable());
                     _context.PortCallHasPortCallPurpose.RemoveRange(removePortCall.PortCallHasPortCallPurpose.AsEnumerable());
                     _context.CustomsCargo.RemoveRange(removePortCall.CustomsCargo.AsEnumerable());
+                    _context.DpgOnBoard.RemoveRange(removePortCall.DpgOnBoard.AsEnumerable());
                     _context.PortCall.Remove(removePortCall);
 
                     _context.SaveChanges();
