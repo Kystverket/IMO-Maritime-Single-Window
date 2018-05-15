@@ -7,6 +7,7 @@ import { AccountService } from '../../../../../shared/services/account.service';
 import { AuthService } from '../../../../../shared/services/auth-service';
 import { LoginService } from '../../../../../shared/services/login.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
 
 
 @Component({
@@ -29,12 +30,15 @@ export class RegisterUserComponent implements OnInit {
   errors: string;
   isRequesting: boolean;
   submitted = false;
-  user: UserModel = {
+  user: UserModelWithPassword = {
     email: '',
     phoneNumber: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    password: '',
+    roleName: ''
   };
+  isDrafted: boolean;
 
   constructor(
     private userModel: UserModel,
@@ -44,11 +48,16 @@ export class RegisterUserComponent implements OnInit {
     private loginService: LoginService
     ) { }
 
-    logUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
+    saveUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
       if (valid) {
-        console.log(value);
+        this.isDrafted = true;
+        console.log("user:", this.user);
+        console.log("is drafted");
       }
-        return null;
+     }
+
+    logUserModel(){
+      console.log(this.user);
     }
 
   registerUser({ value, valid }: { value: UserModel, valid: boolean }) {
@@ -65,6 +74,35 @@ export class RegisterUserComponent implements OnInit {
         );
     }
   }
+
+  registerUserWithPassword() {
+    this.isRequesting = true;
+    this.errors = '';
+    this.accountService.registerUserWithPassword(this.user).subscribe(
+      result => {
+       if (result) {
+         console.log('account created!');
+       }
+      }, error => this.errors = error
+     );
+  }
+
+
+
+  /* registerUserWithPassword({ value, valid }: { value: UserModelWithPassword, valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    if (valid) {
+      this.accountService.registerUserWithPassword(value).subscribe(
+         result => {
+          if (result) {
+            console.log('account created!');
+          }
+         }, error => this.errors = error
+        );
+    }
+  } */
 
 
   /* canSetPortCallClearance(): void {

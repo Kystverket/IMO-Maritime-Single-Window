@@ -7,6 +7,7 @@ using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using IMOMaritimeSingleWindow.Repositories;
+using IMOMaritimeSingleWindow.Identity;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +21,14 @@ namespace IMOMaritimeSingleWindow.Controllers
     public class AccountController : Controller
     {
         private readonly open_ssnContext open_ssnContext;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationUserManager _userManager;
+        private readonly ApplicationRoleManager _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            RoleManager<ApplicationRole> roleManager,
+            ApplicationUserManager userManager,
+            ApplicationRoleManager roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper,
             open_ssnContext open_ssnContext)
@@ -84,6 +85,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
 
+        //[Authorize] // TODO: check if user has user create claim
         // POST api/accounts/register
         [HttpPost("registerwithpw")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
@@ -95,13 +97,18 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
+            var role = await _roleManager.FindByNameAsync(model.RoleName);
+            if(role == null)
+                return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
+
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
-
-            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            //Create the Person associated with the ApplicationUser 
-
-
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            // Add the user to the specified role
+            result = await _userManager.AddToRoleAsync(userIdentity, model.RoleName);
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            
             return new OkObjectResult("Account created");
         }
 

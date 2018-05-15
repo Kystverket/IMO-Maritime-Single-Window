@@ -61,33 +61,40 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-
             
-            Person person = _mapper.Map<ApplicationUser, Person>(user);
-
             Password password = new Password
             {
                 Hash = user.PasswordHash
             };
 
             var _user = _mapper.Map<ApplicationUser, User>(user);
-            _user.Person = person;
             _user.Password = password;
 
+            if (HasPerson(user))
+            {
+                Person person = _mapper.Map<ApplicationUser, Person>(user);
+                _user.Person = person;
+            }
+            
             _unitOfWork.Users.Add(_user);
 
             var objectsAdded = _unitOfWork.Complete();
-            if (objectsAdded < 3)
+            if (objectsAdded ==1)
                 return Task.FromResult(IdentityResult.Failed());
             return Task.FromResult(IdentityResult.Success);
+        }
+
+        public bool HasPerson(ApplicationUser user)
+        {
+            return !String.IsNullOrEmpty(user.FirstName) && !String.IsNullOrEmpty(user.LastName);
         }
 
         public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
-        public Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
-        {
+        
+        public Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default) {
             throw new NotImplementedException();
         }
 

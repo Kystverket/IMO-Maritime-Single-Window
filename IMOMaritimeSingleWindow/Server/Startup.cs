@@ -101,9 +101,9 @@ namespace IMOMaritimeSingleWindow
                 // configure identity options
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 4;
 
                 // Lockout options
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
@@ -118,8 +118,8 @@ namespace IMOMaritimeSingleWindow
             //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
-                builder.AddUserManager<ApplicationUserManager>()
-                .AddRoleManager<ApplicationRoleManager>();
+                //builder.AddUserManager<ApplicationUserManager>()
+                //.AddRoleManager<ApplicationRoleManager>();
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -128,6 +128,9 @@ namespace IMOMaritimeSingleWindow
             //services.AddSingleton<IUnitOfWork<Guid>, UnitOfWork>();
             // services.AddAutoMapper();
             //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
+
+            services.TryAddScoped<ApplicationUserManager>();
+            services.TryAddScoped<ApplicationRoleManager>();
 
             // Tip from https://stackoverflow.com/a/42298278
             var config = new MapperConfiguration(cfg =>

@@ -33,8 +33,8 @@
         <div class="form-group">
           <label class="control-label" for="email">Email</label>
           <div class="col-sm-4">
-            <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" tmFocus validateEmail>
-            <small [hidden]="email.valid || (email.pristine && !submitted)" class="text-danger">Please enter a valid email</small>
+            <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" [email]="true" tmFocus validateEmail>
+            <small [hidden]="email.valid || (email.pristine && !isDrafted )" class="text-danger">Please enter a valid email</small>
           </div>
         </div>
 
@@ -45,9 +45,16 @@
           </div>
         </div>
 
+        <div class="form-group">
+          <label class="control-label" for="password">Password</label>
+          <div class="col-sm-4">
+            <input id="password" type="password" name="password" class="form-control form-control-sm" [(ngModel)]="user.password">
+          </div>
+        </div>
+
         <app-search-organization></app-search-organization>
 
-        <button type="submit" (click)="registerUser(f)" class="btn btn-success" [disabled]="f.invalid || isRequesting">CREATE USER</button>
+        <button type="submit" (click)="saveUserModel(f)" class="btn btn-success" [disabled]="f.invalid || isDrafted">CREATE USER</button>
 
       </form>
     </ssn-card>
@@ -65,10 +72,10 @@
           <span class="no-wrap">Select a role for this user</span>
         </label>
         <ng-select id="roleSelected" [items]="roleList" [multiple]="false" [closeOnSelect]="true" bindLabel="name" placeholder="Select role"
-          [(ngModel)]="selectedRole">
+          [(ngModel)]="user.roleName">
         </ng-select>
 
-      <button class="btn btn-success">Register user</button>
+      <button class="btn btn-success" [disabled]="!isDrafted" (click)="registerUserWithPassword()">Assign role to user</button>
 
     </ssn-card>
     <!-- END SECTION <user role assignment> -->
