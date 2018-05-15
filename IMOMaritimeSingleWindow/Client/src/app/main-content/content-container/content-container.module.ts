@@ -7,7 +7,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
 import { RegisterOrganizationComponent } from './basis-data/organization/register-organization/register-organization.component';
-import { SearchOrganizationComponent } from './basis-data/organization/search-organization/search-organization.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
 import { SearchShipFlagCodeComponent } from './basis-data/ship/search-ship-flag-code/search-ship-flag-code.component';
 import { ViewShipInfoComponent } from './basis-data/ship/view-ship-info/view-ship-info.component';
@@ -37,7 +36,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
     RegisterOrganizationComponent,
     UserFormComponent,
     LocationFormComponent,
-    SearchOrganizationComponent,
     SearchShipFlagCodeComponent,
     ViewShipInfoComponent
   ],

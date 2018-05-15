@@ -25,7 +25,7 @@ export class OrganizationService {
     private organizationDataSource = new BehaviorSubject<any>(null);
     organizationData$ = this.organizationDataSource.asObservable();
 
-    public setOrganizationData(data) {
+    setOrganizationData(data) {
         this.organizationDataSource.next(data);
     }
 
