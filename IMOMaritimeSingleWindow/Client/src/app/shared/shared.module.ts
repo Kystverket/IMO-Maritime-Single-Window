@@ -1,24 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { ClearancesComponent } from './components/confirmation-view/clearances/clearances.component';
 import { ConfirmationViewComponent } from './components/confirmation-view/confirmation-view.component';
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
+import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
+import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
+import { ContactService } from './services/contact.service';
+import { OrganizationService } from './services/organization.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
-import { ContactService } from './services/contact.service';
-import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
-import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, NgSelectModule
+    CommonModule, FormsModule, NgSelectModule, NgbModule
   ],
   declarations: [
     SsnCardComponent,
@@ -32,7 +35,8 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     IntegerValidator,
     ContactSelectComponent,
     SelectedContactMediumsComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    SearchOrganizationComponent
   ],
   exports: [
     SsnCardComponent,
@@ -43,10 +47,11 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     IntegerValidator,
     ContactSelectComponent,
     SelectedContactMediumsComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    SearchOrganizationComponent
   ],
   providers: [
-    ContactService
+    ContactService, OrganizationService
   ],
   entryComponents: [
     ConfirmationModalComponent
