@@ -387,7 +387,7 @@
           <app-search-organization></app-search-organization>
         </div>
 
-        <div *ngIf="organizationSelected">
+        <div *ngIf="organizationSelected" class="text-center">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -404,7 +404,10 @@
               </tbody>
             </table>
           </div>
+          <button class="btn btn-ssn" (click)="deselectOrganization()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
+
 
       </ssn-card>
     </div>
