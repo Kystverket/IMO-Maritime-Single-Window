@@ -383,7 +383,29 @@
   <div class="row">
     <div class="col">
       <ssn-card header="Organization" icon="pax.png">
-        <app-search-organization></app-search-organization>
+        <div *ngIf="!organizationSelected">
+          <app-search-organization></app-search-organization>
+        </div>
+
+        <div *ngIf="organizationSelected">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="bg-ssn text-ssn">
+                  <th>Organization Name</th>
+                  <th>Organization Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ organizationModel.name }}</td>
+                  <td>{{ organizationModel.organizationNo }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </ssn-card>
     </div>
   </div>
