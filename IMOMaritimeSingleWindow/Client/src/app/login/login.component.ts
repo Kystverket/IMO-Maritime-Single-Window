@@ -8,6 +8,7 @@ import { AccountService } from '../shared/services/account.service';
 import { AuthService } from '../shared/services/auth-service';
 import { ContentService } from '../shared/services/content.service';
 import { LoginService } from '../shared/services/login.service';
+import { CONTENT_NAMES } from '../shared/constants/content-names';
 
 @Component({
   selector: 'app-login',
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               // Navigate to root when done
               .finally(() => {
                 this.isRequesting = false;
-                this.contentService.setContent("Port Call");
+                this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
                 this.router.navigate(['']);
               })
               .subscribe(result => {
