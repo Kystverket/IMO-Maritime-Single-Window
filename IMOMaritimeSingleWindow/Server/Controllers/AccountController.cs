@@ -6,8 +6,6 @@ using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
-using IMOMaritimeSingleWindow.Repositories;
-using IMOMaritimeSingleWindow.Identity;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -39,26 +37,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
-        [HttpGet("user/{email}")]
-        public async Task<IActionResult> GetUserByEmail(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            return Json(user);
-        }
-
-        [Authorize(Policy = Policies.SuperAdminRole)]
-        [HttpGet("user/{email}/exists")]
-        public async Task<IActionResult> UserExists(string email)
-        {
-            bool exists = await _userManager.FindByEmailAsync(email) != null;
-            return Json(exists);
-        }
-
-        //[Authorize(Roles = "admin")]
         // POST api/accounts/register
         [HttpPost("register")]
-        public async Task<IActionResult> RegisterR([FromBody]RegistrationViewModel model)
+        public IActionResult RegisterTest([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -67,20 +48,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             return new OkObjectResult("OK");
         }
+        
 
-        [Authorize]
-        [HttpGet("user/name")]
-        public async Task<IActionResult> GetUserName()
-        {
-            var idClaim = User.Claims.FirstOrDefault(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id);
-            var userId = idClaim.Value;
-            var user = await _userManager.FindByIdAsync(userId);
-            return Json(user.UserName);
-        }
-
-        [Authorize(Roles = "admin")]
+        [Authorize(Policy = Policies.SuperAdminRole)]
         // POST api/accounts/register
-        [HttpPost("registerwopw")]
+        [HttpPost("user/")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -99,9 +71,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
 
+        [Authorize(Policy = Policies.SuperAdminRole)]
         //[Authorize] // TODO: check if user has user create claim
         // POST api/accounts/register
-        [HttpPost("registerwithpw")]
+        [HttpPost("user/withpw")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -125,16 +98,43 @@ namespace IMOMaritimeSingleWindow.Controllers
             
             return new OkObjectResult("Account created");
         }
-
+        
 
         //[Authorize(Roles = "admin")]
-        [HttpGet("getrole/all")]
+        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HttpGet("roles")]
         public IActionResult GetAllRoles()
         {
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
             roleNames.Remove("super_admin");
             return Ok(roleNames);
+        }
+
+        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HttpGet("user/{email}/exists")]
+        public async Task<IActionResult> UserExists(string email)
+        {
+            bool exists = await _userManager.FindByEmailAsync(email) != null;
+            return Json(exists);
+        }
+
+        [Authorize]
+        [HttpGet("user/name")]
+        public async Task<IActionResult> GetUserName()
+        {
+            var idClaim = User.Claims.FirstOrDefault(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id);
+            var userId = idClaim.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            return Json(user.UserName);
+        }
+
+        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HttpGet("user/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return Json(user);
         }
 
         [Authorize]
@@ -151,9 +151,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(claims);
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpGet("getrole")]
-        public IActionResult GetRole()
+        [Authorize]
+        [HttpGet("user/role")]
+        public IActionResult GetUserRole()
         {
             var userClaimsPrincipal = Request.HttpContext.User;
             var role = userClaimsPrincipal.Claims

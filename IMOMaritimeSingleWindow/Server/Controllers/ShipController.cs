@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -21,6 +22,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [Authorize(Policy = Policies.SuperAdminRole)]
         [HttpPost("register")]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {

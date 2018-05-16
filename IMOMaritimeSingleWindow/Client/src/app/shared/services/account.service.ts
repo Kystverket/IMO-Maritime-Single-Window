@@ -13,7 +13,8 @@ export class AccountService extends BaseRequest {
     // URLs
     private accountBaseUrl = "/account";
     private actionUrl: string;
-    private registerUrl: string;
+    private registerUserUrl: string;
+    private userUrl: string;
     private rolesUrl: string;
     private organizationForUserUrl: string;
     // Request headers & options
@@ -34,14 +35,25 @@ export class AccountService extends BaseRequest {
         super(configService);
 
         this.actionUrl = this.baseUrl + this.accountBaseUrl;
-        this.registerUrl = this.actionUrl + "/register";
-        this.rolesUrl = this.actionUrl + "/getrole";
+        this.userUrl = this.actionUrl + "/user";
+
+        this.rolesUrl = this.actionUrl + "/roles";
     }
 
     getAllRoles() {
-        return this.http.get(this.rolesUrl + "/all")
+        var auth_headers = this.authRequestService.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers })
+        return this.http.get(this.rolesUrl, options)
             .map(res => res.json());
     }
+
+    getUserRole() {
+        var auth_headers = this.authRequestService.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers })
+        return this.http.get(this.userUrl+"/role")
+            .map(res => res.json());
+    }
+
     getRoles() {
         var auth_headers = this.authRequestService.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers })
@@ -57,7 +69,7 @@ export class AccountService extends BaseRequest {
     getUserClaims() {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
-        return this.http.get(this.actionUrl + "/user/claims", options)
+        return this.http.get(this.userUrl + "/claims", options)
             .map(res => res.json());
     }
     setUserClaims(data) {
@@ -65,12 +77,16 @@ export class AccountService extends BaseRequest {
     }
 
     registerUser(newUser: UserModel) {
-        return this.http.post(this.registerUrl, newUser)
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http.post(this.userUrl, newUser, options)
             .map(res => res.json());
     }
 
     registerUserWithPassword(newUser: UserModelWithPassword) {
-        return this.http.post(this.registerUrl+"withpw", newUser)
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http.post(this.userUrl+"/withpw", newUser, options)
             .map(res => res.json());
     }
 
