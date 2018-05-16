@@ -36,7 +36,6 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallService.shipData$.subscribe(
       shipData => {
         if (shipData) {
-          console.log(shipData);
           this.shipFound = true;
           this.shipModel = shipData;
         } else {
@@ -47,7 +46,6 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallService.locationData$.subscribe(
       locationData => {
         if (locationData) {
-          console.log(locationData);
           this.locationFound = true;
           this.locationModel = locationData;
         } else {
@@ -83,7 +81,6 @@ export class ConfirmDataComponent implements OnInit {
     let etd = new Date(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.etd.day, this.etaEtdModel.etd.hour, this.etaEtdModel.etd.minute);
     this.portCallModel.locationEta = eta;
     this.portCallModel.locationEtd = etd;
-    console.log(this.portCallModel);
     this.portCallService.registerNewPortCall(this.portCallModel).subscribe(
       result => {
         console.log("New port call successfully registered.");

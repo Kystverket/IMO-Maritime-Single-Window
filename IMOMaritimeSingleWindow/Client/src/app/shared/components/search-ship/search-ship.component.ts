@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { ShipService } from '../../services/ship.service';
 
 @Component({
@@ -15,27 +17,31 @@ export class SearchShipComponent implements OnInit {
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+
   constructor(private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .do((term) => {
+    text$.pipe(
+      debounceTime(150),
+      distinctUntilChanged(),
+      tap((term) => {
         this.searchFailed = false;
-        if (term.length >= 2) this.searching = true;
-      })
-      .switchMap(term => term.length < 2 ? [] :
-        this.shipService.searchShip(term)
-      )
-      .do((text$) => {
+        this.searching = (term.length >= 2)
+      }),
+      switchMap(term =>
+        this.shipService.search(term).pipe(
+          tap(() => this.searchFailed = false),
+          catchError(() => {
+            this.searchFailed = true;
+            return of([]);
+          }))
+      ),
+      tap((res) => {
         this.searching = false;
-        if (text$.length == 0) {
-          this.searchFailed = true;
-        }
-      })
-      .merge(this.hideSearchingWhenUnsubscribed)
-
+        this.searchFailed = (this.shipModel.length >= 2 && res.length === 0);
+      }),
+      merge(this.hideSearchingWhenUnsubscribed)
+    );
   formatter = (x: { shipId: string }) => x.shipId;
 
   selectShip($event) {

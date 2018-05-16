@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { ShipProperties } from '../../../../../../shared/constants/ship-properties';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { ShipService } from '../../../../../../shared/services/ship.service';
-import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
 
 @Component({
   selector: 'app-find-ship',
@@ -12,54 +11,44 @@ import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview
 })
 export class FindShipComponent implements OnInit {
 
-  shipModel: ShipOverviewModel;
+  shipFlag: string;
   shipFound: boolean = false;
 
-  searching: boolean = false;
-  searchFailed: boolean = false;
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  shipProperties: any = ShipProperties.PROPERTIES;
+  shipInfo: any[];
 
   constructor(private portCallService: PortCallService, private shipService: ShipService) { }
 
-  search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .do((term) => {
-        this.searchFailed = false;
-        if (term.length >= 2) this.searching = true;
-      })
-      .switchMap(term => term.length < 2 ? [] :
-        this.shipService.searchShip(term)
-      )
-      .do((text$) => {
-        this.searching = false;
-        if (text$.length == 0) {
-          this.searchFailed = true;
-        }
-      })
-      .merge(this.hideSearchingWhenUnsubscribed);
-
-  formatter = (x: { shipId: string }) => x.shipId;
-
-  selectShip($event) {
-    this.portCallService.setShipData($event.item);
-  }
-
   deselectShip() {
-    this.portCallService.setShipData(null);
+    this.shipFound = false;
+    this.shipService.setShipOverviewData(null);
   }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe(
-      shipData => {
-        if (shipData != null) {
+    this.shipService.setShipOverviewData(null);
+    this.shipService.shipOverviewData$.subscribe(
+      shipResult => {
+        if (shipResult) {
+          this.shipFlag = (shipResult.country) ? shipResult.country.twoCharCode.toLowerCase() : null;
+          this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
+          this.shipProperties.SHIP_STATUS.data = (shipResult.shipStatus) ? shipResult.shipStatus.name : null;
+          this.shipProperties.SHIP_NAME.data = shipResult.ship.name;
+          this.shipProperties.CALL_SIGN.data = shipResult.ship.callSign;
+          this.shipProperties.IMO_NO.data = shipResult.ship.imoNo;
+          this.shipProperties.MMSI_NO.data = shipResult.ship.mmsiNo;
+          this.shipProperties.GROSS_TONNAGE.data = shipResult.ship.grossTonnage;
+          this.shipProperties.LENGTH.data = shipResult.ship.length;
+
           this.shipFound = true;
-          this.shipModel = shipData;
+          this.portCallService.setShipData(shipResult);
+
         } else {
           this.shipFound = false;
+          this.shipProperties = ShipProperties.PROPERTIES;
+          this.portCallService.setShipData(null);
         }
+        this.shipInfo = Object.values(this.shipProperties);
       }
-    );
+    )
   }
 }

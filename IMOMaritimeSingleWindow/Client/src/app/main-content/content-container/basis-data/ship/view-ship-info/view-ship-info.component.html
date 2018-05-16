@@ -17,12 +17,13 @@
     <button class="btn btn-ssn" (click)="deselectShip()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
   </div>
+
   <br>
 
   <div class="jumbotron bg-ssn-light" *ngIf="shipFound">
     <div class="row mb-3">
       <div class="col">
-        <table-card header="Ship" icon="ship.png">
+        <table-card header="Ship Information" icon="ship.png">
           <tbody>
             <tr>
               <td>
@@ -30,7 +31,7 @@
               </td>
               <td *ngFor="let entry of shipInfo" class="no-wrap px-1 mx-1">
                 <tr>
-                  <small>{{ entry.description }}</small>
+                  <small>{{ entry.description }}:</small>
                 </tr>
                 <tr *ngIf="entry.data">{{ entry.data }}</tr>
                 <tr *ngIf="!entry.data">
