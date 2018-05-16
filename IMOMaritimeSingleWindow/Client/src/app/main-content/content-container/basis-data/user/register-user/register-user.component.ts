@@ -10,6 +10,7 @@ import { UserModelWithPassword } from '../../../../../shared/models/UserModelWit
 import { OrganizationService } from '../../../../../shared/services/organization.service';
 
 
+
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
@@ -39,7 +40,12 @@ export class RegisterUserComponent implements OnInit {
     roleName: '',
     organizationId: ''
   };
+  organizationName: '';
   isDrafted: boolean;
+  emailTaken: boolean;
+  emailTakenSet: boolean;
+  emailSubmitted: boolean;
+  userRegistrationDisabled: boolean;
 
   constructor(
     private userModel: UserModel,
@@ -62,6 +68,29 @@ export class RegisterUserComponent implements OnInit {
       console.log(this.user);
     }
 
+    hasPhoneNumber() { return this.user.phoneNumber != ''; }
+    hasName() { return this.user.firstName != '' && this.user.lastName != ''; }
+
+    userExists(emailValid: boolean) {
+      if(emailValid){
+        this.emailTakenSet = true;
+        return this.accountService.userExistsByEmail(this.user.email)
+        .subscribe(result => {
+          if(result){
+            this.emailTaken = true;
+          } else {
+            this.emailTaken = false;
+          }
+          this.emailSubmitted = true;
+        })
+      }
+    }
+
+    isEmailTaken() : boolean {
+      return !this.emailTakenSet ? true : this.emailTaken;
+    }
+    setNotSubmitted() { this.emailSubmitted = false; }
+
   registerUser({ value, valid }: { value: UserModel, valid: boolean }) {
     this.submitted = true;
     this.isRequesting = true;
@@ -77,19 +106,57 @@ export class RegisterUserComponent implements OnInit {
     }
   }
 
+  testRegisterUserWithPassword() {
+    this.isRequesting = true;
+    this.errors = '';
+    this.userRegistrationDisabled = true;
+  }
+
   registerUserWithPassword() {
     this.isRequesting = true;
     this.errors = '';
-    this.accountService.registerUserWithPassword(this.user).subscribe(
+    this.accountService.registerUserWithPassword(this.user)
+    .finally( () => { this.userRegistrationDisabled = true; } )
+    .subscribe(
       result => {
        if (result) {
          console.log('account created!');
        }
       }, error => this.errors = error
      );
+     
   }
 
+  startNewUserRegistration() {
+    // Reset variables so that forms appear with fresh values
+    this.resetValues();
+  }
 
+  resetValues() {
+    // Reset variables so that forms appear with fresh values
+    
+    this.selectedRole = '';
+    this.errors = '';
+    this.isRequesting = false;
+    this.submitted = false;
+
+    // Reset user model
+    this.user.email = '';
+    this.user.phoneNumber = '';
+    this.user.firstName = '';
+    this.user.lastName = '';
+    this.user.password = '';
+    this.user.roleName = '';
+    this.user.organizationId = '';
+
+    this.organizationName = '';
+
+    this.isDrafted = false;
+    this.emailTaken = false;
+    this.emailTakenSet = false;
+    this.emailSubmitted = false;
+    this.userRegistrationDisabled = false;
+  }
 
   /* registerUserWithPassword({ value, valid }: { value: UserModelWithPassword, valid: boolean }) {
     this.submitted = true;
@@ -106,23 +173,6 @@ export class RegisterUserComponent implements OnInit {
     }
   } */
 
-
-  /* canSetPortCallClearance(): void {
-    if (!this.loggedIn) {
-      return;
-    }
-    this.authService.canSetClearance().subscribe(
-      result => {
-        if (result) {
-          console.log(result);
-          this.canClear = true;
-        }
-      }, error => {
-          console.log(error.status);
-      }
-    );
-  } */
-
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.accountService.getAllRoles().subscribe(
@@ -133,7 +183,7 @@ export class RegisterUserComponent implements OnInit {
       result => {
         if(result){
           this.user.organizationId = result.organizationId;
-          console.log(result);
+          this.organizationName = result.name;
         }
       }
     )

@@ -82,6 +82,22 @@ export class AccountService extends BaseRequest {
             .map(res => res.json());
     }
 
+    getUserByEmail(email: string) {
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http
+            .get(this.actionUrl + "/user/"+email, options)
+            .map(res => res.json());
+    }
+
+    userExistsByEmail(email: string) {
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http
+            .get(this.actionUrl + "/user/"+email+"/exists", options)
+            .map(res => res.json());
+    }
+
     addToRole(userName: string, roleName: string) {
         /* Not yet implemented
         return this.http.post(url,body)

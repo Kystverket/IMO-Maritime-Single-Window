@@ -85,7 +85,10 @@ namespace IMOMaritimeSingleWindow.Extensions
                 options.AddPolicy("PortCallClearance", policy =>
                     policy.RequireAssertion(_ => true)
                 );
-                options.AddPolicy("AdminRole", policy =>
+                options.AddPolicy(Policies.AdminRole, policy =>
+                    policy.RequireAssertion(_ => true)
+                );
+                options.AddPolicy(Policies.SuperAdminRole, policy =>
                     policy.RequireAssertion(_ => true)
                 );
             });
@@ -141,6 +144,9 @@ namespace IMOMaritimeSingleWindow.Extensions
 
                 options.AddPolicy(Policies.AdminRole, policy =>
                     policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.UserRoles.Admin)
+                );
+                options.AddPolicy(Policies.SuperAdminRole, policy =>
+                    policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.UserRoles.SuperAdmin)
                 );
             });
             

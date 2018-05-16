@@ -55,7 +55,7 @@ namespace IMOMaritimeSingleWindow.Helpers
 
             public static class Policies
             {
-                public const string AdminRole = "AdminRole";
+                public const string AdminRole = "AdminRole", SuperAdminRole = "SuperAdminRole";
             }
 
             public static class MenuEntries

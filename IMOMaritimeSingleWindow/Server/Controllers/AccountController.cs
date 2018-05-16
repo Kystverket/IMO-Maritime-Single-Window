@@ -12,7 +12,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -39,7 +39,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HttpGet("user/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return Json(user);
+        }
 
+        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HttpGet("user/{email}/exists")]
+        public async Task<IActionResult> UserExists(string email)
+        {
+            bool exists = await _userManager.FindByEmailAsync(email) != null;
+            return Json(exists);
+        }
 
         //[Authorize(Roles = "admin")]
         // POST api/accounts/register

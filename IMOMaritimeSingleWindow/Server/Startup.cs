@@ -46,7 +46,7 @@ namespace IMOMaritimeSingleWindow
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
             HostingEnvironment = env;
@@ -118,8 +118,10 @@ namespace IMOMaritimeSingleWindow
             //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
-                //builder.AddUserManager<ApplicationUserManager>()
-                //.AddRoleManager<ApplicationRoleManager>();
+            //builder.AddUserManager<ApplicationUserManager>()
+            //.AddRoleManager<ApplicationRoleManager>();
+
+            
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -144,10 +146,24 @@ namespace IMOMaritimeSingleWindow
             serviceProvider = services.BuildServiceProvider();
             var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
             var automapper = serviceProvider.GetService<IMapper>();
-            
-            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
-            var roleStore = serviceProvider.GetService<RoleStore>();
-            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
+
+            builder.AddUserManager<ApplicationUserManager>()
+            .AddRoleManager<ApplicationRoleManager>();
+
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                automapper)
+            );
+
+            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                automapper)
+            );
+
+            //services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
+            //var roleStore = serviceProvider.GetService<RoleStore>();
+            //services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
 
             serviceProvider = services.BuildServiceProvider();
 
