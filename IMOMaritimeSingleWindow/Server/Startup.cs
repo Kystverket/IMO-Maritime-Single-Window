@@ -65,26 +65,26 @@ namespace IMOMaritimeSingleWindow
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CORS with different policies
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowLocalhost",
-                    b => {
-                        b.WithOrigins(new string[] {
-                            "http://localhost:4200",
-                            "https://localhost:4200"
-                        });
-                        b.WithMethods(new string[]
-                        {
-                            "GET", "OPTIONS", "POST", "UPDATE"
-                        });
-                        b.AllowAnyHeader();
-                    });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowLocalhost",
+            //        b => {
+            //            b.WithOrigins(new string[] {
+            //                "http://localhost:4200",
+            //                "https://localhost:4200"
+            //            });
+            //            b.WithMethods(new string[]
+            //            {
+            //                "GET", "OPTIONS", "POST", "UPDATE"
+            //            });
+            //            b.AllowAnyHeader();
+            //        });
 
-                //Brute force policy if all else fails
-                //NB: Only ever use in development!
-                options.AddPolicy("AllowAllAny",
-                    b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            });
+            //    //Brute force policy if all else fails
+            //    //NB: Only ever use in development!
+            //    options.AddPolicy("AllowAllAny",
+            //        b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //});
 
             //Configure database contextes
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
@@ -252,8 +252,13 @@ namespace IMOMaritimeSingleWindow
                     await next();
                 }
             });
-            
-            app.UseCors("AllowAllAny");
+
+            if(!env.IsProduction())
+            {
+                app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            }
+
+            //app.UseCors("AllowAllAny");
             // app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
