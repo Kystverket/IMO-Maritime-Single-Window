@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from '../../../../shared/services/content.service';
 import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
+import { ContentService } from '../../../../shared/services/content.service';
 
 @Component({
   selector: 'app-view-port-call',
@@ -15,7 +15,7 @@ export class ViewPortCallComponent implements OnInit {
   }
 
   goBack() {
-    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALL);
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { ContactModel } from '../../../../../shared/models/contact-model';
 import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
 import { ShipModel } from '../../../../../shared/models/ship-model';
@@ -9,7 +10,6 @@ import { ContactService } from '../../../../../shared/services/contact.service';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { OrganizationService } from '../../../../../shared/services/organization.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 const RESULT_SUCCES: string = "Ship was successfully saved to the database.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the ship to the database. Please try again later.";
@@ -158,6 +158,12 @@ export class RegisterShipComponent implements OnInit {
     this.shipModel.shipTypeId = null;
     this.selectedShipType = null;
     this.shipTypeSelected = false;
+  }
+
+  deselectOrganization() {
+    this.shipModel.organizationId = null;
+    this.organizationModel = null;
+    this.organizationSelected = false;
   }
 
   selectHullType(hullType: any) {
