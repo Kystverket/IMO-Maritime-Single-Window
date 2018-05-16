@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { title: "USERS", iconPath: this.icon_path + "user.png", menuName: CONTENT_NAMES.REGISTER_USER },
     { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
     { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.REGISTER_LOCATION },
-    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.REGISTER_ORGANIZATION },
+    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
     { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
   ];
 

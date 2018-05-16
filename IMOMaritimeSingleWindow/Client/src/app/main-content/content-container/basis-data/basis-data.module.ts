@@ -11,6 +11,7 @@ import { SearchShipFlagCodeComponent } from './ship/search-ship-flag-code/search
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { UserConfirmationComponent } from './user/register-user/user-confirmation/user-confirmation.component';
+import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { UserConfirmationComponent } from './user/register-user/user-confirmatio
     SearchShipFlagCodeComponent,
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
+    ViewOrganizationInfoComponent,
     RegisterLocationComponent
   ],
   exports: [
@@ -34,7 +36,8 @@ import { UserConfirmationComponent } from './user/register-user/user-confirmatio
     ViewShipInfoComponent,
     RegisterShipComponent,
     RegisterLocationComponent,
-    RegisterOrganizationComponent
+    RegisterOrganizationComponent,
+    ViewOrganizationInfoComponent
   ]
 })
 export class BasisDataModule { }

@@ -3,6 +3,7 @@ const CONTENT_NAMES = {
     VIEW_SHIPS: "Ships",
     REGISTER_SHIP: "Register Ship",
     REGISTER_LOCATION: "Register Location",
+    VIEW_ORGANIZATIONS: "Organizations",
     REGISTER_ORGANIZATION: "Register Organization",
 
     VIEW_PORT_CALLS: "Port Call",

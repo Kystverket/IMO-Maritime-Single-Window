@@ -52,7 +52,7 @@ export class RegisterOrganizationComponent implements OnInit {
   }
 
   private goBack() {
-    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+    this.contentService.setContent(CONTENT_NAMES.VIEW_ORGANIZATIONS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {
