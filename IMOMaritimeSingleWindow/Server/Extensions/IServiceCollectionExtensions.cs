@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 
 namespace IMOMaritimeSingleWindow.Extensions
 {
@@ -84,6 +85,12 @@ namespace IMOMaritimeSingleWindow.Extensions
                 options.AddPolicy("PortCallClearance", policy =>
                     policy.RequireAssertion(_ => true)
                 );
+                options.AddPolicy(Policies.AdminRole, policy =>
+                    policy.RequireAssertion(_ => true)
+                );
+                options.AddPolicy(Policies.SuperAdminRole, policy =>
+                    policy.RequireAssertion(_ => true)
+                );
             });
 
             return services;
@@ -132,9 +139,15 @@ namespace IMOMaritimeSingleWindow.Extensions
                             (claim.Type == System.Security.Claims.ClaimTypes.Role && claim.Value == Constants.Strings.UserRoles.Admin) ||
                             // ... or the role of an agent
                             (claim.Type == System.Security.Claims.ClaimTypes.Role && claim.Value == Constants.Strings.UserRoles.Agent)
-                        ))
-                    );
+                    ))
+                );
 
+                options.AddPolicy(Policies.AdminRole, policy =>
+                    policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.UserRoles.Admin)
+                );
+                options.AddPolicy(Policies.SuperAdminRole, policy =>
+                    policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.UserRoles.SuperAdmin)
+                );
             });
             
             return services;

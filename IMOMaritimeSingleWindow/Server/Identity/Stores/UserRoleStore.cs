@@ -16,24 +16,34 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     {
         public Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken = default)
         {
-            var role = _roleStore.FindByNameAsync(roleName).GetAwaiter().GetResult();
-            if (role == null)
-                throw new ArgumentException($"no role with rolename \"{roleName}\" exists!");
+            cancellationToken.ThrowIfCancellationRequested();
+            if(user==null)
+                throw new ArgumentNullException(nameof(user));
+            if (roleName == null)
+                throw new ArgumentNullException(nameof(roleName));
 
-            var _user = FindByIdAsync(user.Id.ToString()).GetAwaiter().GetResult();
+            // check if role name exists
+            if (_unitOfWork.Roles.GetByNormalizedName(roleName) == null)
+                throw new Exception("role does not exist!");
 
-            User User = _unitOfWork.Users.Get(user.Id);
-            if (User.Role != null)
-                throw new Exception("User already belong to a role. Call update instead.");
-            Role Role = _unitOfWork.Roles.GetByNormalizedName(roleName);
-            User.Role = Role;
+            SetNormalizedRoleNameAsync(user, roleName).GetAwaiter();
 
-            // Update user
-            _unitOfWork.Users.Update(User);
-            _unitOfWork.Complete();
-            
             return Task.CompletedTask;
-            
+        }
+
+        public Task<IdentityResult> UpdateRoleAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            var User = _unitOfWork.Users.GetByNormalizedUserName(user.NormalizedUserName);
+            var role = _unitOfWork.Roles.GetByNormalizedName(user.NormalizedRoleName);
+            User.Role = role;
+
+            _unitOfWork.Users.Update(User);
+
+            // Expect only the user table to be affected
+            var affectedEntities = _unitOfWork.Complete();
+            if (affectedEntities > 1)
+                return Task.FromResult(IdentityResult.Failed());
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken)
@@ -51,12 +61,25 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         public Task<bool> IsInRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            User User = _unitOfWork.Users.GetByNormalizedUserName(user.NormalizedUserName);
+            if (User.Role == null)
+                return Task.FromResult<bool>(false);
+
+            bool isInRole = User.Role.Name == roleName;
+            return Task.FromResult(isInRole);
         }
 
         public Task RemoveFromRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public Task SetNormalizedRoleNameAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken = default)
+        {
+            if(roleName == null)
+                throw new ArgumentNullException(nameof(roleName));
+            user.NormalizedRoleName = roleName.ToUpper();
+            return Task.CompletedTask;
         }
     }
 }
