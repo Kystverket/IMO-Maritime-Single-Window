@@ -12,6 +12,7 @@ import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.comp
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { UserConfirmationComponent } from './user/register-user/user-confirmation/user-confirmation.component';
 import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { ViewOrganizationInfoComponent } from './organization/view-organization-
     CommonModule,
     FormsModule,
     HttpModule,
+    NgSelectModule,
     SharedModule
   ],
   declarations: [
