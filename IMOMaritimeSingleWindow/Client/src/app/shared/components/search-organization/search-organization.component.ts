@@ -56,5 +56,6 @@ export class SearchOrganizationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.organizationService.setOrganizationData(null);
   }
 }

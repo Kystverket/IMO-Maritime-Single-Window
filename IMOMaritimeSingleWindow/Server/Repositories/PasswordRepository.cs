@@ -13,6 +13,11 @@ namespace IMOMaritimeSingleWindow.Repositories
         public PasswordRepository(open_ssnContext context) : base(context)
         {
         }
-        
+
+        public void Update(Password password)
+        {
+            Context.Set<Password>().Update(password);
+        }
+
     }
 }

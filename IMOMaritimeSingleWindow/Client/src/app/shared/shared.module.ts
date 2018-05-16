@@ -10,11 +10,13 @@ import { PortCallDetailsComponent } from './components/confirmation-view/port-ca
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
+import { SearchShipComponent } from './components/search-ship/search-ship.component';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 import { ContactService } from './services/contact.service';
 import { OrganizationService } from './services/organization.service';
+import { ShipService } from './services/ship.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
@@ -36,7 +38,8 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     ContactSelectComponent,
     SelectedContactMediumsComponent,
     ConfirmationModalComponent,
-    SearchOrganizationComponent
+    SearchOrganizationComponent,
+    SearchShipComponent
   ],
   exports: [
     SsnCardComponent,
@@ -48,10 +51,11 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     ContactSelectComponent,
     SelectedContactMediumsComponent,
     ConfirmationModalComponent,
-    SearchOrganizationComponent
+    SearchOrganizationComponent,
+    SearchShipComponent
   ],
   providers: [
-    ContactService, OrganizationService
+    ContactService, OrganizationService, ShipService
   ],
   entryComponents: [
     ConfirmationModalComponent

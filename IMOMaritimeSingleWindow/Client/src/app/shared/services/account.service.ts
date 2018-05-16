@@ -5,6 +5,7 @@ import { UserModel } from "../models/user-model";
 import { BaseRequest } from "../utils/base.request";
 import { ConfigService } from "../utils/config.service";
 import { AuthRequest } from "./auth.request.service";
+import { UserModelWithPassword } from "../models/UserModelWithPassword";
 
 
 @Injectable()
@@ -68,12 +69,40 @@ export class AccountService extends BaseRequest {
             .map(res => res.json());
     }
 
+    registerUserWithPassword(newUser: UserModelWithPassword) {
+        return this.http.post(this.registerUrl+"withpw", newUser)
+            .map(res => res.json());
+    }
+
     getUserName() {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
         return this.http
             .get(this.actionUrl + "/user/name", options)
             .map(res => res.json());
+    }
+
+    getUserByEmail(email: string) {
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http
+            .get(this.actionUrl + "/user/"+email, options)
+            .map(res => res.json());
+    }
+
+    userExistsByEmail(email: string) {
+        const auth_header = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http
+            .get(this.actionUrl + "/user/"+email+"/exists", options)
+            .map(res => res.json());
+    }
+
+    addToRole(userName: string, roleName: string) {
+        /* Not yet implemented
+        return this.http.post(url,body)
+            .map(res => res.json());
+         */
     }
 
 }

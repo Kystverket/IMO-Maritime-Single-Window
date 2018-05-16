@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
       <div class="row">
         <div class="col-sm mx-auto mt-2" *ngFor="let menu_entry of user_menu_entries">
-          <button class="btn btn-ssn btn-sm col" (click)="setContent(menu_entry.menuName)" [disabled]="menu_entry.title == 'USERS'">
+          <button class="btn btn-ssn btn-sm col" (click)="setContent(menu_entry.menuName)">
             <img src="{{menu_entry.iconPath}}" height="24px" /> {{menu_entry.title}}
           </button>
         </div>

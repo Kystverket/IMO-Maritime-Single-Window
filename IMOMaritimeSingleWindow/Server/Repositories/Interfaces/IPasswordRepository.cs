@@ -9,5 +9,6 @@ namespace IMOMaritimeSingleWindow.Repositories
     public interface IPasswordRepository<TKey> : IRepository<Password, TKey>
         where TKey : IEquatable<TKey>
     {
+        void Update(Password password);
     }
 }

@@ -16,7 +16,7 @@ const OTHER_PURPOSE_ID = 100249;
 export class PurposeComponent implements OnInit {
 
   selectedPurposes = [];
-  purposeList: any[] = []
+  purposeList: any[] = [];
   amountOfPurposes: number = 0;
 
   otherPurposeSelected: boolean = false;
