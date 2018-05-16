@@ -16,6 +16,7 @@ import { UserFormComponent } from './basis-data/user/user-form/user-form.compone
 import { ContentContainerComponent } from './content-container.component';
 import { PortCallModule } from './port-call/port-call.module';
 import { ViewOrganizationInfoComponent } from './basis-data/organization/view-organization-info/view-organization-info.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [

@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               // Navigate to root when done
               .finally(() => {
                 this.isRequesting = false;
-                this.contentService.setContent("Port Call");
+                this.contentService.setContent("Register User");
                 this.router.navigate(['']);
               })
               .subscribe(result => {
