@@ -7,8 +7,7 @@ import { AccountService } from '../../shared/services/account.service';
 import { ContentService } from '../../shared/services/content.service';
 import { LoginService } from '../../shared/services/login.service';
 import { MenuService } from './menu.service';
-
-
+import { CONTENT_NAMES } from '../../shared/constants/content-names';
 
 @Component({
   selector: 'app-header',
@@ -28,11 +27,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   icon_path = "assets/images/VoyageIcons/128x128/white/";
   menu_entries: MenuEntry[] = [
-    { title: "USERS", iconPath: this.icon_path + "user.png", componentDescription: "Register User" },
-    { title: "SHIPS", iconPath: this.icon_path + "ship.png", componentDescription: "Ship" },
-    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', componentDescription: 'Register Location' },
-    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', componentDescription: 'Organization' },
-    { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', componentDescription: 'Port Call' }
+    { title: "USERS", iconPath: this.icon_path + "user.png", menuName: CONTENT_NAMES.REGISTER_USER },
+    { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
+    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.REGISTER_LOCATION },
+    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
+    { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
   ];
 
 

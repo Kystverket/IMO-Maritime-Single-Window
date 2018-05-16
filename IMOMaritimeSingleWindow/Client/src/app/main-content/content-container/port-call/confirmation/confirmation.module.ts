@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../../../shared/shared.module';
 import { ConfirmationComponent } from './confirmation.component';
-import { SaveAndSendComponent } from './save-and-send/save-and-send.component';
+import { ActivatePortCallComponent } from './activate-port-call/activate-port-call.component';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { SaveAndSendComponent } from './save-and-send/save-and-send.component';
   ],
   declarations: [
     ConfirmationComponent,
-    SaveAndSendComponent
+    ActivatePortCallComponent
   ],
   exports: [
     ConfirmationComponent
