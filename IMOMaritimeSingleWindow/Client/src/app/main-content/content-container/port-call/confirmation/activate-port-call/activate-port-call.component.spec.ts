@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SaveAndSendComponent } from './save-and-send.component';
+import { ActivatePortCallComponent } from './activate-port-call.component';
 
-describe('SaveAndSendComponent', () => {
-  let component: SaveAndSendComponent;
-  let fixture: ComponentFixture<SaveAndSendComponent>;
+describe('ActivatePortCallComponent', () => {
+  let component: ActivatePortCallComponent;
+  let fixture: ComponentFixture<ActivatePortCallComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SaveAndSendComponent ]
+      declarations: [ ActivatePortCallComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SaveAndSendComponent);
+    fixture = TestBed.createComponent(ActivatePortCallComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

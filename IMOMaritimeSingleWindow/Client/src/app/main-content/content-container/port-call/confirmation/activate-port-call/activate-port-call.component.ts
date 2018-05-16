@@ -11,11 +11,11 @@ const RESULT_SUCCES: string = "This port call has been activated, and is now awa
 const RESULT_FAILURE: string = "There was a problem when trying to activate this port call. Please try again later.";
 
 @Component({
-  selector: 'app-save-and-send',
-  templateUrl: './save-and-send.component.html',
-  styleUrls: ['./save-and-send.component.css']
+  selector: 'app-activate-port-call',
+  templateUrl: './activate-port-call.component.html',
+  styleUrls: ['./activate-port-call.component.css']
 })
-export class SaveAndSendComponent implements OnInit {
+export class ActivatePortCallComponent implements OnInit {
 
   detailsDataIsPristine: boolean = true;
   detailsIdentificationModel: any;

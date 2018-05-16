@@ -1,4 +1,4 @@
-<ssn-card header="Save and Send" icon="save.png" class="text-center">
+<ssn-card header="Activate Port Call" icon="save.png" class="text-center">
   <div class="text-center">
     <div *ngIf="!detailsDataIsPristine" class="row">
 
@@ -34,6 +34,8 @@
 
     <div class="row" *ngIf="portCallStatus != STATUS_ACTIVE">
       <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
+        <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for government agencies to review.</p>
+        <p>This action cannot be undone.</p>
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
