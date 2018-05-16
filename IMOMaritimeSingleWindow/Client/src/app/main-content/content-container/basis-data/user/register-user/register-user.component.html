@@ -31,7 +31,8 @@
         <div class="form-group">
           <label class="control-label" for="email">Email</label>
           <div class="col-sm-4">
-            <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" [email]="true" tmFocus validateEmail>
+            <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel"
+             [email]="true" tmFocus validateEmail (blur)="logUserModel()">
             <small [hidden]="email.valid || (email.pristine && !isDrafted )" class="text-danger">Please enter a valid email</small>
           </div>
         </div>
@@ -39,14 +40,14 @@
         <div class="form-group">
           <label class="control-label" for="phone_number">Phone number</label>
           <div class="col-sm-4">
-            <input id="phone_number" required name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber">
+            <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber">
           </div>
         </div>
 
         <div class="form-group">
           <label class="control-label" for="password">Password</label>
           <div class="col-sm-4">
-            <input id="password" ng-required="true" type="password" name="password" class="form-control form-control-sm" [(ngModel)]="user.password">
+            <input id="password"  type="password" name="password" class="form-control form-control-sm" [(ngModel)]="user.password" required>
           </div>
         </div>
 
