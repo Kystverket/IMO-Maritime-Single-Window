@@ -1,7 +1,7 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; 
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
 import { AccountService } from '../shared/services/account.service';
@@ -39,10 +39,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
     this.submitted = true;
-    this.isRequesting = true;
     this.errors = '';
     if (valid) {
+      this.isRequesting = true;
       this.loginService.login(value.userName, value.password)
+        .finally(() => {
+          this.isRequesting = false;
+        })
         .subscribe(result => {
           // Login succeeded
           if (result) {
@@ -51,7 +54,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.accountService.getUserClaims()
               // Navigate to root when done
               .finally(() => {
-                this.isRequesting = false;
                 this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
                 this.router.navigate(['']);
               })
