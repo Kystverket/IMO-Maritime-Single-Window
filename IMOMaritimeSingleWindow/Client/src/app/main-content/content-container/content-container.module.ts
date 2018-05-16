@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from '../../shared/shared.module';
-import { LocationFormComponent } from './basis-data/location/location-form/location-form.component';
 import { RegisterLocationComponent } from './basis-data/location/register-location/register-location.component';
 import { RegisterOrganizationComponent } from './basis-data/organization/register-organization/register-organization.component';
 import { RegisterShipComponent } from './basis-data/ship/register-ship/register-ship.component';
@@ -33,7 +32,6 @@ import { PortCallModule } from './port-call/port-call.module';
     RegisterLocationComponent,
     RegisterOrganizationComponent,
     UserFormComponent,
-    LocationFormComponent,
     SearchShipFlagCodeComponent,
     ViewShipInfoComponent
   ],

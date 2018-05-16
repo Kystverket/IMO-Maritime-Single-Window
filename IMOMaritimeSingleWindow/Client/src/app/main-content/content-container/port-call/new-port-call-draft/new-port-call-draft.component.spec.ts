@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationFormComponent } from './location-form.component';
+import { NewPortCallDraftComponent } from './new-port-call-draft.component';
 
-describe('LocationFormComponent', () => {
-  let component: LocationFormComponent;
-  let fixture: ComponentFixture<LocationFormComponent>;
+describe('NewPortCallDraftComponent', () => {
+  let component: NewPortCallDraftComponent;
+  let fixture: ComponentFixture<NewPortCallDraftComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationFormComponent ]
+      declarations: [ NewPortCallDraftComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LocationFormComponent);
+    fixture = TestBed.createComponent(NewPortCallDraftComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

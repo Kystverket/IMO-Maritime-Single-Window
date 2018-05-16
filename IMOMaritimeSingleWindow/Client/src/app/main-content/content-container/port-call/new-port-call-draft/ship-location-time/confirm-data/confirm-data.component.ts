@@ -10,8 +10,8 @@ import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview
 import { ContentService } from '../../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
-const RESULT_SUCCES: string = "Port call was successfully saved to the database. You will now be taken to the wizard for registering the rest of the information for this port call.";
-const RESULT_FAILURE: string = "There was a problem when trying to save the new port call to the database. Please try again later.";
+const RESULT_SUCCES: string = "The port call draft was successfully created. You will now be taken to the wizard for registering the rest of the information and activating the port call.";
+const RESULT_FAILURE: string = "There was a problem when trying to create the new port call draft. Please try again later.";
 
 @Component({
   selector: 'app-confirm-data',
