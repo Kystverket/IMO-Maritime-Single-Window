@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
-import { BaseService } from './base.service';
 import { AccountService } from './account.service';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class ContentService extends BaseService {
@@ -12,13 +11,11 @@ export class ContentService extends BaseService {
     private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
     portCallFormName$ = this.portCallFormSource.asObservable();
 
-    constructor(private accountService: AccountService){
+    constructor(private accountService: AccountService) {
         super();
     }
 
     setContent(contentName: string) {
-        //TODO: Check if user has right to access
-        //this.accountService.getAgentRoles();
         this.contentSource.next(contentName);
     }
 
@@ -26,5 +23,5 @@ export class ContentService extends BaseService {
         this.portCallFormSource.next(contentName);
     }
 
-    
+
 }

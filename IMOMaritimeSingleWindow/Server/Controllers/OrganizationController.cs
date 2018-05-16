@@ -38,7 +38,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var matchingOrganizations = (from c in _context.Organization
                                          where EF.Functions.ILike(c.Name, searchTerm + '%')
                                          || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
-                                         select c).Take(10).ToList();
+                                         select c).Include(o => o.OrganizationType).Take(10).ToList();
 
             return Json(matchingOrganizations);
         }
