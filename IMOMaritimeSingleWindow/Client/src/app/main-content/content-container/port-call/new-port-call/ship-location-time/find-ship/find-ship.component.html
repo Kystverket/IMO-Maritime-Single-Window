@@ -1,67 +1,26 @@
 <ssn-card header="Select Ship" icon="ship.png">
-    <ng-template #rt let-r="result" let-t="term">
-      <div class="">
-        <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
-        <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
-        <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
-        <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
-        <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
-      </div>
-    </ng-template>
 
-    <div *ngIf="!shipFound" class="text-center">
-      <label for="find-ship">Search using ship name, call sign, IMO number or MMSI number</label>
-      <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <input id="find-ship" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipModel" [ngbTypeahead]="search" [resultTemplate]="rt"
-            [inputFormatter]="formatter" (selectItem)="selectShip($event)" />
-        </div>
-        <div class="col-2">
-          <div *ngIf="searching">
-            <img class="mx-auto" src="assets/images/animations/ship.gif" height="32px">
-            <p>Searching</p>
-          </div>
-          <div *ngIf="searchFailed">
-            <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
-            <p>No results</p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <app-search-ship></app-search-ship>
 
-    <div *ngIf="shipFound" class="text-center">
-      <div class="table-responsive">
-        <table class="table table-bordered">
-          <thead>
-            <tr class="bg-ssn text-ssn">
-              <th>Flag</th>
-              <th>Ship name</th>
-              <th>Call sign</th>
-              <th>IMO number</th>
-              <th>MMSI number</th>
-              <th>Gross tonnage</th>
-              <th>Length</th>
-              <th>Ship type</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <img src="assets/images/Flags/128x128/{{shipModel.country.twoCharCode.toLowerCase()}}.png" height="20px" />
-              </td>
-              <td>{{ shipModel.ship.name }}</td>
-              <td>{{ shipModel.ship.callSign }}</td>
-              <td>{{ shipModel.ship.imoNo }}</td>
-              <td>{{ shipModel.ship.mmsiNo }}</td>
-              <td>{{ shipModel.ship.grossTonnage }}</td>
-              <td>{{ shipModel.ship.length }}</td>
-              <td><div *ngIf="shipModel.shipType">{{ shipModel.shipType.name }}</div></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button class="btn btn-ssn" (click)="deselectShip()">
-        <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  <div *ngIf="shipFound" class="text-center">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <th *ngIf="shipFlag" class="bg-ssn text-ssn">Flag</th>
+          <th *ngFor="let entry of shipInfo" class="bg-ssn text-ssn">{{ entry.description }}</th>
+        </thead>
+        <tbody>
+          <td *ngIf="shipFlag">
+            <img src="assets/images/Flags/128x128/{{shipFlag | lowercase}}.png" height="20px">
+          </td>
+          <td *ngFor="let entry of shipInfo">
+            <div *ngIf="entry.data">{{ entry.data }}</div>
+            <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+          </td>
+        </tbody>
+      </table>
     </div>
-  </ssn-card>
+    <button class="btn btn-ssn" (click)="deselectShip()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+</ssn-card>

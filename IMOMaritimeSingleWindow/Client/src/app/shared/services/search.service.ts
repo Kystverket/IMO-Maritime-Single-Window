@@ -10,21 +10,12 @@ export class SearchService {
     public search(baseUrl: string, term: string) {
 
         let encoded_term: string = encodeURIComponent(term);
+        let uri: string = [baseUrl, encoded_term].join('/');
 
-        if (term === '') {
+        if (term === '' || term.length < 2) {
             return of([]);
         }
 
-        let uri: string = [baseUrl, encoded_term].join('/');
-
-
-        console.log(uri);
-
-        return this.http.get(uri)
-            .map(res => res.json())
-            .toPromise().catch(err => {
-                console.log(err);
-                return null;
-            });
+        return this.http.get(uri).map(res => res.json());
     }
 }

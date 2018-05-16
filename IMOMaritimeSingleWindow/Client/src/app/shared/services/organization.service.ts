@@ -8,14 +8,14 @@ import { SearchService } from "./search.service";
 @Injectable()
 export class OrganizationService {
     private searchService: SearchService;
-    private searchUrl: string;
+    private organizationSearch: string;
     private registerOrganizationUrl: string;
     private getOrganizationTypesUrl: string;
     private getOrganizationForUserUrl: string;
 
     constructor(private http: Http, private authRequestService: AuthRequest) {
         this.searchService = new SearchService(http);
-        this.searchUrl = 'api/organization/search';
+        this.organizationSearch = 'api/organization/search';
         this.registerOrganizationUrl = 'api/organization/register';
         this.getOrganizationTypesUrl = 'api/organizationtype/getall';
         this.getOrganizationForUserUrl = 'api/organization/foruser';
@@ -35,7 +35,7 @@ export class OrganizationService {
     }
 
     public search(term: string) {
-        return this.searchService.search(this.searchUrl, term);
+        return this.searchService.search(this.organizationSearch, term);
     }
 
     public getOrganizationTypes() {

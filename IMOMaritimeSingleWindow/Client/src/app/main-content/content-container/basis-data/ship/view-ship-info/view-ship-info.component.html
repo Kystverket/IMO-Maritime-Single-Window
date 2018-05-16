@@ -30,7 +30,7 @@
               </td>
               <td *ngFor="let entry of shipInfo" class="no-wrap px-1 mx-1">
                 <tr>
-                  <small>{{ entry.description }}</small>
+                  <small>{{ entry.description }}:</small>
                 </tr>
                 <tr *ngIf="entry.data">{{ entry.data }}</tr>
                 <tr *ngIf="!entry.data">
