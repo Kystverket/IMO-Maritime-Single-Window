@@ -4,15 +4,6 @@ import { ConstantsService } from '../../../../../shared/services/constants.servi
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
 
-const SHIP_NAME = "Ship Name:";
-const CALL_SIGN = "Call Sign:";
-const IMO_NO = "IMO no:";
-const MMSI_NO = "MMSI no:";
-const GROSS_TONNAGE = "Gross Tonnage:";
-const LENGTH = "Length:";
-const SHIP_TYPE = "Ship Type:";
-const SHIP_STATUS = "Ship Status:"
-
 @Component({
   selector: 'app-view-ship-info',
   templateUrl: './view-ship-info.component.html',
