@@ -22,6 +22,5 @@ export class ContentService extends BaseService {
     setPortCallForm(contentName: string) {
         this.portCallFormSource.next(contentName);
     }
-
-
+    
 }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditUserComponent } from './edit-user.component';
+import { ActivatePortCallComponent } from './activate-port-call.component';
 
-describe('EditUserComponent', () => {
-  let component: EditUserComponent;
-  let fixture: ComponentFixture<EditUserComponent>;
+describe('ActivatePortCallComponent', () => {
+  let component: ActivatePortCallComponent;
+  let fixture: ComponentFixture<ActivatePortCallComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditUserComponent ]
+      declarations: [ ActivatePortCallComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditUserComponent);
+    fixture = TestBed.createComponent(ActivatePortCallComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -9,6 +9,7 @@ import { ContactService } from '../../../../../shared/services/contact.service';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { OrganizationService } from '../../../../../shared/services/organization.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 const RESULT_SUCCES: string = "Ship was successfully saved to the database.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the ship to the database. Please try again later.";
@@ -225,7 +226,7 @@ export class RegisterShipComponent implements OnInit {
   }
 
   private goBack() {
-    this.contentService.setContent('Port Call');
+    this.contentService.setContent(CONTENT_NAMES.VIEW_SHIPS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

@@ -9,6 +9,7 @@ import { ConstantsService } from '../../../../../shared/services/constants.servi
 import { ContentService } from '../../../../../shared/services/content.service';
 import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-button-row',
@@ -66,15 +67,15 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    this.setContent('View Port Call');
+    this.setContent(CONTENT_NAMES.VIEW_PORT_CALL);
   }
 
   onEditClick() {
-    this.setContent('Register Port Call');
+    this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
   onClearanceClick() {
-    this.setContent('Port Call Clearance');
+    this.setContent(CONTENT_NAMES.PORT_CALL_CLEARANCE);
   }
 
   onCancelClick(content: any) {

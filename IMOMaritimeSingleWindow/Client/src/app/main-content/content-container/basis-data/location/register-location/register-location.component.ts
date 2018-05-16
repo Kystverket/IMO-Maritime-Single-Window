@@ -5,6 +5,7 @@ import { ContentService } from '../../../../../shared/services/content.service';
 import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 const RESULT_SUCCES: string = "Location was successfully saved to the database.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the location to the database. Please try again later.";
@@ -99,7 +100,7 @@ export class RegisterLocationComponent implements OnInit {
   }
 
   private goBack() {
-    this.contentService.setContent("Port Call");
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

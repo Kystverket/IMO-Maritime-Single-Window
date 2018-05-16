@@ -3,6 +3,7 @@ import { ShipProperties } from '../../../../../shared/constants/ship-properties'
 import { ConstantsService } from '../../../../../shared/services/constants.service';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-view-ship-info',
@@ -27,7 +28,7 @@ export class ViewShipInfoComponent implements OnInit {
   }
 
   registerNewShip() {
-    this.contentService.setContent("Register Ship");
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
   }
 
   constructor(private shipService: ShipService, private constantsService: ConstantsService, private contentService: ContentService) { }
