@@ -1,6 +1,6 @@
 <div class="row mb-3">
   <div class="col">
-    <table-card header="Ship" icon="ship.png">
+    <table-card header="Ship Information" icon="ship.png">
       <tbody>
         <tr>
           <td>
@@ -8,14 +8,17 @@
           </td>
           <td *ngFor="let entry of portCallShipInfo" class="no-wrap px-1 mx-1">
             <tr>
-              <small>{{ entry.description }}</small>
+              <small>{{ entry.description }}:</small>
             </tr>
-            <tr>{{ entry.data }}</tr>
+            <tr *ngIf="entry.data">{{ entry.data }}</tr>
+            <tr *ngIf="!entry.data">
+              <div class="font-italic">Not provided.</div>
+            </tr>
           </td>
         </tr>
       </tbody>
     </table-card>
-    <table-card header="Ship Contact Information" icon="contact.png" collapsible=true collapsed=true>
+    <table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
       <tbody *ngIf="shipHasContactInfo">
         <tr>
           <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
@@ -31,7 +34,7 @@
       <tbody class="text-center" *ngIf="!shipHasContactInfo">
         <div class="my-3">
           <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
-          <span>No contact information for has been provided for this ship.</span>
+          <span>No contact information for this ship has been provided.</span>
         </div>
       </tbody>
     </table-card>

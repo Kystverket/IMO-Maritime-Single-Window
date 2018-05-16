@@ -11,7 +11,6 @@ import { OrganizationService } from '../../../../../shared/services/organization
 export class ViewOrganizationInfoComponent implements OnInit {
 
   organizationFound: boolean = false;
-
   organizationProperties = OrganizationProperties.PROPERTIES;
   organizationInfo: any[];
 
@@ -27,6 +26,7 @@ export class ViewOrganizationInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.organizationService.setOrganizationData(null);
     this.organizationService.organizationData$.subscribe(
       organizationResult => {
         if (organizationResult) {

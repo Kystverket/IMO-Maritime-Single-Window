@@ -4,6 +4,7 @@ import { PortCallService } from '../../../shared/services/port-call.service';
 import { PortCallOverviewModel } from '../../../shared/models/port-call-overview-model';
 import { AccountService } from '../../../shared/services/account.service';
 import { PortCallClaims } from '../../../shared/constants/port-call-claims';
+import { CONTENT_NAMES } from '../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-port-call',
@@ -32,7 +33,7 @@ export class PortCallComponent implements OnInit {
 
   selectRegister() {
     this.portCallService.wipeServiceData();
-    this.contentService.setContent('Register New Port Call');
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_PORT_CALL_DRAFT);
   }
 
 }

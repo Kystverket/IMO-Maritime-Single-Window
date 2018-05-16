@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ClearanceModel } from '../../../../shared/models/clearance-model';
 import { ContentService } from '../../../../shared/services/content.service';
 import { PortCallService } from '../../../../shared/services/port-call.service';
+import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-clearance',
@@ -47,7 +48,7 @@ export class ClearanceComponent implements OnInit {
   }
 
   goBack() {
-    this.contentService.setContent("Port Call");
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
 
 }

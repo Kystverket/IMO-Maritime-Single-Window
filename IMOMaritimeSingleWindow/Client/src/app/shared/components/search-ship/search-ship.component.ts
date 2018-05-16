@@ -17,6 +17,7 @@ export class SearchShipComponent implements OnInit {
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+
   constructor(private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>

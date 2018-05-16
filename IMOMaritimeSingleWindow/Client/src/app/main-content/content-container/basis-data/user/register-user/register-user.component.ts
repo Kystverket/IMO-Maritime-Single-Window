@@ -6,6 +6,9 @@ import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
 import { AuthService } from '../../../../../shared/services/auth-service';
 import { LoginService } from '../../../../../shared/services/login.service';
+import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
+import { OrganizationService } from '../../../../../shared/services/organization.service';
+
 
 
 @Component({
@@ -20,7 +23,7 @@ export class RegisterUserComponent implements OnInit {
   Selected: boolean;
 
   companyTerm: string;
-  selectedRoles: any;
+  selectedRole: any;
   roleList: any[];
   subscription: Subscription;
   loggedIn: boolean;
@@ -28,28 +31,65 @@ export class RegisterUserComponent implements OnInit {
   errors: string;
   isRequesting: boolean;
   submitted = false;
-  user: UserModel = {
+  user: UserModelWithPassword = {
     email: '',
     phoneNumber: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    password: '',
+    roleName: '',
+    organizationId: ''
   };
-  canClear: boolean;
+  organizationName: '';
+  isDrafted: boolean;
+  emailTaken: boolean;
+  emailTakenSet: boolean;
+  emailSubmitted: boolean;
+  userRegistrationDisabled: boolean;
 
   constructor(
     private userModel: UserModel,
     private userService: UserService,
     private accountService: AccountService,
     private authService: AuthService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private organizationService: OrganizationService
     ) { }
 
-    logUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
+    saveUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
       if (valid) {
-        console.log(value);
+        this.isDrafted = true;
+        console.log("user:", this.user);
+        console.log("is drafted");
       }
-        return null;
+     }
+
+    logUserModel(){
+      console.log(this.user);
     }
+
+    hasPhoneNumber() { return this.user.phoneNumber != ''; }
+    hasName() { return this.user.firstName != '' && this.user.lastName != ''; }
+
+    userExists(emailValid: boolean) {
+      if(emailValid){
+        this.emailTakenSet = true;
+        return this.accountService.userExistsByEmail(this.user.email)
+        .subscribe(result => {
+          if(result){
+            this.emailTaken = true;
+          } else {
+            this.emailTaken = false;
+          }
+          this.emailSubmitted = true;
+        })
+      }
+    }
+
+    isEmailTaken() : boolean {
+      return !this.emailTakenSet ? true : this.emailTaken;
+    }
+    setNotSubmitted() { this.emailSubmitted = false; }
 
   registerUser({ value, valid }: { value: UserModel, valid: boolean }) {
     this.submitted = true;
@@ -66,27 +106,88 @@ export class RegisterUserComponent implements OnInit {
     }
   }
 
-  canSetPortCallClearance(): void {
-    if (!this.loggedIn) {
-      return;
-    }
-    this.authService.canSetClearance().subscribe(
-      result => {
-        if (result) {
-          console.log(result);
-          this.canClear = true;
-        }
-      }, error => {
-          console.log(error.status);
-      }
-    );
+  testRegisterUserWithPassword() {
+    this.isRequesting = true;
+    this.errors = '';
+    this.userRegistrationDisabled = true;
   }
+
+  registerUserWithPassword() {
+    this.isRequesting = true;
+    this.errors = '';
+    this.accountService.registerUserWithPassword(this.user)
+    .finally( () => { this.userRegistrationDisabled = true; } )
+    .subscribe(
+      result => {
+       if (result) {
+         console.log('account created!');
+       }
+      }, error => this.errors = error
+     );
+     
+  }
+
+  startNewUserRegistration() {
+    // Reset variables so that forms appear with fresh values
+    this.resetValues();
+  }
+
+  resetValues() {
+    // Reset variables so that forms appear with fresh values
+    
+    this.selectedRole = '';
+    this.errors = '';
+    this.isRequesting = false;
+    this.submitted = false;
+
+    // Reset user model
+    this.user.email = '';
+    this.user.phoneNumber = '';
+    this.user.firstName = '';
+    this.user.lastName = '';
+    this.user.password = '';
+    this.user.roleName = '';
+    this.user.organizationId = '';
+
+    this.organizationName = '';
+
+    this.isDrafted = false;
+    this.emailTaken = false;
+    this.emailTakenSet = false;
+    this.emailSubmitted = false;
+    this.userRegistrationDisabled = false;
+  }
+
+  /* registerUserWithPassword({ value, valid }: { value: UserModelWithPassword, valid: boolean }) {
+    this.submitted = true;
+    this.isRequesting = true;
+    this.errors = '';
+    if (valid) {
+      this.accountService.registerUserWithPassword(value).subscribe(
+         result => {
+          if (result) {
+            console.log('account created!');
+          }
+         }, error => this.errors = error
+        );
+    }
+  } */
 
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
+
+    this.organizationService.organizationData$.subscribe(
+      result => {
+        if(result){
+          this.user.organizationId = result.organizationId;
+          this.organizationName = result.name;
+        }
+      }
+    )
+
   }
 
 

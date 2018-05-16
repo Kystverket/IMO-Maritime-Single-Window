@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
 import { ContentService } from '../../../../shared/services/content.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ViewPortCallComponent implements OnInit {
   }
 
   goBack() {
-    this.contentService.setContent("Port Call");
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
 
 }

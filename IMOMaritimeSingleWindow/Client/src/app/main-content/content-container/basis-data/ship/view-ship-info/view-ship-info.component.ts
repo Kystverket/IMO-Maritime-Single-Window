@@ -3,6 +3,7 @@ import { ShipProperties } from '../../../../../shared/constants/ship-properties'
 import { ConstantsService } from '../../../../../shared/services/constants.service';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-view-ship-info',
@@ -16,8 +17,6 @@ export class ViewShipInfoComponent implements OnInit {
   contactMediumList: any;
   shipHasContactInfo: boolean = false;
   shipContactInfo: any[] = [];
-
-  shipModel: any;
   shipFound: boolean = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
@@ -29,17 +28,17 @@ export class ViewShipInfoComponent implements OnInit {
   }
 
   registerNewShip() {
-    this.contentService.setContent("Register Ship");
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
   }
 
   constructor(private shipService: ShipService, private constantsService: ConstantsService, private contentService: ContentService) { }
 
   ngOnInit() {
+    this.shipService.setShipOverviewData(null);
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {
           this.shipFound = true;
-          this.shipModel = shipResult;
           if (shipResult.country) this.shipFlag = shipResult.country.twoCharCode.toLowerCase();
           if (shipResult.shipType) this.shipProperties.SHIP_TYPE.data = shipResult.shipType.name;
           if (shipResult.shipStatus) this.shipProperties.SHIP_STATUS.data = shipResult.shipStatus.name;
@@ -49,8 +48,6 @@ export class ViewShipInfoComponent implements OnInit {
           this.shipProperties.MMSI_NO.data = shipResult.ship.mmsiNo;
           this.shipProperties.GROSS_TONNAGE.data = shipResult.ship.grossTonnage;
           this.shipProperties.LENGTH.data = shipResult.ship.length;
-
-          this.shipInfo = Object.values(this.shipProperties);
 
           this.constantsService.getContactMediumList().subscribe(
             contactResult => {
@@ -70,7 +67,9 @@ export class ViewShipInfoComponent implements OnInit {
           );
         } else {
           this.shipFound = false;
+          this.shipProperties = ShipProperties.PROPERTIES;
         }
+        this.shipInfo = Object.values(this.shipProperties);
       }
     );
   }

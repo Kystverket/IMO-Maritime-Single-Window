@@ -5,16 +5,17 @@ import { PortCallDetailsModel } from '../../../../../shared/models/port-call-det
 import { FormMetaData } from '../../../../../shared/models/form-meta-data.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 const RESULT_SUCCES: string = "This port call has been activated, and is now awaiting clearance.";
 const RESULT_FAILURE: string = "There was a problem when trying to activate this port call. Please try again later.";
 
 @Component({
-  selector: 'app-save-and-send',
-  templateUrl: './save-and-send.component.html',
-  styleUrls: ['./save-and-send.component.css']
+  selector: 'app-activate-port-call',
+  templateUrl: './activate-port-call.component.html',
+  styleUrls: ['./activate-port-call.component.css']
 })
-export class SaveAndSendComponent implements OnInit {
+export class ActivatePortCallComponent implements OnInit {
 
   detailsDataIsPristine: boolean = true;
   detailsIdentificationModel: any;
@@ -105,7 +106,7 @@ export class SaveAndSendComponent implements OnInit {
   }
 
   goBack() {
-    this.contentService.setContent("Port Call");
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

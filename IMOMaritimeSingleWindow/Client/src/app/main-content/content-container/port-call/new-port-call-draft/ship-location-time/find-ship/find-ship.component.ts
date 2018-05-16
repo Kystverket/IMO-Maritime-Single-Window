@@ -25,6 +25,7 @@ export class FindShipComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.shipService.setShipOverviewData(null);
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {

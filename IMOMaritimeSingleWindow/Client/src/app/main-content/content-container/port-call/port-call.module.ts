@@ -9,12 +9,12 @@ import { PortCallService } from '../../../shared/services/port-call.service';
 import { SharedModule } from '../../../shared/shared.module';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
-import { NewPortCallComponent } from './new-port-call/new-port-call.component';
-import { ConfirmDataComponent } from './new-port-call/ship-location-time/confirm-data/confirm-data.component';
-import { EtaEtdComponent } from './new-port-call/ship-location-time/eta-etd/eta-etd.component';
-import { FindLocationComponent } from './new-port-call/ship-location-time/find-location/find-location.component';
-import { FindShipComponent } from './new-port-call/ship-location-time/find-ship/find-ship.component';
-import { ShipLocationTimeComponent } from './new-port-call/ship-location-time/ship-location-time.component';
+import { NewPortCallDraftComponent } from './new-port-call-draft/new-port-call-draft.component';
+import { ConfirmDataComponent } from './new-port-call-draft/ship-location-time/confirm-data/confirm-data.component';
+import { EtaEtdComponent } from './new-port-call-draft/ship-location-time/eta-etd/eta-etd.component';
+import { FindLocationComponent } from './new-port-call-draft/ship-location-time/find-location/find-location.component';
+import { FindShipComponent } from './new-port-call-draft/ship-location-time/find-ship/find-ship.component';
+import { ShipLocationTimeComponent } from './new-port-call-draft/ship-location-time/ship-location-time.component';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
@@ -28,7 +28,6 @@ import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-import { CancelComponent } from './cancel/cancel.component';
 
 @NgModule({
   imports: [
@@ -62,12 +61,11 @@ import { CancelComponent } from './cancel/cancel.component';
     ViewPortCallComponent,
     ClearanceComponent,
     SaveDetailsComponent,
-    NewPortCallComponent,
-    CancelComponent,
+    NewPortCallDraftComponent,
   ],
   exports: [
     PortCallComponent,
-    NewPortCallComponent,
+    NewPortCallDraftComponent,
     RegistrationComponent,
     ViewPortCallComponent,
     ClearanceComponent

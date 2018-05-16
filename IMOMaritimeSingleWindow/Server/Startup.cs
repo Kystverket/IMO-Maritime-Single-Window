@@ -46,7 +46,7 @@ namespace IMOMaritimeSingleWindow
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
             HostingEnvironment = env;
@@ -65,26 +65,26 @@ namespace IMOMaritimeSingleWindow
 
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CORS with different policies
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowLocalhost",
-                    b => {
-                        b.WithOrigins(new string[] {
-                            "http://localhost:4200",
-                            "https://localhost:4200"
-                        });
-                        b.WithMethods(new string[]
-                        {
-                            "GET", "OPTIONS", "POST", "UPDATE"
-                        });
-                        b.AllowAnyHeader();
-                    });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowLocalhost",
+            //        b => {
+            //            b.WithOrigins(new string[] {
+            //                "http://localhost:4200",
+            //                "https://localhost:4200"
+            //            });
+            //            b.WithMethods(new string[]
+            //            {
+            //                "GET", "OPTIONS", "POST", "UPDATE"
+            //            });
+            //            b.AllowAnyHeader();
+            //        });
 
-                //Brute force policy if all else fails
-                //NB: Only ever use in development!
-                options.AddPolicy("AllowAllAny",
-                    b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            });
+            //    //Brute force policy if all else fails
+            //    //NB: Only ever use in development!
+            //    options.AddPolicy("AllowAllAny",
+            //        b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //});
 
             //Configure database contextes
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
@@ -101,9 +101,9 @@ namespace IMOMaritimeSingleWindow
                 // configure identity options
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 4;
 
                 // Lockout options
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
@@ -118,8 +118,10 @@ namespace IMOMaritimeSingleWindow
             //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
-                builder.AddUserManager<ApplicationUserManager>()
-                .AddRoleManager<ApplicationRoleManager>();
+            //builder.AddUserManager<ApplicationUserManager>()
+            //.AddRoleManager<ApplicationRoleManager>();
+
+            
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -128,6 +130,9 @@ namespace IMOMaritimeSingleWindow
             //services.AddSingleton<IUnitOfWork<Guid>, UnitOfWork>();
             // services.AddAutoMapper();
             //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
+
+            services.TryAddScoped<ApplicationUserManager>();
+            services.TryAddScoped<ApplicationRoleManager>();
 
             // Tip from https://stackoverflow.com/a/42298278
             var config = new MapperConfiguration(cfg =>
@@ -141,10 +146,24 @@ namespace IMOMaritimeSingleWindow
             serviceProvider = services.BuildServiceProvider();
             var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
             var automapper = serviceProvider.GetService<IMapper>();
-            
-            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
-            var roleStore = serviceProvider.GetService<RoleStore>();
-            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
+
+            builder.AddUserManager<ApplicationUserManager>()
+            .AddRoleManager<ApplicationRoleManager>();
+
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                automapper)
+            );
+
+            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                automapper)
+            );
+
+            //services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
+            //var roleStore = serviceProvider.GetService<RoleStore>();
+            //services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
 
             serviceProvider = services.BuildServiceProvider();
 
@@ -233,8 +252,13 @@ namespace IMOMaritimeSingleWindow
                     await next();
                 }
             });
-            
-            app.UseCors("AllowAllAny");
+
+            if(!env.IsProduction())
+            {
+                app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            }
+
+            //app.UseCors("AllowAllAny");
             // app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()

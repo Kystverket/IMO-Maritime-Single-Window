@@ -53,6 +53,11 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string Admin = "admin", Agent = "agent", Customs = "customs", HealthAgency = "health_agency", SuperAdmin = "super_admin";
             }
 
+            public static class Policies
+            {
+                public const string AdminRole = "AdminRole", SuperAdminRole = "SuperAdminRole";
+            }
+
             public static class MenuEntries
             {
                 public const string USERS = "USERS";

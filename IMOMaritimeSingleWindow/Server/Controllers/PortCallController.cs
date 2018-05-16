@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Authorization;
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -189,7 +190,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Policy = Policies.AdminRole)]
         [HttpPost("delete")]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
@@ -197,8 +198,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-                var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
-                if (userRole.Equals(Constants.Strings.UserRoles.Admin) || (portCall.UserId != null && portCall.UserId.ToString().Equals(userId)))
+                if (portCall.UserId != null && portCall.UserId.ToString().Equals(userId))
                 {
                     PortCall removePortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId)
                                                         .Include(pc => pc.PortCallDetails)

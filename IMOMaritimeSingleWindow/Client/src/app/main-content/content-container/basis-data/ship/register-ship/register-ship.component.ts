@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { ContactModel } from '../../../../../shared/models/contact-model';
 import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
 import { ShipModel } from '../../../../../shared/models/ship-model';
@@ -159,6 +160,12 @@ export class RegisterShipComponent implements OnInit {
     this.shipTypeSelected = false;
   }
 
+  deselectOrganization() {
+    this.shipModel.organizationId = null;
+    this.organizationModel = null;
+    this.organizationSelected = false;
+  }
+
   selectHullType(hullType: any) {
     this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
     this.hullTypeDropdownString = hullType.name;
@@ -225,7 +232,7 @@ export class RegisterShipComponent implements OnInit {
   }
 
   private goBack() {
-    this.contentService.setContent('Port Call');
+    this.contentService.setContent(CONTENT_NAMES.VIEW_SHIPS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {
