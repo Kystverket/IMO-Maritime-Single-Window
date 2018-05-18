@@ -1,0 +1,100 @@
+<div class="jumbotron bg-ssn-light">
+  <div class="row mb-3 text-center">
+    <div class="col-2">
+      <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="64px">
+    </div>
+    <div class="col-8">
+      <h3 class="text-ssn display-4">
+        <span class="no-wrap">PORT CALL</span>
+        <span class="no-wrap">CLEARANCE</span>
+      </h3>
+    </div>
+    <div class="col-2">
+      <button class="btn btn-light" (click)="goBack()">
+        <img src="assets/images/VoyageIcons/128x128/left-arrow.png" height="32px">
+        <br>
+        <span class="no-wrap"> GO BACK</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <app-ship-info-table></app-ship-info-table>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <app-location-time-info-table></app-location-time-info-table>
+    </div>
+  </div>
+
+  <app-confirmation-view></app-confirmation-view>
+
+  <div class="row">
+    <div class="col">
+      <ssn-card header="Clearance" icon="stamp.png">
+        <div class="form-group">
+          <label for="remarks">Remarks</label>
+          <textarea class="form-control" rows="3" id="remarks" [(ngModel)]="clearanceModel.remark"></textarea>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-success" (click)="showWarningBox(content, true)">
+            <div class="mx-auto">
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="32px">
+            </div>
+            <small>Accept</small>
+          </button>
+          <button class="btn btn-danger" (click)="showWarningBox(content, false)">
+            <div class="mx-auto">
+              <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="32px">
+            </div>
+            <small>Decline</small>
+          </button>
+        </div>
+      </ssn-card>
+    </div>
+  </div>
+
+  <div class="row text-center">
+    <div class="col">
+      <button class="btn btn-light" (click)="goBack()">
+        <img src="assets/images/VoyageIcons/128x128/left-arrow.png" height="32px">
+        <span class="no-wrap"> GO BACK</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-close="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Clearance</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="clearanceModel.remark">
+      <span>Are you sure you want to submit a response with the following remarks:</span>
+      <br>
+      <pre>{{ clearanceModel.remark }}</pre>
+    </div>
+    <div *ngIf="!clearanceModel.remark">
+      Are you sure you want to submit a clearance response with no remarks?
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" *ngIf="givingClearance" (click)="saveClearance(); close()">
+      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px">
+      <span>Give Clearance</span>
+    </button>
+    <button class="btn btn-danger" *ngIf="!givingClearance" (click)="saveClearance(); close()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <span>Reject Clearance</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close()">
+      <span>Cancel</span>
+    </button>
+  </div>
+</ng-template>

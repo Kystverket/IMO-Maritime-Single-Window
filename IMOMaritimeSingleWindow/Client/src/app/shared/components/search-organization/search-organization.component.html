@@ -1,0 +1,28 @@
+<div class="card-body">
+  <ng-template #rt let-r="result" let-t="term">
+    <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+    <strong *ngIf="r.organizationNo">Org.no.: </strong> {{ r.organizationNo }}
+  </ng-template>
+
+  <div *ngIf="!organizationSelected" class="text-center">
+    <label for="search-organization">Search using organization name or organization number</label>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <input id="search-organization" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
+          [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectOrganization($event)"
+          placeholder="Enter search here..." />
+      </div>
+      <div class="col-2">
+        <div *ngIf="searching">
+          <img class="mx-auto" src="assets/images/animations/pax.gif" height="32px">
+          <p>Searching</p>
+        </div>
+        <div *ngIf="searchFailed">
+          <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+          <p>No results</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

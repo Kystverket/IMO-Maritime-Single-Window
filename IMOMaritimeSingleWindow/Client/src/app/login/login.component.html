@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="jumbotron bg-ssn-light text-ssn mt-5">
+    <h2>LOGIN</h2>
+    <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+      <div class="form-group row">
+        <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>
+        <div class="col my-auto">
+          <input id="email" name="userName" type="email" class="form-control form-control-sm" required placeholder="Enter email address"
+            [(ngModel)]="credentials.userName" #email="ngModel" tmFocus>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Password:</label>
+        <div class="col my-auto">
+          <input id="password" name="password" type="password" class="form-control form-control-sm" required placeholder="Enter password"
+            [(ngModel)]="credentials.password">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
+      </div>
+
+      <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <span>{{errors}}</span>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<ssn-card header="Crew, Passengers and Dimensions" icon="crew.png">
+  <form>
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="number_of_crew">Number of Crew</label>
+          <div class="col my-auto">
+            <input name="number_of_crew" type="number" #numberOfCrew="ngModel" class="form-control form-control-sm" placeholder="Enter number of crew"
+              integerValidator positiveNumberValidator (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfCrew"
+            />
+          </div>
+        </div>
+        <div *ngIf="!isValid(numberOfCrew.valid)" class="alert alert-danger">
+          <li *ngIf="numberOfCrew.hasError('notIntegerError')">
+            <small>Number of crew must be an integer.</small>
+          </li>
+          <li *ngIf="numberOfCrew.hasError('notPositiveNumberError')">
+            <small>Number of crew must be a positive number.</small>
+          </li>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label class="col-form-label-sm no-wrap col-sm-5 col-md-3 col-lg-5" for="number_of_passengers">Number of Passengers</label>
+          <div class="col my-auto">
+            <input name="number_of_passengers" type="number" #numberOfPassengers="ngModel" class="form-control form-control-sm" placeholder="Enter number of passengers"
+              integerValidator positiveNumberValidator (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.numberOfPassengers"
+            />
+          </div>
+        </div>
+        <div *ngIf="!isValid(numberOfPassengers.valid)" class="alert alert-danger">
+          <li *ngIf="numberOfPassengers.hasError('notIntegerError')">
+            <small>Number of passengers must be an integer.</small>
+          </li>
+          <li *ngIf="numberOfPassengers.hasError('notPositiveNumberError')">
+            <small>Number of passengers must be a positive number.</small>
+          </li>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="actual_draught">Actual Draught</label>
+          <div class="col my-auto">
+            <input name="actual_draught" type="number" #actualDraught="ngModel" class="form-control form-control-sm" placeholder="Enter actual draught"
+              positiveNumberValidator (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.actualDraught"
+            />
+          </div>
+        </div>
+        <div *ngIf="!isValid(actualDraught.valid)" class="alert alert-danger">
+          <li *ngIf="actualDraught.hasError('notPositiveNumberError')">
+            <small>Actual draught must be a positive number.</small>
+          </li>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="air_draught">Air Draught</label>
+          <div class="col my-auto">
+            <input name="air_draught" type="number" #airDraught="ngModel" class="form-control form-control-sm" placeholder="Enter air draught" 
+              positiveNumberValidator (ngModelChange)="persistData()" [(ngModel)]="crewPassengersAndDimensionsModel.airDraught"
+            />
+          </div>
+        </div>
+        <div *ngIf="!isValid(airDraught.valid)" class="alert alert-danger">
+          <li *ngIf="airDraught.hasError('notPositiveNumberError')">
+            <small>Air draught must be a positive number.</small>
+          </li>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</ssn-card>

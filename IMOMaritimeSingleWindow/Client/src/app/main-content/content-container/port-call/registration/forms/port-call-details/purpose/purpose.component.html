@@ -1,0 +1,17 @@
+<ssn-card header="Port Call Purpose" icon="target.png">
+  <label for="purposes">
+    <span class="no-wrap">Select purposes for this</span>
+    <span class="no-wrap">port call.</span>
+  </label>
+  <ng-select id="purposes" [items]="purposeList" [multiple]="true" [closeOnSelect]="true" bindLabel="name" placeholder="Select purposes"
+    [(ngModel)]="selectedPurposes" (change)="purposeSelected()">
+  </ng-select>
+
+  <div *ngIf="otherPurposeSelected" class="form-group row mt-3">
+    <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="other_purpose">Specify Other Purpose:</label>
+    <div class="col my-auto">
+      <input [(ngModel)]="otherPurposeName" name="other_purpose" type="text" class="form-control form-control-sm" id="other_purpose"
+        placeholder="Enter other purpose" (ngModelChange)="setOtherPurposeName()" />
+    </div>
+  </div>
+</ssn-card>

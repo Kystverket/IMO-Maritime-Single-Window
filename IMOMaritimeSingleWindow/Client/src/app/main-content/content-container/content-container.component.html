@@ -1,0 +1,15 @@
+<div [ngSwitch]="selectedComponent">
+  <app-register-user *ngSwitchCase="cn.REGISTER_USER"></app-register-user>
+  <app-view-ship-info *ngSwitchCase="cn.VIEW_SHIPS"></app-view-ship-info>
+  <app-register-ship *ngSwitchCase="cn.REGISTER_SHIP"></app-register-ship>
+  <app-view-location-info *ngSwitchCase="cn.LOCATIONS"></app-view-location-info>
+  <app-register-location *ngSwitchCase="cn.REGISTER_LOCATION"></app-register-location>
+  <app-view-organization-info *ngSwitchCase="cn.VIEW_ORGANIZATIONS"></app-view-organization-info>
+  <app-register-organization *ngSwitchCase="cn.REGISTER_ORGANIZATION"></app-register-organization>
+  <app-port-call *ngSwitchCase="cn.VIEW_PORT_CALLS"></app-port-call>
+  <app-new-port-call-draft *ngSwitchCase="cn.REGISTER_PORT_CALL_DRAFT"></app-new-port-call-draft>
+  <app-registration *ngSwitchCase="cn.REGISTER_PORT_CALL"></app-registration>
+  <app-view-port-call *ngSwitchCase="cn.VIEW_PORT_CALL"></app-view-port-call>
+  <app-clearance *ngSwitchCase="cn.PORT_CALL_CLEARANCE"></app-clearance>
+  <div class="alert alert-danger" *ngSwitchDefault>Oops, something went wrong. Please reload the page.</div>
+</div>
