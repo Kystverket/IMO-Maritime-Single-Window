@@ -1,3 +1,5 @@
+// Implementation courtesy of https://stackoverflow.com/a/41348219
+
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
