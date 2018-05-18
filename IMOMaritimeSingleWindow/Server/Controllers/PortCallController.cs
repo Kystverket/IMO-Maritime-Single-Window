@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Authorization;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using IMOMaritimeSingleWindow.Auth;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -190,7 +192,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
         [HttpPost("delete")]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
