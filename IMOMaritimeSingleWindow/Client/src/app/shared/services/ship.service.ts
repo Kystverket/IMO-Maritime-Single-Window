@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, Headers, RequestOptions } from "@angular/http";
 import { BehaviorSubject } from "rxjs";
 import { ShipContactModel } from "../models/ship-contact-model";
 import { SearchService } from "./search.service";
+import { AuthRequest } from "./auth.request.service";
 
 @Injectable()
 export class ShipService {
@@ -21,7 +22,10 @@ export class ShipService {
     private getContactListForShipUrl: string;
     private saveShipContactListUrl: string;
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http,
+        private authRequest: AuthRequest
+    ) {
         this.searchService = new SearchService(http);
         this.shipSearchUrl = 'api/ship/search';
         this.shipTypeUrl = 'api/shiptype/getall';
@@ -56,7 +60,9 @@ export class ShipService {
     }
 
     registerShip(newShip: any) {
-        return this.http.post(this.registerShipUrl, newShip)
+        const auth_header = this.authRequest.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http.post(this.registerShipUrl, newShip, options)
             .map(res => res.json());
     }
 

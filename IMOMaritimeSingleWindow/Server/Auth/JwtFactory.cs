@@ -70,7 +70,8 @@ namespace IMOMaritimeSingleWindow.Auth
             var claimsIdentity = new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
             {
                 new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Id, id.ToString()),
-                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, roleName)
+                new Claim(Helpers.Constants.Strings.JwtClaimIdentifiers.Rol, roleName),
+                new Claim(ClaimTypes.Role, roleName)
             });
             claimsIdentity.AddClaims(rights);
 
