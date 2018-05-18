@@ -6,11 +6,13 @@ using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
+using IMOMaritimeSingleWindow.Auth;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -71,7 +73,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         //[Authorize] // TODO: check if user has user create claim
         // POST api/accounts/register
         [HttpPost("user/withpw")]
@@ -99,9 +101,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
         
-
-        //[Authorize(Roles = "admin")]
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("roles")]
         public IActionResult GetAllRoles()
         {

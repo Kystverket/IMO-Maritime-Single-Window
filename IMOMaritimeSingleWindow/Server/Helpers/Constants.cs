@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Helpers
 {
@@ -32,15 +33,38 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string CLAIM_TYPE_PORT_CALL_NAME = "Port Call";
                 public const string CLAIM_TYPE_MENU_NAME = "Menu";
             }
+            public static class Claims
+            {
+                public static class Types
+                {
+                    public const string PORT_CALL   = "Port Call",
+                                        MENU        = "Menu",
+                                        USER        = "User",
+                                        SHIP        = "Ship",
+                                        LOCATION    = "Location",
+                                        ORGANIZATION = "Organization";
+                }
+                public static class Values
+                {
+                    public const string REGISTER    = "Register",   // C - Create
+                                        VIEW        = "View",       // R - Read
+                                        EDIT        = "Edit",       // U - Update
+                                        DELETE      = "Delete",     // D - Delete
+                                        CLEARANCE   = "Clearance";
+                    public static class MenuEntries
+                    {
+                        public const string USERS = "USERS";
+                        public const string SHIPS = "SHIPS";
+                        public const string LOCATION = "LOCATIONS";
+                        public const string COMPANIES = "COMPANIES";
+                        public const string PORT_CALL = "PORT CALL";
+                    }
+                }
+            }
+            
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";
-            }
-
-            public static class JwtClaims
-            {
-                public const string ApiAccess = "api_access";
-                public const string AdminAccess = "admin_access";
             }
 
             public static class PersonClaims
@@ -58,14 +82,7 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string AdminRole = "AdminRole", SuperAdminRole = "SuperAdminRole";
             }
 
-            public static class MenuEntries
-            {
-                public const string USERS = "USERS";
-                public const string SHIPS = "SHIPS";
-                public const string LOCATION = "LOCATIONS";
-                public const string COMPANIES = "COMPANIES";
-                public const string PORT_CALL = "PORT CALL";
-            }
+            
 
 
         }

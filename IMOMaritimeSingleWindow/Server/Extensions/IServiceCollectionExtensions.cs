@@ -73,9 +73,6 @@ namespace IMOMaritimeSingleWindow.Extensions
             // This is a nasty hack basically saying every custom policy grants access by default in a development environment
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiUser", policy =>
-                    policy.RequireAssertion(_ => true)
-                );
                 options.AddPolicy("Port Call Registration", policy =>
                     policy.RequireAssertion(_ => true)
                 );
@@ -100,8 +97,7 @@ namespace IMOMaritimeSingleWindow.Extensions
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-
+                
                 //options.AddPolicy("PortCallCRUD", policy =>
                 //    policy.RequireClaim("Port Call", new string[] { "Create", "View", "Edit", "Delete" }));
                 //options.AddPolicy("PortCallClearance", policy =>
@@ -111,7 +107,7 @@ namespace IMOMaritimeSingleWindow.Extensions
                 options.AddPolicy("PortCallCRUD", policy =>
                     policy.RequireAssertion(ahcontext =>
                         // User has CRUD claims on port call
-                        ahcontext.User.HasClaim(claim => (claim.Type == "Port Call" && claim.Value == "View"))
+                        ahcontext.User.HasClaim(claim => (claim.Type == "Port Call" && claim.Value == "Register"))
                         &&
                         ahcontext.User.HasClaim(claim => (claim.Type == "Port Call" && claim.Value == "View"))
                         &&

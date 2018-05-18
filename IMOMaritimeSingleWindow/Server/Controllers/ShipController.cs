@@ -9,6 +9,8 @@ using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using IMOMaritimeSingleWindow.Auth;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -22,7 +24,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpPost("register")]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
