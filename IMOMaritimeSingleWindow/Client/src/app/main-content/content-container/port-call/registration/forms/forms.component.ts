@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { ShipService } from '../../../../../shared/services/ship.service';
 
 @Component({
   selector: 'app-forms',
@@ -11,9 +12,14 @@ export class FormsComponent implements OnInit {
 
   selectedComponent: string;
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService) { }
+  constructor(private contentService: ContentService, private portCallService: PortCallService, private shipService: ShipService) { }
 
-  ngOnInit() { 
+  ngOnInit() {
+    this.portCallService.shipData$.subscribe(
+      shipResult => {
+        this.shipService.setShipOverviewData(shipResult);
+      }
+    );
     this.contentService.portCallFormName$.subscribe(
       content => {
         this.selectedComponent = content;

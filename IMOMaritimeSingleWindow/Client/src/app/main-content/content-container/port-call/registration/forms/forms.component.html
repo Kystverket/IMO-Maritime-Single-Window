@@ -1,5 +1,17 @@
 <app-progress-bar></app-progress-bar>
-<app-info></app-info>
+
+<div class="row mb-3">
+    <div class="col">
+        <app-ship-info-table></app-ship-info-table>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col">
+        <app-location-time-info-table></app-location-time-info-table>
+    </div>
+</div>
+
 <div [ngSwitch]="selectedComponent">
     <app-port-call-details *ngSwitchCase="'Port Call Details'"></app-port-call-details>
 

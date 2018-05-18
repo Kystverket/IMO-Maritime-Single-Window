@@ -143,12 +143,13 @@ export class PortCallService {
     let authHeaders = this.authRequestService.GetHeaders();
     let options = new RequestOptions({ headers: authHeaders });
     let uri: string = this.registerNewPortCallUrl;
+    this.setPortCallStatus("Draft");
     return this.http.post(uri, portCall, options).map(res => res.json());
   }
   // Set port call status to actual
   updatePortCallStatusActive(portCallId: number) {
     let uri = [this.updatePortCallStatusActiveUrl, portCallId].join('/');
-    console.log("Updating port call status to actual...");
+    console.log("Updating port call status to active...");
     return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled
