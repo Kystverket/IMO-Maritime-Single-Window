@@ -24,7 +24,6 @@ export class LocationInfoTableComponent implements OnInit {
           this.locationProperties.LOCATION_TYPE.data = (locationResult.locationType) ? locationResult.locationType.name : null;
           this.locationProperties.LOCATION_NAME.data = locationResult.location.name;
           this.locationProperties.LOCATION_CODE.data = locationResult.location.locationCode;
-          this.locationProperties.LOCATION_NO.data = locationResult.location.locationNo;
           this.locationProperties.POST_CODE.data = locationResult.location.postCode;
         }
         this.locationInfo = Object.values(this.locationProperties);
