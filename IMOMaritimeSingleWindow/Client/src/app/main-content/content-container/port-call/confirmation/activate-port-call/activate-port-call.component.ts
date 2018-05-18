@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { PortCallService } from '../../../../../shared/services/port-call.service';
-import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
-import { FormMetaData } from '../../../../../shared/models/form-meta-data.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
+import { FormMetaData } from '../../../../../shared/models/form-meta-data.interface';
+import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
+import { ContentService } from '../../../../../shared/services/content.service';
+import { PortCallService } from '../../../../../shared/services/port-call.service';
 
 const RESULT_SUCCES: string = "This port call has been activated, and is now awaiting clearance.";
 const RESULT_FAILURE: string = "There was a problem when trying to activate this port call. Please try again later.";
@@ -27,7 +27,10 @@ export class ActivatePortCallComponent implements OnInit {
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
   portCallStatus: string;
+  portCallIsActive: boolean = false;
+  portCallIsDraft: boolean = false;
   STATUS_ACTIVE = "Active";
+  STATUS_DRAFT = "Draft";
 
   constructor(private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
@@ -69,7 +72,14 @@ export class ActivatePortCallComponent implements OnInit {
     );
     this.portCallService.portCallStatusData$.subscribe(
       statusData => {
-        this.portCallStatus = statusData;
+        if (statusData) {
+          if (statusData == this.STATUS_DRAFT) {
+            this.portCallIsDraft = true;
+          } else {
+            this.portCallIsDraft = false;
+          }
+          this.portCallStatus = statusData;
+        }
       }
     );
   }

@@ -9,9 +9,11 @@ import { ConfirmationViewComponent } from './components/confirmation-view/confir
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
+import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipComponent } from './components/search-ship/search-ship.component';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
+import { ShipInfoTableComponent } from './components/ship-info-table/ship-info-table.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 import { ContactService } from './services/contact.service';
@@ -39,7 +41,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SelectedContactMediumsComponent,
     ConfirmationModalComponent,
     SearchOrganizationComponent,
-    SearchShipComponent
+    SearchShipComponent,
+    ShipInfoTableComponent,
+    LocationTimeInfoTableComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -52,7 +56,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SelectedContactMediumsComponent,
     ConfirmationModalComponent,
     SearchOrganizationComponent,
-    SearchShipComponent
+    SearchShipComponent,
+    ShipInfoTableComponent,
+    LocationTimeInfoTableComponent
   ],
   providers: [
     ContactService, OrganizationService, ShipService

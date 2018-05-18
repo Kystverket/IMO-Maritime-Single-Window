@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="portCallStatus == STATUS_ACTIVE">
+    <div class="row" *ngIf="!portCallIsDraft">
       <div class="col">
         <div class="text-center">
           <span>Port call is already active. You can still update the information.</span>
@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="portCallStatus != STATUS_ACTIVE">
+    <div class="row" *ngIf="portCallIsDraft">
       <div *ngIf="detailsDataIsPristine && detailsMeta.valid" class="col">
         <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for government agencies to review.</p>
         <p>This action cannot be undone.</p>

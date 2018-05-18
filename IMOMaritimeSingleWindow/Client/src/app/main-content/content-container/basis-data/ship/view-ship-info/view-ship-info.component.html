@@ -23,44 +23,7 @@
   <div class="jumbotron bg-ssn-light" *ngIf="shipFound">
     <div class="row mb-3">
       <div class="col">
-        <table-card header="Ship Information" icon="ship.png">
-          <tbody>
-            <tr>
-              <td>
-                <img *ngIf="shipFlag" src="assets/images/Flags/128x128/{{shipFlag | lowercase}}.png" class="my-2" height="32px">
-              </td>
-              <td *ngFor="let entry of shipInfo" class="no-wrap px-1 mx-1">
-                <tr>
-                  <small>{{ entry.description }}:</small>
-                </tr>
-                <tr *ngIf="entry.data">{{ entry.data }}</tr>
-                <tr *ngIf="!entry.data">
-                  <div class="font-italic">Not provided.</div>
-                </tr>
-              </td>
-            </tr>
-          </tbody>
-        </table-card>
-        <table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
-          <tbody *ngIf="shipHasContactInfo">
-            <tr>
-              <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
-                <tr>
-                  <small>{{ entry.description }}
-                    <span *ngIf="entry.isPreferred"> (preferred)</span>
-                  </small>
-                </tr>
-                <tr>{{ entry.data }}</tr>
-              </td>
-            </tr>
-          </tbody>
-          <tbody class="text-center" *ngIf="!shipHasContactInfo">
-            <div class="my-3">
-              <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
-              <span>No contact information for this ship has been provided.</span>
-            </div>
-          </tbody>
-        </table-card>
+        <app-ship-info-table></app-ship-info-table>
       </div>
     </div>
   </div>
