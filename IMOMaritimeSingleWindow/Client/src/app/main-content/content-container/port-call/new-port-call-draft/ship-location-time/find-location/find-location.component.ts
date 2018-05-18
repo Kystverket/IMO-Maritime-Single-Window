@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { NgbTypeaheadConfig } from '@ng-bootstrap/ng-bootstrap';
-
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-
+import 'rxjs/add/operator/map';
+import { LocationProperties } from '../../../../../../shared/constants/location-properties';
 import { LocationService } from '../../../../../../shared/services/location.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
+
+
 
 @Component({
     selector: 'app-find-location',
@@ -19,53 +16,37 @@ import { LocationOverviewModel } from '../../../../../../shared/models/location-
 })
 export class FindLocationComponent implements OnInit {
 
-    locationModel: LocationOverviewModel;
     locationFound: boolean = false;
 
-    searching: boolean = false;
-    searchFailed: boolean = false;
-    hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-
+    locationFlag: string;
+    locationProperties = LocationProperties.PROPERTIES;
+    locationInfo: any[];
     constructor(private portCallService: PortCallService, private locationService: LocationService) { }
 
-    search = (text$: Observable<string>) =>
-        text$
-            .debounceTime(150)
-            .distinctUntilChanged()
-            .do((term) => {
-                this.searchFailed = false;
-                if (term.length >= 2) this.searching = true;
-            })
-            .switchMap(term => term.length < 2 ? [] :
-                this.locationService.search(term)
-            )
-            .do((text$) => {
-                this.searching = false;
-                if (text$.length == 0) {
-                    this.searchFailed = true;
-                }
-            })
-            .merge(this.hideSearchingWhenUnsubscribed)
-
-    formatter = (x: { locationId: string }) => x.locationId;
-
-    selectLocation($event) {
-        this.portCallService.setLocationData($event.item);
-    }
-
     deselectLocation() {
-        this.portCallService.setLocationData(null);
+        this.locationFound = false;
+        this.locationService.setLocationData(null);
     }
 
     ngOnInit() {
-        this.portCallService.locationData$.subscribe(
-            locData => {
-                if (locData) {
+        this.locationService.locationData$.subscribe(
+            locationResult => {
+                if (locationResult) {
+                    this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
+                    this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
+                    this.locationProperties.LOCATION_TYPE.data = (locationResult.locationType) ? locationResult.locationType.name : null;
+                    this.locationProperties.LOCATION_NAME.data = locationResult.location.name;
+                    this.locationProperties.LOCATION_CODE.data = locationResult.location.locationCode;
+                    this.locationProperties.LOCATION_NO.data = locationResult.location.locationNo;
+                    this.locationProperties.POST_CODE.data = locationResult.location.postCode;
+
                     this.locationFound = true;
-                    this.locationModel = locData;
+                    this.portCallService.setLocationData(locationResult);
                 } else {
                     this.locationFound = false;
+                    this.portCallService.setLocationData(null);
                 }
+                this.locationInfo = Object.values(this.locationProperties);
             }
         );
     }
