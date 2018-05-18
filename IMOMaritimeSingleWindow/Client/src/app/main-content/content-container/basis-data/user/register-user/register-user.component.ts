@@ -1,36 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { UserService } from '../../../../../shared/services/user.service';
+import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
 import { UserModel } from '../../../../../shared/models/user-model';
-import { Role } from '../../../../../shared/models/role-model';
 import { AccountService } from '../../../../../shared/services/account.service';
 import { AuthService } from '../../../../../shared/services/auth-service';
 import { LoginService } from '../../../../../shared/services/login.service';
-import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
 import { OrganizationService } from '../../../../../shared/services/organization.service';
+import { ContentService } from '../../../../../shared/services/content.service';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 
-
+const RESULT_SUCCES: string = "User was successfully registered.";
+const RESULT_FAILURE: string = "There was a problem when trying to register the user. Please try again later.";
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, UserService, AccountService]
+  providers: [UserModel, AccountService]
 })
-
 export class RegisterUserComponent implements OnInit {
 
-  Selected: boolean;
-
-  companyTerm: string;
-  selectedRole: any;
-  roleList: any[];
-  subscription: Subscription;
-  loggedIn: boolean;
-  brandNew: boolean;
-  errors: string;
-  isRequesting: boolean;
-  submitted = false;
   user: UserModelWithPassword = {
     email: '',
     phoneNumber: '',
@@ -40,156 +30,93 @@ export class RegisterUserComponent implements OnInit {
     roleName: '',
     organizationId: ''
   };
-  organizationName: '';
-  isDrafted: boolean;
   emailTaken: boolean;
-  emailTakenSet: boolean;
-  emailSubmitted: boolean;
-  userRegistrationDisabled: boolean;
+  emailChecked: boolean;
+
+  organizationModel: any;
+  organizationSelected: boolean;
+
+  roleList: any[];
+  selectedRole: any;
 
   constructor(
     private userModel: UserModel,
-    private userService: UserService,
     private accountService: AccountService,
-    private authService: AuthService,
-    private loginService: LoginService,
-    private organizationService: OrganizationService
-    ) { }
-
-    saveUserModel({ value, valid }: { value: UserModel, valid: boolean }) {
-      if (valid) {
-        this.isDrafted = true;
-        console.log("user:", this.user);
-        console.log("is drafted");
-      }
-     }
-
-    logUserModel(){
-      console.log(this.user);
-    }
-
-    hasPhoneNumber() { return this.user.phoneNumber != ''; }
-    hasName() { return this.user.firstName != '' && this.user.lastName != ''; }
-
-    userExists(emailValid: boolean) {
-      if(emailValid){
-        this.emailTakenSet = true;
-        return this.accountService.userExistsByEmail(this.user.email)
-        .subscribe(result => {
-          if(result){
-            this.emailTaken = true;
-          } else {
-            this.emailTaken = false;
-          }
-          this.emailSubmitted = true;
-        })
-      }
-    }
-
-    isEmailTaken() : boolean {
-      return !this.emailTakenSet ? true : this.emailTaken;
-    }
-    setNotSubmitted() { this.emailSubmitted = false; }
-
-  registerUser({ value, valid }: { value: UserModel, valid: boolean }) {
-    this.submitted = true;
-    this.isRequesting = true;
-    this.errors = '';
-    if (valid) {
-      this.accountService.registerUser(value).subscribe(
-         result => {
-          if (result) {
-            console.log('account created!');
-          }
-         }, error => this.errors = error
-        );
-    }
-  }
-
-  testRegisterUserWithPassword() {
-    this.isRequesting = true;
-    this.errors = '';
-    this.userRegistrationDisabled = true;
-  }
-
-  registerUserWithPassword() {
-    this.isRequesting = true;
-    this.errors = '';
-    this.accountService.registerUserWithPassword(this.user)
-    .finally( () => { this.userRegistrationDisabled = true; } )
-    .subscribe(
-      result => {
-       if (result) {
-         console.log('account created!');
-       }
-      }, error => this.errors = error
-     );
-     
-  }
-
-  startNewUserRegistration() {
-    // Reset variables so that forms appear with fresh values
-    this.resetValues();
-  }
-
-  resetValues() {
-    // Reset variables so that forms appear with fresh values
-    
-    this.selectedRole = '';
-    this.errors = '';
-    this.isRequesting = false;
-    this.submitted = false;
-
-    // Reset user model
-    this.user.email = '';
-    this.user.phoneNumber = '';
-    this.user.firstName = '';
-    this.user.lastName = '';
-    this.user.password = '';
-    this.user.roleName = '';
-    this.user.organizationId = '';
-
-    this.organizationName = '';
-
-    this.isDrafted = false;
-    this.emailTaken = false;
-    this.emailTakenSet = false;
-    this.emailSubmitted = false;
-    this.userRegistrationDisabled = false;
-  }
-
-  /* registerUserWithPassword({ value, valid }: { value: UserModelWithPassword, valid: boolean }) {
-    this.submitted = true;
-    this.isRequesting = true;
-    this.errors = '';
-    if (valid) {
-      this.accountService.registerUserWithPassword(value).subscribe(
-         result => {
-          if (result) {
-            console.log('account created!');
-          }
-         }, error => this.errors = error
-        );
-    }
-  } */
+    private organizationService: OrganizationService,
+    private contentService: ContentService,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
-    this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
 
     this.organizationService.organizationData$.subscribe(
-      result => {
-        if(result){
-          this.user.organizationId = result.organizationId;
-          this.organizationName = result.name;
+      data => {
+        if (data) {
+          this.organizationModel = data;
+          this.user.organizationId = data.organizationId;
+          this.organizationSelected = true;
+        } else {
+          this.organizationSelected = false;
         }
       }
     )
-
   }
 
+  userExists(emailValid: boolean) {
+    if (emailValid) {
+      return this.accountService.userExistsByEmail(this.user.email).subscribe(userExists => {
+        if (userExists) {
+          this.emailTaken = true;
+        } else {
+          this.emailTaken = false;
+        }
+        this.emailChecked = true;
+      });
+    }
+  }
+
+  registerUserWithPassword() {
+    this.accountService.registerUserWithPassword(this.user)
+      .subscribe(
+        result => {
+          if (result) {
+            console.log(result);
+            this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
+          }
+        },
+        error => {
+          console.log(error);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        }
+      );
+  }
+
+  deselectOrganization() {
+    this.user.organizationId = null;
+    this.organizationModel = null;
+    this.organizationSelected = false;
+  }
+
+  private goBack() {
+    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+  }
+
+  private openConfirmationModal(modalType: string, bodyText: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.modalType = modalType;
+    modalRef.componentInstance.bodyText = bodyText;
+    modalRef.result.then(
+      result => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      },
+      reason => {
+        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+      }
+    );
+  }
 
 
 }

@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AccountService } from './account.service';
 import { BaseService } from './base.service';
+import { CONTENT_NAMES } from '../constants/content-names';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>('Port Call');
+    private contentSource = new BehaviorSubject<string>(CONTENT_NAMES.REGISTER_USER);
     contentName$ = this.contentSource.asObservable();
 
     private portCallFormSource = new BehaviorSubject<string>('Port Call Details');

@@ -86,8 +86,7 @@ export class AccountService extends BaseRequest {
     registerUserWithPassword(newUser: UserModelWithPassword) {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
-        return this.http.post(this.userUrl+"/withpw", newUser, options)
-            .map(res => res.json());
+        return this.http.post(this.registerUrl+"withpw", newUser, options);
     }
 
     getUserName() {

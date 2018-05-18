@@ -1,149 +1,170 @@
+<div class="jumbotron bg-ssn-light">
+  <div class="row card-ssn text-center">
+    <div class="col-2">
+      <img src="assets/images/VoyageIcons/128x128/white/user.png" height="64px">
+    </div>
+    <div class="col-8">
+      <h3 class="text-ssn display-4">REGISTER USER</h3>
+    </div>
+  </div>
 
-<div class="container">
-  <div class="jumbotron bg-ssn-light">
-    <div *ngIf="!userRegistrationDisabled" id="user-registration">
-      <div class="row card-ssn text-center">
-        <div class="col-2">
-          <img src="assets/images/VoyageIcons/128x128/white/user.png" height="64px">
-        </div>
-        <div class="col-8">
-          <h3 class="text-ssn display-4">REGISTER USER</h3>
-        </div>
-      </div>
-      
-      <!-- BEGIN SECTION <user registration> -->
-      <ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia" class="card-body text-left">
-        
-        <p class="text-info">Please provide information about the user you wish to create. Next you will select an organization for the user and assign it a role.</p>
+  <div class="row">
+    <div class="col">
+      <ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
         <form #f="ngForm" novalidate>
 
-          <div class="form-group">
-            <label class="control-label" for="email">Email</label>
-            <div class="col-sm-4">
-              <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel"
-              [email]="true" tmFocus validateEmail (blur)="userExists(email.valid)" (ngModelChange)="setNotSubmitted()">
-              <small [hidden]="email.valid || (email.pristine && !isDrafted )" class="text-danger">Please enter a valid email</small>
-              <div *ngIf="!isEmailTaken() && emailSubmitted">
-                <img class="mx-auto" height="16px" src="../../../../../../assets/images/Validation/32x32/icon-valid-ok.png">
-                <small class="text-success">email available</small>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-1" for="email">Email</label>
+                <div class="col">
+                  <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" [email]="true"
+                    tmFocus validateEmail (blur)="userExists(email.valid)" (ngModelChange)="emailChecked = false" placeholder="Enter email">
+                  <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email</small>
+                  <div *ngIf="emailChecked && !emailTaken">
+                    <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
+                    <small class="text-success">email available</small>
+                  </div>
+                  <div *ngIf="emailChecked && emailTaken">
+                    <img height="16px" src="assets/images/Validation/32x32/icon-alert-warning.png">
+                    <small class="text-danger">email is already in use</small>
+                  </div>
+                </div>
               </div>
-              <div *ngIf="isEmailTaken() && emailSubmitted">
-                <img class="mx-auto" height="16px" src="../../../../../../assets/images/Validation/32x32/icon-alert-warning.png">
-                <small class="text-danger">email unavailable</small>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="password">Password</label>
+                <div class="col">
+                  <input id="password" type="password" name="password" class="form-control form-control-sm" [(ngModel)]="user.password" required
+                    placeholder="Enter password">
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="control-label" for="password">Password</label>
-            <div class="col-sm-4">
-              <input id="password" type="password" name="password" class="form-control form-control-sm" [(ngModel)]="user.password" required>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="first_name">First name</label>
+                <div class="col">
+                  <input id="first_name" name="firstName" class="form-control form-control-sm" [(ngModel)]="user.firstName" placeholder="Enter first name">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="last_name">Last name</label>
+                <div class="col">
+                  <input id="last_name" name="lastName" class="form-control form-control-sm" [(ngModel)]="user.lastName" placeholder="Enter last name">
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="form-group">
-            <label class="control-label" for="first_name">First name (optional)</label>
-            <div class="col-sm-4">
-              <input id="first_name" name="firstName" class="form-control form-control-sm" [(ngModel)]="user.firstName">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="phone_number">Phone number</label>
+                <div class="col">
+                  <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber" placeholder="Enter phone number">
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="control-label" for="last_name">Last name (optional)</label>
-            <div class="col-sm-4">
-              <input id="last_name" name="lastName" class="form-control form-control-sm" [(ngModel)]="user.lastName">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="control-label" for="phone_number">Phone number (optional)</label>
-            <div class="col-sm-4">
-              <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber">
-            </div>
-          </div>
-
-          <button type="submit" (click)="saveUserModel(f)" class="btn btn-success" [disabled]="f.invalid || (isEmailTaken() && emailSubmitted)">Submit</button>
 
         </form>
       </ssn-card>
-      <!-- END SECTION <user registration> -->
-        <ssn-card *ngIf="isDrafted" header="User details">
-          <div class="text-center">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr class="bg-ssn text-ssn">
-                    <th *ngIf="hasName()">First name</th>
-                    <th *ngIf="hasName()">Last name</th>
-                    <th>Email</th>
-                    <th *ngIf="hasPhoneNumber()">Phone number</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td *ngIf="hasName()">{{ user.firstName }}</td>
-                    <td *ngIf="hasName()">{{ user.lastName }}</td>
-                    <td> {{ user.email }} </td>
-                    <td *ngIf="hasPhoneNumber()"> {{ user.phoneNumber }} </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </ssn-card>
-      <!-- BEGIN SECTION <user rights assignment> -->
-      <ssn-card *ngIf="isDrafted" header="User rights" icon="user-info.png">
-
-          <div class="form-group">
-              <label class="control-label" for="organization">
-                  <span class="no-wrap">Select an organization for this user</span>
-              </label>
-              <app-search-organization></app-search-organization>
-          </div>
-          
-          <div class="form-group">
-            <label for="roleSelected">
-                <span class="no-wrap">Select a role for this user</span>
-              </label>
-              <ng-select id="roleSelected" [items]="roleList" [multiple]="false" [closeOnSelect]="true" bindLabel="name" placeholder="Select role"
-                [(ngModel)]="user.roleName">
-              </ng-select>
-          </div>
-          
-
-        <button class="btn btn-success" [disabled]="!isDrafted" (click)="registerUserWithPassword()">Confirm user registration</button>
-
-      </ssn-card>
-      <!-- END SECTION <user rights assignment> -->
     </div>
-    <ssn-card header="Summary of created user" *ngIf="userRegistrationDisabled">
-        <div class="text-center">
-            <div class="table-responsive">
-              <table class="table table-bordered">
-                <thead>
-                  <tr class="bg-ssn text-ssn">
-                    <th *ngIf="hasName()">First name</th>
-                    <th *ngIf="hasName()">Last name</th>
-                    <th>Organization</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th *ngIf="hasPhoneNumber()">Phone number</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td *ngIf="hasName()">{{ user.firstName }}</td>
-                    <td *ngIf="hasName()">{{ user.lastName }}</td>
-                    <td>{{ organizationName }}</td>
-                    <td>{{ user.roleName }}</td>
-                    <td> {{ user.email }} </td>
-                    <td *ngIf="hasPhoneNumber()"> {{ user.phoneNumber }} </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ssn-card header="Select Organization" icon="pax.png">
+        <div *ngIf="!organizationSelected">
+          <app-search-organization></app-search-organization>
+        </div>
+
+        <div *ngIf="organizationSelected" class="text-center">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="bg-ssn text-ssn">
+                  <th>Organization Name</th>
+                  <th>Organization Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ organizationModel.name }}</td>
+                  <td>{{ organizationModel.organizationNo }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        <button (click)="startNewUserRegistration()" class="btn">Create another user</button>
-    </ssn-card>
+          <button class="btn btn-ssn" (click)="deselectOrganization()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+        </div>
+      </ssn-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ssn-card header="User rights" icon="verification-clipboard.png">
+        <div class="form-group">
+          <div class="text-center">
+            <span class="no-wrap">Select a role for this user</span>
+          </div>
+          <ng-select id="roleSelected" [items]="roleList" [multiple]="false" [closeOnSelect]="true" bindLabel="name" placeholder="Select role"
+            [(ngModel)]="user.roleName">
+          </ng-select>
+        </div>
+      </ssn-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <ssn-card header="Confirm User Registration">
+        <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)">
+          <div class="mb-3">
+            <p class="mb-0" *ngIf="!user.email">Email not set.</p>
+            <p class="mb-0" *ngIf="user.email && emailChecked && emailTaken">Selected email is already in use.</p>
+            <p class="mb-0" *ngIf="!user.password">Password not set.</p>
+            <p class="mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
+            <p class="mb-0" *ngIf="!user.roleName">Role not assigned.</p>
+          </div>
+          <button class="btn btn-ssn" disabled>Register User</button>
+        </div>
+        <div class="text-center" *ngIf="user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="bg-ssn text-ssn">
+                  <th *ngIf="user.firstName">First name</th>
+                  <th *ngIf="user.lastName">Last name</th>
+                  <th>Email</th>
+                  <th *ngIf="user.phoneNumber">Phone number</th>
+                  <th>Organization</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td *ngIf="user.firstName">{{ user.firstName }}</td>
+                  <td *ngIf="user.lastName">{{ user.lastName }}</td>
+                  <td> {{ user.email }} </td>
+                  <td *ngIf="user.phoneNumber">{{ user.phoneNumber }}</td>
+                  <td>{{ organizationModel.name }}</td>
+                  <td>{{ user.roleName }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-ssn" (click)="registerUserWithPassword()">Register User</button>
+        </div>
+      </ssn-card>
+    </div>
   </div>
 </div>
