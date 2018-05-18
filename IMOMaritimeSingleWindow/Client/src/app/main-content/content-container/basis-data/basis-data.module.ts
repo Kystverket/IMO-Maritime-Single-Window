@@ -13,6 +13,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
 import { UserConfirmationComponent } from './user/register-user/user-confirmation/user-confirmation.component';
 import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ViewLocationComponent } from './location/view-location/view-location.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
     ViewOrganizationInfoComponent,
-    RegisterLocationComponent
+    RegisterLocationComponent,
+    ViewLocationComponent
   ],
   exports: [
     RegisterUserComponent,
