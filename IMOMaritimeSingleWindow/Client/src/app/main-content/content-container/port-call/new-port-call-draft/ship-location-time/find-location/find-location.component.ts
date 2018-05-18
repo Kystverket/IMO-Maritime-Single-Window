@@ -37,7 +37,6 @@ export class FindLocationComponent implements OnInit {
                     this.locationProperties.LOCATION_TYPE.data = locationResult.location.locationType.name;
                     this.locationProperties.LOCATION_NAME.data = locationResult.location.name;
                     this.locationProperties.LOCATION_CODE.data = locationResult.location.locationCode;
-                    this.locationProperties.POST_CODE.data = locationResult.location.postCode;
 
                     this.locationFound = true;
                     this.portCallService.setLocationData(locationResult);
