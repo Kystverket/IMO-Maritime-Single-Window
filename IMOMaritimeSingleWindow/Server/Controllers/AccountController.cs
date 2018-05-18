@@ -105,7 +105,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(exists);
         }
 
-        [HasClaim(Claims.Types.USER, Claims.Values.VIEW)]
+        [Authorize]
         [HttpGet("user/name")]
         public async Task<IActionResult> GetUserName()
         {
