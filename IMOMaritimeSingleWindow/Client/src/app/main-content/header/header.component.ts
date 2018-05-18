@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/models/menu-entry.interface';
 import { AccountService } from '../../shared/services/account.service';
 import { ContentService } from '../../shared/services/content.service';
 import { LoginService } from '../../shared/services/login.service';
 import { MenuService } from './menu.service';
-import { CONTENT_NAMES } from '../../shared/constants/content-names';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menu_entries: MenuEntry[] = [
     { title: "USERS", iconPath: this.icon_path + "user.png", menuName: CONTENT_NAMES.REGISTER_USER },
     { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
-    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.REGISTER_LOCATION },
+    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.LOCATIONS },
     { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
     { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
   ];
