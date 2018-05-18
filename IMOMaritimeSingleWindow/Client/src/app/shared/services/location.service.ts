@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { LocationModel } from "../models/location-model";
 import { SearchService } from "./search.service";
 
@@ -15,7 +15,7 @@ export class LocationService {
 
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
-        this.searchUrl = 'api/location/search/';
+        this.searchUrl = 'api/location/search';
         this.registerLocationUrl = 'api/location/register';
         this.getLocationTypesUrl = 'api/locationtype/getall';
         this.getCountriesUrl = 'api/country/getall';
@@ -29,6 +29,9 @@ export class LocationService {
     }
 
     public search(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
         return this.searchService.search(this.searchUrl, term);
     }
 

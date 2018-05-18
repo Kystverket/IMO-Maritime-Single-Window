@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { Http, Headers, RequestOptions } from "@angular/http";
-import { BehaviorSubject } from "rxjs";
+import { Http, RequestOptions } from "@angular/http";
+import { BehaviorSubject, Observable } from "rxjs";
 import { ShipContactModel } from "../models/ship-contact-model";
-import { SearchService } from "./search.service";
 import { AuthRequest } from "./auth.request.service";
+import { SearchService } from "./search.service";
 
 @Injectable()
 export class ShipService {
@@ -84,10 +84,16 @@ export class ShipService {
     }
 
     search(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
         return this.searchService.search(this.shipSearchUrl, term);
     }
 
     searchFlagCode(term: string) {
+        if (term.length < 1) {
+            return Observable.of([]);
+        }
         return this.searchService.search(this.flagCodeSearchUrl, term);
     }
 

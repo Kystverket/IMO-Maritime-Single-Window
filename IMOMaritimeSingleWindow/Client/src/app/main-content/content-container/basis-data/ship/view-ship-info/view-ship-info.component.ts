@@ -13,10 +13,6 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class ViewShipInfoComponent implements OnInit {
 
-  shipFlag: string;
-  contactMediumList: any;
-  shipHasContactInfo: boolean = false;
-  shipContactInfo: any[] = [];
   shipFound: boolean = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
@@ -31,7 +27,7 @@ export class ViewShipInfoComponent implements OnInit {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
   }
 
-  constructor(private shipService: ShipService, private constantsService: ConstantsService, private contentService: ContentService) { }
+  constructor(private shipService: ShipService, private contentService: ContentService) { }
 
   ngOnInit() {
     this.shipService.setShipOverviewData(null);

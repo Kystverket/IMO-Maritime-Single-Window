@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, RequestOptions } from "@angular/http";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { OrganizationModel } from "../models/organization-model";
 import { AuthRequest } from "./auth.request.service";
 import { SearchService } from "./search.service";
@@ -35,6 +35,9 @@ export class OrganizationService {
     }
 
     public search(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
         return this.searchService.search(this.organizationSearch, term);
     }
 
