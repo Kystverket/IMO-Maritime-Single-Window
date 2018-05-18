@@ -24,7 +24,6 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { InfoComponent } from './registration/info/info.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
@@ -56,7 +55,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     PurposeComponent,
     OverviewComponent,
     PortCallComponent,
-    InfoComponent,
     ButtonRowComponent,
     ViewPortCallComponent,
     ClearanceComponent,

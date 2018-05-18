@@ -17,6 +17,7 @@
     <button class="btn btn-ssn" (click)="deselectOrganization()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
   </div>
+
   <br>
 
   <div class="jumbotron bg-ssn-light" *ngIf="organizationFound">
@@ -27,7 +28,7 @@
             <tr>
               <td *ngFor="let entry of organizationInfo" class="no-wrap px-1 mx-1">
                 <tr>
-                  <small>{{ entry.description }}</small>
+                  <small>{{ entry.description }}:</small>
                 </tr>
                 <tr *ngIf="entry.data">{{ entry.data }}</tr>
                 <tr *ngIf="!entry.data">

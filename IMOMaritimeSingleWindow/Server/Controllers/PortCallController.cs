@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Authorization;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using IMOMaritimeSingleWindow.Auth;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -190,7 +192,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [Authorize(Policy = Policies.AdminRole)]
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
         [HttpPost("delete")]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
@@ -198,7 +200,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-                if (portCall.UserId != null && portCall.UserId.ToString().Equals(userId))
+                var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId)).FirstOrDefault();
+                var pcIsByUserOrg = _context.OrganizationPortCall.Any(opc => opc.OrganizationId == user.OrganizationId);
+                if ((portCall.UserId != null && portCall.UserId.ToString().Equals(userId)) || pcIsByUserOrg)
                 {
                     PortCall removePortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId)
                                                         .Include(pc => pc.PortCallDetails)
@@ -216,7 +220,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     _context.SaveChanges();
                     return Json("Port call deleted.");
                 }
-                return BadRequest("Delete request denied: you must either be an administrator or the user who created the port call in order to delete it.");
+                return BadRequest("Delete request denied: you must either be an administrator or the be an user at the same organization as the user who created the port call in order to delete it.");
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {

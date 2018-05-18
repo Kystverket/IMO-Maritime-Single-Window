@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
+import { of } from 'rxjs/observable/of';
+import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { ShipFlagCodeService } from '../../../../../shared/services/ship-flag-code.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
 
@@ -26,23 +28,27 @@ export class SearchShipFlagCodeComponent implements OnInit {
     constructor(private shipService: ShipService) { }
 
     search = (text$: Observable<string>) =>
-        text$
-            .debounceTime(50)
-            .distinctUntilChanged()
-            .do((term) => {
+        text$.pipe(
+            debounceTime(50),
+            distinctUntilChanged(),
+            tap((term) => {
                 this.searchFailed = false;
-                if (term.length >= 1) this.searching = true;
-            })
-            .switchMap(term => term.length < 1 ? [] :
-                this.shipService.searchFlagCode(term)
-            )
-            .do((text$) => {
+                this.searching = (term.length >= 1)
+            }),
+            switchMap(term =>
+                this.shipService.searchFlagCode(term).pipe(
+                    tap(() => this.searchFailed = false),
+                    catchError(() => {
+                        this.searchFailed = true;
+                        return of([]);
+                    }))
+            ),
+            tap((res) => {
                 this.searching = false;
-                if (text$.length == 0) {
-                    this.searchFailed = true;
-                }
-            })
-            .merge(this.hideSearchingWhenUnsubscribed);
+                this.searchFailed = (this.shipFlagCodeModel.length >= 1 && res.length === 0);
+            }),
+            merge(this.hideSearchingWhenUnsubscribed)
+        );
 
     formatter = (x: { shipFlagCodeId: string }) => x.shipFlagCodeId;
 
