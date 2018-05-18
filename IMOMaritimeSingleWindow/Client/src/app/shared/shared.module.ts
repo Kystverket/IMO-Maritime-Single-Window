@@ -9,7 +9,9 @@ import { ConfirmationViewComponent } from './components/confirmation-view/confir
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
+import { LocationInfoTableComponent } from './components/location-info-table/location-info-table.component';
 import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
+import { SearchLocationComponent } from './components/search-location/search-location.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipComponent } from './components/search-ship/search-ship.component';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
@@ -17,6 +19,7 @@ import { ShipInfoTableComponent } from './components/ship-info-table/ship-info-t
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 import { ContactService } from './services/contact.service';
+import { LocationService } from './services/location.service';
 import { OrganizationService } from './services/organization.service';
 import { ShipService } from './services/ship.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
@@ -44,6 +47,8 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SearchShipComponent,
     ShipInfoTableComponent,
     LocationTimeInfoTableComponent,
+    LocationInfoTableComponent,
+    SearchLocationComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -58,10 +63,12 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SearchOrganizationComponent,
     SearchShipComponent,
     ShipInfoTableComponent,
-    LocationTimeInfoTableComponent
+    LocationTimeInfoTableComponent,
+    LocationInfoTableComponent,
+    SearchLocationComponent
   ],
   providers: [
-    ContactService, OrganizationService, ShipService
+    ContactService, OrganizationService, ShipService, LocationService
   ],
   entryComponents: [
     ConfirmationModalComponent

@@ -23,7 +23,6 @@ export class LocationTimeInfoTableComponent implements OnInit {
           this.locationTimeProperties.LOCATION_TYPE.data = (locationResult.locationType) ? locationResult.locationType.name : null;
           this.locationTimeProperties.LOCATION_NAME.data = locationResult.location.name;
           this.locationTimeProperties.LOCATION_CODE.data = locationResult.location.locationCode;
-          this.locationTimeProperties.LOCATION_NO.data = locationResult.location.locationNo;
 
           this.portCallService.etaEtdData$.subscribe(
             timeResult => {

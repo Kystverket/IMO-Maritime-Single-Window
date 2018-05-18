@@ -1,0 +1,18 @@
+<table-card header="Location Information" icon="location.png">
+  <tbody>
+    <tr>
+      <td>
+        <img *ngIf="locationFlag" src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" class="my-2" height="32px">
+      </td>
+      <td *ngFor="let entry of locationInfo" class="no-wrap px-1 mx-1">
+        <tr>
+          <small>{{ entry.description }}:</small>
+        </tr>
+        <tr>
+          <div *ngIf="entry.data">{{ entry.data }}</div>
+          <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+        </tr>
+      </td>
+    </tr>
+  </tbody>
+</table-card>

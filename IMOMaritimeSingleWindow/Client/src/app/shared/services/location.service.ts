@@ -1,11 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { of } from "rxjs/observable/of";
-import { SearchService } from "./search.service";
+import { BehaviorSubject } from "rxjs";
 import { LocationModel } from "../models/location-model";
+import { SearchService } from "./search.service";
 
 @Injectable()
 export class LocationService {
+
+    private searchService: SearchService;
+    private searchUrl: string;
+    private registerLocationUrl: string;
+    private getLocationTypesUrl: string;
+    private getCountriesUrl: string;
+
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
         this.searchUrl = 'api/location/search/';
@@ -14,11 +21,12 @@ export class LocationService {
         this.getCountriesUrl = 'api/country/getall';
     }
 
-    private searchService: SearchService;
-    private searchUrl: string;
-    private registerLocationUrl: string;
-    private getLocationTypesUrl: string;
-    private getCountriesUrl: string;
+    private locationDataSource = new BehaviorSubject<any>(null);
+    locationData$ = this.locationDataSource.asObservable();
+
+    setLocationData(data) {
+        this.locationDataSource.next(data);
+    }
 
     public search(term: string) {
         return this.searchService.search(this.searchUrl, term);
@@ -30,11 +38,11 @@ export class LocationService {
 
     public getLocationTypes() {
         return this.http.get(this.getLocationTypesUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 
     public getCountries() {
         return this.http.get(this.getCountriesUrl)
-                .map(res => res.json());
+            .map(res => res.json());
     }
 }

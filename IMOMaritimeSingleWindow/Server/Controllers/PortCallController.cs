@@ -190,7 +190,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [Authorize(Policy = Policies.AdminRole)]
+        [Authorize(Policy = Policies.SuperAdminRole)]
         [HttpPost("delete")]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
