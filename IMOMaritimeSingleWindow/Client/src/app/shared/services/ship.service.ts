@@ -67,8 +67,8 @@ export class ShipService {
     }
 
     saveShipContactList(shipContactList: ShipContactModel[]) {
-        console.log(shipContactList);
-        return this.http.post(this.saveShipContactListUrl, shipContactList).map(res => res.json());
+        return this.http.post(this.saveShipContactListUrl, shipContactList)
+            .map(res => res.json());
     }
 
     setOrganizationData(data) {
@@ -81,10 +81,9 @@ export class ShipService {
 
     setShipFlagCodeData(data) {
         this.shipFlagCodeDataSource.next(data);
-        console.log(data);
     }
 
-    searchShip(term: string) {
+    search(term: string) {
         return this.searchService.search(this.shipSearchUrl, term);
     }
 

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
 import { ClearanceModel } from '../../../../shared/models/clearance-model';
 import { ContentService } from '../../../../shared/services/content.service';
 import { PortCallService } from '../../../../shared/services/port-call.service';
-import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
+import { ShipService } from '../../../../shared/services/ship.service';
 
 @Component({
   selector: 'app-clearance',
@@ -18,7 +19,7 @@ export class ClearanceComponent implements OnInit {
 
   givingClearance: boolean;
 
-  constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService) { }
+  constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService, private shipService: ShipService) { }
 
   ngOnInit() {
     this.portCallService.clearanceListData$.subscribe(
@@ -33,6 +34,12 @@ export class ClearanceComponent implements OnInit {
             }
           )
         }
+      }
+    );
+
+    this.portCallService.shipData$.subscribe(
+      shipResult => {
+        this.shipService.setShipOverviewData(shipResult);
       }
     );
   }

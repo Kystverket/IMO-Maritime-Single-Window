@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../../shared/constants/content-names';
 import { PortCallStatusTypes } from '../../../../../../shared/constants/port-call-status-types';
 import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
 import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
@@ -9,9 +10,8 @@ import { PortCallModel } from '../../../../../../shared/models/port-call-model';
 import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
 import { ContentService } from '../../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { CONTENT_NAMES } from '../../../../../../shared/constants/content-names';
 
-const RESULT_SUCCES: string = "The port call draft was successfully created. You will now be taken to the wizard for registering the rest of the information and activating the port call.";
+const RESULT_SUCCESS: string = "The port call draft was successfully created. You will now be taken to the wizard for registering the rest of the information and activating the port call.";
 const RESULT_FAILURE: string = "There was a problem when trying to create the new port call draft. Please try again later.";
 
 @Component({
@@ -36,7 +36,6 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallService.shipData$.subscribe(
       shipData => {
         if (shipData) {
-          console.log(shipData);
           this.shipFound = true;
           this.shipModel = shipData;
         } else {
@@ -47,7 +46,6 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallService.locationData$.subscribe(
       locationData => {
         if (locationData) {
-          console.log(locationData);
           this.locationFound = true;
           this.locationModel = locationData;
         } else {
@@ -83,7 +81,6 @@ export class ConfirmDataComponent implements OnInit {
     let etd = new Date(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.etd.day, this.etaEtdModel.etd.hour, this.etaEtdModel.etd.minute);
     this.portCallModel.locationEta = eta;
     this.portCallModel.locationEtd = etd;
-    console.log(this.portCallModel);
     this.portCallService.registerNewPortCall(this.portCallModel).subscribe(
       result => {
         console.log("New port call successfully registered.");
@@ -95,7 +92,7 @@ export class ConfirmDataComponent implements OnInit {
         portCallDetails.portCallId = result.portCallId;
         portCallDetails.portCallDetailsId = result.portCallId;
         this.portCallService.setDetails(portCallDetails);
-        this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
       },
       error => {
         console.log(error);
