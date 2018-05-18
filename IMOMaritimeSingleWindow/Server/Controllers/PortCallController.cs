@@ -36,6 +36,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipContact)
             .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
+            .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
@@ -201,9 +202,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-                var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId)).FirstOrDefault();
-                var pcIsByUserOrg = _context.OrganizationPortCall.Any(opc => opc.OrganizationId == user.OrganizationId);
-                if ((portCall.UserId != null && portCall.UserId.ToString().Equals(userId)) || pcIsByUserOrg)
+                var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId)).Include(u => u.Role).FirstOrDefault();
+                var userIsAdmin = user.Role.Name.Equals(Constants.Strings.UserRoles.SuperAdmin);
+                var pcIsByUserOrg = (user.OrganizationId != null && _context.OrganizationPortCall.Any(opc => opc.PortCallId == portCall.PortCallId && opc.OrganizationId == user.OrganizationId));
+                if (userIsAdmin || (portCall.UserId != null && portCall.UserId.ToString().Equals(userId)) || pcIsByUserOrg)
                 {
                     PortCall removePortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId)
                                                         .Include(pc => pc.PortCallDetails)

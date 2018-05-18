@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Headers, Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs';
+import { UserModelWithPassword } from "../models/UserModelWithPassword";
 import { UserModel } from "../models/user-model";
 import { BaseRequest } from "../utils/base.request";
 import { ConfigService } from "../utils/config.service";
 import { AuthRequest } from "./auth.request.service";
-import { UserModelWithPassword } from "../models/UserModelWithPassword";
 
 
 @Injectable()
@@ -50,7 +50,7 @@ export class AccountService extends BaseRequest {
     getUserRole() {
         var auth_headers = this.authRequestService.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers })
-        return this.http.get(this.userUrl+"/role")
+        return this.http.get(this.userUrl + "/role")
             .map(res => res.json());
     }
 
@@ -86,8 +86,7 @@ export class AccountService extends BaseRequest {
     registerUserWithPassword(newUser: UserModelWithPassword) {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
-        return this.http.post(this.userUrl+"/withpw", newUser, options)
-            .map(res => res.json());
+        return this.http.post(this.userUrl + "/withpw", newUser, options);
     }
 
     getUserName() {
@@ -102,7 +101,7 @@ export class AccountService extends BaseRequest {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
         return this.http
-            .get(this.actionUrl + "/user/"+email, options)
+            .get(this.actionUrl + "/user/" + email, options)
             .map(res => res.json());
     }
 
@@ -110,7 +109,7 @@ export class AccountService extends BaseRequest {
         const auth_header = this.authRequestService.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
         return this.http
-            .get(this.actionUrl + "/user/"+email+"/exists", options)
+            .get(this.actionUrl + "/user/" + email + "/exists", options)
             .map(res => res.json());
     }
 

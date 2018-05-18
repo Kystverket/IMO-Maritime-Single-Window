@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCell } from 'ng2-smart-table';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { PortCallClaims } from '../../../../../shared/constants/port-call-claims';
 import { PortCallStatusTypes } from '../../../../../shared/constants/port-call-status-types';
 import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
@@ -9,7 +10,6 @@ import { ConstantsService } from '../../../../../shared/services/constants.servi
 import { ContentService } from '../../../../../shared/services/content.service';
 import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
 import { PortCallService } from '../../../../../shared/services/port-call.service';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 
 @Component({
   selector: 'app-button-row',
@@ -116,6 +116,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.overviewService.setOverviewData(newOverviewData);
           this.overviewService.setDraftData(newDraftData);
           this.overviewService.setClearedData(newClearedData);
+          console.log(deleteResponse);
         }
       }, error => {
         console.log(error);
