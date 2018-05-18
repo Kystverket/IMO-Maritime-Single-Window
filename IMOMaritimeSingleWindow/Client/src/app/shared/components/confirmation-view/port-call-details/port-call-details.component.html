@@ -5,9 +5,12 @@
         <tr>
           <td *ngFor="let entry of portCallDetailsInfo" class="no-wrap px-1 mx-1">
             <tr>
-              <small>{{ entry.description }}</small>
+              <small>{{entry.description}}</small>
             </tr>
-            <tr>{{ entry.data }}</tr>
+            <tr>
+              <div *ngIf="entry.data">{{ entry.data }}</div>
+              <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+            </tr>
           </td>
         </tr>
       </tbody>
