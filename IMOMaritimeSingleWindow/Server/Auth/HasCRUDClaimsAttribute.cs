@@ -9,7 +9,7 @@ namespace IMOMaritimeSingleWindow.Auth
 {
     public class HasCRUDClaimsAttribute : TypeFilterAttribute
     {
-        public HasCRUDClaimsAttribute(string claimType) : base(typeof(HasClaimFilter))
+        public HasCRUDClaimsAttribute(string claimType) : base(typeof(HasCRUDClaimsFilter))
         {
             Arguments = new object[] { claimType };
         }

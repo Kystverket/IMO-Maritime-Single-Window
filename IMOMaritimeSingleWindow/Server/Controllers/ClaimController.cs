@@ -15,12 +15,10 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class ClaimController : Controller
     {
-        readonly open_ssnContext _context;
         readonly UnitOfWork _unitOfWork;
 
         public ClaimController(IUnitOfWork<Guid> unitOfWork)
         {
-            // _context = context;
             _unitOfWork = unitOfWork as UnitOfWork;
 
         }

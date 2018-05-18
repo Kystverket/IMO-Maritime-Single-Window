@@ -14,6 +14,7 @@ using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     public class ShipController : Controller
     {
@@ -24,7 +25,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
+        [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
         [HttpPost("register")]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
@@ -39,7 +40,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(newShip);
         }
-
+        
         public List<Ship> SearchShip(string searchTerm)
         {
 

@@ -12,6 +12,8 @@ using IMOMaritimeSingleWindow.Repositories;
 using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
+using IMOMaritimeSingleWindow.Auth;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -48,6 +50,20 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
         */
         
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.CLEARANCE)]
+        [HttpGet("attribute")]
+        public IActionResult GetResource()
+        {
+            return Ok("claim check passed");
+        }
+
+        [HasCRUDClaims(Claims.Types.PORT_CALL)]
+        [HttpGet("crudattribute")]
+        public IActionResult GetResource2()
+        {
+            return Ok("CRUD claims check passed");
+        }
+
         [HttpGet("getuserclaims/{userName}")]
         public async Task<JsonResult> GetUserClaims(string userName)
         {
