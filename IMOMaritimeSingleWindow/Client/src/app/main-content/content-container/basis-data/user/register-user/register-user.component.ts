@@ -52,6 +52,7 @@ export class RegisterUserComponent implements OnInit {
       data => this.roleList = data
     );
 
+    this.organizationService.setOrganizationData(null);
     this.organizationService.organizationData$.subscribe(
       data => {
         if (data) {
