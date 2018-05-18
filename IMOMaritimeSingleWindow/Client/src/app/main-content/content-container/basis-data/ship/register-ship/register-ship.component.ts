@@ -90,6 +90,7 @@ export class RegisterShipComponent implements OnInit {
       }
     );
 
+    this.organizationService.setOrganizationData(null);
     this.organizationService.organizationData$.subscribe(
       data => {
         if (data) {
