@@ -57,6 +57,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                       select opc).ToList();
             return overview;
         }
+
         [HttpGet("overview/{portCallId}")]
         public IActionResult GetOverviewJson(int portCallId)
         {
@@ -124,7 +125,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
         }
-
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.EDIT)]
         [HttpPost("update")]
         public IActionResult Update([FromBody] PortCall portCall)
         {
@@ -230,7 +231,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-        [Authorize]
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.REGISTER)]
         [HttpPost("register")]
         public IActionResult Register([FromBody] PortCall portCall)
         {

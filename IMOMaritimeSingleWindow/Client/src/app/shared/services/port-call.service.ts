@@ -106,7 +106,10 @@ export class PortCallService {
 
   updatePortCall(portCall: PortCallModel) {
     console.log("Updating port call...");
-    this.http.post(this.registerNewPortCallUrl, portCall).map(res => res.json()).subscribe(
+    let authHeaders = this.authRequestService.GetHeaders();
+    let options = new RequestOptions({ headers: authHeaders });
+    this.http.post(this.registerNewPortCallUrl, portCall, options)
+    .map(res => res.json()).subscribe(
       data => {
         console.log("Success");
         console.log(data);
