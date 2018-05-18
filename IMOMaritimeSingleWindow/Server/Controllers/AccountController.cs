@@ -16,11 +16,10 @@ using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly open_ssnContext open_ssnContext;
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationRoleManager _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -30,8 +29,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             ApplicationUserManager userManager,
             ApplicationRoleManager roleManager,
             SignInManager<ApplicationUser> signInManager,
-            IMapper mapper,
-            open_ssnContext open_ssnContext)
+            IMapper mapper
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -39,20 +38,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
-        // POST api/accounts/register
-        [HttpPost("register")]
-        public IActionResult RegisterTest([FromBody]RegistrationViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var userIdentity = _mapper.Map<ApplicationUser>(model);
-
-            return new OkObjectResult("OK");
-        }
-        
-
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/accounts/register
         [HttpPost("user/")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
@@ -66,7 +52,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var result = await _userManager.CreateAsync(userIdentity);
 
-            //TODO: Implement functionality for sending email to user with new account
+            //TODO: Implement functionality for sending email to user with new account, so that they can set their own password
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
@@ -74,7 +60,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        //[Authorize] // TODO: check if user has user create claim
         // POST api/accounts/register
         [HttpPost("user/withpw")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
@@ -112,7 +97,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(roleNames);
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("user/{email}/exists")]
         public async Task<IActionResult> UserExists(string email)
         {
@@ -120,7 +105,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(exists);
         }
 
-        [Authorize]
+        [HasClaim(Claims.Types.USER, Claims.Values.VIEW)]
         [HttpGet("user/name")]
         public async Task<IActionResult> GetUserName()
         {
@@ -130,7 +115,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(user.UserName);
         }
 
-        [Authorize(Policy = Policies.SuperAdminRole)]
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("user/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
         {
@@ -150,17 +135,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             var claims = await _userManager.GetClaimsAsync(user);
             return Json(claims);
-        }
-
-        [Authorize]
-        [HttpGet("user/role")]
-        public IActionResult GetUserRole()
-        {
-            var userClaimsPrincipal = Request.HttpContext.User;
-            var role = userClaimsPrincipal.Claims
-                .Where(c => c.Type == System.Security.Claims.ClaimTypes.Role)
-                .Select(f => f.Value);
-            return Json(role);
         }
 
     }

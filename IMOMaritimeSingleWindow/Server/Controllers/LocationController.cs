@@ -8,9 +8,14 @@ using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using IMOMaritimeSingleWindow.Auth;
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     public class LocationController : Controller
     {
@@ -21,6 +26,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
         [HttpPost("register")]
         public IActionResult RegisterLocation([FromBody] Location newLocation)
         {

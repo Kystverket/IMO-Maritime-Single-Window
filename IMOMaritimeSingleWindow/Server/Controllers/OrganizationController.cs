@@ -9,20 +9,25 @@ using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using IMOMaritimeSingleWindow.Auth;
+using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    //[Authorize]
     [Route("api/[controller]")]
     public class OrganizationController : Controller
     {
         readonly open_ssnContext _context;
+
 
         public OrganizationController(open_ssnContext context)
         {
             _context = context;
         }
 
-        [Authorize]
+        
         [HttpGet("foruser")]
         public IActionResult GetOrganizationForUser()
         {
@@ -43,6 +48,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(matchingOrganizations);
         }
 
+        [HasClaim(Claims.Types.ORGANIZATION, Claims.Values.REGISTER)]
         [HttpPost("register")]
         public IActionResult RegisterOrganization([FromBody] Organization newOrganization)
         {
