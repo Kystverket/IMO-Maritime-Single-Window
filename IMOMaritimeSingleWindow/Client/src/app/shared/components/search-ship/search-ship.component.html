@@ -1,11 +1,9 @@
 <ng-template #rt let-r="result" let-t="term">
-  <div class="">
-    <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
-    <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
-    <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
-    <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
-    <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
-  </div>
+  <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+  <strong *ngIf="r.ship.name">Name: </strong> {{ r.ship.name }}
+  <strong *ngIf="r.ship.callSign"> Call sign: </strong> {{ r.ship.callSign }}
+  <strong *ngIf="r.ship.imoNo"> IMO number: </strong> {{ r.ship.imoNo }}
+  <strong *ngIf="r.ship.mmsiNo"> MMSI number: </strong> {{ r.ship.mmsiNo }}
 </ng-template>
 
 <div *ngIf="!shipSelected" class="text-center">

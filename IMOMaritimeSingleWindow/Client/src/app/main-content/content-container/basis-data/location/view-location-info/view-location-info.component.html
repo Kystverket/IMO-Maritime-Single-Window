@@ -1,3 +1,30 @@
-<p>
-  view-location-info works!
-</p>
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-4">
+    <ssn-card header='Register New Location' icon='location.png'>
+      <div class="text-center">
+        <button class="btn btn-ssn" (click)="registerNewLocation()">Register New Location</button>
+      </div>
+    </ssn-card>
+  </div>
+</div>
+
+<ssn-card header="Location Search" icon="location.png">
+  <div *ngIf="!locationFound">
+    <app-search-location></app-search-location>
+  </div>
+
+  <div *ngIf="locationFound" class="text-center">
+    <button class="btn btn-ssn" (click)="deselectLocation()">
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+
+  <br>
+
+  <div class="jumbotron bg-ssn-light" *ngIf="locationFound">
+    <div class="row mb-3">
+      <div class="col">
+        <app-location-info-table></app-location-info-table>
+      </div>
+    </div>
+  </div>
+</ssn-card>
