@@ -42,7 +42,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     where (EF.Functions.ILike(loc.Name, searchTerm + '%')
                     || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
                     && loc.LocationCode != null && !loc.LocationCode.Equals(string.Empty)
-                    select loc).Take(10).ToList();
+                    select loc).Include(l => l.LocationType).Take(10).ToList();
         }
 
         [HttpGet("search/{searchTerm}")]
