@@ -47,9 +47,11 @@ namespace IMOMaritimeSingleWindow
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables()
                 .Build();
             HostingEnvironment = env;
+
         }
         
 
@@ -257,13 +259,6 @@ namespace IMOMaritimeSingleWindow
             {
                 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
-            var configurationBuilder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            configurationBuilder.Build();
 
             //app.UseCors("AllowAllAny");
             // app.UseCors(policyName: "AllowLocalhost");
