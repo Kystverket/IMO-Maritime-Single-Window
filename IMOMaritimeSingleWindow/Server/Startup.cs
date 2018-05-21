@@ -18,12 +18,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Cors;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.IdentityModel.Tokens;
 
 // Local namespaces
@@ -32,9 +30,10 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Models.Entities;
-//using IMOMaritimeSingleWindow.Services;
 using IMOMaritimeSingleWindow.ViewModels.Mappings;
+using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Repositories;
+using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace IMOMaritimeSingleWindow
@@ -42,54 +41,69 @@ namespace IMOMaritimeSingleWindow
     public class Startup
     {
         
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-          Configuration = configuration;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
+            HostingEnvironment = env;
         }
+        
 
-        public IConfiguration Configuration
-        {
-          get;
-        }
+        public IConfigurationRoot Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
+        public AuthorizationPolicy AuthorizationPolicy { get; internal set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {
-            //Configure CORS with different policies
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                    b => b.WithOrigins("http://localhost"));
-                options.AddPolicy("AllowAnyOrigin",
-                    b => b.AllowAnyOrigin());
 
-                //Brute force policy if all else fails
-                //NB: Only ever use in development!
-                options.AddPolicy("AllowAllAny",
-                    b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            });
+        {
+
+            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            //Configure CORS with different policies
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AllowLocalhost",
+            //        b => {
+            //            b.WithOrigins(new string[] {
+            //                "http://localhost:4200",
+            //                "https://localhost:4200"
+            //            });
+            //            b.WithMethods(new string[]
+            //            {
+            //                "GET", "OPTIONS", "POST", "UPDATE"
+            //            });
+            //            b.AllowAnyHeader();
+            //        });
+
+            //    //Brute force policy if all else fails
+            //    //NB: Only ever use in development!
+            //    options.AddPolicy("AllowAllAny",
+            //        b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+            //});
 
             //Configure database contextes
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
             var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
+            var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
+            var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionStringUserDb));
-        
+            //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
+       
 
-          services.AddSingleton<IJwtFactory, JwtFactory>();
-
-            services.AddScoped<SignInManager<AppUser>>();
-            // add identity
-            //services.AddIdentity<AppUser, PersonRole>();
-            var builder = services.AddIdentityCore<AppUser>(options =>
+            //Configure identity services
+            var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 // configure identity options
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = true;
+                options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 4;
 
                 // Lockout options
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
@@ -97,67 +111,112 @@ namespace IMOMaritimeSingleWindow
                 options.Lockout.AllowedForNewUsers = true;
 
                 //Email options
-                //options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
 
             });
-            builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
-            builder.AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
-          // Get options from app settings
-          var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            //builder.AddSignInManager<SignInManager<ApplicationUser>>()
+            //builder.AddUserManager<ApplicationUserManager>()
+            //.AddRoleManager<ApplicationRoleManager>();
 
-          var appSettingsSection = Configuration.GetSection("AppSettings");
-          services.Configure<AppSettings>(appSettingsSection);
-          var appSettings = appSettingsSection.Get<AppSettings>();
-          SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
+            
 
-          // Configure JwtIssuerOptions
-          services.Configure<JwtIssuerOptions>(options =>
-          {
-            options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-            options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-            options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-          });
+            var serviceProvider = services.BuildServiceProvider();
+            var context = serviceProvider.GetService<open_ssnContext>();
+            if (context == null) throw new Exception("no service for open_ssnContext found!");
 
-          var tokenValidationParameters = new TokenValidationParameters
-          {
-             ValidateIssuer = true,
-             ValidIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)],
+            //services.AddSingleton<IUnitOfWork<Guid>, UnitOfWork>();
+            // services.AddAutoMapper();
+            //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
 
-             ValidateAudience = true,
-             ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
+            services.TryAddScoped<ApplicationUserManager>();
+            services.TryAddScoped<ApplicationRoleManager>();
 
-             ValidateIssuerSigningKey = true,
-             IssuerSigningKey = _signingKey,
+            // Tip from https://stackoverflow.com/a/42298278
+            var config = new MapperConfiguration(cfg =>
+           {
+               cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>();
+               cfg.AddProfile<ViewModelToEntityMappingProfile>();
+           });
+            services.AddSingleton<IMapper>(s => config.CreateMapper());
+            //services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(context));
+            services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(new open_ssnContext(dbOptions)));
+            serviceProvider = services.BuildServiceProvider();
+            var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
+            var automapper = serviceProvider.GetService<IMapper>();
 
-             RequireExpirationTime = false,
-             ValidateLifetime = true,
-             ClockSkew = TimeSpan.Zero
-          };
+            builder.AddUserManager<ApplicationUserManager>()
+            .AddRoleManager<ApplicationRoleManager>();
 
-          services.AddAuthentication(options =>
-          {
-                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-          }).AddJwtBearer(configureOptions =>
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                automapper)
+            );
+
+            services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
+                new UnitOfWork(new open_ssnContext(dbOptions)),
+                automapper)
+            );
+
+            //services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
+            //var roleStore = serviceProvider.GetService<RoleStore>();
+            //services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
+
+            serviceProvider = services.BuildServiceProvider();
+
+            var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
+            //var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
+
+            // Additional manager separate from ASP NET Identity
+            //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+
+
+            //Overriding service
+            services.Replace(ServiceDescriptor.Scoped<IUserValidator<ApplicationUser>, CustomUserValidator<ApplicationUser>>());
+            //services.Replace(ServiceDescriptor.Scoped<IPasswordHasher<ApplicationUser>, CustomPasswordHasher>());
+            // Additional manager separate from ASP NET Identity
+            //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
+
+
+            // Custom services
+
+            //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
+
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+
+            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging() || HostingEnvironment.IsDevelopment())
             {
-                configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-                configureOptions.TokenValidationParameters = tokenValidationParameters;
-                configureOptions.SaveToken = true;
-            }
-          ); //end AddJwtBearer
+                //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
+                services.AddJWTOptions(Configuration);
+                services.AddAuthorizationPolicies();
 
-          // api user claim policy
-          services.AddAuthorization(options =>
-          {
-            options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
-              //options.AddPolicy("RequireAgentClaims", policy => policy.RequireClaim(Constants.Strings.PersonClaims.Register,  );
-              options.AddPolicy("AdminUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.AdminAccess));
-          });
+                services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            } else
+            {
+                AuthorizationPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAssertion(_ => true)
+                    .Build();
+                
+                //Default basically granting everything needed
+                services.AddAuthorization(options =>
+                {
+                    options.DefaultPolicy = AuthorizationPolicy;
+                });
+
+                //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
+                services.AddDevelopmentAuthorizationPolicies();
+
+                // Curtesy of https://www.illucit.com/en/asp-net/asp-net-core-2-0-disable-authentication-development-environment/
+                services.AddMvc(opts =>
+                {
+                    opts.Filters.Add(new AuthorizeFilter(AuthorizationPolicy));
+                    opts.Filters.Add(new AllowAnonymousFilter());
+                })
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            }
 
 
 
@@ -173,14 +232,11 @@ namespace IMOMaritimeSingleWindow
                 });
             */
 
-            services.AddAutoMapper();
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-          // Fix for json self-referencing loop bug:
-          services.AddMvc().AddJsonOptions(
-            options => options.SerializerSettings.ReferenceLoopHandling = 
-            Newtonsoft.Json.ReferenceLoopHandling.Ignore
-          );
+            // Fix for json self-referencing loop bug:
+            services.AddMvc().AddJsonOptions(
+              options => options.SerializerSettings.ReferenceLoopHandling =
+              Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -190,13 +246,17 @@ namespace IMOMaritimeSingleWindow
                 await next();
                 if (context.Response.StatusCode == 404 &&
                    !Path.HasExtension(context.Request.Path.Value) &&
-                   !context.Request.Path.Value.StartsWith("/api/"))
+                   !context.Request.Path.Value.StartsWith("/api/", StringComparison.Ordinal))
                 {
                     context.Request.Path = "/index.html";
                     await next();
                 }
             });
 
+            if(!env.IsProduction())
+            {
+                app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            }
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -205,16 +265,15 @@ namespace IMOMaritimeSingleWindow
                 .AddEnvironmentVariables();
             builder.Build();
 
-            //app.UseCors("AllowAnyOrigin");
-            app.UseCors("AllowAllAny");
-            //app.UseCors("AllowSpecificOrigin");
+            //app.UseCors("AllowAllAny");
+            // app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
+            
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            
         }
     }
 }

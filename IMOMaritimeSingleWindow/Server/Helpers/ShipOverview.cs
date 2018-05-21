@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Helpers {
@@ -12,6 +13,10 @@ namespace IMOMaritimeSingleWindow.Helpers {
         public Country Country {get; set;}
         
         public ShipType ShipType {get; set;}
+
+        public ShipStatus ShipStatus {get; set;}
+
+        public List<ShipContact> ContactList {get; set;}
 
     }
 }

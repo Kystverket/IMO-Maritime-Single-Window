@@ -1,0 +1,27 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+  <strong *ngIf="r.location.name">Name: </strong> {{ r.location.name }}
+  <strong *ngIf="r.location.locationCode">Code: </strong> {{ r.location.locationCode }}
+</ng-template>
+
+<div *ngIf="!locationSelected" class="text-center">
+  <label for="search-location">Search using location name or UN/LOCODE code</label>
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+        [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" placeholder="Enter search here..."
+      />
+    </div>
+    <div class="col-2">
+      <div *ngIf="searching">
+        <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">
+        <p>Searching</p>
+      </div>
+      <div *ngIf="searchFailed">
+        <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+        <p>No results</p>
+      </div>
+    </div>
+  </div>
+</div>

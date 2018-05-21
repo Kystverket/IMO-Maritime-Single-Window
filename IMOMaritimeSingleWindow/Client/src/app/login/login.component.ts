@@ -1,8 +1,14 @@
+// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Credentials } from '../shared/models/credentials.interface';
+import { AccountService } from '../shared/services/account.service';
+import { AuthService } from '../shared/services/auth-service';
+import { ContentService } from '../shared/services/content.service';
 import { LoginService } from '../shared/services/login.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { CONTENT_NAMES } from '../shared/constants/content-names';
 
 @Component({
   selector: 'app-login',
@@ -20,30 +26,59 @@ export class LoginComponent implements OnInit, OnDestroy {
   errors: string;
   isRequesting: boolean;
   submitted: boolean = false;
-  credentials: Credentials = { username: '', password: ''}
+  credentials: Credentials = { userName: '', password: '' }
 
-  constructor(private loginService: LoginService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private loginService: LoginService,
+    private contentService: ContentService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private accountService: AccountService
+  ) { }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
     this.submitted = true;
-    this.isRequesting = true;
     this.errors = '';
     if (valid) {
-      this.loginService.login(value.username, value.password)
-      .finally(() => this.isRequesting = false)
-      .subscribe( result => {
-        if (result) {
-          this.router.navigate(['']);
-        }
-      }, error => this.errors = error);
+      this.isRequesting = true;
+      this.loginService.login(value.userName, value.password)
+        .finally(() => {
+          this.isRequesting = false;
+        })
+        .subscribe(result => {
+          // Login succeeded
+          if (result) {
+            // Set user claims observable so they are
+            // available for the entire application
+            this.accountService.getUserClaims()
+              // Navigate to root when done
+              .finally(() => {
+                this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+                this.router.navigate(['']);
+              })
+              .subscribe(result => {
+                if (result) {
+                  this.accountService.setUserClaims(result);
+                  localStorage.setItem("user-claims", JSON.stringify(result));
+                }
+              })
+          }
+          // Login failed
+        }, error => {
+          this.errors = error;
+          this.credentials.password = '';
+          }
+        )
     }
   }
 
   ngOnInit() {
+    // subscribe to router event
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
-        this.credentials.username = param['username'];
+        //this.credentials.userName = param['userName'];
       }
     );
   }
@@ -51,4 +86,5 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
 }

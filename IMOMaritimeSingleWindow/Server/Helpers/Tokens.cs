@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace IMOMaritimeSingleWindow.Helpers
 {
-    public class Tokens
+    public static class Tokens
     {
       public static async Task<string> GenerateJwt(ClaimsIdentity identity, IJwtFactory jwtFactory,string userName, JwtIssuerOptions jwtOptions, JsonSerializerSettings serializerSettings)
       {

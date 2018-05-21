@@ -18,13 +18,23 @@
     </div>
   </div>
 
-  <app-info></app-info>
-  
-  <app-confirmation></app-confirmation>
+  <div class="row mb-3">
+    <div class="col">
+      <app-ship-info-table></app-ship-info-table>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <app-location-time-info-table></app-location-time-info-table>
+    </div>
+  </div>
+
+  <app-confirmation-view></app-confirmation-view>
 
   <div class="row">
     <div class="col">
-      <ssn-card title="Clearance" icon="stamp.png">
+      <ssn-card header="Clearance" icon="stamp.png">
         <div class="form-group">
           <label for="remarks">Remarks</label>
           <textarea class="form-control" rows="3" id="remarks" [(ngModel)]="clearanceModel.remark"></textarea>
@@ -40,7 +50,7 @@
             <div class="mx-auto">
               <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="32px">
             </div>
-            <small>Decline</small>
+            <small>Reject</small>
           </button>
         </div>
       </ssn-card>

@@ -34,7 +34,7 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTime ValidToDate { get; set; }
         public string Remark { get; set; }
         public bool IsVerified { get; set; }
-        public int? CompanyId { get; set; }
+        public int? OrganizationId { get; set; }
 
         public Ship Ship { get; set; }
     }

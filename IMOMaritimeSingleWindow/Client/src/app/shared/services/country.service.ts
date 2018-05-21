@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from "@angular/http";
-import { of } from "rxjs/observable/of";
+import { Observable } from "rxjs";
 import { SearchService } from "./search.service";
 
 @Injectable()
@@ -14,6 +14,9 @@ export class CountryService {
     private actionUrl: string;
 
     public search(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
         return this.searchService.search(this.actionUrl, term);
     }
 }

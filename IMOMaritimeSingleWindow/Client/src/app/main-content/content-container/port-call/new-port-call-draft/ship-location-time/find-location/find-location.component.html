@@ -1,0 +1,28 @@
+<ssn-card header="Select Location" icon="location.png">
+
+    <div *ngIf="!locationFound" class="text-center">
+        <app-search-harbour></app-search-harbour>
+    </div>
+
+    <div *ngIf="locationFound" class="text-center">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <th *ngIf="locationFlag" class="bg-ssn text-ssn">Flag</th>
+                    <th *ngFor="let entry of locationInfo" class="bg-ssn text-ssn">{{ entry.description }}</th>
+                </thead>
+                <tbody>
+                    <td *ngIf="locationFlag">
+                        <img src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" height="20px">
+                    </td>
+                    <td *ngFor="let entry of locationInfo">
+                        <div *ngIf="entry.data">{{ entry.data }}</div>
+                        <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+                    </td>
+                </tbody>
+            </table>
+        </div>
+        <button class="btn btn-ssn" (click)="deselectLocation()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+</ssn-card>

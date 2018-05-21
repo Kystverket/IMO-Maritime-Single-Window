@@ -1,19 +1,68 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
-import { of } from "rxjs/observable/of";
+import { Http, RequestOptions } from "@angular/http";
+import { BehaviorSubject, Observable } from "rxjs";
+import { LocationModel } from "../models/location-model";
+import { AuthRequest } from "./auth.request.service";
 import { SearchService } from "./search.service";
 
 @Injectable()
 export class LocationService {
-    constructor(private http: Http) {
-        this.searchService = new SearchService(http);
-        this.actionUrl = 'api/location/search/';
-    }
 
     private searchService: SearchService;
-    private actionUrl: string;
+    private searchUrl: string;
+    private searchHarbourUrl: string;
+    private registerLocationUrl: string;
+    private getLocationTypesUrl: string;
+    private getCountriesUrl: string;
+
+    constructor(
+        private http: Http,
+        private authRequest: AuthRequest
+    ) {
+        this.searchService = new SearchService(http);
+        this.searchUrl = 'api/location/search';
+        this.searchHarbourUrl = 'api/location/searchharbour';
+        this.registerLocationUrl = 'api/location/register';
+        this.getLocationTypesUrl = 'api/locationtype/getall';
+        this.getCountriesUrl = 'api/country/getall';
+    }
+
+    private locationDataSource = new BehaviorSubject<any>(null);
+    locationData$ = this.locationDataSource.asObservable();
+
+    setLocationData(data) {
+        this.locationDataSource.next(data);
+    }
 
     public search(term: string) {
-        return this.searchService.search(this.actionUrl, term);
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
+        return this.searchService.search(this.searchUrl, term);
+    }
+
+    public searchHarbour(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
+        return this.searchService.search(this.searchHarbourUrl, term);
+    }
+
+    public registerLocation(newLocation: LocationModel) {
+        var auth_headers = this.authRequest.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers });
+        return this.http
+            .post(this.registerLocationUrl, newLocation, options)
+            .map(res => res.json());
+    }
+
+    public getLocationTypes() {
+        return this.http.get(this.getLocationTypesUrl)
+            .map(res => res.json());
+    }
+
+    public getCountries() {
+        return this.http.get(this.getCountriesUrl)
+            .map(res => res.json());
     }
 }
