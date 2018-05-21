@@ -176,7 +176,7 @@ namespace IMOMaritimeSingleWindow
 
             //Overriding service
             services.Replace(ServiceDescriptor.Scoped<IUserValidator<ApplicationUser>, CustomUserValidator<ApplicationUser>>());
-
+            //services.Replace(ServiceDescriptor.Scoped<IPasswordHasher<ApplicationUser>, CustomPasswordHasher>());
             // Additional manager separate from ASP NET Identity
             //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
 
