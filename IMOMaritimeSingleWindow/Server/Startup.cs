@@ -257,13 +257,13 @@ namespace IMOMaritimeSingleWindow
             {
                 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
-            var builder = new ConfigurationBuilder()
+            var configurationBuilder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile("appsettings.Development.json", optional: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            builder.Build();
+            configurationBuilder.Build();
 
             //app.UseCors("AllowAllAny");
             // app.UseCors(policyName: "AllowLocalhost");
