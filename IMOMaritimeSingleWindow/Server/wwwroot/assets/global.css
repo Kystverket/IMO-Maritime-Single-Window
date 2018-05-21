@@ -80,3 +80,15 @@ fieldset[disabled] .btn-ssn.active {
     background-color: var(--color-primary-text);
 }
 
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+ :-moz-placeholder {
+     font-style: italic;  
+}
+ ::-moz-placeholder {
+     font-style: italic;  
+}
+ :-ms-input-placeholder {  
+     font-style: italic; 
+}
