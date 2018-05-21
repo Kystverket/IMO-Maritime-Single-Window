@@ -86,7 +86,7 @@ namespace IMOMaritimeSingleWindow.Auth
         /// <param name="providedPassword">The password supplied for comparison.</param>
         /// <returns>A <see cref="PasswordVerificationResult"/> indicating the result of a password hash comparison.</returns>
         /// <remarks>Implementations of this method should be time consistent.</remarks>
-        public virtual PasswordVerificationResult VerifyHashedPassword(ApplicationUser user, string hashedPassword, string providedPassword)
+        public override PasswordVerificationResult VerifyHashedPassword(ApplicationUser user, string hashedPassword, string providedPassword)
         {
             if (hashedPassword == null)
             {
@@ -130,7 +130,7 @@ namespace IMOMaritimeSingleWindow.Auth
 
         private static bool VerifyHashedPassword(byte[] hashedPassword, string password, out int iterCount)
         {
-            iterCount = default(int);
+            iterCount = default;
 
             try
             {
