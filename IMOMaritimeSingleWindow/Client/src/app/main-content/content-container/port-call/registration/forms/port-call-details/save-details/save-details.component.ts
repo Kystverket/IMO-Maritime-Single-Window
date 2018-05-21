@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.interface';
 import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
+import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-save-details',
@@ -14,7 +14,7 @@ export class SaveDetailsComponent implements OnInit {
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
   otherPurposeName: any;
-  
+
   reportingFound: boolean;
   crewPassengersAndDimensionsFound: boolean;
   purposeFound: boolean;
@@ -28,7 +28,7 @@ export class SaveDetailsComponent implements OnInit {
   ngOnInit() {
 
     this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {        
+      detailsDataIsPristine => {
         this.dataIsPristine = detailsDataIsPristine;
       }
     );
@@ -64,8 +64,6 @@ export class SaveDetailsComponent implements OnInit {
           this.detailsModel.numberOfPassengers = cpadData.numberOfPassengers;
           this.detailsModel.airDraught = cpadData.airDraught;
           this.detailsModel.actualDraught = cpadData.actualDraught;
-          console.log(this.crewPassengersAndDimensionsModel);
-          
         }
       }
     );

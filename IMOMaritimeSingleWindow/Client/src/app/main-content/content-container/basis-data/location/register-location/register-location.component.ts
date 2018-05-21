@@ -90,7 +90,6 @@ export class RegisterLocationComponent implements OnInit {
   registerLocation() {
     this.locationService.registerLocation(this.locationModel).subscribe(
       result => {
-        console.log(result);
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
       }, error => {
         console.log(error);

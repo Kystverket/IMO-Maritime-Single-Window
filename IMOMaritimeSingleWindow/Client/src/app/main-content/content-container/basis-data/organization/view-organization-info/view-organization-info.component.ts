@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { OrganizationProperties } from '../../../../../shared/constants/organization-properties';
 import { ContentService } from '../../../../../shared/services/content.service';
 import { OrganizationService } from '../../../../../shared/services/organization.service';
@@ -17,7 +18,7 @@ export class ViewOrganizationInfoComponent implements OnInit {
   constructor(private organizationService: OrganizationService, private contentService: ContentService) { }
 
   registerNewOrganization() {
-    this.contentService.setContent("Register Organization");
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_ORGANIZATION);
   }
 
   deselectOrganization() {
@@ -34,7 +35,6 @@ export class ViewOrganizationInfoComponent implements OnInit {
           this.organizationProperties.ORGANIZATION_NAME.data = organizationResult.name;
           this.organizationProperties.ORGANIZATION_NO.data = organizationResult.organizationNo;
           this.organizationProperties.ORGANIZATION_DESCRIPTION.data = organizationResult.description;
-          this.organizationProperties.INVOICE_RECEIVER_NO.data = organizationResult.invoiceReceiverNo;
           this.organizationFound = true;
         } else {
           this.organizationFound = false;

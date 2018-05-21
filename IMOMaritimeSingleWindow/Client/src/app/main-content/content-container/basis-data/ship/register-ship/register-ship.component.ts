@@ -134,22 +134,6 @@ export class RegisterShipComponent implements OnInit {
 
   formatter = (x: { name: string }) => x.name;
 
-  // For autofilling data when testing gui:
-  // autoFillData() {
-  //   // this.selectShipType(this.shipTypeList[0]);
-  //   this.selectHullType(this.hullTypeList[0]);
-  //   this.selectBreadthType(this.breadthTypeList[0]);
-  //   this.selectLengthType(this.lengthTypeList[0]);
-  //   this.selectPowerType(this.powerTypeList[0]);
-  //   this.shipModel.breadth = 1;
-  //   this.shipModel.length = 2;
-  //   this.shipModel.power = 3;
-  //   this.shipModel.name = "test1234"
-  //   this.shipModel.callSign = "1234";
-  //   this.shipModel.imoNo = 1234;
-  //   this.shipModel.mmsiNo = 1234;
-  // }
-
   selectShipType($event: any) {
     this.shipModel.shipTypeId = $event.item.shipTypeId;
     this.shipTypeSelected = true;
@@ -222,7 +206,6 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.saveShipContactList(shipContactList).subscribe(
       result => {
         if (result) {
-          console.log(result);
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
         }
       }, error => {
