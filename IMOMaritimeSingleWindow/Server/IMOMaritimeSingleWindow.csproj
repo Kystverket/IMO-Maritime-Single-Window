@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\lib\" />
+    <!--<Folder Include="wwwroot\lib\" />-->
+    <!--<Content Include="wwwroot\**\*" CopyToPublishDirectory="PreserveNewest" />-->
   </ItemGroup>
 
   <ItemGroup>
