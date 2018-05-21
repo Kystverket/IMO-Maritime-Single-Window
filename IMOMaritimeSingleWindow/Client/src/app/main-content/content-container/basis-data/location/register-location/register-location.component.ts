@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationModel } from '../../../../../shared/models/location-model';
-import { LocationService } from '../../../../../shared/services/location.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { Observable } from 'rxjs/Observable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
+import { LocationModel } from '../../../../../shared/models/location-model';
+import { ContentService } from '../../../../../shared/services/content.service';
+import { LocationService } from '../../../../../shared/services/location.service';
 
 const RESULT_SUCCES: string = "Location was successfully saved to the database.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the location to the database. Please try again later.";
@@ -28,8 +28,8 @@ export class RegisterLocationComponent implements OnInit {
   countrySearchFailed: boolean = false;
 
 
-  constructor(public locationModel: LocationModel, private locationService: LocationService, 
-    private contentService: ContentService, private modalService: NgbModal  
+  constructor(public locationModel: LocationModel, private locationService: LocationService,
+    private contentService: ContentService, private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class RegisterLocationComponent implements OnInit {
           this.countrySearchFailed = true;
         }
       });
-  formatter = (x: {name: string}) => x.name;
+  formatter = (x: { name: string }) => x.name;
 
   selectCountry($event) {
     this.selectedCountry = $event.item;
@@ -100,7 +100,7 @@ export class RegisterLocationComponent implements OnInit {
   }
 
   private goBack() {
-    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+    this.contentService.setContent(CONTENT_NAMES.LOCATIONS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {
