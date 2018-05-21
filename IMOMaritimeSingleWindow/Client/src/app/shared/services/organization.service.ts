@@ -30,7 +30,9 @@ export class OrganizationService {
     }
 
     public registerOrganization(newOrganization: OrganizationModel) {
-        return this.http.post(this.registerOrganizationUrl, newOrganization)
+        var auth_headers = this.authRequestService.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers });
+        return this.http.post(this.registerOrganizationUrl, newOrganization, options)
             .map(res => res.json());
     }
 

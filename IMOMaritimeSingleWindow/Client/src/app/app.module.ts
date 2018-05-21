@@ -35,7 +35,9 @@ import { ConfigService } from './shared/utils/config.service';
     AppRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: function () { return localStorage.getItem("auth_token"); }
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:4200'],
+        blacklistedRoutes: ['localhost:4200/login']
       }
     }),
     NgbModule.forRoot()
@@ -57,3 +59,7 @@ import { ConfigService } from './shared/utils/config.service';
 })
 
 export class AppModule { }
+
+export function tokenGetter() {
+  return localStorage.getItem('auth_token');
+}
