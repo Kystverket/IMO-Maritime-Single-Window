@@ -65,7 +65,10 @@ export class LoginComponent implements OnInit, OnDestroy {
               })
           }
           // Login failed
-        }, error => this.errors = error
+        }, error => {
+          this.errors = error;
+          this.credentials.password = '';
+          }
         )
     }
   }
