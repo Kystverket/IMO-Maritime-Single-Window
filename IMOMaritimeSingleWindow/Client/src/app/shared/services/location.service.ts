@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Http, RequestOptions } from "@angular/http";
 import { BehaviorSubject, Observable } from "rxjs";
 import { LocationModel } from "../models/location-model";
+import { AuthRequest } from "./auth.request.service";
 import { SearchService } from "./search.service";
 
 @Injectable()
@@ -9,13 +10,18 @@ export class LocationService {
 
     private searchService: SearchService;
     private searchUrl: string;
+    private searchHarbourUrl: string;
     private registerLocationUrl: string;
     private getLocationTypesUrl: string;
     private getCountriesUrl: string;
 
-    constructor(private http: Http) {
+    constructor(
+        private http: Http,
+        private authRequest: AuthRequest
+    ) {
         this.searchService = new SearchService(http);
         this.searchUrl = 'api/location/search';
+        this.searchHarbourUrl = 'api/location/searchharbour';
         this.registerLocationUrl = 'api/location/register';
         this.getLocationTypesUrl = 'api/locationtype/getall';
         this.getCountriesUrl = 'api/country/getall';
@@ -35,8 +41,19 @@ export class LocationService {
         return this.searchService.search(this.searchUrl, term);
     }
 
+    public searchHarbour(term: string) {
+        if (term.length < 2) {
+            return Observable.of([]);
+        }
+        return this.searchService.search(this.searchHarbourUrl, term);
+    }
+
     public registerLocation(newLocation: LocationModel) {
-        return this.http.post(this.registerLocationUrl, newLocation).map(res => res.json());
+        var auth_headers = this.authRequest.GetHeaders();
+        let options = new RequestOptions({ headers: auth_headers });
+        return this.http
+            .post(this.registerLocationUrl, newLocation, options)
+            .map(res => res.json());
     }
 
     public getLocationTypes() {

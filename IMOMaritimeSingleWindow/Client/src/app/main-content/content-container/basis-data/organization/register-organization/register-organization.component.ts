@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationModel } from '../../../../../shared/models/organization-model';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
+import { OrganizationModel } from '../../../../../shared/models/organization-model';
+import { ContentService } from '../../../../../shared/services/content.service';
+import { OrganizationService } from '../../../../../shared/services/organization.service';
 
 const RESULT_SUCCES: string = "Organization was successfully saved to the database.";
 const RESULT_FAILURE: string = "There was a problem when trying to save the organization to the database. Please try again later.";
@@ -21,7 +21,7 @@ export class RegisterOrganizationComponent implements OnInit {
   selectedOrganizationType: any;
   organizationTypeDropdownString: string = "Select organization type";
 
-  constructor(public organizationModel: OrganizationModel, private organizationService: OrganizationService, 
+  constructor(public organizationModel: OrganizationModel, private organizationService: OrganizationService,
     private contentService: ContentService, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -35,7 +35,6 @@ export class RegisterOrganizationComponent implements OnInit {
   registerOrganization() {
     this.organizationService.registerOrganization(this.organizationModel).subscribe(
       result => {
-        console.log(result);
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
       }, error => {
         console.log(error);

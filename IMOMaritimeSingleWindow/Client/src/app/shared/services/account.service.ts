@@ -49,7 +49,7 @@ export class AccountService extends BaseRequest {
 
     getUserRole() {
         var auth_headers = this.authRequestService.GetHeaders();
-        let options = new RequestOptions({ headers: auth_headers })
+        let options = new RequestOptions({ headers: auth_headers });
         return this.http.get(this.userUrl + "/role")
             .map(res => res.json());
     }

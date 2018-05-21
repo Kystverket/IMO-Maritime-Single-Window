@@ -53,15 +53,6 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-5 col-xl-4" for="invoice_receiver_no">Invoice Receiver Number</label>
-                <div class="col">
-                  <input [(ngModel)]="organizationModel.invoiceReceiverNo" name="invoiceReceiverNo" type="text" class="form-control form-control-sm"
-                    id="invoice_receiver_no" placeholder="Enter invoice receiver number">
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-2" for="description">Description</label>
                 <div class="col">
                   <input [(ngModel)]="organizationModel.description" name="description" type="text" class="form-control form-control-sm" id="description"
@@ -79,11 +70,12 @@
   <div class="row">
     <div class="col">
       <ssn-card header="Confirm Organization Registration" icon="checkmark.png">
-        <div *ngIf="!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo"
-          class="text-center">
-          <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
-          <p *ngIf="!organizationModel.name" class="no-wrap mb-0">Organization name not set.</p>
-          <p *ngIf="!organizationModel.organizationNo" class="no-wrap">Organization number not set.</p>
+        <div *ngIf="!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo" class="text-center">
+          <div class="mb-3">
+            <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
+            <p *ngIf="!organizationModel.name" class="no-wrap mb-0">Organization name not set.</p>
+            <p *ngIf="!organizationModel.organizationNo" class="no-wrap mb-0">Organization number not set.</p>
+          </div>
           <button class="btn btn-ssn" disabled>
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
         </div>

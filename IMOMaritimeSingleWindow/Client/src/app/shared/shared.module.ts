@@ -11,6 +11,7 @@ import { SelectedPurposesComponent } from './components/confirmation-view/port-c
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 import { LocationInfoTableComponent } from './components/location-info-table/location-info-table.component';
 import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
+import { SearchHarbourComponent } from './components/search-harbour/search-harbour.component';
 import { SearchLocationComponent } from './components/search-location/search-location.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipComponent } from './components/search-ship/search-ship.component';
@@ -49,6 +50,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     LocationTimeInfoTableComponent,
     LocationInfoTableComponent,
     SearchLocationComponent,
+    SearchHarbourComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -65,7 +67,8 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     ShipInfoTableComponent,
     LocationTimeInfoTableComponent,
     LocationInfoTableComponent,
-    SearchLocationComponent
+    SearchLocationComponent,
+    SearchHarbourComponent
   ],
   providers: [
     ContactService, OrganizationService, ShipService, LocationService

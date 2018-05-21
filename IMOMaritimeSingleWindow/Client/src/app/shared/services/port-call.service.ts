@@ -109,12 +109,12 @@ export class PortCallService {
     let authHeaders = this.authRequestService.GetHeaders();
     let options = new RequestOptions({ headers: authHeaders });
     this.http.post(this.registerNewPortCallUrl, portCall, options)
-    .map(res => res.json()).subscribe(
-      data => {
-        console.log("Success");
-        console.log(data);
-      }
-    )
+      .map(res => res.json()).subscribe(
+        data => {
+          console.log("Success");
+          console.log(data);
+        }
+      )
   }
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
@@ -161,7 +161,6 @@ export class PortCallService {
     console.log("Updating port call status to cancelled...");
     this.http.post(uri, null).map(res => res.json()).subscribe(
       updateStatusResponse => {
-        console.log(updateStatusResponse);
         console.log("Port call successfully cancelled.");
       }
     );
@@ -249,7 +248,6 @@ export class PortCallService {
   }
   // SAVE DETAILS
   saveDetails(details: any, purposes: any, otherName: string) { // NEW
-    console.log("DETAILS: ", details, "\nPURPOSES: ", purposes);
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log("Saving port call details...");
     this.http.post(this.saveDetailsUrl, details).map(res => res.json()).subscribe(
@@ -265,7 +263,6 @@ export class PortCallService {
       this.http.post(uri, null).map(res => res.json()).subscribe(
         removePurposeResponse => {
           if (removePurposeResponse) this.detailsPristine.next(true);
-          console.log(removePurposeResponse);
         }
       );
     } else {
@@ -281,7 +278,6 @@ export class PortCallService {
         purposeResponse => {
           if (purposeResponse) this.detailsPristine.next(true);
           console.log("Purposes successfully saved.");
-          console.log(purposeResponse);
         }
       );
     }
@@ -347,7 +343,6 @@ export class PortCallService {
     this.http.post(this.saveClearanceUrl, clearanceModel).map(res => res.json()).subscribe(
       data => {
         console.log("Clearance saved successfully.");
-        console.log(data);
       },
       error => {
         console.log("ERROR: ", error);
