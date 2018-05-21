@@ -31,7 +31,7 @@
     "ng-select": "^1.0.0-rc.5",
     "ng2-smart-table": "^1.2.2",
     "rxjs": "^5.5.10",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
     "node-sass": "^4.9.0",
     "npm": "^6.0.0"
   },
