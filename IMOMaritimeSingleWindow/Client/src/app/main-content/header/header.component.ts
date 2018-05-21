@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
     { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.LOCATIONS },
     { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
-    { title: 'PORT CALL', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
+    { title: 'PORT CALLS', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
   ];
 
 
@@ -53,23 +53,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.user_menu_entries = [];
     for (let menu_entry of this.menu_entries) {
-      let title = menu_entry.title;
-      if (this.permissions[title]) {
+      let menuName = menu_entry.menuName;
+      if (this.permissions[menuName]) {
         this.user_menu_entries
           .push(this.menu_entries
-            .find(me => me.title == title)
+            .find(me => me.menuName == menuName)
           );
       }
     }
-
-    /* this.menu_entries = [];
-    for (let title of this.user_menu_entries){
-      for (let meny_entry of this.menu_entries){
-        if (title.title === meny_entry.title) {
-          this.menu_entries.push(meny_entry);
-        }
-      }
-    } */
   }
 
   constructor(
@@ -81,7 +72,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {
 
   }
-
 
   logout() {
     this.loginService.logout();
@@ -127,30 +117,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       );
     }
-
-    // This should instead be executed when database is ready to be queried
-
-    // Temporarily solution not requiring login in GUI
-    /* if(!this.loginService.isLoggedIn()){
-      this.loginService.login("admin@test.no", "Tester123")
-      .subscribe(
-        result => {
-          if(result)
-            console.log("Login successful");
-          this.generateMenu();
-          //this.getMenuEntries();
-          //this.setMenuEntries();
-        }
-      )
-    } */
-
-    /* console.log("ALL ROLES");
-  this.getAllRoles();
-  console.log(this.roles);
-
-  console.log("ROLES FOR USER");
-  this.getRoles();
-  console.log(this.roles); */
 
   }
   ngOnDestroy() {
