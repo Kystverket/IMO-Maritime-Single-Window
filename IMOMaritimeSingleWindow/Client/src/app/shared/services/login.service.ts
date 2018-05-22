@@ -76,7 +76,7 @@ export class LoginService extends BaseService {
 
   logout() {
     localStorage.removeItem('auth_token');
-    localStorage.removeItem('user-claims');
+    localStorage.removeItem('user_claims');
     this.loggedIn = false;
     this._loggedInSource.next(false);
     this._authNavStatusSource.next(false);

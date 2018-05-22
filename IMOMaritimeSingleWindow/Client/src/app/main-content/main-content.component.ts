@@ -21,7 +21,7 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit() {
     var user_claims;
-    if(user_claims = localStorage.getItem("user-claims")) {
+    if(user_claims = localStorage.getItem("user_claims")) {
       this.accountService.setUserClaims(
         JSON.parse(user_claims)
       );

@@ -8,6 +8,7 @@ import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { ErrorGuard } from './auth/guards/error.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
 import { HeaderComponent } from './main-content/header/header.component';
@@ -18,6 +19,7 @@ import { ConstantsService } from './shared/services/constants.service';
 import { ContentService } from './shared/services/content.service';
 import { LoginService } from './shared/services/login.service';
 import { ConfigService } from './shared/utils/config.service';
+
 
 
 
@@ -52,6 +54,7 @@ import { ConfigService } from './shared/utils/config.service';
     AuthService,
     AuthRequest,
     AuthGuard,
+    ErrorGuard,
     LoginAuthGuard,
     JwtHelperService
   ],
