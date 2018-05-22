@@ -27,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        
+        [Authorize]
         [HttpGet("foruser")]
         public IActionResult GetOrganizationForUser()
         {
