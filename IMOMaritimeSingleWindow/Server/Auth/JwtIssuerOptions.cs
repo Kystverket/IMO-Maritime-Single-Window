@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IMOMaritimeSingleWindow.Models
+namespace IMOMaritimeSingleWindow.Auth
 {
     public class JwtIssuerOptions
     {

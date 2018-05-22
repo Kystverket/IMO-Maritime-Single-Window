@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { LoginService } from '../../shared/services/login.service';
+import { AuthService } from '../../shared/services/auth-service';
 
 @Injectable()
 export class ErrorGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private loginService: LoginService
+    private authService: AuthService
   ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      let isLoggedIn = this.loginService.isLoggedIn();
-
-      if(!isLoggedIn){
-        this.router.navigate(['/login']);
-        return false;
-      }
-
-      // TODO: redirect to an error page
-      this.router.navigate(['']);
-      return true;
+      return this.authService.hasValidToken()
+      .map(tokenValid => {
+        if(!tokenValid) {
+          this.router.navigate(['/login']);
+          return false;
+        } else {
+          // TODO: redirect to an error page
+          this.router.navigate(['']);
+          return true;
+        }
+      })
   }
 }
