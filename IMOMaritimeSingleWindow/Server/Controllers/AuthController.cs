@@ -159,7 +159,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             bool isAdmin = HttpContext.User.IsInRole(Constants.Strings.UserRoles.Admin);
             return Ok(isAdmin);
         }
-        
+
+        [Authorize]
+        [HttpGet("hasValidToken")]
+        public IActionResult HasValidToken()
+        {
+            return Ok(true);
+        }
         
     }
 }

@@ -36,4 +36,12 @@ export class AuthService extends BaseRequest {
       .get("api/test/canSetPortCallClearance", options)
       .map(res => res.json());
    }
+
+   hasValidToken() : Observable<boolean> {
+    let auth_header = this.authService.GetHeaders();
+    let options = new RequestOptions({ headers: auth_header });
+    return this.http
+      .get(this.actionUrl+"/hasValidToken", options)
+      .map(res => res.json());
+   }
 }
