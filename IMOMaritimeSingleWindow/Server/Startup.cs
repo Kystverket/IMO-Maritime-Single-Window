@@ -35,6 +35,7 @@ using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.M
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -195,7 +196,14 @@ namespace IMOMaritimeSingleWindow
                 services.AddJWTOptions(Configuration);
                 services.AddAuthorizationPolicies();
 
-                services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+                if (HostingEnvironment.IsProduction())
+                {
+                    services.AddMvc(opts =>
+                        opts.Filters.Add(new RequireHttpsAttribute())
+                    );
+                }
+                services.AddMvc()
+                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             } else
             {
                 AuthorizationPolicy = new AuthorizationPolicyBuilder()
