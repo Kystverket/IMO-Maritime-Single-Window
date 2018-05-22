@@ -7399,7 +7399,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var ConfigService = /** @class */ (function () {
     function ConfigService() {
-        this._apiURI = 'http://localhost:5000/api';
+        this._apiURI = 'api';
     }
     ConfigService.prototype.getApiURI = function () {
         return this._apiURI;
