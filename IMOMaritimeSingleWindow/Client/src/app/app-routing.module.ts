@@ -4,6 +4,7 @@ import { LoginComponent }       from './login/login.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
+import { ErrorGuard } from './auth/guards/error.guard';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
   {
     path: '', component: MainContentComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    // TODO: Make ErrorComponent
+    path: '**', component: MainContentComponent,
+    canActivate: [ErrorGuard]
   },
   {
     path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'
