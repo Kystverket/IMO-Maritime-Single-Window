@@ -37,12 +37,14 @@ module.exports = webpackAsyncContext;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__main_content_main_content_component__ = __webpack_require__("./src/app/main-content/main-content.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -57,6 +59,11 @@ var routes = [
     {
         path: '', component: __WEBPACK_IMPORTED_MODULE_3__main_content_main_content_component__["a" /* MainContentComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_guards_auth_guard__["a" /* AuthGuard */]]
+    },
+    {
+        // TODO: Make ErrorComponent
+        path: '**', component: __WEBPACK_IMPORTED_MODULE_3__main_content_main_content_component__["a" /* MainContentComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_6__auth_guards_error_guard__["a" /* ErrorGuard */]]
     },
     {
         path: 'admin', loadChildren: 'app/admin/admin.module#AdminModule'
@@ -147,22 +154,24 @@ var AppComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("./src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -190,14 +199,14 @@ var AppModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* NgModule */])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__main_content_header_header_component__["a" /* HeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__main_content_header_header_component__["a" /* HeaderComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["b" /* routedComponents */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_11__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
+                __WEBPACK_IMPORTED_MODULE_12__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
                 __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_4__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
                     config: {
@@ -210,15 +219,16 @@ var AppModule = /** @class */ (function () {
             ],
             providers: [
                 { provide: __WEBPACK_IMPORTED_MODULE_2__angular_http__["h" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_6__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
-                __WEBPACK_IMPORTED_MODULE_19__shared_utils_config_service__["a" /* ConfigService */],
-                __WEBPACK_IMPORTED_MODULE_18__shared_services_login_service__["a" /* LoginService */],
-                __WEBPACK_IMPORTED_MODULE_13__shared_services_account_service__["a" /* AccountService */],
-                __WEBPACK_IMPORTED_MODULE_17__shared_services_content_service__["a" /* ContentService */],
-                __WEBPACK_IMPORTED_MODULE_16__shared_services_constants_service__["a" /* ConstantsService */],
-                __WEBPACK_IMPORTED_MODULE_14__shared_services_auth_service__["a" /* AuthService */],
-                __WEBPACK_IMPORTED_MODULE_15__shared_services_auth_request_service__["a" /* AuthRequest */],
+                __WEBPACK_IMPORTED_MODULE_20__shared_utils_config_service__["a" /* ConfigService */],
+                __WEBPACK_IMPORTED_MODULE_19__shared_services_login_service__["a" /* LoginService */],
+                __WEBPACK_IMPORTED_MODULE_14__shared_services_account_service__["a" /* AccountService */],
+                __WEBPACK_IMPORTED_MODULE_18__shared_services_content_service__["a" /* ContentService */],
+                __WEBPACK_IMPORTED_MODULE_17__shared_services_constants_service__["a" /* ConstantsService */],
+                __WEBPACK_IMPORTED_MODULE_15__shared_services_auth_service__["a" /* AuthService */],
+                __WEBPACK_IMPORTED_MODULE_16__shared_services_auth_request_service__["a" /* AuthRequest */],
                 __WEBPACK_IMPORTED_MODULE_9__auth_guards_auth_guard__["a" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_10__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_10__auth_guards_error_guard__["a" /* ErrorGuard */],
+                __WEBPACK_IMPORTED_MODULE_11__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */],
                 __WEBPACK_IMPORTED_MODULE_4__auth0_angular_jwt__["a" /* JwtHelperService */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
@@ -273,6 +283,53 @@ var AuthGuard = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_2__shared_services_login_service__["a" /* LoginService */]])
     ], AuthGuard);
     return AuthGuard;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/guards/error.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var ErrorGuard = /** @class */ (function () {
+    function ErrorGuard(router, loginService) {
+        this.router = router;
+        this.loginService = loginService;
+    }
+    ErrorGuard.prototype.canActivate = function (next, state) {
+        var isLoggedIn = this.loginService.isLoggedIn();
+        if (!isLoggedIn) {
+            this.router.navigate(['/login']);
+            return false;
+        }
+        // TODO: redirect to an error page
+        this.router.navigate(['']);
+        return true;
+    };
+    ErrorGuard = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_services_login_service__["a" /* LoginService */]])
+    ], ErrorGuard);
+    return ErrorGuard;
 }());
 
 
@@ -403,7 +460,7 @@ var LoginComponent = /** @class */ (function () {
                         .subscribe(function (result) {
                         if (result) {
                             _this.accountService.setUserClaims(result);
-                            localStorage.setItem("user-claims", JSON.stringify(result));
+                            localStorage.setItem("user_claims", JSON.stringify(result));
                         }
                     });
                 }
@@ -4181,7 +4238,7 @@ var MainContentComponent = /** @class */ (function () {
     }
     MainContentComponent.prototype.ngOnInit = function () {
         var user_claims;
-        if (user_claims = localStorage.getItem("user-claims")) {
+        if (user_claims = localStorage.getItem("user_claims")) {
             this.accountService.setUserClaims(JSON.parse(user_claims));
         }
     };
@@ -6433,7 +6490,7 @@ var LoginService = /** @class */ (function (_super) {
     };
     LoginService.prototype.logout = function () {
         localStorage.removeItem('auth_token');
-        localStorage.removeItem('user-claims');
+        localStorage.removeItem('user_claims');
         this.loggedIn = false;
         this._loggedInSource.next(false);
         this._authNavStatusSource.next(false);
@@ -7602,8 +7659,7 @@ var AuthenticateXHRBackend = /** @class */ (function (_super) {
                 3. As at this early stage you can't access the Router for forwarding to the login page,
                 4. refreshing the same page will trigger the Guard checks, which will forward you to the login screen */
                 localStorage.removeItem('auth_token');
-                window.location.href = window.location.href + 'login';
-                //window.location.href = window.location.href + '?' + new Date().getMilliseconds();             
+                window.location.href = window.location.href + '?' + new Date().getMilliseconds();
             }
             return __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */].throw(error);
         });
@@ -7611,7 +7667,9 @@ var AuthenticateXHRBackend = /** @class */ (function (_super) {
     };
     AuthenticateXHRBackend = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* BrowserXhr */], __WEBPACK_IMPORTED_MODULE_0__angular_http__["f" /* ResponseOptions */], __WEBPACK_IMPORTED_MODULE_0__angular_http__["i" /* XSRFStrategy */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* BrowserXhr */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_http__["f" /* ResponseOptions */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_http__["i" /* XSRFStrategy */]])
     ], AuthenticateXHRBackend);
     return AuthenticateXHRBackend;
 }(__WEBPACK_IMPORTED_MODULE_0__angular_http__["h" /* XHRBackend */]));
