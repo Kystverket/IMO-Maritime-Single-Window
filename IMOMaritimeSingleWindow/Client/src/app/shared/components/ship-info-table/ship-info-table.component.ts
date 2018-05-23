@@ -25,24 +25,24 @@ export class ShipInfoTableComponent implements OnInit {
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {
-          if (shipResult.country) this.shipFlag = shipResult.country.twoCharCode.toLowerCase();
+          if (shipResult.shipFlagCode.country) this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
           if (shipResult.shipType) this.shipProperties.SHIP_TYPE.data = shipResult.shipType.name;
           if (shipResult.shipStatus) this.shipProperties.SHIP_STATUS.data = shipResult.shipStatus.name;
-          this.shipProperties.SHIP_NAME.data = shipResult.ship.name;
-          this.shipProperties.CALL_SIGN.data = shipResult.ship.callSign;
-          this.shipProperties.IMO_NO.data = shipResult.ship.imoNo;
-          this.shipProperties.MMSI_NO.data = shipResult.ship.mmsiNo;
-          this.shipProperties.GROSS_TONNAGE.data = shipResult.ship.grossTonnage;
-          this.shipProperties.LENGTH.data = shipResult.ship.length;
+          this.shipProperties.SHIP_NAME.data = shipResult.name;
+          this.shipProperties.CALL_SIGN.data = shipResult.callSign;
+          this.shipProperties.IMO_NO.data = shipResult.imoNo;
+          this.shipProperties.MMSI_NO.data = shipResult.mmsiNo;
+          this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
+          this.shipProperties.LENGTH.data = shipResult.length;
 
           this.constantsService.getContactMediumList().subscribe(
             contactResult => {
               if (contactResult) {
                 this.contactMediumList = contactResult;
-                if (contactResult && shipResult.contactList != null && shipResult.contactList.length > 0) {
+                if (contactResult && shipResult.shipContact != null && shipResult.shipContact.length > 0) {
                   this.shipHasContactInfo = true;
                   this.contactMediumList.forEach(contactMedium => {
-                    let value = shipResult.contactList.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
+                    let value = shipResult.shipContact.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
                     if (value) {
                       this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
                     }

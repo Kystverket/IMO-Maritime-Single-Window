@@ -29,20 +29,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                            on sfc.CountryId equals ctr.CountryId
                            where EF.Functions.ILike(sfc.Name, searchTerm + '%')
                            || EF.Functions.ILike(ctr.Name, searchTerm + '%')
-                           select sfc).Take(10).ToList();
+                           select sfc).Include(sfc => sfc.Country).Take(10).ToList();
 
-            List<ShipFlagCodeSearchResult> searchList = new List<ShipFlagCodeSearchResult>();
-
-            foreach (ShipFlagCode s in sfcList)
-            {
-                ShipFlagCodeSearchResult searchResult = new ShipFlagCodeSearchResult();
-                searchResult.ShipFlagCode = s;
-                searchResult.Country = (from c in _context.Country
-                                where c.CountryId == s.CountryId
-                                select c).FirstOrDefault();
-                searchList.Add(searchResult);
-            }
-            return Json(searchList);
+            return Json(sfcList);
         }
     }
 }

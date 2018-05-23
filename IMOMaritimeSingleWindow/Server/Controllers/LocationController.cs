@@ -69,34 +69,14 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult SearchLocationJson(string searchTerm)
         {
             List<Location> results = SearchLocation(searchTerm, false);
-            List<LocationOverview> resultList = new List<LocationOverview>();
-
-            foreach (Location loc in results)
-            {
-                LocationOverview locationOverview = new LocationOverview();
-                locationOverview.Location = loc;
-                locationOverview.Country = loc.Country;
-                resultList.Add(locationOverview);
-            }
-            return Json(resultList);
+            return Json(results);
         }
 
         [HttpGet("searchharbour/{searchTerm}")]
-        public JsonResult SearchLocationTypeHarbourJson(string searchTerm)
+        public IActionResult SearchLocationTypeHarbourJson(string searchTerm)
         {
             List<Location> results = SearchLocation(searchTerm, true);
-            List<LocationOverview> resultList = new List<LocationOverview>();
-
-            foreach (Location loc in results)
-            {
-                LocationOverview locationOverview = new LocationOverview();
-                locationOverview.Location = loc;
-                locationOverview.Country = loc.Country;
-
-                resultList.Add(locationOverview);
-            }
-
-            return Json(resultList);
+            return Json(results);
         }
 
         [HttpGet("{id}")]
