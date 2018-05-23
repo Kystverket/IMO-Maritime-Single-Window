@@ -40,12 +40,12 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("search/{searchTerm}")]
         public IActionResult Search(string searchTerm)
         {
-            var matchingOrganizations = (from c in _context.Organization
-                                         where EF.Functions.ILike(c.Name, searchTerm + '%')
-                                         || EF.Functions.ILike(c.OrganizationNo, searchTerm + '%')
-                                         select c).Include(o => o.OrganizationType).Take(10).ToList();
-
-            return Json(matchingOrganizations);
+            var organizations = _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
+                                                                || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
+                                                                .Select(org => org)
+                                                                .Include(org => org.OrganizationType)
+                                                                .Take(10).ToList();
+            return Json(organizations);
         }
 
         [HasClaim(Claims.Types.ORGANIZATION, Claims.Values.REGISTER)]

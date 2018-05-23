@@ -20,9 +20,9 @@ export class LocationTimeInfoTableComponent implements OnInit {
       locationResult => {
         if (locationResult) {
           this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
-          this.locationTimeProperties.LOCATION_TYPE.data = locationResult.location.locationType.name;
-          this.locationTimeProperties.LOCATION_NAME.data = locationResult.location.name;
-          this.locationTimeProperties.LOCATION_CODE.data = locationResult.location.locationCode;
+          this.locationTimeProperties.LOCATION_TYPE.data = locationResult.locationType.name;
+          this.locationTimeProperties.LOCATION_NAME.data = locationResult.name;
+          this.locationTimeProperties.LOCATION_CODE.data = locationResult.locationCode;
 
           this.portCallService.etaEtdData$.subscribe(
             timeResult => {

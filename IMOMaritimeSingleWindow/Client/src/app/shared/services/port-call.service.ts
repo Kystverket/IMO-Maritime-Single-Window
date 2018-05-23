@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { FormMetaData } from '../models/form-meta-data.interface';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
-import { PortCallOverviewModel } from '../models/port-call-overview-model';
 import { AuthRequest } from './auth.request.service';
 
 @Injectable()
@@ -93,10 +92,10 @@ export class PortCallService {
    *                       *
    * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
-  setPortCall(overview: PortCallOverviewModel) {
+  setPortCall(overview: any) {
     // Ship Location Time
-    this.setShipData(overview.shipOverview);
-    this.setLocationData(overview.locationOverview);
+    this.setShipData(overview.ship);
+    this.setLocationData(overview.location);
     var etaEtd = this.etaEtdDataFormat(overview.portCall.locationEta, overview.portCall.locationEtd);
     this.setEtaEtdData(etaEtd);
     // Clearance list

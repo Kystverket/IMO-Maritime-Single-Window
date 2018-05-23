@@ -4,10 +4,8 @@ import { ConfirmationModalComponent } from '../../../../../../shared/components/
 import { CONTENT_NAMES } from '../../../../../../shared/constants/content-names';
 import { PortCallStatusTypes } from '../../../../../../shared/constants/port-call-status-types';
 import { EtaEtdDateTime } from '../../../../../../shared/models/eta-etd-interface';
-import { LocationOverviewModel } from '../../../../../../shared/models/location-overview-model';
 import { PortCallDetailsModel } from '../../../../../../shared/models/port-call-details-model';
 import { PortCallModel } from '../../../../../../shared/models/port-call-model';
-import { ShipOverviewModel } from '../../../../../../shared/models/ship-overview-model';
 import { ContentService } from '../../../../../../shared/services/content.service';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
@@ -20,8 +18,8 @@ const RESULT_FAILURE: string = "There was a problem when trying to create the ne
   styleUrls: ['./confirm-data.component.css']
 })
 export class ConfirmDataComponent implements OnInit {
-  shipModel: ShipOverviewModel;
-  locationModel: LocationOverviewModel;
+  shipModel: any;
+  locationModel: any;
   etaEtdModel: EtaEtdDateTime;
   portCallModel: PortCallModel = new PortCallModel();
 
@@ -74,9 +72,9 @@ export class ConfirmDataComponent implements OnInit {
   }
 
   startPortCallRegistration() {
-    this.portCallModel.shipId = this.shipModel.ship.shipId;
+    this.portCallModel.shipId = this.shipModel.shipId;
     this.portCallModel.portCallStatusId = PortCallStatusTypes.DRAFT_ID;
-    this.portCallModel.locationId = this.locationModel.location.locationId;
+    this.portCallModel.locationId = this.locationModel.locationId;
     let eta = new Date(this.etaEtdModel.eta.year, (this.etaEtdModel.eta.month - 1), this.etaEtdModel.eta.day, this.etaEtdModel.eta.hour, this.etaEtdModel.eta.minute);
     let etd = new Date(this.etaEtdModel.etd.year, (this.etaEtdModel.etd.month - 1), this.etaEtdModel.etd.day, this.etaEtdModel.etd.hour, this.etaEtdModel.etd.minute);
     this.portCallModel.locationEta = eta;

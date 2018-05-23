@@ -6,14 +6,14 @@ namespace IMOMaritimeSingleWindow.Helpers
 {
     public class PortCallOverview
     {
-        public PortCallOverview(){}
+        public PortCallOverview() { }
 
-        public PortCall PortCall {get; set;}
-        public ShipOverview ShipOverview {get; set;}
-        public LocationOverview LocationOverview {get; set;}
-        public LocationOverview PreviousLocationOverview {get; set;}
-        public LocationOverview NextLocationOverview {get; set;}
-        public List<OrganizationPortCall> ClearanceList {get; set;}
-        public string Status {get; set;}
+        public PortCall PortCall { get; set; }
+        public Ship Ship { get; set; }
+        public Location Location { get; set; }
+        public Location PreviousLocation { get; set; }
+        public Location NextLocation { get; set; }
+        public List<OrganizationPortCall> ClearanceList { get; set; }
+        public string Status { get; set; }
     }
 }

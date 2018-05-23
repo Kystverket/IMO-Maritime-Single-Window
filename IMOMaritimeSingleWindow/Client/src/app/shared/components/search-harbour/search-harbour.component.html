@@ -1,7 +1,7 @@
 <ng-template #rt let-r="result" let-t="term">
   <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
-  <strong *ngIf="r.location.name">Name: </strong> {{ r.location.name }}
-  <strong *ngIf="r.location.locationCode">Code: </strong> {{ r.location.locationCode }}
+  <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+  <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
 </ng-template>
 
 <div *ngIf="!locationSelected" class="text-center">

@@ -21,9 +21,9 @@ export class LocationInfoTableComponent implements OnInit {
         if (locationResult) {
           this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
           this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
-          this.locationProperties.LOCATION_TYPE.data = locationResult.location.locationType.name;
-          this.locationProperties.LOCATION_NAME.data = locationResult.location.name;
-          this.locationProperties.LOCATION_CODE.data = locationResult.location.locationCode;
+          this.locationProperties.LOCATION_TYPE.data = locationResult.locationType.name;
+          this.locationProperties.LOCATION_NAME.data = locationResult.name;
+          this.locationProperties.LOCATION_CODE.data = locationResult.locationCode;
         }
         this.locationInfo = Object.values(this.locationProperties);
       }
