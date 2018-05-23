@@ -37,6 +37,10 @@ export class AuthService extends BaseRequest {
       .map(res => res.json());
    }
 
+   hasToken() : boolean {
+     return localStorage.getItem("auth_token") != null;
+   }
+
    hasValidToken() : Observable<boolean> {
     let auth_header = this.authService.GetHeaders();
     let options = new RequestOptions({ headers: auth_header });
