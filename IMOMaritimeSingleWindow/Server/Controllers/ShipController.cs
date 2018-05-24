@@ -18,9 +18,9 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class ShipController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-        public ShipController(open_ssnContext context)
+        public ShipController(IDbContext context)
         {
             _context = context;
         }
@@ -29,6 +29,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 _context.Ship.Add(newShip);
@@ -36,7 +40,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+                return BadRequest(e);
             }
             return Json(newShip);
         }

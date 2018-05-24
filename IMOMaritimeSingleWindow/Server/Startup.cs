@@ -31,7 +31,8 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.ViewModels.Mappings;
-using IMOMaritimeSingleWindow.Identity; using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Identity;
+using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -42,7 +43,7 @@ namespace IMOMaritimeSingleWindow
 {
     public class Startup
     {
-        
+
         public Startup(IHostingEnvironment env)
         {
             Configuration = new ConfigurationBuilder()
@@ -53,7 +54,7 @@ namespace IMOMaritimeSingleWindow
                 .Build();
             HostingEnvironment = env;
         }
-        
+
 
         public IConfigurationRoot Configuration { get; }
         public IHostingEnvironment HostingEnvironment { get; }
@@ -95,7 +96,7 @@ namespace IMOMaritimeSingleWindow
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
             //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
-       
+
 
             //Configure identity services
             var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -123,7 +124,7 @@ namespace IMOMaritimeSingleWindow
             //builder.AddUserManager<ApplicationUserManager>()
             //.AddRoleManager<ApplicationRoleManager>();
 
-            
+
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -162,6 +163,8 @@ namespace IMOMaritimeSingleWindow
                 new UnitOfWork(new open_ssnContext(dbOptions)),
                 automapper)
             );
+
+            services.TryAddScoped<IDbContext>(ctx => new open_ssnContext(dbOptions));
 
             //services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
             //var roleStore = serviceProvider.GetService<RoleStore>();
@@ -203,12 +206,13 @@ namespace IMOMaritimeSingleWindow
                 }
                 services.AddMvc()
                     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-            } else
+            }
+            else
             {
                 AuthorizationPolicy = new AuthorizationPolicyBuilder()
                     .RequireAssertion(_ => true)
                     .Build();
-                
+
                 //Default basically granting everything needed
                 services.AddAuthorization(options =>
                 {
@@ -251,7 +255,8 @@ namespace IMOMaritimeSingleWindow
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.Use(async (context, next) => {
+            app.Use(async (context, next) =>
+            {
                 await next();
                 if (context.Response.StatusCode == 404 &&
                    !Path.HasExtension(context.Request.Path.Value) &&
@@ -260,7 +265,7 @@ namespace IMOMaritimeSingleWindow
                     context.Request.Path = "/index.html";
                     await next();
                 }
-                if(context.Request.Path.Value.Contains("/api/auth/hasValidToken") && context.Response.StatusCode == StatusCodes.Status401Unauthorized)
+                if (context.Request.Path.Value.Contains("/api/auth/hasValidToken") && context.Response.StatusCode == StatusCodes.Status401Unauthorized)
                 {
                     context.Response.StatusCode = StatusCodes.Status200OK;
                     context.Response.ContentType = new MediaTypeHeaderValue("application/json").ToString();
@@ -269,7 +274,7 @@ namespace IMOMaritimeSingleWindow
                 }
             });
 
-            if(!env.IsProduction())
+            if (!env.IsProduction())
             {
                 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
@@ -278,7 +283,7 @@ namespace IMOMaritimeSingleWindow
             // app.UseCors(policyName: "AllowLocalhost");
 
             // IMPORTANT! UseAuthentication() must be called before UseMvc()
-            
+
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
