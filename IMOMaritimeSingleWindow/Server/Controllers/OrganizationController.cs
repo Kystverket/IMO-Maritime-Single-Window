@@ -19,10 +19,9 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class OrganizationController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-
-        public OrganizationController(open_ssnContext context)
+        public OrganizationController(IDbContext context)
         {
             _context = context;
         }
@@ -37,14 +36,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(organization);
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult Search(string searchTerm)
+        public List<Organization> SearchOrganization(string searchTerm)
         {
-            var organizations = _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
+            return _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
                                                                 || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
                                                                 .Select(org => org)
                                                                 .Include(org => org.OrganizationType)
                                                                 .Take(10).ToList();
+        }
+
+        [HttpGet("search/{searchTerm}")]
+        public IActionResult SearchOrganizationJson(string searchTerm)
+        {
+            var organizations = SearchOrganization(searchTerm);
             return Json(organizations);
         }
 
@@ -52,6 +56,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult RegisterOrganization([FromBody] Organization newOrganization)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 _context.Organization.Add(newOrganization);
@@ -59,7 +67,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+                return BadRequest(e);
             }
             return Json(newOrganization);
         }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../shared/services/auth-service';
 import { LoginService } from '../../shared/services/login.service';
@@ -11,18 +11,19 @@ export class LoginAuthGuard implements CanActivate {
     private router: Router,
     private authService: AuthService,
     private loginService: LoginService
-  ) {}
+  ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      
-      if(!this.authService.hasToken())
-        return true;
-      else {
-        return this.authService.hasValidToken()
+
+    if (!this.authService.hasToken())
+      return true;
+    else {
+      return this.authService.hasValidToken()
         .map(tokenValid => {
-          if(tokenValid) {
+          console.log(tokenValid);
+          if (tokenValid) {
             this.router.navigate(['']);
             return false;
           } else {
@@ -33,7 +34,7 @@ export class LoginAuthGuard implements CanActivate {
             return true;
           }
         })
-      }
-      
+    }
+
   }
 }

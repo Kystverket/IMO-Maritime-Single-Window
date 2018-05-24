@@ -19,9 +19,9 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class LocationController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-        public LocationController(open_ssnContext context)
+        public LocationController(IDbContext context)
         {
             _context = context;
         }
@@ -30,6 +30,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("register")]
         public IActionResult RegisterLocation([FromBody] Location newLocation)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 _context.Location.Add(newLocation);
@@ -37,7 +41,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+                return BadRequest(e);
             }
             return Json(newLocation);
         }
