@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { ReportingModel } from '../../../../../../../shared/models/reporting-model';
-import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
 
 @Component({
   selector: 'app-reporting',
@@ -30,10 +28,10 @@ export class ReportingComponent implements OnInit {
       case "Hazmat":
         this.reportingModel.reportingHazmat = checkboxModel.checked;
         break;
-      case "Bunkers": 
+      case "Bunkers":
         this.reportingModel.reportingBunkers = checkboxModel.checked;
         break;
-      case "Cargo": 
+      case "Cargo":
         this.reportingModel.reportingCargo = checkboxModel.checked;
         break;
       case "Ship Stores":
@@ -51,17 +49,15 @@ export class ReportingComponent implements OnInit {
       default:
         console.log("Oops. Something went wrong with the checkboxes.");
     }
-    console.log(this.reportingModel);
-
     this.portCallService.setReportingForThisPortCallData(this.reportingModel);
   }
 
   ngOnInit() {
-    
+
     this.portCallService.reportingForThisPortCallData$.subscribe(data => {
       if (data != null) {
         this.reportingModel = data;
-        
+
       } else {
         this.reportingModel = {
           reportingHazmat: null,
@@ -81,7 +77,7 @@ export class ReportingComponent implements OnInit {
         { name: "Crew", icon: "crew.png", checked: this.reportingModel.reportingCrew || false },
         { name: "Pax", icon: "pax.png", checked: this.reportingModel.reportingPax || false },
         { name: "Waste", icon: "trash.png", checked: this.reportingModel.reportingWaste || false }
-      ]; 
+      ];
     });
   }
 
