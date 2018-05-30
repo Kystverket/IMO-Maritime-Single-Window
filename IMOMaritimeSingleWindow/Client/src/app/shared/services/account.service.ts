@@ -113,7 +113,7 @@ export class AccountService extends BaseRequest {
             .map(res => res.json());
     }
 
-    addToRole(userName: string, roleName: string) {
+    changeRole(userName: string, roleName: string) {
         /* Not yet implemented
         return this.http.post(url,body)
             .map(res => res.json());

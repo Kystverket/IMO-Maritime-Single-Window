@@ -1,3 +1,5 @@
+// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/utils/config.service.ts
+
 import { Injectable } from '@angular/core';
  
 @Injectable()

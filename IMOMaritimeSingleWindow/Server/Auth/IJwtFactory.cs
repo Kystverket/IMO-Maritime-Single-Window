@@ -8,6 +8,7 @@
  *  
  *  The original version of this interface can be found on the project's GitHub repository
  *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
+ *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Auth/IJwtFactory.cs
  */
 
 using System;

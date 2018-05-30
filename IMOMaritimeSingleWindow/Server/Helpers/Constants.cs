@@ -61,7 +61,8 @@ namespace IMOMaritimeSingleWindow.Helpers
                     }
                 }
             }
-            
+
+            // Taken from https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Helpers/Constants.cs
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";

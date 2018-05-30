@@ -9,6 +9,7 @@
  *  
  *  This class can be found on the project's GitHub repository
  *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
+ *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Helpers/Tokens.cs
  */
 
 using System.Linq;
