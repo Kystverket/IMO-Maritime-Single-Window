@@ -50,9 +50,10 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
+            // Validate user and try to create new user in the backing store
             var result = await _userManager.CreateAsync(userIdentity);
 
-            //TODO: Implement functionality for sending email to user with new account, so that they can set their own password
+            // TODO: Implement functionality for sending email to user with new account, so that they can set their own password
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
@@ -69,15 +70,19 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Tries to map the model to an object of type ApplicationUser
             var userIdentity = _mapper.Map<ApplicationUser>(model);
 
+            // Verify the role the user is attempted added to exists
             var role = await _roleManager.FindByNameAsync(model.RoleName);
             if(role == null)
                 return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
 
+            // Validate user and try to create new user with given password in the backing store
             var result = await _userManager.CreateAsync(userIdentity, model.Password);
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
             // Add the user to the specified role
             result = await _userManager.AddToRoleAsync(userIdentity, model.RoleName);
             if (!result.Succeeded)
@@ -86,7 +91,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult("Account created");
         }
         
-        
+        /// <summary>
+        /// Gets the roles assignable to users.
+        /// </summary>
+        /// <returns>A list of rolenames</returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("roles")]
         public IActionResult GetAllRoles()
@@ -97,6 +105,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(roleNames);
         }
 
+        /// <summary>
+        /// Checks whether a user with the provided email exists
+        /// </summary>
+        /// <param name="email">The email address of the user account</param>
+        /// <returns></returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("user/{email}/exists")]
         public async Task<IActionResult> UserExists(string email)
@@ -115,6 +128,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(user.UserName);
         }
 
+        /// <summary>
+        /// Gets the user by email address
+        /// </summary>
+        /// <param name="email">The email address of the user</param>
+        /// <returns></returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("user/{email}")]
         public async Task<IActionResult> GetUserByEmail(string email)
@@ -123,11 +141,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(user);
         }
 
+        /// <summary>
+        /// Gets the claims of the logged in user
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet("user/claims")]
         public async Task<IActionResult> GetUserClaims()
         {
-            var userIdClaim = User.Claims.Where(usr => usr.Type == Constants.Strings.JwtClaimIdentifiers.Id).FirstOrDefault();
+            // Finds the id of the logged in user, if present in JWT
+            var userIdClaim = User.FindFirst(claim => claim.Type == Constants.Strings.JwtClaimIdentifiers.Id);
             if (userIdClaim == null)
                 return new BadRequestObjectResult("id not present on jwt");
             var userId = userIdClaim.Value;
