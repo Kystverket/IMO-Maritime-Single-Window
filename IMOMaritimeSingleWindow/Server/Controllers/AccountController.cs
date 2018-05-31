@@ -110,10 +110,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <returns>A list of rolenames</returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("roles")]
-        public IActionResult GetAllRoles()
+        public async Task<IActionResult> GetAllRoles()
         {
             var roleMan = _roleManager as ApplicationRoleManager;
-            var roleNames = roleMan.GetAllRoles().GetAwaiter().GetResult();
+            var roleNames = await roleMan.GetAllRoles();
             roleNames.Remove("super_admin");
             return Ok(roleNames);
         }
@@ -131,6 +131,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(exists);
         }
 
+        /// <summary>
+        /// Gets the username of the logged in user
+        /// </summary>
+        /// <returns>Username as a string</returns>
         [Authorize]
         [HttpGet("user/name")]
         public async Task<IActionResult> GetUserName()
@@ -157,7 +161,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <summary>
         /// Gets the claims of the logged in user
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of claims</returns>
         [Authorize]
         [HttpGet("user/claims")]
         public async Task<IActionResult> GetUserClaims()

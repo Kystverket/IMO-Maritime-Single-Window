@@ -61,31 +61,37 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            
+            int expectedObjectsAdded = 2; // User and Password entity
+
+            // Map properties from input object to User object
+            var _user = _mapper.Map<ApplicationUser, User>(user);
+
+            // Extract password from input object
             Password password = new Password
             {
                 Hash = user.PasswordHash
             };
-
-            var _user = _mapper.Map<ApplicationUser, User>(user);
             _user.Password = password;
 
             if (HasPerson(user))
             {
+                // Extract person details from input object
                 Person person = _mapper.Map<ApplicationUser, Person>(user);
                 _user.Person = person;
+                expectedObjectsAdded++;
             }
             
             _unitOfWork.Users.Add(_user);
 
             var objectsAdded = _unitOfWork.Complete();
-            if (objectsAdded ==1)
+            if (expectedObjectsAdded != objectsAdded)
                 return Task.FromResult(IdentityResult.Failed());
             return Task.FromResult(IdentityResult.Success);
         }
 
         public bool HasPerson(ApplicationUser user)
         {
+            // Require both FirstName and LastName to be present
             return !String.IsNullOrEmpty(user.FirstName) && !String.IsNullOrEmpty(user.LastName);
         }
 
@@ -98,17 +104,18 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
 
-        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        private async Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
         {
             if (!HasPassword(user).GetAwaiter().GetResult())
-                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
+                return _mapper.Map<User, ApplicationUser>(user);
             else
             {
-                var passwordHash = GetPasswordHashAsync(user).GetAwaiter().GetResult();
+                // Retrieve passwordhash from password entity
+                var passwordHash = await GetPasswordHashAsync(user);
 
                 var appUser = _mapper.Map<ApplicationUser>(user);
-                SetPasswordHashAsync(appUser, passwordHash).GetAwaiter().GetResult();
-                return Task.FromResult(appUser);
+                await SetPasswordHashAsync(appUser, passwordHash);
+                return appUser;
             }
         }
         

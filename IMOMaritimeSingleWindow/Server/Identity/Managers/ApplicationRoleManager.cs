@@ -19,18 +19,22 @@ namespace IMOMaritimeSingleWindow.Identity
             ILogger<RoleManager<ApplicationRole>> logger
         ) : base(roleStore, roleValidator, lookupNormalizer, identityErrorDescriber, logger)
         { }
-        
-        public Task<IList<string>> GetAllRoles()
+
+        /// <summary>
+        /// Gets the names of all possible roles in the system
+        /// </summary>
+        /// <returns>A list of rolenames</returns>
+        public async Task<IList<string>> GetAllRoles()
         {
             var roleStore = Store as RoleStore;
 
-            var roles = roleStore.GetAllRoles().GetAwaiter().GetResult();
+            var roles = await roleStore.GetAllRoles();
             List<string> roleNames = new List<string>();
             foreach (var role in roles)
             {
                 roleNames.Add(role.Name);
             }
-            return Task.FromResult<IList<string>>(roleNames);
+            return roleNames;
         }
 
     }
