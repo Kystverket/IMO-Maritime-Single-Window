@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AuthRequest } from './auth.request.service';
+import { Http, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 import { BaseRequest } from '../utils/base.request';
 import { ConfigService } from '../utils/config.service';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class AuthService extends BaseRequest {
@@ -16,36 +16,36 @@ export class AuthService extends BaseRequest {
     private authService: AuthRequest,
     configService: ConfigService
   ) {
-    super(configService);
+    super(configService, authService);
     this.actionUrl = this.baseUrl + this.authBaseUrl;
-   }
+  }
 
-   isAdmin() : Observable<boolean> {
+  isAdmin(): Observable<boolean> {
     let auth_header = this.authService.GetHeaders();
     let options = new RequestOptions({ headers: auth_header });
-        return this.http
-            .get(this.actionUrl + "/admin", options)
-            .map(res => res.json());
-   }
+    return this.http
+      .get(this.actionUrl + "/admin", options)
+      .map(res => res.json());
+  }
 
-   canSetClearance(): Observable<any> {
+  canSetClearance(): Observable<any> {
     let auth_header = this.authService.GetHeaders();
     let options = new RequestOptions({ headers: auth_header });
     return this.http
       //.get(this.actionUrl + "/canSetPortCallClearance", options);
       .get("api/test/canSetPortCallClearance", options)
       .map(res => res.json());
-   }
+  }
 
-   hasToken() : boolean {
-     return localStorage.getItem("auth_token") != null;
-   }
+  hasToken(): boolean {
+    return localStorage.getItem("auth_token") != null;
+  }
 
-   hasValidToken() : Observable<boolean> {
+  hasValidToken(): Observable<boolean> {
     let auth_header = this.authService.GetHeaders();
     let options = new RequestOptions({ headers: auth_header });
     return this.http
-      .get(this.actionUrl+"/hasValidToken", options)
+      .get(this.actionUrl + "/hasValidToken", options)
       .map(res => res.json());
-   }
+  }
 }

@@ -27,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterLocation([FromBody] Location newLocation)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(results);
         }
 
-        [HttpGet("searchharbour/{searchTerm}")]
+        [HttpGet("harbour/search/{searchTerm}")]
         public IActionResult SearchLocationTypeHarbourJson(string searchTerm)
         {
             List<Location> results = SearchLocation(searchTerm, true);

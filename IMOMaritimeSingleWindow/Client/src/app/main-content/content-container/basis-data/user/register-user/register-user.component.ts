@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
 import { UserModel } from '../../../../../shared/models/user-model';
 import { AccountService } from '../../../../../shared/services/account.service';
-import { AuthService } from '../../../../../shared/services/auth-service';
-import { LoginService } from '../../../../../shared/services/login.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
 import { ContentService } from '../../../../../shared/services/content.service';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { OrganizationService } from '../../../../../shared/services/organization.service';
 
 const RESULT_SUCCES: string = "User was successfully registered.";
 const RESULT_FAILURE: string = "There was a problem when trying to register the user. Please try again later.";
@@ -68,19 +66,15 @@ export class RegisterUserComponent implements OnInit {
 
   userExists(emailValid: boolean) {
     if (emailValid) {
-      return this.accountService.userExistsByEmail(this.user.email).subscribe(userExists => {
-        if (userExists) {
-          this.emailTaken = true;
-        } else {
-          this.emailTaken = false;
-        }
+      return this.accountService.getUserByEmail(this.user.email).subscribe(userResult => {
+        this.emailTaken = (userResult != null);
         this.emailChecked = true;
-      });
+      })
     }
   }
 
   registerUserWithPassword() {
-    this.accountService.registerUserWithPassword(this.user)
+    this.accountService.registerUser(this.user)
       .subscribe(
         result => {
           if (result) {

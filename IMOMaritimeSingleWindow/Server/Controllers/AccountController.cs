@@ -51,9 +51,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
-        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        // [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/accounts/register
-        [HttpPost("user/")]
+        // [HttpPost("user/")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -75,7 +75,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/accounts/register
-        [HttpPost("user/withpw")]
+        [HttpPost("user")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             // Verify the role the user is attempted added to exists
             var role = await _roleManager.FindByNameAsync(model.RoleName);
-            if(role == null)
+            if (role == null)
                 return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
 
             // Validate user and try to create new user with given password in the backing store
@@ -100,10 +100,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             result = await _userManager.AddToRoleAsync(userIdentity, model.RoleName);
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             return new OkObjectResult("Account created");
         }
-        
+
         /// <summary>
         /// Gets the roles assignable to users.
         /// </summary>
@@ -116,19 +116,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             var roleNames = await roleMan.GetAllRoles();
             roleNames.Remove("super_admin");
             return Ok(roleNames);
-        }
-
-        /// <summary>
-        /// Checks whether a user with the provided email exists
-        /// </summary>
-        /// <param name="email">The email address of the user account</param>
-        /// <returns></returns>
-        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
-        [HttpGet("user/{email}/exists")]
-        public async Task<IActionResult> UserExists(string email)
-        {
-            bool exists = await _userManager.FindByEmailAsync(email) != null;
-            return Json(exists);
         }
 
         /// <summary>

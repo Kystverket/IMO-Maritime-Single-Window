@@ -31,10 +31,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallDetails);
         }
 
-        [HttpPost("update")]
+        [HttpPut()]
         public IActionResult Update([FromBody] PortCallDetails portCallDetails)
         {
-            if (!validateDetails(portCallDetails))
+            if (!ValidateDetails(portCallDetails))
             {
                 return BadRequest("Invalid port call details from data.");
             }
@@ -51,11 +51,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallDetails);
         }
 
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult Register([FromBody] PortCallDetails portCallDetails)
         {
             Console.WriteLine("DETAILS ID: " + portCallDetails.PortCallDetailsId + "\n\n\n");
-            if (!validateDetails(portCallDetails))
+            if (!ValidateDetails(portCallDetails))
             {
                 return BadRequest("Invalid port call details form data.");
             }
@@ -81,7 +81,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallDetails);
         }
 
-        private bool validateDetails(PortCallDetails portCallDetails)
+        private bool ValidateDetails(PortCallDetails portCallDetails)
         {
             return (portCallDetails != null
                 && portCallDetails.PortCallId >= 0

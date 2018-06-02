@@ -21,18 +21,18 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<OrganizationType> organizationTypes = _context.OrganizationType.ToList();
-            foreach(OrganizationType orgType in organizationTypes)
+            foreach (OrganizationType orgType in organizationTypes)
             {
                 Console.WriteLine(orgType.Name);
             }
             return Json(organizationTypes);
         }
 
-        
+
 
 
     }

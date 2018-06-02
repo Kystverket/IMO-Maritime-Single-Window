@@ -17,28 +17,28 @@ export class ShipService {
     private powerTypeUrl: string;
     private shipSourceUrl: string;
     private shipStatusListUrl: string;
-    private registerShipUrl: string;
+    private shipUrl: string;
     private flagCodeSearchUrl: string;
-    private getContactListForShipUrl: string;
-    private saveShipContactListUrl: string;
+    private contactListShipUrl: string;
+    private shipContactListUrl: string;
 
     constructor(
         private http: Http,
         private authRequest: AuthRequest
     ) {
         this.searchService = new SearchService(http);
+        this.shipUrl = 'api/ship';
         this.shipSearchUrl = 'api/ship/search';
-        this.shipTypeUrl = 'api/shiptype/getall';
-        this.hullTypeUrl = 'api/shiphulltype/getall';
-        this.lengthTypeUrl = 'api/shiplengthtype/getall';
-        this.breadthTypeUrl = 'api/shipbreadthtype/getall';
-        this.powerTypeUrl = 'api/shippowertype/getall';
-        this.shipSourceUrl = 'api/shipsource/getall';
-        this.shipStatusListUrl = 'api/shipstatus/getall';
-        this.registerShipUrl = 'api/ship/register';
+        this.shipTypeUrl = 'api/shiptype';
+        this.hullTypeUrl = 'api/shiphulltype';
+        this.lengthTypeUrl = 'api/shiplengthtype';
+        this.breadthTypeUrl = 'api/shipbreadthtype';
+        this.powerTypeUrl = 'api/shippowertype';
+        this.shipSourceUrl = 'api/shipsource';
+        this.shipStatusListUrl = 'api/shipstatus';
         this.flagCodeSearchUrl = 'api/shipflagcode/search';
-        this.getContactListForShipUrl = 'api/shipcontact/ship';
-        this.saveShipContactListUrl = 'api/shipcontact/savelist'
+        this.contactListShipUrl = 'api/shipcontact/ship';
+        this.shipContactListUrl = 'api/shipcontact/list'
     }
 
 
@@ -62,12 +62,12 @@ export class ShipService {
     registerShip(newShip: any) {
         const auth_header = this.authRequest.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
-        return this.http.post(this.registerShipUrl, newShip, options)
+        return this.http.post(this.shipUrl, newShip, options)
             .map(res => res.json());
     }
 
     saveShipContactList(shipContactList: ShipContactModel[]) {
-        return this.http.post(this.saveShipContactListUrl, shipContactList)
+        return this.http.post(this.shipContactListUrl, shipContactList)
             .map(res => res.json());
     }
 
@@ -133,7 +133,7 @@ export class ShipService {
     }
 
     getContactList(shipId: number) {
-        let uri: string = [this.getContactListForShipUrl, shipId].join('/');
+        let uri: string = [this.contactListShipUrl, shipId].join('/');
         return this.http.get(uri)
             .map(res => res.json());
     }

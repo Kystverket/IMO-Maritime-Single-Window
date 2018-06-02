@@ -27,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// Gets all existing claims
         /// </summary>
         /// <returns>A list of claims</returns>
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             var claimList = _unitOfWork.GetAllClaims().ToList();

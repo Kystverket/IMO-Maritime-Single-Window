@@ -27,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [Authorize]
-        [HttpGet("foruser")]
+        [HttpGet("user")]
         public IActionResult GetOrganizationForUser()
         {
             var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
@@ -53,7 +53,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.ORGANIZATION, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterOrganization([FromBody] Organization newOrganization)
         {
             if (!ModelState.IsValid)

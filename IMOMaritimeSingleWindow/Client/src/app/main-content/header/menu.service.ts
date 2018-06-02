@@ -1,31 +1,29 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ConfigService } from "../../shared/utils/config.service";
+import { Http } from '@angular/http';
 import { AuthRequest } from "../../shared/services/auth.request.service";
 import { BaseRequest } from "../../shared/utils/base.request";
+import { ConfigService } from "../../shared/utils/config.service";
 
 @Injectable()
 export class MenuService extends BaseRequest {
-    private menuBaseUrl : string;
+    private menuBaseUrl: string;
     private actionUrl: string;
 
     constructor(
         private http: Http,
-        private authRequestService: AuthRequest,
+        authRequestService: AuthRequest,
         configService: ConfigService
     ) {
-        super(configService);
-        
+        super(configService, authRequestService);
+
         this.menuBaseUrl = "/menu";
         this.actionUrl = this.baseUrl + this.menuBaseUrl;
     }
 
     getMenuEntries() {
-        var auth_headers = this.authRequestService.GetHeaders();
-        let url : string = `${this.actionUrl}/entries`;
-        let options = new RequestOptions({ headers: auth_headers })
+        let url: string = `${this.actionUrl}/entries`;
         return this.http
-            .get(url, options)
+            .get(url, this.getRequestOptions())
             .map(res => res.json());
     }
 
