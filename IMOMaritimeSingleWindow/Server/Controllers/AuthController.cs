@@ -27,7 +27,7 @@ using Newtonsoft.Json;
 using Result = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Authorization;
 
- 
+
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -90,7 +90,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 default:
                     return new ForbidResult();
             }
-            
+
             var identity = await GetClaimsIdentity(userName);
             if (identity == null)
             {
@@ -136,7 +136,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 //_logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
-            
+
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
@@ -164,9 +164,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(res);
         }
         */
-        
+
         [Authorize]
-        [Route("admin")]
+        [Route("isAdmin")]
         public IActionResult IsAdmin()
         {
             bool isAdmin = HttpContext.User.IsInRole(Constants.Strings.UserRoles.Admin);
@@ -179,6 +179,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             return Ok(true);
         }
-        
+
     }
 }

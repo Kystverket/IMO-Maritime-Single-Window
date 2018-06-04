@@ -24,7 +24,7 @@ export class AuthService extends BaseRequest {
     let auth_header = this.authService.GetHeaders();
     let options = new RequestOptions({ headers: auth_header });
     return this.http
-      .get(this.actionUrl + "/admin", options)
+      .get(this.actionUrl + "/isAdmin", options)
       .map(res => res.json());
   }
 
