@@ -1,13 +1,13 @@
 
 /*  An utility class that provides functionality for handling token generation.
- *  This was taken from an example project written by
+ *  This was adopted from an example project written by
  *  author: Marc Macniel (https://github.com/mmacneil)
  *  cited in a blog post
  *  url: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
  *  demonstrating how to implement a framework for authenticating users with JWT
  *  in an ASP.NET Core 2/Angular 5 web application.
  *  
- *  This class can be found on the project's GitHub repository
+ *  The original class this class is based upon can be found on the project's GitHub repository
  *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
  *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Helpers/Tokens.cs
  */
@@ -26,9 +26,7 @@ namespace IMOMaritimeSingleWindow.Helpers
       {
         var response = new
         {
-          id = identity.Claims.Single(c => c.Type == "id").Value,
-          auth_token = await jwtFactory.GenerateEncodedToken(userName, identity),
-          expires_in = (int)jwtOptions.ValidFor.TotalSeconds
+          auth_token = await jwtFactory.GenerateEncodedToken(userName, identity)
         };
 
         return JsonConvert.SerializeObject(response, serializerSettings);

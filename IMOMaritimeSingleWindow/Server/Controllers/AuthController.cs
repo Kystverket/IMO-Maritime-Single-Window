@@ -24,7 +24,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Result = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Authorization;
 
 
@@ -70,8 +69,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userName = credentials.UserName;
             var password = credentials.Password;
-            _logger.LogDebug($"userName: {userName}\npassword: {password}");
 
+            // Verify credentials
             int res = await VerifyCredentials(userName, password);
             switch (res)
             {
@@ -94,7 +93,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var identity = await GetClaimsIdentity(userName);
             if (identity == null)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError);
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
@@ -109,9 +108,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private async Task<int> VerifyCredentials(string userName, string password)
         {
+            // Check for empty username
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 return (int)Constants.LoginStates.InvalidCredentials;
 
+            // Verify that user exists
             var _user = await _userManager.FindByNameAsync(userName);
             if (_user == null)
             {
@@ -119,11 +120,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
 
+            // Verify username and password match
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(_user, password, lockoutOnFailure: true);
-
             if (result.Succeeded)
             {
-                // await _userManager.ResetAccessFailedCountAsync(_user);
                 _logger.LogInformation("User logged in successfully");
                 return (int)Constants.LoginStates.OK;
             }
@@ -131,40 +131,22 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return (int)Constants.LoginStates.LockedOut;
             else
             {
-                // await _userManager.AccessFailedAsync(_user);
-                //var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
-                //_logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
+                var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
+                _logger.LogInformation($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
-
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var claims = await _userManager.GetClaimsAsync(user);
-            var claimsJSON = Json(claims);
-            _logger.LogInformation($"Claims from user:\n{claimsJSON}");
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
             var roleName = (await _userManager.GetRolesAsync(user))[0];
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
-
-        /*
-        [Authorize]
-        [Route("admin")]
-        public IActionResult IsAdmin()
-        {
-            var roleClaim = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role);
-            var res = Json( new {
-                claimType = roleClaim.Type,
-                roleName = roleClaim.Value
-            });
-            return Ok(res);
-        }
-        */
-
+        
         [Authorize]
         [Route("isAdmin")]
         public IActionResult IsAdmin()

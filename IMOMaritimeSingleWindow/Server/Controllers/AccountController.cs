@@ -152,7 +152,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <returns>A boolean</returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
         [HttpGet("emailTaken/{email}")] 
-        public async Task<IActionResult> EmailTaken(string email
+        public async Task<IActionResult> EmailTaken(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             return Ok(user != null);
