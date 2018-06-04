@@ -17,6 +17,7 @@ export class AccountService extends BaseRequest {
     private rolesUrl: string;
     private userClaimsUrl: string;
     private userNameUrl: string;
+    private emailTakenUrl: string;
     private organizationForUserUrl: string;
 
     // Subjects & observables
@@ -37,6 +38,7 @@ export class AccountService extends BaseRequest {
         this.rolesUrl = this.actionUrl + "/roles";
         this.userClaimsUrl = this.userUrl + "/claims";
         this.userNameUrl = this.userUrl + "/name";
+        this.emailTakenUrl = this.actionUrl + "/emailTaken";
     }
 
     getAllRoles() {
@@ -89,7 +91,8 @@ export class AccountService extends BaseRequest {
 
     emailTaken(email: string) : Observable<boolean> {
         let options = this.getRequestOptions();
-        let uri = [this.accountBaseUrl, "emailTaken", email].join('/');
+        let uri = [this.actionUrl, email].join('/');
+        console.log(uri);
 
         return this.http
             .get(uri, options)

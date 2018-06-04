@@ -150,7 +150,7 @@ export class OverviewComponent implements OnInit {
             });
           }
         }
-      }
+      }, error => console.log(error)
     );
   }
 
