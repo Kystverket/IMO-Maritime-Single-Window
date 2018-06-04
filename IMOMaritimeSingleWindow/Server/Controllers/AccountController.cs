@@ -146,6 +146,19 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         /// <summary>
+        /// Checks whether a user with the given email address has been created already.
+        /// </summary>
+        /// <param name="email">The email address to search by</param>
+        /// <returns>A boolean</returns>
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
+        [HttpGet("emailTaken/{email}")]
+        public async Task<IActionResult> EmailTaken(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return Ok(user != null);
+        }
+
+        /// <summary>
         /// Gets the claims of the logged in user
         /// </summary>
         /// <returns>A list of claims</returns>

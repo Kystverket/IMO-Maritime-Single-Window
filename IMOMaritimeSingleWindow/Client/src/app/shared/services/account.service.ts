@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http } from '@angular/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserModelWithPassword } from "../models/UserModelWithPassword";
 import { BaseRequest } from "../utils/base.request";
 import { ConfigService } from "../utils/config.service";
@@ -81,6 +81,15 @@ export class AccountService extends BaseRequest {
     getUserByEmail(email: string) {
         let options = this.getRequestOptions();
         let uri = [this.userUrl, email].join('/');
+
+        return this.http
+            .get(uri, options)
+            .map(res => res.json());
+    }
+
+    emailTaken(email: string) : Observable<boolean> {
+        let options = this.getRequestOptions();
+        let uri = [this.accountBaseUrl, "emailTaken", email].join('/');
 
         return this.http
             .get(uri, options)
