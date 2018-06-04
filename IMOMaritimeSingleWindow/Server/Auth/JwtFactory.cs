@@ -45,7 +45,7 @@ namespace IMOMaritimeSingleWindow.Auth
              });
             claims.AddRange(identity.Claims);
 
-            //Remove leading url
+            // Remove leading url
             List<Claim> shortClaims = new List<Claim>();
             foreach (var claim in claims)
             {
@@ -55,9 +55,6 @@ namespace IMOMaritimeSingleWindow.Auth
 
                 shortClaims.Add(c);
             }
-
-            //claims.AddRange(shortClaims);
-            //claims.AddRange(identity.Claims);
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(
