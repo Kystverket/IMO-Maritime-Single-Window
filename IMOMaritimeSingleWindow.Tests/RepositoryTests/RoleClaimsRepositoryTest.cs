@@ -76,15 +76,7 @@ namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
             Assert.NotNull(claim.ClaimId);
             ClaimType claimType = await context.Set<ClaimType>().SingleAsync(ct => ct.Name == "menu");
             Assert.NotNull(claimType);
-        }
-
-        [Test]
-        public void GetsClaimsForUser_UoW()
-        {
-            var user = UnitOfWork.Users.Find(usr => usr.Email == "admin@test.no").ToList().First();
-            var claims = UnitOfWork.GetClaimsForUser(user.UserId).ToList();
-            Assert.True(claims.Any(c => c.ClaimValue == "portcall"));
-        }
+        }        
 
         [Test]
         public void GetClaimsForRole()

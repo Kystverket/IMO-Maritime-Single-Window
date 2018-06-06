@@ -89,13 +89,10 @@ namespace IMOMaritimeSingleWindow
             //        b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             //});
 
-            //Configure database contextes
+            //Configure database context
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
-            var connectionStringUserDb = Configuration.GetConnectionString("UserDatabase");
-            var connectionStringUserTestDb = Configuration.GetConnectionString("TestUserDatabase");
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
-            //services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringUserDb));
 
 
             //Configure identity services
