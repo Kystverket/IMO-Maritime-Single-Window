@@ -91,7 +91,7 @@ export class AccountService extends BaseRequest {
 
     emailTaken(email: string) : Observable<boolean> {
         let options = this.getRequestOptions();
-        let uri = [this.actionUrl, email].join('/');
+        let uri = [this.emailTakenUrl, email].join('/');
         console.log(uri);
 
         return this.http
