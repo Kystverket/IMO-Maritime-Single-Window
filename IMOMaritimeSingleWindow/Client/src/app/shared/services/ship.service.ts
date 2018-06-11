@@ -38,7 +38,7 @@ export class ShipService {
         this.shipStatusListUrl = 'api/shipstatus';
         this.flagCodeSearchUrl = 'api/shipflagcode/search';
         this.contactListShipUrl = 'api/shipcontact/ship';
-        this.shipContactListUrl = 'api/shipcontact/list'
+        this.shipContactListUrl = 'api/shipcontact/list';
     }
 
 
@@ -63,12 +63,19 @@ export class ShipService {
         const auth_header = this.authRequest.GetHeaders();
         const options = new RequestOptions({ headers: auth_header });
         return this.http.post(this.shipUrl, newShip, options)
-            .map(res => res.json());
+                .map(res => res.json());
+    }
+
+    updateShip(ship: any) {
+        const auth_header = this.authRequest.GetHeaders();
+        const options = new RequestOptions({ headers: auth_header });
+        return this.http.post(this.shipUrl, ship, options)
+                .map(res => res.json());
     }
 
     saveShipContactList(shipContactList: ShipContactModel[]) {
         return this.http.post(this.shipContactListUrl, shipContactList)
-            .map(res => res.json());
+                .map(res => res.json());
     }
 
     setOrganizationData(data) {
