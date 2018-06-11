@@ -47,12 +47,30 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
         }
 
         [Test]
+        public async Task AddsCompanyUser()
+        {
+            ApplicationUser appUser = new ApplicationUser
+            {
+                GivenName = "Per",
+                Surname = "Tester",
+                PasswordHash = "987asdhj67ask",
+                CompanyEmail = "company@company.test",
+                CompanyPhoneNumber = "9872819412"
+            };
+
+            var result = await UserStore.CreateAsync(appUser);
+            Assert.AreEqual(IdentityResult.Success, result);
+        }
+
+
+        [Test]
         public async Task AddedUserCanBeFoundByUserName()
         {
             await UserStore.CreateAsync(Users[0]);
             var foundUser = UnitOfWork.Users.GetByUserName(Users[0].Email);
             Assert.NotNull(foundUser);
         }
+
 
 
         [Test]

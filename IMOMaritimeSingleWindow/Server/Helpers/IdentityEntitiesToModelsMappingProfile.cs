@@ -1,6 +1,5 @@
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Identity.Models;
-using IMOMaritimeSingleWindow.ViewModels;
 using AutoMapper;
 
 namespace IMOMaritimeSingleWindow.Helpers
@@ -11,15 +10,15 @@ namespace IMOMaritimeSingleWindow.Helpers
         public IdentityEntitiesToModelsMappingProfile()
         {
             #region MappingConfiguration
-            CreateMap<ApplicationUser, Person>()
-                .ForMember(destination => destination.GivenName,
-                opt => opt.MapFrom(source => source.GivenName)).ReverseMap();
             CreateMap<ApplicationUser, Password>()
                 .ForMember(destination => destination.Hash,
                 opt => opt.MapFrom(source => source.PasswordHash)).ReverseMap();
             CreateMap<ApplicationUser, User>()
                 .ForMember(destination => destination.UserId,
                 opt => opt.MapFrom(source => source.Id));
+
+            // Ignore mapping members that are not contained in source object
+            CreateMap<ApplicationUser, Person>(MemberList.Source);
 
             CreateMap<User, ApplicationUser>()
                 .ForMember(destination => destination.Id,
@@ -33,11 +32,6 @@ namespace IMOMaritimeSingleWindow.Helpers
                 .ForMember(destination => destination.RoleId,
                 opt => opt.MapFrom(source => source.Id)).ReverseMap();
             #endregion
-        }
-
-        public void Configure(IMapperConfigurationExpression cfg)
-        {
-            
         }
     }
 }
