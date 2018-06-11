@@ -65,7 +65,7 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
         public void MapsToPerson()
         {
             var person = UserStore.MapToPerson(Users[0]);
-            Assert.AreEqual(Users[0].FirstName, person.FirstName);
+            Assert.AreEqual(Users[0].GivenName, person.GivenName);
         }
 
         [Test]

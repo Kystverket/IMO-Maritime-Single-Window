@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Http, RequestOptions } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { OrganizationModel } from "../models/organization-model";
-import { AuthRequest } from "./auth.request.service";
-import { SearchService } from "./search.service";
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { OrganizationModel } from '../models/organization-model';
+import { AuthRequest } from './auth.request.service';
+import { SearchService } from './search.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrganizationService {
@@ -17,8 +18,8 @@ export class OrganizationService {
         this.searchService = new SearchService(http);
         this.organizationUrl = 'api/organization';
         this.organizationTypeUrl = 'api/organizationtype';
-        this.organizationUserUrl = this.organizationUrl + "/user";
-        this.searchOrganizationUrl = this.organizationUrl + "/search";
+        this.organizationUserUrl = this.organizationUrl + '/user';
+        this.searchOrganizationUrl = this.organizationUrl + '/search';
     }
 
 
@@ -30,10 +31,17 @@ export class OrganizationService {
     }
 
     public registerOrganization(newOrganization: OrganizationModel) {
-        var auth_headers = this.authRequestService.GetHeaders();
-        let options = new RequestOptions({ headers: auth_headers });
+        const auth_headers = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_headers });
         return this.http.post(this.organizationUrl, newOrganization, options)
-            .map(res => res.json());
+                .map(res => res.json());
+    }
+
+    updateOrganization(organization: OrganizationModel) {
+        const auth_headers = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_headers });
+        return this.http.put(this.organizationUrl, organization, options)
+                .map(res => res.json());
     }
 
     public search(term: string) {
@@ -45,15 +53,15 @@ export class OrganizationService {
 
     public getOrganizationTypes() {
         return this.http.get(this.organizationTypeUrl)
-            .map(res => res.json());
+                .map(res => res.json());
     }
 
     public getOrganizationForUser() {
-        let auth_headers = this.authRequestService.GetHeaders();
-        let options = new RequestOptions({ headers: auth_headers });
-        let uri: string = this.organizationUserUrl;
+        const auth_headers = this.authRequestService.GetHeaders();
+        const options = new RequestOptions({ headers: auth_headers });
+        const uri: string = this.organizationUserUrl;
         return this.http.get(uri, options)
-            .map(res => res.json());
+                .map(res => res.json());
     }
 
 }

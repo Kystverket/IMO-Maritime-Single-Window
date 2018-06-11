@@ -17,18 +17,18 @@ import { MenuService } from './menu.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  menuIsCollapsed: boolean = true;
+  menuIsCollapsed = true;
   subscription: Subscription;
   loggedIn: boolean;
   roles: any = new Array();
   user_menu_entries: MenuEntry[];
-  userName: string = "default";
+  userName = 'default';
   userClaims: any;
 
-  icon_path = "assets/images/VoyageIcons/128x128/white/";
+  icon_path = 'assets/images/VoyageIcons/128x128/white/';
   menu_entries: MenuEntry[] = [
-    { title: "USERS", iconPath: this.icon_path + "user.png", menuName: CONTENT_NAMES.REGISTER_USER },
-    { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
+    { title: 'USERS', iconPath: this.icon_path + 'user.png', menuName: CONTENT_NAMES.REGISTER_USER },
+    { title: 'SHIPS', iconPath: this.icon_path + 'ship.png', menuName: CONTENT_NAMES.VIEW_SHIPS },
     { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.LOCATIONS },
     { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
     { title: 'PORT CALLS', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }

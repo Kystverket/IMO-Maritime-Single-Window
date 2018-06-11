@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Http, RequestOptions } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { LocationModel } from "../models/location-model";
-import { AuthRequest } from "./auth.request.service";
-import { SearchService } from "./search.service";
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LocationModel } from '../models/location-model';
+import { AuthRequest } from './auth.request.service';
+import { SearchService } from './search.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LocationService {
@@ -48,9 +49,17 @@ export class LocationService {
         return this.searchService.search(this.searchHarbourUrl, term);
     }
 
+    public updateLocation(location: LocationModel) {
+        const auth_headers = this.authRequest.GetHeaders();
+        const options = new RequestOptions({ headers: auth_headers });
+        return this.http
+                .put(this.locationUrl, location, options)
+                .map(res => res.json());
+    }
+
     public registerLocation(newLocation: LocationModel) {
-        var auth_headers = this.authRequest.GetHeaders();
-        let options = new RequestOptions({ headers: auth_headers });
+        const auth_headers = this.authRequest.GetHeaders();
+        const options = new RequestOptions({ headers: auth_headers });
         return this.http
             .post(this.locationUrl, newLocation, options)
             .map(res => res.json());

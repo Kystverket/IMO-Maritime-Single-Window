@@ -72,7 +72,25 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(newOrganization);
         }
 
-
+        [HasClaim(Claims.Types.ORGANIZATION, Claims.Values.REGISTER)]
+        [HttpPut()]
+        public IActionResult UpdateOrganization([FromBody] Organization organization)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Organization.Update(organization);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Json(organization);
+        }
 
     }
 }
