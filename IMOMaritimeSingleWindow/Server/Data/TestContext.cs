@@ -586,11 +586,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ActualDraught).HasColumnName("actual_draught");
 
                 entity.Property(e => e.AirDraught).HasColumnName("air_draught");
-
-                entity.Property(e => e.CargoGrossGrossWeight).HasColumnName("cargo_gross_gross_weight");
-
-                entity.Property(e => e.CargoGrossWeight).HasColumnName("cargo_gross_weight");
-
+                
                 entity.Property(e => e.NumberOfCrew).HasColumnName("number_of_crew");
 
                 entity.Property(e => e.NumberOfPassengers).HasColumnName("number_of_passengers");
