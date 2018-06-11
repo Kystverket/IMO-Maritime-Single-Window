@@ -45,6 +45,26 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(newShip);
         }
 
+        [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
+        [HttpPut()]
+        public IActionResult UpdateShip([FromBody] Ship ship)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Ship.Update(ship);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Json(ship);
+        }
+
         public List<Ship> SearchShip(string searchTerm)
         {
             if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
