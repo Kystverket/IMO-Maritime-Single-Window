@@ -513,9 +513,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PersonId)
                     .HasColumnName("person_id");
 
-                entity.Property(e => e.FirstName).HasColumnName("first_name");
+                entity.Property(e => e.GivenName).HasColumnName("given_name");
 
-                entity.Property(e => e.LastName).HasColumnName("last_name");
+                entity.Property(e => e.Surname).HasColumnName("surname");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
@@ -586,10 +586,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ActualDraught).HasColumnName("actual_draught");
 
                 entity.Property(e => e.AirDraught).HasColumnName("air_draught");
-
-                entity.Property(e => e.CargoGrossGrossWeight).HasColumnName("cargo_gross_gross_weight");
-
-                entity.Property(e => e.CargoGrossWeight).HasColumnName("cargo_gross_weight");
 
                 entity.Property(e => e.NumberOfCrew).HasColumnName("number_of_crew");
 
