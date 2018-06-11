@@ -33,7 +33,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(countries);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             var countries = _context.Country.ToList();

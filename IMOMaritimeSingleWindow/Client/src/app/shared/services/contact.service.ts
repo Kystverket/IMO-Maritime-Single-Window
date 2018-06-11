@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Http } from '@angular/http';
-import { ShipModel } from '../models/ship-model';
-import { ContactModel } from '../models/contact-model';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class ContactService {
-    
-    constructor() {}
+
+    constructor() { }
 
     wipeServiceData() {
         this.contactDataSource.next(null);
@@ -16,9 +12,9 @@ export class ContactService {
 
     private contactDataSource = new BehaviorSubject<any>(null);
     contactData$ = this.contactDataSource.asObservable();
-    
-    setContactData(data: ContactModel[]) {
+
+    setContactData(data) {
         this.contactDataSource.next(data);
     }
-    
+
 }

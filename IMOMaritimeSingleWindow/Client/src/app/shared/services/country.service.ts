@@ -7,16 +7,16 @@ import { SearchService } from "./search.service";
 export class CountryService {
     constructor(private http: Http) {
         this.searchService = new SearchService(http);
-        this.actionUrl = 'api/country/search/';
+        this.searchUrl = 'api/country/search/';
     }
 
     private searchService: SearchService;
-    private actionUrl: string;
+    private searchUrl: string;
 
     public search(term: string) {
         if (term.length < 2) {
             return Observable.of([]);
         }
-        return this.searchService.search(this.actionUrl, term);
+        return this.searchService.search(this.searchUrl, term);
     }
 }

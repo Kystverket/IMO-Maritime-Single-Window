@@ -147,33 +147,33 @@ namespace IMOMaritimeSingleWindow.Tests
             Assert.True(true);
         }
 
-        [Test]
-        public void InsertRole()
-        {
-            Role role = new Role
-            {
-                Name = "xxxx",
-                NormalizedName = "XXXX",
-                Description = "XXXX"
-            };
+        //[Test]
+        //public void InsertRole()
+        //{
+        //    Role role = new Role
+        //    {
+        //        Name = "xxxx",
+        //        NormalizedName = "XXXX",
+        //        Description = "XXXX"
+        //    };
 
-            UnitOfWork.Roles.Add(role);
-            UnitOfWork.Complete();
+        //    UnitOfWork.Roles.Add(role);
+        //    UnitOfWork.Complete();
 
-            var menuClaims = UnitOfWork.GetClaimsByType("Menu").ToList();
-            var portCallMenuClaim = UnitOfWork.GetClaimsByType("Menu").FirstOrDefault(cl => cl.ClaimValue == "PORT CALL");
-            var portCallClaims = UnitOfWork.GetClaimsByType("Port Call")
-                .Where(cl => cl.ClaimValue == "Clearance" || cl.ClaimValue == "View")
-                .ToList();
+        //    var menuClaims = UnitOfWork.GetClaimsByType("Menu").ToList();
+        //    var portCallMenuClaim = UnitOfWork.GetClaimsByType("Menu").FirstOrDefault(cl => cl.ClaimValue == "PORT CALL");
+        //    var portCallClaims = UnitOfWork.GetClaimsByType("Port Call")
+        //        .Where(cl => cl.ClaimValue == "Clearance" || cl.ClaimValue == "View")
+        //        .ToList();
 
-            var claimsList = new List<Claim> { portCallMenuClaim };
-            claimsList.AddRange(portCallClaims);
-            UnitOfWork.RoleClaims.AddClaimsToRole(claimsList, role.RoleId);
-            UnitOfWork.Complete();
+        //    var claimsList = new List<Claim> { portCallMenuClaim };
+        //    claimsList.AddRange(portCallClaims);
+        //    UnitOfWork.RoleClaims.AddClaimsToRole(claimsList, role.RoleId);
+        //    UnitOfWork.Complete();
 
-            Assert.True(true);
+        //    Assert.True(true);
 
-        }
+        //}
 
         [Test]
         public void InsertRegisterClaim()

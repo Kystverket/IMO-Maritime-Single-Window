@@ -1,3 +1,16 @@
+
+/*  This was adopted from an example project written by
+ *  author: Marc Macniel (https://github.com/mmacneil)
+ *  cited in a blog post
+ *  url: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
+ *  demonstrating how to implement a framework for authenticating users with JWT
+ *  in an ASP.NET Core 2/Angular 5 web application.
+ *  
+ *  The original class this class is based upon can be found on the project's GitHub repository
+ *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
+ *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Controllers/AuthController.cs
+ */
+
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,10 +24,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Result = Microsoft.AspNetCore.Identity.SignInResult;
 using Microsoft.AspNetCore.Authorization;
 
- 
+
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -57,8 +69,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var userName = credentials.UserName;
             var password = credentials.Password;
-            _logger.LogDebug($"userName: {userName}\npassword: {password}");
 
+            // Verify credentials
             int res = await VerifyCredentials(userName, password);
             switch (res)
             {
@@ -77,11 +89,11 @@ namespace IMOMaritimeSingleWindow.Controllers
                 default:
                     return new ForbidResult();
             }
-            
+
             var identity = await GetClaimsIdentity(userName);
             if (identity == null)
             {
-                return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError);
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
@@ -96,9 +108,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private async Task<int> VerifyCredentials(string userName, string password)
         {
+            // Check for empty username
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 return (int)Constants.LoginStates.InvalidCredentials;
 
+            // Verify that user exists
             var _user = await _userManager.FindByNameAsync(userName);
             if (_user == null)
             {
@@ -106,11 +120,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
 
+            // Verify username and password match
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(_user, password, lockoutOnFailure: true);
-
             if (result.Succeeded)
             {
-                // await _userManager.ResetAccessFailedCountAsync(_user);
                 _logger.LogInformation("User logged in successfully");
                 return (int)Constants.LoginStates.OK;
             }
@@ -118,42 +131,24 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return (int)Constants.LoginStates.LockedOut;
             else
             {
-                // await _userManager.AccessFailedAsync(_user);
-                //var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
-                //_logger.LogError($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
+                var noFailed = await _userManager.GetAccessFailedCountAsync(_user);
+                _logger.LogInformation($"Invalid login attempt\nNumber of invalid login attempts thus far: {noFailed}");
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
-            
         }
 
         private async Task<ClaimsIdentity> GetClaimsIdentity(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var claims = await _userManager.GetClaimsAsync(user);
-            var claimsJSON = Json(claims);
-            _logger.LogInformation($"Claims from user:\n{claimsJSON}");
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
             var roleName = (await _userManager.GetRolesAsync(user))[0];
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
-
-        /*
-        [Authorize]
-        [Route("admin")]
-        public IActionResult IsAdmin()
-        {
-            var roleClaim = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.Role);
-            var res = Json( new {
-                claimType = roleClaim.Type,
-                roleName = roleClaim.Value
-            });
-            return Ok(res);
-        }
-        */
         
         [Authorize]
-        [Route("admin")]
+        [Route("isAdmin")]
         public IActionResult IsAdmin()
         {
             bool isAdmin = HttpContext.User.IsInRole(Constants.Strings.UserRoles.Admin);
@@ -166,6 +161,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             return Ok(true);
         }
-        
+
     }
 }

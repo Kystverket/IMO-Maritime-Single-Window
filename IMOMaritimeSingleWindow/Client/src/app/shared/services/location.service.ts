@@ -11,9 +11,9 @@ export class LocationService {
     private searchService: SearchService;
     private searchUrl: string;
     private searchHarbourUrl: string;
-    private registerLocationUrl: string;
-    private getLocationTypesUrl: string;
-    private getCountriesUrl: string;
+    private locationUrl: string;
+    private locationTypeUrl: string;
+    private countryUrl: string;
 
     constructor(
         private http: Http,
@@ -21,10 +21,10 @@ export class LocationService {
     ) {
         this.searchService = new SearchService(http);
         this.searchUrl = 'api/location/search';
-        this.searchHarbourUrl = 'api/location/searchharbour';
-        this.registerLocationUrl = 'api/location/register';
-        this.getLocationTypesUrl = 'api/locationtype/getall';
-        this.getCountriesUrl = 'api/country/getall';
+        this.searchHarbourUrl = 'api/location/harbour/search';
+        this.locationUrl = 'api/location';
+        this.locationTypeUrl = 'api/locationtype';
+        this.countryUrl = 'api/country';
     }
 
     private locationDataSource = new BehaviorSubject<any>(null);
@@ -52,17 +52,17 @@ export class LocationService {
         var auth_headers = this.authRequest.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers });
         return this.http
-            .post(this.registerLocationUrl, newLocation, options)
+            .post(this.locationUrl, newLocation, options)
             .map(res => res.json());
     }
 
     public getLocationTypes() {
-        return this.http.get(this.getLocationTypesUrl)
+        return this.http.get(this.locationTypeUrl)
             .map(res => res.json());
     }
 
     public getCountries() {
-        return this.http.get(this.getCountriesUrl)
+        return this.http.get(this.countryUrl)
             .map(res => res.json());
     }
 }

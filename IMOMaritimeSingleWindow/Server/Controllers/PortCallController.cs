@@ -61,7 +61,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [Authorize]
-        [HttpGet("foruser")]
+        [HttpGet("user")]
         public IActionResult GetPortCallsByUser()
         {
             List<PortCall> portCallList = new List<PortCall>();
@@ -120,7 +120,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
         }
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.EDIT)]
-        [HttpPost("update")]
+        [HttpPut()]
         public IActionResult Update([FromBody] PortCall portCall)
         {
             if (portCall == null)
@@ -188,7 +188,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
-        [HttpPost("delete")]
+        [HttpDelete()]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
             Console.WriteLine(portCall.PortCallId + "\n" + portCall.UserId.ToString());
@@ -227,7 +227,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterNewPortCall([FromBody] PortCall portCall)
         {
             try
@@ -267,7 +267,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [HttpGet("get/{id}")]
-        public JsonResult GetPortCallJson(int id)
+        public IActionResult GetPortCallJson(int id)
         {
             var portCall = GetPortCall(id);
             return Json(portCall);
@@ -278,7 +278,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return _context.PortCall.Where(pc => pc.PortCallId == id).FirstOrDefault();
         }
 
-        [HttpGet("get")]
+        [HttpGet()]
         public IActionResult GetAllJson()
         {
             List<PortCall> results = GetAll();

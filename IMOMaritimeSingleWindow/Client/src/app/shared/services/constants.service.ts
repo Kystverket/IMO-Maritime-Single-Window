@@ -3,32 +3,32 @@ import { Http } from "@angular/http";
 
 @Injectable()
 export class ConstantsService {
-    
-    private getContactMediumListUrl: string;
-    private getClaimListUrl: string;
-    private getPortCallClaimListUrl: string;
+
+    private contactMediumUrl: string;
+    private claimUrl: string;
+    private portCallClaimsUrl: string;
     private getMenuClaimListUrl: string;
 
     constructor(private http: Http) {
-        this.getContactMediumListUrl = 'api/contactmedium/getall';
-        this.getClaimListUrl = 'api/claim/getall';
-        this.getPortCallClaimListUrl = 'api/claim/type/portcall';
-        this.getMenuClaimListUrl = 'api/claim/type/menu';
+        this.contactMediumUrl = "api/contactmedium";
+        this.claimUrl = "api/claim";
+        this.portCallClaimsUrl = "api/claim/type/portcall";
+        this.getMenuClaimListUrl = "api/claim/type/menu";
     }
-    
+
     getContactMediumList() {
-        return this.http.get(this.getContactMediumListUrl)
-                .map(res => res.json());
+        return this.http.get(this.contactMediumUrl)
+            .map(res => res.json());
     }
 
     getClaimList() {
-        return this.http.get(this.getClaimListUrl)
-                .map(res => res.json());
+        return this.http.get(this.claimUrl)
+            .map(res => res.json());
     }
 
     GetPortCallClaimList() {
-        return this.http.get(this.getPortCallClaimListUrl)
-                .map(res => res.json());
+        return this.http.get(this.portCallClaimsUrl)
+            .map(res => res.json());
     }
 
 }

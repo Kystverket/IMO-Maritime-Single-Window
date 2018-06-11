@@ -10,6 +10,7 @@ namespace IMOMaritimeSingleWindow.Helpers
 
         public IdentityEntitiesToModelsMappingProfile()
         {
+            #region MappingConfiguration
             CreateMap<ApplicationUser, Person>()
                 .ForMember(destination => destination.FirstName,
                 opt => opt.MapFrom(source => source.FirstName)).ReverseMap();
@@ -31,6 +32,7 @@ namespace IMOMaritimeSingleWindow.Helpers
             CreateMap<ApplicationRole, Role>()
                 .ForMember(destination => destination.RoleId,
                 opt => opt.MapFrom(source => source.Id)).ReverseMap();
+            #endregion
         }
 
         public void Configure(IMapperConfigurationExpression cfg)

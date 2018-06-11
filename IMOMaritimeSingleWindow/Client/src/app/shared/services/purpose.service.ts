@@ -3,11 +3,11 @@ import { Http } from "@angular/http";
 
 @Injectable()
 export class PurposeService {
-    private purposeUrl = "api/purpose/all";
+    private purposeUrl = "api/purpose";
 
     constructor(private http: Http) { }
 
-    getPurposes() {        
+    getPurposes() {
         return this.http.get(this.purposeUrl)
             .map(res => res.json());
     }

@@ -33,7 +33,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(results);
         }
 
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult Register([FromBody] PortCall portCall)
         {
             try
@@ -44,7 +44,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     foreach (Organization agency in clearanceAgencies)
                     {
-                        OrganizationPortCall opc = new OrganizationPortCall {
+                        OrganizationPortCall opc = new OrganizationPortCall
+                        {
                             OrganizationId = agency.OrganizationId,
                             PortCallId = portCall.PortCallId
                         };
@@ -66,7 +67,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("save")]
+        [HttpPut()]
         public IActionResult Save([FromBody] OrganizationPortCall organizationPortCall)
         {
             try

@@ -8,17 +8,17 @@ import { SearchService } from "./search.service";
 @Injectable()
 export class OrganizationService {
     private searchService: SearchService;
-    private organizationSearch: string;
-    private registerOrganizationUrl: string;
-    private getOrganizationTypesUrl: string;
-    private getOrganizationForUserUrl: string;
+    private searchOrganizationUrl: string;
+    private organizationUrl: string;
+    private organizationTypeUrl: string;
+    private organizationUserUrl: string;
 
     constructor(private http: Http, private authRequestService: AuthRequest) {
         this.searchService = new SearchService(http);
-        this.organizationSearch = 'api/organization/search';
-        this.registerOrganizationUrl = 'api/organization/register';
-        this.getOrganizationTypesUrl = 'api/organizationtype/getall';
-        this.getOrganizationForUserUrl = 'api/organization/foruser';
+        this.organizationUrl = 'api/organization';
+        this.organizationTypeUrl = 'api/organizationtype';
+        this.organizationUserUrl = this.organizationUrl + "/user";
+        this.searchOrganizationUrl = this.organizationUrl + "/search";
     }
 
 
@@ -32,7 +32,7 @@ export class OrganizationService {
     public registerOrganization(newOrganization: OrganizationModel) {
         var auth_headers = this.authRequestService.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers });
-        return this.http.post(this.registerOrganizationUrl, newOrganization, options)
+        return this.http.post(this.organizationUrl, newOrganization, options)
             .map(res => res.json());
     }
 
@@ -40,18 +40,18 @@ export class OrganizationService {
         if (term.length < 2) {
             return Observable.of([]);
         }
-        return this.searchService.search(this.organizationSearch, term);
+        return this.searchService.search(this.searchOrganizationUrl, term);
     }
 
     public getOrganizationTypes() {
-        return this.http.get(this.getOrganizationTypesUrl)
+        return this.http.get(this.organizationTypeUrl)
             .map(res => res.json());
     }
 
     public getOrganizationForUser() {
         let auth_headers = this.authRequestService.GetHeaders();
         let options = new RequestOptions({ headers: auth_headers });
-        let uri: string = this.getOrganizationForUserUrl;
+        let uri: string = this.organizationUserUrl;
         return this.http.get(uri, options)
             .map(res => res.json());
     }

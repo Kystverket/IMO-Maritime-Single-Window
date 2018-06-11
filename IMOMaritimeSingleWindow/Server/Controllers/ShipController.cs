@@ -26,7 +26,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
             if (!ModelState.IsValid)

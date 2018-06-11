@@ -21,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<ContactMedium> contactMediumList = new List<ContactMedium>();

@@ -71,6 +71,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onEditClick() {
+    this.contentService.setPortCallForm("Port Call Details");
     this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
