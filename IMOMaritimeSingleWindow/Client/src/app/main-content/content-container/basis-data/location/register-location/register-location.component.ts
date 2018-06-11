@@ -95,17 +95,20 @@ export class RegisterLocationComponent implements OnInit {
 
   selectCountry($event) {
     this.selectedCountry = $event.item;
+    this.locationModel.country = $event.item;
     this.locationModel.countryId = $event.item.countryId;
     this.countrySelected = true;
   }
   deselectCountry() {
     this.selectedCountry = null;
+    this.locationModel.country = null;
     this.locationModel.countryId = null;
     this.selectedCountry = null;
     this.countrySelected = false;
   }
 
   selectLocationType(locationType: any) {
+    this.locationModel.locationType = locationType;
     this.locationModel.locationTypeId = locationType.locationTypeId;
     this.selectedLocationType = locationType;
     this.locationTypeDropdownString = locationType.name;
@@ -123,7 +126,14 @@ export class RegisterLocationComponent implements OnInit {
         }
       );
     } else {
-      console.log('existing location');
+      this.locationService.updateLocation(this.locationModel).subscribe(
+        result => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+        }, error => {
+          console.log(error);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        }
+      );
     }
   }
 

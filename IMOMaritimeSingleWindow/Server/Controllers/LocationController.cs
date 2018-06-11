@@ -46,6 +46,26 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(newLocation);
         }
 
+        [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
+        [HttpPut()]
+        public IActionResult UpdateLocation([FromBody] Location location)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try 
+            {
+                _context.Location.Update(location);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Json(location);
+        }
+
         public List<Location> SearchLocation(string searchTerm, bool typeHarbour)
         {
             List<Location> results = new List<Location>();
