@@ -91,8 +91,8 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         public bool HasPerson(ApplicationUser user)
         {
-            // Require both FirstName and LastName to be present
-            return !String.IsNullOrEmpty(user.FirstName) && !String.IsNullOrEmpty(user.LastName);
+            // Require both GivenName and Surname to be present
+            return !String.IsNullOrEmpty(user.GivenName) && !String.IsNullOrEmpty(user.Surname);
         }
 
         public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)

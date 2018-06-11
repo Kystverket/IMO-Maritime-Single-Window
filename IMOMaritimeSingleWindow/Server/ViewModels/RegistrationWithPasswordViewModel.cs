@@ -13,8 +13,8 @@ namespace IMOMaritimeSingleWindow.ViewModels
         //[StringLength(maximumLength: 11, MinimumLength = 8)]
         public string PhoneNumber { get; set; }
 
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
         public string RoleName { get; set; }
         public int OrganizationId { get; set; }
     }
