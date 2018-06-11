@@ -16,11 +16,11 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-1" for="email">Email</label>
+                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2" for="email">Email</label>
                 <div class="col">
                   <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" [email]="true"
                     tmFocus validateEmail (blur)="userExists(email.valid)" (ngModelChange)="emailChecked = false" placeholder="Enter email">
-                  <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email</small>
+                  <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
                     <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
                     <small class="text-success">email available</small>
@@ -69,6 +69,27 @@
                 <div class="col">
                   <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber" placeholder="Enter phone number">
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-4 col-xl-4" for="company_phone_number">Company phone number</label>
+                <div class="col">
+                  <input id="company_phone_number" name="companyPhoneNumber" class="form-control form-control-sm" [(ngModel)]="user.companyPhoneNumber" placeholder="Enter your company phone number">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-3" for="company_email">Company email</label>
+                <div class="col">
+                  <input id="company_email" name="companyEmail" class="form-control form-control-sm" [(ngModel)]="user.companyEmail" #compEmail="ngModel" [email]="true"
+                  tmFocus validateEmail placeholder="Enter your company email address">
+                </div>
+                <small *ngIf="!compEmail.valid && !compEmail.pristine" class="text-danger">Please enter a valid email address</small>
               </div>
             </div>
           </div>

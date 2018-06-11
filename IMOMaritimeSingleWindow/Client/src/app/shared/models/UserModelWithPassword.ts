@@ -6,4 +6,6 @@ export class UserModelWithPassword {
     surname: string;
     roleName: string;
     organizationId: string;
+    companyPhoneNumber: string;
+    companyEmail: string;
 }
