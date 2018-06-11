@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +8,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class AppComponent implements OnInit {
-  
-  
 
-  constructor() { }
+  clientHeight: number;
+
+  constructor() {
+    this.clientHeight = window.innerHeight;
+  }
 
   ngOnInit(): void {
   }

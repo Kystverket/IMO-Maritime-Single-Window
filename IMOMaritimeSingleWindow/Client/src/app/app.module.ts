@@ -19,6 +19,7 @@ import { ConstantsService } from './shared/services/constants.service';
 import { ContentService } from './shared/services/content.service';
 import { LoginService } from './shared/services/login.service';
 import { ConfigService } from './shared/utils/config.service';
+import { FooterComponent } from './main-content/footer/footer.component';
 
 
 
@@ -27,7 +28,8 @@ import { ConfigService } from './shared/utils/config.service';
   declarations: [
     AppComponent,
     HeaderComponent,
-    routedComponents
+    routedComponents,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

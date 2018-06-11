@@ -1,16 +1,21 @@
 <header>
   <nav class="navbar navbar-dark bg-ssn">
 
-    <button class="btn btn-sm btn-ssn mr-auto" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" *ngIf="userMenuEntries.length > 1">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" *ngIf="userMenuEntries.length > 1">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <button class="btn btn-sm btn-ssn mr-auto" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length <= 1">
-      <img src="{{iconPath}}home.png" height="16px">
-    </button>
+        <button class="btn btn-sm btn-ssn" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length === 1">
+          <img src="{{iconPath}}home.png" height="16px">
+        </button>
+      </li>
+    </ul>
 
     <ul class="navbar-nav mx-auto">
       <li class="nav-item">
+        <img src="/assets/images/logo.png" height="32px" />
         <span class="text-center text-ssn">IMO Maritime Single Window</span>
       </li>
     </ul>
