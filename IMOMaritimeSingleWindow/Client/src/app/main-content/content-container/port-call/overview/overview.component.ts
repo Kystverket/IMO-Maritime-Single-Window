@@ -129,7 +129,7 @@ export class OverviewComponent implements OnInit {
                     if (ov.status == PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
                     }
-                    // Case: user is a government clearance agency and the port call has already been cleared by the agency
+                    // Case: user is a authority clearance agency and the port call has already been cleared by the agency
                     else if (this.userIsGovernmentAgency
                       && ov.clearanceList
                       && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared != null)) {

@@ -57,7 +57,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 else
                 {
-                    return BadRequest("Warning: clearance list for port call is empty: no government agencies could be found");
+                    return BadRequest("Warning: clearance list for port call is empty: no authorities could be found");
                 }
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)

@@ -73,7 +73,6 @@
                   <th>Organization Type</th>
                   <th>Organization Number</th>
                   <th *ngIf="organizationModel.description">Description</th>
-                  <th *ngIf="organizationModel.invoiceReceiverNo">Invoice Receiver Number</th>
                 </tr>
               </thead>
               <tbody>
@@ -82,7 +81,6 @@
                   <td>{{ selectedOrganizationType.name }}</td>
                   <td>{{ organizationModel.organizationNo }}</td>
                   <td *ngIf="organizationModel.description">{{organizationModel.description}}</td>
-                  <td *ngIf="organizationModel.invoiceReceiverNo">{{ organizationModel.invoiceReceiverNo }}</td>
                 </tr>
               </tbody>
             </table>

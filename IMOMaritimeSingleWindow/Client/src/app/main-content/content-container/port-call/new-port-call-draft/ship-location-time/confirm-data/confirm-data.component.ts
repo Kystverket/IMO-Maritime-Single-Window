@@ -82,8 +82,8 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallService.registerNewPortCall(this.portCallModel).subscribe(
       result => {
         console.log("New port call successfully registered.");
-        // add list of government agencies for clearance
-        console.log("Registering government clearance agencies to port call...");
+        // add list of authorities for clearance
+        console.log("Registering authority clearance agencies to port call...");
         this.portCallService.registerClearanceAgenciesForPortCall(result);
         // Set details
         let portCallDetails = new PortCallDetailsModel();
