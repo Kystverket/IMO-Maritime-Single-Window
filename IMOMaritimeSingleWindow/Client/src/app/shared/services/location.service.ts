@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Http, RequestOptions } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { LocationModel } from "../models/location-model";
-import { AuthRequest } from "./auth.request.service";
-import { SearchService } from "./search.service";
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { LocationModel } from '../models/location-model';
+import { AuthRequest } from './auth.request.service';
+import { SearchService } from './search.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LocationService {
