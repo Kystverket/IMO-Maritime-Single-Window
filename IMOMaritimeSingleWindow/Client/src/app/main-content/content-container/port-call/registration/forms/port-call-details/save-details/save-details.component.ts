@@ -3,6 +3,9 @@ import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.
 import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 
+const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
+const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
+
 @Component({
   selector: 'app-save-details',
   templateUrl: './save-details.component.html',
@@ -21,26 +24,26 @@ export class SaveDetailsComponent implements OnInit {
 
   crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
 
-  dataIsPristine: boolean = true;
+  dataIsPristine = true;
+  dataIsPristineText: string;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallService: PortCallService) {}
 
   ngOnInit() {
-
-    this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {
-        this.dataIsPristine = detailsDataIsPristine;
-      }
-    );
+    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
+    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+      this.dataIsPristine = detailsDataIsPristine;
+    });
     // Database Identification
     this.portCallService.detailsIdentificationData$.subscribe(
       identificationData => {
         if (identificationData) {
-          this.detailsModel.portCallDetailsId = identificationData.portCallDetailsId;
+          this.detailsModel.portCallDetailsId =
+            identificationData.portCallDetailsId;
           this.detailsModel.portCallId = identificationData.portCallId;
         }
       }
-    )
+    );
     // Reporting
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
@@ -68,20 +71,16 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
     // Purpose
-    this.portCallService.portCallPurposeData$.subscribe(
-      purposeData => {
-        if (purposeData) {
-          this.purposeFound = true;
-          this.purposeModel = purposeData;
-        }
+    this.portCallService.portCallPurposeData$.subscribe(purposeData => {
+      if (purposeData) {
+        this.purposeFound = true;
+        this.purposeModel = purposeData;
       }
-    );
+    });
 
-    this.portCallService.otherPurposeName$.subscribe(
-      otherNameData => {
-        this.otherPurposeName = otherNameData;
-      }
-    )
+    this.portCallService.otherPurposeName$.subscribe(otherNameData => {
+      this.otherPurposeName = otherNameData;
+    });
 
     this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       cpadMetaData => {
@@ -96,7 +95,9 @@ export class SaveDetailsComponent implements OnInit {
       this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
       this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
       this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
+
       this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
+      this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
     }
   }
 }
