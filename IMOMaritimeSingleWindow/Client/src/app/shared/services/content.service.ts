@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AccountService } from './account.service';
 import { BaseService } from './base.service';
 import { CONTENT_NAMES } from '../constants/content-names';
@@ -23,5 +23,4 @@ export class ContentService extends BaseService {
     setPortCallForm(contentName: string) {
         this.portCallFormSource.next(contentName);
     }
-    
 }
