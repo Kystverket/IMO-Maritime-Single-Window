@@ -4,7 +4,7 @@
       <img src="assets/images/VoyageIcons/128x128/white/pax.png" height="64px">
     </div>
     <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER ORGANIZATION</h3>
+      <h3 class="text-ssn display-4">{{ organizationHeader }}</h3>
     </div>
   </div>
 
@@ -12,22 +12,6 @@
     <div class="col">
       <ssn-card header="Organization Information" icon="pax.png">
         <form>
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="organization_type_dropdown">Organization Type</label>
-                <div class="col">
-                  <div ngbDropdown>
-                    <button class="btn btn-sm btn-ssn" id="organization_type_dropdown" ngbDropdownToggle> {{ organizationTypeDropdownString }}</button>
-                    <div ngbDropdownMenu aria-labelledby="organization_type_dropdown">
-                      <button class="dropdown-item" *ngFor="let organizationType of organizationTypeList" (click)="selectOrganizationType(organizationType)">{{ organizationType.name }}</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="row">
             <div class="col-lg-6">
@@ -69,7 +53,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Confirm Organization Registration" icon="checkmark.png">
+      <ssn-card header='{{ confirmHeader }}' icon="checkmark.png">
         <div *ngIf="!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo" class="text-center">
           <div class="mb-3">
             <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
@@ -104,7 +88,7 @@
             </table>
           </div>
           <button class="btn btn-ssn" (click)="registerOrganization()">
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
       </ssn-card>
     </div>
