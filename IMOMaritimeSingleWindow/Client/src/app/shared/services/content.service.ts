@@ -6,7 +6,7 @@ import { CONTENT_NAMES } from '../constants/content-names';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>(CONTENT_NAMES.VIEW_PORT_CALLS);
+    private contentSource = new BehaviorSubject<string>(CONTENT_NAMES.LOCATIONS);
     contentName$ = this.contentSource.asObservable();
 
     private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
@@ -23,5 +23,4 @@ export class ContentService extends BaseService {
     setPortCallForm(contentName: string) {
         this.portCallFormSource.next(contentName);
     }
-    
 }

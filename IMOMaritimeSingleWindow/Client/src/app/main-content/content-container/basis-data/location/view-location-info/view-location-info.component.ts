@@ -11,14 +11,19 @@ import { LocationService } from '../../../../../shared/services/location.service
 })
 export class ViewLocationInfoComponent implements OnInit {
 
-  locationFound: boolean = false;
+  locationFound = false;
 
   deselectLocation() {
     this.locationFound = false;
     this.locationService.setLocationData(null);
   }
 
+  editLocation() {
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_LOCATION);
+  }
+
   registerNewLocation() {
+    this.locationService.setLocationData(null);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_LOCATION);
   }
 

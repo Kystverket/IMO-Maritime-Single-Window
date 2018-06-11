@@ -4,7 +4,7 @@
       <img src="assets/images/VoyageIcons/128x128/white/location.png" height="64px">
     </div>
     <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER LOCATION</h3>
+      <h3 class="text-ssn display-4">{{ locationHeader }}</h3>
     </div>
   </div>
 
@@ -102,17 +102,17 @@
   <div class="row">
     <div class="col">
       <div class="text-center">
-        <ssn-card header="Confirm Location Registration" icon="checkmark.png">
+        <ssn-card header='{{ confirmHeader }}' icon="checkmark.png">
           <div class="text-center" *ngIf="!(locationTypeSelected && locationModel.name && countrySelected)">
             <p *ngIf="!locationTypeSelected" class="no-wrap mb-0">Location type not selected.</p>
             <p *ngIf="!locationModel.name" class="no-wrap mb-0">Location name not set.</p>
             <p *ngIf="!countrySelected" class="no-wrap">Country not selected.</p>
             <button class="btn btn-ssn" disabled>
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Location</button>
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
           <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected">
             <button class="btn btn-ssn" (click)="registerLocation()">
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Location</button>
+              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
         </ssn-card>
       </div>
