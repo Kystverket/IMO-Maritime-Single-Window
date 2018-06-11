@@ -104,7 +104,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
-                // Other government agencies not listed in Constants.Strings.UserRoles
+                // Other authorities not listed in Constants.Strings.UserRoles
                 default:
                     if (dbUser.Organization.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY)
                     {

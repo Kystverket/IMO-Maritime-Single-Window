@@ -1,4 +1,4 @@
-INSERT INTO "organization_type" ("organization_type_id","name","description") VALUES (1,'Government Agency','Organization of type Government Agency.');
+INSERT INTO "organization_type" ("organization_type_id","name","description") VALUES (1,'Authority','Organization of type Authority.');
 
 INSERT INTO "organization_type" ("organization_type_id","name","description") VALUES (2, 'Company', 'Organization of type Company.');
 
