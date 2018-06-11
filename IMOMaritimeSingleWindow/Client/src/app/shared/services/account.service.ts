@@ -1,16 +1,17 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { UserModelWithPassword } from "../models/UserModelWithPassword";
-import { BaseRequest } from "../utils/base.request";
-import { ConfigService } from "../utils/config.service";
-import { AuthRequest } from "./auth.request.service";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { UserModelWithPassword } from '../models/UserModelWithPassword';
+import { BaseRequest } from '../utils/base.request';
+import { ConfigService } from '../utils/config.service';
+import { AuthRequest } from './auth.request.service';
 
 
 @Injectable()
 export class AccountService extends BaseRequest {
     // URLs
-    private accountBaseUrl = "/account";
+    private accountBaseUrl = '/account';
     private actionUrl: string;
     private registerUserUrl: string;
     private userUrl: string;
@@ -34,21 +35,15 @@ export class AccountService extends BaseRequest {
     ) {
         super(configService, authRequestService);
         this.actionUrl = this.baseUrl + this.accountBaseUrl;
-        this.userUrl = this.actionUrl + "/user";
-        this.rolesUrl = this.actionUrl + "/roles";
-        this.userClaimsUrl = this.userUrl + "/claims";
-        this.userNameUrl = this.userUrl + "/name";
-        this.emailTakenUrl = this.actionUrl + "/emailTaken";
+        this.userUrl = this.actionUrl + '/user';
+        this.rolesUrl = this.actionUrl + '/roles';
+        this.userClaimsUrl = this.userUrl + '/claims';
+        this.userNameUrl = this.userUrl + '/name';
+        this.emailTakenUrl = this.actionUrl + '/emailTaken';
     }
 
     getAllRoles() {
-        let options = this.getRequestOptions();
-        return this.http.get(this.rolesUrl, options)
-            .map(res => res.json());
-    }
-
-    getRoles() {
-        let options = this.getRequestOptions();
+        const options = this.getRequestOptions();
         return this.http
             .get(this.rolesUrl, options)
             .map(res => res.json());
@@ -59,7 +54,7 @@ export class AccountService extends BaseRequest {
     }
 
     getUserClaims() {
-        let options = this.getRequestOptions();
+        const options = this.getRequestOptions();
         return this.http.get(this.userClaimsUrl, options)
             .map(res => res.json());
     }
@@ -69,29 +64,29 @@ export class AccountService extends BaseRequest {
 
     // Will be deprecated once email registration is implemented.
     registerUser(newUser: UserModelWithPassword) {
-        let options = this.getRequestOptions();
+        const options = this.getRequestOptions();
         return this.http.post(this.userUrl, newUser, options);
     }
 
     getUserName() {
-        let options = this.getRequestOptions();
+        const options = this.getRequestOptions();
         return this.http
             .get(this.userNameUrl, options)
             .map(res => res.json());
     }
 
     getUserByEmail(email: string) {
-        let options = this.getRequestOptions();
-        let uri = [this.userUrl, email].join('/');
+        const options = this.getRequestOptions();
+        const uri = [this.userUrl, email].join('/');
 
         return this.http
             .get(uri, options)
             .map(res => res.json());
     }
 
-    emailTaken(email: string) : Observable<boolean> {
-        let options = this.getRequestOptions();
-        let uri = [this.emailTakenUrl, email].join('/');
+    emailTaken(email: string): Observable<boolean> {
+        const options = this.getRequestOptions();
+        const uri = [this.emailTakenUrl, email].join('/');
         console.log(uri);
 
         return this.http

@@ -35,30 +35,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   permissions = MenuClaims.PERMISSIONS;
 
-
   private generateMenu() {
     this.setMenuEntries();
-  }
-
-  private getAllRoles() {
-    // Gets the roles of the logged in user
-    this.accountService.getAllRoles().subscribe(
-      data => {
-        this.roles = data;
-      }
-    );
   }
 
   private setMenuEntries() {
     // Populates the menu entry list with the entries the user has access to
 
     this.userMenuEntries = [];
-    for (const menu_entry of this.menuEntries) {
-      const menuName = menu_entry.menuName;
+    for (const menuEntry of this.menuEntries) {
+      const menuName = menuEntry.menuName;
       if (this.permissions[menuName]) {
         this.userMenuEntries
           .push(this.menuEntries
-            .find(me => me.menuName === menuName)
+            .find(newMenuEntry => newMenuEntry.menuName === menuName)
           );
       }
     }
@@ -69,9 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private accountService: AccountService,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   logout() {
     this.loginService.logout();
@@ -79,7 +67,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setContent(contentName: string) {
-    // this.setMenuEntries();
     this.contentService.setContent(contentName);
   }
 
@@ -88,7 +75,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
     this.accountService.userClaimsData$
-      // .finally(() => this.generateMenu())
       .subscribe(
         userClaims => {
           if (userClaims) {
