@@ -2,7 +2,9 @@
   <div class="text-center" *ngIf="!dataIsPristine">
     <div *ngIf="!crewPassengersAndDimensionsMeta.valid">
       <div class="alert alert-danger">
-        <strong>You can't save port call details.</strong>
+        <span>You can't save port call details.</span>
+        <br>
+        <span>Reason:</span>
         <li *ngIf="!crewPassengersAndDimensionsMeta.valid">
           <small>There are errors in "Crew, Passengers and Dimensions"</small>
         </li>
