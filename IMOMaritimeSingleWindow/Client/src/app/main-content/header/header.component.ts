@@ -1,38 +1,39 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/models/menu-entry.interface';
 import { AccountService } from '../../shared/services/account.service';
 import { ContentService } from '../../shared/services/content.service';
 import { LoginService } from '../../shared/services/login.service';
-import { MenuService } from './menu.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
-  providers: [MenuService]
+  providers: []
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  menuIsCollapsed: boolean = true;
+  menuIsCollapsed = true;
   subscription: Subscription;
   loggedIn: boolean;
   roles: any = new Array();
-  user_menu_entries: MenuEntry[];
-  userName: string = "default";
+  userMenuEntries: MenuEntry[];
+  userName = 'default';
   userClaims: any;
 
-  icon_path = "assets/images/VoyageIcons/128x128/white/";
-  menu_entries: MenuEntry[] = [
-    { title: "USERS", iconPath: this.icon_path + "user.png", menuName: CONTENT_NAMES.REGISTER_USER },
-    { title: "SHIPS", iconPath: this.icon_path + "ship.png", menuName: CONTENT_NAMES.VIEW_SHIPS },
-    { title: 'LOCATIONS', iconPath: this.icon_path + 'location.png', menuName: CONTENT_NAMES.LOCATIONS },
-    { title: 'ORGANIZATIONS', iconPath: this.icon_path + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
-    { title: 'PORT CALLS', iconPath: this.icon_path + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
+  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  menuEntries: MenuEntry[] = [
+    { title: 'USERS', iconPath: this.iconPath + 'user.png', menuName: CONTENT_NAMES.REGISTER_USER },
+    { title: 'SHIPS', iconPath: this.iconPath + 'ship.png', menuName: CONTENT_NAMES.VIEW_SHIPS },
+    { title: 'LOCATIONS', iconPath: this.iconPath + 'location.png', menuName: CONTENT_NAMES.LOCATIONS },
+    { title: 'ORGANIZATIONS', iconPath: this.iconPath + 'pax.png', menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS },
+    { title: 'PORT CALLS', iconPath: this.iconPath + 'portcall.png', menuName: CONTENT_NAMES.VIEW_PORT_CALLS }
   ];
+
+  permissions = MenuClaims.PERMISSIONS;
 
 
   private generateMenu() {
@@ -51,13 +52,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private setMenuEntries() {
     // Populates the menu entry list with the entries the user has access to
 
-    this.user_menu_entries = [];
-    for (let menu_entry of this.menu_entries) {
-      let menuName = menu_entry.menuName;
+    this.userMenuEntries = [];
+    for (const menu_entry of this.menuEntries) {
+      const menuName = menu_entry.menuName;
       if (this.permissions[menuName]) {
-        this.user_menu_entries
-          .push(this.menu_entries
-            .find(me => me.menuName == menuName)
+        this.userMenuEntries
+          .push(this.menuEntries
+            .find(me => me.menuName === menuName)
           );
       }
     }
@@ -67,7 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private contentService: ContentService,
     private accountService: AccountService,
-    private menuService: MenuService,
     private router: Router
   ) {
 
@@ -83,30 +83,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.contentService.setContent(contentName);
   }
 
-  permissions = MenuClaims.PERMISSIONS;
-
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(status => this.loggedIn = status);
     this.contentService.contentName$.subscribe(() => this.menuIsCollapsed = true);
 
     this.accountService.userClaimsData$
-      //.finally(() => this.generateMenu())
+      // .finally(() => this.generateMenu())
       .subscribe(
         userClaims => {
           if (userClaims) {
-            let userClaimsTypeMenu = userClaims.filter(
-              claim => claim.type == MenuClaims.TYPE
+            const userClaimsTypeMenu = userClaims.filter(
+              claim => claim.type === MenuClaims.TYPE
             );
-            var keys = Object.keys(this.permissions);
+            const keys = Object.keys(this.permissions);
             keys.forEach(key => {
               this.permissions[key] = (userClaimsTypeMenu.some(
-                claim => claim.value == key
-              ))
+                claim => claim.value === key
+              ));
             });
             this.generateMenu();
           }
         }
-      )
+      );
 
     if (this.loggedIn) {
       this.accountService.getUserName().subscribe(
