@@ -52,9 +52,9 @@ export class RegisterLocationComponent implements OnInit {
           this.locationTypeDropdownString = this.selectedLocationType.name;
         } else {
           this.newLocation = true;
-          this.locationHeader = 'Register Location';
+          this.locationHeader = 'Register New Location';
           this.confirmHeader = 'Confirm Location Registration';
-          this.confirmButtonTitle = 'Register New Location';
+          this.confirmButtonTitle = 'Register Location';
         }
       }
     );
