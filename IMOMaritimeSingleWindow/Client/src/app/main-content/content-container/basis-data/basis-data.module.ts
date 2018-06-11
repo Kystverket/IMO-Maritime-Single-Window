@@ -13,6 +13,7 @@ import { RegisterShipComponent } from './ship/register-ship/register-ship.compon
 import { SearchShipFlagCodeComponent } from './ship/search-ship-flag-code/search-ship-flag-code.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
+import { EditLocationComponent } from './location/edit-location/edit-location.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
     ViewOrganizationInfoComponent,
     RegisterLocationComponent,
     ViewLocationInfoComponent,
+    EditLocationComponent,
   ],
   exports: [
     RegisterUserComponent,
@@ -40,7 +42,8 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
     RegisterLocationComponent,
     RegisterOrganizationComponent,
     ViewOrganizationInfoComponent,
-    ViewLocationInfoComponent
+    ViewLocationInfoComponent,
+    EditLocationComponent
   ]
 })
 export class BasisDataModule { }

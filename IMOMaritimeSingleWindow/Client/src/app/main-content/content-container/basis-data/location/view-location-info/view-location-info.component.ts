@@ -18,6 +18,10 @@ export class ViewLocationInfoComponent implements OnInit {
     this.locationService.setLocationData(null);
   }
 
+  editLocation() {
+    this.contentService.setContent(CONTENT_NAMES.EDIT_LOCATION);
+  }
+
   registerNewLocation() {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_LOCATION);
   }
