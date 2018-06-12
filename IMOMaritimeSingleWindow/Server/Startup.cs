@@ -91,7 +91,7 @@ namespace IMOMaritimeSingleWindow
 
             //Configure database context
             var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
-            var dbOptions = new DbContextOptionsBuilder<open_ssnContext_base>().UseNpgsql(connectionStringOpenSSN).Options;
+            var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
 
 

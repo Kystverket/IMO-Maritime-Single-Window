@@ -4,15 +4,14 @@ using System.IO;
 using IMOMaritimeSingleWindow.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using TestContext = IMOMaritimeSingleWindow.Data.TestContext;
 
 public class ContextFactory : IDisposable
 {
     private DbConnection _connection;
 
-    private DbContextOptions<open_ssnContext_base> CreateOptions()
+    private DbContextOptions<TestContext> CreateOptions()
     {
-        return new DbContextOptionsBuilder<open_ssnContext_base>()
+        return new DbContextOptionsBuilder<TestContext>()
                         .UseSqlite(_connection)
                         .Options;
     }

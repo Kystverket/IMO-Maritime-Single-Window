@@ -10,7 +10,7 @@ namespace IMOMaritimeSingleWindow.Repositories
 {
     public class ClaimRepository : EFConcreteRepository<Claim, Guid>, IClaimRepository<Guid>
     {
-        public ClaimRepository(open_ssnContext_base context) : base(context)
+        public ClaimRepository(IDbContext context) : base(context)
         {
         }
     }

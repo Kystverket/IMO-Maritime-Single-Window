@@ -55,27 +55,5 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
 
-        public open_ssnContext_base(DbContextOptions<open_ssnContext_base> options) : base(options) { }
-        public open_ssnContext_base() { }
-
-
-    // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
-    public override int SaveChanges()
-        {
-            ChangeTracker.DetectChanges();
-            return base.SaveChanges();
-        }
-
-        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
-        {
-            return base.Update(entity);
-        }
-
-        public override void Dispose()
-        {
-            ChangeTracker.DetectChanges();
-            base.Dispose();
-        }
-
     }
 }

@@ -14,27 +14,27 @@ namespace IMOMaritimeSingleWindow.Repositories
 {
     public class UserRepository : EFConcreteRepository<User, Guid>, IUserRepository<Guid>
     {
-        public UserRepository(open_ssnContext_base context) : base(context)
+        public UserRepository(IDbContext context) : base(context)
         {
         }
         
         public User GetByEmail(string email)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.NormalizedEmail == email)
                 .FirstOrDefault();
         }
 
         public User GetByUserName(string userName)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.Email == userName)
                 .FirstOrDefault();
         }
 
         public User GetByNormalizedUserName(string normalizedUserName)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.NormalizedEmail == normalizedUserName)
                 .FirstOrDefault();
         }

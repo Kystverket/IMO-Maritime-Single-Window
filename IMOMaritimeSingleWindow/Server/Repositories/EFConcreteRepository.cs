@@ -11,22 +11,8 @@ namespace IMOMaritimeSingleWindow.Repositories
         where TEntity : class
         where TKey : IEquatable<TKey>
     {
-        public EFConcreteRepository(open_ssnContext context) : base(context)
+        public EFConcreteRepository(IDbContext context) : base(context as DbContext)
         {
-        }
-        public EFConcreteRepository(TestContext context) : base(context)
-        {
-
-        }
-
-        public EFConcreteRepository(open_ssnContext_base context) : base(context)
-        {
-
-        }
-
-        public open_ssnContext_base open_ssnContext
-        {
-            get { return Context as open_ssnContext_base; }
         }
     }
 }

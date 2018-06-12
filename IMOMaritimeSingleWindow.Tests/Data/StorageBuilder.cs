@@ -17,7 +17,7 @@ namespace IMOMaritimeSingleWindow.Tests.Data
 
         public static open_ssnContext GetInMemContext()
         {
-            var options = new DbContextOptionsBuilder<open_ssnContext_base>()
+            var options = new DbContextOptionsBuilder<open_ssnContext>()
                       .UseInMemoryDatabase(Guid.NewGuid().ToString())
                       .Options;
             var context = new open_ssnContext(options);

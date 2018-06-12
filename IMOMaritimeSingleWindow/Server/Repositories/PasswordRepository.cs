@@ -10,7 +10,7 @@ namespace IMOMaritimeSingleWindow.Repositories
 {
     public class PasswordRepository : EFConcreteRepository<Password, Guid>, IPasswordRepository<Guid>
     {
-        public PasswordRepository(open_ssnContext_base context) : base(context)
+        public PasswordRepository(IDbContext context) : base(context)
         {
         }
 
