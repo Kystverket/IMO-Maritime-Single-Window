@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class SearchService {
@@ -8,9 +8,12 @@ export class SearchService {
 
     public search(baseUrl: string, term: string) {
 
-        let encoded_term: string = encodeURIComponent(term);
-        let uri: string = [baseUrl, encoded_term].join('/');
+        const encoded_term: string = encodeURIComponent(term);
+        const uri: string = [baseUrl, encoded_term].join('/');
 
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get(uri).map(res => {
+            console.log(res.json());
+            return res.json();
+        });
     }
 }

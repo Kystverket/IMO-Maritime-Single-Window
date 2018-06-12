@@ -12,7 +12,6 @@ import { ContactService } from '../../services/contact.service';
 export class ContactSelectComponent implements OnInit {
 
   contactList: ContactModel[];
-
   selectedContactModels: ContactModel[];
 
   constructor(private constantsService: ConstantsService, private contactService: ContactService) { }
@@ -20,11 +19,13 @@ export class ContactSelectComponent implements OnInit {
   ngOnInit() {
     this.constantsService.getContactMediumList().subscribe(
       data => {
-        if (data) this.contactList = data.map(d => {
-          let contactModel = new ContactModel();
+        if (data) {
+          this.contactList = data.map(d => {
+          const contactModel = new ContactModel();
           contactModel.contactMedium = d;
           return contactModel;
         });
+      }
       }
     );
   }

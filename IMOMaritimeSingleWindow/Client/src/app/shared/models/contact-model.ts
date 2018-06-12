@@ -6,7 +6,6 @@ export class ContactModel {
     contactValue: string;
     isPreferred: boolean;
     comments: string;
-    
     // internal models
     contactMedium: ContactMediumModel;
 }

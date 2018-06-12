@@ -8,8 +8,6 @@ import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap }
 import { ShipFlagCodeService } from '../../../../../shared/services/ship-flag-code.service';
 import { ShipService } from '../../../../../shared/services/ship.service';
 
-
-
 @Component({
     selector: 'app-search-ship-flag-code',
     templateUrl: './search-ship-flag-code.component.html',
@@ -33,7 +31,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
             distinctUntilChanged(),
             tap((term) => {
                 this.searchFailed = false;
-                this.searching = (term.length >= 1)
+                this.searching = (term.length >= 1);
             }),
             switchMap(term =>
                 this.shipService.searchFlagCode(term).pipe(
@@ -48,7 +46,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
                 this.searchFailed = (this.shipFlagCodeModel.length >= 1 && res.length === 0);
             }),
             merge(this.hideSearchingWhenUnsubscribed)
-        );
+        )
 
     formatter = (x: { shipFlagCodeId: string }) => x.shipFlagCodeId;
 
@@ -64,5 +62,13 @@ export class SearchShipFlagCodeComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.shipService.shipFlagCodeData$.subscribe(
+            data => {
+                if (data) {
+                    this.shipFlagCodeModel = data;
+                    this.shipFlagCodeSelected = true;
+                }
+            }
+        );
     }
 }

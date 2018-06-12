@@ -26,7 +26,7 @@ export class SearchShipComponent implements OnInit {
       distinctUntilChanged(),
       tap((term) => {
         this.searchFailed = false;
-        this.searching = (term.length >= 2)
+        this.searching = (term.length >= 2);
       }),
       switchMap(term =>
         this.shipService.search(term).pipe(
@@ -41,13 +41,20 @@ export class SearchShipComponent implements OnInit {
         this.searchFailed = (this.shipModel.length >= 2 && res.length === 0);
       }),
       merge(this.hideSearchingWhenUnsubscribed)
-    );
+    )
   formatter = (x: { shipId: string }) => x.shipId;
 
   selectShip($event) {
     this.shipSelected = true;
     this.shipModel = $event.item;
     this.shipService.setShipOverviewData(this.shipModel);
+    this.shipService.getShip($event.item.shipId).subscribe(
+      result => {
+        if (result) {
+          this.shipService.setShipOverviewData(result);
+        }
+      }
+    );
   }
 
   deselectShip() {

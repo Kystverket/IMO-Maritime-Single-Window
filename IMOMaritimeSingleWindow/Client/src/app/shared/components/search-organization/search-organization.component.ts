@@ -31,7 +31,7 @@ export class SearchOrganizationComponent implements OnInit {
       distinctUntilChanged(),
       tap((term) => {
         this.searchFailed = false;
-        this.searching = (term.length >= 2)
+        this.searching = (term.length >= 2);
       }),
       switchMap(term =>
         this.organizationService.search(term).pipe(
@@ -46,7 +46,7 @@ export class SearchOrganizationComponent implements OnInit {
         this.searchFailed = (this.organizationModel.length >= 2 && res.length === 0);
       }),
       merge(this.hideSearchingWhenUnsubscribed)
-    );
+    )
 
   formatter = (x: { organizationId: string }) => x.organizationId;
 
@@ -62,6 +62,13 @@ export class SearchOrganizationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.organizationService.setOrganizationData(null);
+    this.organizationService.organizationData$.subscribe(
+      data => {
+        if (data) {
+          this.organizationModel = data;
+          this.organizationSelected = true;
+        }
+      }
+    );
   }
 }

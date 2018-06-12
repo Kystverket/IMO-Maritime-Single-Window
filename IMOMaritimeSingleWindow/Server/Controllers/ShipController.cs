@@ -79,6 +79,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                             .Include(s => s.ShipStatus)
                             .Include(s => s.ShipContact)
                             .Include(s => s.ShipFlagCode.Country)
+                            .Include(s => s.ShipType)
+                            // .Include(s => s.ShipPowerType)
+                            // .Include(s => s.ShipLengthType)
+                            // .Include(s => s.ShipSource)
+                            // .Include(s => s.Organization)
+                            // .Include(s => s.ShipHullType)
+                            // .Include(s => s.ShipBreadthType)
                             .Take(10)
                             .ToList();
             }
@@ -90,6 +97,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.ShipStatus)
                         .Include(s => s.ShipContact)
                         .Include(s => s.ShipFlagCode.Country)
+                        .Include(s => s.ShipType)
+                        // .Include(s => s.ShipPowerType)
+                        // .Include(s => s.ShipLengthType)
+                        // .Include(s => s.ShipSource)
+                        // .Include(s => s.Organization)
+                        // .Include(s => s.ShipHullType)
+                        // .Include(s => s.ShipBreadthType)
                         .Take(10)
                         .ToList();
         }
@@ -105,7 +119,18 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{id}")]
         public JsonResult GetShip(int id)
         {
-            Ship ship = _context.Ship.First(t => t.ShipId == id);
+            Ship ship = _context.Ship.Where(t => t.ShipId == id)
+                        .Include(s => s.ShipStatus)
+                        .Include(s => s.ShipContact)
+                        .Include(s => s.ShipFlagCode.Country)
+                        .Include(s => s.ShipType)
+                        .Include(s => s.ShipPowerType)
+                        .Include(s => s.ShipLengthType)
+                        .Include(s => s.ShipSource)
+                        .Include(s => s.Organization)
+                        .Include(s => s.ShipHullType)
+                        .Include(s => s.ShipBreadthType)
+                        .FirstOrDefault();
             return Json(ship);
         }
 

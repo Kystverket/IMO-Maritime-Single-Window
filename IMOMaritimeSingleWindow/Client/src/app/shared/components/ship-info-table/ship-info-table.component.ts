@@ -25,6 +25,7 @@ export class ShipInfoTableComponent implements OnInit {
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {
+          console.log(shipResult.shipContact);
           if (shipResult.shipFlagCode.country) this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
           if (shipResult.shipType) this.shipProperties.SHIP_TYPE.data = shipResult.shipType.name;
           if (shipResult.shipStatus) this.shipProperties.SHIP_STATUS.data = shipResult.shipStatus.name;
@@ -43,7 +44,7 @@ export class ShipInfoTableComponent implements OnInit {
                   this.shipHasContactInfo = true;
                   this.contactMediumList.forEach(contactMedium => {
                     let value = shipResult.shipContact.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
-                    if (value) {
+                    if (value && (this.shipContactInfo.find(sc => sc.data === value.contactValue) === null)) {
                       this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
                     }
                   });

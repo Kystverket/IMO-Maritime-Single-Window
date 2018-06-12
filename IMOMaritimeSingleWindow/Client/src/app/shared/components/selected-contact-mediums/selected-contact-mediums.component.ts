@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactModel } from '../../models/contact-model';
+import { ShipContactModel } from '../../models/ship-contact-model';
 import { ContactService } from '../../services/contact.service';
 
 @Component({
@@ -8,8 +8,8 @@ import { ContactService } from '../../services/contact.service';
   styleUrls: ['./selected-contact-mediums.component.css']
 })
 export class SelectedContactMediumsComponent implements OnInit {
-  
-  selectedContactModels: ContactModel[];
+
+  selectedContactModels: ShipContactModel[];
 
   constructor(private contactService: ContactService) { }
 

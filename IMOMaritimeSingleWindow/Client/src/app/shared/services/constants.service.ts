@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class ConstantsService {
@@ -10,10 +10,10 @@ export class ConstantsService {
     private getMenuClaimListUrl: string;
 
     constructor(private http: Http) {
-        this.contactMediumUrl = "api/contactmedium";
-        this.claimUrl = "api/claim";
-        this.portCallClaimsUrl = "api/claim/type/portcall";
-        this.getMenuClaimListUrl = "api/claim/type/menu";
+        this.contactMediumUrl = 'api/contactmedium';
+        this.claimUrl = 'api/claim';
+        this.portCallClaimsUrl = 'api/claim/type/portcall';
+        this.getMenuClaimListUrl = 'api/claim/type/menu';
     }
 
     getContactMediumList() {

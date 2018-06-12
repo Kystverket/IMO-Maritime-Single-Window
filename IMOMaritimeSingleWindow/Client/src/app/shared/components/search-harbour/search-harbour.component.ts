@@ -26,7 +26,7 @@ export class SearchHarbourComponent implements OnInit {
       distinctUntilChanged(),
       tap((term) => {
         this.searchFailed = false;
-        this.searching = (term.length >= 2)
+        this.searching = (term.length >= 2);
       }),
       switchMap(term =>
         this.locationService.searchHarbour(term).pipe(
@@ -41,7 +41,7 @@ export class SearchHarbourComponent implements OnInit {
         this.searchFailed = (this.locationModel.length >= 2 && res.length === 0);
       }),
       merge(this.hideSearchingWhenUnsubscribed)
-    );
+    )
   formatter = (x: { locationId: string }) => x.locationId;
 
   selectLocation($event) {

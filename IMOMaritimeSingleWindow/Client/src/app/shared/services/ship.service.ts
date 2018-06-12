@@ -1,9 +1,10 @@
-import { Injectable } from "@angular/core";
-import { Http, RequestOptions } from "@angular/http";
-import { BehaviorSubject, Observable } from "rxjs";
-import { ShipContactModel } from "../models/ship-contact-model";
-import { AuthRequest } from "./auth.request.service";
-import { SearchService } from "./search.service";
+import { Injectable } from '@angular/core';
+import { Http, RequestOptions } from '@angular/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { ShipContactModel } from '../models/ship-contact-model';
+import { AuthRequest } from './auth.request.service';
+import { SearchService } from './search.service';
 
 @Injectable()
 export class ShipService {
@@ -55,6 +56,12 @@ export class ShipService {
     private shipOverviewDataSource = new BehaviorSubject<any>(null);
     shipOverviewData$ = this.shipOverviewDataSource.asObservable();
 
+    getShip(id: number) {
+        const uri = [this.shipUrl, id].join('/');
+        return this.http.get(uri)
+                .map(res => res.json());
+    }
+
     setShipOverviewData(data) {
         this.shipOverviewDataSource.next(data);
     }
@@ -76,6 +83,12 @@ export class ShipService {
     saveShipContactList(shipContactList: ShipContactModel[]) {
         return this.http.post(this.shipContactListUrl, shipContactList)
                 .map(res => res.json());
+    }
+
+    updateShipContactList(shipContactList: ShipContactModel[]) {
+        return this.http.put(this.shipContactListUrl, shipContactList)
+                .map(res => res.json());
+
     }
 
     setOrganizationData(data) {
@@ -140,11 +153,8 @@ export class ShipService {
     }
 
     getContactList(shipId: number) {
-        let uri: string = [this.contactListShipUrl, shipId].join('/');
+        const uri: string = [this.contactListShipUrl, shipId].join('/');
         return this.http.get(uri)
             .map(res => res.json());
     }
-
-
-
 }

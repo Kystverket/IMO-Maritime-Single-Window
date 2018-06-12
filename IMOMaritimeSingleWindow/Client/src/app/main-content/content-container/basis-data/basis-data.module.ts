@@ -15,6 +15,8 @@ import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.comp
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { LocationService } from '../../../shared/services/location.service';
 import { OrganizationService } from '../../../shared/services/organization.service';
+import { ShipService } from '../../../shared/services/ship.service';
+import { ContactService } from '../../../shared/services/contact.service';
 
 @NgModule({
   imports: [
@@ -46,7 +48,9 @@ import { OrganizationService } from '../../../shared/services/organization.servi
   ],
   providers: [
     LocationService,
-    OrganizationService
+    OrganizationService,
+    ShipService,
+    ContactService
   ]
 })
 export class BasisDataModule { }

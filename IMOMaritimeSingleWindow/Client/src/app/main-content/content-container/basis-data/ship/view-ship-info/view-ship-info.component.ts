@@ -13,7 +13,7 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class ViewShipInfoComponent implements OnInit {
 
-  shipFound: boolean = false;
+  shipFound = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
@@ -24,6 +24,11 @@ export class ViewShipInfoComponent implements OnInit {
   }
 
   registerNewShip() {
+    this.shipService.setShipOverviewData(null);
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
+  }
+
+  editShip() {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
   }
 

@@ -1,5 +1,4 @@
-import { ContactModel } from "./contact-model";
-import { ShipModel } from "./ship-model";
+import { ContactMediumModel } from './contact-medium-model';
 
 export class ShipContactModel {
     shipContactId: number;
@@ -8,4 +7,6 @@ export class ShipContactModel {
     contactValue: string;
     isPreferred: boolean;
     comments: string;
+    // internal models:
+    contactMedium: ContactMediumModel;
 }
