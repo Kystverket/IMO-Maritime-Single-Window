@@ -39,8 +39,8 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class EtaEtdComponent implements OnInit {
   etaEtdModel: EtaEtdDateTime = {
-    eta: { year: null, month: null, day: null, hour: null, minute: null },
-    etd: { year: null, month: null, day: null, hour: null, minute: null }
+    eta: { year: null, month: null, day: null, hour: 0, minute: 0 },
+    etd: { year: null, month: null, day: null, hour: 0, minute: 0 }
   };
 
   etaDateModel: NgbDateStruct;
