@@ -7,16 +7,20 @@ import { LocationModel } from 'app/shared/models/location-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { LocationService } from 'app/shared/services/location.service';
 
-const RESULT_SUCCES = 'Location was successfully saved to the database.';
+const RESULT_SUCCESS = 'Location was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
 
 @Component({
   selector: 'app-register-location',
   templateUrl: './register-location.component.html',
   styleUrls: ['./register-location.component.css'],
-  providers: [LocationModel, LocationService]
+  providers: [LocationModel]
 })
 export class RegisterLocationComponent implements OnInit {
+  newLocation: boolean;
+  locationHeader: string;
+  confirmHeader: string;
+  confirmButtonTitle: string;
   locationTypeList: any[];
   locationTypeSelected: boolean;
   selectedLocationType: any;
@@ -33,6 +37,27 @@ export class RegisterLocationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.locationService.locationData$.subscribe(
+      data => {
+        if (data) {
+          this.newLocation = false;
+          this.locationHeader = 'Edit Location';
+          this.confirmHeader = 'Confirm Location Changes';
+          this.confirmButtonTitle = 'Apply Changes';
+          this.locationModel = data;
+          this.selectedCountry = this.locationModel.country;
+          this.countrySelected = true;
+          this.selectedLocationType = this.locationModel.locationType;
+          this.locationTypeSelected = true;
+          this.locationTypeDropdownString = this.selectedLocationType.name;
+        } else {
+          this.newLocation = true;
+          this.locationHeader = 'Register New Location';
+          this.confirmHeader = 'Confirm Location Registration';
+          this.confirmButtonTitle = 'Register Location';
+        }
+      }
+    );
     this.locationService.getLocationTypes().subscribe(
       results => {
         this.locationTypeList = results;
@@ -71,17 +96,20 @@ export class RegisterLocationComponent implements OnInit {
 
   selectCountry($event) {
     this.selectedCountry = $event.item;
+    this.locationModel.country = $event.item;
     this.locationModel.countryId = $event.item.countryId;
     this.countrySelected = true;
   }
   deselectCountry() {
     this.selectedCountry = null;
+    this.locationModel.country = null;
     this.locationModel.countryId = null;
     this.selectedCountry = null;
     this.countrySelected = false;
   }
 
   selectLocationType(locationType: any) {
+    this.locationModel.locationType = locationType;
     this.locationModel.locationTypeId = locationType.locationTypeId;
     this.selectedLocationType = locationType;
     this.locationTypeDropdownString = locationType.name;
@@ -89,14 +117,25 @@ export class RegisterLocationComponent implements OnInit {
   }
 
   registerLocation() {
-    this.locationService.registerLocation(this.locationModel).subscribe(
-      result => {
-        this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
-      }, error => {
-        console.log(error);
-        this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
-      }
-    );
+    if (this.newLocation) {
+      this.locationService.registerLocation(this.locationModel).subscribe(
+        result => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+        }, error => {
+          console.log(error);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        }
+      );
+    } else {
+      this.locationService.updateLocation(this.locationModel).subscribe(
+        result => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+        }, error => {
+          console.log(error);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        }
+      );
+    }
   }
 
   private goBack() {

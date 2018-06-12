@@ -1,4 +1,5 @@
 export class OrganizationModel {
+  organizationType: any;
   organizationId: number;
   name: string;
   invoiceReceiverNo: number;

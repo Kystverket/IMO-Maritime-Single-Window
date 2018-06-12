@@ -1,14 +1,13 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { Credentials } from 'app/shared/models/credentials.interface';
 import { AccountService } from 'app/shared/services/account.service';
-import { AuthService } from 'app/shared/services/auth-service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';
-import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +15,9 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
   login_title = 'LOGIN';
-
-  private subscription: Subscription;
 
   brandNew: boolean;
   errors: string;
@@ -33,7 +30,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
     private accountService: AccountService
   ) { }
 
@@ -75,16 +71,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // subscribe to router event
-    this.subscription = this.activatedRoute.queryParams.subscribe(
+    this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
         // this.credentials.userName = param['userName'];
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
 }

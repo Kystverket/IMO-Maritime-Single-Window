@@ -18,6 +18,11 @@ export class ViewOrganizationInfoComponent implements OnInit {
   constructor(private organizationService: OrganizationService, private contentService: ContentService) { }
 
   registerNewOrganization() {
+    this.organizationService.setOrganizationData(null);
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_ORGANIZATION);
+  }
+
+  editOrganization() {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_ORGANIZATION);
   }
 
@@ -46,5 +51,4 @@ export class ViewOrganizationInfoComponent implements OnInit {
       }
     );
   }
-
 }

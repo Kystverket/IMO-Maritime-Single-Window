@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { ConfigService } from 'app/shared/utils/config.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConfigService } from '../utils/config.service';
 import { AccountService } from './account.service';
 import { BaseService } from './base.service';
 
@@ -20,12 +20,10 @@ export class LoginService extends BaseService {
   private _loggedInSource = new BehaviorSubject<boolean>(false);
   loggedIn$ = this._loggedInSource.asObservable();
   private loggedIn = false;
-  private jwtHelper: any;
 
   constructor(
     private http: Http,
     private configService: ConfigService,
-    private accountService: AccountService,
     private jwtHelperService: JwtHelperService
   ) {
     super();

@@ -12,8 +12,8 @@ namespace IMOMaritimeSingleWindow.Helpers
         {
             #region MappingConfiguration
             CreateMap<ApplicationUser, Person>()
-                .ForMember(destination => destination.FirstName,
-                opt => opt.MapFrom(source => source.FirstName)).ReverseMap();
+                .ForMember(destination => destination.GivenName,
+                opt => opt.MapFrom(source => source.GivenName)).ReverseMap();
             CreateMap<ApplicationUser, Password>()
                 .ForMember(destination => destination.Hash,
                 opt => opt.MapFrom(source => source.PasswordHash)).ReverseMap();

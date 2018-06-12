@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { OrganizationModel } from 'app/shared/models/organization-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { OrganizationModel } from '../models/organization-model';
 import { AuthRequest } from './auth.request.service';
 import { SearchService } from './search.service';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class OrganizationService {
@@ -37,6 +37,14 @@ export class OrganizationService {
       .map(res => res.json());
   }
 
+  updateOrganization(organization: OrganizationModel) {
+    const auth_headers = this.authRequestService.GetHeaders();
+    const options = new RequestOptions({ headers: auth_headers });
+    return this.http
+      .put(this.organizationUrl, organization, options)
+      .map(res => res.json());
+  }
+
   public search(term: string) {
     if (term.length < 2) {
       return Observable.of([]);
@@ -49,8 +57,8 @@ export class OrganizationService {
   }
 
   public getOrganizationForUser() {
-    const authHeaders = this.authRequestService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeaders });
+    const auth_headers = this.authRequestService.GetHeaders();
+    const options = new RequestOptions({ headers: auth_headers });
     const uri: string = this.organizationUserUrl;
     return this.http.get(uri, options).map(res => res.json());
   }

@@ -1,4 +1,5 @@
 export class LocationModel {
+  locationType: any;
   locationId: number;
   locationInLocationId: number;
   countryId: number;

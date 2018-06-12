@@ -22,8 +22,8 @@ export class RegisterUserComponent implements OnInit {
   user: UserModelWithPassword = {
     email: '',
     phoneNumber: '',
-    firstName: '',
-    lastName: '',
+    givenName: '',
+    surname: '',
     password: '',
     roleName: '',
     organizationId: ''
