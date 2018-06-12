@@ -4,7 +4,7 @@
       <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
     </div>
     <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER SHIP</h3>
+      <h3 class="text-ssn display-4">{{ shipHeader }}</h3>
     </div>
   </div>
   <form #form="ngForm">
@@ -376,7 +376,7 @@
 
   <div class="row">
     <div class="col">
-      <app-contact-select></app-contact-select>
+      <app-select-ship-contact></app-select-ship-contact>
     </div>
   </div>
 
@@ -415,7 +415,7 @@
 
   <div class="row">
     <div class="col">
-      <app-ssn-card header="Confirm Ship Registration" icon="checkmark.png">
+      <app-ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
 
         <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
           <div *ngIf="!form.valid" class="text-center">
@@ -556,7 +556,7 @@
           </div>
 
           <button class="btn btn-ssn" (click)="registerShip()">
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
       </app-ssn-card>
     </div>

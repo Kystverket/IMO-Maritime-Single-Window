@@ -62,5 +62,13 @@ export class SearchShipFlagCodeComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.shipService.shipFlagCodeData$.subscribe(
+            data => {
+                if (data) {
+                    this.shipFlagCodeModel = data;
+                    this.shipFlagCodeSelected = true;
+                }
+            }
+        );
     }
 }

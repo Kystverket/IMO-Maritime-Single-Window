@@ -24,6 +24,11 @@ export class ViewShipInfoComponent implements OnInit {
   }
 
   registerNewShip() {
+    this.shipService.setShipOverviewData(null);
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
+  }
+
+  editShip() {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
   }
 
