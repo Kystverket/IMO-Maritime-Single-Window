@@ -53,8 +53,8 @@ export class LocationService {
         const auth_headers = this.authRequest.GetHeaders();
         const options = new RequestOptions({ headers: auth_headers });
         return this.http
-                .put(this.locationUrl, location, options)
-                .map(res => res.json());
+            .put(this.locationUrl, location, options)
+            .map(res => res.json());
     }
 
     public registerLocation(newLocation: LocationModel) {
