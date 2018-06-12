@@ -8,16 +8,19 @@ import { MainContentComponent } from './main-content/main-content.component';
 
 const routes: Routes = [
   {
-    path: 'login', component: LoginComponent,
+    path: 'login',
+    component: LoginComponent,
     canActivate: [LoginAuthGuard]
   },
   {
-    path: '', component: MainContentComponent,
+    path: '',
+    component: MainContentComponent,
     canActivate: [AuthGuard]
   },
   {
     // TODO: Make ErrorComponent
-    path: '**', component: MainContentComponent,
+    path: '**',
+    component: MainContentComponent,
     canActivate: [ErrorGuard]
   }
 ];
@@ -25,11 +28,11 @@ const routes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(
-      routes,
+      routes
       //      { enableTracing: true } // <-- debugging purposes only
     )
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
 export const routedComponents = [MainContentComponent, LoginComponent];

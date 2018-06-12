@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
+      <app-ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
         <form #f="ngForm" novalidate>
 
           <div class="row">
@@ -95,13 +95,13 @@
           </div>
 
         </form>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Select Organization" icon="pax.png">
+      <app-ssn-card header="Select Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
           <app-search-organization></app-search-organization>
         </div>
@@ -126,13 +126,13 @@
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="User rights" icon="verification-clipboard.png">
+      <app-ssn-card header="User rights" icon="verification-clipboard.png">
         <div class="form-group">
           <div class="text-center">
             <span class="no-wrap">Select a role for this user</span>
@@ -141,13 +141,13 @@
             [(ngModel)]="user.roleName">
           </ng-select>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Confirm User Registration">
+      <app-ssn-card header="Confirm User Registration">
         <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)">
           <div class="mb-3">
             <p class="mb-0" *ngIf="!user.email">Email not set.</p>
@@ -185,7 +185,7 @@
           </div>
           <button class="btn btn-ssn" (click)="registerUserWithPassword()">Register User</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 </div>

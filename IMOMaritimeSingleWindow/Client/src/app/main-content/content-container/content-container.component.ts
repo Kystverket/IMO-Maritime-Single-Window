@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import { ContentService } from '../../shared/services/content.service';
-import { CONTENT_NAMES } from '../../shared/constants/content-names';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ContentService } from 'app/shared/services/content.service';
 
 @Component({
   selector: 'app-content-container',

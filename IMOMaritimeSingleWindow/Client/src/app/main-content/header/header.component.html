@@ -1,9 +1,24 @@
 <header>
   <nav class="navbar navbar-dark bg-ssn">
 
-    <button class="btn btn-sm btn-ssn mr-auto" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" *ngIf="userMenuEntries.length > 1">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <button class="btn btn-sm btn-ssn" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length === 1">
+          <img src="{{iconPath}}home.png" height="16px">
+        </button>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <img src="/assets/images/logo.png" height="32px" />
+        <span class="text-center text-ssn">IMO Maritime Single Window</span>
+      </li>
+    </ul>
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn">
       <li class="nav-item">
@@ -18,9 +33,9 @@
 
     <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
       <div class="row">
-        <div class="col-sm mx-auto mt-2" *ngFor="let menu_entry of user_menu_entries">
-          <button class="btn btn-ssn btn-sm col" (click)="setContent(menu_entry.menuName)">
-            <img src="{{menu_entry.iconPath}}" height="24px" /> {{menu_entry.title}}
+        <div class="col-sm mx-auto mt-2" *ngFor="let menuEntry of userMenuEntries">
+          <button class="btn btn-ssn btn-sm col" (click)="setContent(menuEntry.menuName)">
+            <img src="{{ menuEntry.iconPath }}" height="24px" /> {{menuEntry.title}}
           </button>
         </div>
       </div>

@@ -1,13 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { PurposeService } from '../../../../../../../shared/services/purpose.service';
-import { Observable } from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { PurposeService } from 'app/shared/services/purpose.service';
 
 const OTHER_PURPOSE_ID = 100249;
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-purpose',
   templateUrl: './purpose.component.html',
   styleUrls: ['./purpose.component.css'],
@@ -17,10 +14,10 @@ export class PurposeComponent implements OnInit {
 
   selectedPurposes = [];
   purposeList: any[] = [];
-  amountOfPurposes: number = 0;
+  amountOfPurposes = 0;
 
-  otherPurposeSelected: boolean = false;
-  otherPurposeName: string = "";
+  otherPurposeSelected = false;
+  otherPurposeName = '';
 
   constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
 
@@ -31,12 +28,11 @@ export class PurposeComponent implements OnInit {
         this.amountOfPurposes = Object.keys(this.purposeList).length;
       }
     );
-    // this.selectedPurposes = this.portCallService.portCallPurposeData$;
     this.portCallService.portCallPurposeData$.subscribe(
       data => {
         if (data) {
           this.selectedPurposes = data;
-          this.otherPurposeSelected = (this.selectedPurposes.find(p => p.portCallPurposeId == OTHER_PURPOSE_ID) != null);
+          this.otherPurposeSelected = (this.selectedPurposes.find(p => p.portCallPurposeId === OTHER_PURPOSE_ID) != null);
         }
       }
     );
@@ -49,7 +45,7 @@ export class PurposeComponent implements OnInit {
 
   purposeSelected() {
     this.portCallService.setPortCallPurposeData(this.selectedPurposes);
-    console.log("SELECTED: ", this.selectedPurposes);
+    console.log('SELECTED: ', this.selectedPurposes);
     if (this.otherPurposeSelected) {
       this.setOtherPurposeName();
     }

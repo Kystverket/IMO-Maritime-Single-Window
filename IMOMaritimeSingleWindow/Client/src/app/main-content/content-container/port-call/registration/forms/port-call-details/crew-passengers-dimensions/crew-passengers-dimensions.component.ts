@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
 
 @Component({

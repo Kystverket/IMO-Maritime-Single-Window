@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ShipProperties } from '../../../../../../shared/constants/ship-properties';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { ShipService } from '../../../../../../shared/services/ship.service';
+import { ShipProperties } from 'app/shared/constants/ship-properties';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -12,7 +12,7 @@ import { ShipService } from '../../../../../../shared/services/ship.service';
 export class FindShipComponent implements OnInit {
 
   shipFlag: string;
-  shipFound: boolean = false;
+  shipFound = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
@@ -49,6 +49,6 @@ export class FindShipComponent implements OnInit {
         }
         this.shipInfo = Object.values(this.shipProperties);
       }
-    )
+    );
   }
 }

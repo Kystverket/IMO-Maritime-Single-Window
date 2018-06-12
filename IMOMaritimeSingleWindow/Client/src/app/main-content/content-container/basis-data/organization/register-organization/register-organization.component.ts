@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { OrganizationModel } from '../../../../../shared/models/organization-model';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { OrganizationModel } from 'app/shared/models/organization-model';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
 
 const RESULT_SUCCESS = 'Organization was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the organization to the database. Please try again later.';

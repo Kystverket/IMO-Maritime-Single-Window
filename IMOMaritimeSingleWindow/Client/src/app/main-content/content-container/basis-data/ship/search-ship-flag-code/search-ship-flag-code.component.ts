@@ -5,10 +5,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { ShipFlagCodeService } from '../../../../../shared/services/ship-flag-code.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
-
-
+import { ShipFlagCodeService } from 'app/shared/services/ship-flag-code.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
     selector: 'app-search-ship-flag-code',
@@ -33,7 +31,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
             distinctUntilChanged(),
             tap((term) => {
                 this.searchFailed = false;
-                this.searching = (term.length >= 1)
+                this.searching = (term.length >= 1);
             }),
             switchMap(term =>
                 this.shipService.searchFlagCode(term).pipe(
@@ -48,7 +46,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
                 this.searchFailed = (this.shipFlagCodeModel.length >= 1 && res.length === 0);
             }),
             merge(this.hideSearchingWhenUnsubscribed)
-        );
+        )
 
     formatter = (x: { shipFlagCodeId: string }) => x.shipFlagCodeId;
 

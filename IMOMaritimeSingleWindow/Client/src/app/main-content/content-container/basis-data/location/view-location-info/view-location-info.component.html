@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-sm col-md-6 col-lg-4">
-    <ssn-card header='Register New Location' icon='location.png'>
+    <app-ssn-card header='Register New Location' icon='location.png'>
       <div class="text-center">
         <button class="btn btn-ssn" (click)="registerNewLocation()">Register New Location</button>
       </div>
-    </ssn-card>
+    </app-ssn-card>
   </div>
 </div>
 
-<ssn-card header="Location Search" icon="location.png">
+<app-ssn-card header="Location Search" icon="location.png">
   <div *ngIf="!locationFound">
     <app-search-location></app-search-location>
   </div>
@@ -30,4 +30,4 @@
       </div>
     </div>
   </div>
-</ssn-card>
+</app-ssn-card>

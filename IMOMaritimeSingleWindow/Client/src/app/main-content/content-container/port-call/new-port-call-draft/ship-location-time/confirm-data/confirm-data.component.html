@@ -1,4 +1,4 @@
-<ssn-card header="Confirm Port Call Draft" icon="checkmark.png">
+<app-ssn-card header="Confirm Port Call Draft" icon="checkmark.png">
   <div *ngIf="!shipFound || !locationFound || !dateTimeFound" class="text-center">
     <p *ngIf="!shipFound" class="no-wrap mb-0">No ship selected.</p>
     <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
@@ -39,4 +39,4 @@
     <button class="btn btn-ssn" (click)="startPortCallRegistration()">
       <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
-</ssn-card>
+</app-ssn-card>
