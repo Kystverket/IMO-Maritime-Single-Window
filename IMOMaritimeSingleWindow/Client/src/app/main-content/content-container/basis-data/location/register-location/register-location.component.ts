@@ -95,8 +95,8 @@ export class RegisterLocationComponent implements OnInit {
   formatter = (x: { name: string }) => x.name;
 
   selectCountry($event) {
-    this.selectedCountry = $event.item;
-    this.locationModel.countryId = $event.item.countryId;
+    this.selectedCountry = $event;
+    this.locationModel.countryId = $event.countryId;
     this.countrySelected = true;
   }
   deselectCountry() {
