@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Repositories;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Tests.Data;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
-
-using IMOMaritimeSingleWindow.Identity.Models;
+﻿using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
+using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Tests.Constants;
 using Microsoft.AspNetCore.Identity;
-using AutoMapper;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
@@ -70,30 +61,7 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
             var foundUser = UnitOfWork.Users.GetByUserName(Users[0].Email);
             Assert.NotNull(foundUser);
         }
-
-
-
-        [Test]
-        public void MapDoesNotThrowException()
-        {
-            Assert.DoesNotThrow(() => { UserStore.MapTest(Users[0]); } );
-        }
-
-        [Test]
-        public void MapsToPerson()
-        {
-            var person = UserStore.MapToPerson(Users[0]);
-            Assert.AreEqual(Users[0].GivenName, person.GivenName);
-        }
-
-        [Test]
-        public void MapsToPassword()
-        {
-            var password = UserStore.MapToPassword(Users[0]);
-            Assert.AreEqual(Users[0].PasswordHash, password.Hash);
-        }
-
-
+        
 
     }
 }
