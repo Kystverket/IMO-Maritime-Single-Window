@@ -96,7 +96,6 @@ export class RegisterLocationComponent implements OnInit {
 
   selectCountry($event) {
     this.selectedCountry = $event.item;
-    this.locationModel.country = $event.item;
     this.locationModel.countryId = $event.item.countryId;
     this.countrySelected = true;
   }
@@ -109,7 +108,6 @@ export class RegisterLocationComponent implements OnInit {
   }
 
   selectLocationType(locationType: any) {
-    this.locationModel.locationType = locationType;
     this.locationModel.locationTypeId = locationType.locationTypeId;
     this.selectedLocationType = locationType;
     this.locationTypeDropdownString = locationType.name;

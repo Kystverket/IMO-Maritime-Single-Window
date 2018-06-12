@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public partial class TestContext : DbContext, IDbContext
+    public class TestContext : DbContext, IDbContext
     {
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -58,8 +58,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
-
-
 
         public TestContext(DbContextOptions<TestContext> options) : base(options) { }
         // for testing:
@@ -1191,7 +1189,6 @@ namespace IMOMaritimeSingleWindow.Data
         public override void Dispose()
         {
             ChangeTracker.DetectChanges();
-            Debug.WriteLine("TestContext disposed of: " + GetHashCode());
             base.Dispose();
         }
     }

@@ -7,59 +7,67 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey>
+    public class EFGenericRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         where TEntity : class
         where TKey : IEquatable<TKey>
     {
 
         protected readonly DbContext Context;
+        protected DbSet<TEntity> DbSet; 
 
-        public RepositoryBase(DbContext context)
+        public EFGenericRepository(DbContext context)
         {
             Context = context;
+            DbSet = Context.Set<TEntity>();
         }
 
         public void Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
+            DbSet.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().AddRange(entities);
+            DbSet.AddRange(entities);
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().Where(predicate);
+            return DbSet.Where(predicate);
         }
 
         public TEntity Get(TKey id)
         {
-            return Context.Set<TEntity>().Find(id);
+            return DbSet.Find(id);
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            return Context.Set<TEntity>().ToList();
+            return DbSet.ToList();
         }
 
         public void Remove(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            if (Context.Entry(entity).State == EntityState.Detached)
+                DbSet.Attach(entity);
+                
+            DbSet.Remove(entity);
         }
 
         public void RemoveAll(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().RemoveRange(entities);
+            DbSet.RemoveRange(entities);
         }
 
         public TEntity Single(Expression<Func<TEntity, bool>> predicate)
         {
-            return Context.Set<TEntity>().SingleOrDefault(predicate);
+            return DbSet.SingleOrDefault(predicate);
         }
 
-        
-
+        public void Update(TEntity entity)
+        {
+            DbSet.Attach(entity);
+            Context.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

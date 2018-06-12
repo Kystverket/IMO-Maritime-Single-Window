@@ -6,7 +6,7 @@ export class ContactService {
   private contactDataSource = new BehaviorSubject<any>(null);
   contactData$ = this.contactDataSource.asObservable();
 
-  constructor() {}
+  constructor() { }
 
   wipeServiceData() {
     this.contactDataSource.next(null);
@@ -15,4 +15,5 @@ export class ContactService {
   setContactData(data) {
     this.contactDataSource.next(data);
   }
+
 }

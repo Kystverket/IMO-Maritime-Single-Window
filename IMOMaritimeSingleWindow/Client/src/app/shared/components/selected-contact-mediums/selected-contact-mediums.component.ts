@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ContactModel } from 'app/shared/models/contact-model';
-import { ContactService } from 'app/shared/services/contact.service';
+import { ShipContactModel } from '../../models/ship-contact-model';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-selected-contact-mediums',
@@ -8,9 +8,10 @@ import { ContactService } from 'app/shared/services/contact.service';
   styleUrls: ['./selected-contact-mediums.component.css']
 })
 export class SelectedContactMediumsComponent implements OnInit {
-  selectedContactModels: ContactModel[];
 
-  constructor(private contactService: ContactService) {}
+  selectedContactModels: ShipContactModel[];
+
+  constructor(private contactService: ContactService) { }
 
   ngOnInit() {
     this.contactService.contactData$.subscribe(data => {

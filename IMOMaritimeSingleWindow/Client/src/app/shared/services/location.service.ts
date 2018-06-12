@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { AuthRequest } from './auth.request.service';
 import { SearchService } from './search.service';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class LocationService {

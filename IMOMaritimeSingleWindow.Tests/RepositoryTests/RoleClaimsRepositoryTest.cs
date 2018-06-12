@@ -1,44 +1,47 @@
-﻿using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Repositories;
+﻿using IMOMaritimeSingleWindow.Tests.Data;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Tests.Data;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
-
-using IMOMaritimeSingleWindow.Identity.Models;
-using IMOMaritimeSingleWindow.Identity.Stores;
-using Microsoft.AspNetCore.Identity;
+using IMOMaritimeSingleWindow.Repositories;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using NUnit.Framework;
-using System.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TestContext = IMOMaritimeSingleWindow.Data.TestContext;
 
 namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
 {
-    class RoleClaimsRepositoryTest : TestBase
+    class RoleClaimsRepositoryTest
     {
-        
-        public RoleClaimsRepositoryTest() : base() {
-            //Construct the basis
+        private readonly UnitOfWork unitOfWork;
+        private readonly TestContext context;
+        public RoleClaimsRepositoryTest() {
+
+            var factory = new ContextFactory();
+            context = factory.CreateContext();
+            unitOfWork = new UnitOfWork(context);
+        }
+
+        [OneTimeSetUp]
+        public void InitialSetUp()
+        {
+            // Arrange for the other tests
 
             ClaimType claimType = new ClaimType
             {
                 Name = "menu",
                 Description = "Menu entries"
             };
-            UnitOfWork.ClaimTypes.Add(claimType);
-            UnitOfWork.Complete();
+            unitOfWork.ClaimTypes.Add(claimType);
+            unitOfWork.Complete();
 
-            claimType = UnitOfWork.ClaimTypes.Single(ct => ct.Name == "menu");
+            claimType = unitOfWork.ClaimTypes.Single(ct => ct.Name == "menu");
 
             Role role = new Role
             {
                 Name = "admin",
                 Description = "Administrator role"
             };
-            
+
             Claim claim = new Claim
             {
                 ClaimType = claimType,
@@ -51,52 +54,52 @@ namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
                 Claim = claim
             };
 
-            
-            UnitOfWork.RoleClaims.Add(roleClaim);
-            UnitOfWork.Complete();
-            var cc = InMemoryDatabaseContext.Set<Claim>().Single(c => c.ClaimValue == "portcall");
-
+            unitOfWork.RoleClaims.Add(roleClaim);
+            unitOfWork.Complete();
         }
 
         /// <summary>
-        /// A test that verifies the insertion in the constructor was successful
+        /// A test that verifies the initial set up was successful
         /// </summary>
         /// <returns></returns>
         [Test]
         public async Task RoleClaimsConstructedCorrectly()
         {
-            var context = InMemoryDatabaseContext as DbContext;
             
-            //Claims are added
+            // Claims are added
             Assert.True( await context.Set<Claim>().AnyAsync() );
             Claim claim = null;
             claim = await context.Set<Claim>().FirstAsync(c => c.ClaimValue == "portcall");
-            //Claim with the given value was added to the database
+
+            // Claim with the given value was added to the database
             Assert.NotNull(claim);
             Assert.NotNull(claim.ClaimId);
             ClaimType claimType = await context.Set<ClaimType>().SingleAsync(ct => ct.Name == "menu");
             Assert.NotNull(claimType);
-        }        
+        }
 
         [Test]
         public void GetClaimsForRole()
         {
-            var roles = UnitOfWork.Roles.Find(r => r.Name == "admin").ToList();
-            
-            var claims = UnitOfWork.RoleClaims.GetClaimsForRole(roles.First().RoleId);
+            // Arrange
+            var role = unitOfWork.Roles.Single(r => r.Name == "admin");
+            // Act
+            var claims = unitOfWork.RoleClaims.GetClaimsForRole(role.RoleId);
+            // Assert
             Assert.True(claims.Any(c => c.ClaimValue == "portcall"));
         }
 
         [Test]
         public void GetSystemClaims()
         {
-            var roles = UnitOfWork.Roles.Find(r => r.Name == "admin").ToList();
-            var claims = UnitOfWork.RoleClaims.GetClaimsForRole(roles.First().RoleId);
-            var systemClaims = UnitOfWork.GetSystemClaims(claims).ToList();
+            // Arrange
+            var roles = unitOfWork.Roles.Find(r => r.Name == "admin").ToList();
+            // Act
+            var claims = unitOfWork.RoleClaims.GetClaimsForRole(roles.First().RoleId);
+            var systemClaims = unitOfWork.GetSystemClaims(claims).ToList();
+            // Assert
             List<System.Security.Claims.Claim> matchingClaims = systemClaims.Where(scl => scl.Type == "menu").ToList();
-
             Assert.True( matchingClaims.Any() );
-
         }
     }
 }

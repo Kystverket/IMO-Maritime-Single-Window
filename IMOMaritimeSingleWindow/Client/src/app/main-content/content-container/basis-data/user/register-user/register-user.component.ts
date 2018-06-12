@@ -26,7 +26,9 @@ export class RegisterUserComponent implements OnInit {
     surname: '',
     password: '',
     roleName: '',
-    organizationId: ''
+    organizationId: '',
+    companyEmail: '',
+    companyPhoneNumber: ''
   };
   emailTaken: boolean;
   emailChecked: boolean;

@@ -11,7 +11,6 @@ import { ContactService } from 'app/shared/services/contact.service';
 })
 export class ContactSelectComponent implements OnInit {
   contactList: ContactModel[];
-
   selectedContactModels: ContactModel[];
 
   constructor(
