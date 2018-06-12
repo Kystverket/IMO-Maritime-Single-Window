@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { OrganizationProperties } from '../../../../../shared/constants/organization-properties';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
 
 @Component({
   selector: 'app-view-organization-info',
@@ -36,8 +36,9 @@ export class ViewOrganizationInfoComponent implements OnInit {
     this.organizationService.organizationData$.subscribe(
       organizationResult => {
         if (organizationResult) {
-          // tslint:disable-next-line:max-line-length
-          this.organizationProperties.ORGANIZATION_TYPE.data = (organizationResult.organizationType) ? organizationResult.organizationType.name : null;
+          this.organizationProperties.ORGANIZATION_TYPE.data = (organizationResult.organizationType)
+            ? organizationResult.organizationType.name
+            : null;
           this.organizationProperties.ORGANIZATION_NAME.data = organizationResult.name;
           this.organizationProperties.ORGANIZATION_NO.data = organizationResult.organizationNo;
           this.organizationProperties.ORGANIZATION_DESCRIPTION.data = organizationResult.description;

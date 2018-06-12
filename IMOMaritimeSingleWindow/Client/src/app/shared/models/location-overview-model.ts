@@ -1,6 +1,6 @@
-import { LocationModel } from "./location-model";
+import { LocationModel } from './location-model';
 
 export class LocationOverviewModel {
-    location: LocationModel;
-    country: any;
+  location: LocationModel;
+  country: any;
 }

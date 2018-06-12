@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from 'app/shared/shared.module';
 import { ConfirmationComponent } from './confirmation.component';
 import { ActivatePortCallComponent } from './activate-port-call/activate-port-call.component';
 

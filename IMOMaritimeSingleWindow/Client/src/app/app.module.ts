@@ -11,6 +11,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import { ErrorGuard } from './auth/guards/error.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
+import { FooterComponent } from './main-content/footer/footer.component';
 import { HeaderComponent } from './main-content/header/header.component';
 import { AccountService } from './shared/services/account.service';
 import { AuthService } from './shared/services/auth-service';
@@ -20,14 +21,12 @@ import { ContentService } from './shared/services/content.service';
 import { LoginService } from './shared/services/login.service';
 import { ConfigService } from './shared/utils/config.service';
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    routedComponents
+    routedComponents,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +59,7 @@ import { ConfigService } from './shared/utils/config.service';
   ],
   bootstrap: [AppComponent]
 })
-
-export class AppModule { }
+export class AppModule {}
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token');

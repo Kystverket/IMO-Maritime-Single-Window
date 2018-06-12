@@ -1,4 +1,4 @@
-<table-card header="Ship Information" icon="ship.png">
+<app-table-card header="Ship Information" icon="ship.png">
   <tbody>
     <tr>
       <td>
@@ -15,8 +15,8 @@
       </td>
     </tr>
   </tbody>
-</table-card>
-<table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
+</app-table-card>
+<app-table-card header="Ship Contact Information" icon="contact.png" collapsible=true>
   <tbody *ngIf="shipHasContactInfo">
     <tr>
       <td *ngFor="let entry of shipContactInfo" class="no-wrap px-1 mx-1">
@@ -35,4 +35,4 @@
       <span>No contact information for this ship has been provided.</span>
     </div>
   </tbody>
-</table-card>
+</app-table-card>

@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
-import { UserModel } from '../../../../../shared/models/user-model';
-import { AccountService } from '../../../../../shared/services/account.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { UserModelWithPassword } from 'app/shared/models/UserModelWithPassword';
+import { UserModel } from 'app/shared/models/user-model';
+import { AccountService } from 'app/shared/services/account.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
 
-const RESULT_SUCCES: string = "User was successfully registered.";
-const RESULT_FAILURE: string = "There was a problem when trying to register the user. Please try again later.";
+const RESULT_SUCCES = 'User was successfully registered.';
+const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
 
 @Component({
   selector: 'app-register-user',
@@ -61,7 +61,7 @@ export class RegisterUserComponent implements OnInit {
           this.organizationSelected = false;
         }
       }
-    )
+    );
   }
 
   userExists(emailValid: boolean) {
@@ -70,7 +70,7 @@ export class RegisterUserComponent implements OnInit {
       .subscribe(result => {
         this.emailTaken = result;
         this.emailChecked = true;
-      })
+      });
     }
   }
 
@@ -106,10 +106,10 @@ export class RegisterUserComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       },
       reason => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       }
     );
   }

@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ContactService {
+  private contactDataSource = new BehaviorSubject<any>(null);
+  contactData$ = this.contactDataSource.asObservable();
 
-    constructor() { }
+  constructor() {}
 
-    wipeServiceData() {
-        this.contactDataSource.next(null);
-    }
+  wipeServiceData() {
+    this.contactDataSource.next(null);
+  }
 
-    private contactDataSource = new BehaviorSubject<any>(null);
-    contactData$ = this.contactDataSource.asObservable();
-
-    setContactData(data) {
-        this.contactDataSource.next(data);
-    }
-
+  setContactData(data) {
+    this.contactDataSource.next(data);
+  }
 }
