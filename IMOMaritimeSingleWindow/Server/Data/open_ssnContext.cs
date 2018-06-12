@@ -1,14 +1,10 @@
-using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using IMOMaritimeSingleWindow.Models;
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public partial class open_ssnContext : DbContext, IDbContext
+    public class open_ssnContext : DbContext, IDbContext
     {
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -58,8 +54,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
-
-
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
@@ -1512,7 +1506,6 @@ namespace IMOMaritimeSingleWindow.Data
         public override void Dispose()
         {
             ChangeTracker.DetectChanges();
-            Debug.WriteLine("open_ssnContext disposed of: " + GetHashCode());
             base.Dispose();
         }
     }

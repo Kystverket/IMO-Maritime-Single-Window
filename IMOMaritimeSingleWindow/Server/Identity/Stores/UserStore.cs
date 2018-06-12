@@ -29,30 +29,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             _roleStore = roleStore;
         }
 
-
-        #region testmethods
-        public void MapTest(ApplicationUser user)
-        {
-            var _user = _mapper.Map<User>(user);
-        }
-
-        public User MapToUser(ApplicationUser user)
-        {
-            var _user = _mapper.Map<User>(user);
-            return _user;
-        }
-        public Password MapToPassword(ApplicationUser user)
-        {
-            var _password = _mapper.Map<Password>(user);
-            return _password;
-        }
-        public Person MapToPerson(ApplicationUser user)
-        {
-            var _person = _mapper.Map<Person>(user);
-            return _person;
-        }
-        #endregion
-
         public Task CreateAsync(User user)
         {
             throw new NotImplementedException();

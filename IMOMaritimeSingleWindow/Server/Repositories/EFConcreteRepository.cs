@@ -7,17 +7,12 @@ using IMOMaritimeSingleWindow.Data;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class Repository<TEntity, TKey> : RepositoryBase<TEntity, TKey>
+    public class EFConcreteRepository<TEntity, TKey> : EFGenericRepository<TEntity, TKey>
         where TEntity : class
         where TKey : IEquatable<TKey>
     {
-        public Repository(open_ssnContext context) : base(context)
+        public EFConcreteRepository(IDbContext context) : base(context as DbContext)
         {
-        }
-
-        public open_ssnContext open_ssnContext
-        {
-            get { return Context as open_ssnContext; }
         }
     }
 }

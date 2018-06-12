@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class ClaimRepository : Repository<Claim, Guid>, IClaimRepository<Guid>
+    public class ClaimRepository : EFConcreteRepository<Claim, Guid>, IClaimRepository<Guid>
     {
-        public ClaimRepository(open_ssnContext context) : base(context)
+        public ClaimRepository(IDbContext context) : base(context)
         {
         }
     }

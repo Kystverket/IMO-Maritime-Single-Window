@@ -57,6 +57,8 @@ namespace IMOMaritimeSingleWindow.Identity.Models
         public string Surname { get; set; }
         public string NormalizedRoleName { get; set; }
         public int OrganizationId { get; set; }
+        public string CompanyEmail { get; set; }
+        public string CompanyPhoneNumber { get; set; }
     }
 
     public class MyPasswordHasher : PasswordHasher<ApplicationUser>
