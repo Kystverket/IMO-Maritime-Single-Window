@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { OrganizationModel } from '../../../../../shared/models/organization-model';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { OrganizationModel } from 'app/shared/models/organization-model';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
 
-const RESULT_SUCCES: string = "Organization was successfully saved to the database.";
-const RESULT_FAILURE: string = "There was a problem when trying to save the organization to the database. Please try again later.";
+const RESULT_SUCCES = 'Organization was successfully saved to the database.';
+const RESULT_FAILURE = 'There was a problem when trying to save the organization to the database. Please try again later.';
 
 @Component({
   selector: 'app-register-organization',
@@ -19,7 +19,7 @@ export class RegisterOrganizationComponent implements OnInit {
   organizationTypeSelected: boolean;
   organizationTypeList: any[];
   selectedOrganizationType: any;
-  organizationTypeDropdownString: string = "Select organization type";
+  organizationTypeDropdownString = 'Select organization type';
 
   constructor(public organizationModel: OrganizationModel, private organizationService: OrganizationService,
     private contentService: ContentService, private modalService: NgbModal) { }
@@ -60,10 +60,10 @@ export class RegisterOrganizationComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       },
       reason => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       }
     );
   }

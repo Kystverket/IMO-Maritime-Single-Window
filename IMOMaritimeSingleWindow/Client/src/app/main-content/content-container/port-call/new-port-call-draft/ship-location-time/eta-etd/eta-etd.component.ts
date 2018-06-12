@@ -1,19 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 import { EtaEtdDateTime } from './eta-etd-date-time.interface';
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
-  one && two && two.year === one.year && two.month === one.month && two.day === one.day;
+  one &&
+  two &&
+  two.year === one.year &&
+  two.month === one.month &&
+  two.day === one.day;
 
 const before = (one: NgbDateStruct, two: NgbDateStruct) =>
-  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
-    ? false : one.day < two.day : one.month < two.month : one.year < two.year;
+  !one || !two
+    ? false
+    : one.year === two.year
+      ? one.month === two.month
+        ? one.day === two.day
+          ? false
+          : one.day < two.day
+        : one.month < two.month
+      : one.year < two.year;
 
 const after = (one: NgbDateStruct, two: NgbDateStruct) =>
-  !one || !two ? false : one.year === two.year ? one.month === two.month ? one.day === two.day
-    ? false : one.day > two.day : one.month > two.month : one.year > two.year;
-
+  !one || !two
+    ? false
+    : one.year === two.year
+      ? one.month === two.month
+        ? one.day === two.day
+          ? false
+          : one.day > two.day
+        : one.month > two.month
+      : one.year > two.year;
 
 @Component({
   selector: 'app-eta-etd',
@@ -21,7 +38,6 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   styleUrls: ['./eta-etd.component.css']
 })
 export class EtaEtdComponent implements OnInit {
-
   etaEtdModel: EtaEtdDateTime = {
     eta: { year: null, month: null, day: null, hour: null, minute: null },
     etd: { year: null, month: null, day: null, hour: null, minute: null }
@@ -33,19 +49,19 @@ export class EtaEtdComponent implements OnInit {
   etaTimeModel: NgbTimeStruct;
   etdTimeModel: NgbTimeStruct;
 
-  validEtaDateFormat: boolean = true;
-  validEtdDateFormat: boolean = true;
-  dateSequenceError: boolean = false;
-  timeSequenceError: boolean = false;
+  validEtaDateFormat = true;
+  validEtdDateFormat = true;
+  dateSequenceError = false;
+  timeSequenceError = false;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallService: PortCallService) {}
 
   etaDateChanged($event): void {
-    this.updateDateModel(this.etaEtdModel.eta, $event, "eta");
+    this.updateDateModel(this.etaEtdModel.eta, $event, 'eta');
   }
 
   etdDateChanged($event): void {
-    this.updateDateModel(this.etaEtdModel.etd, $event, "etd");
+    this.updateDateModel(this.etaEtdModel.etd, $event, 'etd');
   }
 
   private updateDateModel(model, $event, dateType: string): void {
@@ -70,24 +86,34 @@ export class EtaEtdComponent implements OnInit {
   }
 
   private updateValidDate(dateType: string, valid: boolean) {
-    if (dateType == "eta") {
+    if (dateType === 'eta') {
       this.validEtaDateFormat = valid;
-    } else if (dateType == "etd") {
+    } else if (dateType === 'etd') {
       this.validEtdDateFormat = valid;
     }
   }
 
   private hasValidDateFormat(model): boolean {
-    return typeof model != "string";
+    return typeof model !== 'string';
   }
 
   private validateData(): void {
-    if ((this.etaDateModel != null && this.etaDateModel.year != null) && (this.etdDateModel != null && this.etdDateModel.year != null)) {
+    if (
+      this.etaDateModel != null &&
+      this.etaDateModel.year != null &&
+      (this.etdDateModel != null && this.etdDateModel.year != null)
+    ) {
       this.dateSequenceError = after(this.etaDateModel, this.etdDateModel);
       if (equals(this.etaDateModel, this.etdDateModel)) {
-        if ((this.etaTimeModel != null && this.etaTimeModel.hour != null) && (this.etdTimeModel != null && this.etdTimeModel.hour != null)) {
-          this.timeSequenceError = (this.etaTimeModel.hour > this.etdTimeModel.hour)
-            || ((this.etaTimeModel.hour == this.etdTimeModel.hour) && (this.etaTimeModel.minute >= this.etdTimeModel.minute));
+        if (
+          this.etaTimeModel != null &&
+          this.etaTimeModel.hour != null &&
+          (this.etdTimeModel != null && this.etdTimeModel.hour != null)
+        ) {
+          this.timeSequenceError =
+            this.etaTimeModel.hour > this.etdTimeModel.hour ||
+            (this.etaTimeModel.hour === this.etdTimeModel.hour &&
+              this.etaTimeModel.minute >= this.etdTimeModel.minute);
         } else {
           this.timeSequenceError = false;
         }
@@ -99,7 +125,11 @@ export class EtaEtdComponent implements OnInit {
       this.timeSequenceError = false;
     }
 
-    if (!this.dateSequenceError && !this.timeSequenceError && this.hasRequiredData(this.etaEtdModel)) {
+    if (
+      !this.dateSequenceError &&
+      !this.timeSequenceError &&
+      this.hasRequiredData(this.etaEtdModel)
+    ) {
       this.portCallService.setEtaEtdData(this.etaEtdModel);
     } else {
       this.portCallService.setEtaEtdData(null);
@@ -107,7 +137,12 @@ export class EtaEtdComponent implements OnInit {
   }
 
   private hasRequiredData(model: EtaEtdDateTime): boolean {
-    return model.eta.year != null && model.eta.hour != null && model.etd.year != null && model.etd.hour != null;
+    return (
+      model.eta.year != null &&
+      model.eta.hour != null &&
+      model.etd.year != null &&
+      model.etd.hour != null
+    );
   }
 
   etaTimeChanged($event): void {
@@ -130,18 +165,34 @@ export class EtaEtdComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portCallService.etaEtdData$.subscribe((etaEtdData) => {
+    this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData != null) {
         this.etaEtdModel = etaEtdData;
       }
     });
 
     if (this.etaEtdModel != null) {
-      this.etaDateModel = { year: this.etaEtdModel.eta.year, month: this.etaEtdModel.eta.month, day: this.etaEtdModel.eta.day };
-      this.etaTimeModel = { hour: this.etaEtdModel.eta.hour, minute: this.etaEtdModel.eta.minute, second: 0 };
+      this.etaDateModel = {
+        year: this.etaEtdModel.eta.year,
+        month: this.etaEtdModel.eta.month,
+        day: this.etaEtdModel.eta.day
+      };
+      this.etaTimeModel = {
+        hour: this.etaEtdModel.eta.hour,
+        minute: this.etaEtdModel.eta.minute,
+        second: 0
+      };
 
-      this.etdDateModel = { year: this.etaEtdModel.etd.year, month: this.etaEtdModel.etd.month, day: this.etaEtdModel.etd.day };
-      this.etdTimeModel = { hour: this.etaEtdModel.etd.hour, minute: this.etaEtdModel.etd.minute, second: 0 };
+      this.etdDateModel = {
+        year: this.etaEtdModel.etd.year,
+        month: this.etaEtdModel.etd.month,
+        day: this.etaEtdModel.etd.day
+      };
+      this.etdTimeModel = {
+        hour: this.etaEtdModel.etd.hour,
+        minute: this.etaEtdModel.etd.minute,
+        second: 0
+      };
     }
   }
 }

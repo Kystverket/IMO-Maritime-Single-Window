@@ -1,24 +1,16 @@
+import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { ConfigService } from 'app/shared/utils/config.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { AccountService } from './account.service';
+import { BaseService } from './base.service';
+
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
 
-import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ConfigService } from '../utils/config.service';
-
-import { BaseService } from "./base.service";
-
-import { Observable } from 'rxjs/Rx';
-import { BehaviorSubject } from 'rxjs/Rx'; 
-import { JwtHelperService } from '@auth0/angular-jwt';
-
-// Add the RxJS Observable operators we need in this app.
-import '../../rxjs-operators';
-import { AccountService } from './account.service';
-
 @Injectable()
-
 export class LoginService extends BaseService {
-
-  baseUrl: string = '';
+  baseUrl = '';
 
   // Observable navItem source
   private _authNavStatusSource = new BehaviorSubject<boolean>(false);
@@ -35,8 +27,7 @@ export class LoginService extends BaseService {
     private configService: ConfigService,
     private accountService: AccountService,
     private jwtHelperService: JwtHelperService
-    ) {
-
+  ) {
     super();
     this.loggedIn = !!localStorage.getItem('auth_token');
     // ?? not sure if this the best way to broadcast the status but seems to resolve issue on page refresh where auth status is lost in
@@ -44,22 +35,23 @@ export class LoginService extends BaseService {
     this._authNavStatusSource.next(this.loggedIn);
     this.baseUrl = configService.getApiURI();
     this.jwtHelperService = new JwtHelperService({
-      tokenGetter: () => { return localStorage.getItem(""); }
+      tokenGetter: () => localStorage.getItem('')
     });
   }
 
-   login(userName, password) {
-    let headers = new Headers();
+  login(userName, password) {
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     return this.http
       .post(
-      this.baseUrl + '/auth/login',
-      JSON.stringify({ userName, password }),{ headers }
+        this.baseUrl + '/auth/login',
+        JSON.stringify({ userName, password }),
+        { headers }
       )
       .map(res => res.json())
       .map(res => {
-        if(res) {
+        if (res) {
           localStorage.setItem('auth_token', res.auth_token);
           this.loggedIn = true;
           this._loggedInSource.next(true);
@@ -69,7 +61,6 @@ export class LoginService extends BaseService {
         this._loggedInSource.next(false);
         this._authNavStatusSource.next(false);
         return false;
-        
       })
       .catch(this.handleError);
   }
@@ -85,11 +76,10 @@ export class LoginService extends BaseService {
   // Tips from https://ryanchenkie.com/angular-authentication-using-route-guards
   isLoggedIn() {
     // Get token from localStorage
-    const token = localStorage.getItem("auth_token");
+    const token = localStorage.getItem('auth_token');
     // Check whether the token is expired
-    let isExpired = this.jwtHelperService.isTokenExpired(token);
-    
+    const isExpired = this.jwtHelperService.isTokenExpired(token);
+
     return !isExpired;
   }
-
 }

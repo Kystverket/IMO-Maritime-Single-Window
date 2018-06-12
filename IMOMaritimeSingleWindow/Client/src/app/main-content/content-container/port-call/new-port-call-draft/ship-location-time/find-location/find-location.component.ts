@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { LocationService } from 'app/shared/services/location.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
-import { LocationProperties } from '../../../../../../shared/constants/location-properties';
-import { LocationService } from '../../../../../../shared/services/location.service';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
 
 
@@ -16,7 +16,7 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
 })
 export class FindLocationComponent implements OnInit {
 
-    locationFound: boolean = false;
+    locationFound = false;
 
     locationFlag: string;
     locationProperties = LocationProperties.PROPERTIES;

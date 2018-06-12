@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewCell } from 'ng2-smart-table';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { PortCallClaims } from '../../../../../shared/constants/port-call-claims';
-import { PortCallStatusTypes } from '../../../../../shared/constants/port-call-status-types';
-import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
-import { AccountService } from '../../../../../shared/services/account.service';
-import { ConstantsService } from '../../../../../shared/services/constants.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { PortCallOverviewService } from '../../../../../shared/services/port-call-overview.service';
-import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { PortCallClaims } from 'app/shared/constants/port-call-claims';
+import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
+import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { AccountService } from 'app/shared/services/account.service';
+import { ConstantsService } from 'app/shared/services/constants.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-button-row',

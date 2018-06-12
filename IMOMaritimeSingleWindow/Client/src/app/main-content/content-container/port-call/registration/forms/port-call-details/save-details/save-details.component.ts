@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormMetaData } from '../../../../../../../shared/models/form-meta-data.interface';
-import { PortCallDetailsModel } from '../../../../../../../shared/models/port-call-details-model';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
+import { FormMetaData } from 'app/shared/models/form-meta-data.interface';
+import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
-const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
+const INITIAL_DATA_IS_PRISTINE_TEXT =
+  'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 
 @Component({
@@ -53,7 +54,8 @@ export class SaveDetailsComponent implements OnInit {
           this.detailsModel.reportingCrew = reportingData.reportingCrew;
           this.detailsModel.reportingHazmat = reportingData.reportingHazmat;
           this.detailsModel.reportingPax = reportingData.reportingPax;
-          this.detailsModel.reportingShipStores = reportingData.reportingShipStores;
+          this.detailsModel.reportingShipStores =
+            reportingData.reportingShipStores;
           this.detailsModel.reportingWaste = reportingData.reportingWaste;
         }
       }
@@ -96,7 +98,11 @@ export class SaveDetailsComponent implements OnInit {
       this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
       this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
 
-      this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
+      this.portCallService.saveDetails(
+        this.detailsModel,
+        this.purposeModel,
+        this.otherPurposeName
+      );
       this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
     }
   }

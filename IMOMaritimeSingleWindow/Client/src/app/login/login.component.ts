@@ -2,13 +2,13 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Credentials } from '../shared/models/credentials.interface';
-import { AccountService } from '../shared/services/account.service';
-import { AuthService } from '../shared/services/auth-service';
-import { ContentService } from '../shared/services/content.service';
-import { LoginService } from '../shared/services/login.service';
-import { CONTENT_NAMES } from '../shared/constants/content-names';
+import { Subscription } from 'rxjs/Subscription';
+import { Credentials } from 'app/shared/models/credentials.interface';
+import { AccountService } from 'app/shared/services/account.service';
+import { AuthService } from 'app/shared/services/auth-service';
+import { ContentService } from 'app/shared/services/content.service';
+import { LoginService } from 'app/shared/services/login.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 
 @Component({
   selector: 'app-login',
@@ -18,15 +18,15 @@ import { CONTENT_NAMES } from '../shared/constants/content-names';
 
 export class LoginComponent implements OnInit, OnDestroy {
 
-  login_title = "LOGIN";
+  login_title = 'LOGIN';
 
   private subscription: Subscription;
 
   brandNew: boolean;
   errors: string;
   isRequesting: boolean;
-  submitted: boolean = false;
-  credentials: Credentials = { userName: '', password: '' }
+  submitted = false;
+  credentials: Credentials = { userName: '', password: '' };
 
   constructor(
     private loginService: LoginService,
@@ -57,19 +57,19 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
                 this.router.navigate(['']);
               })
-              .subscribe(result => {
-                if (result) {
-                  this.accountService.setUserClaims(result);
-                  localStorage.setItem("user_claims", JSON.stringify(result));
+              .subscribe(claims => {
+                if (claims) {
+                  this.accountService.setUserClaims(claims);
+                  localStorage.setItem('user_claims', JSON.stringify(claims));
                 }
-              })
+              });
           }
           // Login failed
         }, error => {
           this.errors = error;
           this.credentials.password = '';
           }
-        )
+        );
     }
   }
 
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.subscription = this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
-        //this.credentials.userName = param['userName'];
+        // this.credentials.userName = param['userName'];
       }
     );
   }

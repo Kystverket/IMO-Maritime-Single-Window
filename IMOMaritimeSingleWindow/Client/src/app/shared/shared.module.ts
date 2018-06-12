@@ -28,9 +28,7 @@ import { NumberValidator } from './utils/custom-validators/number-validator.dire
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, NgSelectModule, NgbModule
-  ],
+  imports: [CommonModule, FormsModule, NgSelectModule, NgbModule],
   declarations: [
     SsnCardComponent,
     TableCardComponent,
@@ -50,7 +48,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     LocationTimeInfoTableComponent,
     LocationInfoTableComponent,
     SearchLocationComponent,
-    SearchHarbourComponent,
+    SearchHarbourComponent
   ],
   exports: [
     SsnCardComponent,
@@ -71,10 +69,11 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SearchHarbourComponent
   ],
   providers: [
-    ContactService, OrganizationService, ShipService, LocationService
+    ContactService,
+    OrganizationService,
+    ShipService,
+    LocationService
   ],
-  entryComponents: [
-    ConfirmationModalComponent
-  ]
+  entryComponents: [ConfirmationModalComponent]
 })
-export class SharedModule { }
+export class SharedModule {}

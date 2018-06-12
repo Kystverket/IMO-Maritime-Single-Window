@@ -68,10 +68,10 @@
   </div>
 </div>
 
-<ng-template #cancelModal let-close="close">
+<ng-template #cancelModal let-close="close()">
   <div class="modal-header">
     <h4 class="modal-title">Cancel Port Call</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
+    <button type="button" class="close" aria-label="Close" (click)="close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -83,20 +83,20 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" (click)="cancelPortCall(); close()">
+    <button class="btn btn-danger" (click)="cancelPortCall(); close">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
       <span>Cancel Port Call</span>
     </button>
-    <button type="button" class="btn btn-ssn" (click)="close()">
+    <button type="button" class="btn btn-ssn" (click)="close">
       <span>Exit</span>
     </button>
   </div>
 </ng-template>
 
-<ng-template #deleteModal let-close="close">
+<ng-template #deleteModal let-close="close()">
   <div class="modal-header">
     <h4 class="modal-title">Delete Port Call</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
+    <button type="button" class="close" aria-label="Close" (click)="close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -108,11 +108,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" (click)="deletePortCall(); close()">
+    <button class="btn btn-danger" (click)="deletePortCall(); close">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
       <span>Delete Port Call</span>
     </button>
-    <button type="button" class="btn btn-ssn" (click)="close()">
+    <button type="button" class="btn btn-ssn" (click)="close">
       <span>Exit</span>
     </button>
   </div>

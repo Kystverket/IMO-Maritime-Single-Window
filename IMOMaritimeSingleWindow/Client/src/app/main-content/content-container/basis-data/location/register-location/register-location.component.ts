@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { LocationModel } from '../../../../../shared/models/location-model';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { LocationService } from '../../../../../shared/services/location.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { LocationModel } from 'app/shared/models/location-model';
+import { ContentService } from 'app/shared/services/content.service';
+import { LocationService } from 'app/shared/services/location.service';
 
-const RESULT_SUCCES: string = "Location was successfully saved to the database.";
-const RESULT_FAILURE: string = "There was a problem when trying to save the location to the database. Please try again later.";
+const RESULT_SUCCES = 'Location was successfully saved to the database.';
+const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
 
 @Component({
   selector: 'app-register-location',
@@ -20,12 +20,12 @@ export class RegisterLocationComponent implements OnInit {
   locationTypeList: any[];
   locationTypeSelected: boolean;
   selectedLocationType: any;
-  locationTypeDropdownString: string = "Select location type";
+  locationTypeDropdownString = 'Select location type';
 
-  countryList: any[]
-  countrySelected: boolean = false;
+  countryList: any[];
+  countrySelected = false;
   selectedCountry: any;
-  countrySearchFailed: boolean = false;
+  countrySearchFailed = false;
 
 
   constructor(public locationModel: LocationModel, private locationService: LocationService,
@@ -48,7 +48,7 @@ export class RegisterLocationComponent implements OnInit {
       error => {
         console.log(error);
       }
-    )
+    );
   }
 
   countrySearch = (text$: Observable<string>) =>
@@ -61,11 +61,12 @@ export class RegisterLocationComponent implements OnInit {
       .map(term => term.length < 1 ? []
         : this.countryList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
       )
-      .do((text$) => {
-        if (text$.length == 0) {
+      .do((result) => {
+        if (result.length === 0) {
           this.countrySearchFailed = true;
         }
-      });
+      })
+
   formatter = (x: { name: string }) => x.name;
 
   selectCountry($event) {
@@ -108,10 +109,10 @@ export class RegisterLocationComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       },
       reason => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       }
     );
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationProperties } from '../../constants/location-properties';
-import { LocationService } from '../../services/location.service';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { LocationService } from 'app/shared/services/location.service';
 
 @Component({
   selector: 'app-location-info-table',

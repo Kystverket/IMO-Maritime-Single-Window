@@ -1,3 +1,3 @@
 export interface FormMetaData {
-    valid: boolean
+  valid: boolean;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-port-call-details',
@@ -7,9 +7,7 @@ import { PortCallService } from '../../../../../../shared/services/port-call.ser
   styleUrls: ['./port-call-details.component.css']
 })
 export class PortCallDetailsComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-  
-  ngOnInit() { }
-
+  ngOnInit() {}
 }

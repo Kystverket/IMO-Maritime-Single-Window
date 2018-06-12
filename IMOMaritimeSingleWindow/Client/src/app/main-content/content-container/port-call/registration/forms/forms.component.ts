@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { PortCallService } from '../../../../../shared/services/port-call.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-forms',

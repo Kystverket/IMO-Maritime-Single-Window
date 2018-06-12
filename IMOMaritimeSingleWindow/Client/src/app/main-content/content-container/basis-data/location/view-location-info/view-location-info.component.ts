@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { LocationService } from '../../../../../shared/services/location.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ContentService } from 'app/shared/services/content.service';
+import { LocationService } from 'app/shared/services/location.service';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { LocationService } from '../../../../../shared/services/location.service
 })
 export class ViewLocationInfoComponent implements OnInit {
 
-  locationFound: boolean = false;
+  locationFound = false;
 
   deselectLocation() {
     this.locationFound = false;
@@ -34,7 +34,7 @@ export class ViewLocationInfoComponent implements OnInit {
           this.locationFound = false;
         }
       }
-    )
+    );
   }
 
 }
