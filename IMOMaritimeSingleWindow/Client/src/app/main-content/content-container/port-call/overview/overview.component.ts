@@ -10,6 +10,7 @@ import { OrganizationService } from 'app/shared/services/organization.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ButtonRowComponent } from './button-row/button-row.component';
+import { ClearanceComponent } from '../clearance/clearance.component';
 
 @Component({
   selector: 'app-overview',
@@ -64,6 +65,10 @@ export class OverviewComponent implements OnInit {
         title: 'Status',
         type: 'html'
       },
+      clearances: {
+        title: 'Clearances',
+        type: 'html'
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
@@ -111,6 +116,8 @@ export class OverviewComponent implements OnInit {
       status: isCancelled
         ? `<div class="text-danger">` + ov.status + `</div>`
         : ov.status,
+      clearances:
+        this.getClearanceIndicators(ov.clearanceList),
       actions: 'btn'
     };
     return row;
@@ -225,5 +232,22 @@ export class OverviewComponent implements OnInit {
         this.userOrganization = organizationResult;
         this.loadOverview();
       });
+  }
+
+  private getClearanceIndicators(clearanceList) {
+    let clearanceIndicators = '';
+    clearanceList.forEach((clearance) => {
+      if (clearance.cleared === null) {
+        clearanceIndicators += `<span class="badge badge-warning" title="Not reviewed by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px"></span> `;
+      } else if (clearance.cleared === true) {
+        clearanceIndicators += `<span class="badge badge-success" title="Cleared by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="16px"></span> `;
+      } else if (clearance.cleared === false) {
+        clearanceIndicators += `<span class="badge badge-danger" title="Rejected by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/rejected.png" height="16px"></span> `;
+      }
+    });
+    return clearanceIndicators;
   }
 }
