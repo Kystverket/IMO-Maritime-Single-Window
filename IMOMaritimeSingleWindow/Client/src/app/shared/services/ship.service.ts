@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { ShipContactModel } from '../models/ship-contact-model';
 import { AuthRequest } from './auth.request.service';
 import { SearchService } from './search.service';
+import 'rxjs/add/observable/of';
 
 @Injectable()
 export class ShipService {
@@ -25,32 +26,19 @@ export class ShipService {
   private organizationDataSource = new BehaviorSubject<any>(null);
   organizationData$ = this.organizationDataSource.asObservable();
 
-    constructor(
-        private http: Http,
-        private authRequest: AuthRequest
-    ) {
-        this.searchService = new SearchService(http);
-        this.shipUrl = 'api/ship';
-        this.shipSearchUrl = 'api/ship/search';
-        this.shipTypeUrl = 'api/shiptype';
-        this.hullTypeUrl = 'api/shiphulltype';
-        this.lengthTypeUrl = 'api/shiplengthtype';
-        this.breadthTypeUrl = 'api/shipbreadthtype';
-        this.powerTypeUrl = 'api/shippowertype';
-        this.shipSourceUrl = 'api/shipsource';
-        this.shipStatusListUrl = 'api/shipstatus';
-        this.flagCodeSearchUrl = 'api/shipflagcode/search';
-        this.contactListShipUrl = 'api/shipcontact/ship';
-        this.shipContactListUrl = 'api/shipcontact/list';
-    }
-
   private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
   shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
 
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
 
-  constructor(private http: Http, private authRequest: AuthRequest) {
+  private countryDataSource = new BehaviorSubject<any>(null);
+  countryData$ = this.countryDataSource.asObservable();
+
+  constructor(
+    private http: Http,
+    private authRequest: AuthRequest
+  ) {
     this.searchService = new SearchService(http);
     this.shipUrl = 'api/ship';
     this.shipSearchUrl = 'api/ship/search';
@@ -66,10 +54,6 @@ export class ShipService {
     this.shipContactListUrl = 'api/shipcontact/list';
   }
 
-  setShipOverviewData(data) {
-    this.shipOverviewDataSource.next(data);
-  }
-
   registerShip(newShip: any) {
     const auth_header = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_header });
@@ -78,21 +62,16 @@ export class ShipService {
       .map(res => res.json());
   }
 
-  saveShipContactList(shipContactList: ShipContactModel[]) {
-    return this.http
-      .post(this.shipContactListUrl, shipContactList)
+  getShip(id: number) {
+    const uri = [this.shipUrl, id].join('/');
+    return this.http.get(uri)
       .map(res => res.json());
   }
 
-    getShip(id: number) {
-        const uri = [this.shipUrl, id].join('/');
-        return this.http.get(uri)
-                .map(res => res.json());
-    }
+  setShipOverviewData(data) {
+    this.shipOverviewDataSource.next(data);
+  }
 
-    setShipOverviewData(data) {
-        this.shipOverviewDataSource.next(data);
-    }
   setOrganizationData(data) {
     this.organizationDataSource.next(data);
   }
@@ -101,26 +80,21 @@ export class ShipService {
     this.countryDataSource.next(data);
   }
 
-    updateShip(ship: any) {
-        const auth_header = this.authRequest.GetHeaders();
-        const options = new RequestOptions({ headers: auth_header });
-        return this.http.post(this.shipUrl, ship, options)
-                .map(res => res.json());
-    }
+  updateShip(ship: any) {
+    const auth_header = this.authRequest.GetHeaders();
+    const options = new RequestOptions({ headers: auth_header });
+    return this.http.put(this.shipUrl, ship, options)
+      .map(res => res.json());
+  }
 
-    saveShipContactList(shipContactList: ShipContactModel[]) {
-        return this.http.post(this.shipContactListUrl, shipContactList)
-                .map(res => res.json());
-    }
+  saveShipContactList(shipContactList: ShipContactModel[]) {
+    return this.http.post(this.shipContactListUrl, shipContactList)
+      .map(res => res.json());
+  }
+
   setShipFlagCodeData(data) {
     this.shipFlagCodeDataSource.next(data);
   }
-
-    updateShipContactList(shipContactList: ShipContactModel[]) {
-        return this.http.put(this.shipContactListUrl, shipContactList)
-                .map(res => res.json());
-
-    }
 
   search(term: string) {
     if (term.length < 2) {

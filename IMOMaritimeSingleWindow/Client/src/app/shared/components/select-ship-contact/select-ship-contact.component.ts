@@ -24,23 +24,29 @@ export class SelectShipContactComponent implements OnInit {
             contact.contactMedium = cm;
             return contact;
           });
-        }
-      }
-    );
-    this.contactService.contactData$.subscribe(
-      data => {
-        if (data) {
-          this.selectedContactModels = data;
+          this.contactService.contactData$.subscribe(
+            shipContactData => {
+              if (shipContactData) {
+                this.selectedContactModels = shipContactData;
+                this.contactList = this.contactList.map(cm => {
+                  const shipContact = shipContactData.find(sc => sc.contactMediumId === cm.contactMediumId);
+                  if (shipContact != null) {
+                    return shipContact;
+                  }
+                  return cm;
+                });
+              }
+            });
         }
       }
     );
   }
-
   contactInfoChanged(contactMedium: ShipContactModel) {
     this.contactService.setContactData(this.selectedContactModels);
   }
 
   contactMediumSelected() {
+    console.log(this.selectedContactModels);
     this.contactService.setContactData(this.selectedContactModels);
   }
 

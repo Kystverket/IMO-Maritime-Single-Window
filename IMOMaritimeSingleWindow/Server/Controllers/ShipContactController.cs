@@ -30,6 +30,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
+                var shipIdList = shipContactList.Select(sc => sc.ShipId).ToList();
+                var removeList = _context.ShipContact.Where(sc => shipContactList.Any(contactEntity => contactEntity.ShipId == sc.ShipId));
+                _context.ShipContact.RemoveRange(removeList);
                 _context.ShipContact.AddRange(shipContactList);
                 _context.SaveChanges();
                 return Json(shipContactList);
@@ -49,7 +52,18 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                _context.ShipContact.UpdateRange(shipContactList);
+                foreach (ShipContact contactEntity in shipContactList)
+                {
+                    Console.WriteLine("\n\n" + contactEntity.ContactValue);
+                    if (_context.ShipContact.Any(sc => sc.ShipContactId == contactEntity.ShipContactId))
+                    {
+                        _context.Update(contactEntity);
+                    }
+                    else
+                    {
+                        _context.Add(contactEntity);
+                    }
+                }
                 _context.SaveChanges();
                 return Json(shipContactList);
             }

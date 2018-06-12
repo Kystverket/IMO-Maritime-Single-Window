@@ -20,7 +20,7 @@ export class ShipInfoTableComponent implements OnInit {
   constructor(
     private shipService: ShipService,
     private constantsService: ConstantsService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.shipHasContactInfo = false;
@@ -42,19 +42,22 @@ export class ShipInfoTableComponent implements OnInit {
         this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
         this.shipProperties.LENGTH.data = shipResult.length;
 
-          this.constantsService.getContactMediumList().subscribe(
-            contactResult => {
-              if (contactResult) {
-                this.contactMediumList = contactResult;
-                if (contactResult && shipResult.shipContact != null && shipResult.shipContact.length > 0) {
-                  this.shipHasContactInfo = true;
-                  this.contactMediumList.forEach(contactMedium => {
-                    let value = shipResult.shipContact.find(shipCM => shipCM.contactMediumId == contactMedium.contactMediumId);
-                    if (value && (this.shipContactInfo.find(sc => sc.data === value.contactValue) === null)) {
-                      this.shipContactInfo.push({ description: contactMedium.contactMediumType + ":", data: value.contactValue, isPreferred: value.isPreferred })
-                    }
-                  });
-                }
+        this.constantsService.getContactMediumList().subscribe(
+          contactResult => {
+            if (contactResult) {
+              this.contactMediumList = contactResult;
+              if (contactResult && shipResult.shipContact != null && shipResult.shipContact.length > 0) {
+                this.shipHasContactInfo = true;
+                this.contactMediumList.forEach(contactMedium => {
+                  const value = shipResult.shipContact.find(shipCM => shipCM.contactMediumId === contactMedium.contactMediumId);
+                  if (value && (this.shipContactInfo.find(sc => sc.description === (contactMedium.contactMediumType)) == null)) {
+                    this.shipContactInfo.push({
+                      description: contactMedium.contactMediumType,
+                      data: value.contactValue,
+                      isPreferred: value.isPreferred
+                    });
+                  }
+                });
               }
             }
           });

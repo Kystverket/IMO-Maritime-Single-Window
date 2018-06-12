@@ -122,6 +122,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             Ship ship = _context.Ship.Where(t => t.ShipId == id)
                         .Include(s => s.ShipStatus)
                         .Include(s => s.ShipContact)
+                            .ThenInclude(sc => sc.ContactMedium)
                         .Include(s => s.ShipFlagCode.Country)
                         .Include(s => s.ShipType)
                         .Include(s => s.ShipPowerType)

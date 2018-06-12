@@ -177,7 +177,6 @@ export class RegisterShipComponent implements OnInit {
     this.organizationModel = ship.organization;
     this.organizationSelected = (ship.organization != null);
     this.selectedContactModels = ship.shipContact;
-    this.contactSelected = (ship.shipContact != null);
     this.hullTypeSelected = (ship.shipHullType != null);
     if (this.hullTypeSelected) {
       this.hullTypeDropdownString = ship.shipHullType.name;
@@ -205,6 +204,7 @@ export class RegisterShipComponent implements OnInit {
     this.organizationService.setOrganizationData(ship.organization);
     this.shipService.setShipFlagCodeData(ship.shipFlagCode);
     this.contactService.setContactData(ship.shipContact);
+    this.contactSelected = (ship.shipContact != null);
   }
 
   selectShipType($event: any) {
@@ -275,9 +275,29 @@ export class RegisterShipComponent implements OnInit {
         }
       );
     } else {
+      // remove child dependencies
+      this.shipModel.organization = null;
+      this.shipModel.shipStatus = null;
+      this.shipModel.shipPowerType = null;
+      this.shipModel.shipBreadthType = null;
+      this.shipModel.shipLengthType = null;
+      this.shipModel.shipSource = null;
+      this.shipModel.shipFlagCode = null;
+      this.shipModel.shipType = null;
+      this.shipModel.shipContact = null;
+      // update
       this.shipService.updateShip(this.shipModel).subscribe(
         result => {
-          this.updateShipContactList(this.shipModel.shipContact);
+          const shipContactList = this.selectedContactModels.map(contactModel => {
+            const shipContact = new ShipContactModel();
+            shipContact.shipId = this.shipModel.shipId;
+            shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
+            shipContact.contactValue = contactModel.contactValue;
+            shipContact.isPreferred = contactModel.isPreferred;
+            shipContact.comments = contactModel.comments;
+            return shipContact;
+          });
+          this.saveShipContactList(shipContactList);
         }, error => {
           console.log(error);
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
@@ -295,23 +315,6 @@ export class RegisterShipComponent implements OnInit {
       }, error => {
         console.log(error);
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_WARNING, RESULT_SAVED_WITHOUT_CONTACT);
-      }
-    );
-  }
-
-  updateShipContactList(shipContactList: ShipContactModel[]) {
-    this.shipService.updateShipContactList(shipContactList).subscribe(
-      result => {
-        if (result) {
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-        }
-      },
-      error => {
-        console.log(error);
-        this.openConfirmationModal(
-          ConfirmationModalComponent.TYPE_WARNING,
-          RESULT_SAVED_WITHOUT_CONTACT
-        );
       }
     );
   }
