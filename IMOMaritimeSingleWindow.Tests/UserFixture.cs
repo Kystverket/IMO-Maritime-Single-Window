@@ -26,7 +26,7 @@ namespace IMOMaritimeSingleWindow.Tests
             {
                 new ApplicationUser
                 {
-                    FirstName = "Ola",
+                    GivenName = "Ola",
                     Email = "ola@test.no",
                     PasswordHash = "jh7asd6am"
                 }

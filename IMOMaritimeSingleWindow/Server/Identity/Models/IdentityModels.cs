@@ -53,8 +53,8 @@ namespace IMOMaritimeSingleWindow.Identity.Models
     }
     
     public class ApplicationUser : IdentityUser<Guid> {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string GivenName { get; set; }
+        public string Surname { get; set; }
         public string NormalizedRoleName { get; set; }
         public int OrganizationId { get; set; }
     }

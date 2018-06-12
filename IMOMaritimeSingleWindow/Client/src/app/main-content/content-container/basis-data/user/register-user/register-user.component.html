@@ -46,17 +46,17 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="first_name">First name</label>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="given_name">Given name</label>
                 <div class="col">
-                  <input id="first_name" name="firstName" class="form-control form-control-sm" [(ngModel)]="user.firstName" placeholder="Enter first name">
+                  <input id="given_name" name="givenName" class="form-control form-control-sm" [(ngModel)]="user.givenName" placeholder="Enter Given name">
                 </div>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="last_name">Last name</label>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="surname">Surname</label>
                 <div class="col">
-                  <input id="last_name" name="lastName" class="form-control form-control-sm" [(ngModel)]="user.lastName" placeholder="Enter last name">
+                  <input id="surname" name="surname" class="form-control form-control-sm" [(ngModel)]="user.surname" placeholder="Enter surname">
                 </div>
               </div>
             </div>
@@ -142,8 +142,8 @@
             <table class="table table-bordered">
               <thead>
                 <tr class="bg-ssn text-ssn">
-                  <th *ngIf="user.firstName">First name</th>
-                  <th *ngIf="user.lastName">Last name</th>
+                  <th *ngIf="user.givenName">Given name</th>
+                  <th *ngIf="user.surname">Surname</th>
                   <th>Email</th>
                   <th *ngIf="user.phoneNumber">Phone number</th>
                   <th>Organization</th>
@@ -152,8 +152,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td *ngIf="user.firstName">{{ user.firstName }}</td>
-                  <td *ngIf="user.lastName">{{ user.lastName }}</td>
+                  <td *ngIf="user.givenName">{{ user.givenName }}</td>
+                  <td *ngIf="user.surname">{{ user.surname }}</td>
                   <td> {{ user.email }} </td>
                   <td *ngIf="user.phoneNumber">{{ user.phoneNumber }}</td>
                   <td>{{ organizationModel.name }}</td>

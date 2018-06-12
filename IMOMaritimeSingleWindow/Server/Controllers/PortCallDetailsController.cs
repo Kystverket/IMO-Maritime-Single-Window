@@ -85,8 +85,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             return (portCallDetails != null
                 && portCallDetails.PortCallId >= 0
-                && (portCallDetails.CargoGrossWeight == null || portCallDetails.CargoGrossWeight >= 0)
-                && (portCallDetails.CargoGrossGrossWeight == null || portCallDetails.CargoGrossGrossWeight >= 0)
                 && (portCallDetails.NumberOfCrew == null || portCallDetails.NumberOfCrew >= 0)
                 && (portCallDetails.NumberOfPassengers == null || portCallDetails.NumberOfPassengers >= 0)
                 && (portCallDetails.ActualDraught == null || portCallDetails.ActualDraught >= 0)
