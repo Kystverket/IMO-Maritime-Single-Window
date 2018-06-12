@@ -78,20 +78,13 @@
     <div class="row">
       <div class="col">
         <app-ssn-card header="Ship Details" icon="ship.png">
-
           <div class="row">
             <div class="col-lg-6" *ngIf="!shipTypeSelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_typeahead">Ship Type</label>
-                <ng-template #rt let-r="result" let-t="term">{{ r.name }}</ng-template>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_select">Ship Type</label>
                 <div class="col">
-                  <input id="ship_type_typeahead" name="ship_type_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedShipType"
-                    [ngbTypeahead]="shipTypeSearch" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Search for a ship type"
-                    (selectItem)="selectShipType($event)" #stt />
-                </div>
-                <div *ngIf="shipTypeSearchFailed && stt.value != ''" class="col-3 text-center">
-                  <small class="no-wrap">No</small>
-                  <small class="no-wrap">results</small>
+                  <ng-select id="ship_type_select" name="ship_type_select" [items]="shipTypeList" [multiple]="false" [closeOnSelect]="true"
+                    bindLabel="name" placeholder="Select ship type" [(ngModel)]="selectedShipType" (change)="selectShipType($event)"></ng-select>
                 </div>
               </div>
             </div>

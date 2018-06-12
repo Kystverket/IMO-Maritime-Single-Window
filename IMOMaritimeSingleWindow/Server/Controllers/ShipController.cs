@@ -80,12 +80,6 @@ namespace IMOMaritimeSingleWindow.Controllers
                             .Include(s => s.ShipContact)
                             .Include(s => s.ShipFlagCode.Country)
                             .Include(s => s.ShipType)
-                            // .Include(s => s.ShipPowerType)
-                            // .Include(s => s.ShipLengthType)
-                            // .Include(s => s.ShipSource)
-                            // .Include(s => s.Organization)
-                            // .Include(s => s.ShipHullType)
-                            // .Include(s => s.ShipBreadthType)
                             .Take(10)
                             .ToList();
             }
@@ -98,12 +92,6 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.ShipContact)
                         .Include(s => s.ShipFlagCode.Country)
                         .Include(s => s.ShipType)
-                        // .Include(s => s.ShipPowerType)
-                        // .Include(s => s.ShipLengthType)
-                        // .Include(s => s.ShipSource)
-                        // .Include(s => s.Organization)
-                        // .Include(s => s.ShipHullType)
-                        // .Include(s => s.ShipBreadthType)
                         .Take(10)
                         .ToList();
         }
