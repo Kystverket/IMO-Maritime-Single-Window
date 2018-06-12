@@ -10,6 +10,7 @@ import { OrganizationService } from 'app/shared/services/organization.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ButtonRowComponent } from './button-row/button-row.component';
+import { ClearanceComponent } from '../clearance/clearance.component';
 
 @Component({
   selector: 'app-overview',
@@ -53,13 +54,19 @@ export class OverviewComponent implements OnInit {
         type: 'html'
       },
       eta: {
-        title: 'ETA'
+        title: 'ETA',
+        type: 'html'
       },
       etd: {
-        title: 'ETD'
+        title: 'ETD',
+        type: 'html'
       },
       status: {
         title: 'Status',
+        type: 'html'
+      },
+      clearances: {
+        title: 'Clearances',
         type: 'html'
       },
       actions: {
@@ -76,15 +83,16 @@ export class OverviewComponent implements OnInit {
     const row = {
       overviewModel: ov,
       shipName:
-        `<div hidden>` +
+        `<div class="no-wrap"><div hidden>` +
         ov.ship.name + // ugly fix for alphabetical sorting but it works
         `</div> <div> <img src='assets/images/Flags/128x128/` +
         ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.ship.name +
-        `</div>`,
+        `</div></div>`,
       callSign:
-        ov.ship.callSign || `<div class="font-italic">Not provided.</div>`,
+        ov.ship.callSign ||
+        `<span class="font-italic no-wrap">Not provided.</span>`,
       locationName:
         `<div hidden>` +
         ov.location.name + // same ugly fix as ship name
@@ -93,11 +101,23 @@ export class OverviewComponent implements OnInit {
         `.png' height='20px'/> ` +
         ov.location.name +
         `</div>`,
-      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
-      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+      eta:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+        `</span>`,
+      etd:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+        `</span>`,
       status: isCancelled
         ? `<div class="text-danger">` + ov.status + `</div>`
         : ov.status,
+      clearances:
+        this.getClearanceIndicators(ov.clearanceList),
       actions: 'btn'
     };
     return row;
@@ -212,5 +232,22 @@ export class OverviewComponent implements OnInit {
         this.userOrganization = organizationResult;
         this.loadOverview();
       });
+  }
+
+  private getClearanceIndicators(clearanceList) {
+    let clearanceIndicators = '';
+    clearanceList.forEach((clearance) => {
+      if (clearance.cleared === null) {
+        clearanceIndicators += `<span class="badge badge-warning" title="Not reviewed by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px"></span> `;
+      } else if (clearance.cleared === true) {
+        clearanceIndicators += `<span class="badge badge-success" title="Cleared by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="16px"></span> `;
+      } else if (clearance.cleared === false) {
+        clearanceIndicators += `<span class="badge badge-danger" title="Rejected by ` + clearance.organization.name + `">` +
+        `<img src="assets/images/VoyageIcons/128x128/white/rejected.png" height="16px"></span> `;
+      }
+    });
+    return clearanceIndicators;
   }
 }
