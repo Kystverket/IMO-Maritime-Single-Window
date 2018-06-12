@@ -12,9 +12,9 @@ using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class UserRepository : Repository<User, Guid>, IUserRepository<Guid>
+    public class UserRepository : EFConcreteRepository<User, Guid>, IUserRepository<Guid>
     {
-        public UserRepository(open_ssnContext context) : base(context)
+        public UserRepository(open_ssnContext_base context) : base(context)
         {
         }
         
@@ -59,11 +59,6 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IQueryable<User> GetIqueryAble()
         {
             return Context.Set<User>().AsQueryable();
-        }
-
-        public void Update(User user)
-        {
-            Context.Set<User>().Update(user);
         }
 
 

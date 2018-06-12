@@ -7,10 +7,10 @@ using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public partial class UnitOfWork : IUnitOfWork<Guid>
+    public class UnitOfWork : IUnitOfWork<Guid>
     {
-        private readonly open_ssnContext _context;
-        public UnitOfWork(open_ssnContext context)
+        private readonly open_ssnContext_base _context;
+        public UnitOfWork(open_ssnContext_base context)
         {
             _context = context;
             Users = new UserRepository(_context);

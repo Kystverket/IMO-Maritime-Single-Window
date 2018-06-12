@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +7,9 @@ using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class RoleRepository : Repository<Role, Guid>, IRoleRepository<Guid>
+    public class RoleRepository : EFConcreteRepository<Role, Guid>, IRoleRepository<Guid>
     {
-        public RoleRepository(open_ssnContext context) : base(context)
+        public RoleRepository(open_ssnContext_base context) : base(context)
         {
         }
 

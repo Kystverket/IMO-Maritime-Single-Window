@@ -94,8 +94,8 @@ namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
 
         private IPasswordRepository<Guid> GetInMemoryPasswordRepository()
         {
-            DbContextOptions<open_ssnContext> options;
-            var builder = new DbContextOptionsBuilder<open_ssnContext>();
+            DbContextOptions<open_ssnContext_base> options;
+            var builder = new DbContextOptionsBuilder<open_ssnContext_base>();
             builder.UseInMemoryDatabase("PasswordDatabase");
             options = builder.Options;
             open_ssnContext open_ssn_datacontext = new open_ssnContext(options);
@@ -106,8 +106,8 @@ namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
 
         private IUserRepository<Guid> GetInMemoryUserRepository()
         {
-            DbContextOptions<open_ssnContext> options;
-            var builder = new DbContextOptionsBuilder<open_ssnContext>();
+            DbContextOptions<open_ssnContext_base> options;
+            var builder = new DbContextOptionsBuilder<open_ssnContext_base>();
             builder.UseInMemoryDatabase("PersonDatabase");
             options = builder.Options;
             open_ssnContext open_ssn_datacontext = new open_ssnContext(options);

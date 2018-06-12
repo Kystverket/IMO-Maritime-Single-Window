@@ -7,14 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class RepositoryBase<TEntity, TKey> : IRepository<TEntity, TKey>
+    public class EFGenericRepository<TEntity, TKey> : IRepository<TEntity, TKey>
         where TEntity : class
         where TKey : IEquatable<TKey>
     {
 
         protected readonly DbContext Context;
 
-        public RepositoryBase(DbContext context)
+        public EFGenericRepository(DbContext context)
         {
             Context = context;
         }
@@ -46,6 +46,9 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public void Remove(TEntity entity)
         {
+            if (Context.Entry(entity).State == EntityState.Detached)
+                Context.Set<TEntity>().Attach(entity);
+                
             Context.Set<TEntity>().Remove(entity);
         }
 
@@ -59,7 +62,10 @@ namespace IMOMaritimeSingleWindow.Repositories
             return Context.Set<TEntity>().SingleOrDefault(predicate);
         }
 
-        
-
+        public void Update(TEntity entity)
+        {
+            Context.Set<TEntity>().Attach(entity);
+            Context.Entry(entity).State = EntityState.Modified;
+        }
     }
 }

@@ -10,14 +10,12 @@ public class ContextFactory : IDisposable
 {
     private DbConnection _connection;
 
-    private DbContextOptions<TestContext> CreateOptions()
+    private DbContextOptions<open_ssnContext_base> CreateOptions()
     {
-        return new DbContextOptionsBuilder<TestContext>()
+        return new DbContextOptionsBuilder<open_ssnContext_base>()
                         .UseSqlite(_connection)
                         .Options;
     }
-
-
 
     public TestContext CreateContext()
     {

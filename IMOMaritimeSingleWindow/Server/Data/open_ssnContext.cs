@@ -1,67 +1,12 @@
-using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using IMOMaritimeSingleWindow.Models;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public partial class open_ssnContext : DbContext, IDbContext
+    public class open_ssnContext : open_ssnContext_base
     {
-        public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
-        public virtual DbSet<Claim> Claim { get; set; }
-        public virtual DbSet<ClaimType> ClaimType { get; set; }
-        public virtual DbSet<ContactMedium> ContactMedium { get; set; }
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<County> County { get; set; }
-        public virtual DbSet<CustomsCargo> CustomsCargo { get; set; }
-        public virtual DbSet<CustomsCargoType> CustomsCargoType { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
-        public virtual DbSet<Dpg> Dpg { get; set; }
-        public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
-        public virtual DbSet<DpgType> DpgType { get; set; }
-        public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
-        public virtual DbSet<Location> Location { get; set; }
-        public virtual DbSet<LocationSource> LocationSource { get; set; }
-        public virtual DbSet<LocationType> LocationType { get; set; }
-        public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
-        public virtual DbSet<Municipality> Municipality { get; set; }
-        public virtual DbSet<Organization> Organization { get; set; }
-        public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
-        public virtual DbSet<OrganizationType> OrganizationType { get; set; }
-        public virtual DbSet<Password> Password { get; set; }
-        public virtual DbSet<Person> Person { get; set; }
-        public virtual DbSet<PortCall> PortCall { get; set; }
-        public virtual DbSet<PortCallDetails> PortCallDetails { get; set; }
-        public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
-        public virtual DbSet<PortCallPurpose> PortCallPurpose { get; set; }
-        public virtual DbSet<PortCallStatus> PortCallStatus { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<RoleClaim> RoleClaim { get; set; }
-        public virtual DbSet<Ship> Ship { get; set; }
-        public virtual DbSet<ShipBreadthType> ShipBreadthType { get; set; }
-        public virtual DbSet<ShipCertificate> ShipCertificate { get; set; }
-        public virtual DbSet<ShipCertificateType> ShipCertificateType { get; set; }
-        public virtual DbSet<ShipContact> ShipContact { get; set; }
-        public virtual DbSet<ShipFlagCode> ShipFlagCode { get; set; }
-        public virtual DbSet<ShipHistory> ShipHistory { get; set; }
-        public virtual DbSet<ShipHullType> ShipHullType { get; set; }
-        public virtual DbSet<ShipLengthType> ShipLengthType { get; set; }
-        public virtual DbSet<ShipMmsiMidCode> ShipMmsiMidCode { get; set; }
-        public virtual DbSet<ShipPowerType> ShipPowerType { get; set; }
-        public virtual DbSet<ShipSource> ShipSource { get; set; }
-        public virtual DbSet<ShipStatus> ShipStatus { get; set; }
-        public virtual DbSet<ShipType> ShipType { get; set; }
-        public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserLogin> UserLogin { get; set; }
-        public virtual DbSet<UserToken> UserToken { get; set; }
 
-
-
-        public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
+        public open_ssnContext(DbContextOptions<open_ssnContext_base> options) : base(options) { }
         // for testing:
         public open_ssnContext() { }
 
@@ -1495,25 +1440,6 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.HasSequence("user_token_user_token_id_seq").HasMax(2147483647);
 
             modelBuilder.HasSequence("user_user_id_seq").HasMax(2147483647);
-        }
-
-        // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
-        public override int SaveChanges()
-        {
-            ChangeTracker.DetectChanges();
-            return base.SaveChanges();
-        }
-
-        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
-        {
-            return base.Update(entity);
-        }
-
-        public override void Dispose()
-        {
-            ChangeTracker.DetectChanges();
-            Debug.WriteLine("open_ssnContext disposed of: " + GetHashCode());
-            base.Dispose();
         }
     }
 }
