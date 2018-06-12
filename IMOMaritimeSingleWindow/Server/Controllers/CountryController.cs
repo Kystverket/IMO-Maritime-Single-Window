@@ -36,7 +36,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet()]
         public IActionResult GetAll()
         {
-            var countries = _context.Country.ToList();
+            var countries = _context.Country.OrderBy(c => c.Name).ToList();
             return Json(countries);
         }
 

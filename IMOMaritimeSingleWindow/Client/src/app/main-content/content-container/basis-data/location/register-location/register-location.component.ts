@@ -76,24 +76,6 @@ export class RegisterLocationComponent implements OnInit {
     );
   }
 
-  countrySearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(30)
-      .distinctUntilChanged()
-      .do(() => {
-        this.countrySearchFailed = false;
-      })
-      .map(term => term.length < 1 ? []
-        : this.countryList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-      )
-      .do((result) => {
-        if (result.length === 0) {
-          this.countrySearchFailed = true;
-        }
-      })
-
-  formatter = (x: { name: string }) => x.name;
-
   selectCountry($event) {
     this.selectedCountry = $event;
     this.locationModel.countryId = $event.countryId;
