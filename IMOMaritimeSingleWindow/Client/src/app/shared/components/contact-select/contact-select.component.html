@@ -1,4 +1,4 @@
-<ssn-card header="Contact information" icon="contact.png">
+<app-ssn-card header="Contact information" icon="contact.png">
   <div class="text-center">
     <label for="contact_info">Select contact information</label>
   </div>
@@ -15,13 +15,12 @@
         </div>
 
         <input id="contact_value" name="contactValue" type="text" class="form-control form-control-sm" placeholder="Enter {{ contactMedium.contactMedium.contactMediumType }}"
-          [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium)"
-        />
+          [(ngModel)]="selectedContactModels[i].contactValue" (ngModelChange)="contactInfoChanged(contactMedium)" />
 
         <div class="input-group-append">
           <div class="input-group-text bg-ssn text-white">
-            <input type="radio" id="{{i}}" name="preferredRadios" [value]="true" [(ngModel)]="selectedContactModels[i].isPreferred" 
-              (ngModelChange)="preferredSet(selectedContactModels[i])" [checked]="selectedContactModels[i].isPreferred" >
+            <input type="radio" id="{{i}}" name="preferredRadios" [value]="true" [(ngModel)]="selectedContactModels[i].isPreferred" (ngModelChange)="preferredSet(selectedContactModels[i])"
+              [checked]="selectedContactModels[i].isPreferred">
             <label class="form-check-label" for="{{i}}">Preferred</label>
           </div>
         </div>
@@ -29,4 +28,4 @@
     </div>
   </div>
 
-</ssn-card>
+</app-ssn-card>

@@ -1,6 +1,16 @@
-<div class="container">
-  <div class="jumbotron bg-ssn-light text-ssn mt-5">
-    <h2>LOGIN</h2>
+<div class="container pt-5">
+  <div class="jumbotron bg-ssn-light text-ssn">
+    <div class="d-table mb-3 mx-auto">
+      <div class="d-table-row">
+        <div class="d-table-cell">
+          <img src="assets/images/Flags/ag.png" height="80px">
+        </div>
+        <div class="d-table-cell px-3">
+          <h2>IMO Maritime Single Window</h2>
+        </div>
+      </div>
+    </div>
+
     <form #f="ngForm" novalidate (ngSubmit)="login(f)">
       <div class="form-group row">
         <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>

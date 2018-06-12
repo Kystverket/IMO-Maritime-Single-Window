@@ -10,7 +10,7 @@
   <form #form="ngForm">
     <div class="row">
       <div class="col">
-        <ssn-card header="Ship Identification" icon="ship.png">
+        <app-ssn-card header="Ship Identification" icon="ship.png">
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
@@ -71,13 +71,13 @@
               </div>
             </div>
           </div>
-        </ssn-card>
+        </app-ssn-card>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <ssn-card header="Ship Details" icon="ship.png">
+        <app-ssn-card header="Ship Details" icon="ship.png">
 
           <div class="row">
             <div class="col-lg-6" *ngIf="!shipTypeSelected">
@@ -363,7 +363,7 @@
             <label class="col-form-label-sm" for="remark">Remark</label>
             <textarea [(ngModel)]="shipModel.remark" name="remark" class="form-control form-control-sm" rows="4" id="remark"></textarea>
           </div>
-        </ssn-card>
+        </app-ssn-card>
       </div>
     </div>
   </form>
@@ -376,13 +376,13 @@
 
   <div class="row">
     <div class="col">
-        <app-select-ship-contact></app-select-ship-contact>
+      <app-select-ship-contact></app-select-ship-contact>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Organization" icon="pax.png">
+      <app-ssn-card header="Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
           <app-search-organization></app-search-organization>
         </div>
@@ -409,13 +409,13 @@
         </div>
 
 
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
+      <app-ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
 
         <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
           <div *ngIf="!form.valid" class="text-center">
@@ -535,7 +535,7 @@
               </tbody>
             </table>
           </div>
-          
+
           <app-selected-contact-mediums></app-selected-contact-mediums>
 
           <div class="table-responsive">
@@ -558,7 +558,7 @@
           <button class="btn btn-ssn" (click)="registerShip()">
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 </div>

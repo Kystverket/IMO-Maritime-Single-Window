@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../services/port-call.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-clearances',
@@ -7,19 +7,15 @@ import { PortCallService } from '../../../services/port-call.service';
   styleUrls: ['./clearances.component.css']
 })
 export class ClearancesComponent implements OnInit {
-
   clearanceList: any[] = [];
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallService: PortCallService) {}
 
   ngOnInit() {
-    this.portCallService.clearanceListData$.subscribe(
-      clearanceListData => {
-        if (clearanceListData) {
-          this.clearanceList = clearanceListData;
-        }
+    this.portCallService.clearanceListData$.subscribe(clearanceListData => {
+      if (clearanceListData) {
+        this.clearanceList = clearanceListData;
       }
-    );
+    });
   }
-
 }

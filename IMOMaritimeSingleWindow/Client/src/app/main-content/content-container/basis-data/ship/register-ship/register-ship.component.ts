@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { ShipContactModel } from '../../../../../shared/models/ship-contact-model';
-import { ShipModel } from '../../../../../shared/models/ship-model';
-import { ContactService } from '../../../../../shared/services/contact.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ContactModel } from 'app/shared/models/contact-model';
+import { ShipContactModel } from 'app/shared/models/ship-contact-model';
+import { ShipModel } from 'app/shared/models/ship-model';
+import { ContactService } from 'app/shared/services/contact.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -59,8 +60,14 @@ export class RegisterShipComponent implements OnInit {
 
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
-  constructor(public shipModel: ShipModel, private shipService: ShipService, private contactService: ContactService,
-    private contentService: ContentService, private modalService: NgbModal, private organizationService: OrganizationService) { }
+  constructor(
+    public shipModel: ShipModel,
+    private shipService: ShipService,
+    private contactService: ContactService,
+    private contentService: ContentService,
+    private modalService: NgbModal,
+    private organizationService: OrganizationService
+  ) { }
 
   ngOnInit() {
     this.shipService.shipOverviewData$.subscribe(
@@ -110,8 +117,7 @@ export class RegisterShipComponent implements OnInit {
         } else {
           this.shipFlagCodeSelected = false;
         }
-      }
-    );
+      });
 
     this.organizationService.organizationData$.subscribe(
       data => {
@@ -122,8 +128,7 @@ export class RegisterShipComponent implements OnInit {
         } else {
           this.organizationSelected = false;
         }
-      }
-    );
+      });
 
     this.contactService.contactData$.subscribe(
       data => {
@@ -133,9 +138,9 @@ export class RegisterShipComponent implements OnInit {
         } else {
           this.contactSelected = false;
         }
-      }
-    );
+      });
   }
+
   shipTypeSearch = (text$: Observable<string>) =>
     text$
       .debounceTime(50)
@@ -143,11 +148,18 @@ export class RegisterShipComponent implements OnInit {
       .do(() => {
         this.shipTypeSearchFailed = false;
       })
-      .map(term => term.length < 1 ? []
-        : this.shipTypeList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+      .map(
+        term =>
+          term.length < 1
+            ? []
+            : this.shipTypeList
+              .filter(
+                v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1
+              )
+              .slice(0, 10)
       )
-      .do((text) => {
-        if (text.length === 0) {
+      .do(result => {
+        if (result.length === 0) {
           this.shipTypeSearchFailed = true;
         }
       })
@@ -293,9 +305,13 @@ export class RegisterShipComponent implements OnInit {
         if (result) {
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
         }
-      }, error => {
+      },
+      error => {
         console.log(error);
-        this.openConfirmationModal(ConfirmationModalComponent.TYPE_WARNING, RESULT_SAVED_WITHOUT_CONTACT);
+        this.openConfirmationModal(
+          ConfirmationModalComponent.TYPE_WARNING,
+          RESULT_SAVED_WITHOUT_CONTACT
+        );
       }
     );
   }
@@ -310,12 +326,15 @@ export class RegisterShipComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+          this.goBack();
+        }
       },
       reason => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+          this.goBack();
+        }
       }
     );
   }
-
 }

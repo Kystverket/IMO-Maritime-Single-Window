@@ -1,14 +1,14 @@
 <div class="row">
   <div class="col-sm col-md-6 col-lg-4">
-    <ssn-card header='Register New Ship' icon='ship.png'>
+    <app-ssn-card header='Register New Ship' icon='ship.png'>
       <div class="text-center">
         <button class="btn btn-ssn" (click)="registerNewShip()">Register New Ship</button>
       </div>
-    </ssn-card>
+    </app-ssn-card>
   </div>
 </div>
 
-<ssn-card header="Ship Search" icon="ship.png">
+<app-ssn-card header="Ship Search" icon="ship.png">
   <div *ngIf="!shipFound">
     <app-search-ship></app-search-ship>
   </div>
@@ -29,4 +29,4 @@
       </div>
     </div>
   </div>
-</ssn-card>
+</app-ssn-card>

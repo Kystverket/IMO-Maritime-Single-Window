@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CONTENT_NAMES } from '../../../../shared/constants/content-names';
-import { ClearanceModel } from '../../../../shared/models/clearance-model';
-import { ContentService } from '../../../../shared/services/content.service';
-import { PortCallService } from '../../../../shared/services/port-call.service';
-import { ShipService } from '../../../../shared/services/ship.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ClearanceModel } from 'app/shared/models/clearance-model';
+import { ContentService } from 'app/shared/services/content.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-clearance',
@@ -12,36 +12,36 @@ import { ShipService } from '../../../../shared/services/ship.service';
   styleUrls: ['./clearance.component.css']
 })
 export class ClearanceComponent implements OnInit {
-
   clearanceModel: ClearanceModel = new ClearanceModel();
 
   clearanceList: any[] = [];
 
   givingClearance: boolean;
 
-  constructor(private contentService: ContentService, private modalService: NgbModal, private portCallService: PortCallService, private shipService: ShipService) { }
+  constructor(
+    private contentService: ContentService,
+    private modalService: NgbModal,
+    private portCallService: PortCallService,
+    private shipService: ShipService
+  ) {}
 
   ngOnInit() {
-    this.portCallService.clearanceListData$.subscribe(
-      data => {
-        if (data) {
-          this.clearanceList = data;
-          this.portCallService.clearanceData$.subscribe(
-            clearanceUser => {
-              if (clearanceUser) {
-                this.clearanceModel = this.clearanceList.find(cl => cl.organizationId === clearanceUser.organizationId);
-              }
-            }
-          )
-        }
+    this.portCallService.clearanceListData$.subscribe(data => {
+      if (data) {
+        this.clearanceList = data;
+        this.portCallService.clearanceData$.subscribe(clearanceUser => {
+          if (clearanceUser) {
+            this.clearanceModel = this.clearanceList.find(
+              cl => cl.organizationId === clearanceUser.organizationId
+            );
+          }
+        });
       }
-    );
+    });
 
-    this.portCallService.shipData$.subscribe(
-      shipResult => {
-        this.shipService.setShipOverviewData(shipResult);
-      }
-    );
+    this.portCallService.shipData$.subscribe(shipResult => {
+      this.shipService.setShipOverviewData(shipResult);
+    });
   }
 
   showWarningBox(content: any, clearance: boolean) {
@@ -57,5 +57,4 @@ export class ClearanceComponent implements OnInit {
   goBack() {
     this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
   }
-
 }

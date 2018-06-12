@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from 'app/shared/shared.module';
 import { RegisterLocationComponent } from './location/register-location/register-location.component';
 import { ViewLocationInfoComponent } from './location/view-location-info/view-location-info.component';
 import { RegisterOrganizationComponent } from './organization/register-organization/register-organization.component';

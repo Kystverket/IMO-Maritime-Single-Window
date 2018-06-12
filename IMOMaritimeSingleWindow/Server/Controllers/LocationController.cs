@@ -54,7 +54,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 return BadRequest(ModelState);
             }
-            try 
+            try
             {
                 _context.Location.Update(location);
                 _context.SaveChanges();

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from '../../../../shared/services/content.service';
+import { ContentService } from 'app/shared/services/content.service';
 
 @Component({
   selector: 'app-registration',
@@ -7,16 +7,13 @@ import { ContentService } from '../../../../shared/services/content.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
   selectedComponent: string;
 
-  constructor(private contentService: ContentService) { }
+  constructor(private contentService: ContentService) {}
 
   ngOnInit() {
-    this.contentService.portCallFormName$.subscribe(
-      content => {
-        this.selectedComponent = content;
-      }
-    );
+    this.contentService.portCallFormName$.subscribe(content => {
+      this.selectedComponent = content;
+    });
   }
 }

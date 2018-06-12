@@ -5,8 +5,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { ShipFlagCodeService } from '../../../../../shared/services/ship-flag-code.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
+import { ShipFlagCodeService } from 'app/shared/services/ship-flag-code.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
     selector: 'app-search-ship-flag-code',

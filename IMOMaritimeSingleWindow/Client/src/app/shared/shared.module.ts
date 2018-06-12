@@ -29,9 +29,7 @@ import { SelectedContactMediumsComponent } from './components/selected-contact-m
 import { SelectShipContactComponent } from './components/select-ship-contact/select-ship-contact.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, NgSelectModule, NgbModule
-  ],
+  imports: [CommonModule, FormsModule, NgSelectModule, NgbModule],
   declarations: [
     SsnCardComponent,
     TableCardComponent,
@@ -72,10 +70,11 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
     SelectedContactMediumsComponent
   ],
   providers: [
-    ContactService, OrganizationService, ShipService, LocationService
+    ContactService,
+    OrganizationService,
+    ShipService,
+    LocationService
   ],
-  entryComponents: [
-    ConfirmationModalComponent
-  ]
+  entryComponents: [ConfirmationModalComponent]
 })
-export class SharedModule { }
+export class SharedModule {}

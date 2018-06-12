@@ -1,4 +1,4 @@
-import { ContactMediumModel } from "./contact-medium-model";
+import { ContactMediumModel } from './contact-medium-model';
 
 export class ContactModel {
     // class properties

@@ -14,13 +14,10 @@ export class SelectedContactMediumsComponent implements OnInit {
   constructor(private contactService: ContactService) { }
 
   ngOnInit() {
-    this.contactService.contactData$.subscribe(
-      data => {
-        if (data) {
-          this.selectedContactModels = data;
-        }
+    this.contactService.contactData$.subscribe(data => {
+      if (data) {
+        this.selectedContactModels = data;
       }
-    );
+    });
   }
-
 }

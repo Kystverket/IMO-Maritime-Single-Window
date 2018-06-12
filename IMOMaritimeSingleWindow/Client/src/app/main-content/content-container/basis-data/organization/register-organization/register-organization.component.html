@@ -10,7 +10,7 @@
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Organization Information" icon="pax.png">
+      <app-ssn-card header="Organization Information" icon="pax.png">
         <form>
 
           <div class="row">
@@ -47,13 +47,13 @@
           </div>
 
         </form>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header='{{ confirmHeader }}' icon="checkmark.png">
+      <app-ssn-card header='{{ confirmHeader }}' icon="checkmark.png">
         <div *ngIf="!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo" class="text-center">
           <div class="mb-3">
             <p *ngIf="!organizationTypeSelected" class="no-wrap mb-0">No organization type selected.</p>
@@ -88,7 +88,7 @@
           <button class="btn btn-ssn" (click)="registerOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 </div>
