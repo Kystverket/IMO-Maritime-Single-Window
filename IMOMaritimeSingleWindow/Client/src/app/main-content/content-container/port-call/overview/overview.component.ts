@@ -53,10 +53,12 @@ export class OverviewComponent implements OnInit {
         type: 'html'
       },
       eta: {
-        title: 'ETA'
+        title: 'ETA',
+        type: 'html'
       },
       etd: {
-        title: 'ETD'
+        title: 'ETD',
+        type: 'html'
       },
       status: {
         title: 'Status',
@@ -76,15 +78,16 @@ export class OverviewComponent implements OnInit {
     const row = {
       overviewModel: ov,
       shipName:
-        `<div hidden>` +
+        `<div class="no-wrap"><div hidden>` +
         ov.ship.name + // ugly fix for alphabetical sorting but it works
         `</div> <div> <img src='assets/images/Flags/128x128/` +
         ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.ship.name +
-        `</div>`,
+        `</div></div>`,
       callSign:
-        ov.ship.callSign || `<div class="font-italic">Not provided.</div>`,
+        ov.ship.callSign ||
+        `<span class="font-italic no-wrap">Not provided.</span>`,
       locationName:
         `<div hidden>` +
         ov.location.name + // same ugly fix as ship name
@@ -93,8 +96,18 @@ export class OverviewComponent implements OnInit {
         `.png' height='20px'/> ` +
         ov.location.name +
         `</div>`,
-      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
-      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
+      eta:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+        `</span>`,
+      etd:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+        `</span>`,
       status: isCancelled
         ? `<div class="text-danger">` + ov.status + `</div>`
         : ov.status,
