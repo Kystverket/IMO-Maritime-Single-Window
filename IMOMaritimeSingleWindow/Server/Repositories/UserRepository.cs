@@ -36,6 +36,8 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             return DbSet
                 .Where(usr => usr.NormalizedEmail == normalizedUserName)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
                 .FirstOrDefault();
         }
 

@@ -37,6 +37,11 @@ namespace IMOMaritimeSingleWindow.Helpers
                 .ForAllMembers(memberOptions: opts =>
                 opts.Condition( (src, dest, member) => member != null ));
 
+            // To be able to update entity when some properties are missing
+            CreateMap<Person, Person>()
+                .ForMember(dst => dst.PersonId, opt => { opt.UseDestinationValue(); opt.Ignore(); }  )
+                .ForMember(dst => dst.User, opt => { opt.UseDestinationValue(); opt.Ignore(); });
+
             CreateMap<ApplicationRole, Role>()
                 .ForMember(destination => destination.RoleId,
                 opt => opt.MapFrom(source => source.Id)).ReverseMap();
