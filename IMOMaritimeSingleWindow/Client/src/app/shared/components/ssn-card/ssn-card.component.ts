@@ -14,12 +14,20 @@ export class SsnCardComponent implements OnInit {
 
   @Input() collapsible: boolean;
 
-  collapsed = false;
-  collapsedIcon = 'arrowhead-down.png';
+  @Input() collapsed: boolean;
+
+  collapsedIcon: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.collapsed == null) {
+      this.collapsed = false;
+    }
+    this.collapsedIcon = this.collapsed
+      ? 'arrowhead-left.png'
+      : 'arrowhead-down.png';
+  }
 
   changeState() {
     this.collapsed = !this.collapsed;

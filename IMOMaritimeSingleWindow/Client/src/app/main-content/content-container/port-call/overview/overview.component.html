@@ -5,6 +5,17 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4">
+        <app-ssn-card header="Options" icon="cogs.png" collapsible="true" collapsed="true">
+            <div>
+                <button class="btn btn-sm btn-ssn" *ngIf="!showCancelledPortCalls" (click)="toggleCancelledPortCalls(true)">Show cancelled port calls</button>
+                <button class="btn btn-sm btn-ssn" *ngIf="showCancelledPortCalls" (click)="toggleCancelledPortCalls(false)">Hide cancelled port calls</button>
+            </div>
+        </app-ssn-card>
+    </div>
+</div>
+
 <div class="mb-3">
     <table class="table table-bordered text-center mx-auto mb-0">
         <thead class="bg-ssn text-white">

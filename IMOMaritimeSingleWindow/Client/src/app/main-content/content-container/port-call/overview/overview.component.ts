@@ -22,6 +22,7 @@ export class OverviewComponent implements OnInit {
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
+  cancelledOverviewList = [];
   clearedByUserAgencyOverviewList = [];
   userOrganization: any;
   userIsGovernmentAgency = false;
@@ -30,6 +31,8 @@ export class OverviewComponent implements OnInit {
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
   overviewFound = false;
+
+  showCancelledPortCalls = false;
 
   // Smart table
   tableSettings = {
@@ -82,7 +85,7 @@ export class OverviewComponent implements OnInit {
     }
   };
 
-  overviewRow(ov, isCancelled: boolean) {
+  overviewRow(ov) {
     const row = {
       overviewModel: ov,
       shipName:
@@ -117,7 +120,7 @@ export class OverviewComponent implements OnInit {
         this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
         `</span>`,
       status:
-        isCancelled
+        ov.status === PortCallStatusTypes.CANCELLED
         ? `<div class="text-danger">` + ov.status + `</div>`
         : ov.status,
       clearances:
@@ -128,21 +131,37 @@ export class OverviewComponent implements OnInit {
   }
 
   loadOverview() {
+    this.overviewService.showCancelledPortCall$.subscribe(showCancelledPortCalls => {
+      if (showCancelledPortCalls !== null) {
+        this.showCancelledPortCalls = showCancelledPortCalls;
+        let portCallList = this.overviewList;
+        if (showCancelledPortCalls) {
+          portCallList = portCallList.concat(this.cancelledOverviewList);
+        }
+        this.overviewService.setOverviewData(portCallList.sort(
+          (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+        ));
+      }
+    });
     this.overviewService.overviewData$.subscribe(results => {
       if (results) {
         this.overviewSource.load(results);
       }
     });
-    this.overviewService.draftOverviewData$.subscribe(results => {
-      if (results) {
-        this.draftOverviewSource.load(results);
-      }
-    });
-    this.overviewService.clearedByUserAgencyOverviewData$.subscribe(results => {
-      if (results) {
-        this.clearedByUserAgencyOverviewSource.load(results);
-      }
-    });
+    if (!this.userIsGovernmentAgency) {
+      this.overviewService.draftOverviewData$.subscribe(results => {
+        if (results) {
+          this.draftOverviewSource.load(results);
+        }
+      });
+    } else {
+      this.overviewService.clearedByUserAgencyOverviewData$.subscribe(results => {
+        if (results) {
+          this.clearedByUserAgencyOverviewSource.load(results);
+        }
+      });
+    }
+
     this.overviewService.getPortCalls().subscribe(
       pcData => {
         if (pcData) {
@@ -155,10 +174,7 @@ export class OverviewComponent implements OnInit {
               this.overviewService.getOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
-                    const row = this.overviewRow(
-                      ov,
-                      ov.status === PortCallStatusTypes.CANCELLED
-                    );
+                    const row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
                     if (ov.status === PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
@@ -166,24 +182,23 @@ export class OverviewComponent implements OnInit {
                       this.userIsGovernmentAgency &&
                       ov.clearanceList &&
                       ov.clearanceList.some(
-                        clearance =>
-                          clearance.organizationId ===
-                            this.userOrganization.organizationId &&
-                          clearance.cleared != null
+                        clearance => clearance.organizationId === this.userOrganization.organizationId && clearance.cleared != null
                       )
                     ) {
                       this.clearedByUserAgencyOverviewList.push(row);
+                    } else if (ov.status === PortCallStatusTypes.CANCELLED) {
+                      this.cancelledOverviewList.push(row);
                     } else {
                       this.overviewList.push(row);
                     }
-                    this.overviewService.setOverviewData(this.overviewList);
+                    this.overviewService.setOverviewData(this.overviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
                     this.overviewService.setDraftData(this.draftOverviewList);
-                    this.overviewService.setClearedData(
-                      this.clearedByUserAgencyOverviewList
-                    );
+                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList);
                   }
                 },
-                undefined,
+                error => console.log(error),
                 () => {
                   if (index++ >= finalIndex) {
                     this.overviewFound = true;
@@ -236,5 +251,9 @@ export class OverviewComponent implements OnInit {
         this.userOrganization = organizationResult;
         this.loadOverview();
       });
+  }
+
+  toggleCancelledPortCalls(showCancelled) {
+    this.overviewService.setShowCancelledPortCalls(showCancelled);
   }
 }
