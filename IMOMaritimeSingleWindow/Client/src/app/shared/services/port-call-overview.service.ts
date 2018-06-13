@@ -17,6 +17,9 @@ export class PortCallOverviewService extends BaseRequest {
     private draftOverviewDataSource = new BehaviorSubject<any>(null);
     draftOverviewData$ = this.draftOverviewDataSource.asObservable();
 
+    private showCancelledPortCallsSource = new BehaviorSubject<boolean>(false);
+    showCancelledPortCall$ = this.showCancelledPortCallsSource.asObservable();
+
     private clearedByUserAgencyDataSource = new BehaviorSubject<any>(null);
     clearedByUserAgencyOverviewData$ = this.clearedByUserAgencyDataSource.asObservable();
 
@@ -40,6 +43,10 @@ export class PortCallOverviewService extends BaseRequest {
 
     setDraftData(data) {
         this.draftOverviewDataSource.next(data);
+    }
+
+    setShowCancelledPortCalls(showCancelled) {
+        this.showCancelledPortCallsSource.next(showCancelled);
     }
 
     setClearedData(data) {
