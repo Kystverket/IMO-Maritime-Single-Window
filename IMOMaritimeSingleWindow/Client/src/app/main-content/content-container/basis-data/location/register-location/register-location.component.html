@@ -54,22 +54,16 @@
           <div class="row">
             <div class="col-lg-6" *ngIf="!countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-2 col-xl-2" for="country_typeahead">Country</label>
-                <ng-template #rt let-r="result" let-t="term">{{ r.name }}</ng-template>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="country_select">Country</label>
                 <div class="col">
-                  <input id="country_typeahead" name="country_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedCountry"
-                    [ngbTypeahead]="countrySearch" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Search for country name"
-                    (selectItem)="selectCountry($event)" #cst />
-                </div>
-                <div *ngIf="countrySearchFailed && cst.value != ''" class="col-3 text-center">
-                  <small class="no-wrap">No</small>
-                  <small class="no-wrap">results</small>
+                  <ng-select id="country_select" name="country_select" [items]="countryList" [multiple]="false" [closeOnSelect]="true" bindLabel="name"
+                    placeholder="Select country" [(ngModel)]="selectedCountry" (change)="selectCountry($event)"></ng-select>
                 </div>
               </div>
             </div>
             <div class="col-lg-6" *ngIf="countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-2 col-xl-2" for="country">Country</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="country">Country</label>
                 <div class="col">
                   <div class="input-group">
                     <input id="country" name="country" type="text" class="form-control form-control-sm" [ngModel]="selectedCountry.name" disabled="true"

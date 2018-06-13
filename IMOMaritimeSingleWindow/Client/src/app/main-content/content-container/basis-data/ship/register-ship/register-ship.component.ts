@@ -141,31 +141,6 @@ export class RegisterShipComponent implements OnInit {
       });
   }
 
-  shipTypeSearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(50)
-      .distinctUntilChanged()
-      .do(() => {
-        this.shipTypeSearchFailed = false;
-      })
-      .map(
-        term =>
-          term.length < 1
-            ? []
-            : this.shipTypeList
-              .filter(
-                v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1
-              )
-              .slice(0, 10)
-      )
-      .do(result => {
-        if (result.length === 0) {
-          this.shipTypeSearchFailed = true;
-        }
-      })
-
-  formatter = (x: { name: string }) => x.name;
-
   setAllValues(ship: ShipModel) {
     this.newShip = false;
     this.shipHeader = 'Edit Ship';
@@ -208,7 +183,7 @@ export class RegisterShipComponent implements OnInit {
   }
 
   selectShipType($event: any) {
-    this.shipModel.shipTypeId = $event.item.shipTypeId;
+    this.shipModel.shipTypeId = $event.shipTypeId;
     this.shipTypeSelected = true;
   }
 
