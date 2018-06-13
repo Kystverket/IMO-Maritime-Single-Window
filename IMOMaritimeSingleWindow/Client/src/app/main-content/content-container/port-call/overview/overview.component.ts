@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
@@ -9,8 +8,9 @@ import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
-import { ClearanceComponent } from '../clearance/clearance.component';
+import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 
 @Component({
   selector: 'app-overview',
@@ -67,7 +67,10 @@ export class OverviewComponent implements OnInit {
       },
       clearances: {
         title: 'Clearances',
-        type: 'html'
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ClearanceRowComponent
       },
       actions: {
         title: 'Actions',
@@ -113,11 +116,12 @@ export class OverviewComponent implements OnInit {
         `</span> <span class="no-wrap">` +
         this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
         `</span>`,
-      status: isCancelled
+      status:
+        isCancelled
         ? `<div class="text-danger">` + ov.status + `</div>`
         : ov.status,
       clearances:
-        this.getClearanceIndicators(ov.clearanceList),
+        'clearances',
       actions: 'btn'
     };
     return row;
@@ -232,22 +236,5 @@ export class OverviewComponent implements OnInit {
         this.userOrganization = organizationResult;
         this.loadOverview();
       });
-  }
-
-  private getClearanceIndicators(clearanceList) {
-    let clearanceIndicators = '';
-    clearanceList.forEach((clearance) => {
-      if (clearance.cleared === null) {
-        clearanceIndicators += `<span class="badge badge-warning" title="Not reviewed by ` + clearance.organization.name + `">` +
-        `<img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px"></span> `;
-      } else if (clearance.cleared === true) {
-        clearanceIndicators += `<span class="badge badge-success" title="Cleared by ` + clearance.organization.name + `">` +
-        `<img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="16px"></span> `;
-      } else if (clearance.cleared === false) {
-        clearanceIndicators += `<span class="badge badge-danger" title="Rejected by ` + clearance.organization.name + `">` +
-        `<img src="assets/images/VoyageIcons/128x128/white/rejected.png" height="16px"></span> `;
-      }
-    });
-    return clearanceIndicators;
   }
 }
