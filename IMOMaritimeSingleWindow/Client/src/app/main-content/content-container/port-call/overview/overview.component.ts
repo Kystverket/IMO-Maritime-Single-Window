@@ -38,7 +38,7 @@ export class OverviewComponent implements OnInit {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: '',
+    noDataMessage: 'There are no port calls in this list.',
 
     columns: {
       shipName: {
