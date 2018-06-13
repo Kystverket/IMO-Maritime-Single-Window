@@ -61,6 +61,21 @@ namespace IMOMaritimeSingleWindow.Repositories
             return Context.Set<User>().AsQueryable();
         }
 
+        public int GetAccessFailedCount(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetLockoutEnabled(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTimeOffset? GetLockoutEndDate(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //public IEnumerable<Organization> GetOrganizations(Guid id)
         //{

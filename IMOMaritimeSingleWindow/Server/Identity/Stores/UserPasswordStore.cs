@@ -23,6 +23,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             if (HasPassword(user).GetAwaiter().GetResult())
             {
                 Password password = _unitOfWork.Passwords.Get(user.PasswordId.Value);
