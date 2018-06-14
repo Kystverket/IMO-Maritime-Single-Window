@@ -10,6 +10,7 @@ export class PortCallOverviewService extends BaseRequest {
     private portCallUrl: string;
     private portCallUserUrl: string;
     private overviewUrl: string;
+    private partialOverviewUrl: string;
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
@@ -26,6 +27,9 @@ export class PortCallOverviewService extends BaseRequest {
     private portCallDataSource = new BehaviorSubject<any>(null);
     portCallData$ = this.portCallDataSource.asObservable();
 
+    private loadingPortCallSource = new BehaviorSubject<boolean>(false);
+    loadingPortCall$ = this.loadingPortCallSource.asObservable();
+
     constructor(
         private http: Http,
         authRequestService: AuthRequest,
@@ -33,8 +37,13 @@ export class PortCallOverviewService extends BaseRequest {
     ) {
         super(configService, authRequestService);
         this.portCallUrl = 'api/portcall';
+        this.partialOverviewUrl = this.portCallUrl + '/partialOverview';
         this.overviewUrl = this.portCallUrl + '/overview';
         this.portCallUserUrl = this.portCallUrl + '/user';
+    }
+
+    setLoadingPortCall(data: boolean) {
+        this.loadingPortCallSource.next(data);
     }
 
     setOverviewData(data) {
@@ -51,6 +60,11 @@ export class PortCallOverviewService extends BaseRequest {
 
     setClearedData(data) {
         this.clearedByUserAgencyDataSource.next(data);
+    }
+
+    getPartialOverview(portCallId: number) {
+        const uri: string = [this.partialOverviewUrl, portCallId].join('/');
+        return this.http.get(uri).map(res => res.json());
     }
 
     getOverview(portCallId: number) {
