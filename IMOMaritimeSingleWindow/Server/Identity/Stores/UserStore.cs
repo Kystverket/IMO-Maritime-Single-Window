@@ -48,6 +48,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 Hash = user.PasswordHash
             };
             _user.Password = password;
+        
 
             if (HasPerson(user))
             {
@@ -76,23 +77,60 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
         
+        
         public Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default) {
-            throw new NotImplementedException();
+            // TODO: Use concurrency token to manage concurrency conflicts
+
+            var _user = _unitOfWork.Users.Get(user.Id);
+
+            user.GivenName = "new name";
+            var personMapped = _mapper.Map<Person>(user);
+            personMapped.User = _user.Person.User;
+            personMapped.PersonId = _user.Person.PersonId;
+
+            // Check if password hash has been changed
+            if (_user.Password.Hash != user.PasswordHash)
+            {
+                // Update Password entity
+                var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
+                pwEntity.Hash = user.PasswordHash;
+                _unitOfWork.Passwords.Update(pwEntity);
+            }
+
+            if (HasPerson(user))
+            {
+                if (!_user.Person.Equals(personMapped))
+                {
+                    // Update Person entity
+                    var newPerson = _mapper.Map(source: personMapped, destination: _user.Person);
+                }
+            }
+            
+            _unitOfWork.Users.Update(_user);
+            _unitOfWork.Complete();
+            return Task.FromResult(IdentityResult.Success);
         }
 
-        private async Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        private User ConvertToUser(ApplicationUser appUser)
         {
-            if (!HasPassword(user).GetAwaiter().GetResult())
-                return _mapper.Map<User, ApplicationUser>(user);
-            else
-            {
-                // Retrieve passwordhash from password entity
-                var passwordHash = await GetPasswordHashAsync(user);
+            var user = _mapper.Map<User>(appUser);
+            return user;
+        }
 
-                var appUser = _mapper.Map<ApplicationUser>(user);
-                await SetPasswordHashAsync(appUser, passwordHash);
-                return appUser;
-            }
+        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!HasPassword(user).GetAwaiter().GetResult())
+                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
+
+            ApplicationUser userMap = _mapper.Map<User, ApplicationUser>(user);
+            ApplicationUser pwMap = _mapper.Map<Password, ApplicationUser>(user.Password);
+            ApplicationUser persMap = _mapper.Map<Person, ApplicationUser>(user.Person);
+
+            ApplicationUser appUser = _mapper.Map(userMap, pwMap);  // Merge
+            _mapper.Map(source: appUser, destination: persMap);     // Merge
+            
+            return Task.FromResult(appUser);
         }
         
         public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
@@ -107,8 +145,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
-            return Task.FromResult(appUser);
+            return ConvertToApplicationUser(_user);
         }
 
         public Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
@@ -122,8 +159,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = ConvertToApplicationUser(_user).GetAwaiter().GetResult();
-            return Task.FromResult(appUser);
+            return ConvertToApplicationUser(_user);
         }
 
 

@@ -55,12 +55,14 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return Task.FromResult(_user.PasswordHash != null);
         }
 
+
+        #region custom methods
         public Task<bool> HasPassword(User user, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(user.PasswordId.HasValue);
         }
 
-        public Task<IdentityResult> UpdatePasswordAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        public Task UpdatePasswordAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             var User = _unitOfWork.Users.GetByNormalizedUserName(user.NormalizedUserName);
             Password pw = _unitOfWork.Passwords.Get(User.PasswordId.Value);
@@ -68,11 +70,24 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
             _unitOfWork.Passwords.Update(pw);
 
-            // Expect only the user table to be affected
-            var affectedEntities = _unitOfWork.Complete();
-            if (affectedEntities > 1)
-                return Task.FromResult(IdentityResult.Failed());
-            return Task.FromResult(IdentityResult.Success);
+            return Task.CompletedTask;
         }
+        //public Task<IdentityResult> UpdatePasswordAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        //{
+        //    var User = _unitOfWork.Users.GetByNormalizedUserName(user.NormalizedUserName);
+        //    Password pw = _unitOfWork.Passwords.Get(User.PasswordId.Value);
+        //    pw.Hash = user.PasswordHash;
+
+        //    _unitOfWork.Passwords.Update(pw);
+
+        //    // Expect only the user table to be affected
+        //    var affectedEntities = _unitOfWork.Complete();
+        //    if (affectedEntities > 1)
+        //        return Task.FromResult(IdentityResult.Failed());
+        //    return Task.FromResult(IdentityResult.Success);
+        //}
+
+
+        #endregion
     }
 }
