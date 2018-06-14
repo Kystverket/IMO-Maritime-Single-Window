@@ -12,6 +12,10 @@
     color: white;
 }
 
+:host /deep/ .ng2-smart-filter input {
+    color: black;
+}
+
 :host /deep/ a.ng2-smart-sort-link.sort::after {
     content: '';
     display: inline-block;
