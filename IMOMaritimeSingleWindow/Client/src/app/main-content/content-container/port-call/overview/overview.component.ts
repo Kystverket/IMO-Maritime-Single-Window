@@ -31,6 +31,7 @@ export class OverviewComponent implements OnInit {
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
   overviewFound = false;
+  loadingPortCall = false;
 
   showCancelledPortCalls = false;
 
@@ -121,8 +122,8 @@ export class OverviewComponent implements OnInit {
         `</span>`,
       status:
         ov.status === PortCallStatusTypes.CANCELLED
-        ? `<div class="text-danger">` + ov.status + `</div>`
-        : ov.status,
+          ? `<div class="text-danger">` + ov.status + `</div>`
+          : ov.status,
       clearances:
         'clearances',
       actions: 'btn'
@@ -171,7 +172,7 @@ export class OverviewComponent implements OnInit {
             let index = 0;
             const finalIndex = pcData.length - 1;
             pcData.forEach(pc => {
-              this.overviewService.getOverview(pc.portCallId).subscribe(
+              this.overviewService.getPartialOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
                     const row = this.overviewRow(ov);
@@ -220,9 +221,17 @@ export class OverviewComponent implements OnInit {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private overviewService: PortCallOverviewService
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.overviewService.setLoadingPortCall(false);
+    this.overviewService.loadingPortCall$.subscribe(
+      data => {
+        if (data) {
+          this.loadingPortCall = data;
+        }
+      }
+    );
     this.accountService.userClaimsData$.subscribe(userClaims => {
       if (userClaims) {
         const userClaimsTypePortCall = userClaims.filter(
@@ -243,7 +252,7 @@ export class OverviewComponent implements OnInit {
           this.userIsGovernmentAgency =
             organizationResult.organizationType &&
             organizationResult.organizationType.name ===
-              OrganizationTypes.GOVERNMENT_AGENCY_STRING;
+            OrganizationTypes.GOVERNMENT_AGENCY_STRING;
           if (this.userIsGovernmentAgency) {
             this.portCallService.setClearance(organizationResult);
           }
