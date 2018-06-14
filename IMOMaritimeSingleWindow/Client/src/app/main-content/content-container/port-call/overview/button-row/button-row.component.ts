@@ -145,6 +145,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   // NEW CLEANUP - Set methods
   setPortCall(content) {
     this.overviewService.setLoadingPortCall(true);
+    this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
     this.overviewService.getOverview(this.rowData.overviewModel.portCall.portCallId).subscribe(
       data => {
         if (data) {

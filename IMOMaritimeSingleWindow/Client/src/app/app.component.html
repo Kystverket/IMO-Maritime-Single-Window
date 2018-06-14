@@ -1,3 +1,13 @@
+<div *ngIf="contentService.loadingScreen$ | async">
+    <div id="overlay" *ngIf="loadingScreen.isLoading">
+        <div id="loading-box" class="text-center">
+            <img *ngIf="loadingScreen.loadingIcon" src='{{loadingIconPath}}{{loadingScreen.loadingIcon}}' />
+            <img *ngIf="!loadingScreen.loadingIcon" src='{{loadingIconPath}}portcall.gif' />
+            <h1>{{ loadingScreen.loadingText | uppercase }}</h1>
+        </div>
+    </div>
+</div>
+
 <div class="page-content" [ngStyle]="{'min-height': clientHeight + 'px'}">
     <router-outlet></router-outlet>
     <div class="footer-gap"></div>

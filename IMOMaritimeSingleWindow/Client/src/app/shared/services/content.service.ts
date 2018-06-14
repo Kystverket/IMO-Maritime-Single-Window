@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
+import { LoadingScreen } from '../models/loading-screen.interface';
 
 @Injectable()
 export class ContentService extends BaseService {
@@ -13,15 +14,23 @@ export class ContentService extends BaseService {
   private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
   portCallFormName$ = this.portCallFormSource.asObservable();
 
+  private loadingScreeSource = new BehaviorSubject<LoadingScreen>(null);
+  loadingScreen$ = this.loadingScreeSource.asObservable();
+
   constructor() {
     super();
   }
 
   setContent(contentName: string) {
+    this.setLoadingScreen(false, null, null);
     this.contentSource.next(contentName);
   }
 
   setPortCallForm(contentName: string) {
     this.portCallFormSource.next(contentName);
+  }
+
+  setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
+    this.loadingScreeSource.next({isLoading, loadingIcon, loadingText});
   }
 }

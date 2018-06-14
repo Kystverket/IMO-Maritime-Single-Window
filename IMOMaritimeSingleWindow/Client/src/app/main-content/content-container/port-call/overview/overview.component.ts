@@ -30,9 +30,6 @@ export class OverviewComponent implements OnInit {
   draftOverviewSource: LocalDataSource = new LocalDataSource();
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
-  overviewFound = false;
-  loadingPortCall = false;
-
   showCancelledPortCalls = false;
 
   // Smart table
@@ -167,7 +164,7 @@ export class OverviewComponent implements OnInit {
       pcData => {
         if (pcData) {
           if (pcData.length === 0) {
-            this.overviewFound = true;
+            this.contentService.setLoadingScreen(false, null, null);
           } else {
             let index = 0;
             const finalIndex = pcData.length - 1;
@@ -202,7 +199,7 @@ export class OverviewComponent implements OnInit {
                 error => console.log(error),
                 () => {
                   if (index++ >= finalIndex) {
-                    this.overviewFound = true;
+                    this.contentService.setLoadingScreen(false, null, null);
                   }
                 }
               );
@@ -224,14 +221,7 @@ export class OverviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.overviewService.setLoadingPortCall(false);
-    this.overviewService.loadingPortCall$.subscribe(
-      data => {
-        if (data) {
-          this.loadingPortCall = data;
-        }
-      }
-    );
+    this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
     this.accountService.userClaimsData$.subscribe(userClaims => {
       if (userClaims) {
         const userClaimsTypePortCall = userClaims.filter(
