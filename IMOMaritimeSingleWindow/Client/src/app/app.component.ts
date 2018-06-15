@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from './shared/services/content.service';
+import { LoadingScreen } from './shared/models/loading-screen.interface';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,7 @@ export class AppComponent implements OnInit {
   clientHeight: number;
 
   loadingIconPath = 'assets/images/animations/';
-  loadingScreen = {
-    isLoading: true,
-    loadingIcon: null,
-    loadingText: null
-  };
+  loadingScreen: LoadingScreen;
 
   constructor(public contentService: ContentService) {
     this.clientHeight = window.innerHeight;
