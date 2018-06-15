@@ -3,38 +3,44 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Identity.Helpers;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Models;
 using AutoMapper;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 
 namespace IMOMaritimeSingleWindow.Identity.Stores
 {
-    public partial class UserStore : IUserStore<ApplicationUser>, IQueryableUserStore<ApplicationUser>
+    public partial class UserStore : UserStoreBase<ApplicationUser, ApplicationRole, Guid, ApplicationUserClaim, ApplicationUserRole, UserLogin, UserToken, ApplicationRoleClaim>,
+                                     IQueryableUserStore<ApplicationUser>  
     {
-        private readonly UnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        private readonly RoleStore _roleStore;
 
-        public UserStore(
+        private readonly UnitOfWork _unitOfWork;
+        private readonly RoleStore _roleStore;
+        private readonly IUserStoreHelper _helper;
+        private readonly IMapper _mapper;
+
+        public UserStore
+        (
+            IdentityErrorDescriber describer,
             UnitOfWork unitOfWork,
             RoleStore roleStore,
+            IUserStoreHelper helper,
             IMapper mapper = default
-            )
+        ) : base(describer)
         {
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _roleStore = roleStore;
+            _helper = helper;
+            _mapper = mapper;
         }
 
-        public Task CreateAsync(User user)
-        {
-            throw new NotImplementedException();
-        }
+        #region IUserStore
 
-        public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        public override Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             int expectedObjectsAdded = 2; // User and Password entity
@@ -48,16 +54,16 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 Hash = user.PasswordHash
             };
             _user.Password = password;
-        
 
-            if (HasPerson(user))
+
+            if (_helper.HasPerson(user))
             {
                 // Extract person details from input object
                 Person person = _mapper.Map<ApplicationUser, Person>(user);
                 _user.Person = person;
                 expectedObjectsAdded++;
             }
-            
+
             _unitOfWork.Users.Add(_user);
 
             var objectsAdded = _unitOfWork.Complete();
@@ -65,92 +71,33 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 return Task.FromResult(IdentityResult.Failed());
             return Task.FromResult(IdentityResult.Success);
         }
+        
 
-        public bool HasPerson(ApplicationUser user)
-        {
-            // Require both GivenName and Surname to be present
-            return !String.IsNullOrEmpty(user.GivenName) && !String.IsNullOrEmpty(user.Surname);
-        }
-
-        public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        public override Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
-        
-        
-        public Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default) {
-            // TODO: Use concurrency token to manage concurrency conflicts
 
-            var _user = _unitOfWork.Users.Get(user.Id);
-
-            user.GivenName = "new name";
-            var personMapped = _mapper.Map<Person>(user);
-            personMapped.User = _user.Person.User;
-            personMapped.PersonId = _user.Person.PersonId;
-
-            // Check if password hash has been changed
-            if (_user.Password.Hash != user.PasswordHash)
-            {
-                // Update Password entity
-                var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
-                pwEntity.Hash = user.PasswordHash;
-                _unitOfWork.Passwords.Update(pwEntity);
-            }
-
-            if (HasPerson(user))
-            {
-                if (!_user.Person.Equals(personMapped))
-                {
-                    // Update Person entity
-                    var newPerson = _mapper.Map(source: personMapped, destination: _user.Person);
-                }
-            }
-            
-            _unitOfWork.Users.Update(_user);
-            _unitOfWork.Complete();
-            return Task.FromResult(IdentityResult.Success);
-        }
-
-        private User ConvertToUser(ApplicationUser appUser)
+        public override Task<ApplicationUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default)
         {
-            var user = _mapper.Map<User>(appUser);
-            return user;
+            throw new NotImplementedException();
         }
 
-        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        public override async Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (!HasPassword(user).GetAwaiter().GetResult())
-                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
-
-            ApplicationUser userMap = _mapper.Map<User, ApplicationUser>(user);
-            ApplicationUser pwMap = _mapper.Map<Password, ApplicationUser>(user.Password);
-            ApplicationUser persMap = _mapper.Map<Person, ApplicationUser>(user.Person);
-
-            ApplicationUser appUser = _mapper.Map(userMap, pwMap);  // Merge
-            _mapper.Map(source: appUser, destination: persMap);     // Merge
-            
-            return Task.FromResult(appUser);
-        }
-        
-        public Task<ApplicationUser> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
             if (userId == null)
                 throw new ArgumentNullException(nameof(userId));
             var guid = Guid.Parse(userId);
-            User _user = null;
-            try { _user = _unitOfWork.Users.Get(guid); }
-            catch (NullReferenceException) { }
-            if (_user == null)
-                return Task.FromResult<ApplicationUser>(null);
-
-            return ConvertToApplicationUser(_user);
+            Guid.TryParse(userId, out Guid id);
+            return await FindUserAsync(id, cancellationToken);
         }
 
-        public Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
+        public override Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
             if (normalizedUserName == null)
                 throw new ArgumentNullException(nameof(normalizedUserName));
             User _user = null;
@@ -159,72 +106,56 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            return ConvertToApplicationUser(_user);
+            return Task.FromResult(_helper.ConvertToApplicationUser(_user));
         }
 
-
-
-        #region methods that operate on the objects solely
-        public Task<string> GetUserIdAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        public override Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            if (user == null)
+            int expectedObjectsAffected = 1;
+            // TODO: Use concurrency token to manage concurrency conflicts
+
+            var _user = _unitOfWork.Users.Get(user.Id);
+
+            var personMapped = _mapper.Map<Person>(user);
+            personMapped.User = _user.Person.User;
+            personMapped.PersonId = _user.Person.PersonId;
+
+            // Check if password hash has been changed
+            if (_user.Password.Hash != user.PasswordHash)
             {
-                throw new ArgumentNullException(nameof(user));
+                expectedObjectsAffected++;
+                // Update Password entity
+                var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
+                pwEntity.Hash = user.PasswordHash;
+                _unitOfWork.Passwords.Update(pwEntity);
             }
-            return Task.FromResult(user.Id.ToString());
+
+            if (_helper.HasPerson(user))
+            {
+                if (!_user.Person.Equals(personMapped))
+                {
+                    expectedObjectsAffected++;
+                    // Update Person entity
+                    var newPerson = _mapper.Map(source: personMapped, destination: _user.Person);
+                }
+            }
+
+            _unitOfWork.Users.Update(_user);
+            var objectsAffected =_unitOfWork.Complete();
+            if (expectedObjectsAffected != objectsAffected)
+                return Task.FromResult(IdentityResult.Failed());
+            return Task.FromResult(IdentityResult.Success);
         }
 
-        public Task<string> GetUserNameAsync(ApplicationUser user, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            return Task.FromResult(user.UserName);
-        }
-
-        public Task<string> GetNormalizedUserNameAsync(ApplicationUser user, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            return Task.FromResult(user.NormalizedUserName);
-        }
-
-        public Task SetUserNameAsync(ApplicationUser user, string userName, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            user.UserName = userName;
-            return Task.CompletedTask;
-        }
-
-
-        public Task SetNormalizedUserNameAsync(ApplicationUser user, string normalizedName, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            ThrowIfDisposed();
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
-            user.NormalizedUserName = normalizedName;
-            return Task.CompletedTask;
-        }
+        // End IUserStore
         #endregion
 
-        public IQueryable<ApplicationUser> Users => GetIqueryAble();
+
+        #region IQueryableUserStore
+
+        public override IQueryable<ApplicationUser> Users => GetIqueryAble();
 
         public IQueryable<ApplicationUser> GetIqueryAble()
         {
@@ -232,55 +163,97 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             var appUserList = new List<ApplicationUser>();
             foreach (var user in userList)
             {
-                var appUser = ConvertToApplicationUser(user).GetAwaiter().GetResult();
+                var appUser = _helper.ConvertToApplicationUser(user);
                 appUserList.Add(appUser);
             }
             return appUserList.AsQueryable();
         }
 
-        #region IDisposable Support
-        private bool _disposed = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                _disposed = true;
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~UserStore() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-        protected void ThrowIfDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().Name);
-            }
-        }
         #endregion
 
 
 
+
+        #region Unsupported
+        /** For storing login states for a user obtained
+         *  from various external login providers.
+         *  
+         *  Currently the only login solution is implemented locally and uses
+         *  JSON Web Tokens (that store the login state),
+         *  and thus there is no need to store login information.
+         */
+        public override Task AddLoginAsync(ApplicationUser user, UserLoginInfo login, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<UserLogin> FindUserLoginAsync(string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<IList<UserLoginInfo>> GetLoginsAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+        
+
+        public override Task RemoveLoginAsync(ApplicationUser user, string loginProvider, string providerKey, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Task<UserLogin> FindUserLoginAsync(Guid userId, string loginProvider, string providerKey, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        #endregion
+
+
+
+
+        protected override Task<ApplicationRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        protected override Task<ApplicationUser> FindUserAsync(Guid userId, CancellationToken cancellationToken)
+        {
+            var _user = GetUserById(userId);
+            if (_user == null)
+                return Task.FromResult<ApplicationUser>(null);
+            return Task.FromResult(_helper.ConvertToApplicationUser(_user));
+        }
+
+        
+
+        
+
+        protected override Task<ApplicationUserRole> FindUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+
+        #region Custom Methods
+        
+
+        protected User GetUserById(Guid userId)
+        {
+            User _user = null;
+            try { _user = _unitOfWork.Users.Get(userId); }
+            catch (NullReferenceException) { }
+            return _user;
+        }
+
+        
+
+        #endregion
     }
 }
