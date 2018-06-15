@@ -163,6 +163,7 @@ export class OverviewComponent implements OnInit {
     this.overviewService.getPortCalls().subscribe(
       pcData => {
         if (pcData) {
+          this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
           if (pcData.length === 0) {
             this.contentService.setLoadingScreen(false, null, null);
           } else {
@@ -221,7 +222,6 @@ export class OverviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
     this.accountService.userClaimsData$.subscribe(userClaims => {
       if (userClaims) {
         const userClaimsTypePortCall = userClaims.filter(
