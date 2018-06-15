@@ -1,17 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
     public interface IUnitOfWork<TKey> : IDisposable
         where TKey : IEquatable<TKey>
     {
-        IUserRepository<TKey> Users { get; }
-        IRoleClaimsRepository<TKey> RoleClaims { get; }
+        IClaimRepository<TKey> Claims { get; }
+        IClaimTypeRepository<TKey> ClaimTypes { get; }
         IPasswordRepository<TKey> Passwords { get; }
         IPersonRepository<TKey> Persons { get; }
+        IRoleClaimsRepository<TKey> RoleClaims { get; }
+        IRoleRepository<TKey> Roles { get; }
+        IUserRepository<TKey> Users { get; }
+        IUserTokenRepository<TKey> UserTokens { get; }
+
         int Complete();
     }
 }
