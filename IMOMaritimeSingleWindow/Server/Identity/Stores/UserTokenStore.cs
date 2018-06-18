@@ -9,6 +9,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 {
     public partial class UserStore : IUserAuthenticationTokenStore<ApplicationUser>
     {
+        #region Custom methods
         protected override Task AddUserTokenAsync(UserToken token)
         {
             
@@ -25,12 +26,12 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return Task.FromResult(token);
         }
 
-
         protected override Task RemoveUserTokenAsync(UserToken token)
         {
             _unitOfWork.UserTokens.Remove(token);
             _unitOfWork.Complete();
             return Task.CompletedTask;
         }
+        #endregion
     }
 }

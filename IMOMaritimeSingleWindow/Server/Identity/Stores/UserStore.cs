@@ -1,16 +1,14 @@
+using AutoMapper;
+using IMOMaritimeSingleWindow.Identity.Helpers;
+using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Repositories;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using IMOMaritimeSingleWindow.Identity.Models;
-using IMOMaritimeSingleWindow.Identity.Helpers;
-using IMOMaritimeSingleWindow.Repositories;
-using IMOMaritimeSingleWindow.Models;
-using AutoMapper;
-using System.Threading;
-using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Identity.Stores
 {
@@ -39,7 +37,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         }
 
         #region IUserStore
-
         public override Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -71,14 +68,8 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 return Task.FromResult(IdentityResult.Failed());
             return Task.FromResult(IdentityResult.Success);
         }
-        
 
         public override Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Task<ApplicationUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -149,8 +140,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return Task.FromResult(IdentityResult.Success);
         }
 
-        // End IUserStore
-        #endregion
+        #endregion // IUserStore
 
 
         #region IQueryableUserStore
@@ -169,10 +159,9 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return appUserList.AsQueryable();
         }
 
-        #endregion
+        #endregion // IQueryableUserStore
 
-
-
+        
 
         #region Unsupported
         /** For storing login states for a user obtained
@@ -191,12 +180,16 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             throw new NotImplementedException();
         }
+        // Not applicable
+        protected override Task<ApplicationUserRole> FindUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
+        {
+            throw new NotSupportedException();
+        }
 
         public override Task<IList<UserLoginInfo>> GetLoginsAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
-        
 
         public override Task RemoveLoginAsync(ApplicationUser user, string loginProvider, string providerKey, CancellationToken cancellationToken = default)
         {
@@ -207,20 +200,10 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             throw new NotImplementedException();
         }
-
-
         #endregion
-
-
-
-
-        protected override Task<ApplicationRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
         
 
+        #region Custom methods
         protected override Task<ApplicationUser> FindUserAsync(Guid userId, CancellationToken cancellationToken)
         {
             var _user = GetUserById(userId);
@@ -228,22 +211,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 return Task.FromResult<ApplicationUser>(null);
             return Task.FromResult(_helper.ConvertToApplicationUser(_user));
         }
-
         
-
-        
-
-        protected override Task<ApplicationUserRole> FindUserRoleAsync(Guid userId, Guid roleId, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-
-        #region Custom Methods
-        
-
         protected User GetUserById(Guid userId)
         {
             User _user = null;
@@ -251,9 +219,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             catch (NullReferenceException) { }
             return _user;
         }
-
-        
-
         #endregion
     }
 }

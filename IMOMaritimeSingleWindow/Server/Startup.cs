@@ -38,6 +38,7 @@ using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using IMOMaritimeSingleWindow.Identity.Helpers;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -144,16 +145,30 @@ namespace IMOMaritimeSingleWindow
             //services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(context));
             services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(new open_ssnContext(dbOptions)));
             serviceProvider = services.BuildServiceProvider();
-            var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
+            
             var automapper = serviceProvider.GetService<IMapper>();
+
+            services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(automapper));
+            services.TryAddScoped<IdentityErrorDescriber>();
+            serviceProvider = services.BuildServiceProvider();
+            
+            var userStoreHelper = serviceProvider.GetService<IUserStoreHelper>();
+            var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
+            var identityErrorDescriber = serviceProvider.GetService<IdentityErrorDescriber>();
 
             builder.AddUserManager<ApplicationUserManager>()
             .AddRoleManager<ApplicationRoleManager>();
 
-            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(
-                new UnitOfWork(new open_ssnContext(dbOptions)),
-                new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
-                automapper)
+
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx =>
+                new UserStore
+                (
+                    identityErrorDescriber,
+                    new UnitOfWork(new open_ssnContext(dbOptions)),
+                    new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                    userStoreHelper,
+                    automapper
+                )
             );
 
             services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
