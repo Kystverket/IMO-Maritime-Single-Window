@@ -61,7 +61,7 @@
             <p *ngIf="!organizationModel.organizationNo" class="no-wrap mb-0">Organization number not set.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
 
         <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
