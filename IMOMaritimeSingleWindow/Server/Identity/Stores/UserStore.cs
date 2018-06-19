@@ -80,8 +80,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             ThrowIfDisposed();
             if (userId == null)
                 throw new ArgumentNullException(nameof(userId));
-            var guid = Guid.Parse(userId);
-            Guid.TryParse(userId, out Guid id);
+            var id = ConvertIdFromString(userId);
             return await FindUserAsync(id, cancellationToken);
         }
 
@@ -216,6 +215,14 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             User _user = null;
             try { _user = _unitOfWork.Users.Get(userId); }
+            catch (NullReferenceException) { }
+            return _user;
+        }
+        protected User GetUserById(string userId)
+        {
+            User _user = null;
+            var id = ConvertIdFromString(userId);
+            try { _user = _unitOfWork.Users.Get(id); }
             catch (NullReferenceException) { }
             return _user;
         }

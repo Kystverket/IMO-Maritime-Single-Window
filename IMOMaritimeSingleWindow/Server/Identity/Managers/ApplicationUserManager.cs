@@ -46,16 +46,17 @@ namespace IMOMaritimeSingleWindow.Identity
                 throw new ArgumentNullException(nameof(user));
 
             var userRoleStore = GetUserRoleStore();
-
-            var normalizedRole = NormalizeKey(role);
             
-            if (await userRoleStore.IsInRoleAsync(user, normalizedRole, CancellationToken))
+            var normalizedRoleName = NormalizeKey(role);
+            
+            if (await userRoleStore.IsInRoleAsync(user, normalizedRoleName, CancellationToken))
             {
-                return IdentityResult.Failed();
+                return IdentityResult.Failed(ErrorDescriber.UserAlreadyInRole(normalizedRoleName));
             }
-            await userRoleStore.AddToRoleAsync(user, normalizedRole, CancellationToken);
+            await userRoleStore.AddToRoleAsync(user, normalizedRoleName, CancellationToken);
 
-            var userStore = Store as UserStore;
+            var userStore = GetUserStore();
+            
             await userStore.SetNormalizedRoleNameAsync(user, role);
 
             //await base.AddToRoleAsync(user, role);
@@ -75,8 +76,16 @@ namespace IMOMaritimeSingleWindow.Identity
 
         private IUserRoleStore<ApplicationUser> GetUserRoleStore()
         {
-
             if (!(Store is IUserRoleStore<ApplicationUser> cast))
+            {
+                throw new NotSupportedException();
+            }
+            return cast;
+        }
+
+        private UserStore GetUserStore()
+        {
+            if (!(Store is UserStore cast))
             {
                 throw new NotSupportedException();
             }

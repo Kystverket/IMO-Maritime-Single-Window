@@ -3,6 +3,7 @@ using IMOMaritimeSingleWindow.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +14,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     {
 
         #region IUserRoleStore
-        public override Task AddToRoleAsync(ApplicationUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
+        public override async Task AddToRoleAsync(ApplicationUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null)
@@ -22,17 +23,18 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 throw new ArgumentNullException(nameof(normalizedRoleName));
 
             // check if role name exists
-            if (_unitOfWork.Roles.GetByNormalizedName(normalizedRoleName) == null)
-                throw new Exception("role does not exist!");
+            if (await FindRoleAsync(normalizedRoleName, cancellationToken) == null)
+            {
+                var error = ErrorDescriber.InvalidRoleName(normalizedRoleName);
+                throw new Exception(IdentityResult.Failed(error).ToString());
+            }
 
-            SetNormalizedRoleNameAsync(user, normalizedRoleName).GetAwaiter();
-
-            return Task.CompletedTask;
+            await SetNormalizedRoleNameAsync(user, normalizedRoleName);
         }
 
         public override Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override Task<IList<ApplicationUser>> GetUsersInRoleAsync(string normalizedRoleName, CancellationToken cancellationToken = default)
@@ -40,9 +42,13 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
 
-        public override Task<bool> IsInRoleAsync(ApplicationUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
+        public override async Task<bool> IsInRoleAsync(ApplicationUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            var Id = ConvertIdFromString(await GetUserIdAsync(user));
+            var _user = _unitOfWork.Users.Get(filter: usr => usr.UserId == Id, includeProperties: nameof(User.Role)).FirstOrDefault();
+            return String.Equals(_user.Role.NormalizedName, normalizedRoleName);
         }
 
         public override Task RemoveFromRoleAsync(ApplicationUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
@@ -62,7 +68,10 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         protected override Task<ApplicationRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var Role = _unitOfWork.Roles.GetByNormalizedName(normalizedRoleName);
+            var appRole = _mapper.Map<Role, ApplicationRole>(Role);
+            return Task.FromResult(appRole);
+            
         }
 
         public Task SetNormalizedRoleNameAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken = default)
