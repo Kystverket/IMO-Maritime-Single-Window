@@ -14,8 +14,8 @@ export class ContentService extends BaseService {
   private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
   portCallFormName$ = this.portCallFormSource.asObservable();
 
-  private loadingScreeSource = new BehaviorSubject<LoadingScreen>(null);
-  loadingScreen$ = this.loadingScreeSource.asObservable();
+  private loadingScreenSource = new BehaviorSubject<LoadingScreen>(null);
+  loadingScreen$ = this.loadingScreenSource.asObservable();
 
   constructor() {
     super();
@@ -31,6 +31,7 @@ export class ContentService extends BaseService {
   }
 
   setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
-    this.loadingScreeSource.next({isLoading, loadingIcon, loadingText});
+    console.log(isLoading);
+    this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
   }
 }
