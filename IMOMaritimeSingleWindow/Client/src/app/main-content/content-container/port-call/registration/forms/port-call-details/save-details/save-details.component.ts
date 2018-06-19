@@ -16,12 +16,11 @@ export class SaveDetailsComponent implements OnInit {
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
-  purposeModel: any;
+  purposeModel = [];
   otherPurposeName: any;
 
   reportingFound: boolean;
   crewPassengersAndDimensionsFound: boolean;
-  purposeFound: boolean;
 
   crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
 
@@ -75,7 +74,6 @@ export class SaveDetailsComponent implements OnInit {
     // Purpose
     this.portCallService.portCallPurposeData$.subscribe(purposeData => {
       if (purposeData) {
-        this.purposeFound = true;
         this.purposeModel = purposeData;
       }
     });

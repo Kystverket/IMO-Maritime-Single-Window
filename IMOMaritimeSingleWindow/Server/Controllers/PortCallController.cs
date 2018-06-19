@@ -26,6 +26,34 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("partialOverview/{portCallId}")]
+        public IActionResult GetPartialOverviewJson(int portCallId)
+        {
+            var overview = GetPartialOverview(portCallId);
+            return Json(overview);
+        }
+        private PortCallOverview GetPartialOverview(int portCallId)
+        {
+            List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
+
+            var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+            .Include(pc => pc.Ship.ShipFlagCode.Country)
+            .Include(pc => pc.Location.Country)
+            .Include(pc => pc.OrganizationPortCall)
+            .Include(pc => pc.PortCallStatus).FirstOrDefault();
+            PortCallOverview overview = new PortCallOverview();
+            overview.PortCall = portCall;
+
+            overview.Ship = portCall.Ship;
+            overview.Location = portCall.Location;
+            overview.Status = portCall.PortCallStatus.Name;
+            overview.ClearanceList = (from opc in portCall.OrganizationPortCall
+                                      join o in orgList
+                                      on opc.OrganizationId equals o.OrganizationId
+                                      select opc).ToList();
+            return overview;
+        }
+
         private PortCallOverview GetOverview(int portCallId)
         {
             List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();

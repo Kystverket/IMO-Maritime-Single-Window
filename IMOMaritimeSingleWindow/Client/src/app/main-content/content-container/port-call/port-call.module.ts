@@ -28,6 +28,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 // tslint:disable-next-line:max-line-length
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
+import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import { CrewPassengersDimensionsComponent } from './registration/forms/port-cal
     ConfirmationModule,
     SharedModule
   ],
-  entryComponents: [ButtonRowComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent],
   declarations: [
     RegistrationComponent,
     ProgressBarComponent,
@@ -60,7 +61,8 @@ import { CrewPassengersDimensionsComponent } from './registration/forms/port-cal
     ViewPortCallComponent,
     ClearanceComponent,
     SaveDetailsComponent,
-    NewPortCallDraftComponent
+    NewPortCallDraftComponent,
+    ClearanceRowComponent
   ],
   exports: [
     PortCallComponent,

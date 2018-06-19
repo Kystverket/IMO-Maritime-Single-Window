@@ -721,8 +721,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ImoNo).HasColumnName("imo_no");
 
-                entity.Property(e => e.InmarsatCallNumber).HasColumnName("inmarsat_call_number");
-
                 entity.Property(e => e.Length).HasColumnName("length");
 
                 entity.Property(e => e.MmsiNo).HasColumnName("mmsi_no");

@@ -5,3 +5,25 @@
 .footer-gap {
     height: 100px;
 }
+
+/* Loading screen */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1010;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#loading-box {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    height: 200px;
+    width: 400px;
+    margin-left: -200px;
+    margin-top: -100px;
+    z-index: 1011;
+}
