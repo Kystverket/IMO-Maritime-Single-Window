@@ -115,6 +115,7 @@ namespace IMOMaritimeSingleWindow
                 options.SignIn.RequireConfirmedEmail = true;
 
             });
+            builder.AddDefaultTokenProviders();
 
             //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 

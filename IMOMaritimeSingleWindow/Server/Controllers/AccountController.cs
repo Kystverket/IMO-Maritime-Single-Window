@@ -52,8 +52,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         // [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/accounts/register
-        // [HttpPost("user/")]
+        // POST api/accounts/user
+        [HttpPost("user/test")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -66,11 +66,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             // Validate user and try to create new user in the backing store
             var result = await _userManager.CreateAsync(userIdentity);
 
-            // TODO: Implement functionality for sending email to user with new account, so that they can set their own password
-
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            return new OkObjectResult("Account created");
+            // Retrieve the newly created user
+            var user = await _userManager.FindByEmailAsync(userIdentity.Email);
+            // Functionality for sending email to user with new account, so that they can set their own password
+            var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Action("Please confirm your email",
+                new { userId = user.Id, code = emailConfirmationCode });
+
+            return new OkObjectResult(callbackUrl);
         }
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
