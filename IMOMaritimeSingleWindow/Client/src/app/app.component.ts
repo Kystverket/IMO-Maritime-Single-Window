@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from './shared/services/content.service';
-import { LoadingScreen } from './shared/models/loading-screen.interface';
+import { LoadingScreen } from './shared/interfaces/loading-screen.interface';
 
 @Component({
   selector: 'app-root',

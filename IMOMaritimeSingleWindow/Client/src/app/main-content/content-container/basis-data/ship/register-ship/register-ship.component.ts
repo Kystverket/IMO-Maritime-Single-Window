@@ -21,7 +21,7 @@ const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there 
   providers: [ShipModel]
 })
 export class RegisterShipComponent implements OnInit {
-  newShip: boolean;
+  newShip = false;
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
@@ -68,13 +68,12 @@ export class RegisterShipComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.subscribeToData();
     this.shipService.shipOverviewData$.subscribe(
       data => {
         if (data) {
           this.setAllValues(data);
-          this.subscribeToData();
-          console.log(this.shipModel);
-        } else {
+        } else if (!this.newShip) {
           this.organizationService.setOrganizationData(null);
           this.shipService.setShipFlagCodeData(null);
           this.contactService.setContactData(null);
