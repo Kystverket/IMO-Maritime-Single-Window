@@ -37,22 +37,26 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         }
 
         #region IUserStore
-        public override Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+
+        public override async Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            int expectedObjectsAdded = 2; // User and Password entity
+            int expectedObjectsAdded = 1; // User and Password entity
 
             // Map properties from input object to User object
             var _user = _mapper.Map<ApplicationUser, User>(user);
 
-            // Extract password from input object
-            Password password = new Password
+            if(await HasPasswordAsync(user))
             {
-                Hash = user.PasswordHash
-            };
-            _user.Password = password;
-
-
+                // Extract password from input object
+                Password password = new Password
+                {
+                    Hash = user.PasswordHash
+                };
+                _user.Password = password;
+                expectedObjectsAdded++;
+            }
+            
             if (_helper.HasPerson(user))
             {
                 // Extract person details from input object
@@ -65,8 +69,8 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
             var objectsAdded = _unitOfWork.Complete();
             if (expectedObjectsAdded != objectsAdded)
-                return Task.FromResult(IdentityResult.Failed());
-            return Task.FromResult(IdentityResult.Success);
+                return IdentityResult.Failed();
+            return IdentityResult.Success;
         }
 
         public override Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
