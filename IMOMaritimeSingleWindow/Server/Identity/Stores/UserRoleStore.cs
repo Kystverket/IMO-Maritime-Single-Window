@@ -66,6 +66,24 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         #region Custom Methods
 
+        public async Task<ApplicationRole> GetRoleAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            var userId = ConvertIdFromString(await GetUserIdAsync(user));
+            var role = _unitOfWork.Users.GetRole(userId);
+            return _mapper.Map<Role, ApplicationRole>(role);
+        }
+
+        public async Task<string> GetRoleNameAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            var userId = ConvertIdFromString(await GetUserIdAsync(user));
+            var role = _unitOfWork.Users.GetRole(userId);
+            return role.Name;
+        }
+
         protected override Task<ApplicationRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
             var Role = _unitOfWork.Roles.GetByNormalizedName(normalizedRoleName);

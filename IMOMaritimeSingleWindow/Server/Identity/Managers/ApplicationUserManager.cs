@@ -39,6 +39,8 @@ namespace IMOMaritimeSingleWindow.Identity
             //this.Options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.";
         }
 
+        #region UserManager<TUser>
+        
         public override async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
             ThrowIfDisposed();
@@ -74,6 +76,10 @@ namespace IMOMaritimeSingleWindow.Identity
             return base.CreateAsync(user, password);
         }
 
+        #endregion // UserManager<TUser>
+
+        #region Custom methods
+
         private IUserRoleStore<ApplicationUser> GetUserRoleStore()
         {
             if (!(Store is IUserRoleStore<ApplicationUser> cast))
@@ -92,21 +98,13 @@ namespace IMOMaritimeSingleWindow.Identity
             return cast;
         }
 
-        /*
-        /// <summary>
-        /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Identity.Models.UserRoleManager.GetClaimsAsync(TUser)"/>.
-        /// </summary>
-        public override Task<IList<System.Security.Claims.Claim>> GetClaimsAsync(ApplicationUser user)
+        public async Task<string> GetRoleNameAsync(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            var userRoleStore = GetUserStore();
+            return await userRoleStore.GetRoleNameAsync(user);
         }
-
         
-        public override Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string userName)
-        {
-            string _userName = userName.Split('@')[0];
-            return base.SetUserNameAsync(user, _userName);
-        }
-        */
+        #endregion
+
     }
 }
