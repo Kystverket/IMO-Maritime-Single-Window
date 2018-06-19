@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { MenuClaims } from 'app/shared/constants/menu-claims';
-import { MenuEntry } from 'app/shared/models/menu-entry.interface';
+import { MenuEntry } from 'app/shared/interfaces/menu-entry.interface';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';

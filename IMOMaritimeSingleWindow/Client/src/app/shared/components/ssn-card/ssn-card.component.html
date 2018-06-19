@@ -1,22 +1,19 @@
-<div class="card ssn-card text-center my-2">
-  <div class="card-header bg-ssn text-ssn">
-    <div class="row text-center text-white px-4" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
+<div class="card ssn-card my-2">
+  <div class="card-header bg-ssn text-ssn text-left d-table py-1">
+    <div class="d-table-row text-white px-4" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
 
-      <div class="d-table-cell mr-auto">
-        <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="32px" />
+      <div class="d-table-cell pt-1">
+        <h5 class="mb-0 text-vertical-align"><img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" /> {{ header }}</h5>
       </div>
-      <div class="d-table-cell m-auto">
-        <h4>{{ header }}</h4>
-      </div>
-      <div class="d-table-cell ml-auto">
+      <div class="d-table-cell pb-0 text-right">
         <button *ngIf="collapsible" class="btn btn-sm btn-outline-light">
-          <img src="{{iconPath}}{{collapsedIcon}}" height="24px">
+          <img src="{{iconPath}}{{collapsedIcon}}" height="16px">
         </button>
       </div>
 
     </div>
   </div>
-  <div class="card-body text-left" *ngIf="!collapsed">
+  <div class="card-body p-2" *ngIf="!collapsed">
     <ng-content></ng-content>
   </div>
 </div>

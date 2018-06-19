@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormMetaData } from 'app/shared/models/form-meta-data.interface';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
