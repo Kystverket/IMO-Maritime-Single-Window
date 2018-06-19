@@ -27,6 +27,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 import { SelectShipContactComponent } from './components/select-ship-contact/select-ship-contact.component';
+import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, NgSelectModule, NgbModule],
@@ -49,7 +50,8 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
     SearchLocationComponent,
     SearchHarbourComponent,
     SelectShipContactComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    SsnBgComponent
   ],
   exports: [
     SsnCardComponent,
@@ -67,7 +69,8 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
     SearchLocationComponent,
     SearchHarbourComponent,
     SelectShipContactComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    SsnBgComponent
   ],
   providers: [
     ContactService,
