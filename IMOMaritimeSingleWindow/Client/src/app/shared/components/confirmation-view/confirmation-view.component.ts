@@ -23,11 +23,6 @@ export class ConfirmationViewComponent implements OnInit {
               checked: reportingData.reportingHazmat || false
             },
             {
-              name: 'Bunkers',
-              icon: 'barrel.png',
-              checked: reportingData.reportingBunkers || false
-            },
-            {
               name: 'Cargo',
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false
@@ -46,11 +41,6 @@ export class ConfirmationViewComponent implements OnInit {
               name: 'Pax',
               icon: 'pax.png',
               checked: reportingData.reportingPax || false
-            },
-            {
-              name: 'Waste',
-              icon: 'trash.png',
-              checked: reportingData.reportingWaste || false
             }
           ];
         }

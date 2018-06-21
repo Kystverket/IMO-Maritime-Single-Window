@@ -91,13 +91,11 @@ export class ActivatePortCallComponent implements OnInit {
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
     this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
     this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
-    this.detailsModel.reportingBunkers = this.reportingModel.reportingBunkers;
     this.detailsModel.reportingCargo = this.reportingModel.reportingCargo;
     this.detailsModel.reportingCrew = this.reportingModel.reportingCrew;
     this.detailsModel.reportingHazmat = this.reportingModel.reportingHazmat;
     this.detailsModel.reportingPax = this.reportingModel.reportingPax;
     this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
-    this.detailsModel.reportingWaste = this.reportingModel.reportingWaste;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
     console.log('META: ', this.detailsMeta.valid, '\nPRISTINE: ', this.detailsDataIsPristine);
   }

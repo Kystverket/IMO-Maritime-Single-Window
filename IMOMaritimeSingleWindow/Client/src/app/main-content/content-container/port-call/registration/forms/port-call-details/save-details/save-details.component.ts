@@ -48,14 +48,12 @@ export class SaveDetailsComponent implements OnInit {
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
-          this.detailsModel.reportingBunkers = reportingData.reportingBunkers;
           this.detailsModel.reportingCargo = reportingData.reportingCargo;
           this.detailsModel.reportingCrew = reportingData.reportingCrew;
           this.detailsModel.reportingHazmat = reportingData.reportingHazmat;
           this.detailsModel.reportingPax = reportingData.reportingPax;
           this.detailsModel.reportingShipStores =
             reportingData.reportingShipStores;
-          this.detailsModel.reportingWaste = reportingData.reportingWaste;
         }
       }
     );

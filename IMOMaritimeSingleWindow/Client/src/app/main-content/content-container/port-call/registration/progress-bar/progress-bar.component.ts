@@ -6,12 +6,10 @@ const PORT_CALL_DETAILS = 'Port Call Details';
 const CONFIRM_PORT_CALL = 'Confirm and Activate';
 
 const HAZMAT = 'Hazmat';
-const BUNKERS = 'Bunkers';
 const CARGO = 'Cargo';
 const SHIP_STORES = 'Ship Stores';
 const CREW = 'Crew';
 const PAX = 'Pax';
-const WASTE = 'Waste';
 
 @Component({
   selector: 'app-progress-bar',
@@ -57,12 +55,6 @@ export class ProgressBarComponent implements OnInit {
               hasError: false
             },
             {
-              name: BUNKERS,
-              icon: 'barrel.png',
-              checked: reportingData.reportingBunkers || false,
-              hasError: false
-            },
-            {
               name: CARGO,
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
@@ -84,12 +76,6 @@ export class ProgressBarComponent implements OnInit {
               name: PAX,
               icon: 'pax.png',
               checked: reportingData.reportingPax || false,
-              hasError: false
-            },
-            {
-              name: WASTE,
-              icon: 'trash.png',
-              checked: reportingData.reportingWaste || false,
               hasError: false
             }
           ];

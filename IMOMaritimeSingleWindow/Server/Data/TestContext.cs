@@ -591,8 +591,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
-
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
@@ -602,8 +600,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
-
-                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails);
