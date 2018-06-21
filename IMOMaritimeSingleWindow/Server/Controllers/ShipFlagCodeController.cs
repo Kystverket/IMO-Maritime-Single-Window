@@ -21,8 +21,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult Search(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public IActionResult Search(int amount, string searchTerm)
         {
             var sfcList = (from sfc in _context.ShipFlagCode
                            join ctr in _context.Country

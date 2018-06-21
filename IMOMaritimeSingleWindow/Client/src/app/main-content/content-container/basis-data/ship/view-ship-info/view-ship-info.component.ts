@@ -17,6 +17,7 @@ export class ViewShipInfoComponent implements OnInit {
 
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
+  showTable = false;
 
   deselectShip() {
     this.shipFound = false;
@@ -30,6 +31,10 @@ export class ViewShipInfoComponent implements OnInit {
 
   editShip() {
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
+  }
+
+  searchShips() {
+    this.showTable = true;
   }
 
   constructor(private shipService: ShipService, private contentService: ContentService) { }

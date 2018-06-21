@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { Credentials } from 'app/shared/models/credentials.interface';
+import { Credentials } from 'app/shared/interfaces/credentials.interface';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';

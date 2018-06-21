@@ -1,7 +1,3 @@
-import { EtaEtdDateTime } from './eta-etd-interface';
-import { EtaEtdModel } from './eta-etd-model';
-import { DatePipe } from '@angular/common';
-
 export class PortCallModel {
   portCallId: number;
   nextLocationId: number;

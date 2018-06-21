@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { UserModelWithPassword } from 'app/shared/models/UserModelWithPassword';
+import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
 import { AuthRequest } from './auth.request.service';

@@ -36,19 +36,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(organization);
         }
 
-        public List<Organization> SearchOrganization(string searchTerm)
+        public List<Organization> SearchOrganization(string searchTerm, int amount = 10)
         {
             return _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
                                                                 || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
                                                                 .Select(org => org)
                                                                 .Include(org => org.OrganizationType)
-                                                                .Take(10).ToList();
+                                                                .Take(amount).ToList();
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult SearchOrganizationJson(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public IActionResult SearchOrganizationJson(int amount, string searchTerm)
         {
-            var organizations = SearchOrganization(searchTerm);
+            var organizations = SearchOrganization(searchTerm, amount);
             return Json(organizations);
         }
 

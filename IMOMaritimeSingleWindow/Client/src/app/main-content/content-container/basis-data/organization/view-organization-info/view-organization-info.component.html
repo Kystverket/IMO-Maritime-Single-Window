@@ -10,37 +10,12 @@
 
 <app-ssn-card header="Organization Search" icon="pax.png">
   <div *ngIf="!organizationFound">
-    <app-search-organization></app-search-organization>
-  </div>
-
-  <div *ngIf="organizationFound" class="text-center">
-    <button class="btn btn-ssn" (click)="deselectOrganization()">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-      <button class="btn btn-ssn" (click)="editOrganization()">
-        <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="24px" /> Edit Organization</button>
+    <app-search-organization [showDropdown]=false></app-search-organization>
   </div>
 
   <br>
 
-  <div class="jumbotron bg-ssn-light" *ngIf="organizationFound">
-    <div class="row mb-3">
-      <div class="col">
-        <app-table-card header="Organization Information" icon="pax.png">
-          <tbody>
-            <tr>
-              <td *ngFor="let entry of organizationInfo" class="no-wrap px-1 mx-1">
-                <tr>
-                  <small>{{ entry.description }}:</small>
-                </tr>
-                <tr *ngIf="entry.data">{{ entry.data }}</tr>
-                <tr *ngIf="!entry.data">
-                  <div class="font-italic">Not provided.</div>
-                </tr>
-              </td>
-            </tr>
-          </tbody>
-        </app-table-card>
-      </div>
-    </div>
+  <div>
+    <app-organization-smart-table></app-organization-smart-table>
   </div>
 </app-ssn-card>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { UserModelWithPassword } from 'app/shared/models/UserModelWithPassword';
+import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { UserModel } from 'app/shared/models/user-model';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
