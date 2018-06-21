@@ -56,7 +56,7 @@ export class OrganizationSmartTableComponent implements OnInit {
       organizationModel: organization,
       name: organization.name,
       type: organization.organizationType.name,
-      organizationNumber: organization.organizationNumber || `<div class="font-italic">Not provided.</div>`,
+      organizationNumber: organization.organizationNo || `<div class="font-italic">Not provided.</div>`,
       description: organization.description || `<div class="font-italic">Not provided.</div>`,
       actions: 'btn'
     };
