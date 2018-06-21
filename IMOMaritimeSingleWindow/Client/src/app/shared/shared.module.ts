@@ -33,6 +33,8 @@ import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/s
 import { OrganizationSmartTableComponent } from 'app/shared/components/organization-smart-table/organization-smart-table.component';
 // tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
+import { LocationSmartTableComponent } from 'app/shared/components/location-smart-table/location-smart-table.component';
+import { LocationButtonRowComponent } from 'app/shared/components/location-smart-table/location-button-row/location-button-row.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, NgSelectModule, NgbModule, Ng2SmartTableModule],
@@ -61,6 +63,8 @@ import { OrganizationButtonRowComponent } from 'app/shared/components/organizati
     ShipButtonRowComponent,
     OrganizationSmartTableComponent,
     OrganizationButtonRowComponent,
+    LocationSmartTableComponent,
+    LocationButtonRowComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -81,7 +85,8 @@ import { OrganizationButtonRowComponent } from 'app/shared/components/organizati
     SelectedContactMediumsComponent,
     SsnBgComponent,
     ShipSmartTableComponent,
-    OrganizationSmartTableComponent
+    OrganizationSmartTableComponent,
+    LocationSmartTableComponent
   ],
   providers: [
     ContactService,
@@ -89,6 +94,6 @@ import { OrganizationButtonRowComponent } from 'app/shared/components/organizati
     ShipService,
     LocationService
   ],
-  entryComponents: [ConfirmationModalComponent, ShipButtonRowComponent, OrganizationButtonRowComponent]
+  entryComponents: [ConfirmationModalComponent, ShipButtonRowComponent, OrganizationButtonRowComponent, LocationButtonRowComponent]
 })
 export class SharedModule { }

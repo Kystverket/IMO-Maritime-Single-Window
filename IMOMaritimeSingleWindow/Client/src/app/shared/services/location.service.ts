@@ -28,8 +28,15 @@ export class LocationService {
   private locationDataSource = new BehaviorSubject<any>(null);
   locationData$ = this.locationDataSource.asObservable();
 
+  private locationSearchDataSource = new BehaviorSubject<any>(null);
+  locationSearchData$ = this.locationSearchDataSource.asObservable();
+
   setLocationData(data) {
     this.locationDataSource.next(data);
+  }
+
+  setLocationSearchData(data) {
+    this.locationSearchDataSource.next(data);
   }
 
   public search(term: string) {
