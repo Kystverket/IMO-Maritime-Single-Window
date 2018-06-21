@@ -73,7 +73,6 @@ export class LocationSmartTableComponent implements OnInit {
   ngOnInit() {
     this.locationService.locationSearchData$.subscribe(data => {
       if (data) {
-        console.log(data);
         if (data.length !== 0) {
           const rowList = [];
           data.forEach(location => {
