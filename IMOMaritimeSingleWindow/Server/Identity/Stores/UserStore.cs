@@ -103,31 +103,49 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return Task.FromResult(_helper.ConvertToApplicationUser(_user));
         }
 
-        public override Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        public override async Task<IdentityResult> UpdateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
             int expectedObjectsAffected = 1;
             // TODO: Use concurrency token to manage concurrency conflicts
 
-            var _user = _unitOfWork.Users.Get(user.Id);
-
-            var personMapped = _mapper.Map<Person>(user);
-            personMapped.User = _user.Person.User;
-            personMapped.PersonId = _user.Person.PersonId;
-
-            // Check if password hash has been changed
-            if (_user.Password.Hash != user.PasswordHash)
+            var _user = _unitOfWork.Users.Get(
+                filter: usr => usr.UserId == user.Id,
+                includeProperties: nameof(User.Person) + "," + nameof(User.Password) )
+                .FirstOrDefault();
+            _mapper.Map(user, _user);
+            // ApplicationUser contains password
+            if (await HasPasswordAsync(user))
             {
-                expectedObjectsAffected++;
-                // Update Password entity
-                var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
-                pwEntity.Hash = user.PasswordHash;
-                _unitOfWork.Passwords.Update(pwEntity);
+                // User in backing store has password
+                if (await HasPassword(_user))
+                {
+                    // Check if password has been changed
+                    if (_user.Password.Hash != user.PasswordHash)
+                    {
+                        // Update password
+                        expectedObjectsAffected++;
+                        var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
+                        pwEntity.Hash = user.PasswordHash;
+                        _unitOfWork.Passwords.Update(pwEntity);
+                    }
+                }
+                // User in backing store does not contain a password; create a new one
+                else
+                {
+                    // Add password to user
+                    expectedObjectsAffected++;
+                    Password pw = new Password { Hash = user.PasswordHash };
+                    _user.Password = pw;
+                }
             }
 
             if (_helper.HasPerson(user))
             {
+                var personMapped = _mapper.Map<Person>(user);
+                personMapped.User = _user.Person.User;
+                personMapped.PersonId = _user.Person.PersonId;
                 if (!_user.Person.Equals(personMapped))
                 {
                     expectedObjectsAffected++;
@@ -139,8 +157,8 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             _unitOfWork.Users.Update(_user);
             var objectsAffected =_unitOfWork.Complete();
             if (expectedObjectsAffected != objectsAffected)
-                return Task.FromResult(IdentityResult.Failed());
-            return Task.FromResult(IdentityResult.Success);
+                return IdentityResult.Failed();
+            return IdentityResult.Success;
         }
 
         #endregion // IUserStore
