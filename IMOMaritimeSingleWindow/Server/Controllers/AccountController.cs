@@ -26,6 +26,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using Microsoft.AspNetCore.Http.Extensions;
+using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -52,8 +54,31 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         // [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/accounts/user
+        // POST api/account/user
         [HttpPost("user/test")]
+        public async Task<IActionResult> RegisterTest([FromBody]RegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var applicationUser = _mapper.Map<ApplicationUser>(model);
+
+            // Validate user and try to create new user in the backing store
+            var result = await _userManager.CreateAsync(applicationUser);
+
+            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            
+            // Functionality for sending email to user with new account, so that they can set their own password
+            var callbackUrl = GetEmailLink(applicationUser.Email);
+
+            return new OkObjectResult(callbackUrl);
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        // POST api/account/user
+        [HttpPost("user/")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -61,25 +86,24 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var applicationUser = _mapper.Map<ApplicationUser>(model);
 
             // Validate user and try to create new user in the backing store
-            var result = await _userManager.CreateAsync(userIdentity);
+            var result = await _userManager.CreateAsync(applicationUser);
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            // Retrieve the newly created user
-            var user = await _userManager.FindByEmailAsync(userIdentity.Email);
             // Functionality for sending email to user with new account, so that they can set their own password
-            var emailConfirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Action("Please confirm your email",
-                new { userId = user.Id, code = emailConfirmationCode });
+            var callbackUrl = GetEmailLink(applicationUser.Email);
 
-            return new OkObjectResult(callbackUrl);
+            // Send confirmation link to user's registered email address
+
+            return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
         }
 
+
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/accounts/register
+        // POST api/account/user
         [HttpPost("user")]
         public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
         {
@@ -105,8 +129,71 @@ namespace IMOMaritimeSingleWindow.Controllers
             result = await _userManager.AddToRoleAsync(userIdentity, model.RoleName);
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
+            
             return new OkObjectResult("Account created");
+        }
+        
+        private async Task<Uri> GetEmailLink(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            QueryBuilder queryBuilder = new QueryBuilder(
+                new Dictionary<string, string>()
+                {
+                    { "userId", user.Id.ToString() },
+                    { "emailConfirmationToken", emailConfirmationToken }
+                }
+            );
+
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri("ConfirmEmail"))
+            {
+                Query = queryBuilder.ToString()
+            };
+
+            return uriBuilder.Uri;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("user/email/confirm")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string emailConfirmationToken)
+        {
+            if (userId == null || emailConfirmationToken == null)
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return BadRequest();
+
+            var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, emailConfirmationToken);
+            if (!emailVerificationResult.Succeeded)
+                return BadRequest();
+
+            var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            return Json(passwordChangeToken);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPut("user/password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            if (model.UserId == null || model.NewPassword == null || model.PasswordResetToken == null)
+                return BadRequest();
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.NewPassword);
+            if (result.Succeeded)
+                return Ok("Password changed");
+
+            return BadRequest();
         }
 
         /// <summary>
@@ -181,6 +268,69 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
             return Json(claims);
         }
+
+
+        #region Helper methods
+
+        private Uri GetCallBackUri()
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            int PORT = _env.IsDevelopment() ? 4200 : 80;
+
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Scheme = request.Scheme,
+                Host = request.Host.Host,
+                Port = PORT
+            };
+            return uriBuilder.Uri;
+        }
+        // Returns an URI pointing to the route in the web application
+        private Uri GetCallBackUri(string route)
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            int PORT = _env.IsDevelopment() ? 4200 : 80;
+
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Scheme = request.Scheme,
+                Host = request.Host.Host,
+                Path = route,
+                Port = PORT
+            };
+            return uriBuilder.Uri;
+        }
+
+
+        private Uri GetRequestUri()
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Scheme = request.Scheme,
+                Host = request.Host.Host,
+                Path = Url.Action(action: this.GetActionName(), controller: this.GetControllerName()),
+                Port = HttpContext.Connection.LocalPort
+            };
+            return uriBuilder.Uri;
+
+        }
+
+        private Uri GetAbsoluteUri()
+        {
+            var request = _httpContextAccessor.HttpContext.Request;
+            UriBuilder uriBuilder = new UriBuilder
+            {
+                Scheme = request.Scheme,
+                Host = request.Host.Host,
+                Path = request.Path.ToString(),
+                Query = request.QueryString.ToString(),
+                Port = HttpContext.Connection.LocalPort
+            };
+            return uriBuilder.Uri;
+        }
+
+        #endregion
 
     }
 }
