@@ -30,6 +30,9 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
 import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
 import { ShipSmartTableComponent } from './components/ship-smart-table/ship-smart-table.component';
 import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component';
+import { OrganizationSmartTableComponent } from 'app/shared/components/organization-smart-table/organization-smart-table.component';
+// tslint:disable-next-line:max-line-length
+import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, NgSelectModule, NgbModule, Ng2SmartTableModule],
@@ -56,6 +59,8 @@ import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/s
     SsnBgComponent,
     ShipSmartTableComponent,
     ShipButtonRowComponent,
+    OrganizationSmartTableComponent,
+    OrganizationButtonRowComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -76,6 +81,7 @@ import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/s
     SelectedContactMediumsComponent,
     SsnBgComponent,
     ShipSmartTableComponent,
+    OrganizationSmartTableComponent
   ],
   providers: [
     ContactService,
@@ -83,6 +89,6 @@ import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/s
     ShipService,
     LocationService
   ],
-  entryComponents: [ConfirmationModalComponent, ShipButtonRowComponent]
+  entryComponents: [ConfirmationModalComponent, ShipButtonRowComponent, OrganizationButtonRowComponent]
 })
 export class SharedModule { }

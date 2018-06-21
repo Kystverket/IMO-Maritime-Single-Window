@@ -25,8 +25,15 @@ export class OrganizationService {
   private organizationDataSource = new BehaviorSubject<any>(null);
   organizationData$ = this.organizationDataSource.asObservable();
 
+  private organizationSearchDataSource = new BehaviorSubject<any>(null);
+  organizationSearchData$ = this.organizationSearchDataSource.asObservable();
+
   setOrganizationData(data) {
     this.organizationDataSource.next(data);
+  }
+
+  setOrganizationSearchData(data) {
+    this.organizationSearchDataSource.next(data);
   }
 
   public registerOrganization(newOrganization: OrganizationModel) {
