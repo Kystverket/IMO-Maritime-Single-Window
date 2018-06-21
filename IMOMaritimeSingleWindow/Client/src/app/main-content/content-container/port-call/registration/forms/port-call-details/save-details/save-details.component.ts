@@ -3,8 +3,7 @@ import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
-const INITIAL_DATA_IS_PRISTINE_TEXT =
-  'There are no unsaved changes in this page.';
+const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 
 @Component({

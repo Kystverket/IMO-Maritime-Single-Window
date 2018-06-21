@@ -23,7 +23,8 @@ export class ProgressBarComponent implements OnInit {
       name: PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
   finalMenuEntries: any[] = [
@@ -31,7 +32,8 @@ export class ProgressBarComponent implements OnInit {
       name: CONFIRM_PORT_CALL,
       icon: 'checkmark.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
 
@@ -54,37 +56,48 @@ export class ProgressBarComponent implements OnInit {
               name: DPG,
               icon: 'hazard.png',
               checked: reportingData.reportingDpg || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: CARGO,
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: SHIP_STORES,
               icon: 'alcohol.png',
               checked: reportingData.reportingShipStores || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: CREW,
               icon: 'crew.png',
               checked: reportingData.reportingCrew || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: PAX,
               icon: 'pax.png',
               checked: reportingData.reportingPax || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             }
           ];
           this.menuEntries = this.baseMenuEntries
             .concat(falForms)
             .concat(this.finalMenuEntries);
         }
+      }
+    );
+
+    this.contentService.portCallFormName$.subscribe(
+      portCallFormName => {
+        this.selectedPortCallForm = portCallFormName;
       }
     );
 
@@ -96,11 +109,11 @@ export class ProgressBarComponent implements OnInit {
       }
     );
 
-    this.contentService.portCallFormName$.subscribe(
-      portCallFormName => {
-        this.selectedPortCallForm = portCallFormName;
-      }
-    );
+    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+      this.menuEntries.find(
+        p => p.name === PORT_CALL_DETAILS
+      ).hasUnsavedData = !detailsDataIsPristine;
+    });
   }
 
   setPortCallForm(contentName: string) {
