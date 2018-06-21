@@ -7,6 +7,11 @@ import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { mapTo } from 'rxjs/operators/mapTo';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +20,8 @@ import { Subscription } from 'rxjs/Subscription';
   providers: []
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  online$: Observable<boolean>;
+
   menuIsCollapsed = true;
   subscription: Subscription;
   loggedIn: boolean;
@@ -79,7 +86,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private accountService: AccountService,
     private router: Router
-  ) {}
+  ) {
+    this.online$ = merge(
+      of(navigator.onLine),
+      fromEvent(window, 'online').pipe(mapTo(true)),
+      fromEvent(window, 'offline').pipe(mapTo(false))
+    );
+  }
 
   logout() {
     this.loginService.logout();
