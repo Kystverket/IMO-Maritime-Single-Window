@@ -37,6 +37,8 @@ export class ProgressBarComponent implements OnInit {
 
   menuEntries: any[];
 
+  selectedPortCallForm: string;
+
   constructor(
     private portCallService: PortCallService,
     private contentService: ContentService
@@ -91,6 +93,12 @@ export class ProgressBarComponent implements OnInit {
         this.menuEntries.find(
           p => p.name === PORT_CALL_DETAILS
         ).hasError = !metaData.valid;
+      }
+    );
+
+    this.contentService.portCallFormName$.subscribe(
+      portCallFormName => {
+        this.selectedPortCallForm = portCallFormName;
       }
     );
   }
