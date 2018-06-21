@@ -52,11 +52,11 @@ export class OrganizationService {
       .map(res => res.json());
   }
 
-  public search(term: string) {
+  public search(term: string, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.searchOrganizationUrl, term);
+    return this.searchService.search(this.searchOrganizationUrl, term, amount);
   }
 
   public getOrganizationTypes() {

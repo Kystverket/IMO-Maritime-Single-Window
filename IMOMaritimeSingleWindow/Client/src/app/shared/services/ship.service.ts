@@ -103,14 +103,14 @@ export class ShipService {
     this.shipFlagCodeDataSource.next(data);
   }
 
-  search(term: string) {
+  search(term: string, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.shipSearchUrl, term);
+    return this.searchService.search(this.shipSearchUrl, term, amount);
   }
 
-  searchFlagCode(term: string) {
+  searchFlagCode(term: string, amount = 10) {
     if (term.length < 1) {
       return Observable.of([]);
     }

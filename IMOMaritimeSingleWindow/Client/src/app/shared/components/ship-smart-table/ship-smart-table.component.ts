@@ -68,7 +68,6 @@ export class ShipSmartTableComponent implements OnInit {
   ngOnInit() {
     this.shipService.shipSearchData$.subscribe(data => {
       if (data) {
-        console.log(data);
         if (data.length !== 0) {
           const rowList = [];
           data.forEach(ship => {

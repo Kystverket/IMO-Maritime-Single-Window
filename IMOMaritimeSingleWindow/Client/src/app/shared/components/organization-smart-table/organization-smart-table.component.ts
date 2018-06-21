@@ -66,7 +66,6 @@ export class OrganizationSmartTableComponent implements OnInit {
   ngOnInit() {
     this.organizationService.organizationSearchData$.subscribe(data => {
       if (data) {
-        console.log(data);
         if (data.length !== 0) {
           const rowList = [];
           data.forEach(organization => {

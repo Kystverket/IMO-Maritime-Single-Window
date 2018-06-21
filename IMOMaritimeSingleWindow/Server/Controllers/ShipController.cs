@@ -65,7 +65,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(ship);
         }
 
-        public List<Ship> SearchShip(string searchTerm)
+        public List<Ship> SearchShip(string searchTerm, int amount = 10)
         {
             if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
             {
@@ -78,7 +78,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                             || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm))
                             .Select(s => s)
                             .Include(s => s.ShipFlagCode.Country)
-                            .Take(6)
+                            .Take(amount)
                             .ToList();
             }
             searchTerm += '%';
@@ -88,15 +88,14 @@ namespace IMOMaritimeSingleWindow.Controllers
                         || EF.Functions.ILike(s.CallSign, searchTerm))
                         .Select(s => s)
                         .Include(s => s.ShipFlagCode.Country)
-                        .Take(6)
+                        .Take(amount)
                         .ToList();
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public JsonResult SearchShipWithFlag(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public JsonResult SearchShipJson(int amount, string searchTerm)
         {
-
-            List<Ship> results = SearchShip(searchTerm);
+            List<Ship> results = SearchShip(searchTerm, amount);
             return Json(results);
         }
 

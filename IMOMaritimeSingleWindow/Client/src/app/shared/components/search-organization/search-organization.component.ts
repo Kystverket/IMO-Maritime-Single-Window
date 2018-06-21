@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 
 @Component({
   selector: 'app-search-organization',
@@ -15,6 +16,8 @@ import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap }
 export class SearchOrganizationComponent implements OnInit {
 
   @Input() showDropdown = true;
+  resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
+  resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN;
 
   organizationModel: any;
   organizationSelected = false;
@@ -36,7 +39,7 @@ export class SearchOrganizationComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.organizationService.search(term).pipe(
+        this.organizationService.search(term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -51,7 +54,7 @@ export class SearchOrganizationComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.organizationModel.length >= 2 && res.length === 0;
         } else {
-          this.organizationService.search(this.organizationModel).subscribe(
+          this.organizationService.search(this.organizationModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.organizationModel.length >= 2 && data.length === 0;
               this.organizationService.setOrganizationSearchData(data);

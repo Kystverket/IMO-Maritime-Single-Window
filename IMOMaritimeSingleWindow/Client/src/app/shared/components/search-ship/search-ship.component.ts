@@ -3,6 +3,7 @@ import { ShipService } from 'app/shared/services/ship.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
 
 @Component({
   selector: 'app-search-ship',
@@ -12,6 +13,8 @@ import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap }
 export class SearchShipComponent implements OnInit {
 
   @Input() showDropdown = true;
+  resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
+  resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN;
 
   shipModel: any;
   searchText: any;
@@ -34,7 +37,7 @@ export class SearchShipComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.shipService.search(term).pipe(
+        this.shipService.search(term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -49,7 +52,7 @@ export class SearchShipComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
         } else {
-          this.shipService.search(this.shipModel).subscribe(
+          this.shipService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
               this.shipService.setShipSearchData(data);

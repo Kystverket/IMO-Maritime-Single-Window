@@ -10,7 +10,6 @@ import { PortCallDetailsComponent } from './components/confirmation-view/port-ca
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { LocationInfoTableComponent } from './components/location-info-table/location-info-table.component';
 import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
-import { SearchHarbourComponent } from './components/search-harbour/search-harbour.component';
 import { SearchLocationComponent } from './components/search-location/search-location.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipComponent } from './components/search-ship/search-ship.component';
@@ -55,7 +54,6 @@ import { LocationButtonRowComponent } from 'app/shared/components/location-smart
     LocationTimeInfoTableComponent,
     LocationInfoTableComponent,
     SearchLocationComponent,
-    SearchHarbourComponent,
     SelectShipContactComponent,
     SelectedContactMediumsComponent,
     SsnBgComponent,
@@ -80,7 +78,6 @@ import { LocationButtonRowComponent } from 'app/shared/components/location-smart
     LocationTimeInfoTableComponent,
     LocationInfoTableComponent,
     SearchLocationComponent,
-    SearchHarbourComponent,
     SelectShipContactComponent,
     SelectedContactMediumsComponent,
     SsnBgComponent,

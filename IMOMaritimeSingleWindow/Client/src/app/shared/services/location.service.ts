@@ -39,11 +39,12 @@ export class LocationService {
     this.locationSearchDataSource.next(data);
   }
 
-  public search(term: string) {
+  public search(term: string, restrictTypeHarbour: boolean, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.searchUrl, term);
+    const uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
+    return this.searchService.search(uri, term, amount);
   }
 
   public searchHarbour(term: string) {
