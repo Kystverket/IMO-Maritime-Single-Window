@@ -11,9 +11,9 @@ using System.Security.Claims;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class UserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store,
+        public UserManager(IUserStore<ApplicationUser> store,
 
             IOptions<IdentityOptions> optionsAccessor,
 

@@ -33,14 +33,14 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
-        private readonly ApplicationUserManager _userManager;
-        private readonly ApplicationRoleManager _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
         public AccountController(
-            ApplicationUserManager userManager,
-            ApplicationRoleManager roleManager,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IMapper mapper
             )

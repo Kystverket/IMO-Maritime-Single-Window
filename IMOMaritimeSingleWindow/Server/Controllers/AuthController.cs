@@ -144,7 +144,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
-            var userManager = _userManager as ApplicationUserManager;
+            var userManager = _userManager as UserManager;
             var roleName = await userManager.GetRoleNameAsync(user);
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
