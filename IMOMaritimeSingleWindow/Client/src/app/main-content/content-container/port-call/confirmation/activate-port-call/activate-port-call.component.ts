@@ -93,7 +93,7 @@ export class ActivatePortCallComponent implements OnInit {
     this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
     this.detailsModel.reportingCargo = this.reportingModel.reportingCargo;
     this.detailsModel.reportingCrew = this.reportingModel.reportingCrew;
-    this.detailsModel.reportingHazmat = this.reportingModel.reportingHazmat;
+    this.detailsModel.reportingDpg = this.reportingModel.reportingDpg;
     this.detailsModel.reportingPax = this.reportingModel.reportingPax;
     this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);

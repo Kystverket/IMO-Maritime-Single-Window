@@ -5,7 +5,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 const PORT_CALL_DETAILS = 'Port Call Details';
 const CONFIRM_PORT_CALL = 'Confirm and Activate';
 
-const HAZMAT = 'Hazmat';
+const DPG = 'DPG';
 const CARGO = 'Cargo';
 const SHIP_STORES = 'Ship Stores';
 const CREW = 'Crew';
@@ -49,9 +49,9 @@ export class ProgressBarComponent implements OnInit {
         if (reportingData != null) {
           const falForms = [
             {
-              name: HAZMAT,
+              name: DPG,
               icon: 'hazard.png',
-              checked: reportingData.reportingHazmat || false,
+              checked: reportingData.reportingDpg || false,
               hasError: false
             },
             {

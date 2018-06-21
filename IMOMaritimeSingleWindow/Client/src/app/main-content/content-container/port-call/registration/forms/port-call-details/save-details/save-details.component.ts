@@ -50,7 +50,7 @@ export class SaveDetailsComponent implements OnInit {
         if (reportingData) {
           this.detailsModel.reportingCargo = reportingData.reportingCargo;
           this.detailsModel.reportingCrew = reportingData.reportingCrew;
-          this.detailsModel.reportingHazmat = reportingData.reportingHazmat;
+          this.detailsModel.reportingDpg = reportingData.reportingDpg;
           this.detailsModel.reportingPax = reportingData.reportingPax;
           this.detailsModel.reportingShipStores =
             reportingData.reportingShipStores;

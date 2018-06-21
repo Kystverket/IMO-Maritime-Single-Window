@@ -18,9 +18,9 @@ export class ConfirmationViewComponent implements OnInit {
         if (reportingData != null) {
           this.falForms = [
             {
-              name: 'Hazmat',
+              name: 'DPG',
               icon: 'hazard.png',
-              checked: reportingData.reportingHazmat || false
+              checked: reportingData.reportingDpg || false
             },
             {
               name: 'Cargo',
