@@ -22,7 +22,7 @@ export class SearchOrganizationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private organizationService: OrganizationService) {}
+  constructor(private organizationService: OrganizationService) { }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -54,6 +54,7 @@ export class SearchOrganizationComponent implements OnInit {
   selectOrganization($event) {
     this.organizationSelected = true;
     this.organizationModel = $event.item;
+    console.log(this.organizationModel);
     this.organizationService.setOrganizationData(this.organizationModel);
   }
 

@@ -24,13 +24,15 @@ import { ShipService } from './services/ship.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
-import { ContactSelectComponent } from './components/contact-select/contact-select.component';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 import { SelectShipContactComponent } from './components/select-ship-contact/select-ship-contact.component';
 import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
+import { ShipSmartTableComponent } from './components/ship-smart-table/ship-smart-table.component';
+import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, NgSelectModule, NgbModule],
+  imports: [CommonModule, FormsModule, NgSelectModule, NgbModule, Ng2SmartTableModule],
   declarations: [
     SsnCardComponent,
     TableCardComponent,
@@ -51,7 +53,9 @@ import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
     SearchHarbourComponent,
     SelectShipContactComponent,
     SelectedContactMediumsComponent,
-    SsnBgComponent
+    SsnBgComponent,
+    ShipSmartTableComponent,
+    ShipButtonRowComponent,
   ],
   exports: [
     SsnCardComponent,
@@ -70,7 +74,8 @@ import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
     SearchHarbourComponent,
     SelectShipContactComponent,
     SelectedContactMediumsComponent,
-    SsnBgComponent
+    SsnBgComponent,
+    ShipSmartTableComponent,
   ],
   providers: [
     ContactService,
@@ -78,6 +83,6 @@ import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
     ShipService,
     LocationService
   ],
-  entryComponents: [ConfirmationModalComponent]
+  entryComponents: [ConfirmationModalComponent, ShipButtonRowComponent]
 })
-export class SharedModule {}
+export class SharedModule { }

@@ -7,7 +7,7 @@ import { LoadingScreen } from '../interfaces/loading-screen.interface';
 @Injectable()
 export class ContentService extends BaseService {
   private contentSource = new BehaviorSubject<string>(
-    CONTENT_NAMES.VIEW_PORT_CALLS
+    CONTENT_NAMES.VIEW_SHIPS
   );
   contentName$ = this.contentSource.asObservable();
 
@@ -32,6 +32,6 @@ export class ContentService extends BaseService {
 
   setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
     console.log(isLoading);
-    this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
+    this.loadingScreenSource.next({ isLoading, loadingIcon, loadingText });
   }
 }

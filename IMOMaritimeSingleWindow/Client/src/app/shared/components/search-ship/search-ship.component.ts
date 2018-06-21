@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -10,7 +10,11 @@ import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap }
   styleUrls: ['./search-ship.component.css']
 })
 export class SearchShipComponent implements OnInit {
+
+  @Input() showDropdown = true;
+
   shipModel: any;
+  searchText: any;
   shipSelected = false;
 
   searching = false;
@@ -19,7 +23,7 @@ export class SearchShipComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private shipService: ShipService) {}
+  constructor(private shipService: ShipService) { }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -29,18 +33,29 @@ export class SearchShipComponent implements OnInit {
         this.searchFailed = false;
         this.searching = (term.length >= 2);
       }),
-      switchMap(term =>
+      switchMap(term => (this.showDropdown) ?
         this.shipService.search(term).pipe(
-          tap(() => (this.searchFailed = false)),
+          tap(() => {
+            this.searchFailed = false;
+          }),
           catchError(() => {
             this.searchFailed = true;
             return of([]);
           })
-        )
+        ) : of([])
       ),
       tap(res => {
-        this.searching = false;
-        this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
+        if (this.showDropdown) {
+          this.searching = false;
+          this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
+        } else {
+          this.shipService.search(this.shipModel).subscribe(
+            data => {
+              this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
+              this.shipService.setShipSearchData(data);
+              this.searching = false;
+            });
+        }
       }),
       merge(this.hideSearchingWhenUnsubscribed)
     )
@@ -49,7 +64,6 @@ export class SearchShipComponent implements OnInit {
   selectShip($event) {
     this.shipSelected = true;
     this.shipModel = $event.item;
-    this.shipService.setShipOverviewData(this.shipModel);
     this.shipService.getShip($event.item.shipId).subscribe(
       result => {
         if (result) {

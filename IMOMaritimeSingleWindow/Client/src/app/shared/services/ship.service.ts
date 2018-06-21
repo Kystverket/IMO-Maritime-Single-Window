@@ -32,6 +32,9 @@ export class ShipService {
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
 
+  private shipSearchDataSource = new BehaviorSubject<any>(null);
+  shipSearchData$ = this.shipSearchDataSource.asObservable();
+
   private countryDataSource = new BehaviorSubject<any>(null);
   countryData$ = this.countryDataSource.asObservable();
 
@@ -78,6 +81,10 @@ export class ShipService {
 
   setCountryData(data) {
     this.countryDataSource.next(data);
+  }
+
+  setShipSearchData(data) {
+    this.shipSearchDataSource.next(data);
   }
 
   updateShip(ship: any) {
