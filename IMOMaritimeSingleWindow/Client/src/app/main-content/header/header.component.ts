@@ -8,7 +8,11 @@ import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
-import { DbConnectionService } from '../../shared/services/db-connection.service';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { mapTo } from 'rxjs/operators/mapTo';
+import { DbConnectionService } from 'app/shared/services/db-connection.service';
 
 @Component({
   selector: 'app-header',
@@ -65,9 +69,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private loginService: LoginService,
     private contentService: ContentService,
     private accountService: AccountService,
-    private router: Router,
-    private dbConnectionService: DbConnectionService
-  ) {}
+    private dbConnectionService: DbConnectionService,
+    private router: Router
+  ) {
+    this.online$ = merge(
+      of(navigator.onLine),
+      fromEvent(window, 'online').pipe(mapTo(true)),
+      fromEvent(window, 'offline').pipe(mapTo(false))
+    );
+  }
 
   ngOnInit() {
     this.subscription = this.loginService.authNavStatus$.subscribe(

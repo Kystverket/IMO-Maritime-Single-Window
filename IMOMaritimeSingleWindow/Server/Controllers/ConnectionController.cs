@@ -22,8 +22,20 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("state")]
         public IActionResult GetState()
         {
-            var state = _context.Database.GetDbConnection().State;
-            return Json(state);
+            using (var con = _context.GetDbConnection())
+            {
+                try
+                {
+                    con.Open();
+                    var state = con.State;
+                    con.Close();
+                    return Json(state);
+                }
+                catch (Exception e)
+                {
+                    return Json(con.State);
+                }
+            }
         }
     }
 }
