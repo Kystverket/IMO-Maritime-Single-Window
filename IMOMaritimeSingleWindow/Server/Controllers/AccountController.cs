@@ -14,7 +14,7 @@
 using System.Linq;
 using System;
 using System.Threading.Tasks;
-using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
@@ -24,10 +24,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 using Microsoft.AspNetCore.Http.Extensions;
 using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -40,13 +42,17 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
+        public IHostingEnvironment _env { get; }
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
-            IMapper mapper
+            IMapper mapper,
+            IHostingEnvironment env
             )
         {
+            env = _env;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
@@ -174,9 +180,15 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(passwordChangeToken);
         }
 
-
+        /// <summary>
+        /// Lets a user change their password after verification
+        /// of account ownership (i.e. via email link).
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns> An HTTP 200 OK reponse if the provided password
+        /// reset token was valid and the password was successfully reset. </returns>
         [AllowAnonymous]
-        [HttpPut("user/password")]
+        [HttpPut("user/password/reset")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -193,6 +205,32 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (result.Succeeded)
                 return Ok("Password changed");
 
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Lets a logged in user change their password.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns> An HTTP 200 OK reponse if the password was successfully changed. </returns>
+        [HasClaim(Claims.Types.USER, Claims.Values.EDIT)]
+        [HttpPut("user/password")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.FindFirstValue((Constants.Strings.JwtClaimIdentifiers.Id));
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+                return Ok("Password changed");
             return BadRequest();
         }
 
@@ -274,13 +312,12 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private Uri GetCallBackUri()
         {
-            var request = _httpContextAccessor.HttpContext.Request;
             int PORT = _env.IsDevelopment() ? 4200 : 80;
 
             UriBuilder uriBuilder = new UriBuilder
             {
-                Scheme = request.Scheme,
-                Host = request.Host.Host,
+                Scheme = Request.Scheme,
+                Host = Request.Host.Host,
                 Port = PORT
             };
             return uriBuilder.Uri;
@@ -288,13 +325,12 @@ namespace IMOMaritimeSingleWindow.Controllers
         // Returns an URI pointing to the route in the web application
         private Uri GetCallBackUri(string route)
         {
-            var request = _httpContextAccessor.HttpContext.Request;
             int PORT = _env.IsDevelopment() ? 4200 : 80;
 
             UriBuilder uriBuilder = new UriBuilder
             {
-                Scheme = request.Scheme,
-                Host = request.Host.Host,
+                Scheme = Request.Scheme,
+                Host = Request.Host.Host,
                 Path = route,
                 Port = PORT
             };
@@ -304,11 +340,10 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private Uri GetRequestUri()
         {
-            var request = _httpContextAccessor.HttpContext.Request;
             UriBuilder uriBuilder = new UriBuilder
             {
-                Scheme = request.Scheme,
-                Host = request.Host.Host,
+                Scheme = Request.Scheme,
+                Host = Request.Host.Host,
                 Path = Url.Action(action: this.GetActionName(), controller: this.GetControllerName()),
                 Port = HttpContext.Connection.LocalPort
             };
@@ -318,13 +353,12 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private Uri GetAbsoluteUri()
         {
-            var request = _httpContextAccessor.HttpContext.Request;
             UriBuilder uriBuilder = new UriBuilder
             {
-                Scheme = request.Scheme,
-                Host = request.Host.Host,
-                Path = request.Path.ToString(),
-                Query = request.QueryString.ToString(),
+                Scheme = Request.Scheme,
+                Host = Request.Host.Host,
+                Path = Request.Path.ToString(),
+                Query = Request.QueryString.ToString(),
                 Port = HttpContext.Connection.LocalPort
             };
             return uriBuilder.Uri;

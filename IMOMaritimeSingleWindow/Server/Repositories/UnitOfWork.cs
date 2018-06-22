@@ -22,14 +22,14 @@ namespace IMOMaritimeSingleWindow.Repositories
             UserTokens = new UserTokenRepository(_context);
         }
 
-        public IClaimRepository<Guid> Claims { get; private set; }
-        public IClaimTypeRepository<Guid> ClaimTypes { get; private set; }
-        public IPasswordRepository<Guid> Passwords { get; private set; }
-        public IPersonRepository<Guid> Persons { get; private set; }
-        public IRoleClaimsRepository<Guid> RoleClaims { get; private set; }
-        public IRoleRepository<Guid> Roles { get; private set; }
-        public IUserRepository<Guid> Users { get; private set; }
-        public IUserTokenRepository<Guid> UserTokens { get; private set; }
+        public IClaimRepository<Guid> Claims { get; }
+        public IClaimTypeRepository<Guid> ClaimTypes { get; }
+        public IPasswordRepository<Guid> Passwords { get; }
+        public IPersonRepository<Guid> Persons { get; }
+        public IRoleClaimsRepository<Guid> RoleClaims { get; }
+        public IRoleRepository<Guid> Roles { get; }
+        public IUserRepository<Guid> Users { get; }
+        public IUserTokenRepository<Guid> UserTokens { get; }
 
         public int Complete()
         {
