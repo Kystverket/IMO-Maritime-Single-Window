@@ -21,6 +21,7 @@ using IMOMaritimeSingleWindow.Extensions;
 
 namespace IMOMaritimeSingleWindow
 {
+    // Dette er superkult! \(^_^)/
     public class Program
     {
         private static readonly Dictionary<string, string> defaults =
