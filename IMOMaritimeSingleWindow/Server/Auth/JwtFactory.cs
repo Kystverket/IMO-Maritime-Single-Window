@@ -1,4 +1,15 @@
 
+/*  This was adopted from an example project written by
+ *  author: Marc Macniel (https://github.com/mmacneil)
+ *  cited in a blog post
+ *  url: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
+ *  demonstrating how to implement a framework for authenticating users with JWT
+ *  in an ASP.NET Core 2/Angular 5 web application.
+ *  
+ *  The original class this class is based upon can be found on the project's GitHub repository
+ *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
+ *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Auth/JwtFactory.cs
+ */
 
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,7 +17,6 @@ using System.Security.Claims;
 using Claim = System.Security.Claims.Claim;
 using System.Security.Principal;
 using System.Threading.Tasks;
-using IMOMaritimeSingleWindow.Models;
 using Microsoft.Extensions.Options;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +45,7 @@ namespace IMOMaritimeSingleWindow.Auth
              });
             claims.AddRange(identity.Claims);
 
-            //Remove leading url
+            // Remove leading url
             List<Claim> shortClaims = new List<Claim>();
             foreach (var claim in claims)
             {
@@ -45,9 +55,6 @@ namespace IMOMaritimeSingleWindow.Auth
 
                 shortClaims.Add(c);
             }
-
-            //claims.AddRange(shortClaims);
-            //claims.AddRange(identity.Claims);
 
             // Create the JWT security token and encode it.
             var jwt = new JwtSecurityToken(

@@ -1,13 +1,12 @@
-using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using IMOMaritimeSingleWindow.Models;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data;
+using System.Data.Common;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public partial class open_ssnContext : DbContext
+    public class open_ssnContext : DbContext, IDbContext
     {
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -57,8 +56,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
-
-
 
         public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
         // for testing:
@@ -606,9 +603,13 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PersonId)
                     .HasColumnName("person_id");
 
-                entity.Property(e => e.FirstName).HasColumnName("first_name");
+                entity.Property(e => e.GivenName).HasColumnName("given_name");
 
-                entity.Property(e => e.LastName).HasColumnName("last_name");
+                entity.Property(e => e.Surname).HasColumnName("surname");
+
+                entity.Property(e => e.CompanyEmail).HasColumnName("company_email");
+
+                entity.Property(e => e.CompanyPhoneNumber).HasColumnName("company_phone_number");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
@@ -712,17 +713,11 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.AirDraught).HasColumnName("air_draught");
 
-                entity.Property(e => e.CargoGrossGrossWeight).HasColumnName("cargo_gross_gross_weight");
-
-                entity.Property(e => e.CargoGrossWeight).HasColumnName("cargo_gross_weight");
-
                 entity.Property(e => e.NumberOfCrew).HasColumnName("number_of_crew");
 
                 entity.Property(e => e.NumberOfPassengers).HasColumnName("number_of_passengers");
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
-
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
 
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
@@ -734,7 +729,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
-                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
@@ -907,8 +901,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Height).HasColumnName("height");
 
                 entity.Property(e => e.ImoNo).HasColumnName("imo_no");
-
-                entity.Property(e => e.InmarsatCallNumber).HasColumnName("inmarsat_call_number");
 
                 entity.Property(e => e.Length).HasColumnName("length");
 
@@ -1497,11 +1489,31 @@ namespace IMOMaritimeSingleWindow.Data
         }
 
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
+        public override int SaveChanges()
+        {
+            ChangeTracker.DetectChanges();
+            return base.SaveChanges();
+        }
+
+        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
+        {
+            return base.Update(entity);
+        }
+
         public override void Dispose()
         {
             ChangeTracker.DetectChanges();
-            Debug.WriteLine("open_ssnContext disposed of: " + GetHashCode());
             base.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return this.Database.GetDbConnection();
+        }
+
+        public ConnectionState GetState()
+        {
+            return this.Database.GetDbConnection().State;
         }
     }
 }

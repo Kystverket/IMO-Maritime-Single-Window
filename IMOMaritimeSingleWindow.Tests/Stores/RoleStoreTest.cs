@@ -36,14 +36,14 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
             Assert.NotNull(role);
         }
 
-        [Test]
-        public async Task AddedClaimCanBeFoundByRole()
-        {
-            var claims = await RoleStore.GetClaimsAsync(_role);
-            //Claims were found for the given role
-            Assert.True(claims.Any());
-            //A specific claim was found for the given role
-            Assert.True(claims.Any(cl => cl.Type == "menu" && cl.Value == "portcall"));
-        }
+        //[Test]
+        //public async Task AddedClaimCanBeFoundByRole()
+        //{
+        //    var claims = await RoleStore.GetClaimsAsync(_role);
+        //    //Claims were found for the given role
+        //    Assert.True(claims.Any());
+        //    //A specific claim was found for the given role
+        //    Assert.True(claims.Any(cl => cl.Type == "menu" && cl.Value == "portcall"));
+        //}
     }
 }

@@ -1,64 +1,77 @@
-<ssn-card header="Select Arrival and Departure Time" icon="time.png">
+<app-ssn-card header="Select Arrival and Departure Time" icon="time.png">
   <div class="row">
 
-    <div class="col-6">
-      <div class="form-group">
-        <label for="eta_date_input">ETA</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <button class="btn btn-sm btn-ssn" (click)="eta.toggle()" type="button">
-              <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
-            </button>
+    <div class="col-lg-6">
+      <div class="d-table mx-auto">
+        <div class="d-table-row">
+          <div class="d-table-cell p-1">
+            <div class="form-group">
+              <label for="eta_date_input">ETA</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button class="btn btn-sm btn-ssn" (click)="eta.toggle()" type="button">
+                    <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
+                  </button>
+                </div>
+                <input id="eta_date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp-eta" [showWeekNumbers]="true"
+                  [(ngModel)]="etaDateModel" ngbDatepicker #eta="ngbDatepicker" (ngModelChange)="etaDateChanged($event)">
+              </div>
+            </div>
+
           </div>
-          <input id="eta_date_input" class="form-control form-control-sm" placeholder="yyyy-MM-dd" name="dp-eta" [showWeekNumbers]="true"
-            [(ngModel)]="etaDateModel" ngbDatepicker #eta="ngbDatepicker" (ngModelChange)="etaDateChanged($event)">
+          <div class="d-table-cell p-1">
+            <ngb-timepicker [(ngModel)]="etaTimeModel" (ngModelChange)="etaTimeChanged($event)" [minuteStep]=15></ngb-timepicker>
+          </div>
         </div>
-      </div>
-      <div *ngIf="!validEtaDateFormat" class="alert alert-danger" role="alert">
-        <strong>Invalid date format!</strong> Format must be yyyy-MM-dd
+        <div class="d-table-row">
+          <div *ngIf="!validEtaDateFormat" class="alert alert-danger" role="alert">
+            <span>Invalid date format.</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="col-6">
-      <div class="form-group">
-        <label for="etd_date_input">ETD</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <button class="btn btn-sm btn-ssn" (click)="etd.toggle()" type="button">
-              <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
-            </button>
+    <div class="col-lg-6">
+      <div class="d-table mx-auto">
+        <div class="d-table-row">
+          <div class="d-table-cell p-1">
+            <div class="form-group">
+              <label for="etd_date_input">ETD</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <button class="btn btn-sm btn-ssn" (click)="etd.toggle()" type="button">
+                    <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
+                  </button>
+                </div>
+                <input id="etd_date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp-etd" [showWeekNumbers]="true"
+                  [(ngModel)]="etdDateModel" ngbDatepicker #etd="ngbDatepicker" (ngModelChange)="etdDateChanged($event)">
+              </div>
+            </div>
           </div>
-          <input id="etd_date_input" class="form-control form-control-sm" placeholder="yyyy-MM-dd" name="dp-etd" [showWeekNumbers]="true"
-            [(ngModel)]="etdDateModel" ngbDatepicker #etd="ngbDatepicker" (ngModelChange)="etdDateChanged($event)">
+          <div class="d-table-cell p-1">
+            <ngb-timepicker [(ngModel)]="etdTimeModel" (ngModelChange)="etdTimeChanged($event)" [minuteStep]=15></ngb-timepicker>
+          </div>
+        </div>
+        <div class="d-table-row">
+          <div *ngIf="!validEtdDateFormat" class="alert alert-danger" role="alert">
+            <span>Invalid date format.</span>
+          </div>
         </div>
       </div>
-      <div *ngIf="!validEtdDateFormat" class="alert alert-danger" role="alert">
-        <strong>Invalid date format!</strong> Format must be yyyy-MM-dd
-      </div>
     </div>
-
   </div>
 
   <div class="row" *ngIf="dateSequenceError">
     <div class="col-2"></div>
     <div class="col-8 alert alert-danger" role="alert">
-      <strong>Departure date can not be before arrival date!</strong>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <ngb-timepicker [(ngModel)]="etaTimeModel" (ngModelChange)="etaTimeChanged($event)"></ngb-timepicker>
-    </div>
-    <div class="col">
-      <ngb-timepicker [(ngModel)]="etdTimeModel" (ngModelChange)="etdTimeChanged($event)"></ngb-timepicker>
+      <span>Departure date can not be before arrival date.</span>
     </div>
   </div>
 
   <div class="row" *ngIf="timeSequenceError">
     <div class="col-2"></div>
     <div class="col-8 alert alert-danger" role="alert">
-      <strong>Departure time must be after arrival time!</strong>
+      <span>Departure time must be after arrival time.</span>
     </div>
   </div>
-</ssn-card>
+</app-ssn-card>

@@ -39,7 +39,6 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? HasSideThrustersBack { get; set; }
         public string Remark { get; set; }
         public int? CertificateOfRegistryId { get; set; }
-        public string InmarsatCallNumber { get; set; }
         public int? MmsiNo { get; set; }
         public DateTimeOffset? DateOfKeelLaying { get; set; }
 

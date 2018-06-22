@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class ClaimTypeRepository : Repository<ClaimType, Guid>, IClaimTypeRepository<Guid>
+    public class ClaimTypeRepository : EFConcreteRepository<ClaimType, Guid>, IClaimTypeRepository<Guid>
     {
-        public ClaimTypeRepository(open_ssnContext context) : base(context)
+        public ClaimTypeRepository(IDbContext context) : base(context)
         {
         }
     }

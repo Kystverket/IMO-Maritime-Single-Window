@@ -1,4 +1,4 @@
-<ssn-card header="Select Ship" icon="ship.png">
+<app-ssn-card header="Select Ship" icon="ship.png">
 
   <div *ngIf="!shipFound">
     <app-search-ship></app-search-ship>
@@ -23,6 +23,6 @@
       </table>
     </div>
     <button class="btn btn-ssn" (click)="deselectShip()">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" />Clear selection</button>
+      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
   </div>
-</ssn-card>
+</app-ssn-card>

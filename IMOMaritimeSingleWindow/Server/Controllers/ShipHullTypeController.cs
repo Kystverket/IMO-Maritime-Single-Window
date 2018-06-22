@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipHullType);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<ShipHullType> resultList = _context.ShipHullType.ToList();
