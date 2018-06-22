@@ -1,14 +1,13 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { Credentials } from '../shared/models/credentials.interface';
-import { AccountService } from '../shared/services/account.service';
-import { AuthService } from '../shared/services/auth-service';
-import { ContentService } from '../shared/services/content.service';
-import { LoginService } from '../shared/services/login.service';
-import { CONTENT_NAMES } from '../shared/constants/content-names';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { Credentials } from 'app/shared/interfaces/credentials.interface';
+import { AccountService } from 'app/shared/services/account.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { LoginService } from 'app/shared/services/login.service';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'app-login',
@@ -16,24 +15,21 @@ import { CONTENT_NAMES } from '../shared/constants/content-names';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
 
-  login_title = "LOGIN";
-
-  private subscription: Subscription;
+  login_title = 'LOGIN';
 
   brandNew: boolean;
   errors: string;
   isRequesting: boolean;
-  submitted: boolean = false;
-  credentials: Credentials = { userName: '', password: '' }
+  submitted = false;
+  credentials: Credentials = { userName: '', password: '' };
 
   constructor(
     private loginService: LoginService,
     private contentService: ContentService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
     private accountService: AccountService
   ) { }
 
@@ -57,34 +53,30 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
                 this.router.navigate(['']);
               })
-              .subscribe(result => {
-                if (result) {
-                  this.accountService.setUserClaims(result);
-                  localStorage.setItem("user-claims", JSON.stringify(result));
+              .subscribe(claims => {
+                if (claims) {
+                  this.accountService.setUserClaims(claims);
+                  localStorage.setItem('user_claims', JSON.stringify(claims));
                 }
-              })
+              });
           }
           // Login failed
         }, error => {
           this.errors = error;
           this.credentials.password = '';
           }
-        )
+        );
     }
   }
 
   ngOnInit() {
     // subscribe to router event
-    this.subscription = this.activatedRoute.queryParams.subscribe(
+    this.activatedRoute.queryParams.subscribe(
       (param: any) => {
         this.brandNew = param['brandNew'];
-        //this.credentials.userName = param['userName'];
+        // this.credentials.userName = param['userName'];
       }
     );
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
 }

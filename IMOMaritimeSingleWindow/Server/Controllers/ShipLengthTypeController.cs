@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipLengthType);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<ShipLengthType> resultList = _context.ShipLengthType.ToList();

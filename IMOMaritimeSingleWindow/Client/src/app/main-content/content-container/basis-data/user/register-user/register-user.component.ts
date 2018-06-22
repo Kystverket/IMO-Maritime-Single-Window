@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModelWithPassword } from '../../../../../shared/models/UserModelWithPassword';
-import { UserModel } from '../../../../../shared/models/user-model';
-import { AccountService } from '../../../../../shared/services/account.service';
-import { AuthService } from '../../../../../shared/services/auth-service';
-import { LoginService } from '../../../../../shared/services/login.service';
-import { OrganizationService } from '../../../../../shared/services/organization.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
+import { UserModel } from 'app/shared/models/user-model';
+import { AccountService } from 'app/shared/services/account.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
 
-const RESULT_SUCCES: string = "User was successfully registered.";
-const RESULT_FAILURE: string = "There was a problem when trying to register the user. Please try again later.";
+const RESULT_SUCCES = 'User was successfully registered.';
+const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
 
 @Component({
   selector: 'app-register-user',
@@ -24,11 +22,13 @@ export class RegisterUserComponent implements OnInit {
   user: UserModelWithPassword = {
     email: '',
     phoneNumber: '',
-    firstName: '',
-    lastName: '',
+    givenName: '',
+    surname: '',
     password: '',
     roleName: '',
-    organizationId: ''
+    organizationId: '',
+    companyEmail: '',
+    companyPhoneNumber: ''
   };
   emailTaken: boolean;
   emailChecked: boolean;
@@ -63,24 +63,21 @@ export class RegisterUserComponent implements OnInit {
           this.organizationSelected = false;
         }
       }
-    )
+    );
   }
 
   userExists(emailValid: boolean) {
     if (emailValid) {
-      return this.accountService.userExistsByEmail(this.user.email).subscribe(userExists => {
-        if (userExists) {
-          this.emailTaken = true;
-        } else {
-          this.emailTaken = false;
-        }
+      return this.accountService.emailTaken(this.user.email)
+      .subscribe(result => {
+        this.emailTaken = result;
         this.emailChecked = true;
       });
     }
   }
 
   registerUserWithPassword() {
-    this.accountService.registerUserWithPassword(this.user)
+    this.accountService.registerUser(this.user)
       .subscribe(
         result => {
           if (result) {
@@ -111,10 +108,10 @@ export class RegisterUserComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       },
       reason => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       }
     );
   }

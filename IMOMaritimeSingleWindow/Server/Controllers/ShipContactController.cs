@@ -21,29 +21,55 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpPost("savelist")]
+        [HttpPost("list")]
         public IActionResult SaveShipContactList([FromBody] List<ShipContact> shipContactList)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
-                foreach (ShipContact shipContact in shipContactList)
+                var shipIdList = shipContactList.Select(sc => sc.ShipId).ToList();
+                var removeList = _context.ShipContact.Where(sc => shipContactList.Any(contactEntity => contactEntity.ShipId == sc.ShipId));
+                _context.ShipContact.RemoveRange(removeList);
+                _context.ShipContact.AddRange(shipContactList);
+                _context.SaveChanges();
+                return Json(shipContactList);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPut("list")]
+        public IActionResult UpdateShipContactList([FromBody] List<ShipContact> shipContactList)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                foreach (ShipContact contactEntity in shipContactList)
                 {
-                    if (_context.ShipContact.Any(sc => sc.ShipContactId == shipContact.ShipContactId))
+                    Console.WriteLine("\n\n" + contactEntity.ContactValue);
+                    if (_context.ShipContact.Any(sc => sc.ShipContactId == contactEntity.ShipContactId))
                     {
-                        _context.ShipContact.Update(shipContact);
+                        _context.Update(contactEntity);
                     }
                     else
                     {
-                        _context.ShipContact.Add(shipContact);
+                        _context.Add(contactEntity);
                     }
                 }
                 _context.SaveChanges();
                 return Json(shipContactList);
             }
-            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            catch (Exception e)
             {
-                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
-                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+                return BadRequest(e);
             }
         }
 

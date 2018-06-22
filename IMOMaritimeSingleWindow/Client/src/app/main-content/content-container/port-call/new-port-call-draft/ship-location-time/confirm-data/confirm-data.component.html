@@ -1,4 +1,4 @@
-<ssn-card header="Confirm Port Call Draft" icon="checkmark.png">
+<app-ssn-card header="Confirm Port Call Draft" icon="checkmark.png">
   <div *ngIf="!shipFound || !locationFound || !dateTimeFound" class="text-center">
     <p *ngIf="!shipFound" class="no-wrap mb-0">No ship selected.</p>
     <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
@@ -23,11 +23,11 @@
         <tbody>
           <tr>
             <td>
-              <img src="assets/images/Flags/128x128/{{shipModel.country.twoCharCode | lowercase}}.png" height="20px" />
+              <img src="assets/images/Flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
             </td>
-            <td>{{ shipModel.ship.name }}</td>
-            <td>{{ locationModel.location.name }}</td>
-            <td>{{ locationModel.location.locationCode }}</td>
+            <td>{{ shipModel.name }}</td>
+            <td>{{ locationModel.name }}</td>
+            <td>{{ locationModel.locationCode }}</td>
             <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
               }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
             <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)
@@ -39,4 +39,4 @@
     <button class="btn btn-ssn" (click)="startPortCallRegistration()">
       <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
-</ssn-card>
+</app-ssn-card>

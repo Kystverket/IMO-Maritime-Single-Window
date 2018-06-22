@@ -1,34 +1,38 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'ssn-card',
+  selector: 'app-ssn-card',
   templateUrl: './ssn-card.component.html',
   styleUrls: ['./ssn-card.component.css']
 })
 export class SsnCardComponent implements OnInit {
+  iconPath = 'assets/images/VoyageIcons/128x128/white/';
 
-  iconPath = "assets/images/VoyageIcons/128x128/white/";
+  @Input() icon: string;
 
-  @Input()
-  icon: string;
+  @Input() header: string;
 
-  @Input()
-  header: string;
+  @Input() collapsible: boolean;
 
-  @Input()
-  collapsible: boolean;
+  @Input() collapsed: boolean;
 
-  collapsed: boolean = false;
-  collapsedIcon: string = "arrowhead-down.png"
+  collapsedIcon: string;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
+    if (this.collapsed == null) {
+      this.collapsed = false;
+    }
+    this.collapsedIcon = this.collapsed
+      ? 'arrowhead-left.png'
+      : 'arrowhead-down.png';
   }
 
   changeState() {
     this.collapsed = !this.collapsed;
-    this.collapsedIcon = this.collapsed ? "arrowhead-left.png" : "arrowhead-down.png";
+    this.collapsedIcon = this.collapsed
+      ? 'arrowhead-left.png'
+      : 'arrowhead-down.png';
   }
-
 }

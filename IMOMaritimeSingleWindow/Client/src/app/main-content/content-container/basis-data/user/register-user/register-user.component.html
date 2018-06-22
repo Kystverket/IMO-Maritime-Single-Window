@@ -1,26 +1,17 @@
-<div class="jumbotron bg-ssn-light">
-  <div class="row card-ssn text-center">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/user.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER USER</h3>
-    </div>
-  </div>
-
+<app-ssn-bg header="REGISTER USER" icon="user.png">
   <div class="row">
     <div class="col">
-      <ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
+      <app-ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
         <form #f="ngForm" novalidate>
 
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-1" for="email">Email</label>
+                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2" for="email">Email</label>
                 <div class="col">
                   <input id="email" name="email" class="form-control form-control-sm" [(ngModel)]="user.email" #email="ngModel" [email]="true"
                     tmFocus validateEmail (blur)="userExists(email.valid)" (ngModelChange)="emailChecked = false" placeholder="Enter email">
-                  <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email</small>
+                  <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
                     <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
                     <small class="text-success">email available</small>
@@ -46,17 +37,17 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="first_name">First name</label>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="given_name">Given name</label>
                 <div class="col">
-                  <input id="first_name" name="firstName" class="form-control form-control-sm" [(ngModel)]="user.firstName" placeholder="Enter first name">
+                  <input id="given_name" name="givenName" class="form-control form-control-sm" [(ngModel)]="user.givenName" placeholder="Enter Given name">
                 </div>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="last_name">Last name</label>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="surname">Surname</label>
                 <div class="col">
-                  <input id="last_name" name="lastName" class="form-control form-control-sm" [(ngModel)]="user.lastName" placeholder="Enter last name">
+                  <input id="surname" name="surname" class="form-control form-control-sm" [(ngModel)]="user.surname" placeholder="Enter surname">
                 </div>
               </div>
             </div>
@@ -73,14 +64,36 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-4 col-xl-4" for="company_phone_number">Company phone number</label>
+                <div class="col">
+                  <input id="company_phone_number" name="companyPhoneNumber" class="form-control form-control-sm" [(ngModel)]="user.companyPhoneNumber"
+                    placeholder="Enter your company phone number">
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-3" for="company_email">Company email</label>
+                <div class="col">
+                  <input id="company_email" name="companyEmail" class="form-control form-control-sm" [(ngModel)]="user.companyEmail" #compEmail="ngModel"
+                    [email]="true" tmFocus validateEmail placeholder="Enter your company email address">
+                </div>
+                <small *ngIf="!compEmail.valid && !compEmail.pristine" class="text-danger">Please enter a valid email address</small>
+              </div>
+            </div>
+          </div>
+
         </form>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Select Organization" icon="pax.png">
+      <app-ssn-card header="Select Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
           <app-search-organization></app-search-organization>
         </div>
@@ -105,13 +118,13 @@
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="User rights" icon="verification-clipboard.png">
+      <app-ssn-card header="User rights" icon="verification-clipboard.png">
         <div class="form-group">
           <div class="text-center">
             <span class="no-wrap">Select a role for this user</span>
@@ -120,13 +133,13 @@
             [(ngModel)]="user.roleName">
           </ng-select>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Confirm User Registration">
+      <app-ssn-card header="Confirm User Registration">
         <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)">
           <div class="mb-3">
             <p class="mb-0" *ngIf="!user.email">Email not set.</p>
@@ -142,8 +155,8 @@
             <table class="table table-bordered">
               <thead>
                 <tr class="bg-ssn text-ssn">
-                  <th *ngIf="user.firstName">First name</th>
-                  <th *ngIf="user.lastName">Last name</th>
+                  <th *ngIf="user.givenName">Given name</th>
+                  <th *ngIf="user.surname">Surname</th>
                   <th>Email</th>
                   <th *ngIf="user.phoneNumber">Phone number</th>
                   <th>Organization</th>
@@ -152,8 +165,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td *ngIf="user.firstName">{{ user.firstName }}</td>
-                  <td *ngIf="user.lastName">{{ user.lastName }}</td>
+                  <td *ngIf="user.givenName">{{ user.givenName }}</td>
+                  <td *ngIf="user.surname">{{ user.surname }}</td>
                   <td> {{ user.email }} </td>
                   <td *ngIf="user.phoneNumber">{{ user.phoneNumber }}</td>
                   <td>{{ organizationModel.name }}</td>
@@ -164,7 +177,7 @@
           </div>
           <button class="btn btn-ssn" (click)="registerUserWithPassword()">Register User</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
-</div>
+</app-ssn-bg>

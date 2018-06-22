@@ -1,119 +1,79 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+using IMOMaritimeSingleWindow.Tests.Data;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Tests.Data;
 using Xunit;
-using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
 {
     public class UserRepositoryTest
     {
-        
+
+        public UnitOfWork UnitOfWork { get; set; }
+        public TestContext Context { get; set; }
+
         [Fact]
         public void Adds_Password()
         {
-            var inMemoryDbContext = TestContextBuilder.GetInMemContext();
-            IUnitOfWork<Guid> unitOfWork = GetUnitOfWork(inMemoryDbContext);
-
-            var expectedHash = "b7tk4uia";
-            Password expectedPassword = new Password
+            using (var factory = new ContextFactory())
             {
-                PasswordId = new Guid(),
-                Hash = expectedHash
-            };
+                using (var unitofwork = new UnitOfWork(factory.CreateContext()))
+                {
+                    // Arrange
+                    var expectedHash = "b7tk4uia";
+                    Password expectedPassword = new Password
+                    {
+                        PasswordId = new Guid(),
+                        Hash = expectedHash
+                    };
 
-            unitOfWork.Passwords.Add(expectedPassword);
-            unitOfWork.Complete(); //SaveChanges()
+                    // Act
+                    unitofwork.Passwords.Add(expectedPassword);
+                    unitofwork.Complete(); // SaveChanges()
 
-            //Do not use repo's own get method, since then we'd be using something that too is to be tested
-            Password actualPassword = inMemoryDbContext.Password.FirstOrDefaultAsync(password => password.Hash == expectedHash).GetAwaiter().GetResult();
-            string actualHash = actualPassword.Hash;
+                    // Assert
+                    Password actualPassword = unitofwork.Passwords.Single(password => password.Hash == expectedHash);
+                    string actualHash = actualPassword.Hash;
 
-            Assert.Equal(expectedHash, actualHash);
-            Assert.Equal(expectedPassword, actualPassword);
+                    Assert.Equal(expectedHash, actualHash);
+                    Assert.Equal(expectedPassword, actualPassword);
+                }
+            }
 
         }
 
         [Fact]
         public void NewPasswordShouldBeAddedToExistingUser()
         {
-            var inMemoryDbContext = TestContextBuilder.GetInMemContext();
-            IUnitOfWork<Guid> unitOfWork = GetUnitOfWork(inMemoryDbContext);
-            var newUser = new User
+
+            using (var factory = new ContextFactory())
             {
-                Email = "ole@tester.no"
-            };
+                using (var unitofwork = new UnitOfWork(factory.CreateContext()))
+                {
+                    // Arrange
+                    var newUser = new User
+                    {
+                        Email = "ole@tester.no"
+                    };
 
-            unitOfWork.Users.Add(newUser);
-            unitOfWork.Complete();
+                    unitofwork.Users.Add(newUser);
+                    unitofwork.Complete();
 
-            var user = unitOfWork.Users.GetByUserName(newUser.Email);
+                    // Act
+                    var pwHash = "sda876h65";
+                    var foundUser = unitofwork.Users.GetByUserName(newUser.Email);
+                    unitofwork.Users.AddPassword(foundUser, pwHash);
+                    unitofwork.Complete();
 
-            var pwHash = "sda876h65";
-            unitOfWork.Users.AddPassword(user, pwHash);
-            unitOfWork.Complete();
-
-            var passwordEntity = inMemoryDbContext.Set<Password>().Find(user.PasswordId);
-            Assert.NotNull(passwordEntity);
-            Assert.Equal(pwHash, passwordEntity.Hash);
-
-
-        }
-
-        //[Fact]
-        //public void Add_Password()
-        //{
-        //    IPasswordRepository<Guid> pwRepo = GetInMemoryPasswordRepository();
-        //    Password pw = new Password
-        //    {
-        //        PasswordId = new Guid(),
-        //        Hash = "b7tk4uia="
-        //    };
-        //    pwRepo.Add(pw);
-
-        //}
+                    // Assert
+                    var passwordEntity = unitofwork.Passwords.Get(foundUser.PasswordId.Value);
+                    Assert.NotNull(passwordEntity);
+                    Assert.Equal(pwHash, passwordEntity.Hash);
+                }
+            }
 
 
-        private IUnitOfWork<Guid> GetUnitOfWork()
-        {
-            var inMemoryDbContext = TestContextBuilder.GetInMemContext();
-            UnitOfWork unitOfWork = new UnitOfWork(inMemoryDbContext);
-
-            return unitOfWork;
-        }
-
-        private IUnitOfWork<Guid> GetUnitOfWork(open_ssnContext context)
-        {
-            return new UnitOfWork(context);
-        }
-
-        private IPasswordRepository<Guid> GetInMemoryPasswordRepository()
-        {
-            DbContextOptions<open_ssnContext> options;
-            var builder = new DbContextOptionsBuilder<open_ssnContext>();
-            builder.UseInMemoryDatabase("PasswordDatabase");
-            options = builder.Options;
-            open_ssnContext open_ssn_datacontext = new open_ssnContext(options);
-            open_ssn_datacontext.Database.EnsureDeleted();
-            open_ssn_datacontext.Database.EnsureCreated();
-            return new PasswordRepository(open_ssn_datacontext);
-        }
-
-        private IUserRepository<Guid> GetInMemoryUserRepository()
-        {
-            DbContextOptions<open_ssnContext> options;
-            var builder = new DbContextOptionsBuilder<open_ssnContext>();
-            builder.UseInMemoryDatabase("PersonDatabase");
-            options = builder.Options;
-            open_ssnContext open_ssn_datacontext = new open_ssnContext(options);
-            open_ssn_datacontext.Database.EnsureDeleted();
-            open_ssn_datacontext.Database.EnsureCreated();
-            return new UserRepository(open_ssn_datacontext);
         }
 
     }

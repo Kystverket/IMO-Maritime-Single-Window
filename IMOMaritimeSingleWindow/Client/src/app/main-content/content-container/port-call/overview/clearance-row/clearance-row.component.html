@@ -1,0 +1,13 @@
+<div class="no-wrap">
+  <span *ngFor="let clearance of clearanceList">
+    <span class="badge badge-warning" ngbTooltip="Not reviewed by {{ clearance.organization.name }}" *ngIf="clearance.cleared === null">
+      <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px">
+    </span>
+    <span class="badge badge-success" ngbTooltip="Cleared by {{ clearance.organization.name }}" *ngIf="clearance.cleared === true">
+      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="16px">
+    </span>
+    <span class="badge badge-danger" ngbTooltip="Rejected by {{ clearance.organization.name }}" *ngIf="clearance.cleared === false">
+      <img src="assets/images/VoyageIcons/128x128/white/rejected.png" height="16px">
+    </span>
+  </span>
+</div>

@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { PortCallService } from '../../../shared/services/port-call.service';
-import { SharedModule } from '../../../shared/shared.module';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
 import { NewPortCallDraftComponent } from './new-port-call-draft/new-port-call-draft.component';
@@ -19,7 +19,6 @@ import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
 import { FormsComponent } from './registration/forms/forms.component';
-import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PortCallDetailsComponent } from './registration/forms/port-call-details/port-call-details.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
@@ -27,6 +26,9 @@ import { SaveDetailsComponent } from './registration/forms/port-call-details/sav
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+// tslint:disable-next-line:max-line-length
+import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
+import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 
 @NgModule({
   imports: [
@@ -39,7 +41,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ConfirmationModule,
     SharedModule
   ],
-  entryComponents: [ButtonRowComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent],
   declarations: [
     RegistrationComponent,
     ProgressBarComponent,
@@ -60,6 +62,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ClearanceComponent,
     SaveDetailsComponent,
     NewPortCallDraftComponent,
+    ClearanceRowComponent
   ],
   exports: [
     PortCallComponent,
@@ -68,8 +71,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ViewPortCallComponent,
     ClearanceComponent
   ],
-  providers: [
-    PortCallService
-  ]
+  providers: [PortCallService]
 })
-export class PortCallModule { }
+export class PortCallModule {}

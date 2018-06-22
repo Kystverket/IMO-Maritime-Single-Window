@@ -23,13 +23,21 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         }
 
-        [HttpGet("getall")]
+        /// <summary>
+        /// Gets all existing claims
+        /// </summary>
+        /// <returns>A list of claims</returns>
+        [HttpGet()]
         public IActionResult GetAll()
         {
             var claimList = _unitOfWork.GetAllClaims().ToList();
             return Json(claimList);
         }
 
+        /// <summary>
+        /// Gets all claims of type portcall
+        /// </summary>
+        /// <returns>A list of claims</returns>
         [HttpGet("type/portcall")]
         public IActionResult GetAllTypePortCall()
         {
@@ -45,6 +53,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets all claims of type menu
+        /// </summary>
+        /// <returns>A list of claims</returns>
         [HttpGet("type/menu")]
         public IActionResult GetAllTypeMenu()
         {

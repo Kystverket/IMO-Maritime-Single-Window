@@ -1,0 +1,6 @@
+const SEARCH_AMOUNTS = {
+    DROPDOWN: 6,
+    WITHOUT_DROPDOWN: 100
+};
+
+export { SEARCH_AMOUNTS };

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { ShipProperties } from '../../../../../shared/constants/ship-properties';
-import { ConstantsService } from '../../../../../shared/services/constants.service';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { ShipService } from '../../../../../shared/services/ship.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ShipProperties } from 'app/shared/constants/ship-properties';
+import { ConstantsService } from 'app/shared/services/constants.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-view-ship-info',
@@ -13,10 +13,11 @@ import { ShipService } from '../../../../../shared/services/ship.service';
 })
 export class ViewShipInfoComponent implements OnInit {
 
-  shipFound: boolean = false;
+  shipFound = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
+  showTable = false;
 
   deselectShip() {
     this.shipFound = false;
@@ -24,7 +25,16 @@ export class ViewShipInfoComponent implements OnInit {
   }
 
   registerNewShip() {
+    this.shipService.setShipOverviewData(null);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
+  }
+
+  editShip() {
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);
+  }
+
+  searchShips() {
+    this.showTable = true;
   }
 
   constructor(private shipService: ShipService, private contentService: ContentService) { }
@@ -39,6 +49,6 @@ export class ViewShipInfoComponent implements OnInit {
           this.shipFound = false;
         }
       }
-    )
+    );
   }
 }

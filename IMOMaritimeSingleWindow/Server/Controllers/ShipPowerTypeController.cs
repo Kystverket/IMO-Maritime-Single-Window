@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipPowerType);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<ShipPowerType> resultList = _context.ShipPowerType.ToList();

@@ -8,15 +8,10 @@ using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class PasswordRepository : Repository<Password, Guid>, IPasswordRepository<Guid>
+    public class PasswordRepository : EFConcreteRepository<Password, Guid>, IPasswordRepository<Guid>
     {
-        public PasswordRepository(open_ssnContext context) : base(context)
+        public PasswordRepository(IDbContext context) : base(context)
         {
-        }
-
-        public void Update(Password password)
-        {
-            Context.Set<Password>().Update(password);
         }
 
     }
