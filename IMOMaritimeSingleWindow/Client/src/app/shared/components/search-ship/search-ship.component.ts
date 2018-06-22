@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ShipService } from 'app/shared/services/ship.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { ShipService } from '../../services/ship.service';
+import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
 
 @Component({
   selector: 'app-search-ship',
@@ -11,12 +12,19 @@ import { ShipService } from '../../services/ship.service';
 })
 export class SearchShipComponent implements OnInit {
 
+  @Input() showDropdown = true;
+  resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
+  resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN;
+
   shipModel: any;
+  searchText: any;
   shipSelected = false;
 
   searching = false;
   searchFailed = false;
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  hideSearchingWhenUnsubscribed = new Observable(() => () =>
+    (this.searching = false)
+  );
 
   constructor(private shipService: ShipService) { }
 
@@ -24,30 +32,48 @@ export class SearchShipComponent implements OnInit {
     text$.pipe(
       debounceTime(150),
       distinctUntilChanged(),
-      tap((term) => {
+      tap(term => {
         this.searchFailed = false;
-        this.searching = (term.length >= 2)
+        this.searching = (term.length >= 2);
       }),
-      switchMap(term =>
-        this.shipService.search(term).pipe(
-          tap(() => this.searchFailed = false),
+      switchMap(term => (this.showDropdown) ?
+        this.shipService.search(term, this.resultsDropdown).pipe(
+          tap(() => {
+            this.searchFailed = false;
+          }),
           catchError(() => {
             this.searchFailed = true;
             return of([]);
-          }))
+          })
+        ) : of([])
       ),
-      tap((res) => {
-        this.searching = false;
-        this.searchFailed = (this.shipModel.length >= 2 && res.length === 0);
+      tap(res => {
+        if (this.showDropdown) {
+          this.searching = false;
+          this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
+        } else {
+          this.shipService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
+            data => {
+              this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
+              this.shipService.setShipSearchData(data);
+              this.searching = false;
+            });
+        }
       }),
       merge(this.hideSearchingWhenUnsubscribed)
-    );
+    )
   formatter = (x: { shipId: string }) => x.shipId;
 
   selectShip($event) {
     this.shipSelected = true;
     this.shipModel = $event.item;
-    this.shipService.setShipOverviewData(this.shipModel);
+    this.shipService.getShip($event.item.shipId).subscribe(
+      result => {
+        if (result) {
+          this.shipService.setShipOverviewData(result);
+        }
+      }
+    );
   }
 
   deselectShip() {
@@ -55,10 +81,7 @@ export class SearchShipComponent implements OnInit {
     this.shipService.setShipOverviewData(null);
   }
 
-
-
   ngOnInit() {
     this.shipService.setShipOverviewData(null);
   }
-
 }

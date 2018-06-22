@@ -23,19 +23,19 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
         {
         }
 
-        [Test]
-        public async Task CanAddUserToRole()
-        {
-            var user = UnitOfWork.Users.GetByNormalizedUserName("TEST@TEST.NO");
-            var appUser = Mapper.Map<User, ApplicationUser>(user);
-            var result = UserStore.AddToRoleAsync(appUser, "CUSTOMS").IsCompletedSuccessfully;
+        //[Test]
+        //public async Task CanAddUserToRole()
+        //{
+        //    var user = UnitOfWork.Users.GetByNormalizedUserName("TEST@TEST.NO");
+        //    var appUser = Mapper.Map<User, ApplicationUser>(user);
+        //    var result = UserStore.AddToRoleAsync(appUser, "CUSTOMS").IsCompletedSuccessfully;
 
-            var updatedUser = UnitOfWork.Users.GetByNormalizedUserName("TEST@TEST.NO");
+        //    var updatedUser = UnitOfWork.Users.GetByNormalizedUserName("TEST@TEST.NO");
 
-            Assert.AreEqual(updatedUser.Role.NormalizedName, "CUSTOMS");
+        //    Assert.AreEqual(updatedUser.Role.NormalizedName, "CUSTOMS");
 
-            Assert.True(true);
-        }
+        //    Assert.True(true);
+        //}
 
     }
 }

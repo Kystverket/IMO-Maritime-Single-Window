@@ -1,4 +1,4 @@
-<ssn-card header="Reporting for this Port Call" icon="verification-clipboard.png">
+<app-ssn-card header="Reporting for this Port Call" icon="verification-clipboard.png">
   <form class="form-inline">
     <div class="form-check mx-2" *ngFor="let cb of checkboxes">
       <input class="form-check-input clickable" type="checkbox" id="{{cb.name}}" [checked]="cb.checked" (change)="checkboxChecked(cb)">
@@ -7,4 +7,4 @@
       </label>
     </div>
   </form>
-</ssn-card>
+</app-ssn-card>

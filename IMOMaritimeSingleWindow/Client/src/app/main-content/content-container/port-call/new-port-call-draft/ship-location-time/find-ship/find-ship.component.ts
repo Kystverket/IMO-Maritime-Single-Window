@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ShipProperties } from '../../../../../../shared/constants/ship-properties';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
-import { ShipService } from '../../../../../../shared/services/ship.service';
+import { ShipProperties } from 'app/shared/constants/ship-properties';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-find-ship',
@@ -12,7 +12,7 @@ import { ShipService } from '../../../../../../shared/services/ship.service';
 export class FindShipComponent implements OnInit {
 
   shipFlag: string;
-  shipFound: boolean = false;
+  shipFound = false;
 
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
@@ -29,15 +29,15 @@ export class FindShipComponent implements OnInit {
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {
-          this.shipFlag = (shipResult.country) ? shipResult.country.twoCharCode.toLowerCase() : null;
+          this.shipFlag = (shipResult.shipFlagCode.country) ? shipResult.shipFlagCode.country.twoCharCode.toLowerCase() : null;
           this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
           this.shipProperties.SHIP_STATUS.data = (shipResult.shipStatus) ? shipResult.shipStatus.name : null;
-          this.shipProperties.SHIP_NAME.data = shipResult.ship.name;
-          this.shipProperties.CALL_SIGN.data = shipResult.ship.callSign;
-          this.shipProperties.IMO_NO.data = shipResult.ship.imoNo;
-          this.shipProperties.MMSI_NO.data = shipResult.ship.mmsiNo;
-          this.shipProperties.GROSS_TONNAGE.data = shipResult.ship.grossTonnage;
-          this.shipProperties.LENGTH.data = shipResult.ship.length;
+          this.shipProperties.SHIP_NAME.data = shipResult.name;
+          this.shipProperties.CALL_SIGN.data = shipResult.callSign;
+          this.shipProperties.IMO_NO.data = shipResult.imoNo;
+          this.shipProperties.MMSI_NO.data = shipResult.mmsiNo;
+          this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
+          this.shipProperties.LENGTH.data = shipResult.length;
 
           this.shipFound = true;
           this.portCallService.setShipData(shipResult);
@@ -49,6 +49,6 @@ export class FindShipComponent implements OnInit {
         }
         this.shipInfo = Object.values(this.shipProperties);
       }
-    )
+    );
   }
 }

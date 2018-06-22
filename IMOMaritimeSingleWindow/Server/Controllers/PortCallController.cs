@@ -19,11 +19,39 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class PortCallController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-        public PortCallController(open_ssnContext context)
+        public PortCallController(IDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet("partialOverview/{portCallId}")]
+        public IActionResult GetPartialOverviewJson(int portCallId)
+        {
+            var overview = GetPartialOverview(portCallId);
+            return Json(overview);
+        }
+        private PortCallOverview GetPartialOverview(int portCallId)
+        {
+            List<Organization> orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).ToList();
+
+            var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+            .Include(pc => pc.Ship.ShipFlagCode.Country)
+            .Include(pc => pc.Location.Country)
+            .Include(pc => pc.OrganizationPortCall)
+            .Include(pc => pc.PortCallStatus).FirstOrDefault();
+            PortCallOverview overview = new PortCallOverview();
+            overview.PortCall = portCall;
+
+            overview.Ship = portCall.Ship;
+            overview.Location = portCall.Location;
+            overview.Status = portCall.PortCallStatus.Name;
+            overview.ClearanceList = (from opc in portCall.OrganizationPortCall
+                                      join o in orgList
+                                      on opc.OrganizationId equals o.OrganizationId
+                                      select opc).ToList();
+            return overview;
         }
 
         private PortCallOverview GetOverview(int portCallId)
@@ -42,15 +70,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
-            overview.ShipOverview = new ShipOverview
-            {
-                Ship = portCall.Ship,
-                ShipType = portCall.Ship.ShipType,
-                Country = portCall.Ship.ShipFlagCode.Country,
-                ShipStatus = portCall.Ship.ShipStatus,
-                ContactList = portCall.Ship.ShipContact.ToList()
-            };
-            overview.LocationOverview = new LocationOverview { Location = portCall.Location, Country = portCall.Location.Country };
+            overview.Ship = portCall.Ship;
+            overview.Location = portCall.Location;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList
@@ -68,7 +89,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [Authorize]
-        [HttpGet("foruser")]
+        [HttpGet("user")]
         public IActionResult GetPortCallsByUser()
         {
             List<PortCall> portCallList = new List<PortCall>();
@@ -111,7 +132,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
-                // Other government agencies not listed in Constants.Strings.UserRoles
+                // Other authorities not listed in Constants.Strings.UserRoles
                 default:
                     if (dbUser.Organization.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY)
                     {
@@ -127,7 +148,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
         }
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.EDIT)]
-        [HttpPost("update")]
+        [HttpPut()]
         public IActionResult Update([FromBody] PortCall portCall)
         {
             if (portCall == null)
@@ -195,7 +216,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
-        [HttpPost("delete")]
+        [HttpDelete()]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)
         {
             Console.WriteLine(portCall.PortCallId + "\n" + portCall.UserId.ToString());
@@ -234,8 +255,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.REGISTER)]
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] PortCall portCall)
+        [HttpPost()]
+        public IActionResult RegisterNewPortCall([FromBody] PortCall portCall)
         {
             try
             {
@@ -243,9 +264,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 portCall.UserId = Guid.Parse(userId);
                 var statusDraftId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
                 portCall.PortCallStatusId = statusDraftId;
-                _context.PortCall.Add(portCall);
-                _context.SaveChanges();
-                return Json(portCall);
+                return RegisterPortCall(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {
@@ -254,33 +273,40 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-
-        [HttpGet("get/{id}")]
-        public JsonResult Get(int id)
+        public IActionResult RegisterPortCall(PortCall portCall)
         {
-            PortCall portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == id);
-            if (portCall == null)
+            if (!ModelState.IsValid)
             {
-                return null;
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.PortCall.Add(portCall);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
             }
             return Json(portCall);
         }
 
-        [HttpGet("location/{id}")]
-        public IActionResult GetByLocationJson(int id)
+
+
+
+        [HttpGet("get/{id}")]
+        public IActionResult GetPortCallJson(int id)
         {
-            List<PortCall> results = GetByLocation(id);
-            return Json(results);
+            var portCall = GetPortCall(id);
+            return Json(portCall);
         }
 
-        public List<PortCall> GetByLocation(int id)
+        public PortCall GetPortCall(int id)
         {
-            return (from pc in _context.PortCall
-                    where pc.LocationId == id
-                    select pc).ToList();
+            return _context.PortCall.Where(pc => pc.PortCallId == id).FirstOrDefault();
         }
 
-        [HttpGet("get")]
+        [HttpGet()]
         public IActionResult GetAllJson()
         {
             List<PortCall> results = GetAll();
@@ -289,8 +315,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         public List<PortCall> GetAll()
         {
-            return (from pc in _context.PortCall
-                    select pc).OrderBy(x => x.PortCallId).ToList();
+            return _context.PortCall.OrderBy(pc => pc.PortCallId).ToList();
         }
 
         [HttpGet("overview")]

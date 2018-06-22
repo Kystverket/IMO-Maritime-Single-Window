@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { locateHostElement } from '@angular/core/src/render3/instructions';
-import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
 import { NgForm } from '@angular/forms';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
 
 @Component({
   selector: 'app-crew-passengers-dimensions',
@@ -33,8 +32,6 @@ export class CrewPassengersDimensionsComponent implements OnInit {
   }
 
   persistData() {
-    console.log(this.crewPassengersAndDimensionsModel);
-    
     this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
 

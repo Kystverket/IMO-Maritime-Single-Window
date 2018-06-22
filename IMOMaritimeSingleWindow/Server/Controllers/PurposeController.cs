@@ -21,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("all")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<PortCallPurpose> resultList = _context.PortCallPurpose.Where(p => !EF.Functions.ILike(p.Name, "Other")).OrderBy(p => p.Name).ToList();
@@ -41,7 +41,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         }
 
-        [HttpGet("get/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             PortCallPurpose purpose = _context.PortCallPurpose.FirstOrDefault(p => p.PortCallPurposeId == id);
@@ -52,7 +52,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(purpose);
         }
 
-        [HttpGet("getothername/{portCallId}")]
+        [HttpGet("othername/{portCallId}")]
         public IActionResult GetOtherName(int portCallId)
         {
             var otherName = _context.PortCallHasPortCallPurpose.Where(pc => pc.PortCallId == portCallId && pc.PurposeIfUnknown != null).Select(pc => pc.PurposeIfUnknown).FirstOrDefault();
@@ -63,7 +63,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return BadRequest("Other name not found.");
         }
 
-        [HttpPost("removepurposeforportcall/{portCallId}")]
+        [HttpDelete("portcall/{portCallId}")]
         public IActionResult RemovePurposeForPortCall(int portCallId)
         {
             try
@@ -80,7 +80,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("setpurposeforportcall")]
+        [HttpPut("portcall")]
         public IActionResult SetPurposeForPortCall([FromBody] List<PortCallHasPortCallPurpose> pcHasPurposeList)
         {
             try

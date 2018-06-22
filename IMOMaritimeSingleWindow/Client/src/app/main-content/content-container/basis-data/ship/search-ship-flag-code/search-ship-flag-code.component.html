@@ -1,9 +1,9 @@
-<ssn-card header="Flag Code" icon="flag.png">
+<app-ssn-card header="Flag Code" icon="flag.png">
     <div class="card-body">
         <ng-template #rt let-r="result" let-t="term">
             <img *ngIf="r.country.twoCharCode" src="assets/images/Flags/{{ r.country.twoCharCode.toLowerCase() }}.png" height="16px"
             />
-            <strong *ngIf="r.shipFlagCode.name">Code: </strong> {{ r.shipFlagCode.name }}
+            <strong *ngIf="r.name">Code: </strong> {{ r.name }}
             <strong *ngIf="r.country.name">Country: </strong> {{ r.country.name }}
         </ng-template>
 
@@ -44,7 +44,7 @@
                             <td>
                                 <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
                             </td>
-                            <td>{{ shipFlagCodeModel.shipFlagCode.name }}</td>
+                            <td>{{ shipFlagCodeModel.name }}</td>
                             <td>{{ shipFlagCodeModel.country.name }}</td>
                         </tr>
                     </tbody>
@@ -54,4 +54,4 @@
                 <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
     </div>
-</ssn-card>
+</app-ssn-card>

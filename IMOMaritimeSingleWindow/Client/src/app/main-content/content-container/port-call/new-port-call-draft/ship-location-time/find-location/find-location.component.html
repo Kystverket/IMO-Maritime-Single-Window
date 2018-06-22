@@ -1,7 +1,7 @@
-<ssn-card header="Select Location" icon="location.png">
+<app-ssn-card header="Select Location" icon="location.png">
 
     <div *ngIf="!locationFound" class="text-center">
-        <app-search-harbour></app-search-harbour>
+        <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
     </div>
 
     <div *ngIf="locationFound" class="text-center">
@@ -25,4 +25,4 @@
         <button class="btn btn-ssn" (click)="deselectLocation()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-</ssn-card>
+</app-ssn-card>

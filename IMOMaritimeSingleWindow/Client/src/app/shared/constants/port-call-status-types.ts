@@ -1,8 +1,8 @@
 export class PortCallStatusTypes {
-    static ACTIVE = "Active";
-    static DRAFT = "Draft";
-    static CANCELLED = "Cancelled";
-    static COMPLETED = "Completed";
+  static ACTIVE = 'Active';
+  static DRAFT = 'Draft';
+  static CANCELLED = 'Cancelled';
+  static COMPLETED = 'Completed';
 
-    static DRAFT_ID = 100235;
+  static DRAFT_ID = 100235;
 }

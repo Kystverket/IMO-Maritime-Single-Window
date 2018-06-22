@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipSource);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             List<ShipSource> resultList = _context.ShipSource.ToList();

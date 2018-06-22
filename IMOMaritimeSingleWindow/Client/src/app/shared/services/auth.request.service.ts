@@ -1,20 +1,16 @@
-import { Injectable } from "@angular/core";
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { BaseRequest } from "../utils/base.request";
-import { ConfigService } from "../utils/config.service";
+import { Injectable } from '@angular/core';
+import { Headers, Http } from '@angular/http';
 
 @Injectable()
 export class AuthRequest {
+  constructor(private http: Http) {}
 
-    constructor(
-        private http: Http
-    ) {
-    }
-
-    GetHeaders() {
-        let headers = new Headers();
-        headers.append('Authorization', 'Bearer ' + localStorage.getItem('auth_token'));
-        return headers;
-    }
-
+  GetHeaders() {
+    const headers = new Headers();
+    headers.append(
+      'Authorization',
+      'Bearer ' + localStorage.getItem('auth_token')
+    );
+    return headers;
+  }
 }

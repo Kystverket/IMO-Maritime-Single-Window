@@ -1,16 +1,8 @@
-<div class="jumbotron bg-ssn-light text-center">
-  <div class="row">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">REGISTER SHIP</h3>
-    </div>
-  </div>
+<app-ssn-bg header="{{ shipHeader }}" icon="ship.png">
   <form #form="ngForm">
     <div class="row">
       <div class="col">
-        <ssn-card header="Ship Identification" icon="ship.png">
+        <app-ssn-card header="Ship Identification" icon="ship.png">
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group row">
@@ -71,27 +63,20 @@
               </div>
             </div>
           </div>
-        </ssn-card>
+        </app-ssn-card>
       </div>
     </div>
 
     <div class="row">
       <div class="col">
-        <ssn-card header="Ship Details" icon="ship.png">
-
+        <app-ssn-card header="Ship Details" icon="ship.png">
           <div class="row">
             <div class="col-lg-6" *ngIf="!shipTypeSelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_typeahead">Ship Type</label>
-                <ng-template #rt let-r="result" let-t="term">{{ r.name }}</ng-template>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_select">Ship Type</label>
                 <div class="col">
-                  <input id="ship_type_typeahead" name="ship_type_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedShipType"
-                    [ngbTypeahead]="shipTypeSearch" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Search for a ship type"
-                    (selectItem)="selectShipType($event)" #stt />
-                </div>
-                <div *ngIf="shipTypeSearchFailed && stt.value != ''" class="col-3 text-center">
-                  <small class="no-wrap">No</small>
-                  <small class="no-wrap">results</small>
+                  <ng-select id="ship_type_select" name="ship_type_select" [items]="shipTypeList" [multiple]="false" [closeOnSelect]="true"
+                    bindLabel="name" placeholder="Select ship type" [(ngModel)]="selectedShipType" (change)="selectShipType($event)"></ng-select>
                 </div>
               </div>
             </div>
@@ -363,7 +348,7 @@
             <label class="col-form-label-sm" for="remark">Remark</label>
             <textarea [(ngModel)]="shipModel.remark" name="remark" class="form-control form-control-sm" rows="4" id="remark"></textarea>
           </div>
-        </ssn-card>
+        </app-ssn-card>
       </div>
     </div>
   </form>
@@ -376,13 +361,13 @@
 
   <div class="row">
     <div class="col">
-      <app-contact-select></app-contact-select>
+      <app-select-ship-contact></app-select-ship-contact>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Organization" icon="pax.png">
+      <app-ssn-card header="Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
           <app-search-organization></app-search-organization>
         </div>
@@ -409,13 +394,13 @@
         </div>
 
 
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
-      <ssn-card header="Confirm Ship Registration" icon="checkmark.png">
+      <app-ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
 
         <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
           <div *ngIf="!form.valid" class="text-center">
@@ -443,7 +428,7 @@
             <p class="no-wrap mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" />{{ confirmButtonTitle }}</button>
         </div>
 
         <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected">
@@ -529,7 +514,7 @@
                   <td>
                     <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
                   </td>
-                  <td>{{ shipFlagCodeModel.shipFlagCode.name }}</td>
+                  <td>{{ shipFlagCodeModel.name }}</td>
                   <td>{{ shipFlagCodeModel.country.name }}</td>
                 </tr>
               </tbody>
@@ -556,9 +541,9 @@
           </div>
 
           <button class="btn btn-ssn" (click)="registerShip()">
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
-      </ssn-card>
+      </app-ssn-card>
     </div>
   </div>
-</div>
+</app-ssn-bg>

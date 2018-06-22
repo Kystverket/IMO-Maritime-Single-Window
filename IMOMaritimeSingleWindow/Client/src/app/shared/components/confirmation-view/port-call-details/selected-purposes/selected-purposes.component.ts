@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from '../../../../services/port-call.service';
-import { PurposeService } from '../../../../services/purpose.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { PurposeService } from 'app/shared/services/purpose.service';
 
-const OTHER_PURPOSE_ID = "100249";
+const OTHER_PURPOSE_ID = '100249';
 
 @Component({
   selector: 'app-selected-purposes',
@@ -11,41 +11,39 @@ const OTHER_PURPOSE_ID = "100249";
   providers: [PurposeService]
 })
 export class SelectedPurposesComponent implements OnInit {
-
   selectedPurposes: any;
   purposeList: any[];
 
-  otherPurposeName: string = "";
+  otherPurposeName = '';
 
-  constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
+  constructor(
+    private purposeService: PurposeService,
+    private portCallService: PortCallService
+  ) {}
 
   ngOnInit() {
-    this.purposeService.getPurposes().subscribe(
-      data => {
-        this.purposeList = data;
+    this.purposeService.getPurposes().subscribe(data => {
+      this.purposeList = data;
+    });
+    this.portCallService.portCallPurposeData$.subscribe(data => {
+      if (data != null) {
+        this.selectedPurposes = data;
       }
-    );
-    this.portCallService.portCallPurposeData$.subscribe(
-      data => {
-        if (data != null) {
-          this.selectedPurposes = data; 
-        }
-      }
-    );
-    this.portCallService.otherPurposeName$.subscribe(
-      data => {
-        this.otherPurposeName = data;
-      }
-    );
+    });
+    this.portCallService.otherPurposeName$.subscribe(data => {
+      this.otherPurposeName = data;
+    });
   }
 
   getPurposeName(id) {
     if (this.purposeList != null) {
-      let purpose = this.purposeList.find(p => p.portCallPurposeId == id);
-      if (purpose.portCallPurposeId != OTHER_PURPOSE_ID) {
+      const purpose = this.purposeList.find(p => p.portCallPurposeId === id);
+      if (purpose.portCallPurposeId !== OTHER_PURPOSE_ID) {
         return purpose != null ? purpose.name : null;
       } else {
-        return this.otherPurposeName == "" ? "Other purpose is undefined" : "Other: \"" + this.otherPurposeName + "\"";
+        return this.otherPurposeName === ''
+          ? 'Other purpose is undefined'
+          : 'Other: "' + this.otherPurposeName + '"';
       }
     }
   }

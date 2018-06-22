@@ -18,17 +18,21 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class ShipController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-        public ShipController(open_ssnContext context)
+        public ShipController(IDbContext context)
         {
             _context = context;
         }
 
         [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterShip([FromBody] Ship newShip)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 _context.Ship.Add(newShip);
@@ -36,60 +40,81 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+                return BadRequest(e);
             }
             return Json(newShip);
         }
-        
-        public List<Ship> SearchShip(string searchTerm)
-        {
 
-            return (from s in _context.Ship
-                    where EF.Functions.ILike(s.Name, searchTerm + '%')
-                    || EF.Functions.ILike(s.CallSign, searchTerm + '%')
-                    || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm + '%')
-                    || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm + '%')
-                    select s).Include(s => s.ShipStatus).Include(s => s.ShipContact).Take(10).ToList();
+        [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
+        [HttpPut()]
+        public IActionResult UpdateShip([FromBody] Ship ship)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Ship.Update(ship);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Json(ship);
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public JsonResult SearchShipWithFlag(string searchTerm)
+        public List<Ship> SearchShip(string searchTerm, int amount = 10)
         {
-
-            List<Ship> results = SearchShip(searchTerm);
-            List<ShipOverview> resultList = new List<ShipOverview>();
-
-            foreach (Ship s in results)
+            if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
             {
-
-                ShipOverview searchItem = new ShipOverview();
-                searchItem.Ship = s;
-
-                // Find country id so we can get the country's 2CC which is used to add flags
-                var cId = (from sfc in _context.ShipFlagCode
-                           where sfc.ShipFlagCodeId == s.ShipFlagCodeId
-                           select sfc.CountryId).FirstOrDefault();
-
-                searchItem.Country = (from c in _context.Country
-                                      where c.CountryId == cId
-                                      select c).FirstOrDefault();
-
-                searchItem.ShipType = (from st in _context.ShipType
-                                       where st.ShipTypeId == s.ShipTypeId
-                                       select st).FirstOrDefault();
-
-                searchItem.ShipStatus = s.ShipStatus;
-                searchItem.ContactList = s.ShipContact.ToList();
-                resultList.Add(searchItem);
-
+                searchTerm += '%';
+                return _context.Ship.Where(s =>
+                            EF.Functions.ILike(s.Name, searchTerm)
+                            || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
+                            || EF.Functions.ILike(s.CallSign, searchTerm)
+                            || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm)
+                            || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm))
+                            .Select(s => s)
+                            .Include(s => s.ShipFlagCode.Country)
+                            .Take(amount)
+                            .ToList();
             }
-            return Json(resultList);
+            searchTerm += '%';
+            return _context.Ship.Where(s =>
+                        EF.Functions.ILike(s.Name, searchTerm)
+                        || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
+                        || EF.Functions.ILike(s.CallSign, searchTerm))
+                        .Select(s => s)
+                        .Include(s => s.ShipFlagCode.Country)
+                        .Take(amount)
+                        .ToList();
+        }
+
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public JsonResult SearchShipJson(int amount, string searchTerm)
+        {
+            List<Ship> results = SearchShip(searchTerm, amount);
+            return Json(results);
         }
 
         [HttpGet("{id}")]
         public JsonResult GetShip(int id)
         {
-            Ship ship = _context.Ship.First(t => t.ShipId == id);
+            Ship ship = _context.Ship.Where(t => t.ShipId == id)
+                        .Include(s => s.ShipStatus)
+                        .Include(s => s.ShipContact)
+                            .ThenInclude(sc => sc.ContactMedium)
+                        .Include(s => s.ShipFlagCode.Country)
+                        .Include(s => s.ShipType)
+                        .Include(s => s.ShipPowerType)
+                        .Include(s => s.ShipLengthType)
+                        .Include(s => s.ShipSource)
+                        .Include(s => s.Organization)
+                        .Include(s => s.ShipHullType)
+                        .Include(s => s.ShipBreadthType)
+                        .FirstOrDefault();
             return Json(ship);
         }
 

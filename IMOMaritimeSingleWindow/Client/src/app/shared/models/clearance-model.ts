@@ -1,7 +1,7 @@
 export class ClearanceModel {
-    organizationPortCallId: number;
-    organizationId: number;
-    portCallId: number;
-    remark: string;
-    cleared: boolean;
+  organizationPortCallId: number;
+  organizationId: number;
+  portCallId: number;
+  remark: string;
+  cleared: boolean;
 }

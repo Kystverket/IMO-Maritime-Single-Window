@@ -18,6 +18,10 @@ namespace IMOMaritimeSingleWindow.Extensions
 {
     public static class IServiceCollectionExtensions
     {
+
+        // Method adopted from https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Startup.cs
+        // lines 49-94
+
         public static IServiceCollection AddJWTOptions(this IServiceCollection services, IConfiguration configuration)
         {
             // Get options from app settings

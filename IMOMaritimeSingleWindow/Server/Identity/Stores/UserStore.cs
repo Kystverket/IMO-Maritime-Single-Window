@@ -29,30 +29,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             _roleStore = roleStore;
         }
 
-
-        #region testmethods
-        public void MapTest(ApplicationUser user)
-        {
-            var _user = _mapper.Map<User>(user);
-        }
-
-        public User MapToUser(ApplicationUser user)
-        {
-            var _user = _mapper.Map<User>(user);
-            return _user;
-        }
-        public Password MapToPassword(ApplicationUser user)
-        {
-            var _password = _mapper.Map<Password>(user);
-            return _password;
-        }
-        public Person MapToPerson(ApplicationUser user)
-        {
-            var _person = _mapper.Map<Person>(user);
-            return _person;
-        }
-        #endregion
-
         public Task CreateAsync(User user)
         {
             throw new NotImplementedException();
@@ -61,32 +37,38 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         public Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            
+            int expectedObjectsAdded = 2; // User and Password entity
+
+            // Map properties from input object to User object
+            var _user = _mapper.Map<ApplicationUser, User>(user);
+
+            // Extract password from input object
             Password password = new Password
             {
                 Hash = user.PasswordHash
             };
-
-            var _user = _mapper.Map<ApplicationUser, User>(user);
             _user.Password = password;
 
             if (HasPerson(user))
             {
+                // Extract person details from input object
                 Person person = _mapper.Map<ApplicationUser, Person>(user);
                 _user.Person = person;
+                expectedObjectsAdded++;
             }
             
             _unitOfWork.Users.Add(_user);
 
             var objectsAdded = _unitOfWork.Complete();
-            if (objectsAdded ==1)
+            if (expectedObjectsAdded != objectsAdded)
                 return Task.FromResult(IdentityResult.Failed());
             return Task.FromResult(IdentityResult.Success);
         }
 
         public bool HasPerson(ApplicationUser user)
         {
-            return !String.IsNullOrEmpty(user.FirstName) && !String.IsNullOrEmpty(user.LastName);
+            // Require both GivenName and Surname to be present
+            return !String.IsNullOrEmpty(user.GivenName) && !String.IsNullOrEmpty(user.Surname);
         }
 
         public Task<IdentityResult> DeleteAsync(ApplicationUser user, CancellationToken cancellationToken = default)
@@ -98,17 +80,18 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             throw new NotImplementedException();
         }
 
-        private Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
+        private async Task<ApplicationUser> ConvertToApplicationUser(User user, CancellationToken cancellationToken = default)
         {
             if (!HasPassword(user).GetAwaiter().GetResult())
-                return Task.FromResult(_mapper.Map<User, ApplicationUser>(user));
+                return _mapper.Map<User, ApplicationUser>(user);
             else
             {
-                var passwordHash = GetPasswordHashAsync(user).GetAwaiter().GetResult();
+                // Retrieve passwordhash from password entity
+                var passwordHash = await GetPasswordHashAsync(user);
 
                 var appUser = _mapper.Map<ApplicationUser>(user);
-                SetPasswordHashAsync(appUser, passwordHash).GetAwaiter().GetResult();
-                return Task.FromResult(appUser);
+                await SetPasswordHashAsync(appUser, passwordHash);
+                return appUser;
             }
         }
         

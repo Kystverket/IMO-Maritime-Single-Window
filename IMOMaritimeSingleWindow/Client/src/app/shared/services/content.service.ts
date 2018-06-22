@@ -1,27 +1,36 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { AccountService } from './account.service';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
-import { CONTENT_NAMES } from '../constants/content-names';
+import { LoadingScreen } from '../interfaces/loading-screen.interface';
 
 @Injectable()
 export class ContentService extends BaseService {
-    private contentSource = new BehaviorSubject<string>(CONTENT_NAMES.VIEW_PORT_CALLS);
-    contentName$ = this.contentSource.asObservable();
+  private contentSource = new BehaviorSubject<string>(
+    CONTENT_NAMES.VIEW_PORT_CALLS
+  );
+  contentName$ = this.contentSource.asObservable();
 
-    private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
-    portCallFormName$ = this.portCallFormSource.asObservable();
+  private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
+  portCallFormName$ = this.portCallFormSource.asObservable();
 
-    constructor(private accountService: AccountService) {
-        super();
-    }
+  private loadingScreenSource = new BehaviorSubject<LoadingScreen>(null);
+  loadingScreen$ = this.loadingScreenSource.asObservable();
 
-    setContent(contentName: string) {
-        this.contentSource.next(contentName);
-    }
+  constructor() {
+    super();
+  }
 
-    setPortCallForm(contentName: string) {
-        this.portCallFormSource.next(contentName);
-    }
-    
+  setContent(contentName: string) {
+    this.setLoadingScreen(false, null, null);
+    this.contentSource.next(contentName);
+  }
+
+  setPortCallForm(contentName: string) {
+    this.portCallFormSource.next(contentName);
+  }
+
+  setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
+    this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
+  }
 }

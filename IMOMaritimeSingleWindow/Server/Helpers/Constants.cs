@@ -20,12 +20,6 @@ namespace IMOMaritimeSingleWindow.Helpers
             }
         }
 
-        public static class Guids
-        {
-            public const string CLAIM_TYPE_PORT_CALL_GUID = "5ce3757c-23a9-45ce-b68a-b6c7f06c7c2c";
-            public const string CLAIM_TYPE_MENU_GUID = "99ce0e81-867b-467d-a1a8-a098feb2b77b";
-        }
-
         public static class Strings
         {
             public static class DatabaseTableStrings
@@ -37,20 +31,20 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public static class Types
                 {
-                    public const string PORT_CALL   = "Port Call",
-                                        MENU        = "Menu",
-                                        USER        = "User",
-                                        SHIP        = "Ship",
-                                        LOCATION    = "Location",
+                    public const string PORT_CALL = "Port Call",
+                                        MENU = "Menu",
+                                        USER = "User",
+                                        SHIP = "Ship",
+                                        LOCATION = "Location",
                                         ORGANIZATION = "Organization";
                 }
                 public static class Values
                 {
-                    public const string REGISTER    = "Register",   // C - Create
-                                        VIEW        = "View",       // R - Read
-                                        EDIT        = "Edit",       // U - Update
-                                        DELETE      = "Delete",     // D - Delete
-                                        CLEARANCE   = "Clearance";
+                    public const string REGISTER = "Register",   // C - Create
+                                        VIEW = "View",       // R - Read
+                                        EDIT = "Edit",       // U - Update
+                                        DELETE = "Delete",     // D - Delete
+                                        CLEARANCE = "Clearance";
                     public static class MenuEntries
                     {
                         public const string USERS = "USERS";
@@ -61,7 +55,8 @@ namespace IMOMaritimeSingleWindow.Helpers
                     }
                 }
             }
-            
+
+            // Taken from https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Helpers/Constants.cs
             public static class JwtClaimIdentifiers
             {
                 public const string Rol = "rol", Id = "id";
@@ -82,7 +77,7 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string AdminRole = "AdminRole", SuperAdminRole = "SuperAdminRole";
             }
 
-            
+
 
 
         }

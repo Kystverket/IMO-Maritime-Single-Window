@@ -1,15 +1,16 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { OrganizationTypes } from 'app/shared/constants/organization-types';
+import { PortCallClaims } from 'app/shared/constants/port-call-claims';
+import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
+import { AccountService } from 'app/shared/services/account.service';
+import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
+import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { OrganizationTypes } from '../../../../shared/constants/organization-types';
-import { PortCallClaims } from '../../../../shared/constants/port-call-claims';
-import { PortCallStatusTypes } from '../../../../shared/constants/port-call-status-types';
-import { AccountService } from '../../../../shared/services/account.service';
-import { ContentService } from '../../../../shared/services/content.service';
-import { OrganizationService } from '../../../../shared/services/organization.service';
-import { PortCallOverviewService } from '../../../../shared/services/port-call-overview.service';
-import { PortCallService } from '../../../../shared/services/port-call.service';
 import { ButtonRowComponent } from './button-row/button-row.component';
+import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 
 @Component({
   selector: 'app-overview',
@@ -18,36 +19,36 @@ import { ButtonRowComponent } from './button-row/button-row.component';
   providers: [PortCallOverviewService, OrganizationService, DatePipe]
 })
 export class OverviewComponent implements OnInit {
-
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
+  cancelledOverviewList = [];
   clearedByUserAgencyOverviewList = [];
   userOrganization: any;
-  userIsGovernmentAgency: boolean = false;
+  userIsGovernmentAgency = false;
   overviewSource: LocalDataSource = new LocalDataSource();
   draftOverviewSource: LocalDataSource = new LocalDataSource();
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
-  overviewFound: boolean = false;
+  showCancelledPortCalls = false;
 
   // Smart table
   tableSettings = {
     mode: 'external',
     actions: false,
     attr: {
-      class: 'table table-bordered',
+      class: 'table table-bordered'
     },
-    noDataMessage: '',
+    noDataMessage: 'There are no port calls in this list.',
 
     columns: {
       shipName: {
         title: 'Ship Name',
-        type: 'html',
+        type: 'html'
       },
       callSign: {
         title: 'Call Sign',
-        type: 'html',
+        type: 'html'
       },
       locationName: {
         title: 'Location Name',
@@ -55,13 +56,22 @@ export class OverviewComponent implements OnInit {
       },
       eta: {
         title: 'ETA',
+        type: 'html'
       },
       etd: {
-        title: 'ETD'
+        title: 'ETD',
+        type: 'html'
       },
       status: {
         title: 'Status',
         type: 'html'
+      },
+      clearances: {
+        title: 'Clearances',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ClearanceRowComponent
       },
       actions: {
         title: 'Actions',
@@ -69,88 +79,136 @@ export class OverviewComponent implements OnInit {
         filter: false,
         sort: false,
         renderComponent: ButtonRowComponent
-      },
-
+      }
     }
-  }
+  };
 
-  overviewRow(ov, isCancelled: boolean) {
-    let row = {
+  overviewRow(ov) {
+    const row = {
       overviewModel: ov,
-      shipName: `<div hidden>` + ov.shipOverview.ship.name // ugly fix for alphabetical sorting but it works
-        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.shipOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.shipOverview.ship.name + `</div>`,
-      callSign: ov.shipOverview.ship.callSign || `<div class="font-italic">Not provided.</div>`,
-      locationName: `<div hidden>` + ov.locationOverview.location.name // same ugly fix as ship name
-        + `</div> <div> <img src='assets/images/Flags/128x128/` + ov.locationOverview.country.twoCharCode.toLowerCase() + `.png' height='20px'/> ` + ov.locationOverview.location.name + `</div>`,
-      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
-      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
-      status: (isCancelled) ? `<div class="text-danger">` + ov.status + `</div>` : ov.status,
+      shipName:
+        `<div class="no-wrap"><div hidden>` +
+        ov.ship.name + // ugly fix for alphabetical sorting but it works
+        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
+        `.png' height='20px'/> ` +
+        ov.ship.name +
+        `</div></div>`,
+      callSign:
+        ov.ship.callSign ||
+        `<span class="font-italic no-wrap">Not provided.</span>`,
+      locationName:
+        `<div hidden>` +
+        ov.location.name + // same ugly fix as ship name
+        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        ov.location.country.twoCharCode.toLowerCase() +
+        `.png' height='20px'/> ` +
+        ov.location.name +
+        `</div>`,
+      eta:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+        `</span>`,
+      etd:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+        `</span>`,
+      status:
+        ov.status === PortCallStatusTypes.CANCELLED
+          ? `<div class="text-danger">` + ov.status + `</div>`
+          : ov.status,
+      clearances:
+        'clearances',
       actions: 'btn'
-    }
+    };
     return row;
   }
 
   loadOverview() {
-    this.overviewService.overviewData$.subscribe(
-      results => {
-        if (results) {
-          this.overviewSource.load(results);
+    this.overviewService.showCancelledPortCall$.subscribe(showCancelledPortCalls => {
+      if (showCancelledPortCalls !== null) {
+        this.showCancelledPortCalls = showCancelledPortCalls;
+        let portCallList = this.overviewList;
+        if (showCancelledPortCalls) {
+          portCallList = portCallList.concat(this.cancelledOverviewList);
         }
+        this.overviewService.setOverviewData(portCallList.sort(
+          (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+        ));
       }
-    );
-    this.overviewService.draftOverviewData$.subscribe(
-      results => {
+    });
+    this.overviewService.overviewData$.subscribe(results => {
+      if (results) {
+        this.overviewSource.load(results);
+      }
+    });
+    if (!this.userIsGovernmentAgency) {
+      this.overviewService.draftOverviewData$.subscribe(results => {
         if (results) {
           this.draftOverviewSource.load(results);
         }
-      }
-    );
-    this.overviewService.clearedByUserAgencyOverviewData$.subscribe(
-      results => {
+      });
+    } else {
+      this.overviewService.clearedByUserAgencyOverviewData$.subscribe(results => {
         if (results) {
           this.clearedByUserAgencyOverviewSource.load(results);
         }
-      }
-    )
+      });
+    }
+
     this.overviewService.getPortCalls().subscribe(
       pcData => {
         if (pcData) {
+          this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
           if (pcData.length === 0) {
-            this.overviewFound = true;
+            this.contentService.setLoadingScreen(false, null, null);
           } else {
             let index = 0;
-            let finalIndex = pcData.length - 1;
-            pcData.forEach((pc) => {
-              this.overviewService.getOverview(pc.portCallId).subscribe(
+            const finalIndex = pcData.length - 1;
+            pcData.forEach(pc => {
+              this.overviewService.getPartialOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
-                    let row = this.overviewRow(ov, ov.status == PortCallStatusTypes.CANCELLED);
+                    const row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
-                    if (ov.status == PortCallStatusTypes.DRAFT) {
+                    if (ov.status === PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
-                    }
-                    // Case: user is a government clearance agency and the port call has already been cleared by the agency
-                    else if (this.userIsGovernmentAgency
-                      && ov.clearanceList
-                      && ov.clearanceList.some(clearance => clearance.organizationId == this.userOrganization.organizationId && clearance.cleared != null)) {
+                    } else if (
+                      this.userIsGovernmentAgency &&
+                      ov.clearanceList &&
+                      ov.clearanceList.some(
+                        clearance => clearance.organizationId === this.userOrganization.organizationId && clearance.cleared != null
+                      )
+                    ) {
                       this.clearedByUserAgencyOverviewList.push(row);
-                    }
-                    // Case: default
-                    else {
+                    } else if (ov.status === PortCallStatusTypes.CANCELLED) {
+                      this.cancelledOverviewList.push(row);
+                    } else {
                       this.overviewList.push(row);
                     }
-                    this.overviewService.setOverviewData(this.overviewList);
+                    this.overviewService.setOverviewData(this.overviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
                     this.overviewService.setDraftData(this.draftOverviewList);
                     this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList);
                   }
-                }, undefined, () => {
-                  if (index++ >= finalIndex) this.overviewFound = true;
+                },
+                error => console.log(error),
+                () => {
+                  if (index++ >= finalIndex) {
+                    this.contentService.setLoadingScreen(false, null, null);
+                  }
                 }
-              )
+              );
             });
           }
         }
-      }
+      },
+      error => console.log(error)
     );
   }
 
@@ -160,31 +218,41 @@ export class OverviewComponent implements OnInit {
     private organizationService: OrganizationService,
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private overviewService: PortCallOverviewService) { }
+    private overviewService: PortCallOverviewService
+  ) { }
 
   ngOnInit() {
-    this.accountService.userClaimsData$.subscribe(
-      userClaims => {
-        if (userClaims) {
-          let userClaimsTypePortCall = userClaims.filter(claim => claim.type == PortCallClaims.TYPE); // Find user claims where claim type is Port Call
-          var keys = Object.keys(this.permissions);
-          keys.forEach(key => {
-            this.permissions[key] = (userClaimsTypePortCall.some(claim => claim.value.toUpperCase() == key.toString().toUpperCase()));
-          });
-        }
+    this.accountService.userClaimsData$.subscribe(userClaims => {
+      if (userClaims) {
+        const userClaimsTypePortCall = userClaims.filter(
+          claim => claim.type === PortCallClaims.TYPE
+        ); // Find user claims where claim type is Port Call
+        const keys = Object.keys(this.permissions);
+        keys.forEach(key => {
+          this.permissions[key] = userClaimsTypePortCall.some(
+            claim => claim.value.toUpperCase() === key.toString().toUpperCase()
+          );
+        });
       }
-    )
-    this.organizationService.getOrganizationForUser().subscribe(
-      organizationResult => {
+    });
+    this.organizationService
+      .getOrganizationForUser()
+      .subscribe(organizationResult => {
         if (organizationResult) {
-          this.userIsGovernmentAgency = (organizationResult.organizationType && organizationResult.organizationType.name == OrganizationTypes.GOVERNMENT_AGENCY_STRING);
+          this.userIsGovernmentAgency =
+            organizationResult.organizationType &&
+            organizationResult.organizationType.name ===
+            OrganizationTypes.GOVERNMENT_AGENCY_STRING;
           if (this.userIsGovernmentAgency) {
             this.portCallService.setClearance(organizationResult);
           }
         }
         this.userOrganization = organizationResult;
         this.loadOverview();
-      }
-    );
+      });
+  }
+
+  toggleCancelledPortCalls(showCancelled) {
+    this.overviewService.setShowCancelledPortCalls(showCancelled);
   }
 }

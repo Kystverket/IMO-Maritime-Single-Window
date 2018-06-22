@@ -19,7 +19,6 @@ namespace IMOMaritimeSingleWindow.Repositories
         /// <summary>
         /// Retrieves the entities from the repository matching the given primary key value.
         /// </summary>
-        /// <param name="predicate"></param>
         TEntity Get(TKey id);
         IEnumerable<TEntity> GetAll();
         /// <summary>
@@ -38,6 +37,7 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         void Remove(TEntity entity);
         void RemoveAll(IEnumerable<TEntity> entities);
+        void Update(TEntity entity);
 
         
     }

@@ -24,30 +24,19 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("search/{searchTerm}")]
         public IActionResult Search(string searchTerm)
         {
-            var matchingCountries = (from c in _context.Country
-                                     where EF.Functions.ILike(c.Name, searchTerm + '%')
-                                     select c).Take(10).ToList();
+            var countries = _context.Country.Where(c => EF.Functions.ILike(c.Name, searchTerm + '%'))
+                                            .Select(c => c)
+                                            .Include(c => c.ShipFlagCode)
+                                            .Take(10)
+                                            .ToList();
 
-            List<CountrySearchResult> resultList = new List<CountrySearchResult>();
-
-            foreach (Country c in matchingCountries)
-            {
-                CountrySearchResult searchItem = new CountrySearchResult();
-                searchItem.Country = c;
-
-                searchItem.ShipFlagCodes = (from fc in _context.ShipFlagCode
-                                    where fc.CountryId == c.CountryId
-                                    select fc).ToList();
-
-                resultList.Add(searchItem);
-            }
-            return Json(resultList);
+            return Json(countries);
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
-            var countries = _context.Country.ToList();
+            var countries = _context.Country.OrderBy(c => c.Name).ToList();
             return Json(countries);
         }
 

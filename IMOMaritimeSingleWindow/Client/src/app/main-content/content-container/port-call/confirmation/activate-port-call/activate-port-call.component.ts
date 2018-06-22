@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmationModalComponent } from '../../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { CONTENT_NAMES } from '../../../../../shared/constants/content-names';
-import { FormMetaData } from '../../../../../shared/models/form-meta-data.interface';
-import { PortCallDetailsModel } from '../../../../../shared/models/port-call-details-model';
-import { ContentService } from '../../../../../shared/services/content.service';
-import { PortCallService } from '../../../../../shared/services/port-call.service';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
+import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { ContentService } from 'app/shared/services/content.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
-const RESULT_SUCCES: string = "This port call has been activated, and is now awaiting clearance.";
-const RESULT_FAILURE: string = "There was a problem when trying to activate this port call. Please try again later.";
+const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
+const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
 
 @Component({
   selector: 'app-activate-port-call',
@@ -17,20 +17,20 @@ const RESULT_FAILURE: string = "There was a problem when trying to activate this
 })
 export class ActivatePortCallComponent implements OnInit {
 
-  detailsDataIsPristine: boolean = true;
+  detailsDataIsPristine = true;
   detailsIdentificationModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
   reportingModel: any;
-  otherPurposeName: string = "";
+  otherPurposeName = '';
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
   portCallStatus: string;
-  portCallIsActive: boolean = false;
-  portCallIsDraft: boolean = false;
-  STATUS_ACTIVE = "Active";
-  STATUS_DRAFT = "Draft";
+  portCallIsActive = false;
+  portCallIsDraft = false;
+  STATUS_ACTIVE = 'Active';
+  STATUS_DRAFT = 'Draft';
 
   constructor(private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
 
@@ -42,27 +42,27 @@ export class ActivatePortCallComponent implements OnInit {
     );
     this.portCallService.detailsIdentificationData$.subscribe(
       detailsIdentificationData => {
-        if (detailsIdentificationData) this.detailsIdentificationModel = detailsIdentificationData;
+        if (detailsIdentificationData) { this.detailsIdentificationModel = detailsIdentificationData; }
       }
     );
     this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
-        if (cpadData) this.crewPassengersAndDimensionsModel = cpadData;
+        if (cpadData) { this.crewPassengersAndDimensionsModel = cpadData; }
       }
     );
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
-        if (reportingData) this.reportingModel = reportingData;
+        if (reportingData) { this.reportingModel = reportingData; }
       }
     );
     this.portCallService.portCallPurposeData$.subscribe(
       purposeData => {
-        if (purposeData) this.purposeModel = purposeData;
+        if (purposeData) { this.purposeModel = purposeData; }
       }
     );
     this.portCallService.otherPurposeName$.subscribe(
       otherPurposeNameData => {
-        if (otherPurposeNameData) this.otherPurposeName = otherPurposeNameData;
+        if (otherPurposeNameData) { this.otherPurposeName = otherPurposeNameData; }
       }
     );
     this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
@@ -73,7 +73,7 @@ export class ActivatePortCallComponent implements OnInit {
     this.portCallService.portCallStatusData$.subscribe(
       statusData => {
         if (statusData) {
-          if (statusData == this.STATUS_DRAFT) {
+          if (statusData === this.STATUS_DRAFT) {
             this.portCallIsDraft = true;
           } else {
             this.portCallIsDraft = false;
@@ -91,21 +91,19 @@ export class ActivatePortCallComponent implements OnInit {
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
     this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
     this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
-    this.detailsModel.reportingBunkers = this.reportingModel.reportingBunkers;
     this.detailsModel.reportingCargo = this.reportingModel.reportingCargo;
     this.detailsModel.reportingCrew = this.reportingModel.reportingCrew;
-    this.detailsModel.reportingHazmat = this.reportingModel.reportingHazmat;
+    this.detailsModel.reportingDpg = this.reportingModel.reportingDpg;
     this.detailsModel.reportingPax = this.reportingModel.reportingPax;
     this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
-    this.detailsModel.reportingWaste = this.reportingModel.reportingWaste;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
-    console.log("META: ", this.detailsMeta.valid, "\nPRISTINE: ", this.detailsDataIsPristine);
+    console.log('META: ', this.detailsMeta.valid, '\nPRISTINE: ', this.detailsDataIsPristine);
   }
 
   send() {
     this.portCallService.updatePortCallStatusActive(this.detailsIdentificationModel.portCallId).subscribe(
       updateStatusResponse => {
-        console.log("Status successfully updated.");
+        console.log('Status successfully updated.');
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCES);
       },
       error => {
@@ -125,10 +123,10 @@ export class ActivatePortCallComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       },
       reason => {
-        if (modalType != ConfirmationModalComponent.TYPE_FAILURE) this.goBack();
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
       }
     );
   }

@@ -21,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             this._context = context;
         }
 
-        [HttpGet("getall")]
+        [HttpGet()]
         public IActionResult GetAll()
         {
             var locationTypes = _context.LocationType.ToList();

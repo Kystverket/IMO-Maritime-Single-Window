@@ -26,6 +26,16 @@ export class ShipModel {
     hasSideThrustersBack: boolean;
     remark: string;
     certificateOfRegistryId: number;
-    inmarsatCallNumber: string;
     dateOfKeelLaying: Date;
+    // connected models:
+    organization: any;
+    shipHullType: any;
+    shipStatus: any;
+    shipPowerType: any;
+    shipBreadthType: any;
+    shipLengthType: any;
+    shipSource: any;
+    shipFlagCode: any;
+    shipType: any;
+    shipContact: any[];
 }

@@ -1,5 +1,5 @@
 export class ContactMediumModel {
-    contactMediumId: number;
-    contactMediumType: string;
-    description: string;
+  contactMediumId: number;
+  contactMediumType: string;
+  description: string;
 }

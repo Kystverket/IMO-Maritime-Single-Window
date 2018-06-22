@@ -19,17 +19,21 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class LocationController : Controller
     {
-        readonly open_ssnContext _context;
+        readonly IDbContext _context;
 
-        public LocationController(open_ssnContext context)
+        public LocationController(IDbContext context)
         {
             _context = context;
         }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
-        [HttpPost("register")]
+        [HttpPost()]
         public IActionResult RegisterLocation([FromBody] Location newLocation)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             try
             {
                 _context.Location.Add(newLocation);
@@ -37,12 +41,32 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + ":\n" + e.InnerException.Message);
+                return BadRequest(e);
             }
             return Json(newLocation);
         }
 
-        public List<Location> SearchLocation(string searchTerm, bool typeHarbour)
+        [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
+        [HttpPut()]
+        public IActionResult UpdateLocation([FromBody] Location location)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Location.Update(location);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Json(location);
+        }
+
+        public List<Location> SearchLocation(string searchTerm, bool typeHarbour, int amount = 10)
         {
             List<Location> results = new List<Location>();
             if (typeHarbour)
@@ -52,7 +76,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     && loc.LocationType.Name.Equals("Harbour"))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(10).ToList();
+                                                    .Take(amount).ToList();
             }
             else
             {
@@ -60,43 +84,23 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(10).ToList();
+                                                    .Take(amount).ToList();
             }
             return results;
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult SearchLocationJson(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public IActionResult SearchLocationJson(string searchTerm, int amount)
         {
-            List<Location> results = SearchLocation(searchTerm, false);
-            List<LocationOverview> resultList = new List<LocationOverview>();
-
-            foreach (Location loc in results)
-            {
-                LocationOverview locationOverview = new LocationOverview();
-                locationOverview.Location = loc;
-                locationOverview.Country = loc.Country;
-                resultList.Add(locationOverview);
-            }
-            return Json(resultList);
+            List<Location> results = SearchLocation(searchTerm, false, amount);
+            return Json(results);
         }
 
-        [HttpGet("searchharbour/{searchTerm}")]
-        public JsonResult SearchLocationTypeHarbourJson(string searchTerm)
+        [HttpGet("harbour/search/{searchTerm}/{amount}")]
+        public IActionResult SearchLocationTypeHarbourJson(string searchTerm, int amount)
         {
-            List<Location> results = SearchLocation(searchTerm, true);
-            List<LocationOverview> resultList = new List<LocationOverview>();
-
-            foreach (Location loc in results)
-            {
-                LocationOverview locationOverview = new LocationOverview();
-                locationOverview.Location = loc;
-                locationOverview.Country = loc.Country;
-
-                resultList.Add(locationOverview);
-            }
-
-            return Json(resultList);
+            List<Location> results = SearchLocation(searchTerm, true, amount);
+            return Json(results);
         }
 
         [HttpGet("{id}")]
