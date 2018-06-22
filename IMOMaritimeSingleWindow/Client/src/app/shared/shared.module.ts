@@ -49,7 +49,8 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
     SearchLocationComponent,
     SearchHarbourComponent,
     SelectShipContactComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    ContactSelectComponent
   ],
   exports: [
     SsnCardComponent,
@@ -67,7 +68,8 @@ import { SelectShipContactComponent } from './components/select-ship-contact/sel
     SearchLocationComponent,
     SearchHarbourComponent,
     SelectShipContactComponent,
-    SelectedContactMediumsComponent
+    SelectedContactMediumsComponent,
+    ContactSelectComponent
   ],
   providers: [
     ContactService,
