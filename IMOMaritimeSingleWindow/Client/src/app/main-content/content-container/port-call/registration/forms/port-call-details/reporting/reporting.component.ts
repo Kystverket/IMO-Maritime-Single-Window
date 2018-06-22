@@ -10,13 +10,11 @@ export class ReportingComponent implements OnInit {
 
   baseIconUrl = 'assets/images/VoyageIcons/128x128/';
   reportingModel: {
-    reportingHazmat: boolean,
-    reportingBunkers: boolean,
+    reportingDpg: boolean,
     reportingCargo: boolean,
     reportingShipStores: boolean,
     reportingCrew: boolean,
     reportingPax: boolean,
-    reportingWaste: boolean
   };
   checkboxes: any = [];
 
@@ -25,11 +23,8 @@ export class ReportingComponent implements OnInit {
   checkboxChecked(checkboxModel) {
     checkboxModel.checked = !checkboxModel.checked;
     switch (checkboxModel.name) {
-      case 'Hazmat':
-        this.reportingModel.reportingHazmat = checkboxModel.checked;
-        break;
-      case 'Bunkers':
-        this.reportingModel.reportingBunkers = checkboxModel.checked;
+      case 'DPG':
+        this.reportingModel.reportingDpg = checkboxModel.checked;
         break;
       case 'Cargo':
         this.reportingModel.reportingCargo = checkboxModel.checked;
@@ -42,9 +37,6 @@ export class ReportingComponent implements OnInit {
         break;
       case 'Pax':
         this.reportingModel.reportingPax = checkboxModel.checked;
-        break;
-      case 'Waste':
-        this.reportingModel.reportingWaste = checkboxModel.checked;
         break;
       default:
         console.log('Oops. Something went wrong with the checkboxes.');
@@ -60,23 +52,19 @@ export class ReportingComponent implements OnInit {
 
       } else {
         this.reportingModel = {
-          reportingHazmat: null,
-          reportingBunkers: null,
+          reportingDpg: null,
           reportingCargo: null,
           reportingShipStores: null,
           reportingCrew: null,
           reportingPax: null,
-          reportingWaste: null
         };
       }
       this.checkboxes = [
-        { name: 'Hazmat', icon: 'hazard.png', checked: this.reportingModel.reportingHazmat || false },
-        { name: 'Bunkers', icon: 'barrel.png', checked: this.reportingModel.reportingBunkers || false },
+        { name: 'DPG', icon: 'hazard.png', checked: this.reportingModel.reportingDpg || false },
         { name: 'Cargo', icon: 'cargo.png', checked: this.reportingModel.reportingCargo || false },
         { name: 'Ship Stores', icon: 'alcohol.png', checked: this.reportingModel.reportingShipStores || false },
         { name: 'Crew', icon: 'crew.png', checked: this.reportingModel.reportingCrew || false },
-        { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false },
-        { name: 'Waste', icon: 'trash.png', checked: this.reportingModel.reportingWaste || false }
+        { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false }
       ];
     });
   }
