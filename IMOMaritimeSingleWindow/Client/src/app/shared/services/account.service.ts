@@ -6,6 +6,8 @@ import { UserModelWithPassword } from 'app/shared/models/user-model-with-passwor
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
 import { AuthRequest } from './auth.request.service';
+import { HttpClient } from '@angular/common/http';
+
 
 
 @Injectable()
@@ -18,6 +20,7 @@ export class AccountService extends BaseRequest {
     private rolesUrl: string;
     private userClaimsUrl: string;
     private userNameUrl: string;
+    private emailUrl: string;
     private emailTakenUrl: string;
     private organizationForUserUrl: string;
 
@@ -30,6 +33,7 @@ export class AccountService extends BaseRequest {
 
     constructor(
         private http: Http,
+        private httpClient: HttpClient,
         authRequestService: AuthRequest,
         configService: ConfigService
     ) {
@@ -39,6 +43,7 @@ export class AccountService extends BaseRequest {
         this.rolesUrl = this.actionUrl + '/roles';
         this.userClaimsUrl = this.userUrl + '/claims';
         this.userNameUrl = this.userUrl + '/name';
+        this.emailUrl = this.userUrl + '/email';
         this.emailTakenUrl = this.actionUrl + '/emailTaken';
     }
 
@@ -99,6 +104,41 @@ export class AccountService extends BaseRequest {
         return this.http.post(url,body)
             .map(res => res.json());
          */
+    }
+
+    getPasswordResetToken(userId: string, emailConfirmationToken: string): Observable<string> {
+        const uri = [this.emailUrl, 'confirm'].join('/');
+        return this.httpClient
+            .post(uri, null, {
+                params: {
+                    userId,
+                    emailConfirmationToken
+                    // 'emailConfirmationToken': encoded_emailConfirmationToken
+                }
+            })
+            .map(res => res.toString());
+    }
+
+    // getPasswordResetToken() {
+    //     this.route.queryParams.subscribe((queryParams: any) => {
+    //         const uri = [this.emailUrl, 'confirm'].join('/');
+
+    //         return this.http
+    //             .post(uri, null, {
+    //                 params: {
+    //                     userId: queryParams.userId,
+    //                     emailConfirmationToken: queryParams.emailConfirmationToken
+    //                 }
+    //             })
+    //             .map(res => res.text());
+    //     });
+    // }
+
+    getEmailLink() {
+        const uri = [this.baseUrl, 'test', 'emailLink'].join('/');
+        return this.http
+            .get(uri)
+            .map(res => res.text());
     }
 
 }

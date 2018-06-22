@@ -8,6 +8,7 @@ import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { EmailConfirmationGuard } from './auth/guards/email-confirmation.guard';
 import { ErrorGuard } from './auth/guards/error.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 import { ContentContainerModule } from './main-content/content-container/content-container.module';
@@ -20,18 +21,23 @@ import { ConstantsService } from './shared/services/constants.service';
 import { ContentService } from './shared/services/content.service';
 import { LoginService } from './shared/services/login.service';
 import { ConfigService } from './shared/utils/config.service';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     routedComponents,
-    FooterComponent
+    FooterComponent,
+    EmailConfirmationComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     ContentContainerModule,
     AppRoutingModule,
     JwtModule.forRoot({
@@ -53,13 +59,14 @@ import { ConfigService } from './shared/utils/config.service';
     AuthService,
     AuthRequest,
     AuthGuard,
+    EmailConfirmationGuard,
     ErrorGuard,
     LoginAuthGuard,
     JwtHelperService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token');

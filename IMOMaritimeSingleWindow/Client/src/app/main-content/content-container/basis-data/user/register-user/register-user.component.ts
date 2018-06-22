@@ -64,15 +64,25 @@ export class RegisterUserComponent implements OnInit {
         }
       }
     );
+
+    this.getEmailLink();
+  }
+
+  getEmailLink() {
+    this.accountService.getEmailLink().subscribe(result => {
+      if (result) {
+        console.log(result);
+      }
+    });
   }
 
   userExists(emailValid: boolean) {
     if (emailValid) {
       return this.accountService.emailTaken(this.user.email)
-      .subscribe(result => {
-        this.emailTaken = result;
-        this.emailChecked = true;
-      });
+        .subscribe(result => {
+          this.emailTaken = result;
+          this.emailChecked = true;
+        });
     }
   }
 

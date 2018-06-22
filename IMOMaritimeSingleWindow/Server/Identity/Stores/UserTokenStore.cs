@@ -12,7 +12,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         #region Custom methods
         protected override Task AddUserTokenAsync(UserToken token)
         {
-            
             _unitOfWork.UserTokens.Add(token);
             _unitOfWork.Complete();
             return Task.CompletedTask;
@@ -22,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             ThrowIfDisposed();
-            UserToken token = _unitOfWork.UserTokens.FindBy(user.Id, loginProvider, name);
+            var token = _unitOfWork.UserTokens.FindBy(user.Id, loginProvider, name);
             return Task.FromResult(token);
         }
 

@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using System.Web;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -77,9 +78,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = GetEmailLink(applicationUser.Email);
+            var callbackUrl = await GetEmailLink(applicationUser.Email);
 
-            return new OkObjectResult(callbackUrl);
+            // Construct message
+            var infotext = $"An email has been sent to {applicationUser.Email} containing the confirmation link: {callbackUrl}";
+            return Ok(infotext);
         }
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
@@ -100,7 +103,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = GetEmailLink(applicationUser.Email);
+            var callbackUrl = await GetEmailLink(applicationUser.Email);
 
             // Send confirmation link to user's registered email address
 
@@ -161,20 +164,27 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("user/email/confirm")]
+        [HttpPost("user/email/confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, string emailConfirmationToken)
         {
+            var emConToken = Uri.UnescapeDataString(emailConfirmationToken);
             if (userId == null || emailConfirmationToken == null)
                 return BadRequest();
-
+            
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return BadRequest();
 
-            var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, emailConfirmationToken);
+            var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, emConToken);
             if (!emailVerificationResult.Succeeded)
-                return BadRequest();
-
+            {
+                #if !RELEASE
+                    return BadRequest(emailVerificationResult.Errors);
+                #else
+                    return BadRequest();
+                #endif
+            }
+            
             var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             return Json(passwordChangeToken);
@@ -308,7 +318,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-        #region Helper methods
+#region Helper methods
 
         private Uri GetCallBackUri()
         {
@@ -364,7 +374,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return uriBuilder.Uri;
         }
 
-        #endregion
+#endregion
 
     }
 }
