@@ -123,9 +123,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dbConnectionSubscription) {
       this.dbConnectionSubscription.unsubscribe();
     }
-    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection ? 3000 : 5000).subscribe(() => { // <-- endre 3.000 til 30.000
+    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection ? 30000 : 5000).subscribe(() => {
       this.dbConnectionService.getHasDbConnection().subscribe(hasConnection => {
-        console.log(hasConnection);
         if (this.hasDbConnection !== hasConnection) {
           this.hasDbConnection = hasConnection;
           this.startDbConnectionCheck();
