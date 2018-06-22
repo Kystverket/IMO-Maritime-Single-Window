@@ -25,8 +25,15 @@ export class OrganizationService {
   private organizationDataSource = new BehaviorSubject<any>(null);
   organizationData$ = this.organizationDataSource.asObservable();
 
+  private organizationSearchDataSource = new BehaviorSubject<any>(null);
+  organizationSearchData$ = this.organizationSearchDataSource.asObservable();
+
   setOrganizationData(data) {
     this.organizationDataSource.next(data);
+  }
+
+  setOrganizationSearchData(data) {
+    this.organizationSearchDataSource.next(data);
   }
 
   public registerOrganization(newOrganization: OrganizationModel) {
@@ -45,11 +52,11 @@ export class OrganizationService {
       .map(res => res.json());
   }
 
-  public search(term: string) {
+  public search(term: string, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.searchOrganizationUrl, term);
+    return this.searchService.search(this.searchOrganizationUrl, term, amount);
   }
 
   public getOrganizationTypes() {

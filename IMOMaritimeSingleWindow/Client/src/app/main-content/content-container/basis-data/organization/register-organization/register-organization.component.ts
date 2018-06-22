@@ -51,7 +51,7 @@ export class RegisterOrganizationComponent implements OnInit {
         this.organizationTypeList = organizationTypesData;
         // Temporary until we add more organization types (certificate issuer)
         if (this.newOrganization) {
-          this.selectedOrganizationType = this.organizationTypeList.find(type => type.name === 'Company');
+          this.selectedOrganizationType = this.organizationTypeList.find(type => type.name === 'Authority');
           this.organizationTypeSelected = true;
         }
       }
