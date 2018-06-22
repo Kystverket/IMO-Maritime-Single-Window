@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchHarbourComponent } from './search-harbour.component';
+import { ShipSmartTableComponent } from './ship-smart-table.component';
 
-describe('SearchHarbourComponent', () => {
-  let component: SearchHarbourComponent;
-  let fixture: ComponentFixture<SearchHarbourComponent>;
+describe('ShipSmartTableComponent', () => {
+  let component: ShipSmartTableComponent;
+  let fixture: ComponentFixture<ShipSmartTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchHarbourComponent ]
+      declarations: [ ShipSmartTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchHarbourComponent);
+    fixture = TestBed.createComponent(ShipSmartTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

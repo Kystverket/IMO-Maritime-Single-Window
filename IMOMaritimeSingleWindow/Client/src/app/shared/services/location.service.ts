@@ -28,15 +28,23 @@ export class LocationService {
   private locationDataSource = new BehaviorSubject<any>(null);
   locationData$ = this.locationDataSource.asObservable();
 
+  private locationSearchDataSource = new BehaviorSubject<any>(null);
+  locationSearchData$ = this.locationSearchDataSource.asObservable();
+
   setLocationData(data) {
     this.locationDataSource.next(data);
   }
 
-  public search(term: string) {
+  setLocationSearchData(data) {
+    this.locationSearchDataSource.next(data);
+  }
+
+  public search(term: string, restrictTypeHarbour: boolean, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.searchUrl, term);
+    const uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
+    return this.searchService.search(uri, term, amount);
   }
 
   public searchHarbour(term: string) {

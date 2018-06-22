@@ -9,9 +9,15 @@
     <div class="row">
       <div class="col-2"></div>
       <div class="col-8">
-        <input id="search-organization" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
-          [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectOrganization($event)"
-          placeholder="Enter search here..." />
+        <div *ngIf="showDropdown">
+          <input id="search-organization" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
+            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectOrganization($event)"
+            placeholder="Enter search here..." />
+        </div>
+        <div *ngIf="!showDropdown">
+          <input id="search-organization-no-dropdown" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
+            [ngbTypeahead]="search" placeholder="Enter search here..." />
+        </div>
       </div>
       <div class="col-2">
         <div *ngIf="searching">
@@ -25,4 +31,3 @@
       </div>
     </div>
   </div>
-</div>

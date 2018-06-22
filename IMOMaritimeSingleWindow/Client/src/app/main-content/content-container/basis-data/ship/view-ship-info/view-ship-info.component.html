@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm col-md-6 col-lg-4">
-    <app-ssn-card header='Register New Ship' icon='ship.png'>
+    <app-ssn-card header="Register New Ship" icon="ship.png">
       <div class="text-center">
         <button class="btn btn-ssn" (click)="registerNewShip()">Register New Ship</button>
       </div>
@@ -10,23 +10,12 @@
 
 <app-ssn-card header="Ship Search" icon="ship.png">
   <div *ngIf="!shipFound">
-    <app-search-ship></app-search-ship>
-  </div>
-
-  <div *ngIf="shipFound" class="text-center">
-    <button class="btn btn-ssn" (click)="deselectShip()">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-      <button class="btn btn-ssn" (click)="editShip()">
-        <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Edit Ship</button>
+    <app-search-ship [showDropdown]=false></app-search-ship>
   </div>
 
   <br>
 
-  <div class="jumbotron bg-ssn-light" *ngIf="shipFound">
-    <div class="row mb-3">
-      <div class="col">
-        <app-ship-info-table></app-ship-info-table>
-      </div>
-    </div>
+  <div>
+    <app-ship-smart-table></app-ship-smart-table>
   </div>
 </app-ssn-card>
