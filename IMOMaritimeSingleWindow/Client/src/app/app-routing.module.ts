@@ -7,6 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { EmailConfirmationGuard } from './auth/guards/email-confirmation.guard';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { PasswordResetGuard } from './auth/guards/password-reset.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +22,11 @@ const routes: Routes = [
     canActivate: [EmailConfirmationGuard]
   },
   {
+    path: 'ResetPassword',
+    component: PasswordResetComponent,
+    canActivate: [PasswordResetGuard]
+  },
+  {
     path: '',
     component: MainContentComponent,
     canActivate: [AuthGuard]
@@ -30,10 +37,6 @@ const routes: Routes = [
     component: MainContentComponent,
     canActivate: [ErrorGuard]
   }
-  // ,
-  // {
-  //   path: 'ResetPassword'
-  // }
 ];
 
 @NgModule({

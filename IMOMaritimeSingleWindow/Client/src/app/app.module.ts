@@ -23,6 +23,10 @@ import { LoginService } from './shared/services/login.service';
 import { ConfigService } from './shared/utils/config.service';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { PasswordChangeComponent } from './auth/password-change/password-change.component';
+import { PasswordResetGuard } from './auth/guards/password-reset.guard';
+import { AuthModule } from './auth/auth.module';
 
 
 @NgModule({
@@ -31,7 +35,9 @@ import { HttpClientModule } from '@angular/common/http';
     HeaderComponent,
     routedComponents,
     FooterComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
+    PasswordResetComponent,
+    PasswordChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpModule,
     HttpClientModule,
     ContentContainerModule,
+    AuthModule,
     AppRoutingModule,
     JwtModule.forRoot({
       config: {
@@ -62,6 +69,7 @@ import { HttpClientModule } from '@angular/common/http';
     EmailConfirmationGuard,
     ErrorGuard,
     LoginAuthGuard,
+    PasswordResetGuard,
     JwtHelperService
   ],
   bootstrap: [AppComponent]
