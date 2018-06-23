@@ -135,7 +135,7 @@ export class AccountService extends BaseRequest {
     // }
 
     getEmailLink() {
-        const uri = [this.baseUrl, 'test', 'emailLink'].join('/');
+        const uri = [this.actionUrl, 'emailLink'].join('/');
         return this.http
             .get(uri)
             .map(res => res.text());

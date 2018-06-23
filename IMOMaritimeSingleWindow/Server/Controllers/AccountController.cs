@@ -53,7 +53,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             IHostingEnvironment env
             )
         {
-            env = _env;
+            _env = env;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
@@ -78,7 +78,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GetEmailLink(applicationUser.Email);
+            var callbackUrl = await GetEmailLinkAsync(applicationUser.Email);
 
             // Construct message
             var infotext = $"An email has been sent to {applicationUser.Email} containing the confirmation link: {callbackUrl}";
@@ -103,7 +103,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GetEmailLink(applicationUser.Email);
+            var callbackUrl = await GetEmailLinkAsync(applicationUser.Email);
 
             // Send confirmation link to user's registered email address
 
@@ -141,8 +141,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             
             return new OkObjectResult("Account created");
         }
+
+        [AllowAnonymous]
+        [HttpGet("emailLink")]
+        public async Task<IActionResult> GetEmailLink(){
+            var callbackUrl = await GetEmailLinkAsync("agent4@imo-msw.org");
+            // Return url
+            return Ok(callbackUrl);
+        }
         
-        private async Task<Uri> GetEmailLink(string userName)
+        private async Task<Uri> GetEmailLinkAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -151,7 +159,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 new Dictionary<string, string>()
                 {
                     { "userId", user.Id.ToString() },
-                    { "emailConfirmationToken", emailConfirmationToken }
+                    { "token", emailConfirmationToken }
                 }
             );
 
@@ -165,7 +173,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         [AllowAnonymous]
         [HttpPost("user/email/confirm")]
-        public async Task<IActionResult> ConfirmEmail(string userId, string emailConfirmationToken)
+        public async Task<IActionResult> ConfirmEmail(string userId, [Bind(Prefix="token")] string emailConfirmationToken)
         {
             var emConToken = Uri.UnescapeDataString(emailConfirmationToken);
             if (userId == null || emailConfirmationToken == null)
