@@ -9,9 +9,9 @@ export class PasswordResetGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      return true;
+      // return true;
 
       // Verify query params are present
-      // return next.queryParams.userId && next.queryParams.resetToken
+      return next.queryParams.userId != null && next.queryParams.token != null;
   }
 }

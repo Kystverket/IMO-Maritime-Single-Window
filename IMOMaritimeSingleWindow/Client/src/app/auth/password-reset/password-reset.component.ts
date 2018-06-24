@@ -27,7 +27,7 @@ export class PasswordResetComponent implements OnInit {
   }
 
   resetPassword() {
-    return 1;
+    return false;
   }
 
   ngOnInit() {
