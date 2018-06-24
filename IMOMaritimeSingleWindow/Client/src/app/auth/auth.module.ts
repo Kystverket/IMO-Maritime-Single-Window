@@ -6,6 +6,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SsnBgComponent } from '../shared/components/ssn-bg/ssn-bg.component';
 import { SsnCardComponent } from '../shared/components/ssn-card/ssn-card.component';
 import { SharedModule } from '../shared/shared.module';
+import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { ErrorComponent } from './error/error.component';
+import { RouterModule } from '@angular/router';
+import { UriQueryService } from '../shared/services/uri-query.service';
 
 @NgModule({
   imports: [
@@ -13,11 +17,16 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     NgbModule,
     NgSelectModule,
+    RouterModule,
     SharedModule,
   ],
   exports: [
     SsnBgComponent,
     SsnCardComponent
+  ],
+  declarations: [EmailConfirmationComponent, ErrorComponent],
+  providers: [
+    UriQueryService
   ]
 })
 export class AuthModule { }

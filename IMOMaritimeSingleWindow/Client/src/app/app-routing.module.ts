@@ -5,10 +5,11 @@ import { ErrorGuard } from './auth/guards/error.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 import { LoginComponent } from './login/login.component';
 import { MainContentComponent } from './main-content/main-content.component';
-import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
+import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
 import { EmailConfirmationGuard } from './auth/guards/email-confirmation.guard';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { PasswordResetGuard } from './auth/guards/password-reset.guard';
+import { ErrorComponent } from './auth/error/error.component';
 
 const routes: Routes = [
   {
@@ -32,11 +33,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'error',
+    component: ErrorComponent
+  },
+  {
     // TODO: Make ErrorComponent
     path: '**',
-    component: MainContentComponent,
+    component: ErrorComponent,
     canActivate: [ErrorGuard]
-  }
+  },
+
 ];
 
 @NgModule({
