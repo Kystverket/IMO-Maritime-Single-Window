@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
-import { BaseRequest } from 'app/shared/utils/base.request';
-import { ConfigService } from 'app/shared/utils/config.service';
 import { AuthRequest } from './auth.request.service';
+import { BaseRequest } from 'app/shared/utils/base.request';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConfigService } from 'app/shared/utils/config.service';
 import { HttpClient } from '@angular/common/http';
-
+import { Http } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { TokenQueryModel } from '../models/token-query-model';
+import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 
 
 @Injectable()
@@ -21,6 +21,7 @@ export class AccountService extends BaseRequest {
     private userClaimsUrl: string;
     private userNameUrl: string;
     private emailUrl: string;
+    private passwordUrl: string;
     private emailTakenUrl: string;
     private organizationForUserUrl: string;
 
@@ -38,13 +39,15 @@ export class AccountService extends BaseRequest {
         configService: ConfigService
     ) {
         super(configService, authRequestService);
-        this.actionUrl = this.baseUrl + this.accountBaseUrl;
-        this.userUrl = this.actionUrl + '/user';
-        this.rolesUrl = this.actionUrl + '/roles';
-        this.userClaimsUrl = this.userUrl + '/claims';
-        this.userNameUrl = this.userUrl + '/name';
-        this.emailUrl = this.userUrl + '/email';
-        this.emailTakenUrl = this.actionUrl + '/emailTaken';
+        this.actionUrl = this.baseUrl + this.accountBaseUrl;    /* /api/account/                    */
+        this.userUrl = this.actionUrl + '/user';                /* /api/account/user                */
+        this.rolesUrl = this.actionUrl + '/roles';              /* /api/account/roles               */
+        this.userClaimsUrl = this.userUrl + '/claims';          /* /api/account/claims              */
+        this.userNameUrl = this.userUrl + '/name';              /* /api/account/user/name           */
+        this.emailUrl = this.userUrl + '/email';                /* /api/account/user/email          */
+        this.passwordUrl = this.userUrl + '/password';          /* /api/account/user/password       */
+        this.emailTakenUrl = this.actionUrl + '/emailTaken';    /* /api/account/emailTaken          */
+
     }
 
     getAllRoles() {
@@ -106,17 +109,24 @@ export class AccountService extends BaseRequest {
          */
     }
 
-    getPasswordResetToken(userId: string, emailConfirmationToken: string): Observable<string> {
-        const uri = [this.emailUrl, 'confirm'].join('/');
+    confirmEmail(queryModel: TokenQueryModel): Observable<boolean> {
+        return Observable.of(true);
+        /* const uri = [this.emailUrl, 'confirm'].join('/');
+        return this.http
+            .post(uri, JSON.stringify(queryModel))
+            .map(res => res.json()); */
+    }
+
+    getPasswordResetToken(userId: string): Observable<string> {
+        return Observable.of('default token');
+        /* const uri = [this.passwordUrl, 'reset'].join('/');
         return this.httpClient
             .post(uri, null, {
                 params: {
-                    userId,
-                    emailConfirmationToken
-                    // 'emailConfirmationToken': encoded_emailConfirmationToken
+                    userId
                 }
             })
-            .map(res => res.toString());
+            .map(res => res.toString()); */
     }
 
     // getPasswordResetToken() {

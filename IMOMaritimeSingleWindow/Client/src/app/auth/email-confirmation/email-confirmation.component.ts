@@ -21,36 +21,33 @@ export class EmailConfirmationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this.activatedRoute.snapshot.queryParams);
-    // console.log(this.getTokenQueryModel());
     const tokenQueryModel = this.uriQueryService.getTokenQueryModel(this.activatedRoute.snapshot.queryParams);
-    console.log(tokenQueryModel);
-    const queryModel = this.getTokenQueryModel();
-    // Get password reset token
-    // -----
-    // this.accountService.getPasswordResetToken()
+    // console.log(tokenQueryModel);
 
-    // Navigate to reset password and supply token as query parameter in URI
-    // this.router.navigate(['ResetPassword'], { queryParams: userId, token});
-
-    /* this.activatedRoute.queryParams.subscribe((queryParams: any) => {
-      const encodedUserIdParam = encodeURIComponent(queryParams.userId);
-      const encodedEmailConfirmationTokenParam = encodeURIComponent(queryParams.token);
-      // // Future: Accept TokenQueryModel in getPasswordResetToken
-      // const tokenQueryModel = new TokenQueryModel(queryParams.userId, queryParams.token);
-      // this.accountService.getPasswordResetToken(tokenQueryModel);
-      this.accountService.getPasswordResetToken(encodedUserIdParam, encodedEmailConfirmationTokenParam)
-      .subscribe(passwordResetToken => {
-        if (passwordResetToken) {
-          const result = new TokenQueryModel(queryParams.userId, passwordResetToken);
+    this.accountService.confirmEmail(tokenQueryModel)
+      .subscribe(result => {
+        // If email confirmation token was valid
+        if (result) {
+          // Update html to reflect email successfully confirmed
+          console.log('email confirmation was successful');
+          // Get password reset token
+          this.accountService.getPasswordResetToken(tokenQueryModel.userId)
+            .subscribe(passwordResetToken => {
+              if (passwordResetToken) {
+                console.log({passwordResetToken: passwordResetToken});
+                // Redirect? Or present link to navigate?
+                // Redirect:
+                // Navigate to reset password and supply token as query parameter in URI
+                // this.router.navigate(['ResetPassword'], { queryParams: userId, token});
+                // Present link? ...
+              }
+            });
         }
-      });
-    }); */
-  }
-
-  getTokenQueryModel(): TokenQueryModel {
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    return new TokenQueryModel(queryParams.userId, queryParams.token);
+      }, error => {
+        // Update html to reflect email confirmation was unsuccessful
+        console.log('email confirmation was unsuccessful');
+      }
+    );
   }
 
   startRedirect(queryModel: TokenQueryModel) {
@@ -83,10 +80,4 @@ export class EmailConfirmationComponent implements OnInit {
         ); */
 
   }
-
 }
-
-// interface TokenQueryModel {
-//   userId: string;
-//   token: string;
-// }
