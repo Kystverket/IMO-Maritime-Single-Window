@@ -76,20 +76,6 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
-  private shipStoresInformationSource = new BehaviorSubject<any>(null);
-  shipStoresInformationData$ = this.shipStoresInformationSource.asObservable();
-
-  /*private shipStoresInformationList: PortCallShipStoresModel[] = [];
-  shipStoresInformationList$ = Observable.of(this.shipStoresInformationList);*/
-
-  private shipStoresInformationMeta = new BehaviorSubject<any>({
-    valid: true
-  });
-  shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
-
-  /*TODO: Make observable object and connect to displayer (component)*/
-  portCallShipStoresModels: PortCallShipStoresModel[];
-
   constructor(private http: Http, private authRequestService: AuthRequest) {
     // Port call
     this.portCallUrl = 'api/portcall';
@@ -264,14 +250,6 @@ export class PortCallService {
 
   setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
     this.crewPassengersAndDimensionsMeta.next(metaData);
-  }
-
-  setShipStoresInformationData(data) {
-    this.shipStoresInformationSource.next(data);
-  }
-
-  setShipStoresInformationMeta(metaData: FormMetaData) {
-    this.shipStoresInformationMeta.next(metaData);
   }
 
   // Reporting

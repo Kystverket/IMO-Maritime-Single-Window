@@ -30,6 +30,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 import { ShipStoresComponent } from './registration/forms/ship-stores/ship-stores.component';
+import { DeleteButtonComponent } from './registration/forms/ship-stores/delete-button/delete-button.component';
+import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
 
 @NgModule({
   imports: [
@@ -42,7 +44,7 @@ import { ShipStoresComponent } from './registration/forms/ship-stores/ship-store
     ConfirmationModule,
     SharedModule
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent],
   declarations: [
     RegistrationComponent,
     ProgressBarComponent,
@@ -64,7 +66,8 @@ import { ShipStoresComponent } from './registration/forms/ship-stores/ship-store
     SaveDetailsComponent,
     NewPortCallDraftComponent,
     ClearanceRowComponent,
-    ShipStoresComponent
+    ShipStoresComponent,
+    DeleteButtonComponent
   ],
   exports: [
     PortCallComponent,
@@ -73,6 +76,6 @@ import { ShipStoresComponent } from './registration/forms/ship-stores/ship-store
     ViewPortCallComponent,
     ClearanceComponent
   ],
-  providers: [PortCallService]
+  providers: [PortCallService, PortCallShipStoresService]
 })
 export class PortCallModule {}

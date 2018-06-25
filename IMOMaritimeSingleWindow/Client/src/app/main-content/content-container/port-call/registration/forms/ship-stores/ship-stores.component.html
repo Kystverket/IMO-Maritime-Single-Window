@@ -10,31 +10,15 @@
         </div>
         <pre>{{ portCallShipStoresModel | json }}</pre>
         </form>
-        <button type="submit" class="btn" (click)="persistData()">Submit</button>
+        <button type="submit" class="btn btn-ssn mt-2" (click)="persistData()"><span>Submit</span></button>
 
-        <div *ngIf="!shipstoresForm.valid">
-            OH NO!
-        </div>
     <div class="mb-3">
-        <div>
-            <ul *ngFor="let shipStore of portCallShipStoresList">
-                <li>{{ shipStore.articleName }}</li>
-            </ul>
-        </div>
-        
-        
-        <table class="table table-bordered text-center mx-auto mb-0">
-            <thead class="bg-ssn text-white">
 
-            </thead>
-        </table>
         <div class="table-responsive">
             <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
-                <!--bindings={
-              "ng-reflect-ng-if": "true"
-            }--><a class="ng2-smart-action ng2-smart-action-add-add" href="#">Add New</a>
         </div>
             <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
+            
         </div> 
     </div>
-</app-ssn-card>
+</app-ssn-card> 

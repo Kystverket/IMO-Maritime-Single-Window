@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
-import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
+import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { DeleteButtonComponent } from './delete-button/delete-button.component';
+import { ConstantsService } from 'app/shared/services/constants.service';
 
 @Component({
   selector: 'app-ship-stores',
@@ -36,8 +38,7 @@ export class ShipStoresComponent implements OnInit {
   };
 
   tableSettings = {
-    /*mode: 'external',
-    actions: false,*/
+    actions: false,
     attr: {
       class: 'table table-bordered'
     },
@@ -55,7 +56,15 @@ export class ShipStoresComponent implements OnInit {
       },
       articleName: {
         title: 'Article Name'
-      }
+      },
+      delete: {
+        title: 'Delete',
+        // deleteButtonContent: 'Delete',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: DeleteButtonComponent,
+      },
       /*articleCode: {
         title: 'Article Code'
       },
@@ -71,23 +80,31 @@ export class ShipStoresComponent implements OnInit {
       locationOnBoardCode: {
         title: 'Location Onboard Code'
       }*/
-    }
+    },
+        /*mode: 'external',*/
+        /*{
+          custom: [
+            {
+              name: 'delete',
+              title: 'Delete'
+            }
+          ]
+        },*/
   };
 
-  constructor(private portCallService: PortCallService) {
+  constructor(private shipStoresService: PortCallShipStoresService ) {
     /*this.portCallShipStoresList.push(this.portCallShipStoresModel);*/
     this.mockData.forEach(shipStore => {
-      this.portCallShipStoresList.push(shipStore);
+      this.portCallShipStoresModel = shipStore;
+      this.persistData();
     });
     console.log(this.portCallShipStoresList);
   }
 
   ngOnInit() {
-    this.portCallService.shipStoresInformationData$.subscribe(data => {
+    this.shipStoresService.shipStoresInformationData$.subscribe(data => {
       if (data) {
         console.log(data);
-
-        // this.portCallShipStoresList = data;
         this.shipStoresDataSource.load(data);
       }
     });
@@ -96,9 +113,10 @@ export class ShipStoresComponent implements OnInit {
   persistData() {
     this.portCallShipStoresList.push(this.portCallShipStoresModel);
     this.portCallShipStoresModel = new PortCallShipStoresModel();
-    this.portCallService.setShipStoresInformationData(
+    this.shipStoresService.setShipStoresInformationData(
       this.portCallShipStoresList
     );
+    console.log(this.shipStoresService.shipStoresInformationData$);
   }
 
   isValid(valid: boolean): boolean {
@@ -107,7 +125,7 @@ export class ShipStoresComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.portCallService.setShipStoresInformationMeta({
+    this.shipStoresService.setShipStoresInformationMeta({
       valid: this.form.valid
     });
   }
