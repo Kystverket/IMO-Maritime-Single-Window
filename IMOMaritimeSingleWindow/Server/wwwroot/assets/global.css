@@ -1,0 +1,93 @@
+:root {
+    --color-primary: #002d50;
+    --color-primary-light: #37557c;
+    --color-primary-dark: #000128;
+    --color-primary-text: #ffffff;
+}
+
+div .bg-ssn {
+    background-color: var(--color-primary);
+}
+
+.bg-ssn {
+    background-color: var(--color-primary);
+}
+
+div .bg-ssn-light {
+    background-color: var(--color-primary-light);
+}
+
+.text-ssn {
+    color: var(--color-primary-text);
+}
+
+.card-ssn {
+    margin-bottom: 20px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.btn-ssn { 
+    color: var(--color-primary-text);
+    background-color: var(--color-primary-light);
+    border-color: var(--color-primary-light);
+} 
+   
+.btn-ssn:hover, 
+.btn-ssn:focus, 
+.btn-ssn:active, 
+.btn-ssn.active, 
+.open .dropdown-toggle.btn-ssn { 
+    color: var(--color-primary-text);
+    background-color: var(--color-primary); 
+    border-color: var(--color-primary-light);
+} 
+   
+.btn-ssn:active, 
+.btn-ssn.active, 
+.open .dropdown-toggle.btn-ssn { 
+    background-image: none; 
+} 
+   
+.btn-ssn.disabled, 
+.btn-ssn[disabled], 
+fieldset[disabled] .btn-ssn, 
+.btn-ssn.disabled:hover, 
+.btn-ssn[disabled]:hover, 
+fieldset[disabled] .btn-ssn:hover, 
+.btn-ssn.disabled:focus, 
+.btn-ssn[disabled]:focus, 
+fieldset[disabled] .btn-ssn:focus, 
+.btn-ssn.disabled:active, 
+.btn-ssn[disabled]:active, 
+fieldset[disabled] .btn-ssn:active, 
+.btn-ssn.disabled.active, 
+.btn-ssn[disabled].active, 
+fieldset[disabled] .btn-ssn.active { 
+    background-color: var(--color-primary-light); 
+    border-color: var(--color-primary-light);
+} 
+   
+.btn-ssn .badge { 
+    color: var(--color-primary-light);
+    background-color: var(--color-primary-text);
+}
+
+::-webkit-input-placeholder {
+    font-style: italic;
+}
+ :-moz-placeholder {
+     font-style: italic;  
+}
+ ::-moz-placeholder {
+     font-style: italic;  
+}
+ :-ms-input-placeholder {  
+     font-style: italic; 
+}

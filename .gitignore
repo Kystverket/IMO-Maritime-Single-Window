@@ -292,3 +292,7 @@ IMOMaritimeSingleWindow/Server/appsettings\.Development\.json
 IMOMaritimeSingleWindow/Server/appsettings\.json
 
 IMOMaritimeSingleWindow/Server/Seed/
+IMOMaritimeSingleWindow/Server/IMO-SSW\.csproj
+
+# Publish profiles
+*.pubxml
