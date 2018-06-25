@@ -1,49 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Repositories;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Tests.Data;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using IMOMaritimeSingleWindow.Helpers;
+using IMOMaritimeSingleWindow.Identity.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
+using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Tests.Constants;
+using IMOMaritimeSingleWindow.Tests.Data;
+using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using Microsoft.AspNetCore.Identity;
-using AutoMapper;
-using NUnit.Framework;
-using System.Threading.Tasks;
-using Xunit;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace IMOMaritimeSingleWindow.Tests
 {
     public class UserTestBase
     {
 
-        protected open_ssnContext InMemoryDatabaseContext;
+        protected TestContext InMemoryDatabaseContext;
         protected readonly UnitOfWork UnitOfWork;
         protected readonly UserStore UserStore;
         public List<ApplicationUser> Users { get; }
         public IMapper Mapper { get; }
+        private string SeedFilePath { get; }
         public UserTestBase(InMemoryDatabaseTypes type)
         {
+            var factory = new ContextFactory();
+            var context = factory.CreateContext();
             switch (type)
             {
                 case InMemoryDatabaseTypes.USER_ROLE:
-                    InMemoryDatabaseContext = StorageBuilder.GetInMemContextUserAndRoleData();
+                    SeedFilePath = "path-to-user-role-seed";
+                    InMemoryDatabaseContext = SeedContext(context);
                     break;
                 case InMemoryDatabaseTypes.USER:
+                    SeedFilePath = "path-to-user-seed";
+                    InMemoryDatabaseContext = SeedContext(context);
                     break;
                 case InMemoryDatabaseTypes.CLEAN:
-                    InMemoryDatabaseContext = StorageBuilder.GetInMemContext();
+                    // No seeding neccessary
+                    InMemoryDatabaseContext = context;
                     break;
                 default:
-                    InMemoryDatabaseContext = StorageBuilder.GetInMemContext();
+                    InMemoryDatabaseContext = context;
                     break;
             }
             
-            UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
             //var configuration = new MapperConfiguration(cfg => new IdentityEntitiesToModelsMappingProfile());
             var config = new MapperConfiguration(cfg =>
             {
@@ -51,8 +55,10 @@ namespace IMOMaritimeSingleWindow.Tests
                 cfg.AddProfile<ViewModelToEntityMappingProfile>();
             });
             Mapper = config.CreateMapper();
+            UnitOfWork = new UnitOfWork(InMemoryDatabaseContext);
             var roleStore = new RoleStore(UnitOfWork, Mapper);
-            UserStore = new UserStore(UnitOfWork, roleStore, Mapper);
+            
+            UserStore = new UserStore(new IdentityErrorDescriber(), UnitOfWork, roleStore, new UserStoreHelper(Mapper), Mapper);
 
             //Initialize the users list
             Users = new List<ApplicationUser>
@@ -64,6 +70,14 @@ namespace IMOMaritimeSingleWindow.Tests
                     PasswordHash = "jh7asd6am"
                 }
             };
+        }
+
+        private TestContext SeedContext(TestContext context)
+        {
+            String str = File.ReadAllText(SeedFilePath);
+            RawSqlString raw = new RawSqlString(str);
+            context.Database.ExecuteSqlCommand(raw);
+            return context;
         }
     }
 }
