@@ -35,6 +35,7 @@ import { LocationButtonRowComponent } from 'app/shared/components/location-smart
 import { LocationSmartTableComponent } from 'app/shared/components/location-smart-table/location-smart-table.component';
 // tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
+import { DbConnectionService } from 'app/shared/services/db-connection.service';
 
 @NgModule({
   imports: [
@@ -97,6 +98,7 @@ import { OrganizationButtonRowComponent } from 'app/shared/components/organizati
     LocationService,
     OrganizationService,
     ShipService,
+    DbConnectionService
   ],
   entryComponents: [
     ConfirmationModalComponent,

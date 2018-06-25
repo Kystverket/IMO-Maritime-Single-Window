@@ -16,6 +16,7 @@
     </ul>
 
     <span class="badge badge-danger" *ngIf="!(online$ | async)">Internet connection lost</span>
+    <span class="badge badge-danger" *ngIf="!hasDbConnection">Connection to database lost.</span>
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn">
       <li class="nav-item">

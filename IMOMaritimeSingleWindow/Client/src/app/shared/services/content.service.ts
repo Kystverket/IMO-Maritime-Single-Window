@@ -32,6 +32,6 @@ export class ContentService extends BaseService {
   }
 
   setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
-    this.loadingScreenSource.next({ isLoading, loadingIcon, loadingText });
+    this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
   }
 }

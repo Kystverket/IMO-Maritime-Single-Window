@@ -16,7 +16,7 @@ export class SearchLocationComponent implements OnInit {
   @Input() restrictTypeHarbour = false;
 
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
-  resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN;
+  resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN_2;
   locationModel: any;
   locationSelected = false;
 

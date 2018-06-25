@@ -69,7 +69,6 @@ export class RegisterUserComponent implements OnInit {
   getEmailLink() {
     this.accountService.getEmailLink().subscribe(result => {
       if (result) {
-        console.log(result);
       }
     });
   }

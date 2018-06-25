@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data;
+using System.Data.Common;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -721,11 +723,12 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
 
-                entity.Property(e => e.ReportingHazmat).HasColumnName("reporting_hazmat");
+                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_dpg");
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
+
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
@@ -1501,6 +1504,16 @@ namespace IMOMaritimeSingleWindow.Data
         {
             ChangeTracker.DetectChanges();
             base.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return this.Database.GetDbConnection();
+        }
+
+        public ConnectionState GetState()
+        {
+            return this.Database.GetDbConnection().State;
         }
     }
 }
