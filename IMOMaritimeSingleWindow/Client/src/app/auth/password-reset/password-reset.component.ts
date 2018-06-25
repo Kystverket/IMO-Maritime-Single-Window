@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { PasswordService } from '../password.service';
 
 @Component({
   selector: 'app-password-reset',
@@ -13,7 +14,9 @@ export class PasswordResetComponent implements OnInit {
   passwordMatch = false;
   fieldsFilled = false;
 
-  constructor() {}
+  constructor(
+    private passwordService: PasswordService
+  ) {}
 
   checkFill() {
     this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
@@ -30,5 +33,8 @@ export class PasswordResetComponent implements OnInit {
     return false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log('password reset component');
+    this.passwordService.setResetRequested(false);
+  }
 }

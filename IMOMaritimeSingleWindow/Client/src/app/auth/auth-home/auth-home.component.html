@@ -1,0 +1,7 @@
+<nav>
+  <a routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <a routerLink="./ResetPassword" routerLinkActive="active" (click)="setResetRequested()">Reset password</a>
+</nav>
+
+
+<router-outlet></router-outlet>

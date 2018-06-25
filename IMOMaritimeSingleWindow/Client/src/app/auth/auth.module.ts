@@ -7,13 +7,20 @@ import { SsnBgComponent } from '../shared/components/ssn-bg/ssn-bg.component';
 import { SsnCardComponent } from '../shared/components/ssn-card/ssn-card.component';
 import { SharedModule } from '../shared/shared.module';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { ErrorComponent } from './error/error.component';
 import { RouterModule } from '@angular/router';
 import { UriQueryService } from '../shared/services/uri-query.service';
 import { PasswordComponent } from './password/password.component';
+import { AuthRoutingModule } from './auth-routing.module';
+import { AuthHomeComponent } from './auth-home/auth-home.component';
+import { PasswordChangeComponent } from './password-change/password-change.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { EmailConfirmationGuard } from './guards/email-confirmation.guard';
+import { PasswordResetGuard } from './guards/password-reset.guard';
+import { PasswordService } from './password.service';
 
 @NgModule({
   imports: [
+    AuthRoutingModule,
     CommonModule,
     FormsModule,
     NgbModule,
@@ -27,12 +34,19 @@ import { PasswordComponent } from './password/password.component';
     SsnCardComponent
   ],
   declarations: [
+    AuthHomeComponent,
     EmailConfirmationComponent,
-    ErrorComponent,
-    PasswordComponent
+    PasswordComponent,
+    PasswordChangeComponent,
+    PasswordResetComponent,
   ],
   providers: [
-    UriQueryService
+    // Guards
+    EmailConfirmationGuard,
+    PasswordResetGuard,
+    // Services
+    PasswordService,
+    UriQueryService,
   ]
 })
 export class AuthModule { }
