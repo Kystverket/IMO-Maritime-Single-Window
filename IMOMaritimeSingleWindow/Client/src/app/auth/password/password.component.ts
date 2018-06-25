@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-password-reset',
-  templateUrl: './password-reset.component.html',
-  styleUrls: ['./password-reset.component.css']
+  selector: 'app-password',
+  templateUrl: './password.component.html',
+  styleUrls: ['./password.component.css']
 })
-export class PasswordResetComponent implements OnInit {
+export class PasswordComponent implements OnInit {
+
   @Input() header: string;
 
   inputOne = '';
@@ -31,4 +32,5 @@ export class PasswordResetComponent implements OnInit {
   }
 
   ngOnInit() {}
+
 }

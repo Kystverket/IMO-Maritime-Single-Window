@@ -10,6 +10,7 @@ import { EmailConfirmationComponent } from './email-confirmation/email-confirmat
 import { ErrorComponent } from './error/error.component';
 import { RouterModule } from '@angular/router';
 import { UriQueryService } from '../shared/services/uri-query.service';
+import { PasswordComponent } from './password/password.component';
 
 @NgModule({
   imports: [
@@ -21,10 +22,15 @@ import { UriQueryService } from '../shared/services/uri-query.service';
     SharedModule,
   ],
   exports: [
+    PasswordComponent,
     SsnBgComponent,
     SsnCardComponent
   ],
-  declarations: [EmailConfirmationComponent, ErrorComponent],
+  declarations: [
+    EmailConfirmationComponent,
+    ErrorComponent,
+    PasswordComponent
+  ],
   providers: [
     UriQueryService
   ]
