@@ -84,7 +84,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(amount).ToList();
+                                                    .Take(40).ToList();
             }
             return results;
         }
