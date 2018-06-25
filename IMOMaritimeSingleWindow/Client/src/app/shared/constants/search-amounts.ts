@@ -1,6 +1,6 @@
 const SEARCH_AMOUNTS = {
     DROPDOWN: 6,
-    WITHOUT_DROPDOWN: 100
+    WITHOUT_DROPDOWN: 6
 };
 
 export { SEARCH_AMOUNTS };

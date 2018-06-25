@@ -8,7 +8,8 @@ import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 @Component({
   selector: 'app-search-location',
   templateUrl: './search-location.component.html',
-  styleUrls: ['./search-location.component.css']
+  styleUrls: ['./search-location.component.css'],
+  providers: [LocationService]
 })
 export class SearchLocationComponent implements OnInit {
 
@@ -77,5 +78,9 @@ export class SearchLocationComponent implements OnInit {
 
   ngOnInit() {
     this.locationService.setLocationData(null);
+  }
+
+  getService() {
+    return this.locationService;
   }
 }
