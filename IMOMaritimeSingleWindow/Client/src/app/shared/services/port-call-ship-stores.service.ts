@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FormMetaData } from 'app/shared/models/form-meta-data.interface';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 
 @Injectable()
 export class PortCallShipStoresService {

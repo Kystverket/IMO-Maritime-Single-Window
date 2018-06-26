@@ -61,12 +61,10 @@
             <div class="row">
                 <label for="measurementType" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Measurement Type</label>
                 <div class="col my-auto">
-                    <select [(ngModel)]="portCallShipStoresModel.measurementType" class="form-control form-control-sm" name="measurementType">
-                        <option [ngValue]="undefined" disabled selected>Measurement Type</option>
-                        <option class="option" *ngFor="let unit of measurementTypes" required [ngValue]="unit">{{unit}}</option>
-                    </select>
+                    <ng-select id="measurementTypes" [items]="measurementTypes" [(ngModel)]="portCallShipStoresModel.measurementType" name="measurementType"
+                        [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type">
+                    </ng-select>
                 </div>
-
             </div>
 
 
