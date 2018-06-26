@@ -38,6 +38,9 @@ export class ShipService {
   private countryDataSource = new BehaviorSubject<any>(null);
   countryData$ = this.countryDataSource.asObservable();
 
+  private certificateDataSource = new BehaviorSubject<any>(null);
+  certificateData$ = this.certificateDataSource.asObservable();
+
   constructor(
     private http: Http,
     private authRequest: AuthRequest
@@ -87,6 +90,14 @@ export class ShipService {
     this.shipSearchDataSource.next(data);
   }
 
+  setShipFlagCodeData(data) {
+    this.shipFlagCodeDataSource.next(data);
+  }
+
+  setCertificateData(data) {
+    this.certificateDataSource.next(data);
+  }
+
   updateShip(ship: any) {
     const auth_header = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_header });
@@ -99,9 +110,6 @@ export class ShipService {
       .map(res => res.json());
   }
 
-  setShipFlagCodeData(data) {
-    this.shipFlagCodeDataSource.next(data);
-  }
 
   search(term: string, amount = 10) {
     if (term.length < 2) {

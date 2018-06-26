@@ -393,8 +393,6 @@
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
-
-
       </app-ssn-card>
     </div>
   </div>
@@ -408,12 +406,33 @@
               <div *ngIf="!portLocationSelected">
                 <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
               </div>
-              <app-ssn-bg *ngIf="portLocationSelected">
+              <div *ngIf="portLocationSelected" class="text-center">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="bg-ssn text-ssn">
+                        <th>Country</th>
+                        <th>Location Name</th>
+                        <th>LoCode</th>
+                        <th>Location Type</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img height="32px" src="assets/images/Flags/128x128/{{certificateModel.portLocation.country.twoCharCode.toLowerCase()}}.png"
+                          /> {{ certificateModel.portLocation.country.name }}
+                        </td>
+                        <td>{{ certificateModel.portLocation.name }}</td>
+                        <td>{{ certificateModel.portLocation.locationCode }}</td>
+                        <td>{{ certificateModel.portLocation.locationType.name }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
                 <button class="btn btn-ssn" (click)="deselectPortLocation()">
-                  <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" />
-                </button>
-                <app-location-info-table></app-location-info-table>
-              </app-ssn-bg>
+                  <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+              </div>
             </app-ssn-card>
           </div>
         </div>
@@ -466,7 +485,7 @@
                         && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
                         && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
                         && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
-                        && organizationSelected && certificateModel.portLocation && certificateModel.certificateNumber
+                        && organizationSelected && portLocationSelected && certificateModel.portLocation && certificateModel.certificateNumber
                         && certificateModel.dateOfIssue && validCertificateDateFormat) ">
           <div *ngIf="!form.valid " class="text-center ">
             <div class="alert alert-danger ">
@@ -490,6 +509,7 @@
             <p class="no-wrap mb-0 " *ngIf="!shipModel.deadweightTonnage ">Deadweight tonnage not set.</p>
             <p class="no-wrap mb-0 " *ngIf="!shipFlagCodeSelected ">Flag code not selected.</p>
             <p class="no-wrap mb-0 " *ngIf="!contactSelected ">At least one contact medium must be provided.</p>
+            <p class="no-wrap mb-0 " *ngIf="!organizationSelected ">Organization not selected.</p>
             <p class="no-wrap mb-0 " *ngIf="!certificateModel.portLocation">Port of registry not selected.</p>
             <p class="no-wrap mb-0 " *ngIf="!certificateModel.certificateNumber">Ship registry number not set.</p>
             <p class="no-wrap mb-0 " *ngIf="!certificateModel.dateOfIssue">Certificate date of issue not set.</p>

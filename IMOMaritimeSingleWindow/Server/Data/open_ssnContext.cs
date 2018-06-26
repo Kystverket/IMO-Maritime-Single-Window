@@ -68,8 +68,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("certificate_of_registry");
 
                 entity.HasIndex(e => e.CertificateNumber)
-                    .HasName("unique_certificate_number")
-                    .IsUnique();
+                    .HasName("unique_certificate_number");
 
                 entity.Property(e => e.CertificateOfRegistryId)
                     .HasColumnName("certificate_of_registry_id")
