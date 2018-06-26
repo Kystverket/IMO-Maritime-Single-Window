@@ -340,8 +340,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.LocationCode).HasColumnName("location_code");
 
-                entity.Property(e => e.LocationInLocationId).HasColumnName("location_in_location_id");
-
                 entity.Property(e => e.LocationNo).HasColumnName("location_no");
 
                 entity.Property(e => e.LocationSourceId).HasColumnName("location_source_id");
@@ -358,9 +356,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.Location);
-
-                entity.HasOne(d => d.LocationInLocation)
-                    .WithMany(p => p.InverseLocationInLocation);
 
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location);
@@ -591,19 +586,15 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
-
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
 
-                entity.Property(e => e.ReportingHazmat).HasColumnName("reporting_hazmat");
+                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_dpg");
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
-
-                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails);

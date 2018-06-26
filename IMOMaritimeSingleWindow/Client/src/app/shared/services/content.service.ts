@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
-import { LoadingScreen } from '../models/loading-screen.interface';
+import { LoadingScreen } from '../interfaces/loading-screen.interface';
 
 @Injectable()
 export class ContentService extends BaseService {
@@ -31,7 +31,6 @@ export class ContentService extends BaseService {
   }
 
   setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
-    console.log(isLoading);
     this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
   }
 }

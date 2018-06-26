@@ -1,0 +1,210 @@
+./flags/afghanistan.png renamed to ./flags/af.png
+./flags/aland islands.png renamed to ./flags/ax.png
+./flags/albania.png renamed to ./flags/al.png
+./flags/algeria.png renamed to ./flags/dz.png
+./flags/american samoa.png renamed to ./flags/as.png
+./flags/andorra.png renamed to ./flags/ad.png
+./flags/angola.png renamed to ./flags/ao.png
+./flags/anguilla.png renamed to ./flags/ai.png
+./flags/antigua and barbuda.png renamed to ./flags/ag.png
+./flags/argentina.png renamed to ./flags/ar.png
+./flags/armenia.png renamed to ./flags/am.png
+./flags/aruba.png renamed to ./flags/aw.png
+./flags/australia.png renamed to ./flags/au.png
+./flags/austria.png renamed to ./flags/at.png
+./flags/azerbaijan.png renamed to ./flags/az.png
+./flags/bahamas.png renamed to ./flags/bs.png
+./flags/bahrain.png renamed to ./flags/bh.png
+./flags/bangladesh.png renamed to ./flags/bd.png
+./flags/barbados.png renamed to ./flags/bb.png
+./flags/belarus.png renamed to ./flags/by.png
+./flags/belgium.png renamed to ./flags/be.png
+./flags/belize.png renamed to ./flags/bz.png
+./flags/benin.png renamed to ./flags/bj.png
+./flags/bermuda.png renamed to ./flags/bm.png
+./flags/bhutan 1.png renamed to ./flags/bt.png
+./flags/bhutan.png renamed to ./flags/bt.png
+./flags/bolivia.png renamed to ./flags/bo.png
+./flags/bosnia and herzegovina.png renamed to ./flags/ba.png
+./flags/botswana.png renamed to ./flags/bw.png
+./flags/brazil.png renamed to ./flags/br.png
+./flags/british virgin islands.png renamed to ./flags/vg.png
+./flags/british indian ocean territory.png renamed to ./flags/io.png
+./flags/bulgaria.png renamed to ./flags/bg.png
+./flags/burkina faso.png renamed to ./flags/bf.png
+./flags/burundi.png renamed to ./flags/bi.png
+./flags/cambodia.png renamed to ./flags/kh.png
+./flags/cameroon.png renamed to ./flags/cm.png
+./flags/canada.png renamed to ./flags/ca.png
+./flags/cape verde.png renamed to ./flags/cv.png
+./flags/cayman islands.png renamed to ./flags/ky.png
+./flags/central african republic.png renamed to ./flags/cf.png
+./flags/chad.png renamed to ./flags/td.png
+./flags/chile.png renamed to ./flags/cl.png
+./flags/china.png renamed to ./flags/cn.png
+./flags/christmas island.png renamed to ./flags/cx.png
+./flags/colombia.png renamed to ./flags/co.png
+./flags/comoros.png renamed to ./flags/km.png
+./flags/cook islands.png renamed to ./flags/ck.png
+./flags/costa rica.png renamed to ./flags/cr.png
+./flags/croatia.png renamed to ./flags/hr.png
+./flags/cuba.png renamed to ./flags/cu.png
+./flags/cyprus.png renamed to ./flags/cy.png
+./flags/northen cyprus.png renamed to ./flags/cy.png
+./flags/czech republic.png renamed to ./flags/cz.png
+./flags/denmark.png renamed to ./flags/dk.png
+./flags/djibouti.png renamed to ./flags/dj.png
+./flags/dominica.png renamed to ./flags/dm.png
+./flags/dominican republic.png renamed to ./flags/dm.png
+./flags/dominican republic.png renamed to ./flags/do.png
+./flags/ecuador.png renamed to ./flags/ec.png
+./flags/egypt.png renamed to ./flags/eg.png
+./flags/equatorial guinea.png renamed to ./flags/gq.png
+./flags/eritrea.png renamed to ./flags/er.png
+./flags/estonia.png renamed to ./flags/ee.png
+./flags/ethiopia.png renamed to ./flags/et.png
+./flags/faroe islands.png renamed to ./flags/fo.png
+./flags/fiji.png renamed to ./flags/fj.png
+./flags/finland.png renamed to ./flags/fi.png
+./flags/france.png renamed to ./flags/fr.png
+./flags/french polynesia.png renamed to ./flags/pf.png
+./flags/gabon.png renamed to ./flags/ga.png
+./flags/gambia.png renamed to ./flags/gm.png
+./flags/georgia.png renamed to ./flags/ge.png
+./flags/germany.png renamed to ./flags/de.png
+./flags/ghana.png renamed to ./flags/gh.png
+./flags/gibraltar.png renamed to ./flags/gi.png
+./flags/greece.png renamed to ./flags/gr.png
+./flags/greenland.png renamed to ./flags/gl.png
+./flags/grenada.png renamed to ./flags/gd.png
+./flags/guam.png renamed to ./flags/gu.png
+./flags/guatemala.png renamed to ./flags/gt.png
+./flags/guernsey.png renamed to ./flags/gg.png
+./flags/equatorial guinea.png renamed to ./flags/gn.png
+./flags/guinea bissau.png renamed to ./flags/gn.png
+./flags/guinea.png renamed to ./flags/gn.png
+./flags/papua new guinea.png renamed to ./flags/gn.png
+./flags/guyana.png renamed to ./flags/gy.png
+./flags/haiti.png renamed to ./flags/ht.png
+./flags/honduras.png renamed to ./flags/hn.png
+./flags/hungary.png renamed to ./flags/hu.png
+./flags/iceland.png renamed to ./flags/is.png
+./flags/british indian ocean territory.png renamed to ./flags/in.png
+./flags/india.png renamed to ./flags/in.png
+./flags/indonesia.png renamed to ./flags/id.png
+./flags/iraq.png renamed to ./flags/iq.png
+./flags/ireland.png renamed to ./flags/ie.png
+./flags/isle of man.png renamed to ./flags/im.png
+./flags/israel.png renamed to ./flags/il.png
+./flags/italy.png renamed to ./flags/it.png
+./flags/jamaica.png renamed to ./flags/jm.png
+./flags/japan.png renamed to ./flags/jp.png
+./flags/jersey.png renamed to ./flags/je.png
+./flags/jordan.png renamed to ./flags/jo.png
+./flags/kazakhstan.png renamed to ./flags/kz.png
+./flags/kenya.png renamed to ./flags/ke.png
+./flags/kiribati.png renamed to ./flags/ki.png
+./flags/kuwait.png renamed to ./flags/kw.png
+./flags/kyrgyzstan.png renamed to ./flags/kg.png
+./flags/latvia.png renamed to ./flags/lv.png
+./flags/lebanon.png renamed to ./flags/lb.png
+./flags/lesotho.png renamed to ./flags/ls.png
+./flags/liberia.png renamed to ./flags/lr.png
+./flags/libya.png renamed to ./flags/ly.png
+./flags/liechtenstein.png renamed to ./flags/li.png
+./flags/lithuania.png renamed to ./flags/lt.png
+./flags/luxembourg.png renamed to ./flags/lu.png
+./flags/madagascar.png renamed to ./flags/mg.png
+./flags/malawi.png renamed to ./flags/mw.png
+./flags/malaysia.png renamed to ./flags/my.png
+./flags/maldives.png renamed to ./flags/mv.png
+./flags/mali.png renamed to ./flags/ml.png
+./flags/somalia.png renamed to ./flags/ml.png
+./flags/somaliland.png renamed to ./flags/ml.png
+./flags/malta.png renamed to ./flags/mt.png
+./flags/martinique.png renamed to ./flags/mq.png
+./flags/mauritania.png renamed to ./flags/mr.png
+./flags/mauritius.png renamed to ./flags/mu.png
+./flags/mexico.png renamed to ./flags/mx.png
+./flags/moldova.png renamed to ./flags/md.png
+./flags/monaco.png renamed to ./flags/mc.png
+./flags/mongolia.png renamed to ./flags/mn.png
+./flags/montenegro.png renamed to ./flags/me.png
+./flags/montserrat.png renamed to ./flags/ms.png
+./flags/morocco.png renamed to ./flags/ma.png
+./flags/mozambique.png renamed to ./flags/mz.png
+./flags/myanmar.png renamed to ./flags/mm.png
+./flags/namibia.png renamed to ./flags/na.png
+./flags/nauru.png renamed to ./flags/nr.png
+./flags/nepal.png renamed to ./flags/np.png
+./flags/netherlands.png renamed to ./flags/nl.png
+./flags/new zealand.png renamed to ./flags/nz.png
+./flags/nicaragua.png renamed to ./flags/ni.png
+./flags/niger.png renamed to ./flags/ne.png
+./flags/nigeria.png renamed to ./flags/ne.png
+./flags/nigeria.png renamed to ./flags/ng.png
+./flags/niue.png renamed to ./flags/nu.png
+./flags/norfolk island.png renamed to ./flags/nf.png
+./flags/norway.png renamed to ./flags/no.png
+./flags/oman.png renamed to ./flags/om.png
+./flags/romania.png renamed to ./flags/om.png
+./flags/pakistan.png renamed to ./flags/pk.png
+./flags/palau.png renamed to ./flags/pw.png
+./flags/panama.png renamed to ./flags/pa.png
+./flags/papua new guinea.png renamed to ./flags/pg.png
+./flags/paraguay.png renamed to ./flags/py.png
+./flags/peru.png renamed to ./flags/pe.png
+./flags/philippines.png renamed to ./flags/ph.png
+./flags/pitcairn islands.png renamed to ./flags/pn.png
+./flags/republic of poland.png renamed to ./flags/pl.png
+./flags/portugal.png renamed to ./flags/pt.png
+./flags/puerto rico.png renamed to ./flags/pr.png
+./flags/qatar.png renamed to ./flags/qa.png
+./flags/romania.png renamed to ./flags/ro.png
+./flags/rwanda.png renamed to ./flags/rw.png
+./flags/saint kitts and nevis.png renamed to ./flags/kn.png
+./flags/american samoa.png renamed to ./flags/ws.png
+./flags/samoa.png renamed to ./flags/ws.png
+./flags/san marino.png renamed to ./flags/sm.png
+./flags/sao tome and principe.png renamed to ./flags/st.png
+./flags/saudi arabia.png renamed to ./flags/sa.png
+./flags/senegal.png renamed to ./flags/sn.png
+./flags/serbia.png renamed to ./flags/rs.png
+./flags/seychelles.png renamed to ./flags/sc.png
+./flags/sierra leone.png renamed to ./flags/sl.png
+./flags/singapore.png renamed to ./flags/sg.png
+./flags/slovakia.png renamed to ./flags/sk.png
+./flags/slovenia.png renamed to ./flags/si.png
+./flags/solomon islands.png renamed to ./flags/sb.png
+./flags/somalia.png renamed to ./flags/so.png
+./flags/south africa.png renamed to ./flags/za.png
+./flags/south sudan.png renamed to ./flags/ss.png
+./flags/spain.png renamed to ./flags/es.png
+./flags/sri lanka.png renamed to ./flags/lk.png
+./flags/south sudan.png renamed to ./flags/sd.png
+./flags/sudan.png renamed to ./flags/sd.png
+./flags/suriname.png renamed to ./flags/sr.png
+./flags/swaziland.png renamed to ./flags/sz.png
+./flags/sweden.png renamed to ./flags/se.png
+./flags/switzerland.png renamed to ./flags/ch.png
+./flags/tajikistan.png renamed to ./flags/tj.png
+./flags/thailand.png renamed to ./flags/th.png
+./flags/togo.png renamed to ./flags/tg.png
+./flags/tokelau.png renamed to ./flags/tk.png
+./flags/tonga.png renamed to ./flags/to.png
+./flags/trinidad and tobago.png renamed to ./flags/tt.png
+./flags/tunisia.png renamed to ./flags/tn.png
+./flags/turkey.png renamed to ./flags/tr.png
+./flags/turkmenistan.png renamed to ./flags/tm.png
+./flags/tuvalu.png renamed to ./flags/tv.png
+./flags/uganda.png renamed to ./flags/ug.png
+./flags/ukraine.png renamed to ./flags/ua.png
+./flags/united arab emirates.png renamed to ./flags/ae.png
+./flags/united kingdom.png renamed to ./flags/gb.png
+./flags/united states of america.png renamed to ./flags/us.png
+./flags/uruguay.png renamed to ./flags/uy.png
+./flags/vanuatu.png renamed to ./flags/vu.png
+./flags/western sahara.png renamed to ./flags/eh.png
+./flags/yemen.png renamed to ./flags/ye.png
+./flags/zambia.png renamed to ./flags/zm.png
+./flags/zimbabwe.png renamed to ./flags/zw.png

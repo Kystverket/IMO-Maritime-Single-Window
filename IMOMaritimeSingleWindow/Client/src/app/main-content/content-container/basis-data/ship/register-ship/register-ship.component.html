@@ -1,12 +1,4 @@
-<div class="jumbotron bg-ssn-light text-center">
-  <div class="row">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">{{ shipHeader }}</h3>
-    </div>
-  </div>
+<app-ssn-bg header="{{ shipHeader }}" icon="ship.png">
   <form #form="ngForm">
     <div class="row">
       <div class="col">
@@ -436,7 +428,7 @@
             <p class="no-wrap mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" />{{ confirmButtonTitle }}</button>
         </div>
 
         <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected">
@@ -554,4 +546,4 @@
       </app-ssn-card>
     </div>
   </div>
-</div>
+</app-ssn-bg>

@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { EtaEtdDateTime } from 'app/shared/models/eta-etd-interface';
+import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ContentService } from 'app/shared/services/content.service';
@@ -34,7 +34,7 @@ export class ConfirmDataComponent implements OnInit {
     private portCallService: PortCallService,
     private contentService: ContentService,
     private modalService: NgbModal
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.portCallService.shipData$.subscribe(shipData => {
@@ -92,9 +92,9 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallModel.locationEtd = etd;
     this.portCallService.registerNewPortCall(this.portCallModel).subscribe(
       result => {
-        console.log("New port call successfully registered.");
+        console.log('New port call successfully registered.');
         // add list of authorities for clearance
-        console.log("Registering authority clearance agencies to port call...");
+        console.log('Registering authority clearance agencies to port call...');
         this.portCallService.registerClearanceAgenciesForPortCall(result);
         // Set details
         const portCallDetails = new PortCallDetailsModel();

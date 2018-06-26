@@ -5,13 +5,11 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 const PORT_CALL_DETAILS = 'Port Call Details';
 const CONFIRM_PORT_CALL = 'Confirm and Activate';
 
-const HAZMAT = 'Hazmat';
-const BUNKERS = 'Bunkers';
+const DPG = 'DPG';
 const CARGO = 'Cargo';
 const SHIP_STORES = 'Ship Stores';
 const CREW = 'Crew';
 const PAX = 'Pax';
-const WASTE = 'Waste';
 
 @Component({
   selector: 'app-progress-bar',
@@ -25,7 +23,8 @@ export class ProgressBarComponent implements OnInit {
       name: PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
   finalMenuEntries: any[] = [
@@ -33,11 +32,14 @@ export class ProgressBarComponent implements OnInit {
       name: CONFIRM_PORT_CALL,
       icon: 'checkmark.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
 
   menuEntries: any[];
+
+  selectedPortCallForm: string;
 
   constructor(
     private portCallService: PortCallService,
@@ -51,52 +53,51 @@ export class ProgressBarComponent implements OnInit {
         if (reportingData != null) {
           const falForms = [
             {
-              name: HAZMAT,
+              name: DPG,
               icon: 'hazard.png',
-              checked: reportingData.reportingHazmat || false,
-              hasError: false
-            },
-            {
-              name: BUNKERS,
-              icon: 'barrel.png',
-              checked: reportingData.reportingBunkers || false,
-              hasError: false
+              checked: reportingData.reportingDpg || false,
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: CARGO,
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: SHIP_STORES,
               icon: 'alcohol.png',
               checked: reportingData.reportingShipStores || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: CREW,
               icon: 'crew.png',
               checked: reportingData.reportingCrew || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
               name: PAX,
               icon: 'pax.png',
               checked: reportingData.reportingPax || false,
-              hasError: false
-            },
-            {
-              name: WASTE,
-              icon: 'trash.png',
-              checked: reportingData.reportingWaste || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             }
           ];
           this.menuEntries = this.baseMenuEntries
             .concat(falForms)
             .concat(this.finalMenuEntries);
         }
+      }
+    );
+
+    this.contentService.portCallFormName$.subscribe(
+      portCallFormName => {
+        this.selectedPortCallForm = portCallFormName;
       }
     );
 
@@ -107,6 +108,12 @@ export class ProgressBarComponent implements OnInit {
         ).hasError = !metaData.valid;
       }
     );
+
+    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+      this.menuEntries.find(
+        p => p.name === PORT_CALL_DETAILS
+      ).hasUnsavedData = !detailsDataIsPristine;
+    });
   }
 
   setPortCallForm(contentName: string) {

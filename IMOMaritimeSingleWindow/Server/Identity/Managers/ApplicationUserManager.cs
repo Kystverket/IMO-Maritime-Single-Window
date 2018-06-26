@@ -11,9 +11,9 @@ using System.Security.Claims;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class UserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store,
+        public UserManager(IUserStore<ApplicationUser> store,
 
             IOptions<IdentityOptions> optionsAccessor,
 
@@ -39,6 +39,8 @@ namespace IMOMaritimeSingleWindow.Identity
             //this.Options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.";
         }
 
+        #region UserManager<TUser>
+        
         public override async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
             ThrowIfDisposed();
@@ -46,16 +48,17 @@ namespace IMOMaritimeSingleWindow.Identity
                 throw new ArgumentNullException(nameof(user));
 
             var userRoleStore = GetUserRoleStore();
-
-            var normalizedRole = NormalizeKey(role);
             
-            if (await userRoleStore.IsInRoleAsync(user, normalizedRole, CancellationToken))
+            var normalizedRoleName = NormalizeKey(role);
+            
+            if (await userRoleStore.IsInRoleAsync(user, normalizedRoleName, CancellationToken))
             {
-                return IdentityResult.Failed();
+                return IdentityResult.Failed(ErrorDescriber.UserAlreadyInRole(normalizedRoleName));
             }
-            await userRoleStore.AddToRoleAsync(user, normalizedRole, CancellationToken);
+            await userRoleStore.AddToRoleAsync(user, normalizedRoleName, CancellationToken);
 
-            var userStore = Store as UserStore;
+            var userStore = GetUserStore();
+            
             await userStore.SetNormalizedRoleNameAsync(user, role);
 
             //await base.AddToRoleAsync(user, role);
@@ -73,9 +76,12 @@ namespace IMOMaritimeSingleWindow.Identity
             return base.CreateAsync(user, password);
         }
 
+        #endregion // UserManager<TUser>
+
+        #region Custom methods
+
         private IUserRoleStore<ApplicationUser> GetUserRoleStore()
         {
-
             if (!(Store is IUserRoleStore<ApplicationUser> cast))
             {
                 throw new NotSupportedException();
@@ -83,21 +89,22 @@ namespace IMOMaritimeSingleWindow.Identity
             return cast;
         }
 
-        /*
-        /// <summary>
-        /// Not implemented. Instead use <see cref="IMOMaritimeSingleWindow.Identity.Models.UserRoleManager.GetClaimsAsync(TUser)"/>.
-        /// </summary>
-        public override Task<IList<System.Security.Claims.Claim>> GetClaimsAsync(ApplicationUser user)
+        private UserStore GetUserStore()
         {
-            throw new NotImplementedException();
+            if (!(Store is UserStore cast))
+            {
+                throw new NotSupportedException();
+            }
+            return cast;
         }
 
-        
-        public override Task<IdentityResult> SetUserNameAsync(ApplicationUser user, string userName)
+        public async Task<string> GetRoleNameAsync(ApplicationUser user)
         {
-            string _userName = userName.Split('@')[0];
-            return base.SetUserNameAsync(user, _userName);
+            var userRoleStore = GetUserStore();
+            return await userRoleStore.GetRoleNameAsync(user);
         }
-        */
+        
+        #endregion
+
     }
 }

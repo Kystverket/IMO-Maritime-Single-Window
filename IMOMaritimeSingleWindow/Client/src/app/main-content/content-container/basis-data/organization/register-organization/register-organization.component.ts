@@ -16,12 +16,12 @@ const RESULT_FAILURE = 'There was a problem when trying to save the organization
   providers: [OrganizationModel]
 })
 export class RegisterOrganizationComponent implements OnInit {
-  newOrganization: boolean;
+  newOrganization = false;
   organizationHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
-  organizationTypeSelected: boolean;
   organizationTypeList: any[];
+  organizationTypeSelected: boolean;
   selectedOrganizationType: any;
   organizationTypeDropdownString = 'Select organization type';
 
@@ -32,14 +32,13 @@ export class RegisterOrganizationComponent implements OnInit {
     this.organizationService.organizationData$.subscribe(
       data => {
         if (data) {
-          this.newOrganization = false;
           this.organizationHeader = 'Edit Organization';
           this.confirmHeader = 'Confirm Organization Changes';
           this.confirmButtonTitle = 'Apply Changes';
           this.organizationModel = data;
           this.selectedOrganizationType = this.organizationModel.organizationType;
           this.organizationTypeSelected = true;
-        } else {
+        } else if (!this.newOrganization) {
           this.newOrganization = true;
           this.organizationHeader = 'Register New Organization';
           this.confirmHeader = 'Confirm Organization Registration';
@@ -50,6 +49,11 @@ export class RegisterOrganizationComponent implements OnInit {
     this.organizationService.getOrganizationTypes().subscribe(
       organizationTypesData => {
         this.organizationTypeList = organizationTypesData;
+        // Temporary until we add more organization types (certificate issuer)
+        if (this.newOrganization) {
+          this.selectedOrganizationType = this.organizationTypeList.find(type => type.name === 'Authority');
+          this.organizationTypeSelected = true;
+        }
       }
     );
   }

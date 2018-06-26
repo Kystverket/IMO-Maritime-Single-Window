@@ -5,11 +5,9 @@ export class PortCallDetailsModel {
   numberOfPassengers: number;
   actualDraught: number;
   airDraught: number;
-  reportingHazmat: boolean;
-  reportingBunkers: boolean;
+  reportingDpg: boolean;
   reportingCargo: boolean;
   reportingShipStores: boolean;
   reportingCrew: boolean;
   reportingPax: boolean;
-  reportingWaste: boolean;
 }

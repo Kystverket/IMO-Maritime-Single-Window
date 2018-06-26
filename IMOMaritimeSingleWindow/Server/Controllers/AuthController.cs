@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -143,7 +144,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
-            var roleName = (await _userManager.GetRolesAsync(user))[0];
+            var userManager = _userManager as UserManager;
+            var roleName = await userManager.GetRoleNameAsync(user);
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
         

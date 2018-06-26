@@ -20,6 +20,12 @@ namespace IMOMaritimeSingleWindow.Repositories
         /// Retrieves the entities from the repository matching the given primary key value.
         /// </summary>
         TEntity Get(TKey id);
+
+
+        IEnumerable<TEntity> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "");
         IEnumerable<TEntity> GetAll();
         /// <summary>
         /// Retrieves the entities from the repository matching the given predicate.

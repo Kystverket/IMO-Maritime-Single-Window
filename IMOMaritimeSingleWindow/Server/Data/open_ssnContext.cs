@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data;
+using System.Data.Common;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -387,9 +389,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.CountryId)
                     .HasName("ifk_rel_11");
 
-                entity.HasIndex(e => e.LocationInLocationId)
-                    .HasName("ifk_rel_09");
-
                 entity.HasIndex(e => e.LocationSourceId)
                     .HasName("ifk_rel_12");
 
@@ -404,8 +403,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
 
                 entity.Property(e => e.LocationCode).HasColumnName("location_code");
-
-                entity.Property(e => e.LocationInLocationId).HasColumnName("location_in_location_id");
 
                 entity.Property(e => e.LocationNo).HasColumnName("location_no");
 
@@ -426,11 +423,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("location_country_id_fkey");
-
-                entity.HasOne(d => d.LocationInLocation)
-                    .WithMany(p => p.InverseLocationInLocation)
-                    .HasForeignKey(d => d.LocationInLocationId)
-                    .HasConstraintName("location_location_in_location_id_fkey");
 
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location)
@@ -717,19 +709,16 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
-
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
 
-                entity.Property(e => e.ReportingHazmat).HasColumnName("reporting_hazmat");
+                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_dpg");
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
-                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
@@ -1505,6 +1494,16 @@ namespace IMOMaritimeSingleWindow.Data
         {
             ChangeTracker.DetectChanges();
             base.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return this.Database.GetDbConnection();
+        }
+
+        public ConnectionState GetState()
+        {
+            return this.Database.GetDbConnection().State;
         }
     }
 }

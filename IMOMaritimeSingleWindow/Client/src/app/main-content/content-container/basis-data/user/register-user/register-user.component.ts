@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { UserModelWithPassword } from 'app/shared/models/UserModelWithPassword';
-import { UserModel } from 'app/shared/models/user-model';
+import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
@@ -15,7 +14,7 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, AccountService]
+  providers: [AccountService]
 })
 export class RegisterUserComponent implements OnInit {
 
@@ -40,7 +39,6 @@ export class RegisterUserComponent implements OnInit {
   selectedRole: any;
 
   constructor(
-    private userModel: UserModel,
     private accountService: AccountService,
     private organizationService: OrganizationService,
     private contentService: ContentService,
@@ -64,15 +62,24 @@ export class RegisterUserComponent implements OnInit {
         }
       }
     );
+
+    this.getEmailLink();
+  }
+
+  getEmailLink() {
+    this.accountService.getEmailLink().subscribe(result => {
+      if (result) {
+      }
+    });
   }
 
   userExists(emailValid: boolean) {
     if (emailValid) {
       return this.accountService.emailTaken(this.user.email)
-      .subscribe(result => {
-        this.emailTaken = result;
-        this.emailChecked = true;
-      });
+        .subscribe(result => {
+          this.emailTaken = result;
+          this.emailChecked = true;
+        });
     }
   }
 

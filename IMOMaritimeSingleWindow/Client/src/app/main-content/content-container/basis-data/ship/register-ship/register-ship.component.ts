@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ContactModel } from 'app/shared/models/contact-model';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
 import { ShipModel } from 'app/shared/models/ship-model';
 import { ContactService } from 'app/shared/services/contact.service';
@@ -23,7 +21,7 @@ const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there 
   providers: [ShipModel]
 })
 export class RegisterShipComponent implements OnInit {
-  newShip: boolean;
+  newShip = false;
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
@@ -70,13 +68,12 @@ export class RegisterShipComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.subscribeToData();
     this.shipService.shipOverviewData$.subscribe(
       data => {
         if (data) {
           this.setAllValues(data);
-          this.subscribeToData();
-          console.log(this.shipModel);
-        } else {
+        } else if (!this.newShip) {
           this.organizationService.setOrganizationData(null);
           this.shipService.setShipFlagCodeData(null);
           this.contactService.setContactData(null);
