@@ -63,7 +63,7 @@ export class ShipStoresComponent implements OnInit {
     noDataMessage: 'There are no ship stores in this list.',
     columns: {
       sequenceNumber: {
-        title: 'Sequence Number'
+        title: 'Sequence Number',
       },
       articleName: {
         title: 'Article Name'
@@ -94,6 +94,8 @@ export class ShipStoresComponent implements OnInit {
     }
   };
 
+  sequenceNumber: number;
+
   measurementTypes = ['Liter (l)', 'Kilograms (kg)', 'Tonne (t)', 'Cubic Meters (m3)', 'Units (u)'];
 
   constructor( private shipStoresService: PortCallShipStoresService ) {}
@@ -106,15 +108,30 @@ export class ShipStoresComponent implements OnInit {
         this.shipStoresDataSource.load(data);
       }
     });
+
+    this.shipStoresService.sequenceNumber$.subscribe(sequenceNumber => {
+      this.sequenceNumber = sequenceNumber;
+    });
+
+    // Set sequenceNumber to last sequenceNumber
+    if (this.portCallShipStoresList.length > 1) {
+      this.shipStoresService.setSequenceNumber(this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber);
+      console.log(this.sequenceNumber);
+    } else {
+      this.shipStoresService.setSequenceNumber(1);
+      console.log(this.sequenceNumber);
+    }
   }
 
   persistData() {
+    this.portCallShipStoresModel.sequenceNumber = this.sequenceNumber;
     this.portCallShipStoresList.push(this.portCallShipStoresModel);
     this.portCallShipStoresModel = new PortCallShipStoresModel();
     this.shipStoresService.setShipStoresInformationData(
       this.portCallShipStoresList
     );
     console.log(this.shipStoresService.shipStoresInformationData$);
+    this.sequenceNumber++;
   }
 
   isValid(valid: boolean): boolean {

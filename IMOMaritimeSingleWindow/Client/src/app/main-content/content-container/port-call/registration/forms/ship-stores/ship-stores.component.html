@@ -11,35 +11,11 @@
             </div>
 
             <div class="row">
-                <label for="sequenceNumber" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Sequence Number</label>
-                <div class="col my-auto">
-                    <input type="number" [(ngModel)]="portCallShipStoresModel.sequenceNumber" #sequenceNumber="ngModel" placeholder="Sequence Number"
-                        class="form-control form-control-sm" integerValidator positiveNumberValidator name="sequenceNumber">
-                </div>
-            </div>
-            <div *ngIf="!isValid(sequenceNumber.valid)" class="alert alert-danger">
-                <li *ngIf="sequenceNumber.hasError('notIntegerError')">
-                    <small>Number of passengers must be an integer.</small>
-                </li>
-                <li *ngIf="sequenceNumber.hasError('notPositiveNumberError')">
-                    <small>Number of passengers must be a positive number.</small>
-                </li>
-            </div>
-
-            <div class="row">
                 <label for="articleCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Code</label>
                 <div class="col my-auto">
-                    <input type="number" [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code"
-                        class="form-control form-control-sm" integerValidator positiveNumberValidator name="articleCode">
+                    <input type="text" [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code"
+                        class="form-control form-control-sm" name="articleCode">
                 </div>
-            </div>
-            <div *ngIf="!isValid(articleCode.valid)" class="alert alert-danger">
-                <li *ngIf="articleCode.hasError('notIntegerError')">
-                    <small>Number of passengers must be an integer.</small>
-                </li>
-                <li *ngIf="articleCode.hasError('notPositiveNumberError')">
-                    <small>Number of passengers must be a positive number.</small>
-                </li>
             </div>
 
             <div class="row">
@@ -118,6 +94,5 @@
         </div>
     </div>
 </app-ssn-card>
-
 
 <app-save-ship-stores></app-save-ship-stores>

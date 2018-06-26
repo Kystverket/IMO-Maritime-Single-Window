@@ -19,6 +19,9 @@ export class PortCallShipStoresService {
   private detailsIdentificationSource = new BehaviorSubject<any>(null);
   detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
 
+  private sequenceNumberSource = new BehaviorSubject<number>(1);
+  sequenceNumber$ = this.sequenceNumberSource.asObservable();
+
   constructor() { }
 
   // Update shipStoresInformationData
@@ -37,7 +40,6 @@ export class PortCallShipStoresService {
       console.log(k + ' - ' + data[k]);
     });
     const copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
-    console.log(copyShipStoresInformationSource);
 
     // Find clicked item
     copyShipStoresInformationSource.forEach( (item, index) => {
@@ -46,8 +48,20 @@ export class PortCallShipStoresService {
       }
     });
 
+    // Reset all sequenceNumbers
+    let tempSequenceNumber = 1;
+    copyShipStoresInformationSource.forEach(item => {
+      item.sequenceNumber = tempSequenceNumber;
+      tempSequenceNumber++;
+    });
+
     // Set data to the updated list
     this.setShipStoresInformationData(copyShipStoresInformationSource);
+    this.setSequenceNumber(tempSequenceNumber);
+  }
+
+  setSequenceNumber(number) {
+    this.sequenceNumberSource.next(number);
   }
 
 
