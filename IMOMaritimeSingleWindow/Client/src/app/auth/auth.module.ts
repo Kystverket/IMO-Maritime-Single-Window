@@ -17,6 +17,8 @@ import { PasswordResetComponent } from './password-reset/password-reset.componen
 import { EmailConfirmationGuard } from './guards/email-confirmation.guard';
 import { PasswordResetGuard } from './guards/password-reset.guard';
 import { PasswordService } from './password.service';
+import { LoginComponent } from './login/login.component';
+import { LoginGuard } from './guards/login.guard';
 
 @NgModule({
   imports: [
@@ -36,6 +38,7 @@ import { PasswordService } from './password.service';
   declarations: [
     AuthHomeComponent,
     EmailConfirmationComponent,
+    LoginComponent,
     PasswordComponent,
     PasswordChangeComponent,
     PasswordResetComponent,
@@ -43,6 +46,7 @@ import { PasswordService } from './password.service';
   providers: [
     // Guards
     EmailConfirmationGuard,
+    LoginGuard,
     PasswordResetGuard,
     // Services
     PasswordService,

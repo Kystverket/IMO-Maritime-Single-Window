@@ -5,7 +5,7 @@ import { AuthService } from 'app/shared/services/auth-service';
 import { LoginService } from 'app/shared/services/login.service';
 
 @Injectable()
-export class LoginAuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
 
   constructor(
     private router: Router,
