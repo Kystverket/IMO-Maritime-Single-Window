@@ -340,8 +340,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.LocationCode).HasColumnName("location_code");
 
-                entity.Property(e => e.LocationInLocationId).HasColumnName("location_in_location_id");
-
                 entity.Property(e => e.LocationNo).HasColumnName("location_no");
 
                 entity.Property(e => e.LocationSourceId).HasColumnName("location_source_id");
@@ -358,9 +356,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.Location);
-
-                entity.HasOne(d => d.LocationInLocation)
-                    .WithMany(p => p.InverseLocationInLocation);
 
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location);

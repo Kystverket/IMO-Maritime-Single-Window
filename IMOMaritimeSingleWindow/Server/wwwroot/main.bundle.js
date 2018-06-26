@@ -30,12 +30,22 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login_component__ = __webpack_require__("./src/app/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__ = __webpack_require__("./src/app/main-content/main-content.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__auth_email_confirmation_email_confirmation_component__ = __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__auth_guards_email_confirmation_guard__ = __webpack_require__("./src/app/auth/guards/email-confirmation.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__auth_password_reset_password_reset_component__ = __webpack_require__("./src/app/auth/password-reset/password-reset.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guards_password_reset_guard__ = __webpack_require__("./src/app/auth/guards/password-reset.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__ = __webpack_require__("./src/app/auth/error/error.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
+
+
 
 
 
@@ -50,16 +60,30 @@ var routes = [
         canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */]]
     },
     {
+        path: 'ConfirmEmail',
+        component: __WEBPACK_IMPORTED_MODULE_7__auth_email_confirmation_email_confirmation_component__["a" /* EmailConfirmationComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_8__auth_guards_email_confirmation_guard__["a" /* EmailConfirmationGuard */]]
+    },
+    {
+        path: 'ResetPassword',
+        component: __WEBPACK_IMPORTED_MODULE_9__auth_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_10__auth_guards_password_reset_guard__["a" /* PasswordResetGuard */]]
+    },
+    {
         path: '',
         component: __WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__["a" /* MainContentComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_2__auth_guards_auth_guard__["a" /* AuthGuard */]]
     },
     {
+        path: 'error',
+        component: __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__["a" /* ErrorComponent */]
+    },
+    {
         // TODO: Make ErrorComponent
         path: '**',
-        component: __WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__["a" /* MainContentComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__["a" /* ErrorComponent */],
         canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_guards_error_guard__["a" /* ErrorGuard */]]
-    }
+    },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -149,28 +173,34 @@ var AppComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* unused harmony export tokenGetter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__authenticate_xhr_backend__ = __webpack_require__("./src/authenticate-xhr.backend.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__main_content_footer_footer_component__ = __webpack_require__("./src/app/main-content/footer/footer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__authenticate_xhr_backend__ = __webpack_require__("./src/authenticate-xhr.backend.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_auth_module__ = __webpack_require__("./src/app/auth/auth.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__auth_guards_email_confirmation_guard__ = __webpack_require__("./src/app/auth/guards/email-confirmation.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__main_content_footer_footer_component__ = __webpack_require__("./src/app/main-content/footer/footer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__auth_password_change_password_change_component__ = __webpack_require__("./src/app/auth/password-change/password-change.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__auth_password_reset_password_reset_component__ = __webpack_require__("./src/app/auth/password-reset/password-reset.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__auth_guards_password_reset_guard__ = __webpack_require__("./src/app/auth/guards/password-reset.guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -199,47 +229,59 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
+
+
+
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* NgModule */])({
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__main_content_header_header_component__["a" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["b" /* routedComponents */],
-                __WEBPACK_IMPORTED_MODULE_13__main_content_footer_footer_component__["a" /* FooterComponent */]
-            ],
+        Object(__WEBPACK_IMPORTED_MODULE_24__angular_core__["J" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_12__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
-                __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_4__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
+                __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_5__auth_auth_module__["a" /* AuthModule */],
+                __WEBPACK_IMPORTED_MODULE_8__angular_platform_browser__["a" /* BrowserModule */],
+                __WEBPACK_IMPORTED_MODULE_11__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
+                __WEBPACK_IMPORTED_MODULE_16__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_18__angular_common_http__["c" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_19__angular_http__["d" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_20__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
                     config: {
                         tokenGetter: tokenGetter,
                         whitelistedDomains: ['localhost:4200'],
                         blacklistedRoutes: ['localhost:4200/login']
                     }
                 }),
-                __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot()
+                __WEBPACK_IMPORTED_MODULE_23__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot(),
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_1__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_15__main_content_footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__main_content_header_header_component__["a" /* HeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__auth_password_change_password_change_component__["a" /* PasswordChangeComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__auth_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
+                __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["b" /* routedComponents */],
             ],
             providers: [
-                { provide: __WEBPACK_IMPORTED_MODULE_2__angular_http__["h" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_6__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
-                __WEBPACK_IMPORTED_MODULE_21__shared_utils_config_service__["a" /* ConfigService */],
-                __WEBPACK_IMPORTED_MODULE_20__shared_services_login_service__["a" /* LoginService */],
-                __WEBPACK_IMPORTED_MODULE_15__shared_services_account_service__["a" /* AccountService */],
-                __WEBPACK_IMPORTED_MODULE_19__shared_services_content_service__["a" /* ContentService */],
-                __WEBPACK_IMPORTED_MODULE_18__shared_services_constants_service__["a" /* ConstantsService */],
-                __WEBPACK_IMPORTED_MODULE_16__shared_services_auth_service__["a" /* AuthService */],
-                __WEBPACK_IMPORTED_MODULE_17__shared_services_auth_request_service__["a" /* AuthRequest */],
-                __WEBPACK_IMPORTED_MODULE_9__auth_guards_auth_guard__["a" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_10__auth_guards_error_guard__["a" /* ErrorGuard */],
-                __WEBPACK_IMPORTED_MODULE_11__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_4__auth0_angular_jwt__["a" /* JwtHelperService */]
+                { provide: __WEBPACK_IMPORTED_MODULE_19__angular_http__["g" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_3__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
+                __WEBPACK_IMPORTED_MODULE_0__shared_services_account_service__["a" /* AccountService */],
+                __WEBPACK_IMPORTED_MODULE_4__auth_guards_auth_guard__["a" /* AuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_6__shared_services_auth_request_service__["a" /* AuthRequest */],
+                __WEBPACK_IMPORTED_MODULE_7__shared_services_auth_service__["a" /* AuthService */],
+                __WEBPACK_IMPORTED_MODULE_9__shared_utils_config_service__["a" /* ConfigService */],
+                __WEBPACK_IMPORTED_MODULE_10__shared_services_constants_service__["a" /* ConstantsService */],
+                __WEBPACK_IMPORTED_MODULE_12__shared_services_content_service__["a" /* ContentService */],
+                __WEBPACK_IMPORTED_MODULE_13__auth_guards_email_confirmation_guard__["a" /* EmailConfirmationGuard */],
+                __WEBPACK_IMPORTED_MODULE_14__auth_guards_error_guard__["a" /* ErrorGuard */],
+                __WEBPACK_IMPORTED_MODULE_20__auth0_angular_jwt__["a" /* JwtHelperService */],
+                __WEBPACK_IMPORTED_MODULE_21__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */],
+                __WEBPACK_IMPORTED_MODULE_22__shared_services_login_service__["a" /* LoginService */],
+                __WEBPACK_IMPORTED_MODULE_27__auth_guards_password_reset_guard__["a" /* PasswordResetGuard */],
             ],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_1__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -248,6 +290,248 @@ var AppModule = /** @class */ (function () {
 function tokenGetter() {
     return localStorage.getItem('auth_token');
 }
+
+
+/***/ }),
+
+/***/ "./src/app/auth/auth.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__email_confirmation_email_confirmation_component__ = __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__error_error_component__ = __webpack_require__("./src/app/auth/error/error.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__password_password_component__ = __webpack_require__("./src/app/auth/password/password.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+var AuthModule = /** @class */ (function () {
+    function AuthModule() {
+    }
+    AuthModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["J" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
+                __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */],
+                __WEBPACK_IMPORTED_MODULE_10__angular_router__["c" /* RouterModule */],
+                __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__["a" /* SharedModule */],
+            ],
+            exports: [
+                __WEBPACK_IMPORTED_MODULE_12__password_password_component__["a" /* PasswordComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__shared_components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__shared_components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_8__email_confirmation_email_confirmation_component__["a" /* EmailConfirmationComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__error_error_component__["a" /* ErrorComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__password_password_component__["a" /* PasswordComponent */]
+            ],
+            providers: [
+                __WEBPACK_IMPORTED_MODULE_11__shared_services_uri_query_service__["a" /* UriQueryService */]
+            ]
+        })
+    ], AuthModule);
+    return AuthModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/email-confirmation/email-confirmation.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/auth/email-confirmation/email-confirmation.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"EMAIL CONFIRMATION\" icon=\"user.png\">\r\n\r\n    <app-ssn-card header=\"Password reset form\">\r\n      <div class=\"row\">\r\n        <h3>Thank you for confirming your email address.</h3>\r\n        \r\n      </div>\r\n      <div class=\"row\">\r\n        <div class=\"col\">\r\n            <h3>You will be redirected to /login in... </h3>\r\n        </div>\r\n        <div class=\"col\">\r\n            <h1>{{secondsRemaining}} seconds</h1>\r\n        </div>\r\n      </div>\r\n\r\n    </app-ssn-card>\r\n  </app-ssn-bg>\r\n\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/auth/email-confirmation/email-confirmation.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailConfirmationComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var EmailConfirmationComponent = /** @class */ (function () {
+    function EmailConfirmationComponent(router, activatedRoute, accountService, uriQueryService) {
+        this.router = router;
+        this.activatedRoute = activatedRoute;
+        this.accountService = accountService;
+        this.uriQueryService = uriQueryService;
+        this.secondsRemaining = 10;
+    }
+    EmailConfirmationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        var tokenQueryModel = this.uriQueryService.getTokenQueryModel(this.activatedRoute.snapshot.queryParams);
+        // console.log(tokenQueryModel);
+        this.accountService.confirmEmail(tokenQueryModel)
+            .subscribe(function (result) {
+            // If email confirmation token was valid
+            if (result) {
+                // Update html to reflect email successfully confirmed
+                console.log('email confirmation was successful');
+                // Get password reset token
+                _this.accountService.getPasswordResetToken(tokenQueryModel.userId)
+                    .subscribe(function (passwordResetToken) {
+                    if (passwordResetToken) {
+                        console.log({ passwordResetToken: passwordResetToken });
+                        // Redirect? Or present link to navigate?
+                        // Redirect:
+                        // Navigate to reset password and supply token as query parameter in URI
+                        // this.router.navigate(['ResetPassword'], { queryParams: userId, token});
+                        // Present link? ...
+                    }
+                });
+            }
+        }, function (error) {
+            // Update html to reflect email confirmation was unsuccessful
+            console.log('email confirmation was unsuccessful');
+        });
+    };
+    EmailConfirmationComponent.prototype.startRedirect = function (queryModel) {
+        var _this = this;
+        var intervalId = setInterval(function (activatedRoute) {
+            if (_this.secondsRemaining === 0) {
+                clearInterval(intervalId);
+                _this.router.navigate(['/ResetPassword'], {
+                    queryParams: {
+                        userId: queryModel.userId,
+                        token: queryModel.token
+                    }
+                });
+            }
+            else {
+                _this.secondsRemaining--;
+            }
+        }, 1000);
+        /* activatedRoute.queryParamMap
+              .map((params: Params) => params.params)
+              .subscribe((params) => {
+                this.router.navigate(['/ResetPassword'], {
+                  queryParams: {
+                    userId: params.userId,
+                    token: params.token
+                  }
+                }
+                );
+                console.log(params);
+              }
+            ); */
+    };
+    EmailConfirmationComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-email-confirmation',
+            template: __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.html"),
+            styles: [__webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__["a" /* UriQueryService */]])
+    ], EmailConfirmationComponent);
+    return EmailConfirmationComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/error/error.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/auth/error/error.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"ERROR PAGE\">\r\n    <!-- <app-ssn-card> -->\r\n      <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n      <div class=\"row\">\r\n        <img src=\"../../../assets/images/Validation/validation-error.png\"\r\n        height=\"64px\" width=\"64px\" alt=\"Error\" />\r\n      </div>\r\n      <div class=\"row\">\r\n        <p>Something went wrong...</p>\r\n      </div>\r\n    <!-- </app-ssn-card> -->\r\n    </div>\r\n  </app-ssn-bg>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/auth/error/error.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ErrorComponent = /** @class */ (function () {
+    function ErrorComponent() {
+    }
+    ErrorComponent.prototype.ngOnInit = function () {
+    };
+    ErrorComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-error',
+            template: __webpack_require__("./src/app/auth/error/error.component.html"),
+            styles: [__webpack_require__("./src/app/auth/error/error.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ErrorComponent);
+    return ErrorComponent;
+}());
+
 
 
 /***/ }),
@@ -307,6 +591,53 @@ var AuthGuard = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */]])
     ], AuthGuard);
     return AuthGuard;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/guards/email-confirmation.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailConfirmationGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var EmailConfirmationGuard = /** @class */ (function () {
+    function EmailConfirmationGuard(router) {
+        this.router = router;
+    }
+    EmailConfirmationGuard.prototype.canActivate = function (next, state) {
+        if (this.paramsNull([next.queryParams['userId'], next.queryParams['token']])) {
+            this.router.navigate(['/error']);
+            return false;
+        }
+        return true;
+    };
+    // Checks if any of the query parameters are null/undefined or empty string
+    EmailConfirmationGuard.prototype.paramsNull = function (params) {
+        return params.some(function (param) {
+            // Checks for null/undefined and empty string
+            return !param || param === '';
+        });
+    };
+    EmailConfirmationGuard = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
+    ], EmailConfirmationGuard);
+    return EmailConfirmationGuard;
 }());
 
 
@@ -440,6 +771,242 @@ var LoginAuthGuard = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/auth/guards/password-reset.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordResetGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PasswordResetGuard = /** @class */ (function () {
+    function PasswordResetGuard(router) {
+        this.router = router;
+    }
+    PasswordResetGuard.prototype.canActivate = function (next, state) {
+        // Verify query params are present
+        if (this.paramsNull([next.queryParams['userId'], next.queryParams['token']])) {
+            this.router.navigate(['/error']);
+            return false;
+        }
+        return true;
+    };
+    // Checks if any of the query parameters are null/undefined or empty string
+    PasswordResetGuard.prototype.paramsNull = function (params) {
+        return params.some(function (param) {
+            // Checks for null/undefined and empty string
+            return !param || param === '';
+        });
+    };
+    PasswordResetGuard = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
+    ], PasswordResetGuard);
+    return PasswordResetGuard;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/password-change/password-change.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/auth/password-change/password-change.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<p>\r\n  password-change works!\r\n</p>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/auth/password-change/password-change.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordChangeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var PasswordChangeComponent = /** @class */ (function () {
+    function PasswordChangeComponent() {
+    }
+    PasswordChangeComponent.prototype.ngOnInit = function () {
+    };
+    PasswordChangeComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-password-change',
+            template: __webpack_require__("./src/app/auth/password-change/password-change.component.html"),
+            styles: [__webpack_require__("./src/app/auth/password-change/password-change.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PasswordChangeComponent);
+    return PasswordChangeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/password-reset/password-reset.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/auth/password-reset/password-reset.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-password header=\"Reset\"></app-password>"
+
+/***/ }),
+
+/***/ "./src/app/auth/password-reset/password-reset.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordResetComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var PasswordResetComponent = /** @class */ (function () {
+    function PasswordResetComponent() {
+        this.inputOne = '';
+        this.inputTwo = '';
+        this.passwordMatch = false;
+        this.fieldsFilled = false;
+    }
+    PasswordResetComponent.prototype.checkFill = function () {
+        this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
+    };
+    PasswordResetComponent.prototype.checkPasswords = function () {
+        this.checkFill();
+        this.passwordMatch =
+            !(this.inputOne === '' || this.inputTwo === '') &&
+                this.inputOne === this.inputTwo;
+    };
+    PasswordResetComponent.prototype.resetPassword = function () {
+        return false;
+    };
+    PasswordResetComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], PasswordResetComponent.prototype, "header", void 0);
+    PasswordResetComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-password-reset',
+            template: __webpack_require__("./src/app/auth/password-reset/password-reset.component.html"),
+            styles: [__webpack_require__("./src/app/auth/password-reset/password-reset.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PasswordResetComponent);
+    return PasswordResetComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth/password/password.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/auth/password/password.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"{{ header + ' password' | uppercase }}\" icon=\"user.png\">\r\n    <app-ssn-card header=\"Password {{header}} form\">\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"first_password\">New password</label>\r\n        <div class=\"col\">\r\n          <input id=\"first_password\" name=\"first_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Enter a new password\"\r\n            [(ngModel)]=\"inputOne\" (blur)=\"checkPasswords()\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row mb-0\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"second_password\">Retype password</label>\r\n        <div class=\"col\">\r\n          <input id=\"second_password\" name=\"second_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Retype the password\"\r\n            [(ngModel)]=\"inputTwo\" (blur)=\"checkPasswords()\">\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"fieldsFilled\" class=\"row\">\r\n        <div class=\"col-sm-2 col-md-2 col-lg-2 col-xl-2\">\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"!passwordMatch\">\r\n          <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-alert-warning.png\">\r\n          <small class=\"text-danger\">Passwords does not match</small>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"passwordMatch\">\r\n            <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-valid-ok.png\">\r\n            <small class=\"text-success\">Passwords match</small>\r\n          </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!passwordMatch\">\r\n        <div class=\"row\">\r\n          <div class=\"col\">\r\n            <button class=\"btn btn-ssn\" disabled>{{header}} password</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <!-- Passwords typed in and passords match -->\r\n      <div *ngIf=\"passwordMatch\">\r\n        <div class=\"row\">\r\n          <div class=\"col\">\r\n            <button class=\"btn btn-ssn\" (click)=\"resetPassword()\">{{header}} password</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </app-ssn-card>\r\n  </app-ssn-bg>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/auth/password/password.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var PasswordComponent = /** @class */ (function () {
+    function PasswordComponent() {
+        this.inputOne = '';
+        this.inputTwo = '';
+        this.passwordMatch = false;
+        this.fieldsFilled = false;
+    }
+    PasswordComponent.prototype.checkFill = function () {
+        this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
+    };
+    PasswordComponent.prototype.checkPasswords = function () {
+        this.checkFill();
+        this.passwordMatch =
+            !(this.inputOne === '' || this.inputTwo === '') &&
+                this.inputOne === this.inputTwo;
+    };
+    PasswordComponent.prototype.resetPassword = function () {
+        return false;
+    };
+    PasswordComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], PasswordComponent.prototype, "header", void 0);
+    PasswordComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-password',
+            template: __webpack_require__("./src/app/auth/password/password.component.html"),
+            styles: [__webpack_require__("./src/app/auth/password/password.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], PasswordComponent);
+    return PasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/login/login.component.css":
 /***/ (function(module, exports) {
 
@@ -450,7 +1017,7 @@ module.exports = ""
 /***/ "./src/app/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/Flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\" required placeholder=\"Enter email address\"\r\n            [(ngModel)]=\"credentials.userName\" #email=\"ngModel\" tmFocus>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\" required placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/Flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\"\r\n            placeholder=\"Enter email address\"\r\n            [(ngModel)]=\"credentials.userName\" #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\"\r\n          placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -1638,7 +2205,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2\" for=\"email\">Email</label>\r\n                <div class=\"col\">\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.email\" #email=\"ngModel\" [email]=\"true\"\r\n                    tmFocus validateEmail (blur)=\"userExists(email.valid)\" (ngModelChange)=\"emailChecked = false\" placeholder=\"Enter email\">\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-valid-ok.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-alert-warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"password\">Password</label>\r\n                <div class=\"col\">\r\n                  <input id=\"password\" type=\"password\" name=\"password\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.password\" required\r\n                    placeholder=\"Enter password\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2\" for=\"given_name\">Given name</label>\r\n                <div class=\"col\">\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"surname\">Surname</label>\r\n                <div class=\"col\">\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2\" for=\"phone_number\">Phone number</label>\r\n                <div class=\"col\">\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-4 col-xl-4\" for=\"company_phone_number\">Company phone number</label>\r\n                <div class=\"col\">\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-3\" for=\"company_email\">Company email</label>\r\n                <div class=\"col\">\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th>Organization Name</th>\r\n                  <th>Organization Number</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ organizationModel.organizationNo }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/VoyageIcons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.password\">Password not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUserWithPassword()\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>"
+module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2\" for=\"email\">Email</label>\r\n                <div class=\"col\">\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\"\r\n                    placeholder=\"Enter email\"  \r\n                    [(ngModel)]=\"user.email\" #email=\"ngModel\" [email]=\"true\" (ngModelChange)=\"emailChecked = false\"\r\n                    (blur)=\"userExists(email.valid)\" autocomplete=\"username\" tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-valid-ok.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/Validation/32x32/icon-alert-warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"password\">Password</label>\r\n                <div class=\"col\">\r\n                  <input id=\"password\" type=\"password\" name=\"password\" class=\"form-control form-control-sm\"\r\n                    placeholder=\"Enter password\"\r\n                    [(ngModel)]=\"user.password\" autocomplete=\"new-password\" required>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2\" for=\"given_name\">Given name</label>\r\n                <div class=\"col\">\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"surname\">Surname</label>\r\n                <div class=\"col\">\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2\" for=\"phone_number\">Phone number</label>\r\n                <div class=\"col\">\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-4 col-xl-4\" for=\"company_phone_number\">Company phone number</label>\r\n                <div class=\"col\">\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-3\" for=\"company_email\">Company email</label>\r\n                <div class=\"col\">\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th>Organization Name</th>\r\n                  <th>Organization Number</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ organizationModel.organizationNo }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/VoyageIcons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.password\">Password not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUserWithPassword()\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>"
 
 /***/ }),
 
@@ -1651,10 +2218,9 @@ module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_models_user_model__ = __webpack_require__("./src/app/shared/models/user-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1671,12 +2237,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var RESULT_SUCCES = 'User was successfully registered.';
 var RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
 var RegisterUserComponent = /** @class */ (function () {
-    function RegisterUserComponent(userModel, accountService, organizationService, contentService, modalService) {
-        this.userModel = userModel;
+    function RegisterUserComponent(accountService, organizationService, contentService, modalService) {
         this.accountService = accountService;
         this.organizationService = organizationService;
         this.contentService = contentService;
@@ -1705,6 +2269,13 @@ var RegisterUserComponent = /** @class */ (function () {
             }
             else {
                 _this.organizationSelected = false;
+            }
+        });
+        this.getEmailLink();
+    };
+    RegisterUserComponent.prototype.getEmailLink = function () {
+        this.accountService.getEmailLink().subscribe(function (result) {
+            if (result) {
             }
         });
     };
@@ -1759,12 +2330,11 @@ var RegisterUserComponent = /** @class */ (function () {
             selector: 'app-register-user',
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_4_app_shared_models_user_model__["a" /* UserModel */], __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__["a" /* AccountService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__["a" /* AccountService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_models_user_model__["a" /* UserModel */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__["a" /* OrganizationService */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_content_service__["a" /* ContentService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_organization_service__["a" /* OrganizationService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__["a" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], RegisterUserComponent);
     return RegisterUserComponent;
@@ -2195,14 +2765,14 @@ var ConfirmationComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmationModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2221,20 +2791,20 @@ var ConfirmationModule = /** @class */ (function () {
     function ConfirmationModule() {
     }
     ConfirmationModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["J" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
-                __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_5_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_3__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_5__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
+                __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__["a" /* SharedModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_6__confirmation_component__["a" /* ConfirmationComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */]
+                __WEBPACK_IMPORTED_MODULE_0__activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_2__confirmation_component__["a" /* ConfirmationComponent */],
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_6__confirmation_component__["a" /* ConfirmationComponent */]
+                __WEBPACK_IMPORTED_MODULE_2__confirmation_component__["a" /* ConfirmationComponent */]
             ]
         })
     ], ConfirmationModule);
@@ -3551,33 +4121,33 @@ var PortCallComponent = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__confirmation_confirmation_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__confirmation_confirmation_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/confirm-data/confirm-data.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/eta-etd/eta-etd.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_port_call_draft_ship_location_time_find_location_find_location_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-location/find-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__new_port_call_draft_ship_location_time_find_ship_find_ship_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-ship/find-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__new_port_call_draft_new_port_call_draft_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/new-port-call-draft.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/confirm-data/confirm-data.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/eta-etd/eta-etd.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__new_port_call_draft_ship_location_time_find_location_find_location_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-location/find-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__new_port_call_draft_ship_location_time_find_ship_find_ship_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-ship/find-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__new_port_call_draft_ship_location_time_ship_location_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/ship-location-time.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__new_port_call_draft_ship_location_time_ship_location_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/ship-location-time.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
@@ -3622,48 +4192,48 @@ var PortCallModule = /** @class */ (function () {
     function PortCallModule() {
     }
     PortCallModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_14__angular_core__["J" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
-                __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__["b" /* Ng2SmartTableModule */],
-                __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_10__confirmation_confirmation_module__["a" /* ConfirmationModule */],
-                __WEBPACK_IMPORTED_MODULE_7_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_2__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_3__confirmation_confirmation_module__["a" /* ConfirmationModule */],
+                __WEBPACK_IMPORTED_MODULE_9__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_10__angular_http__["d" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_12_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_13__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
+                __WEBPACK_IMPORTED_MODULE_15__ng_select_ng_select__["a" /* NgSelectModule */],
+                __WEBPACK_IMPORTED_MODULE_25_app_shared_shared_module__["a" /* SharedModule */],
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_17__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_0__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */]],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_26__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__registration_forms_forms_component__["a" /* FormsComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__new_port_call_draft_ship_location_time_ship_location_time_component__["a" /* ShipLocationTimeComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__new_port_call_draft_ship_location_time_find_ship_find_ship_component__["a" /* FindShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__new_port_call_draft_ship_location_time_find_location_find_location_component__["a" /* FindLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__["a" /* EtaEtdComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__["a" /* ConfirmDataComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_0__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_1__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_4__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__["a" /* ConfirmDataComponent */],
                 __WEBPACK_IMPORTED_MODULE_28__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_22__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__overview_overview_component__["a" /* OverviewComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__["a" /* EtaEtdComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__new_port_call_draft_ship_location_time_find_location_find_location_component__["a" /* FindLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__new_port_call_draft_ship_location_time_find_ship_find_ship_component__["a" /* FindShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__registration_forms_forms_component__["a" /* FormsComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */]
+                __WEBPACK_IMPORTED_MODULE_16__overview_overview_component__["a" /* OverviewComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__new_port_call_draft_ship_location_time_ship_location_time_component__["a" /* ShipLocationTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_19__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_1__clearance_clearance_component__["a" /* ClearanceComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__registration_registration_component__["a" /* RegistrationComponent */],
                 __WEBPACK_IMPORTED_MODULE_27__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__clearance_clearance_component__["a" /* ClearanceComponent */]
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_service__["a" /* PortCallService */]]
         })
     ], PortCallModule);
     return PortCallModule;
@@ -4558,6 +5128,11 @@ var HeaderComponent = /** @class */ (function () {
         this.iconPath = 'assets/images/VoyageIcons/128x128/white/';
         this.menuEntries = [
             {
+                title: 'PORT CALLS',
+                iconPath: this.iconPath + 'portcall.png',
+                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS
+            },
+            {
                 title: 'USERS',
                 iconPath: this.iconPath + 'user.png',
                 menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_USER
@@ -4576,11 +5151,6 @@ var HeaderComponent = /** @class */ (function () {
                 title: 'ORGANIZATIONS',
                 iconPath: this.iconPath + 'pax.png',
                 menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_ORGANIZATIONS
-            },
-            {
-                title: 'PORT CALLS',
-                iconPath: this.iconPath + 'portcall.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS
             }
         ];
         this.permissions = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_menu_claims__["a" /* MenuClaims */].PERMISSIONS;
@@ -5743,7 +6313,7 @@ var SearchLocationComponent = /** @class */ (function () {
         this.showDropdown = true;
         this.restrictTypeHarbour = false;
         this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
-        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
+        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN_2;
         this.locationSelected = false;
         this.searching = false;
         this.searchFailed = false;
@@ -6930,7 +7500,8 @@ var PortCallStatusTypes = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SEARCH_AMOUNTS; });
 var SEARCH_AMOUNTS = {
     DROPDOWN: 6,
-    WITHOUT_DROPDOWN: 100
+    WITHOUT_DROPDOWN: 100,
+    WITHOUT_DROPDOWN_2: 40
 };
 
 
@@ -7067,15 +7638,23 @@ var ShipModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/models/user-model.ts":
+/***/ "./src/app/shared/models/token-query-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserModel; });
-var UserModel = /** @class */ (function () {
-    function UserModel() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TokenQueryModel; });
+var TokenQueryModel = /** @class */ (function () {
+    function TokenQueryModel(userId, token) {
+        this.setUserId(userId);
+        this.setToken(token);
     }
-    return UserModel;
+    TokenQueryModel.prototype.setUserId = function (userId) {
+        this.userId = encodeURIComponent(userId);
+    };
+    TokenQueryModel.prototype.setToken = function (token) {
+        this.token = encodeURIComponent(token);
+    };
+    return TokenQueryModel;
 }());
 
 
@@ -7087,12 +7666,14 @@ var UserModel = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -7118,11 +7699,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var AccountService = /** @class */ (function (_super) {
     __extends(AccountService, _super);
-    function AccountService(http, authRequestService, configService) {
+    function AccountService(http, httpClient, authRequestService, configService) {
         var _this = _super.call(this, configService, authRequestService) || this;
         _this.http = http;
+        _this.httpClient = httpClient;
         // URLs
         _this.accountBaseUrl = '/account';
         // Subjects & observables
@@ -7130,12 +7714,14 @@ var AccountService = /** @class */ (function (_super) {
         _this.userClaimsData$ = _this.userClaimsDataSource.asObservable();
         _this.userOrganizationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.userOrganizationData$ = _this.userOrganizationDataSource.asObservable();
-        _this.actionUrl = _this.baseUrl + _this.accountBaseUrl;
-        _this.userUrl = _this.actionUrl + '/user';
-        _this.rolesUrl = _this.actionUrl + '/roles';
-        _this.userClaimsUrl = _this.userUrl + '/claims';
-        _this.userNameUrl = _this.userUrl + '/name';
-        _this.emailTakenUrl = _this.actionUrl + '/emailTaken';
+        _this.actionUrl = _this.baseUrl + _this.accountBaseUrl; /* /api/account/                    */
+        _this.userUrl = _this.actionUrl + '/user'; /* /api/account/user                */
+        _this.rolesUrl = _this.actionUrl + '/roles'; /* /api/account/roles               */
+        _this.userClaimsUrl = _this.userUrl + '/claims'; /* /api/account/claims              */
+        _this.userNameUrl = _this.userUrl + '/name'; /* /api/account/user/name           */
+        _this.emailUrl = _this.userUrl + '/email'; /* /api/account/user/email          */
+        _this.passwordUrl = _this.userUrl + '/password'; /* /api/account/user/password       */
+        _this.emailTakenUrl = _this.actionUrl + '/emailTaken'; /* /api/account/emailTaken          */
         return _this;
     }
     AccountService.prototype.getAllRoles = function () {
@@ -7187,14 +7773,52 @@ var AccountService = /** @class */ (function (_super) {
             .map(res => res.json());
          */
     };
+    AccountService.prototype.confirmEmail = function (queryModel) {
+        return __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__["a" /* Observable */].of(true);
+        /* const uri = [this.emailUrl, 'confirm'].join('/');
+        return this.http
+            .post(uri, JSON.stringify(queryModel))
+            .map(res => res.json()); */
+    };
+    AccountService.prototype.getPasswordResetToken = function (userId) {
+        return __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__["a" /* Observable */].of('default token');
+        /* const uri = [this.passwordUrl, 'reset'].join('/');
+        return this.httpClient
+            .post(uri, null, {
+                params: {
+                    userId
+                }
+            })
+            .map(res => res.toString()); */
+    };
+    // getPasswordResetToken() {
+    //     this.route.queryParams.subscribe((queryParams: any) => {
+    //         const uri = [this.emailUrl, 'confirm'].join('/');
+    //         return this.http
+    //             .post(uri, null, {
+    //                 params: {
+    //                     userId: queryParams.userId,
+    //                     emailConfirmationToken: queryParams.emailConfirmationToken
+    //                 }
+    //             })
+    //             .map(res => res.text());
+    //     });
+    // }
+    AccountService.prototype.getEmailLink = function () {
+        var uri = [this.actionUrl, 'emailLink'].join('/');
+        return this.http
+            .get(uri)
+            .map(function (res) { return res.text(); });
+    };
     AccountService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_5__auth_request_service__["a" /* AuthRequest */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_utils_config_service__["a" /* ConfigService */]])
+        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_http__["c" /* Http */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_0__auth_request_service__["a" /* AuthRequest */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__["a" /* ConfigService */]])
     ], AccountService);
     return AccountService;
-}(__WEBPACK_IMPORTED_MODULE_3_app_shared_utils_base_request__["a" /* BaseRequest */]));
+}(__WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__["a" /* BaseRequest */]));
 
 
 
@@ -7477,7 +8101,9 @@ var ContentService = /** @class */ (function (_super) {
     __extends(ContentService, _super);
     function ContentService() {
         var _this = _super.call(this) || this;
-        _this.contentSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
+        _this.contentSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](
+        // CONTENT_NAMES.REGISTER_USER
+        __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
         _this.contentName$ = _this.contentSource.asObservable();
         _this.portCallFormSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]('Port Call Details');
         _this.portCallFormName$ = _this.portCallFormSource.asObservable();
@@ -8627,47 +9253,103 @@ var ShipService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/services/uri-query.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UriQueryService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__ = __webpack_require__("./src/app/shared/models/token-query-model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var UriQueryService = /** @class */ (function () {
+    function UriQueryService() {
+    }
+    UriQueryService.prototype.getTokenQueryModel = function (queryParams) {
+        // console.log({hasProperties: this.hasProperties(queryParams)});
+        if (this.hasProperties(queryParams) && !this.anyParamsNull(queryParams)) {
+            return new __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__["a" /* TokenQueryModel */](queryParams['userId'], queryParams['token']);
+        }
+        return null;
+    };
+    UriQueryService.prototype.anyParamsNull = function (queryParams) {
+        return this.paramNull(queryParams.userId) && this.paramNull(queryParams.token);
+    };
+    UriQueryService.prototype.paramNull = function (param) {
+        return !param || param === '';
+    };
+    UriQueryService.prototype.hasProperties = function (queryParams) {
+        /* console.log({
+          'userId': queryParams['userId'],
+          'token': queryParams['token']
+        });
+        console.log({
+          'hasUserId': !!queryParams['userId'],
+          'hasToken': !!queryParams['token']
+        }); */
+        return !!queryParams['userId'] && !!queryParams['token'];
+    };
+    UriQueryService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], UriQueryService);
+    return UriQueryService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/shared.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SharedModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_confirmation_view_clearances_clearances_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/clearances/clearances.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__services_contact_service__ = __webpack_require__("./src/app/shared/services/contact.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_confirmation_view_clearances_clearances_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/clearances/clearances.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_confirmation_view_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_contact_service__ = __webpack_require__("./src/app/shared/services/contact.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_shared_components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_app_shared_components_location_smart_table_location_smart_table_component__ = __webpack_require__("./src/app/shared/components/location-smart-table/location-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_app_shared_components_location_smart_table_location_button_row_location_button_row_component__ = __webpack_require__("./src/app/shared/components/location-smart-table/location-button-row/location-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_shared_components_location_smart_table_location_button_row_location_button_row_component__ = __webpack_require__("./src/app/shared/components/location-smart-table/location-button-row/location-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33_app_shared_components_location_smart_table_location_smart_table_component__ = __webpack_require__("./src/app/shared/components/location-smart-table/location-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35_app_shared_services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8707,72 +9389,83 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-// tslint:disable-next-line:max-line-length
 
+// tslint:disable-next-line:max-line-length
 
 
 var SharedModule = /** @class */ (function () {
     function SharedModule() {
     }
     SharedModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */], __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */], __WEBPACK_IMPORTED_MODULE_26_ng2_smart_table__["b" /* Ng2SmartTableModule */]],
+        Object(__WEBPACK_IMPORTED_MODULE_12__angular_core__["J" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_11__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
+                __WEBPACK_IMPORTED_MODULE_13__ng_select_ng_select__["a" /* NgSelectModule */],
+            ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_16__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__components_confirmation_view_clearances_clearances_component__["a" /* ClearancesComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_24__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_23__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_5__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_0__components_confirmation_view_clearances_clearances_component__["a" /* ClearancesComponent */],
+                __WEBPACK_IMPORTED_MODULE_2__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_3__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_32_app_shared_components_location_smart_table_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33_app_shared_components_location_smart_table_location_smart_table_component__["a" /* LocationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_34_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_19__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_25_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_29__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_31_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_32_app_shared_components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_33_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_34_app_shared_components_location_smart_table_location_smart_table_component__["a" /* LocationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_35_app_shared_components_location_smart_table_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_table_card_table_card_component__["a" /* TableCardComponent */],
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_16__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_24__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_23__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_5__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_2__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_3__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_7__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33_app_shared_components_location_smart_table_location_smart_table_component__["a" /* LocationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_9__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_19__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_29__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32_app_shared_components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_34_app_shared_components_location_smart_table_location_smart_table_component__["a" /* LocationSmartTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_30__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_table_card_table_card_component__["a" /* TableCardComponent */],
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_18__services_contact_service__["a" /* ContactService */],
-                __WEBPACK_IMPORTED_MODULE_21__services_organization_service__["a" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_22__services_ship_service__["a" /* ShipService */],
-                __WEBPACK_IMPORTED_MODULE_20__services_location_service__["a" /* LocationService */],
-                __WEBPACK_IMPORTED_MODULE_19__services_db_connection_service__["a" /* DbConnectionService */]
+                __WEBPACK_IMPORTED_MODULE_4__services_contact_service__["a" /* ContactService */],
+                __WEBPACK_IMPORTED_MODULE_8__services_location_service__["a" /* LocationService */],
+                __WEBPACK_IMPORTED_MODULE_15__services_organization_service__["a" /* OrganizationService */],
+                __WEBPACK_IMPORTED_MODULE_27__services_ship_service__["a" /* ShipService */],
+                __WEBPACK_IMPORTED_MODULE_35_app_shared_services_db_connection_service__["a" /* DbConnectionService */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_5__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */], __WEBPACK_IMPORTED_MODULE_31_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_33_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_35_app_shared_components_location_smart_table_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */]]
+            entryComponents: [
+                __WEBPACK_IMPORTED_MODULE_2__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_25_app_shared_components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_34_app_shared_components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_32_app_shared_components_location_smart_table_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */],
+            ]
         })
     ], SharedModule);
     return SharedModule;
@@ -9073,10 +9766,10 @@ var AuthenticateXHRBackend = /** @class */ (function (_super) {
         Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* BrowserXhr */],
             __WEBPACK_IMPORTED_MODULE_0__angular_http__["f" /* ResponseOptions */],
-            __WEBPACK_IMPORTED_MODULE_0__angular_http__["i" /* XSRFStrategy */]])
+            __WEBPACK_IMPORTED_MODULE_0__angular_http__["h" /* XSRFStrategy */]])
     ], AuthenticateXHRBackend);
     return AuthenticateXHRBackend;
-}(__WEBPACK_IMPORTED_MODULE_0__angular_http__["h" /* XHRBackend */]));
+}(__WEBPACK_IMPORTED_MODULE_0__angular_http__["g" /* XHRBackend */]));
 
 
 

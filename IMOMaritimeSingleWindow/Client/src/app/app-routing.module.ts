@@ -5,6 +5,11 @@ import { ErrorGuard } from './auth/guards/error.guard';
 import { LoginAuthGuard } from './auth/guards/login-auth.guard';
 import { LoginComponent } from './login/login.component';
 import { MainContentComponent } from './main-content/main-content.component';
+import { EmailConfirmationComponent } from './auth/email-confirmation/email-confirmation.component';
+import { EmailConfirmationGuard } from './auth/guards/email-confirmation.guard';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { PasswordResetGuard } from './auth/guards/password-reset.guard';
+import { ErrorComponent } from './auth/error/error.component';
 
 const routes: Routes = [
   {
@@ -13,16 +18,31 @@ const routes: Routes = [
     canActivate: [LoginAuthGuard]
   },
   {
+    path: 'ConfirmEmail',
+    component: EmailConfirmationComponent,
+    canActivate: [EmailConfirmationGuard]
+  },
+  {
+    path: 'ResetPassword',
+    component: PasswordResetComponent,
+    canActivate: [PasswordResetGuard]
+  },
+  {
     path: '',
     component: MainContentComponent,
     canActivate: [AuthGuard]
   },
   {
+    path: 'error',
+    component: ErrorComponent
+  },
+  {
     // TODO: Make ErrorComponent
     path: '**',
-    component: MainContentComponent,
+    component: ErrorComponent,
     canActivate: [ErrorGuard]
-  }
+  },
+
 ];
 
 @NgModule({
@@ -34,5 +54,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
 export const routedComponents = [MainContentComponent, LoginComponent];

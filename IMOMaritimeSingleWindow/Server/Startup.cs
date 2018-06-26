@@ -38,6 +38,7 @@ using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
+using IMOMaritimeSingleWindow.Identity.Helpers;
 
 namespace IMOMaritimeSingleWindow
 {
@@ -92,7 +93,17 @@ namespace IMOMaritimeSingleWindow
             //});
 
             //Configure database context
-            var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
+            string connectionStringOpenSSN = "";
+            if (HostingEnvironment.IsStaging())
+            {
+                // Configure in-memory database
+            } else
+            {
+                // Use real database
+                connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
+            }
+
+            connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
 
@@ -114,8 +125,9 @@ namespace IMOMaritimeSingleWindow
 
                 //Email options
                 options.SignIn.RequireConfirmedEmail = true;
-
             });
+
+            builder.AddDefaultTokenProviders();
 
             //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
 
@@ -133,7 +145,7 @@ namespace IMOMaritimeSingleWindow
             // services.AddAutoMapper();
             //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
 
-            services.TryAddScoped<ApplicationUserManager>();
+            services.TryAddScoped<UserManager>();
             services.TryAddScoped<ApplicationRoleManager>();
 
             // Tip from https://stackoverflow.com/a/42298278
@@ -143,19 +155,32 @@ namespace IMOMaritimeSingleWindow
                cfg.AddProfile<ViewModelToEntityMappingProfile>();
            });
             services.AddSingleton<IMapper>(s => config.CreateMapper());
-            //services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(context));
             services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(new open_ssnContext(dbOptions)));
             serviceProvider = services.BuildServiceProvider();
-            var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
+            
             var automapper = serviceProvider.GetService<IMapper>();
 
-            builder.AddUserManager<ApplicationUserManager>()
+            services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(automapper));
+            services.TryAddScoped<IdentityErrorDescriber>();
+            serviceProvider = services.BuildServiceProvider();
+            
+            var userStoreHelper = serviceProvider.GetService<IUserStoreHelper>();
+            var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
+            var identityErrorDescriber = serviceProvider.GetService<IdentityErrorDescriber>();
+
+            builder.AddUserManager<UserManager>()
             .AddRoleManager<ApplicationRoleManager>();
 
-            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(
-                new UnitOfWork(new open_ssnContext(dbOptions)),
-                new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
-                automapper)
+
+            services.TryAddScoped<IUserStore<ApplicationUser>>(ctx =>
+                new UserStore
+                (
+                    identityErrorDescriber,
+                    new UnitOfWork(new open_ssnContext(dbOptions)),
+                    new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                    userStoreHelper,
+                    automapper
+                )
             );
 
             services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
@@ -191,61 +216,38 @@ namespace IMOMaritimeSingleWindow
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
 
-            if (HostingEnvironment.IsProduction() || HostingEnvironment.IsStaging() || HostingEnvironment.IsDevelopment())
+            
+            //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
+            services.AddJWTOptions(Configuration);
+            services.AddAuthorizationPolicies();
+
+            if (HostingEnvironment.IsProduction())
             {
-                //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
-                services.AddJWTOptions(Configuration);
-                services.AddAuthorizationPolicies();
-
-                if (HostingEnvironment.IsProduction())
-                {
-                    services.AddMvc(opts =>
-                        opts.Filters.Add(new RequireHttpsAttribute())
-                    );
-                }
-                services.AddMvc()
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-            }
-            else
-            {
-                AuthorizationPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAssertion(_ => true)
-                    .Build();
-
-                //Default basically granting everything needed
-                services.AddAuthorization(options =>
-                {
-                    options.DefaultPolicy = AuthorizationPolicy;
-                });
-
-                //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
-                services.AddDevelopmentAuthorizationPolicies();
-
-                // Curtesy of https://www.illucit.com/en/asp-net/asp-net-core-2-0-disable-authentication-development-environment/
                 services.AddMvc(opts =>
-                {
-                    opts.Filters.Add(new AuthorizeFilter(AuthorizationPolicy));
-                    opts.Filters.Add(new AllowAnonymousFilter());
-                })
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+                    opts.Filters.Add(new RequireHttpsAttribute())
+                );
             }
+            services.AddMvc()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            
 
 
 
-            /*services.AddSingleton<IEmailSender, EmailSender>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);*/
+                /*services.AddSingleton<IEmailSender, EmailSender>();
+                services.Configure<AuthMessageSenderOptions>(Configuration);*/
 
-            /*var b = services.AddMvc(
-                options => {
-                    var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
-                    .RequireAuthenticatedUser().Build();
-                    options.Filters.Add(new AuthorizeFilter(defaultPolicy));
+                /*var b = services.AddMvc(
+                    options => {
+                        var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
+                        .RequireAuthenticatedUser().Build();
+                        options.Filters.Add(new AuthorizeFilter(defaultPolicy));
 
-                });
-            */
+                    });
+                */
 
-            // Fix for json self-referencing loop bug:
-            services.AddMvc().AddJsonOptions(
+                // Fix for json self-referencing loop bug:
+                services.AddMvc().AddJsonOptions(
               options => options.SerializerSettings.ReferenceLoopHandling =
               Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
