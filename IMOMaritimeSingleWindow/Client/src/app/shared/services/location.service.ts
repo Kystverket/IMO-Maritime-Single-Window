@@ -25,6 +25,8 @@ export class LocationService {
   }
 
   public updateLocation(location: LocationModel) {
+    location.country = null;
+    location.locationType = null;
     const auth_headers = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_headers });
     return this.http
