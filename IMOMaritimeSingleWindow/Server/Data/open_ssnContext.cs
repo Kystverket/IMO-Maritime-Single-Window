@@ -389,9 +389,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.CountryId)
                     .HasName("ifk_rel_11");
 
-                entity.HasIndex(e => e.LocationInLocationId)
-                    .HasName("ifk_rel_09");
-
                 entity.HasIndex(e => e.LocationSourceId)
                     .HasName("ifk_rel_12");
 
@@ -406,8 +403,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
 
                 entity.Property(e => e.LocationCode).HasColumnName("location_code");
-
-                entity.Property(e => e.LocationInLocationId).HasColumnName("location_in_location_id");
 
                 entity.Property(e => e.LocationNo).HasColumnName("location_no");
 
@@ -428,11 +423,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("location_country_id_fkey");
-
-                entity.HasOne(d => d.LocationInLocation)
-                    .WithMany(p => p.InverseLocationInLocation)
-                    .HasForeignKey(d => d.LocationInLocationId)
-                    .HasConstraintName("location_location_in_location_id_fkey");
 
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location)
