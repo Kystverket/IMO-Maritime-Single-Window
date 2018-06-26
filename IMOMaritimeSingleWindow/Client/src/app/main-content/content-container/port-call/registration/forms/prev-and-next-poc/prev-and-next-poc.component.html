@@ -1,7 +1,12 @@
 <app-ssn-card header="Previous Port of Call" icon="portcall.png">
     <app-search-location></app-search-location>
+    <div *ngIf="prevLocationModel">
+        <pre>{{ prevLocationModel | json }}</pre>
+    </div>
+    <app-date-time-picker header="ETD"></app-date-time-picker>
 </app-ssn-card>
 
 <app-ssn-card header="Next Port of Call" icon="portcall.png">
     <app-search-location></app-search-location>
+    <app-date-time-picker header="ETA"></app-date-time-picker>
 </app-ssn-card>

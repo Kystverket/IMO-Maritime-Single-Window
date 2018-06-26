@@ -34,6 +34,7 @@ import { TableCardComponent } from './components/table-card/table-card.component
 // tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
 import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 
 @NgModule({
   imports: [
@@ -67,6 +68,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    DateTimePickerComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -87,6 +89,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    DateTimePickerComponent
   ],
   providers: [
     ContactService,

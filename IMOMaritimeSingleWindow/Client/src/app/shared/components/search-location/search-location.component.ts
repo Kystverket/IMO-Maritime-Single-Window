@@ -28,6 +28,11 @@ export class SearchLocationComponent implements OnInit {
   );
 
   constructor(private locationSearchService: LocationSearchService) { }
+
+  ngOnInit() {
+    this.deselectLocation();
+  }
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(150),
@@ -73,10 +78,6 @@ export class SearchLocationComponent implements OnInit {
 
   deselectLocation() {
     this.locationSelected = false;
-    this.locationSearchService.setLocationData(null);
-  }
-
-  ngOnInit() {
     this.locationSearchService.setLocationData(null);
   }
 

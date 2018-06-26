@@ -27,15 +27,17 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
 
     this.prevPortOfCallComponent.getService().locationData$.subscribe(
       data => {
-        this.prevLocationModel = data;
-        console.log(data);
+        if (data) {
+          this.prevLocationModel = data;
+        }
       }
     );
 
     this.nextPortOfCallComponent.getService().locationData$.subscribe(
       data => {
-        this.nextLocationModel = data;
-        console.log(data);
+        if (data) {
+          this.nextLocationModel = data;
+        }
       }
     );
   }
