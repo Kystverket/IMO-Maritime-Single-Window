@@ -18,22 +18,12 @@ export class LocationButtonRowComponent implements ViewCell, OnInit {
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
-  locationData: any[];
-
   constructor(
-    private locationService: LocationService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private locationService: LocationService
   ) { }
 
-  ngOnInit() {
-    this.locationService.locationData$.subscribe(
-      results => {
-        if (results) {
-          this.locationData = results;
-        }
-      }
-    );
-  }
+  ngOnInit() { }
 
   onEditClick() {
     this.setContent(CONTENT_NAMES.REGISTER_LOCATION);

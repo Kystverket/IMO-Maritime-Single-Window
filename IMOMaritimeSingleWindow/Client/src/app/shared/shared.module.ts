@@ -31,11 +31,10 @@ import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
 
-import { LocationButtonRowComponent } from 'app/shared/components/location-smart-table/location-button-row/location-button-row.component';
-import { LocationSmartTableComponent } from 'app/shared/components/location-smart-table/location-smart-table.component';
 // tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
 import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 
 @NgModule({
   imports: [
@@ -50,9 +49,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     IntegerValidator,
-    LocationButtonRowComponent,
     LocationInfoTableComponent,
-    LocationSmartTableComponent,
     LocationTimeInfoTableComponent,
     NumberValidator,
     OrganizationButtonRowComponent,
@@ -71,13 +68,13 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    DateTimePickerComponent,
   ],
   exports: [
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     IntegerValidator,
     LocationInfoTableComponent,
-    LocationSmartTableComponent,
     LocationTimeInfoTableComponent,
     NumberValidator,
     OrganizationSmartTableComponent,
@@ -92,6 +89,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    DateTimePickerComponent
   ],
   providers: [
     ContactService,
@@ -104,7 +102,6 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     ConfirmationModalComponent,
     ShipButtonRowComponent,
     OrganizationButtonRowComponent,
-    LocationButtonRowComponent,
   ]
 })
 export class SharedModule { }

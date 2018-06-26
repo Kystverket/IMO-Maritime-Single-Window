@@ -11,7 +11,7 @@ export class ContentService extends BaseService {
   );
   contentName$ = this.contentSource.asObservable();
 
-  private portCallFormSource = new BehaviorSubject<string>('Port Call Details');
+  private portCallFormSource = new BehaviorSubject<string>('Voyages');
   portCallFormName$ = this.portCallFormSource.asObservable();
 
   private loadingScreenSource = new BehaviorSubject<LoadingScreen>(null);

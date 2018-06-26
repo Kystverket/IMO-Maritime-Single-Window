@@ -1,35 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
 import { LocationProperties } from 'app/shared/constants/location-properties';
-import { LocationService } from 'app/shared/services/location.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 
-
-
 @Component({
     selector: 'app-find-location',
     templateUrl: './find-location.component.html',
-    styleUrls: ['./find-location.component.css'],
-    providers: [LocationService]
+    styleUrls: ['./find-location.component.css']
 })
-export class FindLocationComponent implements OnInit {
+export class FindLocationComponent implements AfterViewInit {
+
+    @ViewChild(SearchLocationComponent) searchLocationComponent: SearchLocationComponent;
 
     locationFound = false;
 
     locationFlag: string;
     locationProperties = LocationProperties.PROPERTIES;
     locationInfo: any[];
-    constructor(private portCallService: PortCallService, private locationService: LocationService) { }
+    constructor(private portCallService: PortCallService) { }
 
     deselectLocation() {
         this.locationFound = false;
-        this.locationService.setLocationData(null);
     }
 
-    ngOnInit() {
-        this.locationService.locationData$.subscribe(
+    ngAfterViewInit() {
+        this.searchLocationComponent.getService().locationData$.subscribe(
             locationResult => {
                 if (locationResult) {
                     this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;

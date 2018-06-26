@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LocationSmartTableComponent } from './location-smart-table.component';
+import { PrevAndNextPocComponent } from './prev-and-next-poc.component';
 
-describe('LocationSmartTableComponent', () => {
-  let component: LocationSmartTableComponent;
-  let fixture: ComponentFixture<LocationSmartTableComponent>;
+describe('PrevAndNextPocComponent', () => {
+  let component: PrevAndNextPocComponent;
+  let fixture: ComponentFixture<PrevAndNextPocComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationSmartTableComponent ]
+      declarations: [ PrevAndNextPocComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LocationSmartTableComponent);
+    fixture = TestBed.createComponent(PrevAndNextPocComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
