@@ -37,6 +37,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
   menuEntries: MenuEntry[] = [
     {
+      title: 'PORT CALLS',
+      iconPath: this.iconPath + 'portcall.png',
+      menuName: CONTENT_NAMES.VIEW_PORT_CALLS
+    },
+    {
       title: 'USERS',
       iconPath: this.iconPath + 'user.png',
       menuName: CONTENT_NAMES.REGISTER_USER
@@ -55,11 +60,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       title: 'ORGANIZATIONS',
       iconPath: this.iconPath + 'pax.png',
       menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS
-    },
-    {
-      title: 'PORT CALLS',
-      iconPath: this.iconPath + 'portcall.png',
-      menuName: CONTENT_NAMES.VIEW_PORT_CALLS
     }
   ];
 

@@ -18,7 +18,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
 
         }
         [Test]
-        public void MapsUserWithoutException()
+        public void MapsApplicationUserWithoutException()
         {
             ApplicationUser appUser = new ApplicationUser
             {
@@ -33,7 +33,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
         }
 
         [Test]
-        public void MapsUserCorrectly()
+        public void MapsApplicationUserCorrectly()
         {
             ApplicationUser appUser = new ApplicationUser
             {

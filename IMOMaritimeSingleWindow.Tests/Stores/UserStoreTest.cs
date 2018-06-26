@@ -11,10 +11,10 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
 
     public class UserStoreTest : UserTestBase
     {
-        public UserStoreTest() : base(InMemoryDatabaseTypes.CLEAN){ }
+        public UserStoreTest() : base(InMemoryDatabaseTypes.CLEAN) { }
 
 
-        //Make a clean state between each test
+        // Make a clean state between each test
         [SetUp]
         public async Task SetUp()
         {
@@ -26,14 +26,14 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
         {
             await InMemoryDatabaseContext.Database.EnsureDeletedAsync();
         }
-        
+
 
         [Test]
         public async Task AddsUser()
         {
             //var userStore = new UserStore(unitOfWork, mapper);
             var result = await UserStore.CreateAsync(Users[0]);
-            
+
             Assert.AreEqual(IdentityResult.Success, result);
         }
 
@@ -61,7 +61,7 @@ namespace IMOMaritimeSingleWindow.Tests.Stores
             var foundUser = UnitOfWork.Users.GetByUserName(Users[0].Email);
             Assert.NotNull(foundUser);
         }
-        
+
 
     }
 }
