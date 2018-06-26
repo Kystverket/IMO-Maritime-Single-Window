@@ -16,14 +16,6 @@ export class DeleteButtonComponent implements OnInit, ViewCell {
   @Input() value: string | number;
   @Input() rowData: any;
 
-  permissions = PortCallClaims.buttonRowPermissions;
-
-  selectedShipstore: any;
-
-  // @Output() delete = new EventEmitter<any>();
-
-  counter = 0;
-
   constructor(
     private modalService: NgbModal,
     private shipStoresService: PortCallShipStoresService

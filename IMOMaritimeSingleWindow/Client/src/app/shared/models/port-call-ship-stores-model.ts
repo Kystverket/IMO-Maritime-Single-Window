@@ -1,9 +1,9 @@
 export class PortCallShipStoresModel {
     sequenceNumber: number;
     articleName: string;
-    /*articleCode: number;
+    articleCode: number;
     quantity: number;
     measurementType: string;
     locationOnBoardCode: number;
-    locationOnBoard: string;*/
+    locationOnBoard: string;
 }

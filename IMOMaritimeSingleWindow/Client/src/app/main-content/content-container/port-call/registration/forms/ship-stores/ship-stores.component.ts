@@ -4,7 +4,7 @@ import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores
 import { LocalDataSource } from 'ng2-smart-table';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { DeleteButtonComponent } from './delete-button/delete-button.component';
-import { ConstantsService } from 'app/shared/services/constants.service';
+import { PortCallService } from '../../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-ship-stores',
@@ -15,26 +15,37 @@ export class ShipStoresComponent implements OnInit {
   portCallShipStoresList: PortCallShipStoresModel[] = [];
 
   @ViewChild(NgForm) form: NgForm;
+
   shipStoresDataSource: LocalDataSource = new LocalDataSource();
   mockData = [
     {
       sequenceNumber: 9839,
-      articleName: 'Wine'
+      articleName: 'Wine',
+      articleCode: 332,
+      quantity: 3441,
+      measurementType: 'l',
+      locationOnBoardCode: 44,
+      locationOnBoard: 'On deck'
     },
     {
       sequenceNumber: 3982947,
-      articleName: 'Beer'
+      articleName: 'Beer',
+      articleCode: 332,
+      quantity: 3441,
+      measurementType: 'l',
+      locationOnBoardCode: 44,
+      locationOnBoard: 'On deck'
     }
   ];
 
   portCallShipStoresModel: PortCallShipStoresModel = {
     sequenceNumber: null,
-    articleName: null
-    /*articleCode: null,
+    articleName: null,
+    articleCode: null,
     quantity: null,
     measurementType: null,
     locationOnBoardCode: null,
-    locationOnBoard: null*/
+    locationOnBoard: null
   };
 
   tableSettings = {
@@ -57,15 +68,7 @@ export class ShipStoresComponent implements OnInit {
       articleName: {
         title: 'Article Name'
       },
-      delete: {
-        title: 'Delete',
-        // deleteButtonContent: 'Delete',
-        type: 'custom',
-        filter: false,
-        sort: false,
-        renderComponent: DeleteButtonComponent,
-      },
-      /*articleCode: {
+      articleCode: {
         title: 'Article Code'
       },
       quantity: {
@@ -79,20 +82,21 @@ export class ShipStoresComponent implements OnInit {
       },
       locationOnBoardCode: {
         title: 'Location Onboard Code'
-      }*/
-    },
-        /*mode: 'external',*/
-        /*{
-          custom: [
-            {
-              name: 'delete',
-              title: 'Delete'
-            }
-          ]
-        },*/
+      },
+      delete: {
+        title: 'Delete',
+        // deleteButtonContent: 'Delete',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: DeleteButtonComponent,
+      },
+    }
   };
 
-  constructor(private shipStoresService: PortCallShipStoresService ) {
+  measurementTypes = ['Liter (l)', 'Kilograms (kg)', 'Tonne (t)', 'Cubic Meters (m3)', 'Units (u)'];
+
+  constructor( private shipStoresService: PortCallShipStoresService ) {
     /*this.portCallShipStoresList.push(this.portCallShipStoresModel);*/
     this.mockData.forEach(shipStore => {
       this.portCallShipStoresModel = shipStore;
@@ -125,8 +129,7 @@ export class ShipStoresComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.shipStoresService.setShipStoresInformationMeta({
-      valid: this.form.valid
-    });
+    this.shipStoresService.setShipStoresInformationMeta({ valid: this.form.valid });
   }
+
 }

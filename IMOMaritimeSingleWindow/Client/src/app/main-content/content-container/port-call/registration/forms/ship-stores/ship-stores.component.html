@@ -1,24 +1,122 @@
 <app-ssn-card header="Ship Stores List" icon="alcohol.png">
-    <form action="" #shipstoresForm>
-        <div class="form-group">
-            <label for="articleName">Article Name</label>
-            <input type="text" [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name" class=form-control required name="articleName">
+
+    <form>
+        <div class="col-lg-6">
+            <div class="row">
+                <label for="articleName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Name</label>
+                <div class="col my-auto">
+                    <input type="text" [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name" class="form-control form-control-sm"
+                        required name="articleName">
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="sequenceNumber" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Sequence Number</label>
+                <div class="col my-auto">
+                    <input type="number" [(ngModel)]="portCallShipStoresModel.sequenceNumber" #sequenceNumber="ngModel" placeholder="Sequence Number"
+                        class="form-control form-control-sm" integerValidator positiveNumberValidator name="sequenceNumber">
+                </div>
+            </div>
+            <div *ngIf="!isValid(sequenceNumber.valid)" class="alert alert-danger">
+                <li *ngIf="sequenceNumber.hasError('notIntegerError')">
+                    <small>Number of passengers must be an integer.</small>
+                </li>
+                <li *ngIf="sequenceNumber.hasError('notPositiveNumberError')">
+                    <small>Number of passengers must be a positive number.</small>
+                </li>
+            </div>
+
+            <div class="row">
+                <label for="articleCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Code</label>
+                <div class="col my-auto">
+                    <input type="number" [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code"
+                        class="form-control form-control-sm" integerValidator positiveNumberValidator name="articleCode">
+                </div>
+            </div>
+            <div *ngIf="!isValid(articleCode.valid)" class="alert alert-danger">
+                <li *ngIf="articleCode.hasError('notIntegerError')">
+                    <small>Number of passengers must be an integer.</small>
+                </li>
+                <li *ngIf="articleCode.hasError('notPositiveNumberError')">
+                    <small>Number of passengers must be a positive number.</small>
+                </li>
+            </div>
+
+            <div class="row">
+                <label for="quantity" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Quantity</label>
+                <div class="col my-auto">
+                    <input type="number" [(ngModel)]="portCallShipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
+                        integerValidator positiveNumberValidator name="quantity">
+                </div>
+            </div>
+            <div *ngIf="!isValid(quantity.valid)" class="alert alert-danger">
+                <li *ngIf="quantity.hasError('notIntegerError')">
+                    <small>Number of passengers must be an integer.</small>
+                </li>
+                <li *ngIf="quantity.hasError('notPositiveNumberError')">
+                    <small>Number of passengers must be a positive number.</small>
+                </li>
+            </div>
+
+            <div class="row">
+                <label for="measurementType" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Measurement Type</label>
+                <div class="col my-auto">
+                    <select [(ngModel)]="portCallShipStoresModel.measurementType" class="form-control form-control-sm" name="measurementType">
+                        <option [ngValue]="undefined" disabled selected>Measurement Type</option>
+                        <option class="option" *ngFor="let unit of measurementTypes" required [ngValue]="unit">{{unit}}</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <label for="locationOnBoard" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Location on Board</label>
+                <div class="col my-auto">
+                    <input type="text" [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel" placeholder="Location on Board"
+                        class="form-control form-control-sm" name="locationOnBoard">
+                </div>
+            </div>
+
+            <div class="row">
+                <label for="locationOnBoardCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Location on Board Code</label>
+                <div class="col my-auto">
+                    <input type="number" [(ngModel)]="portCallShipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
+                        class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
+                </div>
+            </div>
+            <div *ngIf="!isValid(locationOnBoardCode.valid)" class="alert alert-danger">
+                <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
+                    <small>Number of passengers must be an integer.</small>
+                </li>
+                <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
+                    <small>Number of passengers must be a positive number.</small>
+                </li>
+            </div>
         </div>
-        <div class="form-group">
-                <label for="sequenceNumber">Sequence Number</label>
-            <input type="number" [(ngModel)]="portCallShipStoresModel.sequenceNumber" #sequenceNumber="ngModel" placeholder="Sequence Number" class="form-control" required name="sequenceNumber">
-        </div>
+
+    </form>
+
+    <div class="col-lg-6">
         <pre>{{ portCallShipStoresModel | json }}</pre>
-        </form>
-        <button type="submit" class="btn btn-ssn mt-2" (click)="persistData()"><span>Submit</span></button>
 
-    <div class="mb-3">
-
-        <div class="table-responsive">
-            <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+        <div class="form-group">
+            <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="persistData()">
+                <span>Submit</span>
+            </button>
+            <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
+                <span>Submit</span>
+            </button>
         </div>
-            <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
-            
-        </div> 
+
+        <div class="mb-3">
+
+            <div class="table-responsive">
+                <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+                </div>
+                <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
+
+            </div>
+        </div>
     </div>
-</app-ssn-card> 
+</app-ssn-card>
