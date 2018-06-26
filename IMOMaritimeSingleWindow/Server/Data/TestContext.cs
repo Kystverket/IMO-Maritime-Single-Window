@@ -82,8 +82,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
 
-                entity.HasOne(d => d.CertificateOfRegistryNavigation)
-                    .WithOne(p => p.CertificateOfRegistry);
+                entity.HasOne(d => d.PortLocation)
+                    .WithMany(p => p.CertificateOfRegistry);
             });
 
             modelBuilder.Entity<Claim>(entity =>
@@ -331,8 +331,6 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.Entity<Location>(entity =>
             {
                 entity.ToTable("location");
-
-
 
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 

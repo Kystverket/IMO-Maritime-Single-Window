@@ -114,6 +114,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.Organization)
                         .Include(s => s.ShipHullType)
                         .Include(s => s.ShipBreadthType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.LocationType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.Country)
                         .FirstOrDefault();
             return Json(ship);
         }

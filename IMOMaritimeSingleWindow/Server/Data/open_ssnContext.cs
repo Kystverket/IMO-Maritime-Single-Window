@@ -83,9 +83,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
 
-                entity.HasOne(d => d.CertificateOfRegistryNavigation)
-                    .WithOne(p => p.CertificateOfRegistry)
-                    .HasForeignKey<CertificateOfRegistry>(d => d.CertificateOfRegistryId)
+                entity.HasOne(d => d.PortLocation)
+                    .WithMany(p => p.CertificateOfRegistry)
+                    .HasForeignKey(d => d.PortLocationId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_certificate_of_registry_port_location_id");
             });
