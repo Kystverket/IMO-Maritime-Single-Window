@@ -6,9 +6,7 @@ import { LoadingScreen } from '../interfaces/loading-screen.interface';
 
 @Injectable()
 export class ContentService extends BaseService {
-  private contentSource = new BehaviorSubject<string>(
-    CONTENT_NAMES.REGISTER_PORT_CALL
-  );
+  private contentSource = new BehaviorSubject<string>(CONTENT_NAMES.REGISTER_PORT_CALL_DRAFT);
   contentName$ = this.contentSource.asObservable();
 
   private portCallFormSource = new BehaviorSubject<string>('Voyages');

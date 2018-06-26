@@ -28,7 +28,7 @@ export class ConfirmDataComponent implements OnInit {
 
   shipFound: boolean;
   locationFound: boolean;
-  dateTimeFound: boolean;
+  dateTimeFound = false;
 
   constructor(
     private portCallService: PortCallService,
@@ -54,8 +54,11 @@ export class ConfirmDataComponent implements OnInit {
       }
     });
     this.portCallService.etaEtdData$.subscribe(etaEtdData => {
-      if (etaEtdData) {
-        this.dateTimeFound = this.etaEtdModel = etaEtdData;
+      console.log(etaEtdData);
+
+      if (etaEtdData && etaEtdData.eta !== null && etaEtdData.etd !== null) {
+        this.dateTimeFound = true;
+        this.etaEtdModel = etaEtdData;
       } else {
         this.dateTimeFound = false;
       }
