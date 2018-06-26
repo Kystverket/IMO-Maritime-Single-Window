@@ -13,6 +13,12 @@ export class PortCallShipStoresService {
   });
   shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
 
+  private dataIsPristine = new BehaviorSubject<boolean>(true);
+  dataIsPristine$ = this.dataIsPristine.asObservable();
+
+  private detailsIdentificationSource = new BehaviorSubject<any>(null);
+  detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
+
   constructor() { }
 
   // Update shipStoresInformationData

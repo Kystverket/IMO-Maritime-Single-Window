@@ -96,19 +96,13 @@ export class ShipStoresComponent implements OnInit {
 
   measurementTypes = ['Liter (l)', 'Kilograms (kg)', 'Tonne (t)', 'Cubic Meters (m3)', 'Units (u)'];
 
-  constructor( private shipStoresService: PortCallShipStoresService ) {
-    /*this.portCallShipStoresList.push(this.portCallShipStoresModel);*/
-    this.mockData.forEach(shipStore => {
-      this.portCallShipStoresModel = shipStore;
-      this.persistData();
-    });
-    console.log(this.portCallShipStoresList);
-  }
+  constructor( private shipStoresService: PortCallShipStoresService ) {}
 
   ngOnInit() {
     this.shipStoresService.shipStoresInformationData$.subscribe(data => {
       if (data) {
         console.log(data);
+        this.portCallShipStoresList = data;
         this.shipStoresDataSource.load(data);
       }
     });

@@ -32,6 +32,7 @@ import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.co
 import { ShipStoresComponent } from './registration/forms/ship-stores/ship-stores.component';
 import { DeleteButtonComponent } from './registration/forms/ship-stores/delete-button/delete-button.component';
 import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
+import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 
 @NgModule({
   imports: [
@@ -70,6 +71,7 @@ import { PortCallShipStoresService } from '../../../shared/services/port-call-sh
     DeleteButtonComponent,
     ShipLocationTimeComponent,
     ViewPortCallComponent,
+    SaveShipStoresComponent,
   ],
   exports: [
     ClearanceComponent,
