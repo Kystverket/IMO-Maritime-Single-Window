@@ -1,15 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { LocationService } from 'app/shared/services/location.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
+import { LocationSearchService } from './location-search.service';
 
 @Component({
   selector: 'app-search-location',
   templateUrl: './search-location.component.html',
   styleUrls: ['./search-location.component.css'],
-  providers: [LocationService]
+  providers: [LocationSearchService]
 })
 export class SearchLocationComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class SearchLocationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private locationService: LocationService) { }
+  constructor(private locationSearchService: LocationSearchService) { }
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(150),
@@ -37,7 +37,7 @@ export class SearchLocationComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.locationService.search(term, this.restrictTypeHarbour, this.resultsDropdown).pipe(
+        this.locationSearchService.search(term, this.restrictTypeHarbour, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -52,10 +52,10 @@ export class SearchLocationComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.locationModel.length >= 2 && res.length === 0;
         } else {
-          this.locationService.search(this.locationModel, this.restrictTypeHarbour, this.resultsWithoutDropdown).subscribe(
+          this.locationSearchService.search(this.locationModel, this.restrictTypeHarbour, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
-              this.locationService.setLocationSearchData(data);
+              this.locationSearchService.setLocationSearchData(data);
               this.searching = false;
             });
         }
@@ -68,19 +68,19 @@ export class SearchLocationComponent implements OnInit {
   selectLocation($event) {
     this.locationSelected = true;
     this.locationModel = $event.item;
-    this.locationService.setLocationData(this.locationModel);
+    this.locationSearchService.setLocationData(this.locationModel);
   }
 
   deselectLocation() {
     this.locationSelected = false;
-    this.locationService.setLocationData(null);
+    this.locationSearchService.setLocationData(null);
   }
 
   ngOnInit() {
-    this.locationService.setLocationData(null);
+    this.locationSearchService.setLocationData(null);
   }
 
   getService() {
-    return this.locationService;
+    return this.locationSearchService;
   }
 }
