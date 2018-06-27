@@ -1,18 +1,15 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Extensions;
+using IMOMaritimeSingleWindow.Helpers;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.AspNetCore.Authorization;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
-using IMOMaritimeSingleWindow.Auth;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -93,8 +90,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult GetPortCallsByUser()
         {
             List<PortCall> portCallList = new List<PortCall>();
-            var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-            var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
+            var userId = this.GetUserId();
+            var userRole = this.GetUserRoleName();
 
             var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
                                     .Include(u => u.Organization.OrganizationType)
@@ -202,7 +199,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
-                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                PortCall portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == portCallId);
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CANCELLED;
                 _context.Update(portCall);
                 _context.SaveChanges();
@@ -222,7 +219,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             Console.WriteLine(portCall.PortCallId + "\n" + portCall.UserId.ToString());
             try
             {
-                var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+                var userId = this.GetUserId();
                 var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId)).Include(u => u.Role).FirstOrDefault();
                 var userIsAdmin = user.Role.Name.Equals(Constants.Strings.UserRoles.SuperAdmin);
                 var pcIsByUserOrg = (user.OrganizationId != null && _context.OrganizationPortCall.Any(opc => opc.PortCallId == portCall.PortCallId && opc.OrganizationId == user.OrganizationId));
@@ -260,7 +257,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             try
             {
-                var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
+                var userId = this.GetUserId();
                 portCall.UserId = Guid.Parse(userId);
                 var statusDraftId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
                 portCall.PortCallStatusId = statusDraftId;
@@ -303,7 +300,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         public PortCall GetPortCall(int id)
         {
-            return _context.PortCall.Where(pc => pc.PortCallId == id).FirstOrDefault();
+            return _context.PortCall.FirstOrDefault(pc => pc.PortCallId == id);
         }
 
         [HttpGet()]

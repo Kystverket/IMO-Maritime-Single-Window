@@ -1,11 +1,6 @@
-using System;
 using IMOMaritimeSingleWindow.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions;
-using Npgsql;
-using System.Data.SqlClient;
+using System;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -31,7 +26,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     con.Close();
                     return Json(state);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return Json(con.State);
                 }
