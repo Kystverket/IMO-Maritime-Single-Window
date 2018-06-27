@@ -112,7 +112,7 @@ export class AccountService extends BaseRequest {
     }
 
     confirmEmail(queryModel: TokenQueryModel): Observable<boolean> {
-        return Observable.of(true);
+        return Observable.of(false);
         /* const uri = [this.emailUrl, 'confirm'].join('/');
         return this.http
             .post(uri, JSON.stringify(queryModel))

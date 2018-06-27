@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TokenQueryModel } from '../../shared/models/token-query-model';
 import { AccountService } from '../../shared/services/account.service';
 import { UriQueryService } from '../../shared/services/uri-query.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PasswordResetModel } from '../../shared/models/password-reset-model';
 import { PasswordChangeModel } from '../../shared/models/password-change-model';
 
@@ -30,7 +30,8 @@ export class PasswordComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private uriQueryService: UriQueryService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   checkFill() {
@@ -101,10 +102,16 @@ export class PasswordComponent implements OnInit {
         this.isChangeComponent = false;
         console.log('Reset component');
         break;
+      case 'Set':
+        this.isChangeComponent = false;
+        console.log('Set component');
+        break;
       case 'Change':
         this.isChangeComponent = true;
         console.log('Change component');
         break;
+      default:
+        this.router.navigate(['/error']);
     }
     this.tokenQueryModel = this.uriQueryService.getTokenQueryModel(
       this.activatedRoute.snapshot.queryParams

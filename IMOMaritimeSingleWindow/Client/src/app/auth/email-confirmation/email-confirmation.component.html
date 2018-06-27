@@ -1,20 +1,35 @@
 <div class="container pt-5">
-  <app-ssn-bg header="EMAIL CONFIRMATION" icon="user.png">
+  <app-ssn-bg header="ACCOUNT CONFIRMATION" icon="user.png">
 
-    <app-ssn-card header="Password reset form">
+    <div *ngIf="emailConfirmationSuccessful">
       <div class="row">
+        <div class="col col-sm-2 col-md-2 col-lg-2 col-xl-2 text-center"></div>
         <h3>Thank you for confirming your email address.</h3>
-        
       </div>
       <div class="row">
-        <div class="col">
-            <h3>You will be redirected to login page in... </h3>
-        </div>
-        <div class="col">
-            <h1>{{secondsRemaining}} seconds</h1>
+        <div class="col col-sm-2 col-md-3 col-lg-5 col-xl-6 text-center">
+          <p>Now please select a password for the account created by your local administrator:</p>
         </div>
       </div>
 
+      <app-password purpose="Set"></app-password>
+
+      <!-- <div class="row">
+        <div class="col">
+          <h3>You will be redirected to login page in... </h3>
+        </div>
+        <div class="col">
+          <h1>{{secondsRemaining}} seconds</h1>
+        </div>
+      </div> -->
+    </div>
+
+    <app-ssn-card *ngIf="!emailConfirmationSuccessful" header="Account confirmation">
+      <p>Email confirmation unsuccessful.</p>
+      <p>This may occur if the link you've been provided has expired. Please contact your local system administrator.</p>
+      <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <span>{{errors}}</span>
+      </div>
     </app-ssn-card>
   </app-ssn-bg>
 
