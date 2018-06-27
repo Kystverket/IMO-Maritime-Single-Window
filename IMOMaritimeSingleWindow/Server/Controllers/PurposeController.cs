@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -25,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult GetAll()
         {
             List<PortCallPurpose> resultList = _context.PortCallPurpose.Where(p => !EF.Functions.ILike(p.Name, "Other")).OrderBy(p => p.Name).ToList();
-            resultList.Add(_context.PortCallPurpose.Where(p => EF.Functions.ILike(p.Name, "Other")).FirstOrDefault());
+            resultList.Add(_context.PortCallPurpose.FirstOrDefault(p => EF.Functions.ILike(p.Name, "Other")));
             return Json(resultList);
         }
 
