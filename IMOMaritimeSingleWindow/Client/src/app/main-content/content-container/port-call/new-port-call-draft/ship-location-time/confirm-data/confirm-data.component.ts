@@ -54,8 +54,6 @@ export class ConfirmDataComponent implements OnInit {
       }
     });
     this.portCallService.etaEtdData$.subscribe(etaEtdData => {
-      console.log(etaEtdData);
-
       if (etaEtdData && etaEtdData.eta !== null && etaEtdData.etd !== null) {
         this.dateTimeFound = true;
         this.etaEtdModel = etaEtdData;
