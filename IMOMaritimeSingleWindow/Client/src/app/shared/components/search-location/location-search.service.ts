@@ -31,6 +31,11 @@ export class LocationSearchService {
     this.locationSearchDataSource.next(data);
   }
 
+  clearLocationSearch() {
+    this.setLocationData(null);
+    this.setLocationSearchData(null);
+  }
+
   public search(term: string, restrictTypeHarbour: boolean, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);

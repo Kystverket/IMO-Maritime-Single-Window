@@ -78,7 +78,8 @@ export class SearchLocationComponent implements OnInit {
 
   deselectLocation() {
     this.locationSelected = false;
-    this.locationSearchService.setLocationData(null);
+    this.locationModel = null;
+    this.locationSearchService.clearLocationSearch();
   }
 
   getService() {
