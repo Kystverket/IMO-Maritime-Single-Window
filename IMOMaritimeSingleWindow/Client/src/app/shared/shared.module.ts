@@ -36,6 +36,7 @@ import { LocationSmartTableComponent } from 'app/shared/components/location-smar
 // tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
 import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    SsnTableComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -92,6 +94,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
+    SsnTableComponent
   ],
   providers: [
     ContactService,
