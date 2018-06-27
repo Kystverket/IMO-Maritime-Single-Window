@@ -228,7 +228,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (user == null)
                 return BadRequest();
 
-            var result = await _userManager.ResetPasswordAsync(user, model.PasswordResetToken, model.NewPassword);
+            var passwordResetToken = Uri.UnescapeDataString(model.PasswordResetToken);
+            var result = await _userManager.ResetPasswordAsync(user, passwordResetToken, model.NewPassword);
             if (result.Succeeded)
                 return Ok("Password changed");
 
