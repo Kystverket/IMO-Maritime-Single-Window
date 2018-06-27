@@ -10,7 +10,7 @@ namespace IMOMaritimeSingleWindow.Models
             FalShipStores = new HashSet<FalShipStores>();
         }
 
-        public int MarpolCategoryId { get; set; }
+        public int MeasurementTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

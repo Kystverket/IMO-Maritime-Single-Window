@@ -26,6 +26,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<LocationSource> LocationSource { get; set; }
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
+        public virtual DbSet<MeasurementType> MeasurementType { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
@@ -507,6 +508,14 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<MeasurementType>(entity =>
+            {
+                entity.ToTable("measurement_type");
+
+                entity.Property(e => e.MeasurementTypeId).HasColumnName("measurement_type_id");
+                entity.Property(e => e.Name).HasColumnName("name");
             });
 
             modelBuilder.Entity<Municipality>(entity =>
