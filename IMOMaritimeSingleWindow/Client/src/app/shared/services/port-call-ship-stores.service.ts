@@ -8,10 +8,12 @@ export class PortCallShipStoresService {
 
   private shipStoresUrl: string;
   private portCallShipStoresUrl: string; // Ship stores for a given port call
+  private measurementTypeUrl: string;
 
   constructor(private http: Http) {
     this.shipStoresUrl = 'api/falShipStores';
     this.portCallShipStoresUrl = 'api/portCall/falShipStores';
+    this.measurementTypeUrl = 'api/measurementType';
   }
 
   private shipStoresInformationSource = new BehaviorSubject<any>(null);
@@ -43,7 +45,11 @@ export class PortCallShipStoresService {
     const uri = [this.portCallShipStoresUrl, portCallId].join['/'];
     return this.http.get(uri).map(res => res.json());
   }
-
+  // Get list of all measurement types
+  getMeasurementTypeList() {
+    const uri = this.measurementTypeUrl;
+    return this.http.get(uri).map(res => res.json());
+  }
   // Update shipStoresInformationData
   setShipStoresInformationData(data) {
     this.shipStoresInformationSource.next(data);
