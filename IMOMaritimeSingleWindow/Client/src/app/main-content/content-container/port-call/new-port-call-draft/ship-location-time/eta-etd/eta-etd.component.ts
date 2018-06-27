@@ -3,37 +3,8 @@ import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { EtaEtdDateTime } from './eta-etd-date-time.interface';
+import { EtaEtdDateTime } from '../../../../../../shared/interfaces/eta-etd-date-time.interface';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-
-const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
-  one &&
-  two &&
-  two.year === one.year &&
-  two.month === one.month &&
-  two.day === one.day;
-
-const before = (one: NgbDateStruct, two: NgbDateStruct) =>
-  !one || !two
-    ? false
-    : one.year === two.year
-      ? one.month === two.month
-        ? one.day === two.day
-          ? false
-          : one.day < two.day
-        : one.month < two.month
-      : one.year < two.year;
-
-const after = (one: NgbDateStruct, two: NgbDateStruct) =>
-  !one || !two
-    ? false
-    : one.year === two.year
-      ? one.month === two.month
-        ? one.day === two.day
-          ? false
-          : one.day > two.day
-        : one.month > two.month
-      : one.year > two.year;
 
 @Component({
   selector: 'app-eta-etd',
@@ -51,12 +22,6 @@ export class EtaEtdComponent implements AfterViewInit {
     eta: null,
     etd: null
   };
-
-  etaDateModel: NgbDateStruct;
-  etdDateModel: NgbDateStruct;
-
-  etaTimeModel: NgbTimeStruct;
-  etdTimeModel: NgbTimeStruct;
 
   dateSequenceError = false;
   timeSequenceError = false;
@@ -83,7 +48,16 @@ export class EtaEtdComponent implements AfterViewInit {
 
     this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData != null) {
-        this.etaEtdModel = etaEtdData;
+        this.etaEtdModel = {
+          eta: {
+            date: new NgbDate(etaEtdData.eta.year, etaEtdData.eta.month, etaEtdData.eta.day),
+            time: new NgbTime(etaEtdData.eta.hour, etaEtdData.eta.minute, 0)
+          },
+          etd: {
+            date: new NgbDate(etaEtdData.etd.year, etaEtdData.etd.month, etaEtdData.etd.day),
+            time: new NgbTime(etaEtdData.etd.hour, etaEtdData.etd.minute, 0)
+          }
+        };
       }
     });
   }
@@ -111,8 +85,14 @@ export class EtaEtdComponent implements AfterViewInit {
 
   private persistData() {
 
-    if (!this.dateSequenceError && !this.timeSequenceError) {
-      this.portCallService.setEtaEtdData(this.etaEtdModel);
+    if (!this.dateSequenceError && !this.timeSequenceError && this.etaEtdModel && this.etaEtdModel.eta && this.etaEtdModel.etd) {
+      const etaEtdData = {
+        eta: Object.assign(this.etaEtdModel.eta.date, this.etaEtdModel.eta.time),
+        etd: Object.assign(this.etaEtdModel.etd.date, this.etaEtdModel.etd.time)
+      };
+
+      // const formattedDate = this.portCallService.etaEtdDataFormat()
+      this.portCallService.setEtaEtdData(etaEtdData);
     } else {
       this.portCallService.setEtaEtdData(null);
     }
