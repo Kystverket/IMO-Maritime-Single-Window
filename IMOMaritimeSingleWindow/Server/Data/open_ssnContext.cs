@@ -20,6 +20,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Dpg> Dpg { get; set; }
         public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         public virtual DbSet<DpgType> DpgType { get; set; }
+        public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
@@ -359,6 +360,34 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+            });
+
+            modelBuilder.Entity<FalShipStores>(entity =>
+            {
+                entity.ToTable("fal_ship_stores");
+
+                entity.Property(e => e.FalShipStoresId).HasColumnName("fal_ship_stores_id");
+                entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
+                entity.Property(e => e.ArticleName).HasColumnName("article_name");
+                entity.Property(e => e.ArticleCode).HasColumnName("article_code");
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+                entity.Property(e => e.LocationOnBoard).HasColumnName("location_on_board");
+                entity.Property(e => e.LocationOnBoardCode).HasColumnName("location_on_board_code");
+                entity.Property(e => e.MeasurementTypeId).HasColumnName("measurement_type_id");
+                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.HasOne(d => d.MeasurementType)
+                    .WithMany(p => p.FalShipStores)
+                    .HasForeignKey(d => d.MeasurementTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fal_ship_stores_measurement_type_id_fkey");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.FalShipStores)
+                    .HasForeignKey(d => d.PortCallId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("fal_ship_stores_port_call_id_fkey");
+
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>

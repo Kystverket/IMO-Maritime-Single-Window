@@ -19,6 +19,7 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<Dpg> Dpg { get; set; }
         DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         DbSet<DpgType> DpgType { get; set; }
+        DbSet<FalShipStores> FalShipStores { get; set; }
         DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         DbSet<Location> Location { get; set; }
         DbSet<LocationSource> LocationSource { get; set; }

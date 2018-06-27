@@ -26,6 +26,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("{portCallId}/falShipStores")]
+        public IActionResult GetFalShipStores(int portCallId)
+        {
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId).ToList();
+            if (shipStores == null)
+            {
+                return NotFound();
+            }
+            return Json(shipStores);
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
