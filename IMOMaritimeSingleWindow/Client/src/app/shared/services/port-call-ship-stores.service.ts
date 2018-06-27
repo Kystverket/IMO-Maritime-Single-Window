@@ -7,11 +7,13 @@ import { Http } from '@angular/http';
 export class PortCallShipStoresService {
 
   private shipStoresUrl: string;
+  private shipStoresListUrl: string;
   private portCallShipStoresUrl: string; // Ship stores for a given port call
   private measurementTypeUrl: string;
 
   constructor(private http: Http) {
     this.shipStoresUrl = 'api/falShipStores';
+    this.shipStoresListUrl = 'api/falShipStores/list';
     this.portCallShipStoresUrl = 'api/portCall/falShipStores';
     this.measurementTypeUrl = 'api/measurementType';
   }
@@ -30,15 +32,15 @@ export class PortCallShipStoresService {
     const uri = [this.shipStoresUrl, shipStoresId].join['/'];
     return this.http.get(uri).map(res => res.json());
   }
-  // Add new ship stores object to database
-  addShipStores(shipStores: any) {
-    const uri = this.shipStoresUrl;
-    return this.http.post(uri, shipStores).map(res => res.json());
+  // Add new ship stores list to database
+  addShipStores(shipStoresList: any[]) {
+    const uri = this.shipStoresListUrl;
+    return this.http.post(uri, shipStoresList).map(res => res.json());
   }
-  // Update existing ship stores object in database
-  updateShipStores(shipStores: any) {
-    const uri = this.shipStoresUrl;
-    return this.http.put(uri, shipStores).map(res => res.json());
+  // Update  existing ship stores list in database
+  updateShipStores(shipStoresList: any[]) {
+    const uri = this.shipStoresListUrl;
+    return this.http.put(uri, shipStoresList).map(res => res.json());
   }
   // Get all ship stores for a given port call
   getShipStoresByPortCallId(portCallId: number) {
