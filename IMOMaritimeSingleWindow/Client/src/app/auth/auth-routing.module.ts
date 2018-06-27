@@ -8,20 +8,36 @@ import { EmailConfirmationGuard } from './guards/email-confirmation.guard';
 import { PasswordChangeComponent } from './password-change/password-change.component';
 import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './guards/login.guard';
+import { AuthHomeGuard } from './guards/auth-home.guard';
+import { PasswordForgottenComponent } from './password-forgotten/password-forgotten.component';
 
 const authRoutes: Routes = [
   {
     path: '',   /*  /auth   */
+    // redirectTo: 'auth/login',
+    // pathMatch: 'full',
+    // component: LoginComponent,
+    // canActivate: [LoginGuard],
     component: AuthHomeComponent,
     children: [
         {
+          path: '',
+          pathMatch: 'full',
+          redirectTo: 'login'
+        },
+        {
             path: 'ResetPassword',
             component: PasswordResetComponent,
-            canActivate: [PasswordResetGuard]
+            // canActivate: [PasswordResetGuard]
           },
           {
             path: 'ChangePassword',
-            component: PasswordChangeComponent
+            component: PasswordChangeComponent,
+            data: { title: 'Change password'}
+          },
+          {
+            path: 'ForgotPassword',
+            component: PasswordForgottenComponent
           },
           {
             path: 'ConfirmEmail',

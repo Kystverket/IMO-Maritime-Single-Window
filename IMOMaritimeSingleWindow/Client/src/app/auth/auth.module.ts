@@ -19,6 +19,8 @@ import { PasswordResetGuard } from './guards/password-reset.guard';
 import { PasswordService } from './password.service';
 import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './guards/login.guard';
+import { AuthHomeGuard } from './guards/auth-home.guard';
+import { PasswordForgottenComponent } from './password-forgotten/password-forgotten.component';
 
 @NgModule({
   imports: [
@@ -42,9 +44,11 @@ import { LoginGuard } from './guards/login.guard';
     PasswordComponent,
     PasswordChangeComponent,
     PasswordResetComponent,
+    PasswordForgottenComponent,
   ],
   providers: [
     // Guards
+    AuthHomeGuard,
     EmailConfirmationGuard,
     LoginGuard,
     PasswordResetGuard,

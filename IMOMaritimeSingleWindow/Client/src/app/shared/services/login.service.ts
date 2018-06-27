@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from '../utils/config.service';
 import { AccountService } from './account.service';
 import { BaseService } from './base.service';
+import { Observable } from 'rxjs';
 
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
 
@@ -37,6 +38,37 @@ export class LoginService extends BaseService {
     });
   }
 
+
+  protected /*override*/ handleError(error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      if (error.status === 400) {
+        console.log('error instanceof Response && error.status == 400');
+        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      } else {
+        console.log('error instanceof Response && error.status != 400');
+        errMsg = "Server error";
+        // errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      }
+    } else {
+      if (error.status === 400) {
+        const body = error.json() || '';
+        const err = body.error || JSON.stringify(body);
+        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      } else {
+        // errMsg = "Server error";
+        errMsg = error.message ? error.message : error.toString();
+      }
+      // console.log(error.constructor.name);
+      // console.log(error.json());
+      // errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+
   login(userName, password) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -47,10 +79,9 @@ export class LoginService extends BaseService {
         JSON.stringify({ userName, password }),
         { headers }
       )
-      .map(res => res.json())
       .map(res => {
-        if (res) {
-          localStorage.setItem('auth_token', res.auth_token);
+        if (this.tryParseAsJson(res)) {
+          localStorage.setItem('auth_token', res.json().auth_token);
           this.loggedIn = true;
           this._loggedInSource.next(true);
           this._authNavStatusSource.next(true);
@@ -59,6 +90,8 @@ export class LoginService extends BaseService {
         this._loggedInSource.next(false);
         this._authNavStatusSource.next(false);
         return false;
+      }, error => {
+        console.log('error logging in', error);
       })
       .catch(this.handleError);
   }
@@ -80,4 +113,15 @@ export class LoginService extends BaseService {
 
     return !isExpired;
   }
+
+  private tryParseAsJson(error: any) {
+    let response: any;
+    try {
+        response = error.json();
+    } catch (jsonError) {
+        return false;
+    }
+    return true;
+}
+
 }

@@ -24,7 +24,7 @@ export class LoginGuard implements CanActivate {
         .map(tokenValid => {
           console.log(tokenValid);
           if (tokenValid) {
-            this.router.navigate(['']);
+            this.router.navigateByUrl('');
             return false;
           } else {
             /* User tries to access login route with an invalid token

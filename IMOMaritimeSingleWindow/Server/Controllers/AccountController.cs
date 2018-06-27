@@ -78,7 +78,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GetEmailLinkAsync(applicationUser.Email);
+            var callbackUrl = await GenerateEmailConfirmationLinkAsync(applicationUser);
 
             // Construct message
             var infotext = $"An email has been sent to {applicationUser.Email} containing the confirmation link: {callbackUrl}";
@@ -103,7 +103,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
             // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GetEmailLinkAsync(applicationUser.Email);
+            var callbackUrl = await GenerateEmailConfirmationLinkAsync(applicationUser);
 
             // Send confirmation link to user's registered email address
 
@@ -144,32 +144,15 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         [AllowAnonymous]
         [HttpGet("emailLink")]
-        public async Task<IActionResult> GetEmailLink(){
-            var callbackUrl = await GetEmailLinkAsync("agent4@imo-msw.org");
+        public async Task<IActionResult> GetEmailLink()
+        {
+            var user = await _userManager.FindByEmailAsync("agent4@imo-msw.org");
+            var callbackUrl = await GenerateEmailConfirmationLinkAsync(user);
             // Return url
             return Ok(callbackUrl);
         }
         
-        private async Task<Uri> GetEmailLinkAsync(string userName)
-        {
-            var user = await _userManager.FindByNameAsync(userName);
-            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-            QueryBuilder queryBuilder = new QueryBuilder(
-                new Dictionary<string, string>()
-                {
-                    { "userId", user.Id.ToString() },
-                    { "token", emailConfirmationToken }
-                }
-            );
-
-            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri("ConfirmEmail"))
-            {
-                Query = queryBuilder.ToString()
-            };
-
-            return uriBuilder.Uri;
-        }
+        
 
         [AllowAnonymous]
         [HttpPost("user/email/confirm")]
@@ -196,6 +179,32 @@ namespace IMOMaritimeSingleWindow.Controllers
             var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             return Json(passwordChangeToken);
+        }
+
+        /// <summary>
+        /// Lets a logged in user change their password.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns> An HTTP 200 OK reponse if the password was successfully changed. </returns>
+        [HasClaim(Claims.Types.USER, Claims.Values.EDIT)]
+        [HttpPut("user/password/change")]
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var userId = User.FindFirstValue((Constants.Strings.JwtClaimIdentifiers.Id));
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                return BadRequest();
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (result.Succeeded)
+                return Ok("Password changed");
+            return BadRequest();
         }
 
         /// <summary>
@@ -227,30 +236,28 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         /// <summary>
-        /// Lets a logged in user change their password.
+        /// Sends a password reset link to the user.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns> An HTTP 200 OK reponse if the password was successfully changed. </returns>
-        [HasClaim(Claims.Types.USER, Claims.Values.EDIT)]
-        [HttpPut("user/password")]
-        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("user/password/forgotten")]    // Should be post with body
+        public async Task<IActionResult> SendPasswordResetLink(string userName)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var userId = User.FindFirstValue((Constants.Strings.JwtClaimIdentifiers.Id));
-            var user = await _userManager.FindByIdAsync(userId);
-
-            if (user == null)
+            if (String.IsNullOrEmpty(userName))
+                return BadRequest(nameof(userName));
+            var applicationUser = await _userManager.FindByEmailAsync(userName);
+            if(applicationUser == null)
                 return BadRequest();
 
-            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-                return Ok("Password changed");
-            return BadRequest();
+            var passwordResetLink = await GeneratePasswordResetLinkAsync(applicationUser);
+            // Send email to user
+
+            // For now returns link to webclient
+            return Ok(passwordResetLink);
         }
+
+        
 
         /// <summary>
         /// Gets the roles assignable to users.
@@ -326,7 +333,48 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
 
-#region Helper methods
+        #region Helper methods
+
+
+        private async Task<Uri> GenerateEmailConfirmationLinkAsync(ApplicationUser applicationUser)
+        {
+            var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
+
+            QueryBuilder queryBuilder = new QueryBuilder(
+                new Dictionary<string, string>()
+                {
+                    { "userId", applicationUser.Id.ToString() },
+                    { "token", emailConfirmationToken }
+                }
+            );
+
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientUris.EMAILCONFIRMATION))
+            {
+                Query = queryBuilder.ToString()
+            };
+
+            return uriBuilder.Uri;
+        }
+
+        private async Task<Uri> GeneratePasswordResetLinkAsync(ApplicationUser applicationUser)
+        {
+            var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
+            
+            QueryBuilder queryBuilder = new QueryBuilder(
+                new Dictionary<string, string>()
+                {
+                    { "userId", applicationUser.Id.ToString() },
+                    { "token", passwordResetToken }
+                }
+            );
+
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientUris.RESETPASSWORD))
+            {
+                Query = queryBuilder.ToString()
+            };
+
+            return uriBuilder.Uri;
+        }
 
         private Uri GetCallBackUri()
         {
@@ -381,6 +429,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             };
             return uriBuilder.Uri;
         }
+        
 
 #endregion
 

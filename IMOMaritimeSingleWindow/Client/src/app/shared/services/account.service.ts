@@ -8,6 +8,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TokenQueryModel } from '../models/token-query-model';
 import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
+import { PasswordResetModel } from '../models/password-reset-model';
+import { PasswordChangeModel } from '../models/password-change-model';
 
 
 @Injectable()
@@ -115,6 +117,41 @@ export class AccountService extends BaseRequest {
         return this.http
             .post(uri, JSON.stringify(queryModel))
             .map(res => res.json()); */
+    }
+
+    sendPasswordResetLink(userName: string) {
+        const uri = [this.passwordUrl, 'forgotten'].join('/');
+        // Implementation for testing purposes
+        return this.http
+            .get(uri, {
+                params: {
+                    userName: userName
+                }
+            })
+            .map(res => res.text());
+        // Actual implementation comes here...
+    }
+
+    resetPassword(model: PasswordResetModel): Observable<boolean> {
+        const uri = [this.passwordUrl, 'reset'].join('/');
+        return this.http.put(uri, model)
+            .map(res => {
+                return res.json();
+            }, error => {
+                return Observable.of(false);
+            }
+            );
+    }
+
+    changePassword(model: PasswordChangeModel): Observable<boolean> {
+        const uri = [this.passwordUrl, 'change'].join('/');
+        return this.http.put(uri, model)
+            .map(res => {
+                    return res.json();
+                }, error => {
+                    return Observable.of(false);
+                }
+            );
     }
 
     getPasswordResetToken(userId: string): Observable<string> {

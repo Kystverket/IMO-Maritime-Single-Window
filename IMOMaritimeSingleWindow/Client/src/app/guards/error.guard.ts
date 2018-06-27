@@ -18,14 +18,15 @@ export class ErrorGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
       if (!this.authService.hasToken()) {
-        this.router.navigate(['/login']);
+        console.log('error guard');
+        this.router.navigate(['/auth/login']);
         return false;
       } else {
         return this.authService.hasValidToken()
         .map(tokenValid => {
           if (!tokenValid) {
             this.loginService.logout();
-            this.router.navigate(['/login']);
+            this.router.navigate(['/auth/login']);
             return false;
           } else {
             // TODO: redirect to an error page

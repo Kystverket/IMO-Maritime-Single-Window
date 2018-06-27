@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PasswordService } from '../password.service';
-
 @Component({
   selector: 'app-auth-home',
   templateUrl: './auth-home.component.html',
