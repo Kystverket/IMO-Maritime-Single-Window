@@ -54,7 +54,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 foreach (ShipContact contactEntity in shipContactList)
                 {
-                    Console.WriteLine("\n\n" + contactEntity.ContactValue);
                     if (_context.ShipContact.Any(sc => sc.ShipContactId == contactEntity.ShipContactId))
                     {
                         _context.Update(contactEntity);
