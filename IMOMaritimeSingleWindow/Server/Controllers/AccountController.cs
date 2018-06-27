@@ -11,26 +11,23 @@
  *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Controllers/AccountsController.cs
  */
 
-using System.Linq;
-using System;
-using System.Threading.Tasks;
+using AutoMapper;
+using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
-using IMOMaritimeSingleWindow.Auth;
-using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
-using Microsoft.AspNetCore.Http.Extensions;
-using System.Collections.Generic;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Web;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -43,8 +40,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
 
-        public IHostingEnvironment _env { get; }
-
+        private readonly IHostingEnvironment _env;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -240,7 +236,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userId = User.FindFirstValue((Constants.Strings.JwtClaimIdentifiers.Id));
+            var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -274,8 +270,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("user/name")]
         public async Task<IActionResult> GetUserName()
         {
-            var idClaim = User.Claims.FirstOrDefault(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id);
-            var userId = idClaim.Value;
+            var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
             return Json(user.UserName);
         }
@@ -314,12 +309,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("user/claims")]
         public async Task<IActionResult> GetUserClaims()
         {
-            // Finds the id of the logged in user, if present in JWT
-            var userIdClaim = User.FindFirst(claim => claim.Type == Constants.Strings.JwtClaimIdentifiers.Id);
-            if (userIdClaim == null)
-                return new BadRequestObjectResult("id not present on jwt");
-            var userId = userIdClaim.Value;
-
+            var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
             var claims = await _userManager.GetClaimsAsync(user);
             return Json(claims);
