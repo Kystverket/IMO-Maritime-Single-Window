@@ -12,8 +12,6 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int MeasurementTypeId { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-
         public ICollection<FalShipStores> FalShipStores { get; set; }
     }
 }
