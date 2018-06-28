@@ -9,7 +9,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 export class ClearancesComponent implements OnInit {
   clearanceList: any[] = [];
 
-  constructor(private portCallService: PortCallService) {}
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
     this.portCallService.clearanceListData$.subscribe(clearanceListData => {

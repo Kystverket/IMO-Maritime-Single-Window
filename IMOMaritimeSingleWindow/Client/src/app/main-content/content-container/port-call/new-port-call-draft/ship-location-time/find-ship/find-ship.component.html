@@ -6,21 +6,7 @@
 
   <div *ngIf="shipFound" class="text-center">
     <div class="table-responsive">
-      <table class="table table-bordered">
-        <thead>
-          <th *ngIf="shipFlag" class="bg-ssn text-ssn">Flag</th>
-          <th *ngFor="let entry of shipInfo" class="bg-ssn text-ssn">{{ entry.description }}</th>
-        </thead>
-        <tbody>
-          <td *ngIf="shipFlag">
-            <img src="assets/images/Flags/128x128/{{shipFlag | lowercase}}.png" height="20px">
-          </td>
-          <td *ngFor="let entry of shipInfo">
-            <div *ngIf="entry.data">{{ entry.data }}</div>
-            <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
-          </td>
-        </tbody>
-      </table>
+      <app-ssn-table [entryData]=shipData></app-ssn-table>
     </div>
     <button class="btn btn-ssn" (click)="deselectShip()">
       <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>

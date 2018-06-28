@@ -36,6 +36,8 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             return DbSet
                 .Where(usr => usr.NormalizedEmail == normalizedUserName)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
                 .FirstOrDefault();
         }
 
@@ -59,6 +61,21 @@ namespace IMOMaritimeSingleWindow.Repositories
         public IQueryable<User> GetIqueryAble()
         {
             return Context.Set<User>().AsQueryable();
+        }
+
+        public int GetAccessFailedCount(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetLockoutEnabled(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTimeOffset? GetLockoutEndDate(Guid userId)
+        {
+            throw new NotImplementedException();
         }
 
 
