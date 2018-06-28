@@ -28,8 +28,8 @@ export class DeleteButtonComponent implements OnInit, ViewCell {
     this.modalService.open(content);
   }
 
-  deleteShipStore() {
-    this.shipStoresService.deleteShipStore(this.rowData);
+  deleteShipStoreEntry() {
+    this.shipStoresService.deleteShipStoreEntry(this.rowData);
   }
 
 }

@@ -1,27 +1,12 @@
 <app-ssn-card header="Save Ship Stores" icon="save.png">
-  <div class="text-center" *ngIf="!dataIsPristine">
-    <div *ngIf="!shipStoresInformationMeta.valid">
-      <div class="alert alert-danger">
-        <span>You can't save port call details.</span>
-        <br>
-        <span>Reason:</span>
-        <li *ngIf="!shipStoresInformationMeta.valid">
-          <small>There are errors in "Crew, Passengers and Dimensions"</small>
-        </li>
-      </div>
-      <button class="btn btn-ssn" disabled>
-        <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
-        <span>Save Details</span>
-      </button>
-    </div>
-
-    <button class="btn btn-ssn" *ngIf="shipStoresInformationMeta.valid">
+  <div class="text-center" *ngIf="!listIsPristine">
+    <button class="btn btn-ssn" (click)="saveShipStores()">
       <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
       <span>Save Details</span>
     </button>
   </div>
 
-  <div class="text-center" *ngIf="dataIsPristine">
+  <div class="text-center" *ngIf="listIsPristine">
     <span>Yes, change this text</span>
     <br>
     <button class="btn btn-ssn mt-2" disabled>

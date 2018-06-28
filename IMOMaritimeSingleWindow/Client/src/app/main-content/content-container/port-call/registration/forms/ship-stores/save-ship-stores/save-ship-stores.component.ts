@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PortCallShipStoresService } from '../../../../../../../shared/services/port-call-ship-stores.service';
 import { PortCallShipStoresModel } from '../../../../../../../shared/models/port-call-ship-stores-model';
-import { FormMetaData } from '../../../../../../../shared/interfaces/form-meta-data.interface';
 
+import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 
 @Component({
   selector: 'app-save-ship-stores',
@@ -10,21 +10,67 @@ import { FormMetaData } from '../../../../../../../shared/interfaces/form-meta-d
   styleUrls: ['./save-ship-stores.component.css']
 })
 export class SaveShipStoresComponent implements OnInit {
+
   shipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
   reportingModel: any;
+  portCallId: number;
 
-  shipStoresInformationMeta: FormMetaData = { valid: true };
+  portCallShipStoresList: PortCallShipStoresModel[] = [];
+  originalPortCallShipStoresList: PortCallShipStoresModel[] = [];
 
-  constructor(private shipStoresService: PortCallShipStoresService) { }
+  listIsPristine: Boolean = true;
 
-  dataIsPristine = true;
+  constructor(
+    private shipStoresService: PortCallShipStoresService,
+    private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.shipStoresService.dataIsPristine$.subscribe(dataIsPristine => {
-      this.dataIsPristine = dataIsPristine;
-    });
 
     // Database Identification
+    this.portCallService.detailsIdentificationData$.subscribe(results => {
+      if (results) {
+        this.portCallId = results.portCallId;
+        console.log('Port call ID: ' + results.portCallId);
+        this.shipStoresService.shipStoresOriginalList$.subscribe(shipStores => {
+          if (shipStores) {
+          this.originalPortCallShipStoresList = shipStores;
+          }
+        });
+      }
+    });
+
+    // Get original ship stores list belonging to this port call
+
+    // Get updated list of ship stores
+    this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
+      if (shipStoresList) {
+        this.portCallShipStoresList = shipStoresList;
+        console.log(shipStoresList);
+
+          if (this.portCallShipStoresList !== this.originalPortCallShipStoresList) {
+            this.listIsPristine = false;
+          } else {
+            this.listIsPristine = true;
+          }
+      }
+      console.log('Original list: ' + this.originalPortCallShipStoresList);
+      console.log('New list: ' + this.portCallShipStoresList);
+    });
+
+    console.log(this.portCallShipStoresList);
+
+  }
+
+  saveShipStores() {
+    console.log('Save Ship Component: Saving...');
+
+    if (this.originalPortCallShipStoresList.length === 0) {
+      this.shipStoresService.updateShipStores(this.portCallShipStoresList);
+    } else {
+      this.shipStoresService.updateShipStores(
+        this.portCallShipStoresList
+      );
+    }
   }
 
 }
