@@ -17,13 +17,14 @@ export class ClearanceComponent implements OnInit {
   clearanceList: any[] = [];
 
   givingClearance: boolean;
+  clearanceText;
 
   constructor(
     private contentService: ContentService,
     private modalService: NgbModal,
     private portCallService: PortCallService,
     private shipService: ShipService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.portCallService.clearanceListData$.subscribe(data => {
@@ -34,6 +35,7 @@ export class ClearanceComponent implements OnInit {
             this.clearanceModel = this.clearanceList.find(
               cl => cl.organizationId === clearanceUser.organizationId
             );
+            this.clearanceText = this.clearanceModel.remark;
           }
         });
       }
@@ -50,6 +52,7 @@ export class ClearanceComponent implements OnInit {
   }
 
   saveClearance() {
+    this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
   }

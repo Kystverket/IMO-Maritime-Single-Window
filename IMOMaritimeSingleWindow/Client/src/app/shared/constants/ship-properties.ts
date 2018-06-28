@@ -17,6 +17,7 @@ export class ShipProperties {
   static IMO_NO = 'IMO no.';
   static MMSI_NO = 'MMSI no.';
   static GROSS_TONNAGE = 'Gross Tonnage';
+  static NET_TONNAGE = 'Net Tonnage';
   static LENGTH = 'Length';
   static SHIP_TYPE = 'Ship Type';
   static SHIP_STATUS = 'Ship Status';
@@ -29,6 +30,7 @@ export class ShipProperties {
     { description: 'IMO no.', data: null, imageUrl: null },
     { description: 'MMSI no.', data: null, imageUrl: null },
     { description: 'Gross Tonnage', data: null, imageUrl: null },
+    { description: 'Net Tonnage', data: null, imageUrl: null },
     { description: 'Length', data: null, imageUrl: null },
     { description: 'Ship Type', data: null, imageUrl: null },
     { description: 'Ship Status', data: null, imageUrl: null }
