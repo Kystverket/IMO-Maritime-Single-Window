@@ -28,6 +28,7 @@ namespace IMOMaritimeSingleWindow.Models
         public string Name { get; set; }
         public string CallSign { get; set; }
         public int? DeadweightTonnage { get; set; }
+        public int? NetTonnage { get; set; }
         public int? GrossTonnage { get; set; }
         public float? Length { get; set; }
         public float? Breadth { get; set; }
