@@ -149,7 +149,13 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
         
         
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="emailConfirmationToken"></param>
+        /// <returns>A password reset token used by the application to
+        /// let the user assign their own password to their account.</returns>
         [AllowAnonymous]
         [HttpPost("user/email/confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, [Bind(Prefix="token")] string emailConfirmationToken)
@@ -171,10 +177,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return BadRequest();
                 #endif
             }
-            
-            var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+            var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             return Json(passwordChangeToken);
+            //return Ok(true);
         }
 
         /// <summary>
@@ -182,7 +188,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns> An HTTP 200 OK reponse if the password was successfully changed. </returns>
-        [HasClaim(Claims.Types.USER, Claims.Values.EDIT)]
         [HttpPut("user/password/change")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {

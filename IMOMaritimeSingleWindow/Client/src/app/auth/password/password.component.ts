@@ -5,6 +5,7 @@ import { UriQueryService } from '../../shared/services/uri-query.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PasswordResetModel } from '../../shared/models/password-reset-model';
 import { PasswordChangeModel } from '../../shared/models/password-change-model';
+import { PASSWORD_COMPONENT_NAME, PASSWORD_COMPONENT_TYPE } from '../../shared/constants/password-component-types';
 
 @Component({
   selector: 'app-password',
@@ -21,11 +22,14 @@ export class PasswordComponent implements OnInit {
   inputTwo = '';
   passwordMatch = false;
   fieldsFilled = false;
-  isChangeComponent: boolean;
+  errors: string;
+  isChangeComponent = false;
 
-  error: string;
+  private componentName: string;
+  private componentType: number;
 
-  tokenQueryModel: TokenQueryModel;
+  private tokenQueryModel: TokenQueryModel;
+  private passwordResetToken?: string;
 
   constructor(
     private accountService: AccountService,
@@ -35,7 +39,7 @@ export class PasswordComponent implements OnInit {
   ) {}
 
   checkFill() {
-    if (this.isChangeComponent) {
+    if (this.componentType === PASSWORD_COMPONENT_TYPE.CHANGE) {
       this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '' && this.currentPassword !== '';
     } else {
       this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
@@ -51,10 +55,16 @@ export class PasswordComponent implements OnInit {
 
   editPassword() {
     console.log('editPassword() called');
-    if (this.isChangeComponent) {
-      this.changePassword();
-    } else {
-      this.resetPassword();
+    switch (this.componentType) {
+      case PASSWORD_COMPONENT_TYPE.CHANGE:
+        this.changePassword();
+        break;
+      case PASSWORD_COMPONENT_TYPE.RESET:
+        this.resetPassword();
+        break;
+      case PASSWORD_COMPONENT_TYPE.SET:
+        this.setPassword();
+        break;
     }
     return false;
   }
@@ -71,7 +81,7 @@ export class PasswordComponent implements OnInit {
         }
       }, error => {
         console.log('error');
-        this.error = error;
+        this.errors = error;
       }
     );
   }
@@ -88,27 +98,63 @@ export class PasswordComponent implements OnInit {
       res => {
         if (res) {
           console.log('reset successful');
+          return true;
         }
       }, error => {
         console.log('error');
-        this.error = error;
+        this.errors = error;
+        return false;
       }
     );
   }
 
+  setPassword() {
+
+    if (this.passwordResetToken === null) {
+      this.errors = 'Application error';
+    } else {
+      const model: PasswordResetModel = {
+        userId: this.tokenQueryModel.userId,
+        passwordResetToken: this.passwordResetToken,
+        newPassword: this.inputOne
+      };
+      this.accountService.resetPassword(model).subscribe(
+        result => {
+          if (result) {
+            console.log('Password reset successful?', result);
+          }
+        }, error => {
+          this.errors = error;
+          console.log('Password reset unsuccessful');
+        }
+      );
+    }
+  }
+
   ngOnInit() {
-    switch (this.purpose) {
-      case 'Reset':
-        this.isChangeComponent = false;
+    const purpose = this.purpose.toUpperCase();
+    console.log(purpose);
+    switch (purpose) {
+      case PASSWORD_COMPONENT_NAME.CHANGE:
+        // this.componentName = PASSWORD_COMPONENT_NAME.CHANGE;
+        this.isChangeComponent = true;
+        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.CHANGE];
+        console.log('Change component');
+        break;
+      case PASSWORD_COMPONENT_NAME.RESET:
+        // this.componentName = PASSWORD_COMPONENT_NAME.RESET;
+        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.RESET];
         console.log('Reset component');
         break;
-      case 'Set':
-        this.isChangeComponent = false;
+      case PASSWORD_COMPONENT_NAME.SET:
+        // this.componentName = PASSWORD_COMPONENT_NAME.SET;
+        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.SET];
+        this.uriQueryService.tokenQueryModelData$.subscribe(
+          token => {
+            this.passwordResetToken = token.token;
+          }
+        );
         console.log('Set component');
-        break;
-      case 'Change':
-        this.isChangeComponent = true;
-        console.log('Change component');
         break;
       default:
         this.router.navigate(['/error']);

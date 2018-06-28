@@ -64,8 +64,12 @@ export class EmailConfirmationComponent implements OnInit {
 
   async confirmEmail(tokenQueryModel: TokenQueryModel) {
     await this.accountService.confirmEmail(tokenQueryModel)
-      .toPromise().then(confirmed => {
-        this.emailConfirmationSuccessful = confirmed;
+      .toPromise().then(resultModel => {
+        this.emailConfirmationSuccessful = true;
+        this.uriQueryService.setTokenQueryModel(resultModel);
+      }, error => {
+        this.emailConfirmationSuccessful = false;
+        this.errors = error;
       }
     );
       // .subscribe(result => {
@@ -81,7 +85,7 @@ export class EmailConfirmationComponent implements OnInit {
     const intervalId = setInterval((activatedRoute: ActivatedRoute) => {
       if (this.secondsRemaining === 0) {
         clearInterval(intervalId);
-        this.router.navigate(['/ResetPassword'], {
+        this.router.navigate(['../ResetPassword'], {
           queryParams: {
             userId: queryModel.userId,
             token: queryModel.token

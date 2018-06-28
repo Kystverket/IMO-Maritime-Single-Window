@@ -111,12 +111,27 @@ export class AccountService extends BaseRequest {
          */
     }
 
-    confirmEmail(queryModel: TokenQueryModel): Observable<boolean> {
-        return Observable.of(false);
-        /* const uri = [this.emailUrl, 'confirm'].join('/');
-        return this.http
-            .post(uri, JSON.stringify(queryModel))
-            .map(res => res.json()); */
+    confirmEmail(queryModel: TokenQueryModel): Observable<TokenQueryModel> {
+        // return Observable.of(false);
+
+        // const uri = [this.emailUrl, 'confirm'].join('/');
+        // return this.http
+        //     .post(uri, JSON.stringify(queryModel))
+        //     .map(res => res.json());
+        
+            const uri = [this.emailUrl, 'confirm'].join('/');
+            return this.http.post(uri, null, {
+                params: {
+                    userId: queryModel.userId,
+                    token: queryModel.token
+                }
+            })
+                .map(result => {
+                    const token = result.json();
+                    const model = new TokenQueryModel(queryModel.userId, token);
+                    console.log(model);
+                    return model;
+                });
     }
 
     sendPasswordResetLink(userName: string) {
