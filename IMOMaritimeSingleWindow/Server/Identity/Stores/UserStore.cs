@@ -236,7 +236,11 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         protected User GetUserById(Guid userId)
         {
             User _user = null;
-            try { _user = _unitOfWork.Users.Get(userId); }
+            try
+            {
+                _user = _unitOfWork.Users.Get(usr => usr.UserId.Equals(userId), includeProperties: nameof(User.Person) + "," + nameof(User.Password)).FirstOrDefault();
+                //_user = _unitOfWork.Users.Get(userId);
+            }
             catch (NullReferenceException) { }
             return _user;
         }
