@@ -149,6 +149,7 @@ export class AccountService extends BaseRequest {
 
     resetPassword(model: PasswordResetModel): Observable<boolean> {
         const uri = [this.passwordUrl, 'reset'].join('/');
+
         return this.http.put(uri, model)
             .map(res => {
                 return res.json();
@@ -160,7 +161,8 @@ export class AccountService extends BaseRequest {
 
     changePassword(model: PasswordChangeModel): Observable<boolean> {
         const uri = [this.passwordUrl, 'change'].join('/');
-        return this.http.put(uri, model)
+        const options = this.getRequestOptions();
+        return this.http.put(uri, model, options)
             .map(res => {
                     return res.json();
                 }, error => {

@@ -196,7 +196,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userId = User.FindFirstValue((Constants.Strings.JwtClaimIdentifiers.Id));
+            var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
