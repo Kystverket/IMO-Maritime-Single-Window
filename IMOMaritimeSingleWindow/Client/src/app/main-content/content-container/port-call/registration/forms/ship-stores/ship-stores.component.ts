@@ -7,6 +7,7 @@ import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { Observable } from 'rxjs/Observable';
 import { DataSource } from 'ng2-smart-table/lib/data-source/data-source';
+import { MeasurementTypeModel } from '../../../../../../shared/models/measurement-type-model';
 
 @Component({
   selector: 'app-ship-stores',
@@ -14,7 +15,6 @@ import { DataSource } from 'ng2-smart-table/lib/data-source/data-source';
   styleUrls: ['./ship-stores.component.css']
 })
 export class ShipStoresComponent implements OnInit {
-  originalPortCallShipStoresList: PortCallShipStoresModel[] = [];
   portCallShipStoresList: PortCallShipStoresModel[] = [];
 
   portCallShipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
@@ -23,7 +23,7 @@ export class ShipStoresComponent implements OnInit {
 
   sequenceNumber: number;
   measurementTypeList: Observable<any>;
-  measurementTypeNames = [];
+  selectedMeasurementType: MeasurementTypeModel;
 
   listIsPristine: Boolean = true;
 
@@ -109,38 +109,31 @@ export class ShipStoresComponent implements OnInit {
     this.portCallService.detailsIdentificationData$.subscribe(id => {
       if (id) {
         this.portCallShipStoresModel.portCallId = id.portCallId;
-        // Subscribe to port call ID
-        // Load original list and set the list that will be updated to this one
+
+        // Subscribe to shipStoresList$ og set lokal liste og dataSource
+        this.shipStoresService.shipStoresList$.subscribe(list => {
+          if (list) {
+            this.portCallShipStoresList = list;
+            this.shipStoresDataSource.load(list);
+          }
+          // Set sequenceNumber to last sequenceNumber
+          if (this.portCallShipStoresList.length > 1) {
+            this.shipStoresService.setSequenceNumber(this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber);
+          } else {
+            this.shipStoresService.setSequenceNumber(1);
+          }
+        });
+
         // This will change when saved the port calls list changes
         this.shipStoresService.getShipStoresByPortCallId(this.portCallShipStoresModel.portCallId).subscribe(list => {
-          // Initsiere shipStoresDataSource og lokal liste på nytt for hver gang portCallId endres
           this.shipStoresDataSource = new LocalDataSource();
           this.portCallShipStoresList = [];
 
-          console.log(this.shipStoresDataSource);
           if (list) {
-            this.originalPortCallShipStoresList = list;
-            this.shipStoresService.setShipStoresOriginalList(this.originalPortCallShipStoresList);
+            this.shipStoresService.setShipStoresInformationData(list);
           }
         });
       }
-    });
-
-    // Subscribe to shipStoresList$ og set lokal liste og dataSource
-    this.shipStoresService.shipStoresList$.subscribe(results => {
-      if (results) {
-        console.log(results);
-        this.portCallShipStoresList = results;
-        this.shipStoresDataSource.load(results);
-      }
-
-      // Set sequenceNumber to last sequenceNumber
-      if (this.portCallShipStoresList.length > 1) {
-        this.shipStoresService.setSequenceNumber(this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber);
-      } else {
-        this.shipStoresService.setSequenceNumber(1);
-      }
-
     });
 
     // Subscribe to sequenceNumber
@@ -151,23 +144,22 @@ export class ShipStoresComponent implements OnInit {
     // Get measurement types
     this.shipStoresService.getMeasurementTypeList().subscribe(results => {
       this.measurementTypeList = results;
-      results.forEach(element => {
-        this.measurementTypeNames = [...this.measurementTypeNames, element.name];
-      });
     });
   }
 
+  selectMeasurementType($event) {
+    this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
+  }
+
   persistData() {
+    console.log('Adding ship store to list');
+    if (this.listIsPristine === true) {
+      this.listIsPristine = false;
+      this.shipStoresService.setDataIsPristine(false);
+    }
     // Add sequence number to model to be submitted
     this.portCallShipStoresModel.sequenceNumber = this.sequenceNumber;
     this.sequenceNumber++;
-
-    // Add measurement type id to model to be submittet (is the id necessary in the model?)
-    this.measurementTypeList.forEach(element => {
-      if (element.name === this.portCallShipStoresModel.measurementType) {
-        this.portCallShipStoresModel.measurementTypeId = element.measurementTypeId;
-      }
-    });
 
     // Add this ship store to local model and create new model
     console.log(this.portCallShipStoresList);

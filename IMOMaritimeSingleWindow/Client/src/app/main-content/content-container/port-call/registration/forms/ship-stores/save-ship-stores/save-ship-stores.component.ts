@@ -46,13 +46,12 @@ export class SaveShipStoresComponent implements OnInit {
       if (shipStoresList) {
         this.portCallShipStoresList = shipStoresList;
         console.log(shipStoresList);
-
-          if (this.portCallShipStoresList !== this.originalPortCallShipStoresList) {
-            this.listIsPristine = false;
-          } else {
-            this.listIsPristine = true;
-          }
       }
+
+      this.shipStoresService.dataIsPristine$.subscribe(isPristine => {
+        this.listIsPristine = isPristine;
+      });
+
       console.log('Original list: ' + this.originalPortCallShipStoresList);
       console.log('New list: ' + this.portCallShipStoresList);
     });
@@ -64,13 +63,10 @@ export class SaveShipStoresComponent implements OnInit {
   saveShipStores() {
     console.log('Save Ship Component: Saving...');
 
-    if (this.originalPortCallShipStoresList.length === 0) {
-      this.shipStoresService.updateShipStores(this.portCallShipStoresList);
-    } else {
-      this.shipStoresService.updateShipStores(
-        this.portCallShipStoresList
-      );
-    }
+      this.shipStoresService.updateShipStores(this.portCallShipStoresList).
+      subscribe(res => {
+        console.log(res);
+      });
   }
 
 }

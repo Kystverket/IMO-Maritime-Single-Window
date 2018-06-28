@@ -35,7 +35,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 _context.FalShipStores.RemoveRange(removeList);
                 _context.FalShipStores.AddRange(shipStoresList);
                 _context.SaveChanges();
-                return Ok();
+                return Ok(true);
             }
             catch (Exception e)
             {
@@ -64,7 +64,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                 }
                 _context.SaveChanges();
-                return Ok();
+                return Ok(true);
             }
             catch (Exception e)
             {

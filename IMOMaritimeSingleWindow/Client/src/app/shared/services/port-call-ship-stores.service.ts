@@ -59,11 +59,9 @@ export class PortCallShipStoresService {
     const uri = this.shipStoresListUrl;
     console.log(uri);
     console.log(shipStoresList);
-    shipStoresList.forEach(element => {
-      element.measurementType = null;
-    });
     this.http.post(uri, shipStoresList).map(res => {
       console.log(res);
+      this.setDataIsPristine(true);
       return res.json();
     });
   }
@@ -71,11 +69,10 @@ export class PortCallShipStoresService {
   updateShipStores(shipStoresList: any[]) {
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
-    shipStoresList.forEach(element => {
-      element.measurementType = null;
-    });
     return this.http.put(uri, shipStoresList).map(res => {
+      console.log(shipStoresList);
       console.log(res);
+      this.setDataIsPristine(true);
       res.json();
     });
   }
@@ -113,6 +110,7 @@ export class PortCallShipStoresService {
     Object.keys(data).forEach(function(k) {
     });
     const copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
+    console.log('First copy of list: ' + copyShipStoresInformationSource);
 
     // Find clicked item
     copyShipStoresInformationSource.forEach((item, index) => {
@@ -120,6 +118,7 @@ export class PortCallShipStoresService {
         copyShipStoresInformationSource.splice(index, 1);
       }
     });
+    console.log('Copy of list after deleting: ' + copyShipStoresInformationSource);
 
     // Reset all sequenceNumbers
     let tempSequenceNumber = 1;
@@ -131,6 +130,10 @@ export class PortCallShipStoresService {
     // Set data to the updated list
     this.setShipStoresInformationData(copyShipStoresInformationSource);
     this.setSequenceNumber(tempSequenceNumber);
+
+    console.log(this.shipStoresInformationSource.getValue());
+
+    this.setDataIsPristine(false);
   }
 
   setSequenceNumber(number) {

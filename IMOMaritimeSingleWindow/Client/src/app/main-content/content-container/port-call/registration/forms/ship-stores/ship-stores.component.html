@@ -48,8 +48,8 @@
             <div class="form-group row" required>
                 <label for="measurementType" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Measurement Type</label>
                 <div class="col my-auto">
-                    <ng-select id="measurementTypes" [items]="measurementTypeNames" [(ngModel)]="portCallShipStoresModel.measurementType" name="measurementType"
-                        [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type">
+                    <ng-select id="measurementTypes" [items]="measurementTypeList" [(ngModel)]="selectedMeasurementType" name="measurementType"
+                        [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
                     </ng-select>
                 </div>
             </div>
