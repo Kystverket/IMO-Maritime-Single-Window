@@ -53,6 +53,10 @@ export class DateTimePickerComponent implements OnInit {
     return typeof model !== 'string';
   }
 
+  setDateTimeView(dateTime: DateTime) {
+    this.dateTimeModel = dateTime;
+  }
+
   getService() {
     return this.dateTimePickerService;
   }

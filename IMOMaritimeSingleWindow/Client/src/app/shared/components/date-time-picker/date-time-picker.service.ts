@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DateTime } from '../../interfaces/dateTime.interface';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 
 @Injectable()
 export class DateTimePickerService {
