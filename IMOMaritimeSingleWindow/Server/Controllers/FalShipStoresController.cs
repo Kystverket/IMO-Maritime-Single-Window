@@ -30,8 +30,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var portCallIdList = shipStoresList.Select(s => s.PortCallId).ToList();
-                var removeList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
+                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
+                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
                 _context.FalShipStores.RemoveRange(removeList);
                 _context.FalShipStores.AddRange(shipStoresList);
                 _context.SaveChanges();
@@ -52,8 +52,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var portCallIdList = shipStoresList.Select(s => s.PortCallId).ToList();
-                var removeList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
+                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
+                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
                 _context.FalShipStores.RemoveRange(removeList);
                 foreach (FalShipStores shipStoresEntity in shipStoresList)
                 {
