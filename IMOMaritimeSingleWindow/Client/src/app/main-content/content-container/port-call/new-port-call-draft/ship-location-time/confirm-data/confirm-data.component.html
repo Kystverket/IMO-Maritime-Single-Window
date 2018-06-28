@@ -28,10 +28,10 @@
             <td>{{ shipModel.name }}</td>
             <td>{{ locationModel.name }}</td>
             <td>{{ locationModel.locationCode }}</td>
-            <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
-              }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
-            <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)
-              }} {{ dateTimeFormat(etaEtdModel.etd.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.minute) }}</td>
+            <td>{{ etaEtdModel.eta.date.year }}-{{ dateTimeFormat(etaEtdModel.eta.date.month) }}-{{ dateTimeFormat(etaEtdModel.eta.date.day)
+              }} {{ dateTimeFormat(etaEtdModel.eta.time.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.time.minute) }}</td>
+            <td>{{ etaEtdModel.etd.date.year }}-{{ dateTimeFormat(etaEtdModel.etd.date.month) }}-{{ dateTimeFormat(etaEtdModel.etd.date.day)
+              }} {{ dateTimeFormat(etaEtdModel.etd.time.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.time.minute) }}</td>
           </tr>
         </tbody>
       </table>

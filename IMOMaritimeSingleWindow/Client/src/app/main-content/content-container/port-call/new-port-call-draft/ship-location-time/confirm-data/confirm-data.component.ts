@@ -3,11 +3,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 const RESULT_SUCCESS =
   'The port call draft was successfully created. You will now be taken to the wizard for ' +
@@ -28,7 +30,7 @@ export class ConfirmDataComponent implements OnInit {
 
   shipFound: boolean;
   locationFound: boolean;
-  dateTimeFound: boolean;
+  dateTimeFound = false;
 
   constructor(
     private portCallService: PortCallService,
@@ -54,8 +56,20 @@ export class ConfirmDataComponent implements OnInit {
       }
     });
     this.portCallService.etaEtdData$.subscribe(etaEtdData => {
-      if (etaEtdData) {
-        this.dateTimeFound = this.etaEtdModel = etaEtdData;
+      if (etaEtdData && etaEtdData.eta !== null && etaEtdData.etd !== null) {
+        this.dateTimeFound = true;
+        if (etaEtdData != null) {
+          this.etaEtdModel = {
+            eta: {
+              date: new NgbDate(etaEtdData.eta.year, etaEtdData.eta.month, etaEtdData.eta.day),
+              time: new NgbTime(etaEtdData.eta.hour, etaEtdData.eta.minute, 0)
+            },
+            etd: {
+              date: new NgbDate(etaEtdData.etd.year, etaEtdData.etd.month, etaEtdData.etd.day),
+              time: new NgbTime(etaEtdData.etd.hour, etaEtdData.etd.minute, 0)
+            }
+          };
+        }
       } else {
         this.dateTimeFound = false;
       }
@@ -75,18 +89,18 @@ export class ConfirmDataComponent implements OnInit {
     this.portCallModel.portCallStatusId = PortCallStatusTypes.DRAFT_ID;
     this.portCallModel.locationId = this.locationModel.locationId;
     const eta = new Date(
-      this.etaEtdModel.eta.year,
-      this.etaEtdModel.eta.month - 1,
-      this.etaEtdModel.eta.day,
-      this.etaEtdModel.eta.hour,
-      this.etaEtdModel.eta.minute
+      this.etaEtdModel.eta.date.year,
+      this.etaEtdModel.eta.date.month - 1,
+      this.etaEtdModel.eta.date.day,
+      this.etaEtdModel.eta.time.hour,
+      this.etaEtdModel.eta.time.minute
     );
     const etd = new Date(
-      this.etaEtdModel.etd.year,
-      this.etaEtdModel.etd.month - 1,
-      this.etaEtdModel.etd.day,
-      this.etaEtdModel.etd.hour,
-      this.etaEtdModel.etd.minute
+      this.etaEtdModel.etd.date.year,
+      this.etaEtdModel.etd.date.month - 1,
+      this.etaEtdModel.etd.date.day,
+      this.etaEtdModel.etd.time.hour,
+      this.etaEtdModel.etd.time.minute
     );
     this.portCallModel.locationEta = eta;
     this.portCallModel.locationEtd = etd;

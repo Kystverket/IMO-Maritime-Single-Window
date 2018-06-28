@@ -1,0 +1,19 @@
+<app-ssn-card header="Previous Port of Call" icon="portcall.png">
+    <app-search-location [hidden]="prevLocationModel" [restrictTypeHarbour]=true></app-search-location>
+    <div class="text-center" *ngIf="prevLocationModel">
+        <app-ssn-table [entryData]="prevLocationData"></app-ssn-table>
+        <button class="btn btn-ssn" (click)="deselectPrevLocation()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+    <app-date-time-picker header="ETD"></app-date-time-picker>
+</app-ssn-card>
+
+<app-ssn-card header="Next Port of Call" icon="portcall.png">
+    <app-search-location [hidden]="nextLocationModel" [restrictTypeHarbour]=true></app-search-location>
+    <div class="text-center" *ngIf="nextLocationModel">
+        <app-ssn-table [entryData]="nextLocationData"></app-ssn-table>
+        <button class="btn btn-ssn" (click)="deselectNextLocation()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+    <app-date-time-picker header="ETA"></app-date-time-picker>
+</app-ssn-card>

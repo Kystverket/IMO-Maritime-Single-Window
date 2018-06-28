@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
+const PREV_AND_NEXT_POC = 'Voyages';
 const PORT_CALL_DETAILS = 'Port Call Details';
 const CONFIRM_PORT_CALL = 'Confirm and Activate';
 
@@ -19,6 +20,13 @@ const PAX = 'Pax';
 export class ProgressBarComponent implements OnInit {
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
   baseMenuEntries: any[] = [
+    {
+      name: PREV_AND_NEXT_POC,
+      icon: 'location.png',
+      checked: true,
+      hasError: false,
+      hasUnsavedData: false
+    },
     {
       name: PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',

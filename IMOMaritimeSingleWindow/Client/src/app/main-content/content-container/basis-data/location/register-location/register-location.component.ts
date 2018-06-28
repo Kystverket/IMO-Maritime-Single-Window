@@ -16,6 +16,7 @@ const RESULT_FAILURE = 'There was a problem when trying to save the location to 
   providers: [LocationModel]
 })
 export class RegisterLocationComponent implements OnInit {
+
   newLocation: boolean;
   locationHeader: string;
   confirmHeader: string;
@@ -31,8 +32,11 @@ export class RegisterLocationComponent implements OnInit {
   countrySearchFailed = false;
 
 
-  constructor(public locationModel: LocationModel, private locationService: LocationService,
-    private contentService: ContentService, private modalService: NgbModal
+  constructor(
+    public locationModel: LocationModel,
+    private contentService: ContentService,
+    private locationService: LocationService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {

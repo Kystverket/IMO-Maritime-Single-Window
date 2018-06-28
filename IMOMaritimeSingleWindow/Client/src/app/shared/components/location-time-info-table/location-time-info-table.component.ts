@@ -26,13 +26,13 @@ export class LocationTimeInfoTableComponent implements OnInit {
         this.locationTimeProperties.LOCATION_CODE.data =
           locationResult.locationCode;
 
-        this.portCallService.etaEtdData$.subscribe(timeResult => {
-          if (timeResult) {
+        this.portCallService.etaEtdData$.subscribe(dateTimeResult => {
+          if (dateTimeResult && dateTimeResult.eta && dateTimeResult.etd) {
             this.locationTimeProperties.ETA.data = this.dateTimeFormat(
-              timeResult.eta
+              dateTimeResult.eta
             );
             this.locationTimeProperties.ETD.data = this.dateTimeFormat(
-              timeResult.etd
+              dateTimeResult.etd
             );
           }
         });
