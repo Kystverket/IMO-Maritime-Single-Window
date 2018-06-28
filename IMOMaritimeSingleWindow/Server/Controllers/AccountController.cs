@@ -33,7 +33,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class AccountController : Controller, IAccountController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
@@ -252,7 +252,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if(applicationUser == null)
                 return BadRequest();
 
-            var userId = this.GetUserId();
+            var userId = await _userManager.GetUserIdAsync(applicationUser);
             var user = await _userManager.FindByIdAsync(userId);
             var passwordResetLink = await GeneratePasswordResetLinkAsync(applicationUser);
             // Send email to user
