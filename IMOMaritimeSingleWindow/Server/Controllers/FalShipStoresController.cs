@@ -52,6 +52,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
+                var portCallIdList = shipStoresList.Select(s => s.PortCallId).ToList();
+                var removeList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
+                _context.FalShipStores.RemoveRange(removeList);
                 foreach (FalShipStores shipStoresEntity in shipStoresList)
                 {
                     if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
