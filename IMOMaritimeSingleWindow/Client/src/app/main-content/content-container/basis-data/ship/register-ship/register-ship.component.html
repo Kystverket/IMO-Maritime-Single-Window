@@ -299,7 +299,7 @@
 
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="deadweight_tonnage">Deadweight Tonnage</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="deadweight_tonnage">Deadweight Tonnage</label>
                 <div class="col">
                   <input [(ngModel)]="shipModel.deadweightTonnage" name="deadweightTonnage" type="number" class="form-control form-control-sm"
                     id="deadweight_tonnage" placeholder="Enter deadweight tonnage" #dwt="ngModel" numberValidator integerValidator
@@ -315,6 +315,30 @@
                 </li>
                 <li *ngIf="dwt.hasError('notPositiveNumberError')">
                   <small>Deadweight tonnage must be a positive number.</small>
+                </li>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="net_tonnage">Net Tonnage</label>
+                <div class="col">
+                  <input [(ngModel)]="shipModel.netTonnage" name="netTonnage" type="number" class="form-control form-control-sm" id="net_tonnage"
+                    placeholder="Enter net tonnage" #netTonnage="ngModel" numberValidator integerValidator positiveNumberValidator
+                  />
+                </div>
+              </div>
+              <div *ngIf="!netTonnage.valid" class="alert alert-danger">
+                <li *ngIf="netTonnage.hasError('notNumberError')">
+                  <small>Net tonnage must be a valid number.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notIntegerError')">
+                  <small>Net tonnage must be an integer.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notPositiveNumberError')">
+                  <small>Net tonnage must be a positive number.</small>
                 </li>
               </div>
             </div>
@@ -402,7 +426,7 @@
     <div class="col">
       <app-ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
 
-        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
+        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipModel.netTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
           <div *ngIf="!form.valid" class="text-center">
             <div class="alert alert-danger">
               There are errors in the form that needs to be resolved.
@@ -423,6 +447,7 @@
             <p class="no-wrap mb-0" *ngIf="!shipModel.draught">Ship draught not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.grossTonnage">Gross tonnage not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.deadweightTonnage">Deadweight tonnage not set.</p>
+            <p class="no-wrap mb-0" *ngIf="!shipModel.netTonnage">Net tonnage not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipFlagCodeSelected">Flag code not selected.</p>
             <p class="no-wrap mb-0" *ngIf="!contactSelected">At least one contact medium must be provided.</p>
             <p class="no-wrap mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
@@ -431,7 +456,7 @@
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" />{{ confirmButtonTitle }}</button>
         </div>
 
-        <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected">
+        <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipModel.netTonnage && shipFlagCodeSelected && contactSelected && organizationSelected">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
