@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
+import { LocationModel } from '../models/location-model';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Injectable()
 export class PrevAndNextPocService extends BaseService {
-    private prevPortOfCallSource = new BehaviorSubject<any>(null);
+    private prevPortOfCallSource = new BehaviorSubject<LocationModel>(null);
     prevPortOfCallData$ = this.prevPortOfCallSource.asObservable();
 
-    private nextPortOfCallSource = new BehaviorSubject<any>(null);
+    private nextPortOfCallSource = new BehaviorSubject<LocationModel>(null);
     nextPortOfCallData$ = this.nextPortOfCallSource.asObservable();
 
     private prevPortOfCallEtdSource = new BehaviorSubject<any>(null);
@@ -20,19 +22,19 @@ export class PrevAndNextPocService extends BaseService {
         super();
     }
 
-    setPrevPortOfCall(prevPortOfCall) {
+    setPrevPortOfCall(prevPortOfCall: LocationModel) {
         this.prevPortOfCallSource.next(prevPortOfCall);
     }
 
-    setNextPortOfCall(nextPortOfCall) {
+    setNextPortOfCall(nextPortOfCall: LocationModel) {
         this.nextPortOfCallSource.next(nextPortOfCall);
     }
 
-    setPrevPortOfCallEtd(prevPortOfCallEtd) {
+    setPrevPortOfCallEtd(prevPortOfCallEtd: NgbDate) {
         this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
     }
 
-    setNextPortOfCallEta(nextPortOfCallEta) {
+    setNextPortOfCallEta(nextPortOfCallEta: NgbDate) {
         this.nextPortOfCallEtaSource.next(nextPortOfCallEta);
     }
 }

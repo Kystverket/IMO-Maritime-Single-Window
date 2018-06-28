@@ -2,6 +2,7 @@ import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angu
 import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationModel } from 'app/shared/models/location-model';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 
 @Component({
   selector: 'app-prev-and-next-poc',
@@ -14,38 +15,52 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   prevPortOfCallComponent: SearchLocationComponent;
   nextPortOfCallComponent: SearchLocationComponent;
 
-  prevLocationModel: LocationModel;
-  nextLocationModel: LocationModel;
+  prevLocationModel: LocationModel = null;
+  nextLocationModel: LocationModel = null;
 
   prevLocationData = new LocationProperties().getPropertyList();
   nextLocationData = new LocationProperties().getPropertyList();
 
-  constructor() { }
+  constructor(private prevAndNextPocService: PrevAndNextPocService) { }
 
   ngOnInit() {
-    this.prevLocationData[0].data = 'test';
+    this.prevAndNextPocService.prevPortOfCallData$.subscribe(
+      data => {
+        this.prevLocationModel = data;
+        if (data) {
+          const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
+          const countryFlag = twoCharCode + '.png';
+          LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
+          LocationProperties.setLocationName(this.prevLocationData, this.prevLocationModel.name);
+          LocationProperties.setLocationCode(this.prevLocationData, this.prevLocationModel.locationCode);
+          LocationProperties.setLocationType(this.prevLocationData, this.prevLocationModel.locationType.name);
+        }
+      }
+    );
 
-    console.log(this.prevLocationData);
-    console.log(this.nextLocationData);
-
+    this.prevAndNextPocService.nextPortOfCallData$.subscribe(
+      data => {
+        this.nextLocationModel = data;
+        if (data) {
+          const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
+          const countryFlag = twoCharCode + '.png';
+          LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
+          LocationProperties.setLocationName(this.nextLocationData, this.nextLocationModel.name);
+          LocationProperties.setLocationCode(this.nextLocationData, this.nextLocationModel.locationCode);
+          LocationProperties.setLocationType(this.nextLocationData, this.nextLocationModel.locationType.name);
+        }
+      }
+    );
   }
 
   ngAfterViewInit() {
-
     this.prevPortOfCallComponent = this.searchLocationComponentList.first;
     this.nextPortOfCallComponent = this.searchLocationComponentList.last;
 
     this.prevPortOfCallComponent.getService().locationData$.subscribe(
       locationResult => {
         if (locationResult) {
-          this.prevLocationModel = locationResult;
-          const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
-          const countryFlagUrl = [LocationProperties.FLAGS_FOLDER, twoCharCode].join('/') + '.png';
-          this.prevLocationData.find(e => e.description === LocationProperties.COUNTRY).imageUrl = countryFlagUrl;
-          this.prevLocationData.find(e => e.description === LocationProperties.COUNTRY).data = this.prevLocationModel.country.name;
-          this.prevLocationData.find(e => e.description === LocationProperties.LOCATION_NAME).data = this.prevLocationModel.name;
-          this.prevLocationData.find(e => e.description === LocationProperties.LOCATION_CODE).data = this.prevLocationModel.locationCode;
-          this.prevLocationData.find(e => e.description === LocationProperties.LOCATION_TYPE).data = this.prevLocationModel.locationType.name;
+          this.prevAndNextPocService.setPrevPortOfCall(locationResult);
         }
       }
     );
@@ -53,26 +68,20 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
     this.nextPortOfCallComponent.getService().locationData$.subscribe(
       locationResult => {
         if (locationResult) {
-          this.nextLocationModel = locationResult;
-          const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
-          const countryFlagUrl = [LocationProperties.FLAGS_FOLDER, twoCharCode].join('/') + '.png';
-          this.nextLocationData.find(e => e.description === LocationProperties.COUNTRY).imageUrl = countryFlagUrl;
-          this.nextLocationData.find(e => e.description === LocationProperties.COUNTRY).data = this.nextLocationModel.country.name;
-          this.nextLocationData.find(e => e.description === LocationProperties.LOCATION_NAME).data = this.nextLocationModel.name;
-          this.nextLocationData.find(e => e.description === LocationProperties.LOCATION_CODE).data = this.nextLocationModel.locationCode;
-          this.nextLocationData.find(e => e.description === LocationProperties.LOCATION_TYPE).data = this.nextLocationModel.locationType.name;
+          this.prevAndNextPocService.setNextPortOfCall(locationResult);
         }
       }
     );
+
   }
 
   deselectPrevLocation() {
-    this.prevLocationModel = null;
-    this.prevPortOfCallComponent.deselectLocation();
+    this.prevAndNextPocService.setPrevPortOfCall(null);
+    this.prevPortOfCallComponent.getService().clearLocationSearch();
   }
 
   deselectNextLocation() {
-    this.nextLocationModel = null;
-    this.nextPortOfCallComponent.deselectLocation();
+    this.prevAndNextPocService.setNextPortOfCall(null);
+    this.nextPortOfCallComponent.getService().clearLocationSearch();
   }
 }
