@@ -5,7 +5,7 @@ export class PortCallShipStoresModel {
     falShipStoresId: number;
     sequenceNumber: number;
     articleName: string;
-    articleCode: number;
+    articleCode: string;
     quantity: number;
     locationOnBoardCode: string;
     locationOnBoard: string;

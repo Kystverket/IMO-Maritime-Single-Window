@@ -83,7 +83,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
-        [HttpGet()]
+        [HttpGet("")]
         public IActionResult GetAll()
         {
             List<FalShipStores> resultList = _context.FalShipStores.OrderBy(s => s.FalShipStoresId).ToList();
