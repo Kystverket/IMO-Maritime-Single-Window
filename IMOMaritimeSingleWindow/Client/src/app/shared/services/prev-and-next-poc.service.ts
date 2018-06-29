@@ -18,23 +18,30 @@ export class PrevAndNextPocService extends BaseService {
     private nextPortOfCallEtaSource = new BehaviorSubject<Date>(null);
     nextPortOfCallEtaData$ = this.nextPortOfCallEtaSource.asObservable();
 
+    dataIsPristine = new BehaviorSubject<boolean>(true);
+    dataIsPristine$ = this.dataIsPristine.asObservable();
+
     constructor() {
         super();
     }
 
     setPrevPortOfCall(prevPortOfCall: LocationModel) {
+        this.dataIsPristine.next(false);
         this.prevPortOfCallSource.next(prevPortOfCall);
     }
 
     setNextPortOfCall(nextPortOfCall: LocationModel) {
+        this.dataIsPristine.next(false);
         this.nextPortOfCallSource.next(nextPortOfCall);
     }
 
     setPrevPortOfCallEtd(prevPortOfCallEtd: Date) {
+        this.dataIsPristine.next(false);
         this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
     }
 
     setNextPortOfCallEta(nextPortOfCallEta: Date) {
+        this.dataIsPristine.next(false);
         this.nextPortOfCallEtaSource.next(nextPortOfCallEta);
     }
 }

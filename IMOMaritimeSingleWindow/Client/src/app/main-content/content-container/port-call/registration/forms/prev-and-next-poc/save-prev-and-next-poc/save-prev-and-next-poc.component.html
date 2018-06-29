@@ -1,0 +1,17 @@
+<app-ssn-card header="Save Voyages" icon="save.png">
+  <div class="text-center" *ngIf="!dataIsPristine">
+    <button class="btn btn-ssn" (click)="savePrevAndNextPoc()">
+      <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+      <span>Save Voyages</span>
+    </button>
+  </div>
+
+  <div class="text-center" *ngIf="dataIsPristine">
+    <span>{{ dataIsPristineText }}</span>
+    <br>
+    <button class="btn btn-ssn mt-2" disabled>
+      <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+      <span>Save Voyages</span>
+    </button>
+  </div>
+</app-ssn-card>

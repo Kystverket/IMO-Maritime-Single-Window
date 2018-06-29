@@ -30,6 +30,7 @@ import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ClearanceRowComponent,
     PrevAndNextPocComponent,
     ViewPortCallComponent,
-    ShipLocationTimeComponent
+    ShipLocationTimeComponent,
+    SavePrevAndNextPocComponent
   ],
   exports: [
     ClearanceComponent,
