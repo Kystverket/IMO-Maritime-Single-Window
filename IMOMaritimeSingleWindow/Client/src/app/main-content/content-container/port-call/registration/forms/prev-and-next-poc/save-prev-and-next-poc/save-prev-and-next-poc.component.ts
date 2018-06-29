@@ -84,7 +84,8 @@ export class SavePrevAndNextPocComponent implements OnInit {
   }
 
   savePrevAndNextPoc() {
-    this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
-    this.portCallService.savePrevAndNextPortCall();
+    alert('Sorry, not yet implemented');
+    // this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
+    // this.portCallService.savePrevAndNextPortCall();
   }
 }

@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { AuthRequest } from './auth.request.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { LocationModel } from '../models/location-model';
 
 @Injectable()
 export class PortCallService {
@@ -280,8 +281,23 @@ export class PortCallService {
     this.otherPurposeDataSource.next(data);
   }
 
-  savePrevAndNextPortCall() {
-    this.prevAndNextPocService.dataIsPristine.next(true);
+  savePrevAndNextPortCall(prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
+    const updatedPortCallData = new PortCallModel();
+    updatedPortCallData.previousLocationId = prevPortOfCall.locationId;
+    updatedPortCallData.nextLocationId = nextPortCall.locationId;
+    updatedPortCallData.previousLocationEtd = prevEtd;
+    updatedPortCallData.nextLocationEta = nextEta;
+
+    this.updateNextAndPreviousPortOfCall(updatedPortCallData).subscribe(
+      result => {
+        console.log(result);
+        this.prevAndNextPocService.dataIsPristine.next(true);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
   }
 
   // SAVE DETAILS

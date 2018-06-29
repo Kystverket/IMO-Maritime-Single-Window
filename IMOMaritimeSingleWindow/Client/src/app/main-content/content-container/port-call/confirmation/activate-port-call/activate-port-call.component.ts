@@ -6,7 +6,7 @@ import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 
 const RESULT_SUCCES =
   'This port call has been activated, and is now awaiting clearance.';
@@ -101,7 +101,8 @@ export class ActivatePortCallComponent implements OnInit {
   }
 
   savePrevAndNextPortCall() {
-    this.portCallService.savePrevAndNextPortCall();
+    alert('Sorry, not yet implemented');
+    // this.portCallService.savePrevAndNextPortCall();
   }
 
   saveDetails() {
