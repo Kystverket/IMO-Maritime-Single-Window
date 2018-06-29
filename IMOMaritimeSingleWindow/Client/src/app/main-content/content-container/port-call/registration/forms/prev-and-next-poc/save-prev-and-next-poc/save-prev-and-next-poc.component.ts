@@ -85,8 +85,6 @@ export class SavePrevAndNextPocComponent implements OnInit {
 
   savePrevAndNextPoc() {
     this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
-
-    // Midlertidig, skal gjøres i save-metoden i port call service
-    this.prevAndNextPocService.dataIsPristine.next(true);
+    this.portCallService.savePrevAndNextPortCall();
   }
 }

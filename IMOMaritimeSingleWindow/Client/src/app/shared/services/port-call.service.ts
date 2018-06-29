@@ -6,6 +6,7 @@ import { PortCallModel } from 'app/shared/models/port-call-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { AuthRequest } from './auth.request.service';
+import { PrevAndNextPocService } from './prev-and-next-poc.service';
 
 @Injectable()
 export class PortCallService {
@@ -72,7 +73,7 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
-  constructor(private http: Http, private authRequestService: AuthRequest) {
+  constructor(private http: Http, private authRequestService: AuthRequest, private prevAndNextPocService: PrevAndNextPocService) {
     // Port call
     this.portCallUrl = 'api/portcall';
     this.portCallUserUrl = 'api/portcall/user';
@@ -271,6 +272,10 @@ export class PortCallService {
   setOtherPurposeData(data) {
     // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
     this.otherPurposeDataSource.next(data);
+  }
+
+  savePrevAndNextPortCall() {
+    this.prevAndNextPocService.dataIsPristine.next(true);
   }
 
   // SAVE DETAILS
