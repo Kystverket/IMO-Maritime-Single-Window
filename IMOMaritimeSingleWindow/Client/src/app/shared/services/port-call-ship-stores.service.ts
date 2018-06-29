@@ -26,9 +26,6 @@ export class PortCallShipStoresService {
   private shipStoresInformationSource = new BehaviorSubject<any>(null);
   shipStoresList$ = this.shipStoresInformationSource.asObservable();
 
-  private shipStoresOriginalList = new BehaviorSubject<any>(null);
-  shipStoresOriginalList$ = this.shipStoresOriginalList.asObservable();
-
   private shipStoresInformationMeta = new BehaviorSubject<any>({
     valid: true
   });
@@ -57,8 +54,6 @@ export class PortCallShipStoresService {
   addShipStores(shipStoresList: any[]) {
     console.log('Ship Stores Service: Adding Ship Stores...');
     const uri = this.shipStoresListUrl;
-    console.log(uri);
-    console.log(shipStoresList);
     this.http.post(uri, shipStoresList).map(res => {
       console.log(res);
       this.setDataIsPristine(true);
@@ -70,7 +65,6 @@ export class PortCallShipStoresService {
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
     return this.http.put(uri, shipStoresList).map(res => {
-      console.log(shipStoresList);
       console.log(res);
       this.setDataIsPristine(true);
       res.json();
@@ -92,10 +86,6 @@ export class PortCallShipStoresService {
     this.shipStoresInformationSource.next(data);
   }
 
-  setShipStoresOriginalList(data) {
-    this.shipStoresOriginalList.next(data);
-  }
-
   // Update setShipStoresInformationMeta
   setShipStoresInformationMeta(metaData: FormMetaData) {
     this.shipStoresInformationMeta.next(metaData);
@@ -103,41 +93,50 @@ export class PortCallShipStoresService {
 
   setDataIsPristine(isPristine: Boolean) {
     this.dataIsPristine.next(isPristine);
+    console.log('DataIsPristine is being set to ' + isPristine);
   }
 
   // Delete port call draft
   deleteShipStoreEntry(data) {
-    Object.keys(data).forEach(function(k) {
-    });
-    const copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
-    console.log('First copy of list: ' + copyShipStoresInformationSource);
-
+    let copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
+    data = JSON.stringify(this.createComparableObject(data));
     // Find clicked item
     copyShipStoresInformationSource.forEach((item, index) => {
+      item = JSON.stringify(this.createComparableObject(item));
       if (item === data) {
         copyShipStoresInformationSource.splice(index, 1);
       }
     });
-    console.log('Copy of list after deleting: ' + copyShipStoresInformationSource);
 
     // Reset all sequenceNumbers
-    let tempSequenceNumber = 1;
-    copyShipStoresInformationSource.forEach(item => {
-      item.sequenceNumber = tempSequenceNumber;
-      tempSequenceNumber++;
-    });
-
-    // Set data to the updated list
+    copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
     this.setShipStoresInformationData(copyShipStoresInformationSource);
-    this.setSequenceNumber(tempSequenceNumber);
 
     console.log(this.shipStoresInformationSource.getValue());
 
     this.setDataIsPristine(false);
   }
 
-  setSequenceNumber(number) {
-    this.sequenceNumberSource.next(number);
+  setSequenceNumbers(list) {
+    let tempSequenceNumber = 1;
+    list.forEach(item => {
+      item.sequenceNumber = tempSequenceNumber;
+      tempSequenceNumber++;
+    });
+    return list;
+
+  }
+
+  createComparableObject(item) {
+    const object = {
+      sequenceNumber: item.sequenceNumber,
+      articleCode: item.articleCode,
+      articleName: item.articleName,
+      locationOnBoard: item.locationOnBoard,
+      locationOnBoardCode: item.locationOnBoardCode,
+      quantity: item.quantity,
+    };
+    return object;
   }
 
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallShipStoresService } from '../../../../../../../shared/services/port-call-ship-stores.service';
-import { PortCallShipStoresModel } from '../../../../../../../shared/models/port-call-ship-stores-model';
+import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-save-ship-stores',
@@ -16,7 +16,6 @@ export class SaveShipStoresComponent implements OnInit {
   portCallId: number;
 
   portCallShipStoresList: PortCallShipStoresModel[] = [];
-  originalPortCallShipStoresList: PortCallShipStoresModel[] = [];
 
   listIsPristine: Boolean = true;
 
@@ -31,11 +30,6 @@ export class SaveShipStoresComponent implements OnInit {
       if (results) {
         this.portCallId = results.portCallId;
         console.log('Port call ID: ' + results.portCallId);
-        this.shipStoresService.shipStoresOriginalList$.subscribe(shipStores => {
-          if (shipStores) {
-          this.originalPortCallShipStoresList = shipStores;
-          }
-        });
       }
     });
 
@@ -45,24 +39,19 @@ export class SaveShipStoresComponent implements OnInit {
     this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
       if (shipStoresList) {
         this.portCallShipStoresList = shipStoresList;
-        console.log(shipStoresList);
       }
 
       this.shipStoresService.dataIsPristine$.subscribe(isPristine => {
         this.listIsPristine = isPristine;
       });
 
-      console.log('Original list: ' + this.originalPortCallShipStoresList);
-      console.log('New list: ' + this.portCallShipStoresList);
     });
-
-    console.log(this.portCallShipStoresList);
 
   }
 
   saveShipStores() {
     console.log('Save Ship Component: Saving...');
-
+      this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
       this.shipStoresService.updateShipStores(this.portCallShipStoresList).
       subscribe(res => {
         console.log(res);

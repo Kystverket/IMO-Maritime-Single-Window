@@ -21,7 +21,6 @@ export class ShipStoresComponent implements OnInit {
 
   portCallId: number;
 
-  sequenceNumber: number;
   measurementTypeList: Observable<any>;
   selectedMeasurementType: MeasurementTypeModel;
 
@@ -30,27 +29,6 @@ export class ShipStoresComponent implements OnInit {
   @ViewChild(NgForm) form: NgForm;
 
   shipStoresDataSource: LocalDataSource = new LocalDataSource();
-  mockData = [
-    {
-      sequenceNumber: 9839,
-      articleName: 'Wine',
-      articleCode: 332,
-      quantity: 3441,
-      measurementType: 'l',
-      locationOnBoardCode: 44,
-      locationOnBoard: 'On deck'
-    },
-    {
-      sequenceNumber: 3982947,
-      articleName: 'Beer',
-      articleCode: 332,
-      quantity: 3441,
-      measurementType: 'l',
-      locationOnBoardCode: 44,
-      locationOnBoard: 'On deck'
-    }
-  ];
-
 
   tableSettings = {
     actions: false,
@@ -106,25 +84,28 @@ export class ShipStoresComponent implements OnInit {
   ngOnInit() {
     this.portCallShipStoresModel = new PortCallShipStoresModel();
 
-    this.portCallService.detailsIdentificationData$.subscribe(id => {
-      if (id) {
-        this.portCallShipStoresModel.portCallId = id.portCallId;
+    this.portCallService.detailsIdentificationData$.subscribe(element => {
+      if (element) {
+        this.portCallShipStoresModel.portCallId = element.portCallId;
 
         // Subscribe to shipStoresList$ og set lokal liste og dataSource
         this.shipStoresService.shipStoresList$.subscribe(list => {
           if (list) {
             this.portCallShipStoresList = list;
-            this.shipStoresDataSource.load(list);
-          }
-          // Set sequenceNumber to last sequenceNumber
-          if (this.portCallShipStoresList.length > 1) {
-            this.shipStoresService.setSequenceNumber(this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber);
-          } else {
-            this.shipStoresService.setSequenceNumber(1);
+            this.portCallShipStoresModel.portCallId = element.portCallId;
+            // Get measurement types
+            if (!this.measurementTypeList) {
+              this.shipStoresService.getMeasurementTypeList().subscribe(results => {
+                this.measurementTypeList = results;
+                this.shipStoresDataSource.load(this.generateSmartTable());
+              });
+            } else {
+              this.shipStoresDataSource.load(this.generateSmartTable());
+            }
           }
         });
 
-        // This will change when saved the port calls list changes
+        // This will change when the port calls list changes in the database
         this.shipStoresService.getShipStoresByPortCallId(this.portCallShipStoresModel.portCallId).subscribe(list => {
           this.shipStoresDataSource = new LocalDataSource();
           this.portCallShipStoresList = [];
@@ -135,37 +116,53 @@ export class ShipStoresComponent implements OnInit {
         });
       }
     });
-
-    // Subscribe to sequenceNumber
-    this.shipStoresService.sequenceNumber$.subscribe(sequenceNumber => {
-      this.sequenceNumber = sequenceNumber;
-    });
-
-    // Get measurement types
-    this.shipStoresService.getMeasurementTypeList().subscribe(results => {
-      this.measurementTypeList = results;
-    });
   }
 
+  generateSmartTable(): any[] {
+    const list = [];
+    if (this.portCallShipStoresList) {
+    this.portCallShipStoresList.forEach(element => {
+      let measureMentTypeName: string;
+      this.measurementTypeList.forEach(measurementType => {
+        if (measurementType.measurementTypeId === element.measurementTypeId) {
+          measureMentTypeName = measurementType.name;
+        }
+      });
+
+      list.push(
+        {
+          sequenceNumber: element.sequenceNumber,
+          articleName: element.articleName,
+          articleCode: element.articleCode,
+          quantity: element.quantity,
+          measurementType: measureMentTypeName,
+          locationOnBoard: element.locationOnBoard,
+          locationOnBoardCode: element.locationOnBoardCode,
+        }
+      );
+    });
+    }
+    return list;
+  }
+
+  // Set measurement type and id of model
   selectMeasurementType($event) {
     this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
   }
 
   persistData() {
     console.log('Adding ship store to list');
-    if (this.listIsPristine === true) {
       this.listIsPristine = false;
       this.shipStoresService.setDataIsPristine(false);
+    // Add sequence number for model to be submitted
+    if (this.portCallShipStoresList.length > 0) {
+    this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
+    } else {
+      this.portCallShipStoresModel.sequenceNumber = 1;
     }
-    // Add sequence number to model to be submitted
-    this.portCallShipStoresModel.sequenceNumber = this.sequenceNumber;
-    this.sequenceNumber++;
 
     // Add this ship store to local model and create new model
-    console.log(this.portCallShipStoresList);
-
     this.portCallShipStoresList.push(this.portCallShipStoresModel);
-    console.log(this.portCallShipStoresModel);
     this.portCallShipStoresModel = new PortCallShipStoresModel();
 
     // Update value in service

@@ -30,6 +30,7 @@ export class DeleteButtonComponent implements OnInit, ViewCell {
 
   deleteShipStoreEntry() {
     this.shipStoresService.deleteShipStoreEntry(this.rowData);
+
   }
 
 }
