@@ -29,7 +29,6 @@ export class SaveShipStoresComponent implements OnInit {
     this.portCallService.detailsIdentificationData$.subscribe(results => {
       if (results) {
         this.portCallId = results.portCallId;
-        console.log('Port call ID: ' + results.portCallId);
       }
     });
 
@@ -50,12 +49,9 @@ export class SaveShipStoresComponent implements OnInit {
   }
 
   saveShipStores() {
-    console.log('Save Ship Component: Saving...');
       this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
       this.shipStoresService.updateShipStores(this.portCallShipStoresList).
-      subscribe(res => {
-        console.log(res);
-      });
+      subscribe(res => {});
   }
 
 }

@@ -44,15 +44,11 @@ export class PortCallShipStoresService {
   // Get ship stores object by its primary key ID
   getShipStoresById(shipStoresId: number) {
     const uri = [this.shipStoresUrl, shipStoresId].join('/');
-    console.log(uri);
-    console.log(this.shipStoresUrl);
-    console.log(shipStoresId);
-
     return this.http.get(uri).map(res => res.json());
   }
   // Add new ship stores list to database
   addShipStores(shipStoresList: any[]) {
-    console.log('Ship Stores Service: Adding Ship Stores...');
+    console.log('Adding Ship Stores...');
     const uri = this.shipStoresListUrl;
     this.http.post(uri, shipStoresList).map(res => {
       console.log(res);
@@ -81,6 +77,13 @@ export class PortCallShipStoresService {
     const uri = this.measurementTypeUrl;
     return this.http.get(uri).map(res => res.json());
   }
+
+  /************************
+   *
+   *  SETTERS AND DELETE
+   *
+   ************************/
+
   // Update shipStoresInformationData
   setShipStoresInformationData(data) {
     this.shipStoresInformationSource.next(data);
@@ -93,13 +96,13 @@ export class PortCallShipStoresService {
 
   setDataIsPristine(isPristine: Boolean) {
     this.dataIsPristine.next(isPristine);
-    console.log('DataIsPristine is being set to ' + isPristine);
   }
 
   // Delete port call draft
   deleteShipStoreEntry(data) {
     let copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
     data = JSON.stringify(this.createComparableObject(data));
+
     // Find clicked item
     copyShipStoresInformationSource.forEach((item, index) => {
       item = JSON.stringify(this.createComparableObject(item));
@@ -112,20 +115,16 @@ export class PortCallShipStoresService {
     copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
     this.setShipStoresInformationData(copyShipStoresInformationSource);
 
-    console.log(this.shipStoresInformationSource.getValue());
-
+    // Set dataIsPristine to false (data is toched)
     this.setDataIsPristine(false);
   }
 
-  setSequenceNumbers(list) {
-    let tempSequenceNumber = 1;
-    list.forEach(item => {
-      item.sequenceNumber = tempSequenceNumber;
-      tempSequenceNumber++;
-    });
-    return list;
 
-  }
+  /******************
+   *
+   *  HELP METHODS
+   *
+   ******************/
 
   createComparableObject(item) {
     const object = {
@@ -139,5 +138,14 @@ export class PortCallShipStoresService {
     return object;
   }
 
+  setSequenceNumbers(list) {
+    let tempSequenceNumber = 1;
+    list.forEach(item => {
+      item.sequenceNumber = tempSequenceNumber;
+      tempSequenceNumber++;
+    });
+    return list;
+
+  }
 
 }

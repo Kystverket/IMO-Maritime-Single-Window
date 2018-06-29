@@ -6,13 +6,13 @@
                 <div class="form-group row">
                     <label for="articleName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Name</label>
                     <div class="col my-auto">
-                        <input type="text" pattern="[a-zA-Z][a-zA-Z ]+" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
                             placeholder="Article Name" class="form-control form-control-sm" required name="articleName">
                     </div>
                 </div>
                 <div *ngIf="articleName.hasError('pattern')" class="alert alert-danger">
                     <li>
-                        <small>Only alphabets allowed.</small>
+                        <small>Only letters, numbers and "." allowed.</small>
                     </li>
                     <li>
                         <small>More than one letter required.</small>
@@ -22,13 +22,13 @@
                 <div class="form-group row">
                     <label for="articleCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Code</label>
                     <div class="col my-auto">
-                        <input type="text" pattern="[a-zA-Z][a-zA-Z ]+" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
                             placeholder="Article Code" class="form-control form-control-sm" name="articleCode">
                     </div>
                 </div>
                 <div *ngIf="articleCode.hasError('pattern')" class="alert alert-danger">
                     <li>
-                        <small>Only alphabets allowed.</small>
+                        <small>Only letters, numbers and "." allowed.</small>
                     </li>
                     <li>
                         <small>More than one letter required.</small>
@@ -38,13 +38,13 @@
                 <div class="form-group row">
                     <label for="locationOnBoard" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Location on Board</label>
                     <div class="col my-auto">
-                        <input type="text" pattern="[a-zA-Z][a-zA-Z ]+" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
                             placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard">
                     </div>
                 </div>
                 <div *ngIf="locationOnBoard.hasError('pattern')" class="alert alert-danger">
                     <li>
-                        <small>Only alphabets allowed.</small>
+                        <small>Only letters, numbers and "." allowed.</small>
                     </li>
                     <li>
                         <small>More than one letter required.</small>

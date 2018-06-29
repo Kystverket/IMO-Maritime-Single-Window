@@ -93,6 +93,7 @@ export class ShipStoresComponent implements OnInit {
           if (list) {
             this.portCallShipStoresList = list;
             this.portCallShipStoresModel.portCallId = element.portCallId;
+
             // Get measurement types
             if (!this.measurementTypeList) {
               this.shipStoresService.getMeasurementTypeList().subscribe(results => {
@@ -118,6 +119,7 @@ export class ShipStoresComponent implements OnInit {
     });
   }
 
+  // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
   generateSmartTable(): any[] {
     const list = [];
     if (this.portCallShipStoresList) {
@@ -151,7 +153,6 @@ export class ShipStoresComponent implements OnInit {
   }
 
   persistData() {
-    console.log('Adding ship store to list');
       this.listIsPristine = false;
       this.shipStoresService.setDataIsPristine(false);
     // Add sequence number for model to be submitted
