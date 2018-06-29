@@ -39,6 +39,8 @@ export class ActivatePortCallComponent implements OnInit {
   STATUS_ACTIVE = 'Active';
   STATUS_DRAFT = 'Draft';
 
+  portCallCanBeActivated: Boolean = false;
+
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
@@ -50,6 +52,7 @@ export class ActivatePortCallComponent implements OnInit {
     this.portCallService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.detailsDataIsPristine = detailsDataIsPristine;
+        this.setPortCallCanBeActivated();
       }
     );
     this.portCallService.detailsIdentificationData$.subscribe(
@@ -102,14 +105,12 @@ export class ActivatePortCallComponent implements OnInit {
     this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
       this.shipStoresDataIsPristine = shipStoresDataIsPristine;
       this.setShipStoresCanBeActivated();
-      console.log(this.shipStoresCanBeActivated);
 
     });
 
     this.shipStoresService.isCheckedInProgressBar$.subscribe(isChecked => {
       this.shipStoresIsChecked = isChecked;
       this.setShipStoresCanBeActivated();
-      console.log(this.shipStoresCanBeActivated);
     });
   }
 
@@ -156,6 +157,19 @@ export class ActivatePortCallComponent implements OnInit {
       this.shipStoresCanBeActivated = true;
     } else {
       this.shipStoresCanBeActivated = false;
+    }
+    this.setPortCallCanBeActivated();
+  }
+
+  private setPortCallCanBeActivated() {
+    if (
+      (this.detailsDataIsPristine && this.shipStoresDataIsPristine && this.shipStoresIsChecked)
+      ||
+      (this.detailsDataIsPristine && !this.shipStoresIsChecked)
+    ) {
+      this.portCallCanBeActivated = true;
+    } else {
+      this.portCallCanBeActivated = false;
     }
   }
 
