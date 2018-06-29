@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
 
 const PREV_AND_NEXT_POC = 'Voyages';
 const PORT_CALL_DETAILS = 'Port Call Details';
@@ -22,7 +23,7 @@ export class ProgressBarComponent implements OnInit {
   baseMenuEntries: any[] = [
     {
       name: PREV_AND_NEXT_POC,
-      icon: 'location.png',
+      icon: 'voyage.png',
       checked: true,
       hasError: false,
       hasUnsavedData: false
@@ -51,6 +52,7 @@ export class ProgressBarComponent implements OnInit {
 
   constructor(
     private portCallService: PortCallService,
+    private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService
   ) {}
 
@@ -117,11 +119,21 @@ export class ProgressBarComponent implements OnInit {
       }
     );
 
-    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
-      this.menuEntries.find(
-        p => p.name === PORT_CALL_DETAILS
-      ).hasUnsavedData = !detailsDataIsPristine;
-    });
+    this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.menuEntries.find(
+          p => p.name === PREV_AND_NEXT_POC
+        ).hasUnsavedData = !pristineData;
+      }
+    );
+
+    this.portCallService.detailsPristine$.subscribe(
+      detailsDataIsPristine => {
+        this.menuEntries.find(
+          p => p.name === PORT_CALL_DETAILS
+        ).hasUnsavedData = !detailsDataIsPristine;
+      }
+    );
   }
 
   setPortCallForm(contentName: string) {
