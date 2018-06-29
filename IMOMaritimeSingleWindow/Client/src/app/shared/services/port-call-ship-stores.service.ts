@@ -40,6 +40,9 @@ export class PortCallShipStoresService {
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
 
+  private isCheckedInProgressBar = new BehaviorSubject<Boolean>(false);
+  isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
+
   // API calls
   // Get ship stores object by its primary key ID
   getShipStoresById(shipStoresId: number) {
@@ -61,9 +64,11 @@ export class PortCallShipStoresService {
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
     return this.http.put(uri, shipStoresList).map(res => {
-      console.log(res);
-      this.setDataIsPristine(true);
       res.json();
+      if (res.status === 200) {
+        console.log('Ship stores successfully saved.');
+        this.setDataIsPristine(true);
+      }
     });
   }
   // Get all ship stores for a given port call
@@ -96,6 +101,10 @@ export class PortCallShipStoresService {
 
   setDataIsPristine(isPristine: Boolean) {
     this.dataIsPristine.next(isPristine);
+  }
+
+  setCheckedInProgressBar(checked: Boolean) {
+    this.isCheckedInProgressBar.next(checked);
   }
 
   // Delete port call draft
