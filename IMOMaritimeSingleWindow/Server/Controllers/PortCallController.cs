@@ -23,6 +23,39 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpPut("nextAndPrev")]
+        public IActionResult UpdateNextAndPreviousPortOfCall([FromBody] PortCall portCall)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PortCall dbPortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId).FirstOrDefault();
+                if (dbPortCall != null)
+                {
+                    dbPortCall.NextLocationId = portCall.NextLocationId;
+                    dbPortCall.NextLocationEta = portCall.NextLocationEta;
+                    dbPortCall.PreviousLocationId = portCall.PreviousLocationId;
+                    dbPortCall.PreviousLocationEtd = portCall.PreviousLocationEtd;
+                    dbPortCall.NextLocation = null;
+                    dbPortCall.PreviousLocation = null;
+                    _context.PortCall.Update(dbPortCall);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    return BadRequest("Port Call not found.");
+                }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
