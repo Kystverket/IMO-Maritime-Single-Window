@@ -19,6 +19,7 @@ import { ShipService } from 'app/shared/services/ship.service';
 import { ContactService } from 'app/shared/services/contact.service';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { LocationButtonRowComponent } from './location/view-location-info/location-button-row/location-button-row.component';
+import { CertificateOfRegistryComponent } from './ship/register-ship/certificate-of-registry/certificate-of-registry.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { LocationButtonRowComponent } from './location/view-location-info/locati
     ViewOrganizationInfoComponent,
     RegisterLocationComponent,
     ViewLocationInfoComponent,
-    LocationButtonRowComponent
+    LocationButtonRowComponent,
+    CertificateOfRegistryComponent
   ],
   exports: [
     RegisterUserComponent,

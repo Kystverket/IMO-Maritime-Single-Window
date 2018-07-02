@@ -696,6 +696,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 
+                entity.Property(e => e.NetTonnage).HasColumnName("net_tonnage");
+
                 entity.Property(e => e.Draught).HasColumnName("draught");
 
                 entity.Property(e => e.GrossTonnage).HasColumnName("gross_tonnage");

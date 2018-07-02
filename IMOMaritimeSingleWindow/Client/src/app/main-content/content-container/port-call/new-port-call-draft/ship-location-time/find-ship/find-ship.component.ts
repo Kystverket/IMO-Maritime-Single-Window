@@ -14,8 +14,7 @@ export class FindShipComponent implements OnInit {
   shipFlag: string;
   shipFound = false;
 
-  shipProperties: any = ShipProperties.PROPERTIES;
-  shipInfo: any[];
+  shipData = ShipProperties.PROPERTY_LIST;
 
   constructor(private portCallService: PortCallService, private shipService: ShipService) { }
 
@@ -29,25 +28,26 @@ export class FindShipComponent implements OnInit {
     this.shipService.shipOverviewData$.subscribe(
       shipResult => {
         if (shipResult) {
-          this.shipFlag = (shipResult.shipFlagCode.country) ? shipResult.shipFlagCode.country.twoCharCode.toLowerCase() : null;
-          this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
-          this.shipProperties.SHIP_STATUS.data = (shipResult.shipStatus) ? shipResult.shipStatus.name : null;
-          this.shipProperties.SHIP_NAME.data = shipResult.name;
-          this.shipProperties.CALL_SIGN.data = shipResult.callSign;
-          this.shipProperties.IMO_NO.data = shipResult.imoNo;
-          this.shipProperties.MMSI_NO.data = shipResult.mmsiNo;
-          this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
-          this.shipProperties.LENGTH.data = shipResult.length;
+          const twoCharCode = shipResult.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
+          const countryFlagUrl = [ShipProperties.FLAGS_FOLDER, twoCharCode].join('/') + '.png';
+          this.shipData.find(e => e.description === ShipProperties.COUNTRY).imageUrl = countryFlagUrl;
+          this.shipData.find(e => e.description === ShipProperties.SHIP_TYPE).data = shipResult.shipType.name;
+          this.shipData.find(e => e.description === ShipProperties.SHIP_STATUS).data = shipResult.shipStatus.name;
+          this.shipData.find(e => e.description === ShipProperties.SHIP_NAME).data = shipResult.name;
+          this.shipData.find(e => e.description === ShipProperties.CALL_SIGN).data = shipResult.callSign;
+          this.shipData.find(e => e.description === ShipProperties.IMO_NO).data = shipResult.imoNo;
+          this.shipData.find(e => e.description === ShipProperties.MMSI_NO).data = shipResult.mmsiNo;
+          this.shipData.find(e => e.description === ShipProperties.GROSS_TONNAGE).data = shipResult.grossTonnage;
+          this.shipData.find(e => e.description === ShipProperties.LENGTH).data = shipResult.length;
 
           this.shipFound = true;
           this.portCallService.setShipData(shipResult);
 
         } else {
           this.shipFound = false;
-          this.shipProperties = ShipProperties.PROPERTIES;
+          this.shipData = ShipProperties.PROPERTY_LIST;
           this.portCallService.setShipData(null);
         }
-        this.shipInfo = Object.values(this.shipProperties);
       }
     );
   }

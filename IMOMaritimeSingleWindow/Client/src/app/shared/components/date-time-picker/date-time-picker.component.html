@@ -10,12 +10,12 @@
             </button>
           </div>
           <input id="date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp" [showWeekNumbers]="true"
-            [(ngModel)]="dateTimeModel.dateModel" ngbDatepicker #dp="ngbDatepicker" (ngModelChange)="dateChanged($event)">
+            [(ngModel)]="dateTimeModel.date" ngbDatepicker #dp="ngbDatepicker" (ngModelChange)="dateChanged($event)">
         </div>
       </div>
     </div>
     <div class="d-table-cell p-1">
-      <ngb-timepicker [(ngModel)]="dateTimeModel.timeModel" (ngModelChange)="timeChanged($event)" [minuteStep]=15></ngb-timepicker>
+      <ngb-timepicker [(ngModel)]="dateTimeModel.time" (ngModelChange)="timeChanged($event)" [minuteStep]=15></ngb-timepicker>
     </div>
   </div>
   <div class="d-table-row">

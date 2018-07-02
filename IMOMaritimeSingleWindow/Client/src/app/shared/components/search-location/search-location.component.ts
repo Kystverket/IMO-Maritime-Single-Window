@@ -19,7 +19,6 @@ export class SearchLocationComponent implements OnInit {
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
   resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN_2;
   locationModel: any;
-  locationSelected = false;
 
   searching = false;
   searchFailed = false;
@@ -29,9 +28,7 @@ export class SearchLocationComponent implements OnInit {
 
   constructor(private locationSearchService: LocationSearchService) { }
 
-  ngOnInit() {
-    this.deselectLocation();
-  }
+  ngOnInit() { }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -68,17 +65,16 @@ export class SearchLocationComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-  formatter = (x: { locationId: string }) => x.locationId;
+  formatter = (x: { locationId: string }) => '';
 
   selectLocation($event) {
-    this.locationSelected = true;
     this.locationModel = $event.item;
     this.locationSearchService.setLocationData(this.locationModel);
   }
 
   deselectLocation() {
-    this.locationSelected = false;
-    this.locationSearchService.setLocationData(null);
+    this.locationModel = null;
+    this.locationSearchService.clearLocationSearch();
   }
 
   getService() {

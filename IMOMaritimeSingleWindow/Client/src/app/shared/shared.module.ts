@@ -30,11 +30,10 @@ import { ShipSmartTableComponent } from './components/ship-smart-table/ship-smar
 import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
-
-// tslint:disable-next-line:max-line-length
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
 import { DbConnectionService } from 'app/shared/services/db-connection.service';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
+import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
 
 @NgModule({
   imports: [
@@ -69,6 +68,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
     SsnCardComponent,
     TableCardComponent,
     DateTimePickerComponent,
+    SsnTableComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -89,7 +89,8 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
     SsnBgComponent,
     SsnCardComponent,
     TableCardComponent,
-    DateTimePickerComponent
+    DateTimePickerComponent,
+    SsnTableComponent
   ],
   providers: [
     ContactService,

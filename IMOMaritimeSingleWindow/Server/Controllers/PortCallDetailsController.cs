@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -23,7 +20,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("portcall/{id}")]
         public IActionResult GetByPortCallId(int id)
         {
-            PortCallDetails portCallDetails = _context.PortCallDetails.Where(details => details.PortCallId == id).FirstOrDefault();
+            PortCallDetails portCallDetails = _context.PortCallDetails.FirstOrDefault(details => details.PortCallId == id);
             if (portCallDetails == null)
             {
                 return NoContent();

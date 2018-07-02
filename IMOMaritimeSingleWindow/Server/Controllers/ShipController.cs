@@ -1,15 +1,11 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
-using IMOMaritimeSingleWindow.Auth;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers

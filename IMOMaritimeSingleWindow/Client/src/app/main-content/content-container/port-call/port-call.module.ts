@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
@@ -20,7 +21,6 @@ import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.co
 import { OverviewComponent } from './overview/overview.component';
 import { PortCallComponent } from './port-call.component';
 import { FormsComponent } from './registration/forms/forms.component';
-// tslint:disable-next-line:max-line-length
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PortCallDetailsComponent } from './registration/forms/port-call-details/port-call-details.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
@@ -75,6 +75,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService]
+  providers: [PortCallService, PrevAndNextPocService]
 })
 export class PortCallModule {}

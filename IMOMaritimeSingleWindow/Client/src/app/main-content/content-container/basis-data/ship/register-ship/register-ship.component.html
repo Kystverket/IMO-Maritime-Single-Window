@@ -300,7 +300,7 @@
 
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="deadweight_tonnage">Deadweight Tonnage</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="deadweight_tonnage">Deadweight Tonnage</label>
                 <div class="col">
                   <input [(ngModel)]="shipModel.deadweightTonnage" name="deadweightTonnage" type="number" class="form-control form-control-sm"
                     id="deadweight_tonnage" placeholder="Enter deadweight tonnage" #dwt="ngModel" numberValidator integerValidator
@@ -316,6 +316,30 @@
                 </li>
                 <li *ngIf="dwt.hasError('notPositiveNumberError')">
                   <small>Deadweight tonnage must be a positive number.</small>
+                </li>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="net_tonnage">Net Tonnage</label>
+                <div class="col">
+                  <input [(ngModel)]="shipModel.netTonnage" name="netTonnage" type="number" class="form-control form-control-sm" id="net_tonnage"
+                    placeholder="Enter net tonnage" #netTonnage="ngModel" numberValidator integerValidator positiveNumberValidator
+                  />
+                </div>
+              </div>
+              <div *ngIf="!netTonnage.valid" class="alert alert-danger">
+                <li *ngIf="netTonnage.hasError('notNumberError')">
+                  <small>Net tonnage must be a valid number.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notIntegerError')">
+                  <small>Net tonnage must be an integer.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notPositiveNumberError')">
+                  <small>Net tonnage must be a positive number.</small>
                 </li>
               </div>
             </div>
@@ -397,85 +421,7 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col">
-      <app-ssn-card header="Certificate of Registry" icon="pax.png">
-        <div class="row">
-          <div class="col">
-            <app-ssn-card header="Port of Registry">
-              <div *ngIf="!portLocationSelected">
-                <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
-              </div>
-              <div *ngIf="portLocationSelected" class="text-center">
-                <div class="table-responsive">
-                  <table class="table table-bordered">
-                    <thead>
-                      <tr class="bg-ssn text-ssn">
-                        <th>Country</th>
-                        <th>Location Name</th>
-                        <th>LoCode</th>
-                        <th>Location Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <img height="32px" src="assets/images/Flags/128x128/{{certificateModel.portLocation.country.twoCharCode.toLowerCase()}}.png"
-                          /> {{ certificateModel.portLocation.country.name }}
-                        </td>
-                        <td>{{ certificateModel.portLocation.name }}</td>
-                        <td>{{ certificateModel.portLocation.locationCode }}</td>
-                        <td>{{ certificateModel.portLocation.locationType.name }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <button class="btn btn-ssn" (click)="deselectPortLocation()">
-                  <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-              </div>
-            </app-ssn-card>
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="d-table mx-auto">
-              <div class="d-table-row">
-                <div class="d-table-cell p-1">
-                  <div class="form-group">
-                    <label for="eta_date_input">Date of issue</label>
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <button class="btn btn-sm btn-ssn" (click)="doi.toggle()" type="button">
-                          <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
-                        </button>
-                      </div>
-                      <input id="doi_date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp-doi" [showWeekNumbers]="true"
-                        [(ngModel)]="datePickerModel" (ngModelChange)="updateCertificateDate($event)" ngbDatepicker #doi="ngbDatepicker">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="d-table-row ">
-                <div *ngIf="!validCertificateDateFormat " class="alert alert-danger " role="alert ">
-                  <span>Invalid date format.</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="form-group row">
-              <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="certificate_number">Ship registry number</label>
-              <div class="col">
-                <input [(ngModel)]="certificateModel.certificateNumber" name="certificateNumber" type="number" class="form-control form-control-sm"
-                  id="certificate_number" placeholder="Enter ship registry number" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </app-ssn-card>
-    </div>
-  </div>
+  <app-certificate-of-registry></app-certificate-of-registry>
 
   <div class="row ">
     <div class="col ">
@@ -485,8 +431,7 @@
                         && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
                         && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
                         && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
-                        && organizationSelected && portLocationSelected && certificateModel.portLocation && certificateModel.certificateNumber
-                        && certificateModel.dateOfIssue && validCertificateDateFormat) ">
+                        && organizationSelected && certificateSelected && validCertificateDateFormat) ">
           <div *ngIf="!form.valid " class="text-center ">
             <div class="alert alert-danger ">
               There are errors in the form that needs to be resolved.
@@ -510,9 +455,7 @@
             <p class="no-wrap mb-0 " *ngIf="!shipFlagCodeSelected ">Flag code not selected.</p>
             <p class="no-wrap mb-0 " *ngIf="!contactSelected ">At least one contact medium must be provided.</p>
             <p class="no-wrap mb-0 " *ngIf="!organizationSelected ">Organization not selected.</p>
-            <p class="no-wrap mb-0 " *ngIf="!certificateModel.portLocation">Port of registry not selected.</p>
-            <p class="no-wrap mb-0 " *ngIf="!certificateModel.certificateNumber">Ship registry number not set.</p>
-            <p class="no-wrap mb-0 " *ngIf="!certificateModel.dateOfIssue">Certificate date of issue not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!certificateSelected">There is missing information in certificate of registry.</p>
             <p class="no-wrap mb-0 " *ngIf="!validCertificateDateFormat">Certificate date of issue has invalid format.</p>
           </div>
           <button class="btn btn-ssn " disabled>
@@ -523,7 +466,7 @@
                         && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
                         && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
                         && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
-                        && organizationSelected && certificateModel.portLocation && certificateModel.certificateNumber && certificateModel.dateOfIssue">
+                        && organizationSelected && certificateSelected">
           <div class="table-responsive ">
             <table class="table table-bordered ">
               <thead>
@@ -643,8 +586,8 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>{{ certificateModel.portLocation.name }}</td>
-                  <td>{{ certificateModel.certificateNumber }}</td>
+                  <td>{{ portName }}</td>
+                  <td>{{ certificateNumber }}</td>
                   <td>{{ certificateDateString }}</td>
                 </tr>
               </tbody>

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
@@ -8,8 +8,8 @@ import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 import { ShipService } from 'app/shared/services/ship.service';
-import { LocationService } from '../../../../../shared/services/location.service';
 import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
+import { CertificateOfRegistryComponent } from './certificate-of-registry/certificate-of-registry.component';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -22,8 +22,8 @@ const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there 
   styleUrls: ['./register-ship.component.css'],
   providers: [ShipModel]
 })
-export class RegisterShipComponent implements OnInit {
-
+export class RegisterShipComponent implements OnInit, AfterViewInit {
+  @ViewChild(CertificateOfRegistryComponent) certificateComponent: CertificateOfRegistryComponent;
   newShip = false;
   shipHeader: string;
   confirmHeader: string;
@@ -32,7 +32,7 @@ export class RegisterShipComponent implements OnInit {
   organizationSelected: boolean;
   contactSelected: boolean;
   portLocationSelected: boolean;
-  certificateSelected: boolean;
+  certificateSelected = false;
 
   hullTypeSelected = false;
   lengthTypeSelected = false;
@@ -63,7 +63,9 @@ export class RegisterShipComponent implements OnInit {
   certificateModel: CertificateOfRegistryModel;
   datePickerModel: { year: number, month: number, day: number };
   certificateDateString: string;
-  validCertificateDateFormat = false;
+  portName: string;
+  certificateNumber: number;
+  validCertificateDateFormat = true;
 
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
@@ -74,9 +76,9 @@ export class RegisterShipComponent implements OnInit {
     private contentService: ContentService,
     private modalService: NgbModal,
     private organizationService: OrganizationService,
-    private locationService: LocationService
   ) { }
 
+  // for development purposes, remove before prod
   setFast() {
     this.shipModel.name = 'TJOHEI';
     this.shipModel.callSign = 'tjo123';
@@ -102,7 +104,6 @@ export class RegisterShipComponent implements OnInit {
 
   ngOnInit() {
     this.certificateModel = new CertificateOfRegistryModel();
-    this.shipModel.certificateOfRegistry = this.certificateModel;
     this.subscribeToData();
     this.shipService.shipOverviewData$.subscribe(
       data => {
@@ -112,7 +113,6 @@ export class RegisterShipComponent implements OnInit {
           this.organizationService.setOrganizationData(null);
           this.shipService.setShipFlagCodeData(null);
           this.contactService.setContactData(null);
-          this.locationService.setLocationData(null);
           this.newShip = true;
           this.shipHeader = 'Register New Ship';
           this.confirmHeader = 'Confirm Ship Registration';
@@ -138,6 +138,43 @@ export class RegisterShipComponent implements OnInit {
     this.shipService.getShipStatusList().subscribe(
       data => this.shipStatusList = data
     );
+  }
+
+  ngAfterViewInit() {
+
+    this.certificateComponent.getService().certificateData$.subscribe(
+      data => {
+        this.certificateModel = data;
+        if (data) {
+          if (this.certificateModel.dateOfIssue) {
+            this.certificateDateString = this.dateString(new Date(this.certificateModel.dateOfIssue));
+          }
+          if (this.certificateModel.dateOfIssue && this.certificateModel.portLocationId && this.certificateModel.certificateNumber && this.certificateModel.dateOfIssue) {
+            this.portName = this.certificateModel.portLocation.name;
+            this.certificateNumber = this.certificateModel.certificateNumber;
+            this.certificateSelected = true;
+          } else {
+            this.certificateSelected = false;
+          }
+        } else {
+          this.certificateSelected = false;
+        }
+      }
+    );
+
+    this.certificateComponent.getService().validDateFormatData$.subscribe(
+      data => {
+        if (data) {
+          this.validCertificateDateFormat = data;
+        }
+      }
+    );
+
+    setTimeout(() => {
+      if (this.shipModel) {
+        this.certificateComponent.getService().setCertificateData(this.shipModel.certificateOfRegistry);
+      }
+    });
   }
 
   subscribeToData() {
@@ -172,28 +209,6 @@ export class RegisterShipComponent implements OnInit {
           this.contactSelected = false;
         }
       });
-
-    this.shipService.certificateData$.subscribe(
-      data => {
-        if (data) {
-          this.certificateModel = data;
-          const date = new Date(data.dateOfIssue);
-          this.datePickerModel = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
-          this.updateCertificateDate(date);
-        }
-      });
-
-    this.locationService.locationData$.subscribe(
-      data => {
-        if (data) {
-          this.certificateModel.portLocation = data;
-          this.certificateModel.portLocationId = data.locationId;
-          this.shipService.setCertificateData(this.certificateModel);
-          this.portLocationSelected = true;
-        } else {
-          this.portLocationSelected = false;
-        }
-      });
   }
 
   setAllValues(ship: ShipModel) {
@@ -207,8 +222,6 @@ export class RegisterShipComponent implements OnInit {
     this.organizationModel = ship.organization;
     this.organizationSelected = (ship.organization != null);
     this.selectedContactModels = ship.shipContact;
-    this.certificateSelected = (ship.certificateOfRegistry != null);
-    this.certificateModel = ship.certificateOfRegistry;
 
     this.hullTypeSelected = (ship.shipHullType != null);
     if (this.hullTypeSelected) {
@@ -236,9 +249,6 @@ export class RegisterShipComponent implements OnInit {
     }
     this.organizationService.setOrganizationData(ship.organization);
     this.shipService.setShipFlagCodeData(ship.shipFlagCode);
-    if (this.certificateSelected && this.shipModel.certificateOfRegistry.portLocation) {
-      this.locationService.setLocationData(this.shipModel.certificateOfRegistry.portLocation);
-    }
     this.contactService.setContactData(ship.shipContact);
     this.contactSelected = (ship.shipContact != null);
   }
@@ -256,10 +266,6 @@ export class RegisterShipComponent implements OnInit {
 
   deselectOrganization() {
     this.organizationService.setOrganizationData(null);
-  }
-
-  deselectPortLocation() {
-    this.locationService.setLocationData(null);
   }
 
   selectHullType(hullType: any) {
@@ -296,8 +302,8 @@ export class RegisterShipComponent implements OnInit {
   registerShip() {
     const safeCertificate = new CertificateOfRegistryModel();
     safeCertificate.certificateNumber = this.certificateModel.certificateNumber;
-    safeCertificate.portLocationId = this.certificateModel.portLocationId;
     safeCertificate.dateOfIssue = this.certificateModel.dateOfIssue;
+    safeCertificate.portLocationId = this.certificateModel.portLocationId;
     this.shipModel.certificateOfRegistry = safeCertificate;
     if (this.newShip) {
       this.shipService.registerShip(this.shipModel).subscribe(
@@ -320,7 +326,7 @@ export class RegisterShipComponent implements OnInit {
       );
     } else {
       // remove child dependencies
-      this.shipModel.certificateOfRegistry.certificateOfRegistryId = this.shipModel.certificateOfRegistryId;
+      this.shipModel.certificateOfRegistryId = this.certificateModel.certificateOfRegistryId;
       this.shipModel.organization = null;
       this.shipModel.shipStatus = null;
       this.shipModel.shipPowerType = null;
@@ -366,17 +372,6 @@ export class RegisterShipComponent implements OnInit {
 
   private goBack() {
     this.contentService.setContent(CONTENT_NAMES.VIEW_SHIPS);
-  }
-
-  updateCertificateDate($event) {
-    if (this.hasValidDateFormat($event)) {
-      console.log($event);
-      this.certificateModel.dateOfIssue = new Date(this.datePickerModel.year, this.datePickerModel.month - 1, this.datePickerModel.day);
-      this.certificateDateString = this.dateString(this.certificateModel.dateOfIssue);
-      this.validCertificateDateFormat = true;
-    } else {
-      this.validCertificateDateFormat = false;
-    }
   }
 
   dateString(date: Date) {

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { DateTime } from '../../interfaces/dateTime.interface';
 import { DateTimePickerService } from './date-time-picker.service';
 
 @Component({
@@ -13,9 +13,9 @@ export class DateTimePickerComponent implements OnInit {
 
   @Input() header: string;
 
-  dateTimeModel = {
-    dateModel: null,
-    timeModel: new NgbTime(0, 0, 0)
+  dateTimeModel: DateTime = {
+    date: null,
+    time: new NgbTime(0, 0, 0)
   };
 
   validDateFormat = true;
@@ -42,13 +42,23 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   persistData() {
-    if (this.dateTimeModel.dateModel && this.validDateFormat && this.dateTimeModel.timeModel) {
+    if (this.dateTimeModel.date && this.validDateFormat && this.dateTimeModel.time) {
       this.dateTimePickerService.setDateTimeData(this.dateTimeModel);
+    } else {
+      this.dateTimePickerService.setDateTimeData(null);
     }
   }
 
   private hasValidDateFormat(model): boolean {
     return typeof model !== 'string';
+  }
+
+  setDateTimeView(dateTime: DateTime) {
+    this.dateTimeModel = dateTime;
+  }
+
+  getService() {
+    return this.dateTimePickerService;
   }
 
 }
