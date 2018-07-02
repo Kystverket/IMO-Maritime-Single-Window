@@ -5,7 +5,11 @@ import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model'
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { AuthRequest } from './auth.request.service';
+
+import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
+
 
 @Injectable()
 export class PortCallService {
@@ -247,6 +251,7 @@ export class PortCallService {
   setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
     this.crewPassengersAndDimensionsMeta.next(metaData);
   }
+
   // Reporting
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration
 

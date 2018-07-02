@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
 
 const PREV_AND_NEXT_POC = 'Voyages';
 const PORT_CALL_DETAILS = 'Port Call Details';
@@ -51,7 +52,8 @@ export class ProgressBarComponent implements OnInit {
 
   constructor(
     private portCallService: PortCallService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private shipStoresService: PortCallShipStoresService
   ) {}
 
   ngOnInit() {
@@ -99,7 +101,10 @@ export class ProgressBarComponent implements OnInit {
           this.menuEntries = this.baseMenuEntries
             .concat(falForms)
             .concat(this.finalMenuEntries);
-        }
+
+          // Set checked in services for FAL forms
+          this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
+          }
       }
     );
 
@@ -121,6 +126,16 @@ export class ProgressBarComponent implements OnInit {
       this.menuEntries.find(
         p => p.name === PORT_CALL_DETAILS
       ).hasUnsavedData = !detailsDataIsPristine;
+    });
+
+    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+      const shipStores = this.menuEntries.find(
+          p => p.name === SHIP_STORES
+        );
+      if (shipStores) {
+        shipStores.hasUnsavedData = !shipStoresDataIsPristine;
+      }
+
     });
   }
 

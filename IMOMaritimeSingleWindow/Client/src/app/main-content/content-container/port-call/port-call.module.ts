@@ -30,6 +30,10 @@ import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
+import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { DeleteButtonComponent } from './registration/forms/ship-stores/delete-button/delete-button.component';
+import { ShipStoresComponent } from './registration/forms/ship-stores/ship-stores.component';
 
 @NgModule({
   imports: [
@@ -42,7 +46,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     NgSelectModule,
     SharedModule,
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent],
   declarations: [
     ButtonRowComponent,
     ClearanceComponent,
@@ -64,9 +68,12 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     SaveDetailsComponent,
     NewPortCallDraftComponent,
     ClearanceRowComponent,
+    ShipStoresComponent,
+    DeleteButtonComponent,
+    ShipLocationTimeComponent,
     PrevAndNextPocComponent,
     ViewPortCallComponent,
-    ShipLocationTimeComponent
+    SaveShipStoresComponent,
   ],
   exports: [
     ClearanceComponent,
@@ -76,5 +83,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ViewPortCallComponent,
   ],
   providers: [PortCallService, PrevAndNextPocService]
+  providers: [PortCallService, PortCallShipStoresService]
 })
 export class PortCallModule {}

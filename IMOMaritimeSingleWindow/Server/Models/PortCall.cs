@@ -12,6 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
             OrganizationPortCall = new HashSet<OrganizationPortCall>();
             PortCallDetails = new HashSet<PortCallDetails>();
             PortCallHasPortCallPurpose = new HashSet<PortCallHasPortCallPurpose>();
+            FalShipStores = new HashSet<FalShipStores>();
         }
 
         public int PortCallId { get; set; }
@@ -42,5 +43,6 @@ namespace IMOMaritimeSingleWindow.Models
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
         public ICollection<PortCallDetails> PortCallDetails { get; set; }
         public ICollection<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
+        public ICollection<FalShipStores> FalShipStores { get; set; }
     }
 }
