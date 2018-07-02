@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
-import { resource } from 'selenium-webdriver/http';
-import { locateHostElement } from '@angular/core/src/render3/instructions';
 
 @Injectable()
 export class PortCallShipStoresService {

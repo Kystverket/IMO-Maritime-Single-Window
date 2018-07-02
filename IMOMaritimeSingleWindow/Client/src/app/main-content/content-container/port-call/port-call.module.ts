@@ -33,6 +33,7 @@ import { ShipStoresComponent } from './registration/forms/ship-stores/ship-store
 import { DeleteButtonComponent } from './registration/forms/ship-stores/delete-button/delete-button.component';
 import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 
 @NgModule({
   imports: [
@@ -72,6 +73,7 @@ import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-s
     ShipLocationTimeComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
+    PassengerListComponent,
   ],
   exports: [
     ClearanceComponent,

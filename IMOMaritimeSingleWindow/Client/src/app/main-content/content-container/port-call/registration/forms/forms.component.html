@@ -13,8 +13,9 @@
 </div>
 
 <div [ngSwitch]="selectedComponent">
-    <app-port-call-details *ngSwitchCase="'Port Call Details'"></app-port-call-details>
-    <app-ship-stores *ngSwitchCase="'Ship Stores'"></app-ship-stores>
+    <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS"></app-port-call-details>
+    <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES"></app-ship-stores>
+    <app-passenger-list *ngSwitchCase="formNames.PAX"></app-passenger-list>
 
     <app-confirmation *ngSwitchCase="'Confirm and Activate'"></app-confirmation>
     <div *ngSwitchDefault class="alert alert-danger" role="alert">

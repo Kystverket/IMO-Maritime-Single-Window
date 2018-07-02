@@ -6,8 +6,8 @@ import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-st
 import { DeleteButtonComponent } from './delete-button/delete-button.component';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { Observable } from 'rxjs/Observable';
+import { DataSource } from 'ng2-smart-table/lib/data-source/data-source';
 import { MeasurementTypeModel } from '../../../../../../shared/models/measurement-type-model';
-import { port } from '_debugger';
 
 @Component({
   selector: 'app-ship-stores',
@@ -95,20 +95,21 @@ export class ShipStoresComponent implements OnInit {
             this.portCallShipStoresModel.portCallId = element.portCallId;
 
             // Get measurement types
-            /*if (!this.measurementTypeList) {
+            if (!this.measurementTypeList) {
               this.shipStoresService.getMeasurementTypeList().subscribe(results => {
                 this.measurementTypeList = results;
                 this.shipStoresDataSource.load(this.generateSmartTable());
               });
             } else {
               this.shipStoresDataSource.load(this.generateSmartTable());
-            }*/
-            if (!this.measurementTypeList) {
-              this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
-                this.measurementTypeList = measurementTypeList;
-              });
             }
-            console.log(this.measurementTypeList);
+
+                      /*if (!this.measurementTypeList) {
+            this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
+              this.measurementTypeList = measurementTypeList;
+            });
+          }
+          console.log(this.measurementTypeList);*/
           }
         });
 
@@ -123,7 +124,6 @@ export class ShipStoresComponent implements OnInit {
         });
       }
     });
-
   }
 
   // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
@@ -187,6 +187,5 @@ export class ShipStoresComponent implements OnInit {
   private sendMetaData(): void {
     this.shipStoresService.setShipStoresInformationMeta({ valid: this.form.valid });
   }
-
 
 }
