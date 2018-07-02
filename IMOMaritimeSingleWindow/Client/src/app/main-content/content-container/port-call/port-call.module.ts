@@ -82,7 +82,6 @@ import { ShipStoresComponent } from './registration/forms/ship-stores/ship-store
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PrevAndNextPocService]
-  providers: [PortCallService, PortCallShipStoresService]
+  providers: [PortCallService, PrevAndNextPocService, PortCallShipStoresService]
 })
-export class PortCallModule {}
+export class PortCallModule { }
