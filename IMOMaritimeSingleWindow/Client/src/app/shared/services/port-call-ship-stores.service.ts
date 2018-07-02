@@ -75,6 +75,7 @@ export class PortCallShipStoresService {
   getShipStoresByPortCallId(portCallId: number) {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.shipStoresString].join('/');
+
     return this.http.get(uri).map(res => res.json());
   }
   // Get list of all measurement types
