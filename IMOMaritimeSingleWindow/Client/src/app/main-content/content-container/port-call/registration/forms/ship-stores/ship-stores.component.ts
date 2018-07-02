@@ -3,10 +3,9 @@ import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
-import { DeleteButtonComponent } from './delete-button/delete-button.component';
+import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { PortCallService } from '../../../../../../shared/services/port-call.service';
 import { Observable } from 'rxjs/Observable';
-import { DataSource } from 'ng2-smart-table/lib/data-source/data-source';
 import { MeasurementTypeModel } from '../../../../../../shared/models/measurement-type-model';
 
 @Component({

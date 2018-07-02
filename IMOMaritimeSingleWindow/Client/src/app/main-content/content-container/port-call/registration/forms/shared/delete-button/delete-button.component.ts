@@ -4,7 +4,7 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { ContentService } from '../../../../../../../shared/services/content.service';
-import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { FORM_NAMES } from 'app/shared/constants/form-names';
 
 @Component({
   selector: 'app-delete-button',
@@ -17,8 +17,8 @@ export class DeleteButtonComponent implements OnInit, ViewCell {
   @Input() value: string | number;
   @Input() rowData: any;
 
-  formName: string;
-  contentNames = CONTENT_NAMES;
+  selectedForm: string;
+  formNames: any;
 
   constructor(
     private modalService: NgbModal,
@@ -27,10 +27,12 @@ export class DeleteButtonComponent implements OnInit, ViewCell {
   ) { }
 
   ngOnInit() {
+    this.formNames = FORM_NAMES;
+
     this.contentService.portCallFormName$.subscribe(name => {
-      this.formName = name;
+      this.selectedForm = name;
       console.log(name);
-      console.log(this.contentNames);
+      console.log(this.formNames);
 
     });
   }

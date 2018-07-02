@@ -19,10 +19,14 @@
         <span>This action cannot be undone.</span>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-danger" (click)="deleteShipStoreEntry(); close">
+    <div [ngSwitch]="selectedForm" class="modal-footer">
+      <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteShipStoreEntry(); close">
         <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
         <span>Delete Ship Store</span>
+      </button>
+      <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)=" close;">
+        <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+        <span>Passenger Entry</span>
       </button>
       <button type="button" class="btn btn-ssn" (click)="close">
         <span>Exit</span>
