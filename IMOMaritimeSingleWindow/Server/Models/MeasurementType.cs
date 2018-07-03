@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -12,6 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
 
         public int MeasurementTypeId { get; set; }
         public string Name { get; set; }
+
         public ICollection<FalShipStores> FalShipStores { get; set; }
     }
 }
