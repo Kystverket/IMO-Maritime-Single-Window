@@ -25,10 +25,12 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<LocationSource> LocationSource { get; set; }
         DbSet<LocationType> LocationType { get; set; }
         DbSet<MarpolCategory> MarpolCategory { get; set; }
+        DbSet<MeasurementType> MeasurementType { get; set; }
         DbSet<Municipality> Municipality { get; set; }
         DbSet<Organization> Organization { get; set; }
         DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         DbSet<OrganizationType> OrganizationType { get; set; }
+        DbSet<Passenger> Passenger { get; set; }
         DbSet<Password> Password { get; set; }
         DbSet<Person> Person { get; set; }
         DbSet<PortCall> PortCall { get; set; }

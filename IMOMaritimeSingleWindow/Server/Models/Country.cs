@@ -9,6 +9,8 @@ namespace IMOMaritimeSingleWindow.Models
         {
             County = new HashSet<County>();
             Location = new HashSet<Location>();
+            PassengerCountryOfBirth = new HashSet<Passenger>();
+            PassengerNationality = new HashSet<Passenger>();
             ShipCertificate = new HashSet<ShipCertificate>();
             ShipFlagCode = new HashSet<ShipFlagCode>();
             ShipMmsiMidCode = new HashSet<ShipMmsiMidCode>();
@@ -23,6 +25,8 @@ namespace IMOMaritimeSingleWindow.Models
 
         public ICollection<County> County { get; set; }
         public ICollection<Location> Location { get; set; }
+        public ICollection<Passenger> PassengerCountryOfBirth { get; set; }
+        public ICollection<Passenger> PassengerNationality { get; set; }
         public ICollection<ShipCertificate> ShipCertificate { get; set; }
         public ICollection<ShipFlagCode> ShipFlagCode { get; set; }
         public ICollection<ShipMmsiMidCode> ShipMmsiMidCode { get; set; }

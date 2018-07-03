@@ -31,6 +31,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
+        public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
@@ -69,13 +70,10 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("certificate_of_registry");
 
-                entity.HasIndex(e => e.CertificateNumber)
-                    .HasName("unique_certificate_number")
-                    .IsUnique();
+                entity.HasIndex(e => e.PortLocationId)
+                    .HasName("fki_certificate_of_registry_port_location_id_fkey");
 
-                entity.Property(e => e.CertificateOfRegistryId)
-                    .HasColumnName("certificate_of_registry_id")
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.CertificateOfRegistryId).HasColumnName("certificate_of_registry_id");
 
                 entity.Property(e => e.CertificateNumber).HasColumnName("certificate_number");
 
@@ -85,11 +83,11 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
 
-                entity.HasOne(d => d.CertificateOfRegistryNavigation)
-                    .WithOne(p => p.CertificateOfRegistry)
-                    .HasForeignKey<CertificateOfRegistry>(d => d.CertificateOfRegistryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_certificate_of_registry_port_location_id");
+                entity.HasOne(d => d.PortLocation)
+                    .WithMany(p => p.CertificateOfRegistry)
+                    .HasForeignKey(d => d.PortLocationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("certificate_of_registry_port_location_id_fkey");
             });
 
             modelBuilder.Entity<Claim>(entity =>
@@ -97,7 +95,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("claim");
 
                 entity.Property(e => e.ClaimId)
-                    .HasColumnName("claim_id");
+                    .HasColumnName("claim_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.ClaimTypeId).HasColumnName("claim_type_id");
 
@@ -116,7 +115,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("claim_type");
 
                 entity.Property(e => e.ClaimTypeId)
-                    .HasColumnName("claim_type_id");
+                    .HasColumnName("claim_type_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -367,20 +367,34 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("fal_ship_stores");
 
+                entity.HasIndex(e => e.MeasurementTypeId)
+                    .HasName("fki_fal_ship_stores_measurement_type_id_fkey");
+
+                entity.HasIndex(e => e.PortCallId)
+                    .HasName("fki_fal_ship_stores_port_call_id_fkey");
+
                 entity.Property(e => e.FalShipStoresId).HasColumnName("fal_ship_stores_id");
-                entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
-                entity.Property(e => e.ArticleName).HasColumnName("article_name");
+
                 entity.Property(e => e.ArticleCode).HasColumnName("article_code");
-                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.ArticleName).HasColumnName("article_name");
+
                 entity.Property(e => e.LocationOnBoard).HasColumnName("location_on_board");
+
                 entity.Property(e => e.LocationOnBoardCode).HasColumnName("location_on_board_code");
+
                 entity.Property(e => e.MeasurementTypeId).HasColumnName("measurement_type_id");
+
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
 
                 entity.HasOne(d => d.MeasurementType)
                     .WithMany(p => p.FalShipStores)
                     .HasForeignKey(d => d.MeasurementTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("fal_ship_stores_measurement_type_id_fkey");
 
                 entity.HasOne(d => d.PortCall)
@@ -388,7 +402,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.PortCallId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("fal_ship_stores_port_call_id_fkey");
-
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>
@@ -515,6 +528,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("measurement_type");
 
                 entity.Property(e => e.MeasurementTypeId).HasColumnName("measurement_type_id");
+
                 entity.Property(e => e.Name).HasColumnName("name");
             });
 
@@ -578,6 +592,12 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("organization_port_call");
 
+                entity.HasIndex(e => e.OrganizationId)
+                    .HasName("fki_organization_port_call_organization_id_fkey");
+
+                entity.HasIndex(e => e.PortCallId)
+                    .HasName("fki_organization_port_call_port_call_id_fkey");
+
                 entity.Property(e => e.OrganizationPortCallId).HasColumnName("organization_port_call_id");
 
                 entity.Property(e => e.Cleared).HasColumnName("cleared");
@@ -591,13 +611,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.OrganizationPortCall)
                     .HasForeignKey(d => d.OrganizationId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("organization_port_call_organization_id_fkey");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.OrganizationPortCall)
                     .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("organization_port_call_port_call_id_fkey");
             });
 
@@ -614,12 +632,73 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<Passenger>(entity =>
+            {
+                entity.ToTable("passenger");
+
+                entity.HasIndex(e => e.CountryOfBirthId)
+                    .HasName("fki_passenger_country_of_birth_id_fkey");
+
+                entity.HasIndex(e => e.NationalityId)
+                    .HasName("fki_passenger_nationality_id_fkey");
+
+                entity.HasIndex(e => e.PortCallId)
+                    .HasName("fki_passenger_port_call_id_fkey");
+
+                entity.Property(e => e.PassengerId).HasColumnName("passenger_id");
+
+                entity.Property(e => e.CountryOfBirthId).HasColumnName("country_of_birth_id");
+
+                entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
+
+                entity.Property(e => e.GivenName).HasColumnName("given_name");
+
+                entity.Property(e => e.InTransit).HasColumnName("in_transit");
+
+                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
+
+                entity.Property(e => e.OccupationCode).HasColumnName("occupation_code");
+
+                entity.Property(e => e.OccupationName).HasColumnName("occupation_name");
+
+                entity.Property(e => e.PlaceOfBirth).HasColumnName("place_of_birth");
+
+                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.Property(e => e.RankCode).HasColumnName("rank_code");
+
+                entity.Property(e => e.RankName).HasColumnName("rank_name");
+
+                entity.Property(e => e.RoleCode).HasColumnName("role_code");
+
+                entity.Property(e => e.Surname).HasColumnName("surname");
+
+                entity.HasOne(d => d.CountryOfBirth)
+                    .WithMany(p => p.PassengerCountryOfBirth)
+                    .HasForeignKey(d => d.CountryOfBirthId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("passenger_country_of_birth_id_fkey");
+
+                entity.HasOne(d => d.Nationality)
+                    .WithMany(p => p.PassengerNationality)
+                    .HasForeignKey(d => d.NationalityId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("passenger_nationality_id_fkey");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.Passenger)
+                    .HasForeignKey(d => d.PortCallId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("passenger_port_call_id_fkey");
+            });
+
             modelBuilder.Entity<Password>(entity =>
             {
                 entity.ToTable("password");
 
                 entity.Property(e => e.PasswordId)
-                    .HasColumnName("password_id");
+                    .HasColumnName("password_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Hash).HasColumnName("hash");
             });
@@ -629,15 +708,16 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("person");
 
                 entity.Property(e => e.PersonId)
-                    .HasColumnName("person_id");
-
-                entity.Property(e => e.GivenName).HasColumnName("given_name");
-
-                entity.Property(e => e.Surname).HasColumnName("surname");
+                    .HasColumnName("person_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.CompanyEmail).HasColumnName("company_email");
 
                 entity.Property(e => e.CompanyPhoneNumber).HasColumnName("company_phone_number");
+
+                entity.Property(e => e.GivenName).HasColumnName("given_name");
+
+                entity.Property(e => e.Surname).HasColumnName("surname");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
@@ -694,6 +774,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
+                entity.Property(e => e.VoyageNumber).HasColumnName("voyage_number");
+
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.PortCallLocation)
                     .HasForeignKey(d => d.LocationId)
@@ -747,6 +829,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
+                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
+
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
@@ -757,11 +841,11 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
+                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
                     .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("port_call_details_port_call_id_fkey");
             });
 
@@ -788,7 +872,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallHasPortCallPurpose)
                     .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("port_call_has_port_call_purpose_port_call_id_fkey");
 
                 entity.HasOne(d => d.PortCallPurpose)
@@ -825,7 +908,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("role");
 
                 entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id");
+                    .HasColumnName("role_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
@@ -851,7 +935,8 @@ namespace IMOMaritimeSingleWindow.Data
                     .IsUnique();
 
                 entity.Property(e => e.RoleClaimId)
-                    .HasColumnName("role_claim_id");
+                    .HasColumnName("role_claim_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.ClaimId).HasColumnName("claim_id");
 
@@ -937,6 +1022,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.NetTonnage).HasColumnName("net_tonnage");
 
                 entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
@@ -1129,7 +1216,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasOne(d => d.Ship)
                     .WithMany(p => p.ShipContact)
                     .HasForeignKey(d => d.ShipId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("ship_contact_ship_id_fkey");
             });
 
@@ -1374,7 +1460,8 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_role_id");
 
                 entity.Property(e => e.UserId)
-                    .HasColumnName("user_id");
+                    .HasColumnName("user_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
 
@@ -1435,7 +1522,8 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_login_user_id1");
 
                 entity.Property(e => e.UserLoginId)
-                    .HasColumnName("user_login_id");
+                    .HasColumnName("user_login_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 
@@ -1462,7 +1550,8 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_token_user_id1");
 
                 entity.Property(e => e.UserTokenId)
-                    .HasColumnName("user_token_id");
+                    .HasColumnName("user_token_id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 
