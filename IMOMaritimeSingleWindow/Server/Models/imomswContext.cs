@@ -1,12 +1,10 @@
+﻿using System;
 using Microsoft.EntityFrameworkCore;
-using IMOMaritimeSingleWindow.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Data;
-using System.Data.Common;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace IMOMaritimeSingleWindow.Data
+namespace IMOMaritimeSingleWindow.Models
 {
-    public class open_ssnContext : DbContext, IDbContext
+    public partial class imomswContext : DbContext
     {
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -31,7 +29,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
-        public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonOnBoard> PersonOnBoard { get; set; }
@@ -62,9 +59,14 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
 
-        public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
-        // for testing:
-        public open_ssnContext() { }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseNpgsql(@"Host=51.144.94.82;Port=5432;Database=imomsw;Username=postgres;Password=Fundator01");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -632,66 +634,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Passenger>(entity =>
-            {
-                entity.ToTable("passenger");
-
-                entity.HasIndex(e => e.CountryOfBirthId)
-                    .HasName("fki_passenger_country_of_birth_id_fkey");
-
-                entity.HasIndex(e => e.NationalityId)
-                    .HasName("fki_passenger_nationality_id_fkey");
-
-                entity.HasIndex(e => e.PortCallId)
-                    .HasName("fki_passenger_port_call_id_fkey");
-
-                entity.Property(e => e.PassengerId).HasColumnName("passenger_id");
-
-                entity.Property(e => e.CountryOfBirthId).HasColumnName("country_of_birth_id");
-
-                entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
-
-                entity.Property(e => e.GivenName).HasColumnName("given_name");
-
-                entity.Property(e => e.InTransit).HasColumnName("in_transit");
-
-                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
-
-                entity.Property(e => e.OccupationCode).HasColumnName("occupation_code");
-
-                entity.Property(e => e.OccupationName).HasColumnName("occupation_name");
-
-                entity.Property(e => e.PlaceOfBirth).HasColumnName("place_of_birth");
-
-                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
-
-                entity.Property(e => e.RankCode).HasColumnName("rank_code");
-
-                entity.Property(e => e.RankName).HasColumnName("rank_name");
-
-                entity.Property(e => e.RoleCode).HasColumnName("role_code");
-
-                entity.Property(e => e.Surname).HasColumnName("surname");
-
-                entity.HasOne(d => d.CountryOfBirth)
-                    .WithMany(p => p.PassengerCountryOfBirth)
-                    .HasForeignKey(d => d.CountryOfBirthId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("passenger_country_of_birth_id_fkey");
-
-                entity.HasOne(d => d.Nationality)
-                    .WithMany(p => p.PassengerNationality)
-                    .HasForeignKey(d => d.NationalityId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("passenger_nationality_id_fkey");
-
-                entity.HasOne(d => d.PortCall)
-                    .WithMany(p => p.Passenger)
-                    .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("passenger_port_call_id_fkey");
             });
 
             modelBuilder.Entity<Password>(entity =>
@@ -1689,34 +1631,6 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.HasSequence("user_token_user_token_id_seq").HasMax(2147483647);
 
             modelBuilder.HasSequence("user_user_id_seq").HasMax(2147483647);
-        }
-
-        // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
-        public override int SaveChanges()
-        {
-            ChangeTracker.DetectChanges();
-            return base.SaveChanges();
-        }
-
-        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
-        {
-            return base.Update(entity);
-        }
-
-        public override void Dispose()
-        {
-            ChangeTracker.DetectChanges();
-            base.Dispose();
-        }
-
-        public DbConnection GetDbConnection()
-        {
-            return this.Database.GetDbConnection();
-        }
-
-        public ConnectionState GetState()
-        {
-            return this.Database.GetDbConnection().State;
         }
     }
 }

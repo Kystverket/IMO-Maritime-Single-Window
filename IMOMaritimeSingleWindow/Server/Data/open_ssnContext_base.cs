@@ -32,6 +32,8 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<PersonOnBoard> PersonOnBoard { get; set; }
+        public virtual DbSet<PersonOnBoardType> PersonOnBoardType { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
         public virtual DbSet<PortCallDetails> PortCallDetails { get; set; }
         public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
