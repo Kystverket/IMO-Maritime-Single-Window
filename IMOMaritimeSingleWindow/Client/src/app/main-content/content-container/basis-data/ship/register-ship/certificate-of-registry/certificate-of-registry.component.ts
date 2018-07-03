@@ -35,6 +35,15 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
           const date = new Date(this.certificateModel.dateOfIssue);
           this.dateOfIssueModel = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
         }
+        if (this.certificateModel.portLocation) {
+          this.countryName = this.certificateModel.portLocation.country.name || '';
+          this.locationName = this.certificateModel.portLocation.name || '';
+          this.locationCode = this.certificateModel.portLocation.locationCode || '';
+          this.locationTypeName = this.certificateModel.portLocation.locationType.name || '';
+          this.portLocationSelected = true;
+        } else {
+          this.portLocationSelected = false;
+        }
       }
     });
 
@@ -71,6 +80,8 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
   }
 
   deselectPortLocation() {
+    this.portLocationSelected = false;
+    this.certificateModel.portLocation = null;
     this.searchLocationComponent.getService().setLocationData(null);
   }
 

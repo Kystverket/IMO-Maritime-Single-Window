@@ -149,7 +149,7 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
           if (this.certificateModel.dateOfIssue) {
             this.certificateDateString = this.dateString(new Date(this.certificateModel.dateOfIssue));
           }
-          if (this.certificateModel.dateOfIssue && this.certificateModel.portLocationId && this.certificateModel.certificateNumber && this.certificateModel.dateOfIssue) {
+          if (this.certificateModel.dateOfIssue && this.certificateModel.portLocationId && this.certificateModel.portLocation && this.certificateModel.certificateNumber && this.certificateModel.dateOfIssue) {
             this.portName = this.certificateModel.portLocation.name;
             this.certificateNumber = this.certificateModel.certificateNumber;
             this.certificateSelected = true;
