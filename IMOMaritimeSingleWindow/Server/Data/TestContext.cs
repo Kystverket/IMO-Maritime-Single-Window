@@ -28,10 +28,12 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<LocationSource> LocationSource { get; set; }
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
+        public virtual DbSet<MeasurementType> MeasurementType { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
+        public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
@@ -64,6 +66,10 @@ namespace IMOMaritimeSingleWindow.Data
         // for testing:
         public TestContext() { }
 
+        public override int SaveChanges()
+        {
+            return 1;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CertificateOfRegistry>(entity =>
@@ -82,9 +88,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.OwnerName).HasColumnName("owner_name");
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
-
-                entity.HasOne(d => d.CertificateOfRegistryNavigation)
-                    .WithOne(p => p.CertificateOfRegistry);
+                /* 
+                                entity.HasOne(d => d.CertificateOfRegistryNavigation)
+                                    .WithOne(p => p.CertificateOfRegistry); */
             });
 
             modelBuilder.Entity<Claim>(entity =>
