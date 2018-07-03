@@ -34,6 +34,7 @@ import { DeleteButtonComponent } from './registration/forms/shared/delete-button
 import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
+import { PortCallPassengerListService } from '../../../shared/services/port-call-passenger-list.service';
 
 @NgModule({
   imports: [
@@ -82,6 +83,6 @@ import { PassengerListComponent } from './registration/forms/passenger-list/pass
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PortCallShipStoresService]
+  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService]
 })
 export class PortCallModule {}

@@ -24,7 +24,7 @@
         <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
         <span>Delete Ship Store</span>
       </button>
-      <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)=" close;">
+      <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)="deletePassengerEntry(); close">
         <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
         <span>Passenger Entry</span>
       </button>

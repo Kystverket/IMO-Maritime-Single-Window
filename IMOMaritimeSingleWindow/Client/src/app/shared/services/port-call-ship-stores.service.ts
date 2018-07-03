@@ -32,9 +32,6 @@ export class PortCallShipStoresService {
   private dataIsPristine = new BehaviorSubject<Boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
 
-  private detailsIdentificationSource = new BehaviorSubject<any>(null);
-  detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
-
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
 
@@ -123,7 +120,7 @@ export class PortCallShipStoresService {
     copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
     this.setShipStoresInformationData(copyShipStoresInformationSource);
 
-    // Set dataIsPristine to false (data is toched)
+    // Set dataIsPristine to false (data is touched)
     this.setDataIsPristine(false);
   }
 

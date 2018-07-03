@@ -16,7 +16,10 @@ export class FormsComponent implements OnInit {
 
   formNames: any;
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService, private shipService: ShipService) { }
+  constructor(
+    private contentService: ContentService,
+    private portCallService: PortCallService,
+    private shipService: ShipService) { }
 
   ngOnInit() {
     this.portCallService.shipData$.subscribe(

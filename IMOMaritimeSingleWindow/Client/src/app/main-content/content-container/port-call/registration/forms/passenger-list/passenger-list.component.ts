@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
+import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
+import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-passenger-list',
@@ -9,16 +12,20 @@ import { LocalDataSource } from 'ng2-smart-table';
 })
 export class PassengerListComponent implements OnInit {
 
-  @ViewChild(NgForm) form: NgForm;
+  portCallId: number;
+  passengerList: any[] = [];
+  listIsPristine = true;
 
   countryList: string[] = ['Norway', 'Sweeden', 'Australia'];
 
   countryOfBirth: string;
+  passengerModel: PassengerModel = new PassengerModel();
+
+  @ViewChild(NgForm) form: NgForm;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
 
-  tableSettings: {
-
+  tableSettings = {
     actions: false,
     attr: {
       class: 'table table-bordered'
@@ -30,47 +37,123 @@ export class PassengerListComponent implements OnInit {
         }
       }
     },
-    noDataMessage: 'There are no ship stores in this list.',
+    noDataMessage: 'There are no passengers in this list.',
     columns: {
-      sequenceNumber: {
-        title: 'Sequence Number',
+      passengerId: {
+        title: 'Passenger ID'
       },
-      articleName: {
-        title: 'Article Name'
+      familyName: {
+        title: 'Family Name',
       },
-      articleCode: {
-        title: 'Article Code'
+      givenName: {
+        title: 'Given Name'
       },
-      quantity: {
-        title: 'Quantity'
+      nationality: {
+        title: 'Nationality'
       },
-      measurementType: {
-        title: 'Measurement Type'
+      dateOfBirth: {
+        title: 'Date of Birth'
       },
-      locationOnBoard: {
+      placeOfBirth: {
+        title: 'Place of Birth'
+      },
+      countryOfBirth: {
         title: 'Location Onboard'
       },
-      locationOnBoardCode: {
-        title: 'Location Onboard Code'
+      natureOfIdentityDoc: {
+        title: 'Nature of Identity Document'
       },
-      /*delete: {
+      numberOfIdentityDoc: {
+        title: 'Identity Document No.'
+      },
+      permitNumber: {
+        title: 'Permit Number'
+      },
+      portOfEmbarkation: {
+        title: 'Port of Embarkation'
+      },
+      portOfDisembarkation: {
+        title: 'Port of Disembarkation'
+      },
+      delete: {
         title: 'Delete',
         // deleteButtonContent: 'Delete',
         type: 'custom',
         filter: false,
         sort: false,
         renderComponent: DeleteButtonComponent,
-      },*/
+      },
     }
   };
 
-  constructor() { }
+  constructor(private passengerListService: PortCallPassengerListService) { }
 
   ngOnInit() {
+    this.passengerListService.passengerList$.subscribe(list => {
+      if (list) {
+        this.passengerList = list;
+        this.passengerListDataSource.load(list);
+      }
+
+    });
   }
 
-  selectCountry($event) {
-    this.countryOfBirth = $event.name;
+  selectCountryOfBirth($event) {
+    this.passengerModel.countryOfBirth = $event.name;
+  }
+
+  selectNationality($event) {
+    this.passengerModel.nationality = $event.name;
+  }
+
+
+  addPassenger() {
+    this.listIsPristine = false;
+    if (this.passengerList.length > 0) {
+      this.passengerModel.passengerId = this.passengerList[this.passengerList.length - 1].passengerId + 1;
+    } else {
+      this.passengerModel.passengerId = 1;
+    }
+
+    // Add this passenger to local model and create new model
+    this.passengerList.push(this.passengerModel);
+    this.passengerModel = new PassengerModel();
+
+    // Update value in service
+    this.passengerListService.setPassengersList(
+      this.passengerList
+    );
+  }
+
+  isValid(valid: Boolean): Boolean {
+    this.sendMetaData();
+    return valid;
+  }
+
+  private sendMetaData(): void {
+    this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
+  }
+
+  addMockData() {
+    const mockData = {
+      familyName: 'Dalan',
+      givenName: 'Camilla',
+      nationality: 'Norwegian',
+      dateOfBirth: 130794,
+      placeOfBirth: 'Oslo',
+      countryOfBirth: 'Norway',
+      natureOfIdentityDoc: 'Passport',
+      numberOfIdentityDoc: 39572824,
+      permitNumber: null,
+      portOfEmbarkation: 'Trondheim',
+      portOfDisembarkation: 'Oslo',
+      transit: true,
+      passengerId: 49292,
+      portCallId: 160
+    };
+
+    this.passengerModel = mockData;
+    this.addPassenger();
   }
 
 }
