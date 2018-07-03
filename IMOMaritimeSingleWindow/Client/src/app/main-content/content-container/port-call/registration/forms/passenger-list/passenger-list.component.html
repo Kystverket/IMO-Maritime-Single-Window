@@ -10,7 +10,7 @@
               required name="familyName">
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Only letters allowed.</small>
           </li>
@@ -22,9 +22,9 @@
         <div class="form-group row" required>
           <label for="nationality" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Nationality</label>
           <div class="col my-auto">
-            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.nationality" name="nationality"
-              [closeOnSelect]="true" bindLabel="name" placeholder="Nationality" (change)="selectNationality($event)">
-            </ng-select>
+            <input id="nationality" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="passengerModel.nationality"
+              name="nationality" placeholder="Enter search here..."
+              (selectItem)="selectNationality($event)">
           </div>
         </div>
 
@@ -35,7 +35,7 @@
               class="form-control form-control-sm" name="placeOfBirth">
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Only letters allowed.</small>
           </li>
@@ -60,7 +60,7 @@
               name="visaOrResidenceNumber" integerValidator positiveNumberValidator>
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Visa/permit number must be an integer.</small>
           </li>
@@ -76,7 +76,7 @@
               class="form-control form-control-sm" required name="portOfDisembarkation">
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Only letters allowed.</small>
           </li>
@@ -98,7 +98,7 @@
           </div>
         </div>
 
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Only letters, numbers and "." allowed.</small>
           </li>
@@ -115,7 +115,7 @@
               name="dateOfBirth" integerValidator positiveNumberValidator>
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Number of passengers must be an integer.</small>
           </li>
@@ -140,7 +140,7 @@
               class="form-control form-control-sm" name="numberOfIdentityDoc" integerValidator positiveNumberValidator>
           </div>
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" *ngIf="formValid">
           <li>
             <small>Identity document number must be an integer.</small>
           </li>
@@ -149,21 +149,9 @@
           </li>
         </div>
 
-        <div class="form-group row">
-          <label for="portOfEmbarkation" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Embarkation</label>
-          <div class="col my-auto">
-            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.portOfEmbarkation" placeholder="Port of Embarkation"
-              class="form-control form-control-sm" required name="portOfEmbarkation">
-          </div>
-        </div>
-        <div class="alert alert-danger">
-          <li>
-            <small>Only letters allowed.</small>
-          </li>
-          <li>
-            <small>More than one letter required.</small>
-          </li>
-        </div>
+        <app-find-port-of-embarkation></app-find-port-of-embarkation>
+
+        
 
         <div class="form-group row" required>
           <label for="transit" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Transit</label>
@@ -179,11 +167,9 @@
     </div>
   </form>
 
-
-
   <div class="col-lg-12">
 
-      {{ passengerModel | json }}
+    <pre>{{ passengerModel | json }}</pre>
 
     <div class="form-group">
       <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">

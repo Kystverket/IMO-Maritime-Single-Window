@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { LocationService } from '../../../../../../shared/services/location.service';
 
 @Component({
   selector: 'app-passenger-list',
@@ -11,6 +12,8 @@ import { PortCallPassengerListService } from 'app/shared/services/port-call-pass
   styleUrls: ['./passenger-list.component.css']
 })
 export class PassengerListComponent implements OnInit {
+
+  @Input() showDropdown = true;
 
   portCallId: number;
   passengerList: any[] = [];
@@ -20,6 +23,10 @@ export class PassengerListComponent implements OnInit {
 
   countryOfBirth: string;
   passengerModel: PassengerModel = new PassengerModel();
+
+  locationModel: any;
+
+  formValid = false;
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -86,7 +93,13 @@ export class PassengerListComponent implements OnInit {
     }
   };
 
-  constructor(private passengerListService: PortCallPassengerListService) { }
+  countries = ['Norway', 'Sweden'];
+
+  constructor(
+    private passengerListService: PortCallPassengerListService,
+    private locationService: LocationService
+  ) { }
+
 
   ngOnInit() {
     this.passengerListService.passengerList$.subscribe(list => {
@@ -94,18 +107,15 @@ export class PassengerListComponent implements OnInit {
         this.passengerList = list;
         this.passengerListDataSource.load(list);
       }
-
     });
-  }
 
-  selectCountryOfBirth($event) {
-    this.passengerModel.countryOfBirth = $event.name;
-  }
+    this.passengerListService.passengerModel$.subscribe(model => {
+      if (model) {
+        this.passengerModel = model;
+      }
+    });
 
-  selectNationality($event) {
-    this.passengerModel.nationality = $event.name;
   }
-
 
   addPassenger() {
     this.listIsPristine = false;
@@ -119,7 +129,8 @@ export class PassengerListComponent implements OnInit {
     this.passengerList.push(this.passengerModel);
     this.passengerModel = new PassengerModel();
 
-    // Update value in service
+    // Update values in service
+    this.passengerListService.setPassengerModel(this.passengerModel);
     this.passengerListService.setPassengersList(
       this.passengerList
     );
@@ -132,6 +143,15 @@ export class PassengerListComponent implements OnInit {
 
   private sendMetaData(): void {
     this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
+  }
+
+
+  selectNationality($event) {
+    this.passengerModel.nationality = $event.name;
+  }
+
+  selectCountryOfBirth($event) {
+    this.passengerModel.countryOfBirth = $event.name;
   }
 
   addMockData() {

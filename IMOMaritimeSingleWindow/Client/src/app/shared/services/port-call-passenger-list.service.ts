@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
+import { Observable } from 'rxjs/Observable';
+import { CountryService } from './country.service';
+import { PassengerModel } from '../models/port-call-passenger-model';
 
 @Injectable()
 export class PortCallPassengerListService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private countryService: CountryService) { }
 
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
@@ -19,6 +22,8 @@ export class PortCallPassengerListService {
   private dataIsPristine = new BehaviorSubject<Boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
 
+  private passengerModelSource = new BehaviorSubject<PassengerModel>(new PassengerModel());
+  passengerModel$ = this.passengerModelSource.asObservable();
 
   setPassengersList(data) {
     this.passengerListSource.next(data);
@@ -30,6 +35,30 @@ export class PortCallPassengerListService {
 
   setDataIsPristine(isPristine) {
     this.dataIsPristine.next(isPristine);
+  }
+
+  setPortOfEmbarkation(data) {
+    console.log('Set port of embarkation: ' + data);
+    const tempPassengerModel = this.passengerModelSource.getValue();
+    tempPassengerModel.portOfEmbarkation = data;
+    this.passengerModelSource.next(tempPassengerModel);
+  }
+
+  setPortOfDisembarkation(data) {
+    const tempPassengerModel = this.passengerModelSource.getValue();
+    tempPassengerModel.portOfDisembarkation = data;
+    this.passengerModelSource.next(tempPassengerModel);
+  }
+
+  setPassengerModel(data) {
+    this.passengerModelSource.next(data);
+  }
+
+  searchCountry(term: string, amount = 10) {
+    if (term.length < 1) {
+      return Observable.of([]);
+    }
+    return this.countryService.search(term);
   }
 
 
