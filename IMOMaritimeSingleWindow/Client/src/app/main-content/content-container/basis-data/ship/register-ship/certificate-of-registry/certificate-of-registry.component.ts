@@ -31,6 +31,10 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
       console.log(data);
       if (data) {
         this.certificateModel = data;
+        if (this.certificateModel.dateOfIssue) {
+          const date = new Date(this.certificateModel.dateOfIssue);
+          this.dateOfIssueModel = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+        }
       }
     });
 
