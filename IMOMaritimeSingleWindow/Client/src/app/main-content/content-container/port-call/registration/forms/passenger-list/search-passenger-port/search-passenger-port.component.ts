@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-search-passenger-port',
@@ -14,6 +15,9 @@ export class SearchPassengerPortComponent implements OnInit {
 
   @Input() showDropdown = true;
   @Input() restrictTypeHarbour = false;
+  @Input() component: string;
+  @Input() label: string;
+
 
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
   resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN_2;
@@ -26,7 +30,11 @@ export class SearchPassengerPortComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private locationService: LocationService) { }
+  constructor(
+    private locationService: LocationService,
+    private passengerService: PortCallPassengerListService
+  ) { }
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(150),
@@ -50,32 +58,43 @@ export class SearchPassengerPortComponent implements OnInit {
         if (this.showDropdown) {
           this.searching = false;
           this.searchFailed = this.locationModel.length >= 2 && res.length === 0;
-        } else {
+        } /*else {
           this.locationService.search(this.locationModel, this.restrictTypeHarbour, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
-              this.locationService.setLocationSearchData(data);
+              switch (this.component) {
+                case 'embarkation': {
+                  console.log('Case: embarkation');
+                  this.passengerService.setPortOfEmbarkation(data);
+                  break;
+                }
+                case 'disembarkation': {
+                  console.log('Case: disembarkation');
+                  this.passengerService.setPortOfDisembarkation(data);
+                  break;
+                }
+              }
               this.searching = false;
             });
-        }
+        }*/
       }),
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-  formatter = (x: { locationId: string }) => x.locationId;
-
   selectLocation($event) {
     this.locationSelected = true;
     this.locationModel = $event.item;
-    this.locationService.setLocationData(this.locationModel);
-  }
-
-  deselectLocation() {
-    this.locationSelected = false;
-    this.locationService.setLocationData(null);
+    switch (this.component) {
+      case 'embarkation': {
+        this.passengerService.setPortOfEmbarkation(this.locationModel);
+        break;
+      }
+      case 'disembarkation' : {
+        this.passengerService.setPortOfDisembarkation(this.locationModel);
+      }
+    }
   }
 
   ngOnInit() {
-    this.locationService.setLocationData(null);
   }
 }

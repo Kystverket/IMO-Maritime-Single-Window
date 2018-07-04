@@ -31,8 +31,10 @@ export class LocationService {
   private locationSearchDataSource = new BehaviorSubject<any>(null);
   locationSearchData$ = this.locationSearchDataSource.asObservable();
 
+
   setLocationData(data) {
     this.locationDataSource.next(data);
+    console.log(data);
   }
 
   setLocationSearchData(data) {
@@ -53,6 +55,7 @@ export class LocationService {
     }
     return this.searchService.search(this.searchHarbourUrl, term);
   }
+
 
   public updateLocation(location: LocationModel) {
     const auth_headers = this.authRequest.GetHeaders();

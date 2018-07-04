@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
-import { Observable } from 'rxjs/Observable';
-import { CountryService } from './country.service';
 import { PassengerModel } from '../models/port-call-passenger-model';
 
 @Injectable()
 export class PortCallPassengerListService {
 
-  constructor(private http: Http, private countryService: CountryService) { }
+  constructor() { }
 
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
@@ -25,6 +22,12 @@ export class PortCallPassengerListService {
   private passengerModelSource = new BehaviorSubject<PassengerModel>(new PassengerModel());
   passengerModel$ = this.passengerModelSource.asObservable();
 
+  private embarkationModelDataSource = new BehaviorSubject<any>(null);
+  embarkationModelData$ = this.embarkationModelDataSource.asObservable();
+
+  private disembarkationModelDataSource = new BehaviorSubject<any>(null);
+  disembarkationModelData$ = this.disembarkationModelDataSource.asObservable();
+
   setPassengersList(data) {
     this.passengerListSource.next(data);
   }
@@ -38,29 +41,27 @@ export class PortCallPassengerListService {
   }
 
   setPortOfEmbarkation(data) {
-    console.log('Set port of embarkation: ' + data);
+    const tempPortModel = this.createPortObject(data);
+
+    this.embarkationModelDataSource.next(tempPortModel);
     const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.portOfEmbarkation = data;
+    tempPassengerModel.portOfEmbarkation = tempPortModel;
     this.passengerModelSource.next(tempPassengerModel);
   }
 
   setPortOfDisembarkation(data) {
+    const tempPortModel = this.createPortObject(data);
+
+    this.disembarkationModelDataSource.next(tempPortModel);
     const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.portOfDisembarkation = data;
+    tempPassengerModel.portOfDisembarkation = tempPortModel;
+    console.log(tempPassengerModel);
     this.passengerModelSource.next(tempPassengerModel);
   }
 
   setPassengerModel(data) {
     this.passengerModelSource.next(data);
   }
-
-  searchCountry(term: string, amount = 10) {
-    if (term.length < 1) {
-      return Observable.of([]);
-    }
-    return this.countryService.search(term);
-  }
-
 
   deletePassengerEntry(data) {
     let copyPassengerList = this.passengerListSource.getValue();
@@ -107,5 +108,33 @@ export class PortCallPassengerListService {
       tempPassengerId++;
     });
     return list;
+  }
+
+  createPortObject(data) {
+    if (data) {
+      const tempPortModel = {
+        locationId: data.locationId,
+        countryId: data.countryId,
+        locationTypeId: data.locationTypeId,
+        locationSourceId: data.locationSourceId,
+        municipalityId: data.municipalityId,
+        locationCode: data.locationCode,
+        locationNo: data.locationNo,
+        postCode: data.postCode,
+        name: data.name,
+        country: {
+          countryId: data.country.countryId,
+          callCode: data.country.callCode,
+          name: data.country.name,
+          threeCharCode: data.country.threeCharCode,
+          twoCharCode: data.country.twoCharCode
+        },
+        locationSource: data.locationSource,
+        municipality: data.municipality
+        };
+      return tempPortModel;
+    } else {
+      return null;
+    }
   }
 }

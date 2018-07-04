@@ -12,6 +12,7 @@ import { PortCallPassengerListService } from 'app/shared/services/port-call-pass
 export class FindPortOfDisembarkationComponent implements OnInit {
 
   @Input() showDropDown = true;
+  @Input() label: string;
 
   locationModel: any;
 
@@ -20,32 +21,28 @@ export class FindPortOfDisembarkationComponent implements OnInit {
   locationProperties = LocationProperties.PROPERTIES;
   locationInfo: any[];
 
+  locationName: string;
+  locationCode: any;
+
   constructor(
-    private locationService: LocationService,
     private passengerListService: PortCallPassengerListService
   ) { }
 
   deselectLocation() {
     this.locationFound = false;
-    this.locationService.setLocationData(null);
+    this.passengerListService.setPortOfDisembarkation(null);
   }
 
   ngOnInit() {
 
-    this.locationService.locationData$.subscribe(
-      locationResult => {
-        if (locationResult) {
-          this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
-          this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
-          this.locationProperties.LOCATION_TYPE.data = locationResult.locationType.name;
-          this.locationProperties.LOCATION_NAME.data = locationResult.name;
-          this.locationProperties.LOCATION_CODE.data = locationResult.locationCode;
-
+    this.passengerListService.disembarkationModelData$.subscribe(
+      disembarkation => {
+        if (disembarkation) {
+          this.locationModel = disembarkation;
+          this.locationFlag = (disembarkation.country) ? disembarkation.country.twoCharCode.toLowerCase() : null;
           this.locationFound = true;
-          this.passengerListService.setPortOfDisembarkation(locationResult);
         } else {
           this.locationFound = false;
-          this.passengerListService.setPortOfDisembarkation(null);
         }
         this.locationInfo = Object.values(this.locationProperties);
       }

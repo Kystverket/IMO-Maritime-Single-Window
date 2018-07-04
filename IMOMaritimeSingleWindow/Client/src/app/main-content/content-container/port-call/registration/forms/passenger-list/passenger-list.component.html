@@ -23,8 +23,7 @@
           <label for="nationality" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Nationality</label>
           <div class="col my-auto">
             <input id="nationality" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="passengerModel.nationality"
-              name="nationality" placeholder="Enter search here..."
-              (selectItem)="selectNationality($event)">
+              name="nationality" placeholder="Enter search here..." (selectItem)="selectNationality($event)">
           </div>
         </div>
 
@@ -69,7 +68,7 @@
           </li>
         </div>
 
-        <app-find-port-of-disembarkation></app-find-port-of-disembarkation>
+        <app-find-port-of-disembarkation [label]="'Port of Disembarkation'"></app-find-port-of-disembarkation>
 
       </div>
       <!-- /.col-lg-6 -->
@@ -110,6 +109,8 @@
           </li>
         </div>
 
+        <app-search-country [country]="'Norway'"></app-search-country>
+
         <div class="form-group row" required>
           <label for="countryOfBirth" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Country of Birth</label>
           <div class="col my-auto">
@@ -135,9 +136,8 @@
           </li>
         </div>
 
-        <app-find-port-of-embarkation></app-find-port-of-embarkation>
+        <app-find-port-of-embarkation [label]="'Port of Embarkation'"></app-find-port-of-embarkation>
 
-        
 
         <div class="form-group row" required>
           <label for="transit" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Transit</label>

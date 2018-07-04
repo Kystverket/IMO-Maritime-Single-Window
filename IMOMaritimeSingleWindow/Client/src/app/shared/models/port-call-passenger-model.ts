@@ -12,8 +12,8 @@ export class PassengerModel {
     natureOfIdentityDoc: string; // natureOfIdentityDoc: IdentityDocumentTypeModel;
     numberOfIdentityDoc: number;
     permitNumber: number;
-    portOfEmbarkation: string; // will have to change
-    portOfDisembarkation: string; // will have to change
+    portOfEmbarkation: any; // will have to change
+    portOfDisembarkation: any; // will have to change
     transit: boolean;
 
     // Connected tables (not yet)

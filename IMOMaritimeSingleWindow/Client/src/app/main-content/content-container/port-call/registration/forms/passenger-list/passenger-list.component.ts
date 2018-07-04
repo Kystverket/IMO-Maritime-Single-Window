@@ -96,8 +96,7 @@ export class PassengerListComponent implements OnInit {
   countries = ['Norway', 'Sweden'];
 
   constructor(
-    private passengerListService: PortCallPassengerListService,
-    private locationService: LocationService
+    private passengerListService: PortCallPassengerListService
   ) { }
 
 
