@@ -69,21 +69,7 @@
           </li>
         </div>
 
-        <div class="form-group row">
-          <label for="portOfDisembarkation" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Disembarkation</label>
-          <div class="col my-auto">
-            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.portOfDisembarkation" placeholder="Port of Disembarkation"
-              class="form-control form-control-sm" required name="portOfDisembarkation">
-          </div>
-        </div>
-        <div class="alert alert-danger" *ngIf="formValid">
-          <li>
-            <small>Only letters allowed.</small>
-          </li>
-          <li>
-            <small>More than one letter required.</small>
-          </li>
-        </div>
+        <app-find-port-of-disembarkation></app-find-port-of-disembarkation>
 
       </div>
       <!-- /.col-lg-6 -->

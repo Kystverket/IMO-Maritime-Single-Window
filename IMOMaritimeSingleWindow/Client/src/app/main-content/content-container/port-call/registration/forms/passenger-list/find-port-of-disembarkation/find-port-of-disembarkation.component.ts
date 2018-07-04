@@ -4,12 +4,12 @@ import { LocationService } from 'app/shared/services/location.service';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 
 @Component({
-  selector: 'app-find-port-of-embarkation',
-  templateUrl: './find-port-of-embarkation.component.html',
-  styleUrls: ['./find-port-of-embarkation.component.css'],
+  selector: 'app-find-port-of-disembarkation',
+  templateUrl: './find-port-of-disembarkation.component.html',
+  styleUrls: ['./find-port-of-disembarkation.component.css'],
   providers: [LocationService]
 })
-export class FindPortOfEmbarkationComponent implements OnInit {
+export class FindPortOfDisembarkationComponent implements OnInit {
 
   @Input() showDropDown = true;
 
@@ -30,12 +30,10 @@ export class FindPortOfEmbarkationComponent implements OnInit {
     this.locationService.setLocationData(null);
   }
 
-
   ngOnInit() {
 
     this.locationService.locationData$.subscribe(
       locationResult => {
-
         if (locationResult) {
           this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
           this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
@@ -44,10 +42,10 @@ export class FindPortOfEmbarkationComponent implements OnInit {
           this.locationProperties.LOCATION_CODE.data = locationResult.locationCode;
 
           this.locationFound = true;
-          this.passengerListService.setPortOfEmbarkation(locationResult);
+          this.passengerListService.setPortOfDisembarkation(locationResult);
         } else {
           this.locationFound = false;
-          this.passengerListService.setPortOfEmbarkation(null);
+          this.passengerListService.setPortOfDisembarkation(null);
         }
         this.locationInfo = Object.values(this.locationProperties);
       }
