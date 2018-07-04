@@ -1,0 +1,10 @@
+button {
+    padding: 0.4rem;
+    display: flex;
+}
+
+.flag {
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+}

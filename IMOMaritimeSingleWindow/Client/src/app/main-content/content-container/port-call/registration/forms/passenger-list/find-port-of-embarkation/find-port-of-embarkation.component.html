@@ -3,8 +3,8 @@
 </div>
 <div class="form-group row" *ngIf="locationFound">
   <label for="search-location" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Embarkation</label>
-  <div class="col-1">
-    <img src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" height="20px">
+  <div class="col-1 flag">
+    <img src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" height="30px">
   </div>
   <div class="col-6">
     <input id="search-location" type="text" class="form-control form-control-sm mx-auto" readonly="readonly" [(ngModel)]="locationProperties.LOCATION_NAME.data"
