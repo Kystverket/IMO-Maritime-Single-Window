@@ -30,7 +30,6 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<Organization> Organization { get; set; }
         DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         DbSet<OrganizationType> OrganizationType { get; set; }
-        DbSet<Passenger> Passenger { get; set; }
         DbSet<Password> Password { get; set; }
         DbSet<Person> Person { get; set; }
         DbSet<PersonOnBoard> PersonOnBoard { get; set; }

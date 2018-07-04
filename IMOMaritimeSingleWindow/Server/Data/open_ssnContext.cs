@@ -31,7 +31,6 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
-        public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonOnBoard> PersonOnBoard { get; set; }
@@ -632,66 +631,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
-            });
-
-            modelBuilder.Entity<Passenger>(entity =>
-            {
-                entity.ToTable("passenger");
-
-                entity.HasIndex(e => e.CountryOfBirthId)
-                    .HasName("fki_passenger_country_of_birth_id_fkey");
-
-                entity.HasIndex(e => e.NationalityId)
-                    .HasName("fki_passenger_nationality_id_fkey");
-
-                entity.HasIndex(e => e.PortCallId)
-                    .HasName("fki_passenger_port_call_id_fkey");
-
-                entity.Property(e => e.PassengerId).HasColumnName("passenger_id");
-
-                entity.Property(e => e.CountryOfBirthId).HasColumnName("country_of_birth_id");
-
-                entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
-
-                entity.Property(e => e.GivenName).HasColumnName("given_name");
-
-                entity.Property(e => e.InTransit).HasColumnName("in_transit");
-
-                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
-
-                entity.Property(e => e.OccupationCode).HasColumnName("occupation_code");
-
-                entity.Property(e => e.OccupationName).HasColumnName("occupation_name");
-
-                entity.Property(e => e.PlaceOfBirth).HasColumnName("place_of_birth");
-
-                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
-
-                entity.Property(e => e.RankCode).HasColumnName("rank_code");
-
-                entity.Property(e => e.RankName).HasColumnName("rank_name");
-
-                entity.Property(e => e.RoleCode).HasColumnName("role_code");
-
-                entity.Property(e => e.Surname).HasColumnName("surname");
-
-                entity.HasOne(d => d.CountryOfBirth)
-                    .WithMany(p => p.PassengerCountryOfBirth)
-                    .HasForeignKey(d => d.CountryOfBirthId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("passenger_country_of_birth_id_fkey");
-
-                entity.HasOne(d => d.Nationality)
-                    .WithMany(p => p.PassengerNationality)
-                    .HasForeignKey(d => d.NationalityId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("passenger_nationality_id_fkey");
-
-                entity.HasOne(d => d.PortCall)
-                    .WithMany(p => p.Passenger)
-                    .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("passenger_port_call_id_fkey");
             });
 
             modelBuilder.Entity<Password>(entity =>
