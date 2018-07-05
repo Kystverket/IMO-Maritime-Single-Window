@@ -4,7 +4,10 @@ import { LocalDataSource } from 'ng2-smart-table';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { LocationService } from '../../../../../../shared/services/location.service';
+import { FindPortOfDisembarkationComponent } from './find-port-of-disembarkation/find-port-of-disembarkation.component';
+import { FindPortOfEmbarkationComponent } from './find-port-of-embarkation/find-port-of-embarkation.component';
+import { FindCountryOfBirthComponent } from './find-country-of-birth/find-country-of-birth.component';
+import { FindNationalityComponent } from './find-nationality/find-nationality.component';
 
 @Component({
   selector: 'app-passenger-list',
@@ -13,22 +16,27 @@ import { LocationService } from '../../../../../../shared/services/location.serv
 })
 export class PassengerListComponent implements OnInit {
 
+  @ViewChild(FindPortOfDisembarkationComponent)
+  private findPortOfDisembarkationComponent: FindPortOfDisembarkationComponent;
+  @ViewChild(FindPortOfEmbarkationComponent)
+  private findPortOfEmbarkationComponent: FindPortOfEmbarkationComponent;
+  @ViewChild(FindCountryOfBirthComponent)
+  private findCountryOfBirthComponent: FindCountryOfBirthComponent;
+  @ViewChild(FindNationalityComponent)
+  private findNationalityComponent: FindNationalityComponent;
+
+  @ViewChild(NgForm) form: NgForm;
+
   @Input() showDropdown = true;
 
   portCallId: number;
   passengerList: any[] = [];
+  passengerModel: PassengerModel = new PassengerModel();
   listIsPristine = true;
 
   countryList: string[] = ['Norway', 'Sweeden', 'Australia'];
 
-  countryOfBirth: string;
-  passengerModel: PassengerModel = new PassengerModel();
-
-  locationModel: any;
-
   formValid = false;
-
-  @ViewChild(NgForm) form: NgForm;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
 
@@ -112,6 +120,7 @@ export class PassengerListComponent implements OnInit {
       if (model) {
         this.passengerModel = model;
       }
+      console.log('In subscription of model: ' + JSON.stringify(this.passengerModel));
     });
 
   }
@@ -130,9 +139,18 @@ export class PassengerListComponent implements OnInit {
 
     // Update values in service
     this.passengerListService.setPassengerModel(this.passengerModel);
+    console.log('In addPassenger(): ' + JSON.stringify(this.passengerModel));
     this.passengerListService.setPassengersList(
       this.passengerList
     );
+    this.resetChildren();
+  }
+
+  resetChildren() {
+    this.findPortOfDisembarkationComponent.deselectPort();
+    this.findPortOfEmbarkationComponent.deselectPort();
+    this.findCountryOfBirthComponent.deselectCountry();
+    this.findNationalityComponent.deselectCountry();
   }
 
   isValid(valid: Boolean): Boolean {
@@ -146,7 +164,11 @@ export class PassengerListComponent implements OnInit {
 
 
   selectNationality($event) {
-    this.passengerModel.nationality = $event.name;
+    if ($event) {
+      this.passengerModel.nationality = $event.name;
+    } else {
+      this.passengerModel.nationality = null;
+    }
   }
 
   selectCountryOfBirth($event) {
@@ -170,9 +192,19 @@ export class PassengerListComponent implements OnInit {
       passengerId: 49292,
       portCallId: 160
     };
-
     this.passengerModel = mockData;
     this.addPassenger();
   }
+
+    mockFillForm() {
+      this.passengerModel.familyName = 'Dalan';
+      this.passengerModel.givenName = 'Camilla';
+      this.passengerModel.dateOfBirth = 130794;
+      this.passengerModel.placeOfBirth = 'Oslo';
+      this.passengerModel.numberOfIdentityDoc = 4298384;
+      this.passengerModel.permitNumber = 4232;
+    }
+
+
 
 }

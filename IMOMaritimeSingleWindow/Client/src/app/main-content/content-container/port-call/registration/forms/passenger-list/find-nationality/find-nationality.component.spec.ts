@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FindCountryComponent } from './find-country.component';
+import { FindNationalityComponent } from './find-nationality.component';
 
-describe('FindCountryComponent', () => {
-  let component: FindCountryComponent;
-  let fixture: ComponentFixture<FindCountryComponent>;
+describe('FindNationalityComponent', () => {
+  let component: FindNationalityComponent;
+  let fixture: ComponentFixture<FindNationalityComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FindCountryComponent ]
+      declarations: [ FindNationalityComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FindCountryComponent);
+    fixture = TestBed.createComponent(FindNationalityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

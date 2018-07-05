@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FindPortComponent } from './find-port.component';
+import { FindCountryOfBirthComponent } from './find-country-of-birth.component';
 
-describe('FindPortComponent', () => {
-  let component: FindPortComponent;
-  let fixture: ComponentFixture<FindPortComponent>;
+describe('FindCountryComponent', () => {
+  let component: FindCountryOfBirthComponent;
+  let fixture: ComponentFixture<FindCountryOfBirthComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FindPortComponent ]
+      declarations: [ FindCountryOfBirthComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FindPortComponent);
+    fixture = TestBed.createComponent(FindCountryOfBirthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

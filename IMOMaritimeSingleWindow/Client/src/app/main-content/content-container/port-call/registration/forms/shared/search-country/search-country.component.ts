@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
-import { CountryService } from '../../../../../../../shared/services/country.service';
+import { CountryService } from 'app/shared/services/country.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
-import { locateHostElement } from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-search-country',
@@ -14,9 +13,10 @@ import { locateHostElement } from '@angular/core/src/render3/instructions';
 })
 export class SearchCountryComponent implements OnInit {
 
-  @Input() country: string;
-
+  @Input() label: string;
   @Input() showDropDown = true;
+
+  @Output() selectCountry: EventEmitter<any> = new EventEmitter();
 
   locationFound = false;
   locationFlag: string;
@@ -58,8 +58,6 @@ export class SearchCountryComponent implements OnInit {
         ) : of([])
       ),
       tap(res => {
-        console.log(res);
-
         if (this.showDropDown) {
           this.searching = false;
           this.searchFailed = this.locationModel.length >= 2 && res.length === 0;
@@ -68,7 +66,7 @@ export class SearchCountryComponent implements OnInit {
             data => {
               console.log(data);
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
-              this.countryService.setCountrySearchData(data);
+              // this.countryService.setCountrySearchData(data);
               this.searching = false;
             });
         }
@@ -76,20 +74,21 @@ export class SearchCountryComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
+    formatter = (x: { locationId: string }) => x.locationId;
+
   selectLocation($event) {
     this.locationSelected = true;
     this.locationModel = $event.item;
-    this.countryService.setCountryData(this.locationModel);
+    this.selectCountry.emit($event);
+    // this.countryService.setCountryData(this.locationModel);
   }
 
-  deselectLocation() {
+  /*deselectLocation() {
     this.locationSelected = false;
     this.countryService.setCountryData(null);
-  }
+  }*/
 
   ngOnInit() {
-    this.countryService.setCountryData(null);
-    console.log(this.country);
   }
 
 }

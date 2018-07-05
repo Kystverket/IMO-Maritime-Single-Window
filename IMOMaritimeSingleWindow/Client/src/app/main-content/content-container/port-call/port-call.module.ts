@@ -36,11 +36,15 @@ import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-s
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { CountryService } from 'app/shared/services/country.service';
-import { FindPortComponent } from './registration/forms/passenger-list/find-port/find-port.component';
 // tslint:disable-next-line:max-line-length
-import { SearchPassengerPortComponent } from './registration/forms/passenger-list/find-port/search-passenger-port/search-passenger-port.component';
+import { SearchPassengerPortComponent } from './registration/forms/shared/search-passenger-port/search-passenger-port.component';
 import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
-import { FindCountryComponent } from './registration/forms/passenger-list/find-country/find-country.component';
+import { FindCountryOfBirthComponent } from './registration/forms/passenger-list/find-country-of-birth/find-country-of-birth.component';
+// tslint:disable-next-line:max-line-length
+import { FindPortOfDisembarkationComponent } from './registration/forms/passenger-list/find-port-of-disembarkation/find-port-of-disembarkation.component';
+// tslint:disable-next-line:max-line-length
+import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
+import { FindNationalityComponent } from './registration/forms/passenger-list/find-nationality/find-nationality.component';
 
 @NgModule({
   imports: [
@@ -81,10 +85,12 @@ import { FindCountryComponent } from './registration/forms/passenger-list/find-c
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    FindPortComponent,
     SearchPassengerPortComponent,
     SearchCountryComponent,
-    FindCountryComponent,
+    FindCountryOfBirthComponent,
+    FindPortOfDisembarkationComponent,
+    FindPortOfEmbarkationComponent,
+    FindNationalityComponent,
   ],
   exports: [
     ClearanceComponent,

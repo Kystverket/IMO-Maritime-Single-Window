@@ -28,6 +28,12 @@ export class PortCallPassengerListService {
   private disembarkationModelDataSource = new BehaviorSubject<any>(null);
   disembarkationModelData$ = this.disembarkationModelDataSource.asObservable();
 
+  private countryOfBirthModelDataSource = new BehaviorSubject<any>(null);
+  countryOfBirthModelData = this.countryOfBirthModelDataSource.asObservable();
+
+  private nationalityModelDataSource = new BehaviorSubject<any>(null);
+  nationalityModelData = this.nationalityModelDataSource.asObservable();
+
   setPassengersList(data) {
     this.passengerListSource.next(data);
   }
@@ -46,7 +52,7 @@ export class PortCallPassengerListService {
     this.embarkationModelDataSource.next(tempPortModel);
     const tempPassengerModel = this.passengerModelSource.getValue();
     tempPassengerModel.portOfEmbarkation = tempPortModel;
-    this.passengerModelSource.next(tempPassengerModel);
+    this.setPassengerModel(tempPassengerModel);
   }
 
   setPortOfDisembarkation(data) {
@@ -56,7 +62,21 @@ export class PortCallPassengerListService {
     const tempPassengerModel = this.passengerModelSource.getValue();
     tempPassengerModel.portOfDisembarkation = tempPortModel;
     console.log(tempPassengerModel);
-    this.passengerModelSource.next(tempPassengerModel);
+    this.setPassengerModel(tempPassengerModel);
+  }
+
+  setCountryOfBirth(data) {
+    this.countryOfBirthModelDataSource.next(data);
+    const tempPassengerModel = this.passengerModelSource.getValue();
+    tempPassengerModel.countryOfBirth = data;
+    this.setPassengerModel(tempPassengerModel);
+  }
+
+  setNationality(data) {
+    this.nationalityModelDataSource.next(data);
+    const tempPassengerModel = this.passengerModelSource.getValue();
+    tempPassengerModel.nationality = data;
+    this.setPassengerModel(tempPassengerModel);
   }
 
   setPassengerModel(data) {

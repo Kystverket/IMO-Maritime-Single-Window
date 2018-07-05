@@ -1,0 +1,17 @@
+<div *ngIf="!countryOfBirthFound">
+  <app-search-country (selectCountry)="setCountry($event)" [label]="label"></app-search-country>
+</div>
+<div class="form-group row" *ngIf="countryOfBirthFound">
+  <label for="search-location" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">{{label}}</label>
+  <div class="col-1 flag">
+    <img src="assets/images/Flags/128x128/{{countryOfBirthFlag | lowercase}}.png" height="30px">
+  </div>
+  <div class="col-6">
+    <input id="search-location" type="text" class="form-control form-control-sm mx-auto" readonly="readonly" [(ngModel)]="countryOfBirthModel.name"
+    />
+  </div>
+  <div>
+    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove port" (click)="deselectCountry()">
+      <img height="16px" src="assets/images/VoyageIcons/128x128/white/cancel.png">
+    </button>
+  </div>
