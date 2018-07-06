@@ -110,7 +110,7 @@ export class PortCallPassengerListService {
   }
 
   getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + date.day;
+    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
     return new Date(dateString);
   }
 
@@ -119,7 +119,7 @@ export class PortCallPassengerListService {
     return {
       year: newDate.getFullYear(),
       month: newDate.getMonth() + 1,
-      day: newDate.getDate()
+      day: newDate.getDay()
     };
   }
 
