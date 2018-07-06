@@ -32,8 +32,14 @@ export class ShipService {
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
 
+  private shipSearchDataSource = new BehaviorSubject<any>(null);
+  shipSearchData$ = this.shipSearchDataSource.asObservable();
+
   private countryDataSource = new BehaviorSubject<any>(null);
   countryData$ = this.countryDataSource.asObservable();
+
+  private certificateDataSource = new BehaviorSubject<any>(null);
+  certificateData$ = this.certificateDataSource.asObservable();
 
   constructor(
     private http: Http,
@@ -80,6 +86,18 @@ export class ShipService {
     this.countryDataSource.next(data);
   }
 
+  setShipSearchData(data) {
+    this.shipSearchDataSource.next(data);
+  }
+
+  setShipFlagCodeData(data) {
+    this.shipFlagCodeDataSource.next(data);
+  }
+
+  setCertificateData(data) {
+    this.certificateDataSource.next(data);
+  }
+
   updateShip(ship: any) {
     const auth_header = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_header });
@@ -92,18 +110,15 @@ export class ShipService {
       .map(res => res.json());
   }
 
-  setShipFlagCodeData(data) {
-    this.shipFlagCodeDataSource.next(data);
-  }
 
-  search(term: string) {
+  search(term: string, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.shipSearchUrl, term);
+    return this.searchService.search(this.shipSearchUrl, term, amount);
   }
 
-  searchFlagCode(term: string) {
+  searchFlagCode(term: string, amount = 10) {
     if (term.length < 1) {
       return Observable.of([]);
     }

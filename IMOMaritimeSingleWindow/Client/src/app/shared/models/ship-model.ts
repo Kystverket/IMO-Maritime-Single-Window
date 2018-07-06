@@ -16,6 +16,7 @@ export class ShipModel {
     callSign: string;
     deadweightTonnage: number;
     grossTonnage: number;
+    netTonnage: number;
     length: number;
     breadth: number;
     power: number;
@@ -26,10 +27,10 @@ export class ShipModel {
     hasSideThrustersBack: boolean;
     remark: string;
     certificateOfRegistryId: number;
-    inmarsatCallNumber: string;
     dateOfKeelLaying: Date;
     // connected models:
     organization: any;
+    certificateOfRegistry: any;
     shipHullType: any;
     shipStatus: any;
     shipPowerType: any;

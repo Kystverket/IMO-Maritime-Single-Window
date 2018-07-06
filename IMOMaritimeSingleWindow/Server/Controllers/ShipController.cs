@@ -1,15 +1,11 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
-using IMOMaritimeSingleWindow.Auth;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -65,54 +61,37 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(ship);
         }
 
-        public List<Ship> SearchShip(string searchTerm)
+        public List<Ship> SearchShip(string searchTerm, int amount = 10)
         {
             if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
             {
                 searchTerm += '%';
                 return _context.Ship.Where(s =>
                             EF.Functions.ILike(s.Name, searchTerm)
-                            || EF.Functions.Like(s.CallSign, searchTerm)
+                            || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
+                            || EF.Functions.ILike(s.CallSign, searchTerm)
                             || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm)
                             || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm))
                             .Select(s => s)
-                            .Include(s => s.ShipStatus)
-                            .Include(s => s.ShipContact)
                             .Include(s => s.ShipFlagCode.Country)
-                            .Include(s => s.ShipType)
-                            // .Include(s => s.ShipPowerType)
-                            // .Include(s => s.ShipLengthType)
-                            // .Include(s => s.ShipSource)
-                            // .Include(s => s.Organization)
-                            // .Include(s => s.ShipHullType)
-                            // .Include(s => s.ShipBreadthType)
-                            .Take(10)
+                            .Take(amount)
                             .ToList();
             }
             searchTerm += '%';
             return _context.Ship.Where(s =>
                         EF.Functions.ILike(s.Name, searchTerm)
+                        || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
                         || EF.Functions.ILike(s.CallSign, searchTerm))
                         .Select(s => s)
-                        .Include(s => s.ShipStatus)
-                        .Include(s => s.ShipContact)
                         .Include(s => s.ShipFlagCode.Country)
-                        .Include(s => s.ShipType)
-                        // .Include(s => s.ShipPowerType)
-                        // .Include(s => s.ShipLengthType)
-                        // .Include(s => s.ShipSource)
-                        // .Include(s => s.Organization)
-                        // .Include(s => s.ShipHullType)
-                        // .Include(s => s.ShipBreadthType)
-                        .Take(10)
+                        .Take(amount)
                         .ToList();
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public JsonResult SearchShipWithFlag(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public JsonResult SearchShipJson(int amount, string searchTerm)
         {
-
-            List<Ship> results = SearchShip(searchTerm);
+            List<Ship> results = SearchShip(searchTerm, amount);
             return Json(results);
         }
 
@@ -131,6 +110,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.Organization)
                         .Include(s => s.ShipHullType)
                         .Include(s => s.ShipBreadthType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.LocationType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.Country)
                         .FirstOrDefault();
             return Json(ship);
         }

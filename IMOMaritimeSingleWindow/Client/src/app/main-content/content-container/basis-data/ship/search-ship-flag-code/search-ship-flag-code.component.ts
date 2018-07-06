@@ -7,6 +7,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { ShipFlagCodeService } from 'app/shared/services/ship-flag-code.service';
 import { ShipService } from 'app/shared/services/ship.service';
+import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 
 @Component({
     selector: 'app-search-ship-flag-code',
@@ -15,7 +16,7 @@ import { ShipService } from 'app/shared/services/ship.service';
     providers: [ShipFlagCodeService]
 })
 export class SearchShipFlagCodeComponent implements OnInit {
-
+    resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
     shipFlagCodeModel: any;
     shipFlagCodeSelected = false;
 
@@ -34,7 +35,7 @@ export class SearchShipFlagCodeComponent implements OnInit {
                 this.searching = (term.length >= 1);
             }),
             switchMap(term =>
-                this.shipService.searchFlagCode(term).pipe(
+                this.shipService.searchFlagCode(term, this.resultsDropdown).pipe(
                     tap(() => this.searchFailed = false),
                     catchError(() => {
                         this.searchFailed = true;

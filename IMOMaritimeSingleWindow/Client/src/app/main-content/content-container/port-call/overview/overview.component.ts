@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
@@ -9,7 +8,9 @@ import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
+import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 
 @Component({
   selector: 'app-overview',
@@ -21,6 +22,7 @@ export class OverviewComponent implements OnInit {
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
+  cancelledOverviewList = [];
   clearedByUserAgencyOverviewList = [];
   userOrganization: any;
   userIsGovernmentAgency = false;
@@ -28,7 +30,7 @@ export class OverviewComponent implements OnInit {
   draftOverviewSource: LocalDataSource = new LocalDataSource();
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
-  overviewFound = false;
+  showCancelledPortCalls = false;
 
   // Smart table
   tableSettings = {
@@ -37,7 +39,7 @@ export class OverviewComponent implements OnInit {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: '',
+    noDataMessage: 'There are no port calls in this list.',
 
     columns: {
       shipName: {
@@ -53,14 +55,23 @@ export class OverviewComponent implements OnInit {
         type: 'html'
       },
       eta: {
-        title: 'ETA'
+        title: 'ETA',
+        type: 'html'
       },
       etd: {
-        title: 'ETD'
+        title: 'ETD',
+        type: 'html'
       },
       status: {
         title: 'Status',
         type: 'html'
+      },
+      clearances: {
+        title: 'Clearances',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ClearanceRowComponent
       },
       actions: {
         title: 'Actions',
@@ -72,19 +83,20 @@ export class OverviewComponent implements OnInit {
     }
   };
 
-  overviewRow(ov, isCancelled: boolean) {
+  overviewRow(ov) {
     const row = {
       overviewModel: ov,
       shipName:
-        `<div hidden>` +
+        `<div class="no-wrap"><div hidden>` +
         ov.ship.name + // ugly fix for alphabetical sorting but it works
         `</div> <div> <img src='assets/images/Flags/128x128/` +
         ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.ship.name +
-        `</div>`,
+        `</div></div>`,
       callSign:
-        ov.ship.callSign || `<div class="font-italic">Not provided.</div>`,
+        ov.ship.callSign ||
+        `<span class="font-italic no-wrap">Not provided.</span>`,
       locationName:
         `<div hidden>` +
         ov.location.name + // same ugly fix as ship name
@@ -93,48 +105,75 @@ export class OverviewComponent implements OnInit {
         `.png' height='20px'/> ` +
         ov.location.name +
         `</div>`,
-      eta: this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd HH:mm'),
-      etd: this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd HH:mm'),
-      status: isCancelled
-        ? `<div class="text-danger">` + ov.status + `</div>`
-        : ov.status,
+      eta:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+        `</span>`,
+      etd:
+        `<span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+        `</span> <span class="no-wrap">` +
+        this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+        `</span>`,
+      status:
+        ov.status === PortCallStatusTypes.CANCELLED
+          ? `<div class="text-danger">` + ov.status + `</div>`
+          : ov.status,
+      clearances:
+        'clearances',
       actions: 'btn'
     };
     return row;
   }
 
   loadOverview() {
+    this.overviewService.showCancelledPortCall$.subscribe(showCancelledPortCalls => {
+      if (showCancelledPortCalls !== null) {
+        this.showCancelledPortCalls = showCancelledPortCalls;
+        let portCallList = this.overviewList;
+        if (showCancelledPortCalls) {
+          portCallList = portCallList.concat(this.cancelledOverviewList);
+        }
+        this.overviewService.setOverviewData(portCallList.sort(
+          (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+        ));
+      }
+    });
     this.overviewService.overviewData$.subscribe(results => {
       if (results) {
         this.overviewSource.load(results);
       }
     });
-    this.overviewService.draftOverviewData$.subscribe(results => {
-      if (results) {
-        this.draftOverviewSource.load(results);
-      }
-    });
-    this.overviewService.clearedByUserAgencyOverviewData$.subscribe(results => {
-      if (results) {
-        this.clearedByUserAgencyOverviewSource.load(results);
-      }
-    });
+    if (!this.userIsGovernmentAgency) {
+      this.overviewService.draftOverviewData$.subscribe(results => {
+        if (results) {
+          this.draftOverviewSource.load(results);
+        }
+      });
+    } else {
+      this.overviewService.clearedByUserAgencyOverviewData$.subscribe(results => {
+        if (results) {
+          this.clearedByUserAgencyOverviewSource.load(results);
+        }
+      });
+    }
+
     this.overviewService.getPortCalls().subscribe(
       pcData => {
         if (pcData) {
+          this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
           if (pcData.length === 0) {
-            this.overviewFound = true;
+            this.contentService.setLoadingScreen(false, null, null);
           } else {
             let index = 0;
             const finalIndex = pcData.length - 1;
             pcData.forEach(pc => {
-              this.overviewService.getOverview(pc.portCallId).subscribe(
+              this.overviewService.getPartialOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
-                    const row = this.overviewRow(
-                      ov,
-                      ov.status === PortCallStatusTypes.CANCELLED
-                    );
+                    const row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
                     if (ov.status === PortCallStatusTypes.DRAFT) {
                       this.draftOverviewList.push(row);
@@ -142,27 +181,26 @@ export class OverviewComponent implements OnInit {
                       this.userIsGovernmentAgency &&
                       ov.clearanceList &&
                       ov.clearanceList.some(
-                        clearance =>
-                          clearance.organizationId ===
-                            this.userOrganization.organizationId &&
-                          clearance.cleared != null
+                        clearance => clearance.organizationId === this.userOrganization.organizationId && clearance.cleared != null
                       )
                     ) {
                       this.clearedByUserAgencyOverviewList.push(row);
+                    } else if (ov.status === PortCallStatusTypes.CANCELLED) {
+                      this.cancelledOverviewList.push(row);
                     } else {
                       this.overviewList.push(row);
                     }
-                    this.overviewService.setOverviewData(this.overviewList);
+                    this.overviewService.setOverviewData(this.overviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
                     this.overviewService.setDraftData(this.draftOverviewList);
-                    this.overviewService.setClearedData(
-                      this.clearedByUserAgencyOverviewList
-                    );
+                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList);
                   }
                 },
-                undefined,
+                error => console.log(error),
                 () => {
                   if (index++ >= finalIndex) {
-                    this.overviewFound = true;
+                    this.contentService.setLoadingScreen(false, null, null);
                   }
                 }
               );
@@ -181,7 +219,7 @@ export class OverviewComponent implements OnInit {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private overviewService: PortCallOverviewService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.accountService.userClaimsData$.subscribe(userClaims => {
@@ -204,7 +242,7 @@ export class OverviewComponent implements OnInit {
           this.userIsGovernmentAgency =
             organizationResult.organizationType &&
             organizationResult.organizationType.name ===
-              OrganizationTypes.GOVERNMENT_AGENCY_STRING;
+            OrganizationTypes.GOVERNMENT_AGENCY_STRING;
           if (this.userIsGovernmentAgency) {
             this.portCallService.setClearance(organizationResult);
           }
@@ -212,5 +250,9 @@ export class OverviewComponent implements OnInit {
         this.userOrganization = organizationResult;
         this.loadOverview();
       });
+  }
+
+  toggleCancelledPortCalls(showCancelled) {
+    this.overviewService.setShowCancelledPortCalls(showCancelled);
   }
 }

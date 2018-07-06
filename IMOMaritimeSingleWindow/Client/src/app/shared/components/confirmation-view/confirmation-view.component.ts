@@ -18,14 +18,9 @@ export class ConfirmationViewComponent implements OnInit {
         if (reportingData != null) {
           this.falForms = [
             {
-              name: 'Hazmat',
+              name: 'DPG',
               icon: 'hazard.png',
-              checked: reportingData.reportingHazmat || false
-            },
-            {
-              name: 'Bunkers',
-              icon: 'barrel.png',
-              checked: reportingData.reportingBunkers || false
+              checked: reportingData.reportingDpg || false
             },
             {
               name: 'Cargo',
@@ -46,11 +41,6 @@ export class ConfirmationViewComponent implements OnInit {
               name: 'Pax',
               icon: 'pax.png',
               checked: reportingData.reportingPax || false
-            },
-            {
-              name: 'Waste',
-              icon: 'trash.png',
-              checked: reportingData.reportingWaste || false
             }
           ];
         }

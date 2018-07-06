@@ -1,13 +1,4 @@
-<div class="jumbotron bg-ssn-light text-center">
-  <div class="row">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/pax.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">{{ organizationHeader }}</h3>
-    </div>
-  </div>
-
+<app-ssn-bg header="{{ organizationHeader }}" icon="pax.png">
   <div class="row">
     <div class="col">
       <app-ssn-card header="Organization Information" icon="pax.png">
@@ -61,7 +52,7 @@
             <p *ngIf="!organizationModel.organizationNo" class="no-wrap mb-0">Organization number not set.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Organization</button>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
 
         <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
@@ -91,4 +82,4 @@
       </app-ssn-card>
     </div>
   </div>
-</div>
+</app-ssn-bg>

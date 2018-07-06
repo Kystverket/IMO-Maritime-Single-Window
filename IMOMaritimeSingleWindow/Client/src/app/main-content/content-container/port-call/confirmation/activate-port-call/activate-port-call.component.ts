@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { FormMetaData } from 'app/shared/models/form-meta-data.interface';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
+import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -26,18 +28,31 @@ export class ActivatePortCallComponent implements OnInit {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
+  shipStoresDataIsPristine: Boolean = true;
+  shipStoresList: PortCallShipStoresModel[] = [];
+  shipStoresIsChecked: Boolean = true;
+  shipStoresCanBeActivated: Boolean = true;
+
   portCallStatus: string;
   portCallIsActive = false;
   portCallIsDraft = false;
   STATUS_ACTIVE = 'Active';
   STATUS_DRAFT = 'Draft';
 
-  constructor(private contentService: ContentService, private portCallService: PortCallService, private modalService: NgbModal) { }
+  portCallCanBeActivated: Boolean = false;
+
+  constructor(
+    private contentService: ContentService,
+    private portCallService: PortCallService,
+    private modalService: NgbModal,
+    private shipStoresService: PortCallShipStoresService
+  ) { }
 
   ngOnInit() {
     this.portCallService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.detailsDataIsPristine = detailsDataIsPristine;
+        this.setPortCallCanBeActivated();
       }
     );
     this.portCallService.detailsIdentificationData$.subscribe(
@@ -82,6 +97,21 @@ export class ActivatePortCallComponent implements OnInit {
         }
       }
     );
+
+    this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
+      this.shipStoresList = shipStoresList;
+    });
+
+    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+      this.shipStoresDataIsPristine = shipStoresDataIsPristine;
+      this.setShipStoresCanBeActivated();
+
+    });
+
+    this.shipStoresService.isCheckedInProgressBar$.subscribe(isChecked => {
+      this.shipStoresIsChecked = isChecked;
+      this.setShipStoresCanBeActivated();
+    });
   }
 
   saveDetails() {
@@ -91,15 +121,18 @@ export class ActivatePortCallComponent implements OnInit {
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
     this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
     this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
-    this.detailsModel.reportingBunkers = this.reportingModel.reportingBunkers;
     this.detailsModel.reportingCargo = this.reportingModel.reportingCargo;
     this.detailsModel.reportingCrew = this.reportingModel.reportingCrew;
-    this.detailsModel.reportingHazmat = this.reportingModel.reportingHazmat;
+    this.detailsModel.reportingDpg = this.reportingModel.reportingDpg;
     this.detailsModel.reportingPax = this.reportingModel.reportingPax;
     this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
-    this.detailsModel.reportingWaste = this.reportingModel.reportingWaste;
     this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
     console.log('META: ', this.detailsMeta.valid, '\nPRISTINE: ', this.detailsDataIsPristine);
+  }
+
+  saveShipStores() {
+    this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
+    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => {});
   }
 
   send() {
@@ -117,6 +150,27 @@ export class ActivatePortCallComponent implements OnInit {
 
   goBack() {
     this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+  }
+
+  private setShipStoresCanBeActivated() {
+    if (this.shipStoresIsChecked && this.shipStoresDataIsPristine) {
+      this.shipStoresCanBeActivated = true;
+    } else {
+      this.shipStoresCanBeActivated = false;
+    }
+    this.setPortCallCanBeActivated();
+  }
+
+  private setPortCallCanBeActivated() {
+    if (
+      (this.detailsDataIsPristine && this.shipStoresDataIsPristine && this.shipStoresIsChecked)
+      ||
+      (this.detailsDataIsPristine && !this.shipStoresIsChecked)
+    ) {
+      this.portCallCanBeActivated = true;
+    } else {
+      this.portCallCanBeActivated = false;
+    }
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

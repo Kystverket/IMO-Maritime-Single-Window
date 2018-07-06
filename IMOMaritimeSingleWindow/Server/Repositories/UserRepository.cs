@@ -12,30 +12,32 @@ using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public class UserRepository : Repository<User, Guid>, IUserRepository<Guid>
+    public class UserRepository : EFConcreteRepository<User, Guid>, IUserRepository<Guid>
     {
-        public UserRepository(open_ssnContext context) : base(context)
+        public UserRepository(IDbContext context) : base(context)
         {
         }
         
         public User GetByEmail(string email)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.NormalizedEmail == email)
                 .FirstOrDefault();
         }
 
         public User GetByUserName(string userName)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.Email == userName)
                 .FirstOrDefault();
         }
 
         public User GetByNormalizedUserName(string normalizedUserName)
         {
-            return open_ssnContext.Set<User>()
+            return DbSet
                 .Where(usr => usr.NormalizedEmail == normalizedUserName)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
                 .FirstOrDefault();
         }
 
@@ -61,9 +63,19 @@ namespace IMOMaritimeSingleWindow.Repositories
             return Context.Set<User>().AsQueryable();
         }
 
-        public void Update(User user)
+        public int GetAccessFailedCount(Guid userId)
         {
-            Context.Set<User>().Update(user);
+            throw new NotImplementedException();
+        }
+
+        public bool GetLockoutEnabled(Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTimeOffset? GetLockoutEndDate(Guid userId)
+        {
+            throw new NotImplementedException();
         }
 
 

@@ -15,16 +15,18 @@
       <div class="form-group row">
         <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>
         <div class="col my-auto">
-          <input id="email" name="userName" type="email" class="form-control form-control-sm" required placeholder="Enter email address"
-            [(ngModel)]="credentials.userName" #email="ngModel" tmFocus>
+          <input id="email" name="userName" type="email" class="form-control form-control-sm"
+            placeholder="Enter email address"
+            [(ngModel)]="credentials.userName" #email="ngModel" autocomplete="username" tmFocus required>
         </div>
       </div>
 
       <div class="form-group row">
         <label for="password" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Password:</label>
         <div class="col my-auto">
-          <input id="password" name="password" type="password" #pw class="form-control form-control-sm" required placeholder="Enter password"
-            [(ngModel)]="credentials.password">
+          <input id="password" name="password" type="password" #pw class="form-control form-control-sm"
+          placeholder="Enter password"
+            [(ngModel)]="credentials.password" autocomplete="current-password" required>
         </div>
       </div>
 

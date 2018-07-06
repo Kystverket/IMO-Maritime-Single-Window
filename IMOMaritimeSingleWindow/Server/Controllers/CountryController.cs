@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -36,7 +30,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet()]
         public IActionResult GetAll()
         {
-            var countries = _context.Country.ToList();
+            var countries = _context.Country.OrderBy(c => c.Name).ToList();
             return Json(countries);
         }
 

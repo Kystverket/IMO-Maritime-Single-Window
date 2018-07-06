@@ -19,17 +19,21 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<Dpg> Dpg { get; set; }
         DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         DbSet<DpgType> DpgType { get; set; }
+        DbSet<FalShipStores> FalShipStores { get; set; }
         DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         DbSet<Location> Location { get; set; }
         DbSet<LocationSource> LocationSource { get; set; }
         DbSet<LocationType> LocationType { get; set; }
         DbSet<MarpolCategory> MarpolCategory { get; set; }
+        DbSet<MeasurementType> MeasurementType { get; set; }
         DbSet<Municipality> Municipality { get; set; }
         DbSet<Organization> Organization { get; set; }
         DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         DbSet<OrganizationType> OrganizationType { get; set; }
         DbSet<Password> Password { get; set; }
         DbSet<Person> Person { get; set; }
+        DbSet<PersonOnBoard> PersonOnBoard { get; set; }
+        DbSet<PersonOnBoardType> PersonOnBoardType { get; set; }
         DbSet<PortCall> PortCall { get; set; }
         DbSet<PortCallDetails> PortCallDetails { get; set; }
         DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }

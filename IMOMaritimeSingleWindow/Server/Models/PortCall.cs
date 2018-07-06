@@ -9,7 +9,9 @@ namespace IMOMaritimeSingleWindow.Models
         {
             CustomsCargo = new HashSet<CustomsCargo>();
             DpgOnBoard = new HashSet<DpgOnBoard>();
+            FalShipStores = new HashSet<FalShipStores>();
             OrganizationPortCall = new HashSet<OrganizationPortCall>();
+            PersonOnBoard = new HashSet<PersonOnBoard>();
             PortCallDetails = new HashSet<PortCallDetails>();
             PortCallHasPortCallPurpose = new HashSet<PortCallHasPortCallPurpose>();
         }
@@ -30,6 +32,7 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? NextLocationEta { get; set; }
         public DateTimeOffset? NextLocationAta { get; set; }
         public Guid? UserId { get; set; }
+        public string VoyageNumber { get; set; }
 
         public Location Location { get; set; }
         public Location NextLocation { get; set; }
@@ -39,7 +42,9 @@ namespace IMOMaritimeSingleWindow.Models
         public User User { get; set; }
         public ICollection<CustomsCargo> CustomsCargo { get; set; }
         public ICollection<DpgOnBoard> DpgOnBoard { get; set; }
+        public ICollection<FalShipStores> FalShipStores { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
+        public ICollection<PersonOnBoard> PersonOnBoard { get; set; }
         public ICollection<PortCallDetails> PortCallDetails { get; set; }
         public ICollection<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
     }

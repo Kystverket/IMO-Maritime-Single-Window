@@ -1,13 +1,6 @@
-<div class="jumbotron bg-ssn-light text-center">
-  <div class="row">
-    <div class="col-2">
-      <img src="assets/images/VoyageIcons/128x128/white/ship.png" height="64px">
-    </div>
-    <div class="col-8">
-      <h3 class="text-ssn display-4">{{ shipHeader }}</h3>
-    </div>
-  </div>
+<app-ssn-bg header="{{ shipHeader }}" icon="ship.png">
   <form #form="ngForm">
+    <button (click)="setFast()"></button>
     <div class="row">
       <div class="col">
         <app-ssn-card header="Ship Identification" icon="ship.png">
@@ -78,20 +71,13 @@
     <div class="row">
       <div class="col">
         <app-ssn-card header="Ship Details" icon="ship.png">
-
           <div class="row">
             <div class="col-lg-6" *ngIf="!shipTypeSelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_typeahead">Ship Type</label>
-                <ng-template #rt let-r="result" let-t="term">{{ r.name }}</ng-template>
+                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_type_select">Ship Type</label>
                 <div class="col">
-                  <input id="ship_type_typeahead" name="ship_type_typeahead" type="text" class="form-control form-control-sm" [(ngModel)]="selectedShipType"
-                    [ngbTypeahead]="shipTypeSearch" [resultTemplate]="rt" [inputFormatter]="formatter" placeholder="Search for a ship type"
-                    (selectItem)="selectShipType($event)" #stt />
-                </div>
-                <div *ngIf="shipTypeSearchFailed && stt.value != ''" class="col-3 text-center">
-                  <small class="no-wrap">No</small>
-                  <small class="no-wrap">results</small>
+                  <ng-select id="ship_type_select" name="ship_type_select" [items]="shipTypeList" [multiple]="false" [closeOnSelect]="true"
+                    bindLabel="name" placeholder="Select ship type" [(ngModel)]="selectedShipType" (change)="selectShipType($event)"></ng-select>
                 </div>
               </div>
             </div>
@@ -314,7 +300,7 @@
 
             <div class="col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4" for="deadweight_tonnage">Deadweight Tonnage</label>
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="deadweight_tonnage">Deadweight Tonnage</label>
                 <div class="col">
                   <input [(ngModel)]="shipModel.deadweightTonnage" name="deadweightTonnage" type="number" class="form-control form-control-sm"
                     id="deadweight_tonnage" placeholder="Enter deadweight tonnage" #dwt="ngModel" numberValidator integerValidator
@@ -330,6 +316,30 @@
                 </li>
                 <li *ngIf="dwt.hasError('notPositiveNumberError')">
                   <small>Deadweight tonnage must be a positive number.</small>
+                </li>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="form-group row">
+                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="net_tonnage">Net Tonnage</label>
+                <div class="col">
+                  <input [(ngModel)]="shipModel.netTonnage" name="netTonnage" type="number" class="form-control form-control-sm" id="net_tonnage"
+                    placeholder="Enter net tonnage" #netTonnage="ngModel" numberValidator integerValidator positiveNumberValidator
+                  />
+                </div>
+              </div>
+              <div *ngIf="!netTonnage.valid" class="alert alert-danger">
+                <li *ngIf="netTonnage.hasError('notNumberError')">
+                  <small>Net tonnage must be a valid number.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notIntegerError')">
+                  <small>Net tonnage must be an integer.</small>
+                </li>
+                <li *ngIf="netTonnage.hasError('notPositiveNumberError')">
+                  <small>Net tonnage must be a positive number.</small>
                 </li>
               </div>
             </div>
@@ -407,54 +417,64 @@
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
-
-
       </app-ssn-card>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col">
-      <app-ssn-card header="{{ confirmHeader }}" icon="checkmark.png">
+  <app-certificate-of-registry></app-certificate-of-registry>
 
-        <div class="text-center" *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected)">
-          <div *ngIf="!form.valid" class="text-center">
-            <div class="alert alert-danger">
+  <div class="row ">
+    <div class="col ">
+      <app-ssn-card header="{{ confirmHeader }} " icon="checkmark.png ">
+
+        <div class="text-center " *ngIf="!form.valid || !(shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected
+                        && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
+                        && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
+                        && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
+                        && organizationSelected && certificateSelected && validCertificateDateFormat) ">
+          <div *ngIf="!form.valid " class="text-center ">
+            <div class="alert alert-danger ">
               There are errors in the form that needs to be resolved.
             </div>
           </div>
-          <div class="mb-3">
-            <p class="no-wrap mb-0" *ngIf="!shipModel.name">Ship name not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.callSign">Call sign not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.imoNo">IMO number not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipTypeSelected">Ship type not selected.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.yearOfBuild">Year of build not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.length || !lengthTypeSelected">Ship length not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.breadth || !breadthTypeSelected">Ship breadth not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.power || !powerTypeSelected">Ship power not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!hullTypeSelected">Hull type not selected.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipStatusSelected">Ship status not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.height">Ship height not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.draught">Ship draught not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.grossTonnage">Gross tonnage not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipModel.deadweightTonnage">Deadweight tonnage not set.</p>
-            <p class="no-wrap mb-0" *ngIf="!shipFlagCodeSelected">Flag code not selected.</p>
-            <p class="no-wrap mb-0" *ngIf="!contactSelected">At least one contact medium must be provided.</p>
-            <p class="no-wrap mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
+          <div class="mb-3 ">
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.name ">Ship name not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.callSign ">Call sign not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.imoNo ">IMO number not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipTypeSelected ">Ship type not selected.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.yearOfBuild ">Year of build not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.length || !lengthTypeSelected ">Ship length not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.breadth || !breadthTypeSelected ">Ship breadth not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.power || !powerTypeSelected ">Ship power not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!hullTypeSelected ">Hull type not selected.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipStatusSelected ">Ship status not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.height ">Ship height not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.draught ">Ship draught not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.grossTonnage ">Gross tonnage not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipModel.deadweightTonnage ">Deadweight tonnage not set.</p>
+            <p class="no-wrap mb-0 " *ngIf="!shipFlagCodeSelected ">Flag code not selected.</p>
+            <p class="no-wrap mb-0 " *ngIf="!contactSelected ">At least one contact medium must be provided.</p>
+            <p class="no-wrap mb-0 " *ngIf="!organizationSelected ">Organization not selected.</p>
+            <p class="no-wrap mb-0 " *ngIf="!certificateSelected">There is missing information in certificate of registry.</p>
+            <p class="no-wrap mb-0 " *ngIf="!validCertificateDateFormat">Certificate date of issue has invalid format.</p>
           </div>
-          <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Register Ship</button>
+          <button class="btn btn-ssn " disabled>
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png " height="24px " />{{ confirmButtonTitle }}</button>
         </div>
 
-        <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected && organizationSelected">
-          <div class="table-responsive">
-            <table class="table table-bordered">
+        <div class="text-center " *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected
+                        && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
+                        && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
+                        && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
+                        && organizationSelected && certificateSelected">
+          <div class="table-responsive ">
+            <table class="table table-bordered ">
               <thead>
-                <tr class="bg-ssn text-ssn">
+                <tr class="bg-ssn text-ssn ">
                   <th>Ship Name</th>
                   <th>Call Sign</th>
                   <th>IMO Number</th>
-                  <th *ngIf="shipModel.mmsiNo">MMSI Number</th>
+                  <th *ngIf="shipModel.mmsiNo ">MMSI Number</th>
                 </tr>
               </thead>
               <tbody>
@@ -462,15 +482,15 @@
                   <td>{{ shipModel.name }}</td>
                   <td>{{ shipModel.callSign }}</td>
                   <td>{{ shipModel.imoNo }}</td>
-                  <td *ngIf="shipModel.mmsiNo">{{ shipModel.mmsiNo }}</td>
+                  <td *ngIf="shipModel.mmsiNo ">{{ shipModel.mmsiNo }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="table-responsive">
-            <table class="table table-bordered">
+          <div class="table-responsive ">
+            <table class="table table-bordered ">
               <thead>
-                <tr class="bg-ssn text-ssn">
+                <tr class="bg-ssn text-ssn ">
                   <th>Ship Type</th>
                   <th>Year of Build</th>
                   <th>Length</th>
@@ -486,7 +506,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td *ngIf="shipTypeSelected">{{ selectedShipType.name }}</td>
+                  <td *ngIf="shipTypeSelected ">{{ selectedShipType.name }}</td>
                   <td>{{ shipModel.yearOfBuild }}</td>
                   <td>{{ lengthTypeDropdownString }}
                     <br>{{ shipModel.length }}</td>
@@ -504,21 +524,21 @@
               </tbody>
             </table>
           </div>
-          <p *ngIf="shipModel.hasSideThrusters">Ship has side thrusters.</p>
-          <p *ngIf="shipModel.hasSideThrustersFront">Ship has front side thrusters.</p>
-          <p *ngIf="shipModel.hasSideThrustersBack">Ship has back side thrusters.</p>
+          <p *ngIf="shipModel.hasSideThrusters ">Ship has side thrusters.</p>
+          <p *ngIf="shipModel.hasSideThrustersFront ">Ship has front side thrusters.</p>
+          <p *ngIf="shipModel.hasSideThrustersBack ">Ship has back side thrusters.</p>
 
-          <div *ngIf="shipModel.remark">
+          <div *ngIf="shipModel.remark ">
             <span>Remark:</span>
-            <div class="card p-1 pt-3 text-left mb-3">
+            <div class="card p-1 pt-3 text-left mb-3 ">
               <pre>{{ shipModel.remark }}</pre>
             </div>
           </div>
 
-          <div class="table-responsive">
-            <table class="table table-bordered">
+          <div class="table-responsive ">
+            <table class="table table-bordered ">
               <thead>
-                <tr class="bg-ssn text-ssn">
+                <tr class="bg-ssn text-ssn ">
                   <th>Country Flag</th>
                   <th>Ship Flag Code</th>
                   <th>Country</th>
@@ -527,7 +547,7 @@
               <tbody>
                 <tr>
                   <td>
-                    <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
+                    <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px " />
                   </td>
                   <td>{{ shipFlagCodeModel.name }}</td>
                   <td>{{ shipFlagCodeModel.country.name }}</td>
@@ -538,10 +558,10 @@
 
           <app-selected-contact-mediums></app-selected-contact-mediums>
 
-          <div class="table-responsive">
-            <table class="table table-bordered">
+          <div class="table-responsive ">
+            <table class="table table-bordered ">
               <thead>
-                <tr class="bg-ssn text-ssn">
+                <tr class="bg-ssn text-ssn ">
                   <th>Organization Name</th>
                   <th>Organization Number</th>
                 </tr>
@@ -555,10 +575,29 @@
             </table>
           </div>
 
-          <button class="btn btn-ssn" (click)="registerShip()">
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+          <div class="table-responsive ">
+            <table class="table table-bordered ">
+              <thead>
+                <tr class="bg-ssn text-ssn ">
+                  <th>Port of Registry</th>
+                  <th>Ship Registry Number</th>
+                  <th>Date of issue</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ portName }}</td>
+                  <td>{{ certificateNumber }}</td>
+                  <td>{{ certificateDateString }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <button class="btn btn-ssn " (click)="registerShip() ">
+            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png " height="24px " /> {{ confirmButtonTitle }}</button>
         </div>
       </app-ssn-card>
     </div>
   </div>
-</div>
+</app-ssn-bg>

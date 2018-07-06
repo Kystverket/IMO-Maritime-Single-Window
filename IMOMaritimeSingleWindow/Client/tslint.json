@@ -18,8 +18,7 @@
     "forin": true,
     "import-blacklist": [
       true,
-      "rxjs",
-      "rxjs/Rx"
+      "rxjs"
     ],
     "import-spacing": true,
     "indent": [
@@ -29,7 +28,7 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
+      false,
       140
     ],
     "member-access": false,

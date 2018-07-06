@@ -1,16 +1,13 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Extensions;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using IMOMaritimeSingleWindow.Auth;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -26,29 +23,37 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+
         [Authorize]
         [HttpGet("user")]
         public IActionResult GetOrganizationForUser()
         {
-            var userId = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Id).Value;
-            var userRole = User.FindFirst(cl => cl.Type == Constants.Strings.JwtClaimIdentifiers.Rol).Value;
-            var organization = _context.User.Where(usr => usr.OrganizationId != null && usr.UserId.ToString().Equals(userId)).Select(usr => usr.Organization).Include(o => o.OrganizationType).FirstOrDefault();
-            return Json(organization);
+            try
+            {
+                var userId = this.GetUserId();
+                var organization = _context.User.Where(usr => usr.OrganizationId != null && usr.UserId.ToString().Equals(userId)).Select(usr => usr.Organization).Include(o => o.OrganizationType).FirstOrDefault();
+                return Json(organization);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest(e);
+            }
         }
 
-        public List<Organization> SearchOrganization(string searchTerm)
+        public List<Organization> SearchOrganization(string searchTerm, int amount = 10)
         {
             return _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
                                                                 || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
                                                                 .Select(org => org)
                                                                 .Include(org => org.OrganizationType)
-                                                                .Take(10).ToList();
+                                                                .Take(amount).ToList();
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult SearchOrganizationJson(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public IActionResult SearchOrganizationJson(int amount, string searchTerm)
         {
-            var organizations = SearchOrganization(searchTerm);
+            var organizations = SearchOrganization(searchTerm, amount);
             return Json(organizations);
         }
 

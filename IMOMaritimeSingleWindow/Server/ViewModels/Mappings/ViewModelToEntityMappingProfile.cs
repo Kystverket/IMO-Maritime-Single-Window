@@ -28,6 +28,7 @@ namespace IMOMaritimeSingleWindow.ViewModels.Mappings
                     opt => opt.MapFrom(source => source.Email.ToUpper()))
                 .ForMember(destination => destination.NormalizedUserName,
                     opt => opt.MapFrom(source => source.Email.ToUpper()));
+
             CreateMap<RegistrationWithPasswordViewModel, ApplicationUser>()
                 .ForMember(destination => destination.UserName,
                     map => map.MapFrom(source => source.Email))

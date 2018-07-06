@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public partial class TestContext : DbContext, IDbContext
+    public class TestContext : DbContext, IDbContext
     {
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -22,17 +22,21 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Dpg> Dpg { get; set; }
         public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         public virtual DbSet<DpgType> DpgType { get; set; }
+        public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
+        public virtual DbSet<MeasurementType> MeasurementType { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<PersonOnBoard> PersonOnBoard { get; set; }
+        public virtual DbSet<PersonOnBoardType> PersonOnBoardType { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
         public virtual DbSet<PortCallDetails> PortCallDetails { get; set; }
         public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }
@@ -58,23 +62,19 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
-
-
-
         public TestContext(DbContextOptions<TestContext> options) : base(options) { }
         // for testing:
         public TestContext() { }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CertificateOfRegistry>(entity =>
             {
                 entity.ToTable("certificate_of_registry");
 
+                entity.HasIndex(e => e.PortLocationId)
+                    .HasName("fki_certificate_of_registry_port_location_id_fkey");
 
-
-                entity.Property(e => e.CertificateOfRegistryId)
-                    .HasColumnName("certificate_of_registry_id");
+                entity.Property(e => e.CertificateOfRegistryId).HasColumnName("certificate_of_registry_id");
 
                 entity.Property(e => e.CertificateNumber).HasColumnName("certificate_number");
 
@@ -84,8 +84,11 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortLocationId).HasColumnName("port_location_id");
 
-                entity.HasOne(d => d.CertificateOfRegistryNavigation)
-                    .WithOne(p => p.CertificateOfRegistry);
+                entity.HasOne(d => d.PortLocation)
+                    .WithMany(p => p.CertificateOfRegistry)
+                    .HasForeignKey(d => d.PortLocationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("certificate_of_registry_port_location_id_fkey");
             });
 
             modelBuilder.Entity<Claim>(entity =>
@@ -334,15 +337,11 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("location");
 
-
-
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
 
                 entity.Property(e => e.LocationCode).HasColumnName("location_code");
-
-                entity.Property(e => e.LocationInLocationId).HasColumnName("location_in_location_id");
 
                 entity.Property(e => e.LocationNo).HasColumnName("location_no");
 
@@ -360,9 +359,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.Location);
-
-                entity.HasOne(d => d.LocationInLocation)
-                    .WithMany(p => p.InverseLocationInLocation);
 
                 entity.HasOne(d => d.LocationSource)
                     .WithMany(p => p.Location);
@@ -593,19 +589,15 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
-
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
 
-                entity.Property(e => e.ReportingHazmat).HasColumnName("reporting_hazmat");
+                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_dpg");
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
-
-                entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails);
@@ -709,6 +701,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
 
+                entity.Property(e => e.NetTonnage).HasColumnName("net_tonnage");
+
                 entity.Property(e => e.Draught).HasColumnName("draught");
 
                 entity.Property(e => e.GrossTonnage).HasColumnName("gross_tonnage");
@@ -722,8 +716,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Height).HasColumnName("height");
 
                 entity.Property(e => e.ImoNo).HasColumnName("imo_no");
-
-                entity.Property(e => e.InmarsatCallNumber).HasColumnName("inmarsat_call_number");
 
                 entity.Property(e => e.Length).HasColumnName("length");
 
@@ -1191,7 +1183,6 @@ namespace IMOMaritimeSingleWindow.Data
         public override void Dispose()
         {
             ChangeTracker.DetectChanges();
-            Debug.WriteLine("TestContext disposed of: " + GetHashCode());
             base.Dispose();
         }
     }

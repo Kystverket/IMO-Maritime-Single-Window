@@ -1,39 +1,42 @@
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule, XHRBackend } from '@angular/http';
-import { BrowserModule } from '@angular/platform-browser';
-import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
-import { AppRoutingModule, routedComponents } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { AuthGuard } from './auth/guards/auth.guard';
-import { ErrorGuard } from './auth/guards/error.guard';
-import { LoginAuthGuard } from './auth/guards/login-auth.guard';
-import { ContentContainerModule } from './main-content/content-container/content-container.module';
-import { FooterComponent } from './main-content/footer/footer.component';
-import { HeaderComponent } from './main-content/header/header.component';
 import { AccountService } from './shared/services/account.service';
-import { AuthService } from './shared/services/auth-service';
+import { ActivatedRouteSnapshot, ActivatedRoute, RouterModule } from '@angular/router';
+import { AppComponent } from './app.component';
+import { AppRoutingModule, routedComponents } from './app-routing.module';
+import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
+import { AuthGuard } from './auth/guards/auth.guard';
+import { AuthModule } from './auth/auth.module';
 import { AuthRequest } from './shared/services/auth.request.service';
-import { ConstantsService } from './shared/services/constants.service';
-import { ContentService } from './shared/services/content.service';
-import { LoginService } from './shared/services/login.service';
+import { AuthService } from './shared/services/auth-service';
+import { BrowserModule } from '@angular/platform-browser';
 import { ConfigService } from './shared/utils/config.service';
+import { ConstantsService } from './shared/services/constants.service';
+import { ContentContainerModule } from './main-content/content-container/content-container.module';
+import { ContentService } from './shared/services/content.service';
+import { EmailConfirmationGuard } from './auth/guards/email-confirmation.guard';
+import { ErrorGuard } from './auth/guards/error.guard';
+import { FooterComponent } from './main-content/footer/footer.component';
+import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from './main-content/header/header.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule, XHRBackend } from '@angular/http';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { LoginAuthGuard } from './auth/guards/login-auth.guard';
+import { LoginService } from './shared/services/login.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgModule } from '@angular/core';
+import { PasswordChangeComponent } from './auth/password-change/password-change.component';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { PasswordResetGuard } from './auth/guards/password-reset.guard';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    routedComponents,
-    FooterComponent
-  ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    ContentContainerModule,
     AppRoutingModule,
+    AuthModule,
+    BrowserModule,
+    ContentContainerModule,
+    FormsModule,
+    HttpClientModule,
+    HttpModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -41,25 +44,35 @@ import { ConfigService } from './shared/utils/config.service';
         blacklistedRoutes: ['localhost:4200/login']
       }
     }),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+  ],
+  declarations: [
+    AppComponent,
+    FooterComponent,
+    HeaderComponent,
+    PasswordChangeComponent,
+    PasswordResetComponent,
+    routedComponents,
   ],
   providers: [
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
-    ConfigService,
-    LoginService,
     AccountService,
-    ContentService,
-    ConstantsService,
-    AuthService,
-    AuthRequest,
     AuthGuard,
+    AuthRequest,
+    AuthService,
+    ConfigService,
+    ConstantsService,
+    ContentService,
+    EmailConfirmationGuard,
     ErrorGuard,
+    JwtHelperService,
     LoginAuthGuard,
-    JwtHelperService
+    LoginService,
+    PasswordResetGuard,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token');

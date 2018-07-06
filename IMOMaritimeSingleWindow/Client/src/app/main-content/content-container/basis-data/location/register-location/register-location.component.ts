@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs/Observable';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { LocationModel } from 'app/shared/models/location-model';
@@ -17,6 +16,7 @@ const RESULT_FAILURE = 'There was a problem when trying to save the location to 
   providers: [LocationModel]
 })
 export class RegisterLocationComponent implements OnInit {
+
   newLocation: boolean;
   locationHeader: string;
   confirmHeader: string;
@@ -32,8 +32,11 @@ export class RegisterLocationComponent implements OnInit {
   countrySearchFailed = false;
 
 
-  constructor(public locationModel: LocationModel, private locationService: LocationService,
-    private contentService: ContentService, private modalService: NgbModal
+  constructor(
+    public locationModel: LocationModel,
+    private contentService: ContentService,
+    private locationService: LocationService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -76,27 +79,9 @@ export class RegisterLocationComponent implements OnInit {
     );
   }
 
-  countrySearch = (text$: Observable<string>) =>
-    text$
-      .debounceTime(30)
-      .distinctUntilChanged()
-      .do(() => {
-        this.countrySearchFailed = false;
-      })
-      .map(term => term.length < 1 ? []
-        : this.countryList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
-      )
-      .do((result) => {
-        if (result.length === 0) {
-          this.countrySearchFailed = true;
-        }
-      })
-
-  formatter = (x: { name: string }) => x.name;
-
   selectCountry($event) {
-    this.selectedCountry = $event.item;
-    this.locationModel.countryId = $event.item.countryId;
+    this.selectedCountry = $event;
+    this.locationModel.countryId = $event.countryId;
     this.countrySelected = true;
   }
   deselectCountry() {

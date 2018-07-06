@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col">
+    <app-ssn-card header="Certificate of Registry" icon="pax.png">
+      <div class="row">
+        <div class="col">
+          <app-ssn-card header="Port of Registry">
+            <div [hidden]="portLocationSelected">
+              <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
+            </div>
+            <div *ngIf="portLocationSelected" class="text-center">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr class="bg-ssn text-ssn">
+                      <th>Country</th>
+                      <th>Location Name</th>
+                      <th>LoCode</th>
+                      <th>Location Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <img height="32px" src="assets/images/Flags/128x128/{{certificateModel.portLocation.country.twoCharCode.toLowerCase()}}.png"
+                        /> {{ countryName }}
+                      </td>
+                      <td>{{ locationName }}</td>
+                      <td>{{ locationCode }}</td>
+                      <td>{{ locationTypeName }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <button class="btn btn-ssn" (click)="deselectPortLocation()">
+                <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            </div>
+          </app-ssn-card>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="d-table mx-auto">
+            <div class="d-table-row">
+              <div class="d-table-cell p-1">
+                <div class="form-group">
+                  <label for="eta_date_input">Date of issue</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <button class="btn btn-sm btn-ssn" (click)="doi.toggle()" type="button">
+                        <img src="assets/images/VoyageIcons/128x128/white/calendar.png" height="24px" />
+                      </button>
+                    </div>
+                    <input id="doi_date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp-doi" [showWeekNumbers]="true"
+                      [(ngModel)]="dateOfIssueModel" (ngModelChange)="updateCertificateDate($event)" ngbDatepicker #doi="ngbDatepicker">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-table-row ">
+              <div *ngIf="!validCertificateDateFormat " class="alert alert-danger " role="alert ">
+                <span>Invalid date format.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="form-group row">
+            <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="certificate_number">Ship registry number</label>
+            <div class="col">
+              <input [(ngModel)]="certificateModel.certificateNumber" name="certificateNumber" type="number" class="form-control form-control-sm"
+                id="certificate_number" placeholder="Enter ship registry number" (ngModelChange)="persistData()" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-ssn-card>
+  </div>
+</div>

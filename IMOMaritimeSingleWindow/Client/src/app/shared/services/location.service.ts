@@ -1,24 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { LocationModel } from 'app/shared/models/location-model';
+import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { AuthRequest } from './auth.request.service';
-import { SearchService } from './search.service';
 
 @Injectable()
 export class LocationService {
-  private searchService: SearchService;
-  private searchUrl: string;
-  private searchHarbourUrl: string;
   private locationUrl: string;
   private locationTypeUrl: string;
   private countryUrl: string;
 
   constructor(private http: Http, private authRequest: AuthRequest) {
-    this.searchService = new SearchService(http);
-    this.searchUrl = 'api/location/search';
-    this.searchHarbourUrl = 'api/location/harbour/search';
     this.locationUrl = 'api/location';
     this.locationTypeUrl = 'api/locationtype';
     this.countryUrl = 'api/country';
@@ -31,21 +24,9 @@ export class LocationService {
     this.locationDataSource.next(data);
   }
 
-  public search(term: string) {
-    if (term.length < 2) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.searchUrl, term);
-  }
-
-  public searchHarbour(term: string) {
-    if (term.length < 2) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.searchHarbourUrl, term);
-  }
-
   public updateLocation(location: LocationModel) {
+    location.country = null;
+    location.locationType = null;
     const auth_headers = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_headers });
     return this.http

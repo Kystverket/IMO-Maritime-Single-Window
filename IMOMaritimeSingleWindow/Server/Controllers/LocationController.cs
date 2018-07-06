@@ -1,16 +1,11 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using IMOMaritimeSingleWindow.Auth;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -66,7 +61,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(location);
         }
 
-        public List<Location> SearchLocation(string searchTerm, bool typeHarbour)
+        public List<Location> SearchLocation(string searchTerm, bool typeHarbour, int amount = 10)
         {
             List<Location> results = new List<Location>();
             if (typeHarbour)
@@ -76,7 +71,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     && loc.LocationType.Name.Equals("Harbour"))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(10).ToList();
+                                                    .Take(amount).ToList();
             }
             else
             {
@@ -84,22 +79,22 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(10).ToList();
+                                                    .Take(amount).ToList();
             }
             return results;
         }
 
-        [HttpGet("search/{searchTerm}")]
-        public IActionResult SearchLocationJson(string searchTerm)
+        [HttpGet("search/{searchTerm}/{amount}")]
+        public IActionResult SearchLocationJson(string searchTerm, int amount)
         {
-            List<Location> results = SearchLocation(searchTerm, false);
+            List<Location> results = SearchLocation(searchTerm, false, amount);
             return Json(results);
         }
 
-        [HttpGet("harbour/search/{searchTerm}")]
-        public IActionResult SearchLocationTypeHarbourJson(string searchTerm)
+        [HttpGet("harbour/search/{searchTerm}/{amount}")]
+        public IActionResult SearchLocationTypeHarbourJson(string searchTerm, int amount)
         {
-            List<Location> results = SearchLocation(searchTerm, true);
+            List<Location> results = SearchLocation(searchTerm, true, amount);
             return Json(results);
         }
 

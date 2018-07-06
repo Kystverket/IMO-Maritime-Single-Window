@@ -8,10 +8,14 @@ using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.IdentityModel.Tokens;
+using SendGrid;
+using SendGrid.Helpers;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
+using Microsoft.Azure;
+using SendGrid.Helpers.Mail;
 
 namespace IMOMaritimeSingleWindow.Extensions
 {
@@ -25,11 +29,17 @@ namespace IMOMaritimeSingleWindow.Extensions
         {
             // Get options from app settings
             var jwtAppSettingOptions = configuration.GetSection(nameof(JwtIssuerOptions));
-
+            
             var appSettingsSection = configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
-            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(appSettings.Secret));
+            string secret = appSettings.Secret;
+            if (string.IsNullOrWhiteSpace(secret))
+            {
+                secret = CloudConfigurationManager.GetSetting("ImoMsw.Secret");
+            }
+
+            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
 
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
@@ -69,6 +79,21 @@ namespace IMOMaritimeSingleWindow.Extensions
             }
             ); //end AddJwtBearer
 
+            return services;
+        }
+
+        public static IServiceCollection AddSendGridOptions(this IServiceCollection services, IConfiguration configuration)
+        {
+            var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+            
+            if(apiKey == null)
+            {
+                // Get api from appsettings
+            }
+
+            var sendGridSection = configuration.GetSection("SendGridOptions");
+            services.Configure<SendGridClientOptions>(sendGridSection);
+            
             return services;
         }
 

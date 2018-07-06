@@ -4,6 +4,7 @@ import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 
 @Component({
   selector: 'app-port-call',
@@ -11,7 +12,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
   styleUrls: ['./port-call.component.css']
 })
 export class PortCallComponent implements OnInit {
-  selectedComponent: string;
+  selectedComponent: 'Passenger List';
   permissions = PortCallClaims.portCallPermissions;
   constructor(
     private accountService: AccountService,

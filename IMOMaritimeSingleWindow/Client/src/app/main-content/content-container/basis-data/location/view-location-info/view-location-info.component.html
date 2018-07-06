@@ -8,25 +8,26 @@
   </div>
 </div>
 
-<app-ssn-card header="Location Search" icon="location.png">
+<app-ssn-card header="Location Search" icon="pax.png">
   <div *ngIf="!locationFound">
-    <app-search-location></app-search-location>
-  </div>
-
-  <div *ngIf="locationFound" class="text-center">
-    <button class="btn btn-ssn" (click)="deselectLocation()">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-    
-    <button class="btn btn-ssn" (click)="editLocation()">
-      <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="24px" /> Edit location</button>
+    <app-search-location [showDropdown]=false></app-search-location>
   </div>
 
   <br>
 
-  <div class="jumbotron bg-ssn-light" *ngIf="locationFound">
-    <div class="row mb-3">
-      <div class="col">
-        <app-location-info-table></app-location-info-table>
+  <div>
+    <div class="mb-3">
+      <table class="table table-bordered text-center mx-auto mb-0">
+        <thead class="bg-ssn text-white">
+          <tr>
+            <th class="py-1">
+              <h5 class="mb-0">Location search results</h5>
+            </th>
+          </tr>
+        </thead>
+      </table>
+      <div class="table-responsive">
+        <ng2-smart-table [settings]="tableSettings" [source]="dataSource"></ng2-smart-table>
       </div>
     </div>
   </div>

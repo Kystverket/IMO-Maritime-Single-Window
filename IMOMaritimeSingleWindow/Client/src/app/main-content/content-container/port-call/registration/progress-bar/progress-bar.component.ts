@@ -1,17 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
+import { FORM_NAMES } from 'app/shared/constants/form-names';
 
-const PORT_CALL_DETAILS = 'Port Call Details';
-const CONFIRM_PORT_CALL = 'Confirm and Activate';
-
-const HAZMAT = 'Hazmat';
-const BUNKERS = 'Bunkers';
-const CARGO = 'Cargo';
-const SHIP_STORES = 'Ship Stores';
-const CREW = 'Crew';
-const PAX = 'Pax';
-const WASTE = 'Waste';
 
 @Component({
   selector: 'app-progress-bar',
@@ -19,94 +11,122 @@ const WASTE = 'Waste';
   styleUrls: ['./progress-bar.component.css']
 })
 export class ProgressBarComponent implements OnInit {
+  formNames = FORM_NAMES;
+
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
   baseMenuEntries: any[] = [
     {
-      name: PORT_CALL_DETAILS,
+      name: this.formNames.PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
   finalMenuEntries: any[] = [
     {
-      name: CONFIRM_PORT_CALL,
+      name: this.formNames.CONFIRM_PORT_CALL,
       icon: 'checkmark.png',
       checked: true,
-      hasError: false
+      hasError: false,
+      hasUnsavedData: false
     }
   ];
 
   menuEntries: any[];
 
+  selectedPortCallForm: string;
+
   constructor(
     private portCallService: PortCallService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private shipStoresService: PortCallShipStoresService
   ) {}
 
   ngOnInit() {
+
+    console.log(this.formNames.PORT_CALL_DETAILS);
+
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
     this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           const falForms = [
             {
-              name: HAZMAT,
+              name: this.formNames.DPG,
               icon: 'hazard.png',
-              checked: reportingData.reportingHazmat || false,
-              hasError: false
+              checked: reportingData.reportingDpg || false,
+              hasError: false,
+              hasUnsavedData: false
             },
             {
-              name: BUNKERS,
-              icon: 'barrel.png',
-              checked: reportingData.reportingBunkers || false,
-              hasError: false
-            },
-            {
-              name: CARGO,
+              name: this.formNames.CARGO,
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
-              name: SHIP_STORES,
+              name: this.formNames.SHIP_STORES,
               icon: 'alcohol.png',
               checked: reportingData.reportingShipStores || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
-              name: CREW,
+              name: this.formNames.CREW,
               icon: 'crew.png',
               checked: reportingData.reportingCrew || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             },
             {
-              name: PAX,
+              name: this.formNames.PAX,
               icon: 'pax.png',
               checked: reportingData.reportingPax || false,
-              hasError: false
-            },
-            {
-              name: WASTE,
-              icon: 'trash.png',
-              checked: reportingData.reportingWaste || false,
-              hasError: false
+              hasError: false,
+              hasUnsavedData: false
             }
           ];
           this.menuEntries = this.baseMenuEntries
             .concat(falForms)
             .concat(this.finalMenuEntries);
-        }
+
+          // Set checked in services for FAL forms
+          this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
+          }
+      }
+    );
+
+    this.contentService.portCallFormName$.subscribe(
+      portCallFormName => {
+        this.selectedPortCallForm = portCallFormName;
       }
     );
 
     this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
-          p => p.name === PORT_CALL_DETAILS
+          p => p.name === this.formNames.PORT_CALL_DETAILS
         ).hasError = !metaData.valid;
       }
     );
+
+    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+      this.menuEntries.find(
+        p => p.name === this.formNames.PORT_CALL_DETAILS
+      ).hasUnsavedData = !detailsDataIsPristine;
+    });
+
+    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+      const shipStores = this.menuEntries.find(
+          p => p.name === this.formNames.SHIP_STORES
+        );
+      if (shipStores) {
+        shipStores.hasUnsavedData = !shipStoresDataIsPristine;
+      }
+
+    });
   }
 
   setPortCallForm(contentName: string) {

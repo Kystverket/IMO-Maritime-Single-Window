@@ -13,10 +13,13 @@ import { RegisterShipComponent } from './ship/register-ship/register-ship.compon
 import { SearchShipFlagCodeComponent } from './ship/search-ship-flag-code/search-ship-flag-code.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
-import { LocationService } from '../../../shared/services/location.service';
-import { OrganizationService } from '../../../shared/services/organization.service';
-import { ShipService } from '../../../shared/services/ship.service';
-import { ContactService } from '../../../shared/services/contact.service';
+import { LocationService } from 'app/shared/services/location.service';
+import { OrganizationService } from 'app/shared/services/organization.service';
+import { ShipService } from 'app/shared/services/ship.service';
+import { ContactService } from 'app/shared/services/contact.service';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { LocationButtonRowComponent } from './location/view-location-info/location-button-row/location-button-row.component';
+import { CertificateOfRegistryComponent } from './ship/register-ship/certificate-of-registry/certificate-of-registry.component';
 
 @NgModule({
   imports: [
@@ -25,7 +28,8 @@ import { ContactService } from '../../../shared/services/contact.service';
     FormsModule,
     HttpModule,
     NgSelectModule,
-    SharedModule
+    SharedModule,
+    Ng2SmartTableModule
   ],
   declarations: [
     RegisterUserComponent,
@@ -36,6 +40,8 @@ import { ContactService } from '../../../shared/services/contact.service';
     ViewOrganizationInfoComponent,
     RegisterLocationComponent,
     ViewLocationInfoComponent,
+    LocationButtonRowComponent,
+    CertificateOfRegistryComponent
   ],
   exports: [
     RegisterUserComponent,
@@ -44,13 +50,16 @@ import { ContactService } from '../../../shared/services/contact.service';
     RegisterLocationComponent,
     RegisterOrganizationComponent,
     ViewOrganizationInfoComponent,
-    ViewLocationInfoComponent,
+    ViewLocationInfoComponent
   ],
   providers: [
     LocationService,
     OrganizationService,
     ShipService,
     ContactService
+  ],
+  entryComponents: [
+    LocationButtonRowComponent
   ]
 })
 export class BasisDataModule { }

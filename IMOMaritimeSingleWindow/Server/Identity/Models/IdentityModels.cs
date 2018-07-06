@@ -1,18 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using IMOMaritimeSingleWindow.Data;
-using System.Threading;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using System.Diagnostics;
-//using IMOMaritimeSingleWindow.Models.IdentityExtensionModels;
+using System;
 
 namespace IMOMaritimeSingleWindow.Identity.Models
 {
@@ -56,19 +43,13 @@ namespace IMOMaritimeSingleWindow.Identity.Models
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string NormalizedRoleName { get; set; }
-        public int OrganizationId { get; set; }
+        public int? OrganizationId { get; set; }
+        public string CompanyEmail { get; set; }
+        public string CompanyPhoneNumber { get; set; }
     }
 
     public class MyPasswordHasher : PasswordHasher<ApplicationUser>
-    { 
+    {
     }
-    
-
-    /// Stores
-    
-    //TODO: Implement/extend UserClaimStore and disable AddClaimsAsync method
-    
-
-
 
 }

@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { FormMetaData } from 'app/shared/models/form-meta-data.interface';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 import { AuthRequest } from './auth.request.service';
+
+import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
+
 
 @Injectable()
 export class PortCallService {
@@ -151,19 +155,12 @@ export class PortCallService {
   setShipData(data) {
     this.shipDataSource.next(data);
   }
-  // Location
   setLocationData(data) {
-    // NEW
     this.locationDataSource.next(data);
   }
-  // ETA / ETD
-
   setEtaEtdData(data) {
-    // NEW
     this.etaEtdDataSource.next(data);
   }
-  // Status
-
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
@@ -247,6 +244,7 @@ export class PortCallService {
   setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
     this.crewPassengersAndDimensionsMeta.next(metaData);
   }
+
   // Reporting
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration
 
@@ -275,7 +273,6 @@ export class PortCallService {
 
   // SAVE DETAILS
   saveDetails(details: any, purposes: any, otherName: string) {
-    // NEW
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
     this.http
@@ -287,7 +284,6 @@ export class PortCallService {
       });
   }
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
-    // NEW
     if (purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http

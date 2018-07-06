@@ -144,8 +144,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   // NEW CLEANUP - Set methods
   setPortCall(content) {
-    this.portCallService.setPortCall(this.rowData.overviewModel);
-    this.setPurpose(content);
+    this.overviewService.setLoadingPortCall(true);
+    this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
+    this.overviewService.getOverview(this.rowData.overviewModel.portCall.portCallId).subscribe(
+      data => {
+        if (data) {
+          this.portCallService.setPortCall(data);
+          this.setPurpose(content);
+        }
+      }
+    );
   }
   setPurpose(content) {
     this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(

@@ -1,34 +1,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
-    public partial class UnitOfWork : IUnitOfWork<Guid>
+    public class UnitOfWork : IUnitOfWork<Guid>
     {
-        private readonly open_ssnContext _context;
-        public UnitOfWork(open_ssnContext context)
+        private readonly IDbContext _context;
+        public UnitOfWork(IDbContext context)
         {
             _context = context;
-            Users = new UserRepository(_context);
-            RoleClaims = new RoleClaimsRepository(_context);
+            Claims = new ClaimRepository(_context);
+            ClaimTypes = new ClaimTypeRepository(_context);
             Passwords = new PasswordRepository(_context);
             Persons = new PersonRepository(_context);
+            RoleClaims = new RoleClaimsRepository(_context);
             Roles = new RoleRepository(_context);
-            ClaimTypes = new ClaimTypeRepository(_context);
-            Claims = new ClaimRepository(_context);
+            Users = new UserRepository(_context);
+            UserTokens = new UserTokenRepository(_context);
         }
 
-        public IUserRepository<Guid> Users { get; private set; }
-        public IRoleRepository<Guid> Roles { get; private set; }
-        public IRoleClaimsRepository<Guid> RoleClaims { get; private set; }
-        public IPasswordRepository<Guid> Passwords { get; private set; }
-        public IPersonRepository<Guid> Persons { get; private set; }
-        public IClaimTypeRepository<Guid> ClaimTypes { get; private set; }
-        public IClaimRepository<Guid> Claims { get; private set; }
+        public IClaimRepository<Guid> Claims { get; }
+        public IClaimTypeRepository<Guid> ClaimTypes { get; }
+        public IPasswordRepository<Guid> Passwords { get; }
+        public IPersonRepository<Guid> Persons { get; }
+        public IRoleClaimsRepository<Guid> RoleClaims { get; }
+        public IRoleRepository<Guid> Roles { get; }
+        public IUserRepository<Guid> Users { get; }
+        public IUserTokenRepository<Guid> UserTokens { get; }
 
         public int Complete()
         {
