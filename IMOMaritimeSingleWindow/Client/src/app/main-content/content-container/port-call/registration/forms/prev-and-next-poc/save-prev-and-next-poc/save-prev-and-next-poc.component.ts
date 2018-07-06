@@ -87,8 +87,6 @@ export class SavePrevAndNextPocComponent implements OnInit {
     const prevDate = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
     const nextDate = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
     this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
-    // alert('Sorry, not yet implemented');
-    // this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
-    // this.portCallService.savePrevAndNextPortCall();
+    this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
   }
 }

@@ -25,6 +25,10 @@ export class PrevAndNextPocService extends BaseService {
         super();
     }
 
+    setDataPristine(data: boolean) {
+        this.dataIsPristine.next(data);
+    }
+
     setPrevPortOfCall(prevPortOfCall: LocationModel) {
         this.dataIsPristine.next(false);
         this.prevPortOfCallSource.next(prevPortOfCall);
