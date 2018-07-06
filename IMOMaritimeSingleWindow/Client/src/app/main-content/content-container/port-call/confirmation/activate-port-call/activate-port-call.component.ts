@@ -7,8 +7,6 @@ import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model'
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
-import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
 
 const RESULT_SUCCES =
   'This port call has been activated, and is now awaiting clearance.';
@@ -32,11 +30,6 @@ export class ActivatePortCallComponent implements OnInit {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
-  shipStoresDataIsPristine: Boolean = true;
-  shipStoresList: PortCallShipStoresModel[] = [];
-  shipStoresIsChecked: Boolean = true;
-  shipStoresCanBeActivated: Boolean = true;
-
   portCallStatus: string;
   portCallIsActive = false;
   portCallIsDraft = false;
@@ -48,21 +41,9 @@ export class ActivatePortCallComponent implements OnInit {
     private portCallService: PortCallService,
     private prevAndNextPortCallService: PrevAndNextPocService,
     private modalService: NgbModal
-  ) {}
-  portCallCanBeActivated: Boolean = false;
-
-  constructor(
-    private contentService: ContentService,
-    private portCallService: PortCallService,
-    private modalService: NgbModal,
-    private shipStoresService: PortCallShipStoresService
   ) { }
 
   ngOnInit() {
-    this.portCallService.detailsPristine$.subscribe(
-      detailsDataIsPristine => {
-        this.detailsDataIsPristine = detailsDataIsPristine;
-        this.setPortCallCanBeActivated();
     this.prevAndNextPortCallService.dataIsPristine$.subscribe(
       pristineData => {
         this.prevAndNextPortCallDataIsPristine = pristineData;
@@ -116,21 +97,6 @@ export class ActivatePortCallComponent implements OnInit {
         }
         this.portCallStatus = statusData;
       }
-    );
-
-    this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
-      this.shipStoresList = shipStoresList;
-    });
-
-    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
-      this.shipStoresDataIsPristine = shipStoresDataIsPristine;
-      this.setShipStoresCanBeActivated();
-
-    });
-
-    this.shipStoresService.isCheckedInProgressBar$.subscribe(isChecked => {
-      this.shipStoresIsChecked = isChecked;
-      this.setShipStoresCanBeActivated();
     });
   }
 
@@ -164,11 +130,6 @@ export class ActivatePortCallComponent implements OnInit {
     );
   }
 
-  saveShipStores() {
-    this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => {});
-  }
-
   send() {
     this.portCallService
       .updatePortCallStatusActive(this.detailsIdentificationModel.portCallId)
@@ -192,27 +153,6 @@ export class ActivatePortCallComponent implements OnInit {
 
   goBack() {
     this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
-  }
-
-  private setShipStoresCanBeActivated() {
-    if (this.shipStoresIsChecked && this.shipStoresDataIsPristine) {
-      this.shipStoresCanBeActivated = true;
-    } else {
-      this.shipStoresCanBeActivated = false;
-    }
-    this.setPortCallCanBeActivated();
-  }
-
-  private setPortCallCanBeActivated() {
-    if (
-      (this.detailsDataIsPristine && this.shipStoresDataIsPristine && this.shipStoresIsChecked)
-      ||
-      (this.detailsDataIsPristine && !this.shipStoresIsChecked)
-    ) {
-      this.portCallCanBeActivated = true;
-    } else {
-      this.portCallCanBeActivated = false;
-    }
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

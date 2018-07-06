@@ -56,11 +56,7 @@
     </div>
 
     <div class="row" *ngIf="portCallIsDraft">
-<<<<<<< HEAD
       <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine" class="col">
-=======
-      <div *ngIf="portCallCanBeActivated" class="col">
->>>>>>> development
         <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for authorities to review.</p>
         <p>This action cannot be undone.</p>
         <button class="btn btn-ssn" (click)="send()">

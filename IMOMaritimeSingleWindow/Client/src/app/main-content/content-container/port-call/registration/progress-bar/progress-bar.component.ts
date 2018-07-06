@@ -17,14 +17,14 @@ export class ProgressBarComponent implements OnInit {
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
   baseMenuEntries: any[] = [
     {
-      name: PREV_AND_NEXT_POC,
+      name: this.formNames.PREV_AND_NEXT_POC,
       icon: 'voyage.png',
       checked: true,
       hasError: false,
       hasUnsavedData: false
     },
     {
-      name: PORT_CALL_DETAILS,
+      name: this.formNames.PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
       checked: true,
       hasError: false,
@@ -50,7 +50,7 @@ export class ProgressBarComponent implements OnInit {
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: PortCallShipStoresService
-  ) {}
+  ) { }
 
   ngOnInit() {
 
@@ -103,7 +103,7 @@ export class ProgressBarComponent implements OnInit {
 
           // Set checked in services for FAL forms
           this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
-          }
+        }
       }
     );
 
@@ -124,7 +124,7 @@ export class ProgressBarComponent implements OnInit {
     this.prevAndNextPortCallService.dataIsPristine$.subscribe(
       pristineData => {
         this.menuEntries.find(
-          p => p.name === PREV_AND_NEXT_POC
+          p => p.name === this.formNames.PREV_AND_NEXT_POC
         ).hasUnsavedData = !pristineData;
       }
     );
@@ -132,7 +132,7 @@ export class ProgressBarComponent implements OnInit {
     this.portCallService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.menuEntries.find(
-          p => p.name === PORT_CALL_DETAILS
+          p => p.name === this.formNames.PORT_CALL_DETAILS
         ).hasUnsavedData = !detailsDataIsPristine;
       }
     );
@@ -144,8 +144,8 @@ export class ProgressBarComponent implements OnInit {
 
     this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
       const shipStores = this.menuEntries.find(
-          p => p.name === this.formNames.SHIP_STORES
-        );
+        p => p.name === this.formNames.SHIP_STORES
+      );
       if (shipStores) {
         shipStores.hasUnsavedData = !shipStoresDataIsPristine;
       }

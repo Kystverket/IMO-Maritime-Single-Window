@@ -94,7 +94,6 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService]
-  providers: [PortCallService, PrevAndNextPocService, PortCallShipStoresService]
+  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService]
 })
 export class PortCallModule { }

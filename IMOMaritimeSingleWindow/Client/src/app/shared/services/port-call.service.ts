@@ -20,7 +20,6 @@ export class PortCallService {
   private portCallUserUrl: string;
   private updatePortCallStatusActiveUrl: string;
   private updatePortCallStatusCancelledUrl: string;
-  private updateNextAndPreviousPortOfCallUrl: string;
   // Global purpose
   private purposePortCallUrl: string;
   private purposeOtherNameUrl: string;
@@ -85,7 +84,6 @@ export class PortCallService {
     this.portCallUserUrl = 'api/portcall/user';
     this.updatePortCallStatusActiveUrl = 'api/portcall/updatestatus/active';
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
-    this.updateNextAndPreviousPortOfCallUrl = 'api/portCall/nextAndPrev';
     // Purpose
     this.purposePortCallUrl = 'api/purpose/portcall';
     this.purposeOtherNameUrl = 'api/purpose/othername';
@@ -147,13 +145,9 @@ export class PortCallService {
     console.log('Updating port call...');
     const authHeaders = this.authRequestService.GetHeaders();
     const options = new RequestOptions({ headers: authHeaders });
-    this.http
+    return this.http
       .put(this.portCallUrl, portCall, options)
-      .map(res => res.json())
-      .subscribe(data => {
-        console.log('Success');
-        console.log(data);
-      });
+      .map(res => res.json());
   }
   setShipData(data) {
     this.shipDataSource.next(data);
@@ -195,11 +189,7 @@ export class PortCallService {
         console.log('Port call successfully cancelled.');
       });
   }
-  // Set previous and next port of call
-  updateNextAndPreviousPortOfCall(portCall: PortCallModel) {
-    const uri: string = this.updateNextAndPreviousPortOfCallUrl;
-    return this.http.put(uri, portCall).map(res => res.json());
-  }
+
   // Delete port call draft
   deletePortCallDraft(portCall: PortCallModel) {
     console.log('Deleting port call...');
@@ -279,22 +269,27 @@ export class PortCallService {
     this.otherPurposeDataSource.next(data);
   }
 
-  savePrevAndNextPortCall(prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
-    const updatedPortCallData = new PortCallModel();
-    updatedPortCallData.previousLocationId = prevPortOfCall.locationId;
-    updatedPortCallData.nextLocationId = nextPortCall.locationId;
-    updatedPortCallData.previousLocationEtd = prevEtd;
-    updatedPortCallData.nextLocationEta = nextEta;
-
-    this.updateNextAndPreviousPortOfCall(updatedPortCallData).subscribe(
-      result => {
-        console.log(result);
-        this.prevAndNextPocService.dataIsPristine.next(true);
-      },
-      error => {
-        console.log(error);
+  savePrevAndNextPortCall(portCallId: number, prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
+    // const updatedPortCallData = new PortCallModel();
+    this.getPortCallById(portCallId).subscribe(data => {
+      if (data) {
+        const updatedPortCallData = data;
+        updatedPortCallData.previousLocationId = prevPortOfCall.locationId;
+        updatedPortCallData.nextLocationId = nextPortCall.locationId;
+        updatedPortCallData.previousLocationEtd = prevEtd;
+        updatedPortCallData.nextLocationEta = nextEta;
+        this.updatePortCall(updatedPortCallData).subscribe(
+          result => {
+            console.log(result);
+            this.prevAndNextPocService.dataIsPristine.next(true);
+          },
+          error => {
+            console.log(error);
+          }
+        );
       }
-    );
+    });
+
 
   }
 
