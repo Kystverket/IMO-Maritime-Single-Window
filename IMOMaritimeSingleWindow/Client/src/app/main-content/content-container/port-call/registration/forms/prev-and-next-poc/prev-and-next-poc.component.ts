@@ -183,18 +183,31 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   }
 
   private persistDateTime() {
-    this.etaComponent.setDateTimeView(this.etaModel);
-    this.etdComponent.setDateTimeView(this.etdModel);
-
-    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel && this.etdModel) {
-
-      const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
-      this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
-      const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
-      this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
-    } else {
-      this.prevAndNextPocService.setPrevPortOfCallEtd(null);
-      this.prevAndNextPocService.setNextPortOfCallEta(null);
+    if (!this.dateSequenceError && !this.timeSequenceError) {
+      if (this.etdModel) {
+        this.etdComponent.setDateTimeView(this.etdModel);
+        const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
+        this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
+      } else {
+        const etdDateTime: DateTime = {
+          date: null,
+          time: new NgbTime(0, 0, 0)
+        };
+        this.etdComponent.setDateTimeView(etdDateTime);
+        this.prevAndNextPocService.setPrevPortOfCallEtd(null);
+      }
+      if (this.etaModel) {
+        this.etaComponent.setDateTimeView(this.etaModel);
+        const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
+        this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
+      } else {
+        const etaDateTime: DateTime = {
+          date: null,
+          time: new NgbTime(0, 0, 0)
+        };
+        this.etaComponent.setDateTimeView(etaDateTime);
+        this.prevAndNextPocService.setNextPortOfCallEta(null);
+      }
     }
   }
 }
