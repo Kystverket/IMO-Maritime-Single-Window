@@ -20,7 +20,8 @@ namespace IMOMaritimeSingleWindow.Models
         public string RankCode { get; set; }
         public int? PortCallId { get; set; }
         public int? PersonOnBoardTypeId { get; set; }
-
+        public int? GenderId { get; set; }
+        public Gender Gender { get; set; }
         public Country CountryOfBirth { get; set; }
         public Country Nationality { get; set; }
         public PersonOnBoardType PersonOnBoardType { get; set; }

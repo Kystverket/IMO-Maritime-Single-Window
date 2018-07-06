@@ -21,6 +21,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         public virtual DbSet<DpgType> DpgType { get; set; }
         public virtual DbSet<FalShipStores> FalShipStores { get; set; }
+        public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
@@ -405,6 +406,15 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasConstraintName("fal_ship_stores_port_call_id_fkey");
             });
 
+            modelBuilder.Entity<Gender>(entity =>
+            {
+                entity.ToTable("gender");
+
+                entity.Property(e => e.GenderId).HasColumnName("gender_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+            });
+
             modelBuilder.Entity<ImoHazardClass>(entity =>
             {
                 entity.ToTable("imo_hazard_class");
@@ -709,6 +719,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.Surname).HasColumnName("surname");
 
+                entity.Property(e => e.GenderId).HasColumnName("gender_id");
+
                 entity.HasOne(d => d.CountryOfBirth)
                     .WithMany(p => p.PersonOnBoardCountryOfBirth)
                     .HasForeignKey(d => d.CountryOfBirthId)
@@ -732,6 +744,12 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.PortCallId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("person_on_board_port_call_id_fkey");
+
+                entity.HasOne(d => d.Gender)
+                    .WithMany(p => p.PersonOnBoard)
+                    .HasForeignKey(d => d.GenderId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("person_on_board_gender_id_fkey");
             });
 
             modelBuilder.Entity<PersonOnBoardType>(entity =>
