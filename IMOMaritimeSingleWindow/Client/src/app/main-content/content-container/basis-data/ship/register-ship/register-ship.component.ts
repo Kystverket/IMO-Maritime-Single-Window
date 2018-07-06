@@ -15,6 +15,8 @@ const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
 // tslint:disable-next-line:max-line-length
 const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there was an error when trying to save the ship\'s contact information. Please provide this information later.';
+const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
+const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 
 @Component({
   selector: 'app-register-ship',
@@ -66,6 +68,12 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   certificateNumber: number;
   validCertificateDateFormat = true;
 
+  justSelected = true;
+  certificateJustSelected = true;
+  dataIsPristine = true;
+  dataIsPristineText: string;
+  certificateIsPristine = true;
+
 
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(
@@ -101,7 +109,15 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipModel.remark = 'Remark';
   }
 
+  persistData() {
+    this.shipService.setShipOverviewData(this.shipModel);
+  }
+
   ngOnInit() {
+    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
+    this.shipService.dataPristine$.subscribe(data => {
+      this.dataIsPristine = data;
+    });
     this.certificateModel = new CertificateOfRegistryModel();
     this.subscribeToData();
     this.shipService.shipOverviewData$.subscribe(
@@ -172,8 +188,18 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       if (this.shipModel) {
         this.certificateComponent.getService().setCertificateData(this.shipModel.certificateOfRegistry);
+        if (this.certificateJustSelected) {
+          this.certificateComponent.getService().setDataPristine(true);
+          this.certificateJustSelected = false;
+        }
       }
     });
+
+    this.certificateComponent.getService().dataPristine$.subscribe(
+      data => {
+        this.certificateIsPristine = data;
+      }
+    );
   }
 
   subscribeToData() {
@@ -250,6 +276,10 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipService.setShipFlagCodeData(ship.shipFlagCode);
     this.contactService.setContactData(ship.shipContact);
     this.contactSelected = (ship.shipContact != null);
+    if (this.justSelected) {
+      this.shipService.setDataPristine(true);
+      this.justSelected = false;
+    }
   }
 
   selectShipType($event: any) {
@@ -354,6 +384,7 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
         }
       );
     }
+    this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
   }
 
   saveShipContactList(shipContactList: ShipContactModel[]) {

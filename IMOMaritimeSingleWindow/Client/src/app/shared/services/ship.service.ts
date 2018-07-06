@@ -41,6 +41,9 @@ export class ShipService {
   private certificateDataSource = new BehaviorSubject<any>(null);
   certificateData$ = this.certificateDataSource.asObservable();
 
+  private dataPristineSource = new BehaviorSubject<boolean>(true);
+  dataPristine$ = this.dataPristineSource.asObservable();
+
   constructor(
     private http: Http,
     private authRequest: AuthRequest
@@ -60,6 +63,10 @@ export class ShipService {
     this.shipContactListUrl = 'api/shipcontact/list';
   }
 
+  setDataPristine(data: boolean) {
+    this.dataPristineSource.next(data);
+  }
+
   registerShip(newShip: any) {
     const auth_header = this.authRequest.GetHeaders();
     const options = new RequestOptions({ headers: auth_header });
@@ -75,26 +82,32 @@ export class ShipService {
   }
 
   setShipOverviewData(data) {
+    this.dataPristineSource.next(false);
     this.shipOverviewDataSource.next(data);
   }
 
   setOrganizationData(data) {
+    this.dataPristineSource.next(false);
     this.organizationDataSource.next(data);
   }
 
   setCountryData(data) {
+    this.dataPristineSource.next(false);
     this.countryDataSource.next(data);
   }
 
   setShipSearchData(data) {
+    this.dataPristineSource.next(false);
     this.shipSearchDataSource.next(data);
   }
 
   setShipFlagCodeData(data) {
+    this.dataPristineSource.next(false);
     this.shipFlagCodeDataSource.next(data);
   }
 
   setCertificateData(data) {
+    this.dataPristineSource.next(false);
     this.certificateDataSource.next(data);
   }
 

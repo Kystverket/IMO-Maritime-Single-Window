@@ -19,12 +19,20 @@ export class CertificateOfRegistryService {
     private validDateFormatDataSource = new BehaviorSubject<boolean>(null);
     validDateFormatData$ = this.validDateFormatDataSource.asObservable();
 
+    private dataPristineSource = new BehaviorSubject<boolean>(true);
+    dataPristine$ = this.dataPristineSource.asObservable();
+
     setCertificateData(data: any) {
+        this.dataPristineSource.next(false);
         this.certificateDataSource.next(data);
     }
 
     setValidDateFormatData(data: boolean) {
         this.validDateFormatDataSource.next(data);
+    }
+
+    setDataPristine(data: boolean) {
+        this.dataPristineSource.next(data);
     }
 
     // Http
