@@ -28,7 +28,6 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.certificateModel = new CertificateOfRegistryModel();
     this.certificateService.certificateData$.subscribe(data => {
-      console.log(data);
       if (data) {
         this.certificateModel = data;
         if (this.certificateModel.dateOfIssue) {
@@ -72,7 +71,6 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
     });
 
     setTimeout(() => {
-      console.log(this.certificateModel.portLocation);
       if (this.certificateModel.portLocation) {
         this.searchLocationComponent.getService().setLocationData(this.certificateModel.portLocation);
       }

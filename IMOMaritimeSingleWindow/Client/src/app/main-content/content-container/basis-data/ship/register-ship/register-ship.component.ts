@@ -31,7 +31,6 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   shipFlagCodeSelected: boolean;
   organizationSelected: boolean;
   contactSelected: boolean;
-  portLocationSelected: boolean;
   certificateSelected = false;
 
   hullTypeSelected = false;

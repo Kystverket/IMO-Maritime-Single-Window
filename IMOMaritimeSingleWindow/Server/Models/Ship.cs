@@ -42,7 +42,6 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? DateOfKeelLaying { get; set; }
         public int? ImoNo { get; set; }
         public int? MmsiNo { get; set; }
-        public int? NetTonnage { get; set; }
 
         public CertificateOfRegistry CertificateOfRegistry { get; set; }
         public Organization Organization { get; set; }
