@@ -1,0 +1,124 @@
+<app-ssn-card header="Ship Stores List" icon="alcohol.png">
+
+    <form>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group row">
+                    <label for="articleName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Name</label>
+                    <div class="col my-auto">
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
+                            placeholder="Article Name" class="form-control form-control-sm" required name="articleName">
+                    </div>
+                </div>
+                <div *ngIf="articleName.hasError('pattern')" class="alert alert-danger">
+                    <li>
+                        <small>Only letters, numbers and "." allowed.</small>
+                    </li>
+                    <li>
+                        <small>More than one letter required.</small>
+                    </li>
+                </div>
+
+                <div class="form-group row">
+                    <label for="articleCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Article Code</label>
+                    <div class="col my-auto">
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
+                            placeholder="Article Code" class="form-control form-control-sm" name="articleCode">
+                    </div>
+                </div>
+                <div *ngIf="articleCode.hasError('pattern')" class="alert alert-danger">
+                    <li>
+                        <small>Only letters, numbers and "." allowed.</small>
+                    </li>
+                    <li>
+                        <small>More than one letter required.</small>
+                    </li>
+                </div>
+
+                <div class="form-group row">
+                    <label for="locationOnBoard" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Location on Board</label>
+                    <div class="col my-auto">
+                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                            placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard">
+                    </div>
+                </div>
+                <div *ngIf="locationOnBoard.hasError('pattern')" class="alert alert-danger">
+                    <li>
+                        <small>Only letters, numbers and "." allowed.</small>
+                    </li>
+                    <li>
+                        <small>More than one letter required.</small>
+                    </li>
+                </div>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="form-group row">
+                    <label for="quantity" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Quantity</label>
+                    <div class="col my-auto">
+                        <input type="number" required [(ngModel)]="portCallShipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
+                            integerValidator positiveNumberValidator name="quantity">
+                    </div>
+                </div>
+
+                <div *ngIf="quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')" class="alert alert-danger">
+                    <li *ngIf="quantity.hasError('notIntegerError')">
+                        <small>Number of passengers must be an integer.</small>
+                    </li>
+                    <li *ngIf="quantity.hasError('notPositiveNumberError')">
+                        <small>Number of passengers must be a positive number.</small>
+                    </li>
+                </div>
+
+                <div class="form-group row" required>
+                    <label for="measurementType" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Measurement Type</label>
+                    <div class="col my-auto">
+                        <ng-select id="measurementTypes" [items]="measurementTypeList" [(ngModel)]="selectedMeasurementType" name="measurementType"
+                            [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
+                        </ng-select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="locationOnBoardCode" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Location on Board Code</label>
+                    <div class="col my-auto">
+                        <input type="number" required [(ngModel)]="portCallShipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
+                            class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
+                    </div>
+                </div>
+                <div *ngIf="locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')" class="alert alert-danger">
+                    <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
+                        <small>Number of passengers must be an integer.</small>
+                    </li>
+                    <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
+                        <small>Number of passengers must be a positive number.</small>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-lg-12">
+
+        <div class="form-group">
+            <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="persistData()">
+                <span>Submit</span>
+            </button>
+            <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
+                <span>Submit</span>
+            </button>
+        </div>
+
+        <div class="mb-3">
+
+            <div class="table-responsive">
+                <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+                </div>
+                <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
+
+            </div>
+        </div>
+    </div>
+</app-ssn-card>
+
+<app-save-ship-stores></app-save-ship-stores>

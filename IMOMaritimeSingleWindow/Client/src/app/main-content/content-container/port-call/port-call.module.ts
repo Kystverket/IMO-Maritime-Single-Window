@@ -30,6 +30,19 @@ import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+// tslint:disable-next-line:max-line-length
+import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
+import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
+import { ShipStoresComponent } from './registration/forms/ship-stores/ship-stores.component';
+import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
+import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
+import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
+import { PortCallPassengerListService } from '../../../shared/services/port-call-passenger-list.service';
+import { CountryService } from '../../../shared/services/country.service';
+// tslint:disable-next-line:max-line-length
+import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
+import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
 
 @NgModule({
   imports: [
@@ -42,7 +55,7 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     NgSelectModule,
     SharedModule,
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent],
   declarations: [
     ButtonRowComponent,
     ClearanceComponent,
@@ -64,9 +77,14 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     SaveDetailsComponent,
     NewPortCallDraftComponent,
     ClearanceRowComponent,
-    PrevAndNextPocComponent,
+    ShipStoresComponent,
+    DeleteButtonComponent,
+    ShipLocationTimeComponent,
     ViewPortCallComponent,
-    ShipLocationTimeComponent
+    SaveShipStoresComponent,
+    PassengerListComponent,
+    FindPortOfEmbarkationComponent,
+    SearchPassengerPortComponent,
   ],
   exports: [
     ClearanceComponent,
@@ -75,6 +93,6 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PrevAndNextPocService]
+  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService]
 })
 export class PortCallModule {}

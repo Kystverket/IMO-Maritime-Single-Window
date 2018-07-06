@@ -7,6 +7,7 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public Location()
         {
+            CertificateOfRegistry = new HashSet<CertificateOfRegistry>();
             Department = new HashSet<Department>();
             CertificateOfRegistry = new HashSet<CertificateOfRegistry>();
             PortCallLocation = new HashSet<PortCall>();
