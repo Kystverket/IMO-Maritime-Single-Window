@@ -26,6 +26,11 @@ export class SavePrevAndNextPocComponent implements OnInit {
   dataIsPristine = true;
   dataIsPristineText: string;
 
+  prevLocationFound: boolean;
+  nextLocationFound: boolean;
+  prevEtdFound: boolean;
+  nextEtaFound: boolean;
+
   constructor(
     private portCallService: PortCallService,
     private prevAndNextPocService: PrevAndNextPocService
@@ -42,12 +47,14 @@ export class SavePrevAndNextPocComponent implements OnInit {
 
     this.prevAndNextPocService.prevPortOfCallData$.subscribe(
       prevLocationData => {
+        this.prevLocationFound = (prevLocationData != null);
         this.prevLocationModel = prevLocationData;
       }
     );
 
     this.prevAndNextPocService.nextPortOfCallData$.subscribe(
       nextLocationData => {
+        this.nextLocationFound = (nextLocationData != null);
         this.nextLocationModel = nextLocationData;
       }
     );
@@ -55,10 +62,14 @@ export class SavePrevAndNextPocComponent implements OnInit {
     this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       etdData => {
         if (etdData) {
+          this.prevEtdFound = true;
           this.etdModel = {
             date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
             time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
           };
+        } else {
+          this.prevEtdFound = false;
+          this.etdModel = null;
         }
       }
     );
@@ -66,10 +77,14 @@ export class SavePrevAndNextPocComponent implements OnInit {
     this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       etaData => {
         if (etaData) {
+          this.nextEtaFound = true;
           this.etaModel = {
             date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
             time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
           };
+        } else {
+          this.nextEtaFound = false;
+          this.etaModel = null;
         }
       }
     );
