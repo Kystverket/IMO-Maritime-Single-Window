@@ -30,10 +30,17 @@ import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+// tslint:disable-next-line:max-line-length
+import { ShipStoresComponent } from 'app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component';
+import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
-import { DeleteButtonComponent } from './registration/forms/ship-stores/delete-button/delete-button.component';
-import { ShipStoresComponent } from './registration/forms/ship-stores/ship-stores.component';
+import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
+import { PortCallPassengerListService } from '../../../shared/services/port-call-passenger-list.service';
+import { CountryService } from '../../../shared/services/country.service';
+// tslint:disable-next-line:max-line-length
+import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
+import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 
 @NgModule({
@@ -75,7 +82,9 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     PrevAndNextPocComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
-    ShipLocationTimeComponent,
+    PassengerListComponent,
+    FindPortOfEmbarkationComponent,
+    SearchPassengerPortComponent,
     SavePrevAndNextPocComponent
   ],
   exports: [
@@ -85,6 +94,7 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     RegistrationComponent,
     ViewPortCallComponent,
   ],
+  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService]
   providers: [PortCallService, PrevAndNextPocService, PortCallShipStoresService]
 })
 export class PortCallModule { }

@@ -12,7 +12,7 @@ import { PortCallOverviewService } from 'app/shared/services/port-call-overview.
   styleUrls: ['./port-call.component.css']
 })
 export class PortCallComponent implements OnInit {
-  selectedComponent: string;
+  selectedComponent: 'Passenger List';
   permissions = PortCallClaims.portCallPermissions;
   constructor(
     private accountService: AccountService,

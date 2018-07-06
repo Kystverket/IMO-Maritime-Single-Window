@@ -158,19 +158,12 @@ export class PortCallService {
   setShipData(data) {
     this.shipDataSource.next(data);
   }
-  // Location
   setLocationData(data) {
-    // NEW
     this.locationDataSource.next(data);
   }
-  // ETA / ETD
-
   setEtaEtdData(data) {
-    // NEW
     this.etaEtdDataSource.next(data);
   }
-  // Status
-
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
@@ -307,7 +300,6 @@ export class PortCallService {
 
   // SAVE DETAILS
   saveDetails(details: any, purposes: any, otherName: string) {
-    // NEW
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
     this.http
@@ -319,7 +311,6 @@ export class PortCallService {
       });
   }
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
-    // NEW
     if (purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http

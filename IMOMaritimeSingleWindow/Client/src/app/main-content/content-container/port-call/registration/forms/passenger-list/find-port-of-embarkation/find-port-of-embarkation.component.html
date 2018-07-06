@@ -1,0 +1,35 @@
+<div *ngIf="!locationFound">
+  <app-search-passenger-port></app-search-passenger-port>
+</div>
+<div class="form-group row" *ngIf="locationFound">
+  <label for="search-location" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Embarkation</label>
+  <div class="col-7">
+    <input id="search-location" type="text" class="form-control form-control-sm mx-auto" readonly="readonly" [(ngModel)]="locationProperties.LOCATION_NAME.data"
+    />
+  </div>
+  <div>
+    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove port" (click)="deselectLocation()">
+      <img height="16px" src="assets/images/VoyageIcons/128x128/white/cancel.png">
+    </button>
+  </div>
+</div>
+
+<div *ngIf="locationFound" class="text-center">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <th *ngIf="locationFlag" class="bg-ssn text-ssn">Flag</th>
+        <th *ngFor="let entry of locationInfo" class="bg-ssn text-ssn">{{ entry.description }}</th>
+      </thead>
+      <tbody>
+        <td *ngIf="locationFlag">
+          <img src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" height="20px">
+        </td>
+        <td *ngFor="let entry of locationInfo">
+          <div *ngIf="entry.data">{{ entry.data }}</div>
+          <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+        </td>
+      </tbody>
+    </table>
+  </div>
+</div>
