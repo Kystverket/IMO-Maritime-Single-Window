@@ -180,7 +180,7 @@ export class PassengerListComponent implements OnInit {
       familyName: 'Dalan',
       givenName: 'Camilla',
       nationality: 'Norwegian',
-      dateOfBirth: 130794,
+      dateOfBirth: new Date(),
       placeOfBirth: 'Oslo',
       countryOfBirth: 'Norway',
       natureOfIdentityDoc: 'Passport',
@@ -199,7 +199,7 @@ export class PassengerListComponent implements OnInit {
     mockFillForm() {
       this.passengerModel.familyName = 'Dalan';
       this.passengerModel.givenName = 'Camilla';
-      this.passengerModel.dateOfBirth = 130794;
+      this.passengerModel.dateOfBirth = new Date();
       this.passengerModel.placeOfBirth = 'Oslo';
       this.passengerModel.numberOfIdentityDoc = 4298384;
       this.passengerModel.permitNumber = 4232;

@@ -28,7 +28,7 @@ export class FindNationalityComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.passengerService.nationalityModelData.subscribe(countryData => {
+      this.passengerService.nationalityModelData$.subscribe(countryData => {
         if (countryData) {
           this.nationalityModel = countryData;
           this.nationalityFound = true;

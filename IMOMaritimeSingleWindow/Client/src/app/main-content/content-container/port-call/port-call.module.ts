@@ -45,6 +45,7 @@ import { FindPortOfDisembarkationComponent } from './registration/forms/passenge
 // tslint:disable-next-line:max-line-length
 import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { FindNationalityComponent } from './registration/forms/passenger-list/find-nationality/find-nationality.component';
+import { DateOfBirthComponent } from './registration/forms/passenger-list/date-of-birth/date-of-birth.component';
 
 @NgModule({
   imports: [
@@ -91,6 +92,7 @@ import { FindNationalityComponent } from './registration/forms/passenger-list/fi
     FindPortOfDisembarkationComponent,
     FindPortOfEmbarkationComponent,
     FindNationalityComponent,
+    DateOfBirthComponent,
   ],
   exports: [
     ClearanceComponent,
@@ -99,6 +101,11 @@ import { FindNationalityComponent } from './registration/forms/passenger-list/fi
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService]
+  providers: [
+    PortCallService,
+    PortCallShipStoresService,
+    PortCallPassengerListService,
+    CountryService
+  ]
 })
 export class PortCallModule {}

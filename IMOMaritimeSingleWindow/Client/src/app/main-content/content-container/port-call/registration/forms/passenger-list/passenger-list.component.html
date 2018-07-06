@@ -93,22 +93,7 @@
           </li>
         </div>
 
-
-        <div class="form-group row">
-          <label for="dateOfBirth" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Date of Birth</label>
-          <div class="col my-auto">
-            <input type="number" required [(ngModel)]="passengerModel.dateOfBirth" placeholder="Date of Birth" class="form-control form-control-sm"
-              name="dateOfBirth" integerValidator positiveNumberValidator>
-          </div>
-        </div>
-        <div class="alert alert-danger" *ngIf="formValid">
-          <li>
-            <small>Number of passengers must be an integer.</small>
-          </li>
-          <li>
-            <small>Number of passengers must be a positive number.</small>
-          </li>
-        </div>
+        <app-date-of-birth></app-date-of-birth>
 
         <app-find-country-of-birth [label]="'Country of Birth'"></app-find-country-of-birth>
 

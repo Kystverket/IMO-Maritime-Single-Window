@@ -28,7 +28,7 @@ export class FindCountryOfBirthComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.passengerService.countryOfBirthModelData.subscribe(countryData => {
+      this.passengerService.countryOfBirthModelData$.subscribe(countryData => {
         if (countryData) {
           this.countryOfBirthModel = countryData;
           this.countryOfBirthFound = true;

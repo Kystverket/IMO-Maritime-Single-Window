@@ -29,10 +29,13 @@ export class PortCallPassengerListService {
   disembarkationModelData$ = this.disembarkationModelDataSource.asObservable();
 
   private countryOfBirthModelDataSource = new BehaviorSubject<any>(null);
-  countryOfBirthModelData = this.countryOfBirthModelDataSource.asObservable();
+  countryOfBirthModelData$ = this.countryOfBirthModelDataSource.asObservable();
 
   private nationalityModelDataSource = new BehaviorSubject<any>(null);
-  nationalityModelData = this.nationalityModelDataSource.asObservable();
+  nationalityModelData$ = this.nationalityModelDataSource.asObservable();
+
+  private dateOfBirthModelDataSource = new BehaviorSubject<any>(null);
+  dateOfBirthData$ = this.dateOfBirthModelDataSource.asObservable();
 
   setPassengersList(data) {
     this.passengerListSource.next(data);
@@ -61,7 +64,6 @@ export class PortCallPassengerListService {
     this.disembarkationModelDataSource.next(tempPortModel);
     const tempPassengerModel = this.passengerModelSource.getValue();
     tempPassengerModel.portOfDisembarkation = tempPortModel;
-    console.log(tempPassengerModel);
     this.setPassengerModel(tempPassengerModel);
   }
 
@@ -79,8 +81,30 @@ export class PortCallPassengerListService {
     this.setPassengerModel(tempPassengerModel);
   }
 
+  setDateOfBirth(data) {
+    const dateOfBirth = this.getDateFormat(data);
+    this.dateOfBirthModelDataSource.next(dateOfBirth);
+    const tempPassengerModel = this.passengerModelSource.getValue();
+    tempPassengerModel.dateOfBirth = dateOfBirth;
+    this.setPassengerModel(tempPassengerModel);
+  }
+
   setPassengerModel(data) {
     this.passengerModelSource.next(data);
+  }
+
+  getDateFormat(date) {
+    const dateString = date.year + '-' + date.month + '-' + date.day;
+    return new Date(dateString);
+  }
+
+  getNgbDateFormat(date) {
+    const newDate = new Date(date);
+    return {
+      year: newDate.getFullYear(),
+      month: newDate.getMonth() + 1,
+      day: newDate.getDate()
+    };
   }
 
   deletePassengerEntry(data) {
@@ -157,4 +181,5 @@ export class PortCallPassengerListService {
       return null;
     }
   }
+
 }
