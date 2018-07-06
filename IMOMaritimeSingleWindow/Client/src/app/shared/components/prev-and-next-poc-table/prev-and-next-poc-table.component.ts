@@ -13,15 +13,17 @@ export class PrevAndNextPocTableComponent implements OnInit {
 
   prevLocationFlag: string;
   nextLocationFlag: string;
-  prevLocationTimeProperties = PrevLocationTimeProperties.PROPERTIES;
-  nextLocationTimeProperties = NextLocationTimeProperties.PROPERTIES;
+  PrevLocationTimeProperties = new PrevLocationTimeProperties();
+  NextLocationTimeProperties = new NextLocationTimeProperties();
+  prevLocationTimeProperties: any;
+  nextLocationTimeProperties: any;
   prevLocationTimeInfo: any[] = [];
   nextLocationTimeInfo: any[] = [];
 
   constructor(private prevAndNextPocService: PrevAndNextPocService) { }
   ngOnInit() {
-    this.prevLocationTimeProperties = PrevLocationTimeProperties.PROPERTIES;
-    this.nextLocationTimeProperties = NextLocationTimeProperties.PROPERTIES;
+    this.prevLocationTimeProperties = this.PrevLocationTimeProperties.getProperties();
+    this.nextLocationTimeProperties = this.NextLocationTimeProperties.getProperties();
 
     this.prevAndNextPocService.prevPortOfCallData$.subscribe(prevPocResult => {
       if (prevPocResult) {
@@ -32,6 +34,8 @@ export class PrevAndNextPocTableComponent implements OnInit {
             this.prevLocationTimeProperties.ETD.data = this.dateTimeFormat(dateTimeResult);
           }
         });
+      } else {
+        this.prevLocationTimeProperties = this.PrevLocationTimeProperties.getProperties();
       }
       this.prevLocationTimeInfo = Object.values(this.prevLocationTimeProperties);
     });
@@ -45,6 +49,8 @@ export class PrevAndNextPocTableComponent implements OnInit {
             this.nextLocationTimeProperties.ETA.data = this.dateTimeFormat(dateTimeResult);
           }
         });
+      } else {
+        this.nextLocationTimeProperties = this.NextLocationTimeProperties.getProperties();
       }
       this.nextLocationTimeInfo = Object.values(this.nextLocationTimeProperties);
     });
