@@ -85,7 +85,7 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     private organizationService: OrganizationService,
   ) { }
 
-  // for development purposes, remove before prod
+  // for testing purposes, remove HTML button in prod
   setFast() {
     this.shipModel.name = 'TJOHEI';
     this.shipModel.callSign = 'tjo123';

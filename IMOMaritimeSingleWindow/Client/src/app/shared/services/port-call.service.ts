@@ -280,7 +280,6 @@ export class PortCallService {
         updatedPortCallData.nextLocationEta = nextEta;
         this.updatePortCall(updatedPortCallData).subscribe(
           result => {
-            console.log(result);
             this.prevAndNextPocService.dataIsPristine.next(true);
           },
           error => {
