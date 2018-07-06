@@ -6,7 +6,11 @@ import { PassengerModel } from '../models/port-call-passenger-model';
 @Injectable()
 export class PortCallPassengerListService {
 
-  constructor() { }
+  personOnBoardListUrl: string;
+
+  constructor(private http: Http, private countryService: CountryService) {
+    this.personOnBoardListUrl = 'api/personOnBoard/list';
+  }
 
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
@@ -21,6 +25,17 @@ export class PortCallPassengerListService {
 
   private passengerModelSource = new BehaviorSubject<PassengerModel>(new PassengerModel());
   passengerModel$ = this.passengerModelSource.asObservable();
+
+  // Http
+  registerPassengerList(passengerList: any[]) {
+    const uri = this.personOnBoardListUrl;
+    return this.http.post(uri, passengerList).map(res => res.json());
+  }
+
+  updatePassengerList(passengerList: any[]) {
+    const uri = this.personOnBoardListUrl;
+    return this.http.put(uri, passengerList).map(res => res.json());
+  }
 
   private embarkationModelDataSource = new BehaviorSubject<any>(null);
   embarkationModelData$ = this.embarkationModelDataSource.asObservable();
