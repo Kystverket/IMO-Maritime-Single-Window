@@ -1,12 +1,13 @@
+import { IdentityDocumentTypeModel } from './identity-document-type-model';
 
 export class PassengerModel {
     passengerId: number;
     familyName: string;
     givenName: string;
-    nationality: string; // will have to change
+    nationality: any; // will have to change
     dateOfBirth: Date;
     placeOfBirth: string;
-    countryOfBirth: string;
+    countryOfBirth: any;
     natureOfIdentityDoc: string; // natureOfIdentityDoc: IdentityDocumentTypeModel;
     numberOfIdentityDoc: number;
     permitNumber: number;

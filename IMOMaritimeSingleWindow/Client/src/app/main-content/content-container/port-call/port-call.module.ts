@@ -46,6 +46,7 @@ import { FindPortOfDisembarkationComponent } from './registration/forms/passenge
 import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { FindNationalityComponent } from './registration/forms/passenger-list/find-nationality/find-nationality.component';
 import { DateOfBirthComponent } from './registration/forms/passenger-list/date-of-birth/date-of-birth.component';
+import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 
 @NgModule({
   imports: [
@@ -93,6 +94,7 @@ import { DateOfBirthComponent } from './registration/forms/passenger-list/date-o
     FindPortOfEmbarkationComponent,
     FindNationalityComponent,
     DateOfBirthComponent,
+    SavePassengerListComponent,
   ],
   exports: [
     ClearanceComponent,

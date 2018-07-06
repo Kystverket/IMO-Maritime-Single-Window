@@ -10,6 +10,7 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-button-row',
@@ -37,6 +38,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private passengerListService: PortCallPassengerListService,
     private modalService: NgbModal
   ) { }
 
@@ -150,6 +152,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       data => {
         if (data) {
           this.portCallService.setPortCall(data);
+          if (data.portCall.personOnBoard) {
+            const passengerList = data.portCall.personOnBoard.filter(p => p.personOnBoardType.name === 'Passenger');
+            this.passengerListService.setPassengersList(passengerList);
+          }
           this.setPurpose(content);
         }
       }

@@ -34,7 +34,12 @@ export class PassengerListComponent implements OnInit {
   passengerModel: PassengerModel = new PassengerModel();
   listIsPristine = true;
 
-  countryList: string[] = ['Norway', 'Sweeden', 'Australia'];
+  booleanList: string[] = ['Yes', 'No'];
+  booleanModel = {
+    'Yes': true,
+    'No': false
+  };
+  formTransit: boolean = null;
 
   formValid = false;
 
@@ -101,8 +106,6 @@ export class PassengerListComponent implements OnInit {
     }
   };
 
-  countries = ['Norway', 'Sweden'];
-
   constructor(
     private passengerListService: PortCallPassengerListService
   ) { }
@@ -112,7 +115,9 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.passengerList$.subscribe(list => {
       if (list) {
         this.passengerList = list;
+        console.log(list);
         this.passengerListDataSource.load(list);
+        // this.makeSmartTable(list);
       }
     });
 
@@ -139,7 +144,6 @@ export class PassengerListComponent implements OnInit {
 
     // Update values in service
     this.passengerListService.setPassengerModel(this.passengerModel);
-    console.log('In addPassenger(): ' + JSON.stringify(this.passengerModel));
     this.passengerListService.setPassengersList(
       this.passengerList
     );
@@ -162,7 +166,6 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
   }
 
-
   selectNationality($event) {
     if ($event) {
       this.passengerModel.nationality = $event.name;
@@ -175,6 +178,40 @@ export class PassengerListComponent implements OnInit {
     this.passengerModel.countryOfBirth = $event.name;
   }
 
+  selectTransit($event) {
+    this.formTransit = $event;
+    Object.keys(this.booleanModel).forEach(key => {
+      if (key === $event) {
+        this.passengerModel.transit = this.booleanModel[key];
+        return;
+      }
+    });
+  }
+
+  makeSmartTable(list) {
+    list.forEach(passenger => {
+      if (passenger) {
+        console.log(passenger.nationality);
+        if (passenger.nationality) {
+          passenger.nationality = passenger.nationality.name;
+        }
+        passenger.countryOfBirth = passenger.countryOfBirth.name;
+        passenger.dateOfBirth = passenger.dateOfBirth.toDateString();
+        passenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
+        passenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
+        Object.keys(this.booleanModel).forEach(key => {
+          if (this.booleanModel[key] === passenger.transit) {
+            passenger.transit = key;
+            console.log(passenger.transit);
+          }
+        });
+      }
+      // missing nature of identity doc
+      // gender
+      this.passengerListDataSource.load(list);
+    });
+  }
+
   addMockData() {
     const mockData = {
       familyName: 'Dalan',
@@ -185,7 +222,7 @@ export class PassengerListComponent implements OnInit {
       countryOfBirth: 'Norway',
       natureOfIdentityDoc: 'Passport',
       numberOfIdentityDoc: 39572824,
-      permitNumber: null,
+      permitNumber: 4252,
       portOfEmbarkation: 'Trondheim',
       portOfDisembarkation: 'Oslo',
       transit: true,

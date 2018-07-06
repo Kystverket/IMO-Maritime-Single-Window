@@ -45,7 +45,7 @@
         <div class="form-group row">
           <label for="natureOfIdentityDoc" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Nature of Identity Document</label>
           <div class="col my-auto">
-            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.natureOfIdentityDoc" name="natureOfIdentityDoc"
+            <ng-select class="ng-select-placeholder-size" [items]="booleanList" [(ngModel)]="passengerModel.natureOfIdentityDoc" name="natureOfIdentityDoc"
               [closeOnSelect]="true" bindLabel="name" placeholder="Nature of Identity Document" (change)="selectNationality($event)">
             </ng-select>
           </div>
@@ -70,8 +70,8 @@
         <div class="form-group row" required>
           <label for="transit" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Transit</label>
           <div class="col my-auto">
-            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.transit" name="transit" [closeOnSelect]="true"
-              bindLabel="name" placeholder="Transit" (change)="selectNationality($event)">
+            <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="formTransit" name="transit" [closeOnSelect]="true"
+              bindLabel="name" placeholder="Transit" (change)="selectTransit($event)">
             </ng-select>
           </div>
         </div>
@@ -179,3 +179,5 @@
     </div>
   </div>
 </app-ssn-card>
+
+<app-save-passenger-list></app-save-passenger-list>

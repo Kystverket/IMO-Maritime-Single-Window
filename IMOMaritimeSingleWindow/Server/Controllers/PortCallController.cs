@@ -77,6 +77,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.OrganizationPortCall)
+            .Include(pc => pc.PersonOnBoard)
+            .ThenInclude(pob => pob.PersonOnBoardType)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
@@ -121,7 +123,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 case Constants.Strings.UserRoles.Admin:
                     portCallList = _context.PortCall.ToList();
                     break;
-                // Agent                    
+                // Agent
                 case Constants.Strings.UserRoles.Agent:
                     portCallList = _context.OrganizationPortCall.Where(opc => opc.OrganizationId == dbUser.OrganizationId)
                                                                 .Select(opc => opc.PortCall)

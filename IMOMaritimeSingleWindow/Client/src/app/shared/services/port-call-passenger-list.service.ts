@@ -53,6 +53,8 @@ export class PortCallPassengerListService {
     return this.http.put(uri, passengerList).map(res => res.json());
   }
 
+  // Setters
+
   setPassengersList(data) {
     this.passengerListSource.next(data);
   }
@@ -109,20 +111,6 @@ export class PortCallPassengerListService {
     this.passengerModelSource.next(data);
   }
 
-  getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
-    return new Date(dateString);
-  }
-
-  getNgbDateFormat(date) {
-    const newDate = new Date(date);
-    return {
-      year: newDate.getFullYear(),
-      month: newDate.getMonth() + 1,
-      day: newDate.getDay()
-    };
-  }
-
   deletePassengerEntry(data) {
     let copyPassengerList = this.passengerListSource.getValue();
     data = JSON.stringify(this.createComparableObject(data));
@@ -139,6 +127,22 @@ export class PortCallPassengerListService {
     this.setPassengersList(copyPassengerList);
 
     this.setDataIsPristine(false);
+  }
+
+  // Helper methods
+
+  getDateFormat(date) {
+    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
+    return new Date(dateString);
+  }
+
+  getNgbDateFormat(date) {
+    const newDate = new Date(date);
+    return {
+      year: newDate.getFullYear(),
+      month: newDate.getMonth() + 1,
+      day: newDate.getDate()
+    };
   }
 
   createComparableObject(item) {
