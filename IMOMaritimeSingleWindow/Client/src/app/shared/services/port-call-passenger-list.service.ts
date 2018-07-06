@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { PassengerModel } from '../models/port-call-passenger-model';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class PortCallPassengerListService {
 
   personOnBoardListUrl: string;
 
-  constructor(private http: Http, private countryService: CountryService) {
+  constructor(private http: Http) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
   }
 
@@ -26,17 +27,6 @@ export class PortCallPassengerListService {
   private passengerModelSource = new BehaviorSubject<PassengerModel>(new PassengerModel());
   passengerModel$ = this.passengerModelSource.asObservable();
 
-  // Http
-  registerPassengerList(passengerList: any[]) {
-    const uri = this.personOnBoardListUrl;
-    return this.http.post(uri, passengerList).map(res => res.json());
-  }
-
-  updatePassengerList(passengerList: any[]) {
-    const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, passengerList).map(res => res.json());
-  }
-
   private embarkationModelDataSource = new BehaviorSubject<any>(null);
   embarkationModelData$ = this.embarkationModelDataSource.asObservable();
 
@@ -51,6 +41,17 @@ export class PortCallPassengerListService {
 
   private dateOfBirthModelDataSource = new BehaviorSubject<any>(null);
   dateOfBirthData$ = this.dateOfBirthModelDataSource.asObservable();
+
+  // Http
+  registerPassengerList(passengerList: any[]) {
+    const uri = this.personOnBoardListUrl;
+    return this.http.post(uri, passengerList).map(res => res.json());
+  }
+
+  updatePassengerList(passengerList: any[]) {
+    const uri = this.personOnBoardListUrl;
+    return this.http.put(uri, passengerList).map(res => res.json());
+  }
 
   setPassengersList(data) {
     this.passengerListSource.next(data);
