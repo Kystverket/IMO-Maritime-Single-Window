@@ -1,0 +1,25 @@
+<app-table-card header="Previous Port of Call Information" icon="location.png">
+  <tbody>
+    <tr>
+      <td *ngFor="let entry of prevLocationTimeInfo" class="no-wrap px-1 mx-1">
+        <tr *ngIf="entry.data">
+          <small>{{ entry.description }}:</small>
+        </tr>
+        <tr *ngIf="entry.data">{{ entry.data }}</tr>
+      </td>
+    </tr>
+  </tbody>
+</app-table-card>
+
+<app-table-card header="Next Port of Call Information" icon="location.png">
+  <tbody>
+    <tr>
+      <td *ngFor="let entry of nextLocationTimeInfo" class="no-wrap px-1 mx-1">
+        <tr *ngIf="entry.data">
+          <small>{{ entry.description }}:</small>
+        </tr>
+        <tr *ngIf="entry.data">{{ entry.data }}</tr>
+      </td>
+    </tr>
+  </tbody>
+</app-table-card>

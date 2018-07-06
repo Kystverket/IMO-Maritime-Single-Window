@@ -62,7 +62,7 @@
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
-      <div *ngIf="!portCallCanBeActivated" class="col">
+      <div *ngIf="!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)" class="col">
         <button class="btn btn-ssn" disabled>
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>

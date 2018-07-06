@@ -7,6 +7,10 @@ import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model'
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { LocationModel } from 'app/shared/models/location-model';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 const RESULT_SUCCES =
   'This port call has been activated, and is now awaiting clearance.';
@@ -30,6 +34,12 @@ export class ActivatePortCallComponent implements OnInit {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
 
+  prevLocationModel: LocationModel;
+  nextLocationModel: LocationModel;
+  etdModel: DateTime = null;
+  etaModel: DateTime = null;
+  portCallId: number;
+
   portCallStatus: string;
   portCallIsActive = false;
   portCallIsDraft = false;
@@ -39,14 +49,52 @@ export class ActivatePortCallComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private prevAndNextPortCallService: PrevAndNextPocService,
+    private prevAndNextPocService: PrevAndNextPocService,
     private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+    this.prevAndNextPocService.dataIsPristine$.subscribe(
       pristineData => {
         this.prevAndNextPortCallDataIsPristine = pristineData;
+      }
+    );
+
+    this.prevAndNextPocService.prevPortOfCallData$.subscribe(
+      prevLocationData => {
+        this.prevLocationModel = prevLocationData;
+      }
+    );
+
+    this.prevAndNextPocService.nextPortOfCallData$.subscribe(
+      nextLocationData => {
+        this.nextLocationModel = nextLocationData;
+      }
+    );
+
+    this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
+      etdData => {
+        if (etdData) {
+          this.etdModel = {
+            date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
+            time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
+          };
+        } else {
+          this.etdModel = null;
+        }
+      }
+    );
+
+    this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
+      etaData => {
+        if (etaData) {
+          this.etaModel = {
+            date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
+            time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
+          };
+        } else {
+          this.etaModel = null;
+        }
       }
     );
     this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
@@ -56,6 +104,7 @@ export class ActivatePortCallComponent implements OnInit {
       detailsIdentificationData => {
         if (detailsIdentificationData) {
           this.detailsIdentificationModel = detailsIdentificationData;
+          this.portCallId = detailsIdentificationData.portCallId;
         }
       }
     );
@@ -101,8 +150,9 @@ export class ActivatePortCallComponent implements OnInit {
   }
 
   savePrevAndNextPortCall() {
-    alert('Sorry, not yet implemented');
-    // this.portCallService.savePrevAndNextPortCall();
+    const prevDate = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
+    const nextDate = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
+    this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
   }
 
   saveDetails() {

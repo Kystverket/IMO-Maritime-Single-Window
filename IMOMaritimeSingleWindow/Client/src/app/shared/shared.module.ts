@@ -34,6 +34,7 @@ import { OrganizationButtonRowComponent } from 'app/shared/components/organizati
 import { DbConnectionService } from 'app/shared/services/db-connection.service';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
+import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-table/prev-and-next-poc-table.component';
 
 @NgModule({
   imports: [
@@ -69,6 +70,7 @@ import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
     TableCardComponent,
     DateTimePickerComponent,
     SsnTableComponent,
+    PrevAndNextPocTableComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -90,7 +92,8 @@ import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
     SsnCardComponent,
     TableCardComponent,
     DateTimePickerComponent,
-    SsnTableComponent
+    SsnTableComponent,
+    PrevAndNextPocTableComponent
   ],
   providers: [
     ContactService,
