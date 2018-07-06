@@ -1,3 +1,5 @@
+import { LocationModel } from 'app/shared/models/location-model';
+
 export class PortCallModel {
   portCallId: number;
   nextLocationId: number;
@@ -6,12 +8,14 @@ export class PortCallModel {
   shipId: number;
   portCallStatusId: number;
   remark: string;
+  previousLocation: LocationModel;
   previousLocationEtd: Date;
   previousLocationAtd: Date;
   locationEtd: Date;
   locationAtd: Date;
   locationEta: Date;
   locationAta: Date;
+  nextLocation: LocationModel;
   nextLocationEta: Date;
   nextLocationAta: Date;
   userId: number;

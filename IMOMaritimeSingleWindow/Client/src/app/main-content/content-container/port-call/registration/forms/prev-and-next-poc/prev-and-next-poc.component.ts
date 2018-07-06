@@ -29,6 +29,9 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   etdModel: DateTime;
   etaModel: DateTime;
 
+  dateSequenceError = false;
+  timeSequenceError = false;
+
   prevLocationData = new LocationProperties().getPropertyList();
   nextLocationData = new LocationProperties().getPropertyList();
 
@@ -70,6 +73,8 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             date: new NgbDate(data.getFullYear(), data.getMonth() + 1, data.getDate()),
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
+        } else {
+          this.etdModel = null;
         }
       }
     );
@@ -81,6 +86,8 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             date: new NgbDate(data.getFullYear(), data.getMonth() + 1, data.getDate()),
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
+        } else {
+          this.etaModel = null;
         }
       }
     );
@@ -115,6 +122,7 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           const dateTime: DateTime = etdResult;
           const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
           this.prevAndNextPocService.setPrevPortOfCallEtd(date);
+          this.validateDateTime();
         }
       }
     );
@@ -125,6 +133,7 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           const dateTime: DateTime = etaResult;
           const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
           this.prevAndNextPocService.setNextPortOfCallEta(date);
+          this.validateDateTime();
         }
       }
     );
@@ -150,5 +159,42 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   deselectNextLocation() {
     this.prevAndNextPocService.setNextPortOfCall(null);
     this.nextPortOfCallComponent.getService().clearLocationSearch();
+  }
+
+  private validateDateTime() {
+    if (this.etaModel && this.etdModel) {
+      const etaDate = new NgbDate(this.etaModel.date.year, this.etaModel.date.month, this.etaModel.date.day);
+      const etdDate = new NgbDate(this.etdModel.date.year, this.etdModel.date.month, this.etdModel.date.day);
+
+      this.dateSequenceError = etdDate.after(etaDate);
+
+      if (etdDate.equals(etaDate)) {
+        this.timeSequenceError = this.etdModel.time.hour > this.etaModel.time.hour
+          || (this.etdModel.time.hour === this.etaModel.time.hour
+            && this.etdModel.time.minute >= this.etaModel.time.minute);
+      } else {
+        this.timeSequenceError = false;
+      }
+    } else {
+      this.dateSequenceError = false;
+      this.timeSequenceError = false;
+    }
+    this.persistDateTime();
+  }
+
+  private persistDateTime() {
+    this.etaComponent.setDateTimeView(this.etaModel);
+    this.etdComponent.setDateTimeView(this.etdModel);
+
+    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel && this.etdModel) {
+
+      const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
+      this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
+      const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
+      this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
+    } else {
+      this.prevAndNextPocService.setPrevPortOfCallEtd(null);
+      this.prevAndNextPocService.setNextPortOfCallEta(null);
+    }
   }
 }

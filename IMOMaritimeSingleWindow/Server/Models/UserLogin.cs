@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
@@ -16,3 +16,4 @@ namespace IMOMaritimeSingleWindow.Models
         public User User { get; set; }
     }
 }
+

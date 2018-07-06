@@ -16,7 +16,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int? PortLocationId { get; set; }
         public string OwnerName { get; set; }
 
-        public Location CertificateOfRegistryNavigation { get; set; }
+        public Location PortLocation { get; set; }
         public ICollection<Ship> Ship { get; set; }
     }
 }
