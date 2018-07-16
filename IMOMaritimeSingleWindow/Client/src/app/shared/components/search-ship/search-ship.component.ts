@@ -4,7 +4,6 @@ import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
 import { ShipSearchService } from './ship-search.service';
-import { ShipService } from '../../services/ship.service';
 
 @Component({
   selector: 'app-search-ship',
@@ -16,15 +15,14 @@ export class SearchShipComponent implements OnInit {
 
   @Input() showDropdown = true;
 
-  @Output() shipSearchResult = new EventEmitter<any>();
   @Output() shipResult = new EventEmitter<any>();
+  @Output() shipSearchResult = new EventEmitter<any>();
 
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
   resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN;
 
   shipModel: any;
-  searchText: any;
-  shipSelected = false;
+  shipSelected: boolean;
 
   searching = false;
   searchFailed = false;
@@ -32,9 +30,11 @@ export class SearchShipComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private shipService: ShipService, private shipSearchService: ShipSearchService) { }
+  constructor(private shipSearchService: ShipSearchService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.shipSelected = false;
+  }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -76,18 +76,13 @@ export class SearchShipComponent implements OnInit {
     this.shipSelected = true;
     this.shipModel = $event.item;
 
-    this.shipService.getShip($event.item.shipId).subscribe(
+    this.shipSearchService.getShip($event.item.shipId).subscribe(
       result => {
         if (result) {
           this.shipResult.emit(result);
         }
       }
     );
-  }
-
-  deselectShip() {
-    this.shipSelected = false;
-    this.shipResult.emit(null);
   }
 
 }

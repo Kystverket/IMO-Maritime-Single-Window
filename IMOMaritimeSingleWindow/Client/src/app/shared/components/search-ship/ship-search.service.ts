@@ -8,10 +8,12 @@ import { Observable } from 'rxjs/Observable';
 export class ShipSearchService {
   private searchService: SearchService;
   private searchUrl: string;
+  private shipUrl: string;
 
   constructor(private http: Http) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/ship/search';
+    this.shipUrl = 'api/ship';
   }
 
   search(term: string, amount = 10) {
@@ -19,5 +21,11 @@ export class ShipSearchService {
       return Observable.of([]);
     }
     return this.searchService.search(this.searchUrl, term, amount);
+  }
+
+  getShip(id: number) {
+    const uri = [this.shipUrl, id].join('/');
+    return this.http.get(uri)
+      .map(res => res.json());
   }
 }
