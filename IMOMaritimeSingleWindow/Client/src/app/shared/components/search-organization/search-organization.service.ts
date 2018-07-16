@@ -5,15 +5,15 @@ import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ShipSearchService {
+export class SearchOrganizationService {
   private searchService: SearchService;
   private searchUrl: string;
-  private shipUrl: string;
+  private organizationUrl: string;
 
   constructor(private http: Http) {
     this.searchService = new SearchService(this.http);
-    this.searchUrl = 'api/ship/search';
-    this.shipUrl = 'api/ship';
+    this.searchUrl = 'api/organization/search';
+    this.organizationUrl = 'api/organization';
   }
 
   search(term: string, amount = 10) {
@@ -23,8 +23,8 @@ export class ShipSearchService {
     return this.searchService.search(this.searchUrl, term, amount);
   }
 
-  getShip(id: number) {
-    const uri = [this.shipUrl, id].join('/');
+  getorganization(id: number) {
+    const uri = [this.organizationUrl, id].join('/');
     return this.http.get(uri)
       .map(res => res.json());
   }

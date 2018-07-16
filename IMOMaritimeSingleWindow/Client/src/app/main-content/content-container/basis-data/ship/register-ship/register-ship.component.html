@@ -393,7 +393,7 @@
     <div class="col">
       <app-ssn-card header="Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
-          <app-search-organization></app-search-organization>
+          <app-search-organization (organizationResult)="onOrganizationResult($event)"></app-search-organization>
         </div>
 
         <div *ngIf="organizationSelected" class="text-center">

@@ -6,12 +6,10 @@ import { ShipContactModel } from 'app/shared/models/ship-contact-model';
 import { ShipModel } from 'app/shared/models/ship-model';
 import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
 import { ShipService } from 'app/shared/services/ship.service';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
-// tslint:disable-next-line:max-line-length
 const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there was an error when trying to save the ship\'s contact information. Please provide this information later.';
 
 @Component({
@@ -63,8 +61,7 @@ export class RegisterShipComponent implements OnInit {
     private shipService: ShipService,
     private contactService: ContactService,
     private contentService: ContentService,
-    private modalService: NgbModal,
-    private organizationService: OrganizationService
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -74,7 +71,6 @@ export class RegisterShipComponent implements OnInit {
         if (data) {
           this.setAllValues(data);
         } else if (!this.newShip) {
-          this.organizationService.setOrganizationData(null);
           this.shipService.setShipFlagCodeData(null);
           this.contactService.setContactData(null);
           this.newShip = true;
@@ -114,18 +110,8 @@ export class RegisterShipComponent implements OnInit {
         } else {
           this.shipFlagCodeSelected = false;
         }
-      });
-
-    this.organizationService.organizationData$.subscribe(
-      data => {
-        if (data) {
-          this.organizationModel = data;
-          this.shipModel.organizationId = data.organizationId;
-          this.organizationSelected = true;
-        } else {
-          this.organizationSelected = false;
-        }
-      });
+      }
+    );
 
     this.contactService.contactData$.subscribe(
       data => {
@@ -135,7 +121,8 @@ export class RegisterShipComponent implements OnInit {
         } else {
           this.contactSelected = false;
         }
-      });
+      }
+    );
   }
 
   setAllValues(ship: ShipModel) {
@@ -173,7 +160,7 @@ export class RegisterShipComponent implements OnInit {
     if (this.shipStatusSelected) {
       this.shipStatusDropdownString = ship.shipStatus.name;
     }
-    this.organizationService.setOrganizationData(ship.organization);
+    this.setOrganization(ship.organization);
     this.shipService.setShipFlagCodeData(ship.shipFlagCode);
     this.contactService.setContactData(ship.shipContact);
     this.contactSelected = (ship.shipContact != null);
@@ -190,9 +177,19 @@ export class RegisterShipComponent implements OnInit {
     this.shipTypeSelected = false;
   }
 
+  onOrganizationResult(organizationResult) {
+    this.setOrganization(organizationResult);
+  }
+
+  setOrganization(organizationData) {
+    this.organizationModel = organizationData;
+    this.shipModel.organizationId = organizationData.organizationId;
+    this.organizationSelected = true;
+  }
+
   deselectOrganization() {
-    this.shipModel.organizationId = null;
     this.organizationModel = null;
+    this.shipModel.organizationId = null;
     this.organizationSelected = false;
   }
 

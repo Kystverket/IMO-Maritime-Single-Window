@@ -3,13 +3,13 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
-import { ShipSearchService } from './ship-search.service';
+import { SearchShipService } from './search-ship.service';
 
 @Component({
   selector: 'app-search-ship',
   templateUrl: './search-ship.component.html',
   styleUrls: ['./search-ship.component.css'],
-  providers: [ShipSearchService]
+  providers: [SearchShipService]
 })
 export class SearchShipComponent implements OnInit {
 
@@ -30,7 +30,7 @@ export class SearchShipComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private shipSearchService: ShipSearchService) { }
+  constructor(private searchShipService: SearchShipService) { }
 
   ngOnInit() {
     this.shipSelected = false;
@@ -45,7 +45,7 @@ export class SearchShipComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.shipSearchService.search(term, this.resultsDropdown).pipe(
+        this.searchShipService.search(term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -60,7 +60,7 @@ export class SearchShipComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
         } else {
-          this.shipSearchService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
+          this.searchShipService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
               this.shipSearchResult.emit(data);
@@ -76,7 +76,7 @@ export class SearchShipComponent implements OnInit {
     this.shipSelected = true;
     this.shipModel = $event.item;
 
-    this.shipSearchService.getShip($event.item.shipId).subscribe(
+    this.searchShipService.getShip($event.item.shipId).subscribe(
       result => {
         if (result) {
           this.shipResult.emit(result);

@@ -10,12 +10,40 @@ import { OrganizationService } from 'app/shared/services/organization.service';
   styleUrls: ['./view-organization-info.component.css']
 })
 export class ViewOrganizationInfoComponent implements OnInit {
-
   organizationFound = false;
   organizationProperties = OrganizationProperties.PROPERTIES;
   organizationInfo: any[];
 
-  constructor(private organizationService: OrganizationService, private contentService: ContentService) { }
+  constructor(
+    private organizationService: OrganizationService,
+    private contentService: ContentService
+  ) {}
+
+  ngOnInit() {
+    this.organizationService.setOrganizationData(null);
+    this.organizationService.organizationData$.subscribe(organizationResult => {
+      if (organizationResult) {
+        this.organizationProperties.ORGANIZATION_TYPE.data = organizationResult.organizationType
+          ? organizationResult.organizationType.name
+          : null;
+        this.organizationProperties.ORGANIZATION_NAME.data =
+          organizationResult.name;
+        this.organizationProperties.ORGANIZATION_NO.data =
+          organizationResult.organizationNo;
+        this.organizationProperties.ORGANIZATION_DESCRIPTION.data =
+          organizationResult.description;
+        this.organizationFound = true;
+      } else {
+        this.organizationFound = false;
+        this.organizationProperties = OrganizationProperties.PROPERTIES;
+      }
+      this.organizationInfo = Object.values(this.organizationProperties);
+    });
+  }
+
+  onOrganizationSearchResult(organizationSearchResult) {
+    this.organizationService.setOrganizationSearchData(organizationSearchResult);
+  }
 
   registerNewOrganization() {
     this.organizationService.setOrganizationData(null);
@@ -29,26 +57,5 @@ export class ViewOrganizationInfoComponent implements OnInit {
   deselectOrganization() {
     this.organizationFound = false;
     this.organizationService.setOrganizationData(null);
-  }
-
-  ngOnInit() {
-    this.organizationService.setOrganizationData(null);
-    this.organizationService.organizationData$.subscribe(
-      organizationResult => {
-        if (organizationResult) {
-          this.organizationProperties.ORGANIZATION_TYPE.data = (organizationResult.organizationType)
-            ? organizationResult.organizationType.name
-            : null;
-          this.organizationProperties.ORGANIZATION_NAME.data = organizationResult.name;
-          this.organizationProperties.ORGANIZATION_NO.data = organizationResult.organizationNo;
-          this.organizationProperties.ORGANIZATION_DESCRIPTION.data = organizationResult.description;
-          this.organizationFound = true;
-        } else {
-          this.organizationFound = false;
-          this.organizationProperties = OrganizationProperties.PROPERTIES;
-        }
-        this.organizationInfo = Object.values(this.organizationProperties);
-      }
-    );
   }
 }
