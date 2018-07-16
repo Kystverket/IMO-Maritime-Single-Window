@@ -6,17 +6,14 @@ import { ShipService } from 'app/shared/services/ship.service';
 @Component({
   selector: 'app-find-ship',
   templateUrl: './find-ship.component.html',
-  styleUrls: ['./find-ship.component.css'],
-  providers: [ShipService]
+  styleUrls: ['./find-ship.component.css']
 })
 export class FindShipComponent implements OnInit {
 
-  shipFlag: string;
   shipFound = false;
-
   shipData = ShipProperties.PROPERTY_LIST;
 
-  constructor(private portCallService: PortCallService, private shipService: ShipService) { }
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() { }
 

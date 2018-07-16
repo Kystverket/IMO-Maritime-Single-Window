@@ -16,7 +16,7 @@ export class SearchShipComponent implements OnInit {
 
   @Input() showDropdown = true;
 
-  @Output() searchResult = new EventEmitter<any>();
+  @Output() shipSearchResult = new EventEmitter<any>();
   @Output() shipResult = new EventEmitter<any>();
 
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
@@ -63,7 +63,7 @@ export class SearchShipComponent implements OnInit {
           this.shipSearchService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
-              this.searchResult.emit(data);
+              this.shipSearchResult.emit(data);
               this.searching = false;
             });
         }

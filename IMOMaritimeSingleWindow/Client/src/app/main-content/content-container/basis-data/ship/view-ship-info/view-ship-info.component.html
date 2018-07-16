@@ -10,7 +10,7 @@
 
 <app-ssn-card header="Ship Search" icon="ship.png">
   <div *ngIf="!shipFound">
-    <app-search-ship [showDropdown]=false></app-search-ship>
+    <app-search-ship [showDropdown]=false (shipSearchResult)="onShipSearchResult($event)"></app-search-ship>
   </div>
 
   <br>
