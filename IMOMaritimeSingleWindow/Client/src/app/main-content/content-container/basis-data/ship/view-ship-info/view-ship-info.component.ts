@@ -24,8 +24,6 @@ export class ViewShipInfoComponent implements OnInit {
   ngOnInit() {
     this.shipService.setShipOverviewData(null);
     this.shipService.shipOverviewData$.subscribe(shipResult => {
-      console.log(shipResult);
-
       if (shipResult) {
         this.shipFound = true;
       } else {
@@ -36,9 +34,8 @@ export class ViewShipInfoComponent implements OnInit {
 
   onShipSearchResult(shipSearchResult) {
     this.shipService.setShipSearchData(shipSearchResult);
-    console.log(shipSearchResult);
   }
-  
+
   registerNewShip() {
     this.shipService.setShipOverviewData(null);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_SHIP);

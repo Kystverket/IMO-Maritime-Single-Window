@@ -40,8 +40,6 @@ export class LocationProperties {
     propertyList.find(e => e.description === LocationProperties.LOCATION_TYPE).data = data;
   }
 
-  constructor() {}
-
   getPropertyList() {
     return this.propertyList;
   }

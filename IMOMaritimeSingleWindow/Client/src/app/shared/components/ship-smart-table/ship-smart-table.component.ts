@@ -52,8 +52,6 @@ export class ShipSmartTableComponent implements OnInit {
       if (data) {
         if (data.length !== 0) {
           const rowList = [];
-          console.log(data);
-
           data.forEach(ship => {
             const row = this.dataRow(ship);
             rowList.push(row);
