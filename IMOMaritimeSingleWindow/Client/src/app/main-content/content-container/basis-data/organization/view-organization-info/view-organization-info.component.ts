@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 
@@ -11,35 +10,13 @@ import { OrganizationService } from 'app/shared/services/organization.service';
 })
 export class ViewOrganizationInfoComponent implements OnInit {
   organizationFound = false;
-  organizationProperties = OrganizationProperties.PROPERTIES;
-  organizationInfo: any[];
 
   constructor(
     private organizationService: OrganizationService,
     private contentService: ContentService
   ) {}
 
-  ngOnInit() {
-    this.organizationService.setOrganizationData(null);
-    this.organizationService.organizationData$.subscribe(organizationResult => {
-      if (organizationResult) {
-        this.organizationProperties.ORGANIZATION_TYPE.data = organizationResult.organizationType
-          ? organizationResult.organizationType.name
-          : null;
-        this.organizationProperties.ORGANIZATION_NAME.data =
-          organizationResult.name;
-        this.organizationProperties.ORGANIZATION_NO.data =
-          organizationResult.organizationNo;
-        this.organizationProperties.ORGANIZATION_DESCRIPTION.data =
-          organizationResult.description;
-        this.organizationFound = true;
-      } else {
-        this.organizationFound = false;
-        this.organizationProperties = OrganizationProperties.PROPERTIES;
-      }
-      this.organizationInfo = Object.values(this.organizationProperties);
-    });
-  }
+  ngOnInit() { }
 
   onOrganizationSearchResult(organizationSearchResult) {
     this.organizationService.setOrganizationSearchData(organizationSearchResult);
@@ -48,14 +25,5 @@ export class ViewOrganizationInfoComponent implements OnInit {
   registerNewOrganization() {
     this.organizationService.setOrganizationData(null);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_ORGANIZATION);
-  }
-
-  editOrganization() {
-    this.contentService.setContent(CONTENT_NAMES.REGISTER_ORGANIZATION);
-  }
-
-  deselectOrganization() {
-    this.organizationFound = false;
-    this.organizationService.setOrganizationData(null);
   }
 }

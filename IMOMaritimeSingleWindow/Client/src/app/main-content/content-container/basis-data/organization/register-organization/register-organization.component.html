@@ -56,26 +56,6 @@
         </div>
 
         <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr class="bg-ssn text-ssn">
-                  <th>Organization Name</th>
-                  <th>Organization Type</th>
-                  <th>Organization Number</th>
-                  <th *ngIf="organizationModel.description">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{ organizationModel.name }}</td>
-                  <td>{{ selectedOrganizationType.name }}</td>
-                  <td>{{ organizationModel.organizationNo }}</td>
-                  <td *ngIf="organizationModel.description">{{organizationModel.description}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
           <button class="btn btn-ssn" (click)="registerOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>

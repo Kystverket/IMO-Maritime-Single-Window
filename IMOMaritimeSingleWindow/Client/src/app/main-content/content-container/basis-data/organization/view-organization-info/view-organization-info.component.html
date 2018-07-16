@@ -12,9 +12,7 @@
   <div *ngIf="!organizationFound">
     <app-search-organization [showDropdown]=false (organizationSearchResult)="onOrganizationSearchResult($event)"></app-search-organization>
   </div>
-
   <br>
-
   <div>
     <app-organization-smart-table></app-organization-smart-table>
   </div>

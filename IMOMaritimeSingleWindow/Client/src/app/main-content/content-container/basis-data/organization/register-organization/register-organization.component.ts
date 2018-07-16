@@ -25,8 +25,12 @@ export class RegisterOrganizationComponent implements OnInit {
   selectedOrganizationType: any;
   organizationTypeDropdownString = 'Select organization type';
 
-  constructor(public organizationModel: OrganizationModel, private organizationService: OrganizationService,
-    private contentService: ContentService, private modalService: NgbModal) { }
+  constructor(
+    public organizationModel: OrganizationModel,
+    private organizationService: OrganizationService,
+    private contentService: ContentService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.organizationService.organizationData$.subscribe(
@@ -46,12 +50,15 @@ export class RegisterOrganizationComponent implements OnInit {
         }
       }
     );
+
     this.organizationService.getOrganizationTypes().subscribe(
       organizationTypesData => {
         this.organizationTypeList = organizationTypesData;
         // Temporary until we add more organization types (certificate issuer)
         if (this.newOrganization) {
-          this.selectedOrganizationType = this.organizationTypeList.find(type => type.name === 'Authority');
+          this.selectedOrganizationType = this.organizationTypeList.find(
+            type => type.name === 'Authority'
+          );
           this.organizationTypeSelected = true;
         }
       }
@@ -60,28 +67,47 @@ export class RegisterOrganizationComponent implements OnInit {
 
   registerOrganization() {
     if (this.newOrganization) {
-      this.organizationService.registerOrganization(this.organizationModel).subscribe(
-        result => {
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-        }, error => {
-          console.log(error);
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
-        }
-      );
+      this.organizationService
+        .registerOrganization(this.organizationModel)
+        .subscribe(
+          result => {
+            this.openConfirmationModal(
+              ConfirmationModalComponent.TYPE_SUCCESS,
+              RESULT_SUCCESS
+            );
+          },
+          error => {
+            console.log(error);
+            this.openConfirmationModal(
+              ConfirmationModalComponent.TYPE_FAILURE,
+              RESULT_FAILURE
+            );
+          }
+        );
     } else {
-      this.organizationService.updateOrganization(this.organizationModel).subscribe(
-        result => {
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-        }, error => {
-          console.log(error);
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
-        }
-      );
+      this.organizationService
+        .updateOrganization(this.organizationModel)
+        .subscribe(
+          result => {
+            this.openConfirmationModal(
+              ConfirmationModalComponent.TYPE_SUCCESS,
+              RESULT_SUCCESS
+            );
+          },
+          error => {
+            console.log(error);
+            this.openConfirmationModal(
+              ConfirmationModalComponent.TYPE_FAILURE,
+              RESULT_FAILURE
+            );
+          }
+        );
     }
   }
 
   selectOrganizationType(organizationType: any) {
-    this.organizationModel.organizationTypeId = organizationType.organizationTypeId;
+    this.organizationModel.organizationTypeId =
+      organizationType.organizationTypeId;
     this.organizationTypeDropdownString = organizationType.name;
     this.selectedOrganizationType = organizationType;
     this.organizationTypeSelected = true;
@@ -97,12 +123,15 @@ export class RegisterOrganizationComponent implements OnInit {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+          this.goBack();
+        }
       },
       reason => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) { this.goBack(); }
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+          this.goBack();
+        }
       }
     );
   }
-
 }
