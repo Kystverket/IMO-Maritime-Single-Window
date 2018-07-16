@@ -1,4 +1,5 @@
 import { DataProperty } from 'app/shared/interfaces/property.interface';
+
 export class ShipProperties {
   static PROPERTIES = {
     SHIP_NAME: { description: 'Ship Name', data: null, imageUrl: null },

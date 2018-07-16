@@ -9,10 +9,9 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2" for="email">Email</label>
                 <div class="col">
-                  <input id="email" name="email" class="form-control form-control-sm"
-                    placeholder="Enter email"  
-                    [(ngModel)]="user.email" #email="ngModel" [email]="true" (ngModelChange)="emailChecked = false"
-                    (blur)="userExists(email.valid)" autocomplete="username" tmFocus validateEmail>
+                  <input id="email" name="email" class="form-control form-control-sm" placeholder="Enter email" [(ngModel)]="user.email" #email="ngModel"
+                    [email]="true" (ngModelChange)="emailChecked = false" (blur)="userExists(email.valid)" autocomplete="username"
+                    tmFocus validateEmail>
                   <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
                     <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
@@ -29,9 +28,8 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="password">Password</label>
                 <div class="col">
-                  <input id="password" type="password" name="password" class="form-control form-control-sm"
-                    placeholder="Enter password"
-                    [(ngModel)]="user.password" autocomplete="new-password" required>
+                  <input id="password" type="password" name="password" class="form-control form-control-sm" placeholder="Enter password" [(ngModel)]="user.password"
+                    autocomplete="new-password" required>
                 </div>
               </div>
             </div>
@@ -103,20 +101,7 @@
 
         <div *ngIf="organizationSelected" class="text-center">
           <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr class="bg-ssn text-ssn">
-                  <th>Organization Name</th>
-                  <th>Organization Number</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{ organizationModel.name }}</td>
-                  <td>{{ organizationModel.organizationNo }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>

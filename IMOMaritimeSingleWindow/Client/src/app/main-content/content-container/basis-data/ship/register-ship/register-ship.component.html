@@ -398,25 +398,11 @@
 
         <div *ngIf="organizationSelected" class="text-center">
           <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr class="bg-ssn text-ssn">
-                  <th>Organization Name</th>
-                  <th>Organization Number</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{ organizationModel.name }}</td>
-                  <td>{{ organizationModel.organizationNo }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectOrganization()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
-
 
       </app-ssn-card>
     </div>

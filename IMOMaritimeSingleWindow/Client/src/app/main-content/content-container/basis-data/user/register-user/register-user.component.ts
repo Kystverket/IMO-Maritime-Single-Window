@@ -5,6 +5,7 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 
 const RESULT_SUCCES = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -33,6 +34,7 @@ export class RegisterUserComponent implements OnInit {
 
   organizationModel: any;
   organizationSelected: boolean;
+  organizationProperties = new OrganizationProperties().getPropertyList();
 
   roleList: any[];
   selectedRole: any;
@@ -92,6 +94,10 @@ export class RegisterUserComponent implements OnInit {
     this.organizationModel = organizationData;
     this.user.organizationId = organizationData.organizationId;
     this.organizationSelected = true;
+    OrganizationProperties.setOrganizationName(this.organizationProperties, this.organizationModel.name);
+    OrganizationProperties.setOrganizationNo(this.organizationProperties, this.organizationModel.organizationNo);
+    OrganizationProperties.setOrganizationType(this.organizationProperties, this.organizationModel.organizationType.name);
+    OrganizationProperties.setOrganizationDescription(this.organizationProperties, this.organizationModel.description);
   }
 
   deselectOrganization() {

@@ -7,6 +7,7 @@ import { ShipModel } from 'app/shared/models/ship-model';
 import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { ShipService } from 'app/shared/services/ship.service';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -24,7 +25,6 @@ export class RegisterShipComponent implements OnInit {
   confirmHeader: string;
   confirmButtonTitle: string;
   shipFlagCodeSelected: boolean;
-  organizationSelected: boolean;
   contactSelected: boolean;
 
   hullTypeSelected = false;
@@ -50,8 +50,11 @@ export class RegisterShipComponent implements OnInit {
   powerTypeDropdownString = 'Select type';
   shipStatusDropdownString = 'Select status';
 
-  shipFlagCodeModel: any;
+  organizationSelected: boolean;
   organizationModel: any;
+  organizationProperties = new OrganizationProperties().getPropertyList();
+
+  shipFlagCodeModel: any;
   selectedContactModels: ShipContactModel[];
 
 
@@ -185,6 +188,10 @@ export class RegisterShipComponent implements OnInit {
     this.organizationModel = organizationData;
     this.shipModel.organizationId = organizationData.organizationId;
     this.organizationSelected = true;
+    OrganizationProperties.setOrganizationName(this.organizationProperties, this.organizationModel.name);
+    OrganizationProperties.setOrganizationNo(this.organizationProperties, this.organizationModel.organizationNo);
+    OrganizationProperties.setOrganizationType(this.organizationProperties, this.organizationModel.organizationType.name);
+    OrganizationProperties.setOrganizationDescription(this.organizationProperties, this.organizationModel.description);
   }
 
   deselectOrganization() {
