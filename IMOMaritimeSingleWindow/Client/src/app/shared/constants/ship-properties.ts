@@ -1,4 +1,5 @@
 import { DataProperty } from 'app/shared/interfaces/property.interface';
+import { ShipModel } from '../models/ship-model';
 
 export class ShipProperties {
   static PROPERTIES = {
@@ -36,6 +37,19 @@ export class ShipProperties {
     { description: 'Ship Type', data: null, imageUrl: null },
     { description: 'Ship Status', data: null, imageUrl: null }
   ];
+
+  static setShipData(propertyList, shipModel: ShipModel) {
+    ShipProperties.setCountry(propertyList, shipModel.shipFlagCode.country.name);
+    ShipProperties.setShipName(propertyList, shipModel.name);
+    ShipProperties.setCallSign(propertyList, shipModel.callSign);
+    ShipProperties.setImoNo(propertyList, shipModel.imoNo);
+    ShipProperties.setMmsiNo(propertyList, shipModel.mmsiNo);
+    ShipProperties.setGrossTonnage(propertyList, shipModel.grossTonnage);
+    ShipProperties.setNetTonnage(propertyList, shipModel.netTonnage);
+    ShipProperties.setLength(propertyList, shipModel.length);
+    ShipProperties.setShipType(propertyList, shipModel.shipType.name);
+    ShipProperties.setShipStatus(propertyList, shipModel.shipStatus.name);
+  }
 
   static setCountry(propertyList, data, image = null) {
     propertyList.find(e => e.description === ShipProperties.COUNTRY).data = data;

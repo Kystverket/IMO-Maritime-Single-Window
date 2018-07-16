@@ -94,10 +94,7 @@ export class RegisterUserComponent implements OnInit {
     this.organizationModel = organizationData;
     this.user.organizationId = organizationData.organizationId;
     this.organizationSelected = true;
-    OrganizationProperties.setOrganizationName(this.organizationProperties, this.organizationModel.name);
-    OrganizationProperties.setOrganizationNo(this.organizationProperties, this.organizationModel.organizationNo);
-    OrganizationProperties.setOrganizationType(this.organizationProperties, this.organizationModel.organizationType.name);
-    OrganizationProperties.setOrganizationDescription(this.organizationProperties, this.organizationModel.description);
+    OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
   }
 
   deselectOrganization() {

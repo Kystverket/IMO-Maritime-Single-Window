@@ -1,4 +1,5 @@
 import { DataProperty } from 'app/shared/interfaces/property.interface';
+import { LocationModel } from '../models/location-model';
 
 export class LocationProperties {
   static PROPERTIES = {
@@ -20,6 +21,13 @@ export class LocationProperties {
     { description: LocationProperties.LOCATION_CODE, data: null, imageUrl: null },
     { description: LocationProperties.LOCATION_TYPE, data: null, imageUrl: null },
   ];
+
+  static setLocationData(propertyList, locationModel: LocationModel) {
+    LocationProperties.setCountry(propertyList, locationModel.country.name);
+    LocationProperties.setLocationName(propertyList, locationModel.name);
+    LocationProperties.setLocationCode(propertyList, locationModel.locationCode);
+    LocationProperties.setLocationType(propertyList, locationModel.locationType.name);
+  }
 
   static setCountry(propertyList, data, image = null) {
     propertyList.find(e => e.description === LocationProperties.COUNTRY).data = data;
