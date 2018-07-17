@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { CertificateOfRegistryService } from 'app/main-content/content-container/basis-data/ship/register-ship/certificate-of-registry/certificate-of-registry.service';
 import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
-import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { LocationModel } from 'app/shared/models/location-model';
 
 @Component({
@@ -11,8 +10,7 @@ import { LocationModel } from 'app/shared/models/location-model';
   styleUrls: ['./certificate-of-registry.component.css'],
   providers: [CertificateOfRegistryService]
 })
-export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
-  @ViewChild(SearchLocationComponent) searchLocationComponent: SearchLocationComponent;
+export class CertificateOfRegistryComponent implements OnInit {
 
   certificateModel: CertificateOfRegistryModel;
   dateOfIssueModel: NgbDate;
@@ -23,6 +21,7 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
   locationName: string;
   locationCode: string;
   locationTypeName: string;
+
   constructor(private certificateService: CertificateOfRegistryService) { }
 
   ngOnInit() {
@@ -53,34 +52,24 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-
-    this.searchLocationComponent.getService().locationData$.subscribe(data => {
-      if (data) {
-        this.selectedPort = data;
-        this.countryName = data.country.name || '';
-        this.locationName = data.name || '';
-        this.locationCode = data.locationCode || '';
-        this.locationTypeName = data.locationType.name || '';
+  onLocationResult(locationResult) {
+    if (locationResult) {
+        this.selectedPort = locationResult;
+        this.countryName = locationResult.country.name || '';
+        this.locationName = locationResult.name || '';
+        this.locationCode = locationResult.locationCode || '';
+        this.locationTypeName = locationResult.locationType.name || '';
         this.portLocationSelected = true;
       } else {
         this.portLocationSelected = false;
         this.selectedPort = null;
       }
       this.persistData();
-    });
-
-    setTimeout(() => {
-      if (this.certificateModel.portLocation) {
-        this.searchLocationComponent.getService().setLocationData(this.certificateModel.portLocation);
-      }
-    });
   }
 
   deselectPortLocation() {
     this.portLocationSelected = false;
     this.certificateModel.portLocation = null;
-    this.searchLocationComponent.getService().setLocationData(null);
   }
 
   persistData() {

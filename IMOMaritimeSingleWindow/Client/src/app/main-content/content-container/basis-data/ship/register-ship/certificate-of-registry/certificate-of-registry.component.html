@@ -5,7 +5,7 @@
         <div class="col">
           <app-ssn-card header="Port of Registry">
             <div [hidden]="portLocationSelected">
-              <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
+              <app-search-location [restrictTypeHarbour]=true [showDropdown]=true (locationResult)="onLocationResult($event)"></app-search-location>
             </div>
             <div *ngIf="portLocationSelected" class="text-center">
               <div class="table-responsive">
