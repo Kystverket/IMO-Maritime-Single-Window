@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
-import { resource } from 'selenium-webdriver/http';
-import { locateHostElement } from '@angular/core/src/render3/instructions';
 
 @Injectable()
 export class PortCallShipStoresService {
@@ -33,9 +31,6 @@ export class PortCallShipStoresService {
 
   private dataIsPristine = new BehaviorSubject<Boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
-
-  private detailsIdentificationSource = new BehaviorSubject<any>(null);
-  detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
 
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
@@ -75,6 +70,7 @@ export class PortCallShipStoresService {
   getShipStoresByPortCallId(portCallId: number) {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.shipStoresString].join('/');
+
     return this.http.get(uri).map(res => res.json());
   }
   // Get list of all measurement types
@@ -124,7 +120,7 @@ export class PortCallShipStoresService {
     copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
     this.setShipStoresInformationData(copyShipStoresInformationSource);
 
-    // Set dataIsPristine to false (data is toched)
+    // Set dataIsPristine to false (data is touched)
     this.setDataIsPristine(false);
   }
 

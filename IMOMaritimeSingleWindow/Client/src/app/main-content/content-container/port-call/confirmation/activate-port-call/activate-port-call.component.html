@@ -1,5 +1,16 @@
 <app-ssn-card header="Activate Port Call" icon="save.png" class="text-center">
   <div class="text-center">
+    <div *ngIf="!prevAndNextPortCallDataIsPristine" class="row">
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: Voyages are unsaved.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="savePrevAndNextPortCall()">
+            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Voyages</button>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="!detailsDataIsPristine" class="row">
 
       <div *ngIf="detailsMeta.valid" class="col">
@@ -45,13 +56,13 @@
     </div>
 
     <div class="row" *ngIf="portCallIsDraft">
-      <div *ngIf="portCallCanBeActivated" class="col">
+      <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine" class="col">
         <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for authorities to review.</p>
         <p>This action cannot be undone.</p>
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
-      <div *ngIf="!portCallCanBeActivated" class="col">
+      <div *ngIf="!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)" class="col">
         <button class="btn btn-ssn" disabled>
           <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
       </div>

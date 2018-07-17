@@ -1,4 +1,4 @@
-<app-ssn-card header="Previous Port of Call" icon="portcall.png">
+<app-ssn-card header="Previous Port of Call" icon="location.png">
     <app-search-location [hidden]="prevLocationModel" [restrictTypeHarbour]=true></app-search-location>
     <div class="text-center" *ngIf="prevLocationModel">
         <app-ssn-table [entryData]="prevLocationData"></app-ssn-table>
@@ -8,7 +8,7 @@
     <app-date-time-picker header="ETD"></app-date-time-picker>
 </app-ssn-card>
 
-<app-ssn-card header="Next Port of Call" icon="portcall.png">
+<app-ssn-card header="Next Port of Call" icon="location.png">
     <app-search-location [hidden]="nextLocationModel" [restrictTypeHarbour]=true></app-search-location>
     <div class="text-center" *ngIf="nextLocationModel">
         <app-ssn-table [entryData]="nextLocationData"></app-ssn-table>
@@ -16,4 +16,18 @@
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
     <app-date-time-picker header="ETA"></app-date-time-picker>
+    <div class="row" *ngIf="dateSequenceError">
+        <div class="col-2"></div>
+        <div class="col-8 alert alert-danger" role="alert">
+            <span>ETA date for Next Port of Call can not be before ETD date for Previous Port of Call.</span>
+        </div>
+    </div>
+    <div class="row" *ngIf="timeSequenceError">
+        <div class="col-2"></div>
+        <div class="col-8 alert alert-danger" role="alert">
+            <span>ETA time for Next Port of Call must be set after ETD time for Previous Port of Call.</span>
+        </div>
+    </div>
 </app-ssn-card>
+
+<app-save-prev-and-next-poc></app-save-prev-and-next-poc>

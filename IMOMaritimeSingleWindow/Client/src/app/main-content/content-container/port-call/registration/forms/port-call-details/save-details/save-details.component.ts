@@ -18,18 +18,16 @@ export class SaveDetailsComponent implements OnInit {
   purposeModel = [];
   otherPurposeName: any;
 
-  reportingFound: boolean;
-  crewPassengersAndDimensionsFound: boolean;
-
   crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
 
   dataIsPristine = true;
   dataIsPristineText: string;
 
-  constructor(private portCallService: PortCallService) {}
+  constructor(private portCallService: PortCallService) {
+    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
+  }
 
   ngOnInit() {
-    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.dataIsPristine = detailsDataIsPristine;
     });

@@ -26,9 +26,10 @@ export class ContentService extends BaseService {
 
   setPortCallForm(contentName: string) {
     this.portCallFormSource.next(contentName);
+    console.log(contentName);
   }
 
   setLoadingScreen(isLoading: boolean, loadingIcon: string, loadingText: string) {
-    this.loadingScreenSource.next({isLoading, loadingIcon, loadingText});
+    this.loadingScreenSource.next({ isLoading, loadingIcon, loadingText });
   }
 }

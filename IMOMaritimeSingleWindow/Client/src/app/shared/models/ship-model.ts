@@ -30,6 +30,7 @@ export class ShipModel {
     dateOfKeelLaying: Date;
     // connected models:
     organization: any;
+    certificateOfRegistry: any;
     shipHullType: any;
     shipStatus: any;
     shipPowerType: any;
