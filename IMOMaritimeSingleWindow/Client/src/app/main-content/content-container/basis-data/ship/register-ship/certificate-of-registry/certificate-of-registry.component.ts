@@ -3,6 +3,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { CertificateOfRegistryService } from 'app/main-content/content-container/basis-data/ship/register-ship/certificate-of-registry/certificate-of-registry.service';
 import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
 import { LocationModel } from 'app/shared/models/location-model';
+import { LocationProperties } from 'app/shared/constants/location-properties';
 
 @Component({
   selector: 'app-certificate-of-registry',
@@ -17,10 +18,8 @@ export class CertificateOfRegistryComponent implements OnInit {
   selectedPort: LocationModel;
   portLocationSelected = false;
   validCertificateDateFormat = true;
-  countryName: string;
-  locationName: string;
-  locationCode: string;
-  locationTypeName: string;
+
+  locationProperties = new LocationProperties().getPropertyList();
 
   constructor(private certificateService: CertificateOfRegistryService) { }
 
@@ -34,11 +33,8 @@ export class CertificateOfRegistryComponent implements OnInit {
           this.dateOfIssueModel = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
         }
         if (this.certificateModel.portLocation) {
-          this.countryName = this.certificateModel.portLocation.country.name || '';
-          this.locationName = this.certificateModel.portLocation.name || '';
-          this.locationCode = this.certificateModel.portLocation.locationCode || '';
-          this.locationTypeName = this.certificateModel.portLocation.locationType.name || '';
           this.portLocationSelected = true;
+          this.setLocationData(this.certificateModel.portLocation);
         } else {
           this.portLocationSelected = false;
         }
@@ -54,22 +50,26 @@ export class CertificateOfRegistryComponent implements OnInit {
 
   onLocationResult(locationResult) {
     if (locationResult) {
-        this.selectedPort = locationResult;
-        this.countryName = locationResult.country.name || '';
-        this.locationName = locationResult.name || '';
-        this.locationCode = locationResult.locationCode || '';
-        this.locationTypeName = locationResult.locationType.name || '';
-        this.portLocationSelected = true;
-      } else {
-        this.portLocationSelected = false;
-        this.selectedPort = null;
-      }
-      this.persistData();
+      this.selectedPort = locationResult;
+      this.portLocationSelected = true;
+      this.setLocationData(this.selectedPort);
+    } else {
+      this.portLocationSelected = false;
+      this.selectedPort = null;
+    }
+    this.persistData();
   }
 
   deselectPortLocation() {
     this.portLocationSelected = false;
     this.certificateModel.portLocation = null;
+  }
+
+  private setLocationData(locationModel) {
+    LocationProperties.setLocationData(this.locationProperties, locationModel);
+    const twoCharCode = locationModel.country.twoCharCode.toLowerCase() || 'xx';
+    const countryFlag = twoCharCode + '.png';
+    LocationProperties.setCountry(this.locationProperties, locationModel.country.name, countryFlag);
   }
 
   persistData() {

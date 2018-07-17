@@ -289,9 +289,11 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
 
   setOrganization(organizationData) {
     this.organizationModel = organizationData;
-    this.shipModel.organizationId = organizationData.organizationId;
-    this.organizationSelected = true;
-    OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
+    if (organizationData) {
+      this.shipModel.organizationId = organizationData.organizationId;
+      this.organizationSelected = true;
+      OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
+    }
   }
 
   deselectOrganization() {

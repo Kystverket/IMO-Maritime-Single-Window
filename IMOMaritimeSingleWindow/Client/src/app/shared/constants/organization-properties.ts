@@ -17,7 +17,9 @@ export class OrganizationProperties {
   static setOrganizationData(propertyList, organizationModel: OrganizationModel) {
     OrganizationProperties.setOrganizationName(propertyList, organizationModel.name);
     OrganizationProperties.setOrganizationNo(propertyList, organizationModel.organizationNo);
-    OrganizationProperties.setOrganizationType(propertyList, organizationModel.organizationType.name);
+    if (organizationModel.organizationType) {
+      OrganizationProperties.setOrganizationType(propertyList, organizationModel.organizationType.name);
+    }
     OrganizationProperties.setOrganizationDescription(propertyList, organizationModel.description);
   }
 
