@@ -39,7 +39,9 @@ export class ShipProperties {
   ];
 
   static setShipData(propertyList, shipModel: ShipModel) {
-    ShipProperties.setCountry(propertyList, shipModel.shipFlagCode.country.name);
+    if (shipModel.shipFlagCode && shipModel.shipFlagCode.country) {
+      ShipProperties.setCountry(propertyList, shipModel.shipFlagCode.country.name);
+    }
     ShipProperties.setShipName(propertyList, shipModel.name);
     ShipProperties.setCallSign(propertyList, shipModel.callSign);
     ShipProperties.setImoNo(propertyList, shipModel.imoNo);
@@ -47,8 +49,12 @@ export class ShipProperties {
     ShipProperties.setGrossTonnage(propertyList, shipModel.grossTonnage);
     ShipProperties.setNetTonnage(propertyList, shipModel.netTonnage);
     ShipProperties.setLength(propertyList, shipModel.length);
-    ShipProperties.setShipType(propertyList, shipModel.shipType.name);
-    ShipProperties.setShipStatus(propertyList, shipModel.shipStatus.name);
+    if (shipModel.shipType) {
+      ShipProperties.setShipType(propertyList, shipModel.shipType.name);
+    }
+    if (shipModel.shipStatus) {
+      ShipProperties.setShipStatus(propertyList, shipModel.shipStatus.name);
+    }
   }
 
   static setCountry(propertyList, data, image = null) {

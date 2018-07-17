@@ -23,10 +23,14 @@ export class LocationProperties {
   ];
 
   static setLocationData(propertyList, locationModel: LocationModel) {
-    LocationProperties.setCountry(propertyList, locationModel.country.name);
+    if (locationModel.country) {
+      LocationProperties.setCountry(propertyList, locationModel.country.name);
+    }
     LocationProperties.setLocationName(propertyList, locationModel.name);
     LocationProperties.setLocationCode(propertyList, locationModel.locationCode);
-    LocationProperties.setLocationType(propertyList, locationModel.locationType.name);
+    if (locationModel.locationType) {
+      LocationProperties.setLocationType(propertyList, locationModel.locationType.name);
+    }
   }
 
   static setCountry(propertyList, data, image = null) {
