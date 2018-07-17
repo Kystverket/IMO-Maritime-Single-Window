@@ -12,8 +12,6 @@ import { LocationButtonRowComponent } from './location-button-row/location-butto
 })
 export class ViewLocationInfoComponent implements OnInit {
 
-  locationFound = false;
-
   tableData = [];
   dataSource: LocalDataSource = new LocalDataSource();
   tableSettings = {
@@ -56,24 +54,18 @@ export class ViewLocationInfoComponent implements OnInit {
     private locationService: LocationService
   ) { }
 
-  ngOnInit() {
-    this.locationService.locationSearchData$.subscribe(data => {
-      if (data) {
-        if (data.length !== 0) {
-          const rowList = [];
-          data.forEach(location => {
-            const row = this.dataRow(location);
-            rowList.push(row);
-          });
-          this.tableData = rowList;
-        }
-      }
-      this.dataSource.load(this.tableData);
-    });
-  }
+  ngOnInit() { }
 
-  onLocationSearchResult(locationResult) {
-    this.locationService.setLocationSearchData(locationResult);
+  onLocationSearchResult(locationSearchResult) {
+    if (locationSearchResult.length !== 0) {
+      const rowList = [];
+      locationSearchResult.forEach(location => {
+        const row = this.dataRow(location);
+        rowList.push(row);
+      });
+      this.tableData = rowList;
+    }
+    this.dataSource.load(this.tableData);
   }
 
   registerNewLocation() {

@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { ShipContactModel } from '../models/ship-contact-model';
 import { AuthRequest } from './auth.request.service';
-import { SearchService } from './search.service';
 import 'rxjs/add/observable/of';
 
 @Injectable()
 export class ShipService {
-  private searchService: SearchService;
-  private shipSearchUrl: string;
   private shipTypeUrl: string;
   private hullTypeUrl: string;
   private lengthTypeUrl: string;
@@ -28,9 +24,6 @@ export class ShipService {
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
-  private countryDataSource = new BehaviorSubject<any>(null);
-  countryData$ = this.countryDataSource.asObservable();
-
   private certificateDataSource = new BehaviorSubject<any>(null);
   certificateData$ = this.certificateDataSource.asObservable();
 
@@ -41,9 +34,7 @@ export class ShipService {
     private http: Http,
     private authRequest: AuthRequest
   ) {
-    this.searchService = new SearchService(http);
     this.shipUrl = 'api/ship';
-    this.shipSearchUrl = 'api/ship/search';
     this.shipTypeUrl = 'api/shiptype';
     this.hullTypeUrl = 'api/shiphulltype';
     this.lengthTypeUrl = 'api/shiplengthtype';
@@ -55,6 +46,7 @@ export class ShipService {
     this.shipContactListUrl = 'api/shipcontact/list';
   }
 
+  // På sikt skal denne bort, og alt skal håndteres i RegisterShip-klassen
   setDataPristine(data: boolean) {
     this.dataPristineSource.next(data);
   }
@@ -78,11 +70,6 @@ export class ShipService {
     this.shipOverviewDataSource.next(data);
   }
 
-  setCountryData(data) {
-    this.dataPristineSource.next(false);
-    this.countryDataSource.next(data);
-  }
-
   setShipSearchData(data) {
     this.dataPristineSource.next(false);
     this.shipSearchDataSource.next(data);
@@ -103,14 +90,6 @@ export class ShipService {
   saveShipContactList(shipContactList: ShipContactModel[]) {
     return this.http.post(this.shipContactListUrl, shipContactList)
       .map(res => res.json());
-  }
-
-
-  search(term: string, amount = 10) {
-    if (term.length < 2) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.shipSearchUrl, term, amount);
   }
 
   getShipTypes() {

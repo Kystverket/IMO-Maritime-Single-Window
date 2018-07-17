@@ -9,7 +9,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_name">Ship Name</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.name" (ngModelChange)="persistData()" name="shipName" type="text" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.name" (ngModelChange)="touchData()" name="shipName" type="text" class="form-control form-control-sm"
                     id="ship_name" placeholder="Enter ship name" />
                 </div>
               </div>
@@ -18,7 +18,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="call_sign">Call Sign</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.callSign" (ngModelChange)="persistData()" name="callSign" type="text" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.callSign" (ngModelChange)="touchData()" name="callSign" type="text" class="form-control form-control-sm"
                     id="call_sign" placeholder="Enter call sign">
                 </div>
               </div>
@@ -30,7 +30,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="imo_no">IMO Number</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="persistData()" name="imoNo" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="touchData()" name="imoNo" type="number" class="form-control form-control-sm"
                     id="imo_no" placeholder="Enter IMO number" #imoNo="ngModel" numberValidator integerValidator positiveNumberValidator
                   />
                 </div>
@@ -52,7 +52,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-3 col-xl-2" for="mmsi_no">MMSI Number</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="persistData()" name="mmsiNo" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="touchData()" name="mmsiNo" type="number" class="form-control form-control-sm"
                     id="mmsi_no" placeholder="Enter MMSI number" #mmsiNo="ngModel" integerValidator positiveNumberValidator
                   />
                 </div>
@@ -104,7 +104,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="year_of_build">Year of Build</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.yearOfBuild" (ngModelChange)="persistData()" name="yearOfBuild" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.yearOfBuild" (ngModelChange)="touchData()" name="yearOfBuild" type="number" class="form-control form-control-sm"
                     id="year_of_build" placeholder="Enter year of build" #yearOfBuild="ngModel" numberValidator integerValidator
                     positiveNumberValidator />
                 </div>
@@ -135,7 +135,7 @@
                         <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{ lengthType.name }}</button>
                       </div>
                     </div>
-                    <input [(ngModel)]="shipModel.length" (ngModelChange)="persistData()" name="shipLength" type="number" class="form-control form-control-sm"
+                    <input [(ngModel)]="shipModel.length" (ngModelChange)="touchData()" name="shipLength" type="number" class="form-control form-control-sm"
                       id="ship_length" placeholder="Enter ship length" [disabled]="!lengthTypeSelected" #shipLength="ngModel"
                       numberValidator positiveNumberValidator />
                   </div>
@@ -162,7 +162,7 @@
                         <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{ breadthType.name }}</button>
                       </div>
                     </div>
-                    <input [(ngModel)]="shipModel.breadth" (ngModelChange)="persistData()" name="breadth" type="number" class="form-control form-control-sm"
+                    <input [(ngModel)]="shipModel.breadth" (ngModelChange)="touchData()" name="breadth" type="number" class="form-control form-control-sm"
                       id="ship_breadth" placeholder="Enter ship breadth" [disabled]="!breadthTypeSelected" #shipBreadth="ngModel"
                       numberValidator positiveNumberValidator />
                   </div>
@@ -191,7 +191,7 @@
                         <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{ powerType.name }}</button>
                       </div>
                     </div>
-                    <input [(ngModel)]="shipModel.power" (ngModelChange)="persistData()" name="power" type="number" class="form-control form-control-sm"
+                    <input [(ngModel)]="shipModel.power" (ngModelChange)="touchData()" name="power" type="number" class="form-control form-control-sm"
                       id="ship_power" placeholder="Enter ship power" [disabled]="!powerTypeSelected" #shipPower="ngModel" numberValidator
                       integerValidator positiveNumberValidator />
                   </div>
@@ -245,7 +245,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_height">Height</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.height" (ngModelChange)="persistData()" #shipHeight="ngModel" numberValidator positiveNumberValidator
+                  <input [(ngModel)]="shipModel.height" (ngModelChange)="touchData()" #shipHeight="ngModel" numberValidator positiveNumberValidator
                     name="height" type="number" class="form-control form-control-sm" id="height" placeholder="Enter ship height"
                   />
                 </div>
@@ -264,7 +264,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="ship_draught">Draught</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.draught" (ngModelChange)="persistData()" name="draught" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.draught" (ngModelChange)="touchData()" name="draught" type="number" class="form-control form-control-sm"
                     id="ship_draught" placeholder="Enter ship draught" #shipDraught="ngModel" numberValidator positiveNumberValidator
                   />
                 </div>
@@ -285,7 +285,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="gross_tonnage">Gross Tonnage</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.grossTonnage" (ngModelChange)="persistData()" name="grossTonnage" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.grossTonnage" (ngModelChange)="touchData()" name="grossTonnage" type="number" class="form-control form-control-sm"
                     id="gross_tonnage" placeholder="Enter gross tonnage" #grossTonnage="ngModel" numberValidator integerValidator
                     positiveNumberValidator />
                 </div>
@@ -307,7 +307,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="deadweight_tonnage">Deadweight Tonnage</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.deadweightTonnage" (ngModelChange)="persistData()" name="deadweightTonnage" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.deadweightTonnage" (ngModelChange)="touchData()" name="deadweightTonnage" type="number" class="form-control form-control-sm"
                     id="deadweight_tonnage" placeholder="Enter deadweight tonnage" #dwt="ngModel" numberValidator integerValidator
                     positiveNumberValidator />
                 </div>
@@ -331,7 +331,7 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3" for="net_tonnage">Net Tonnage</label>
                 <div class="col">
-                  <input [(ngModel)]="shipModel.netTonnage" (ngModelChange)="persistData()" name="netTonnage" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.netTonnage" (ngModelChange)="touchData()" name="netTonnage" type="number" class="form-control form-control-sm"
                     id="net_tonnage" placeholder="Enter net tonnage" #netTonnage="ngModel" numberValidator integerValidator
                     positiveNumberValidator />
                 </div>
@@ -356,20 +356,20 @@
               <div class="checkbox row">
                 <div class="col ml-2">
                   <label class="col-form-label-sm">
-                    <input [(ngModel)]="shipModel.hasSideThrusters" (ngModelChange)="persistData()" name="hasSideThrusters" type="checkbox" value=""> Side thrusters</label>
+                    <input [(ngModel)]="shipModel.hasSideThrusters" (ngModelChange)="touchData()" name="hasSideThrusters" type="checkbox" value=""> Side thrusters</label>
                 </div>
               </div>
               <div class="checkbox row">
                 <div class="col ml-2">
                   <label class="col-form-label-sm">
-                    <input [(ngModel)]="shipModel.hasSideThrustersFront" (ngModelChange)="persistData()" name="hasSideThrustersFront" type="checkbox"
+                    <input [(ngModel)]="shipModel.hasSideThrustersFront" (ngModelChange)="touchData()" name="hasSideThrustersFront" type="checkbox"
                       value=""> Front side thrusters</label>
                 </div>
               </div>
               <div class="checkbox row">
                 <div class="col ml-2">
                   <label class="col-form-label-sm">
-                    <input [(ngModel)]="shipModel.hasSideThrustersBack" (ngModelChange)="persistData()" name="hasSideThrustersBack" type="checkbox"
+                    <input [(ngModel)]="shipModel.hasSideThrustersBack" (ngModelChange)="touchData()" name="hasSideThrustersBack" type="checkbox"
                       value=""> Back side thrusters</label>
                 </div>
               </div>
@@ -378,7 +378,7 @@
 
           <div class="form-group">
             <label class="col-form-label-sm" for="remark">Remark</label>
-            <textarea [(ngModel)]="shipModel.remark" (ngModelChange)="persistData()" name="remark" class="form-control form-control-sm"
+            <textarea [(ngModel)]="shipModel.remark" (ngModelChange)="touchData()" name="remark" class="form-control form-control-sm"
               rows="4" id="remark"></textarea>
           </div>
         </app-ssn-card>

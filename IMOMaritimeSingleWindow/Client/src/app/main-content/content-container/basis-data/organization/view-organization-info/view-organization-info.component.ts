@@ -9,8 +9,6 @@ import { OrganizationService } from 'app/shared/services/organization.service';
   styleUrls: ['./view-organization-info.component.css']
 })
 export class ViewOrganizationInfoComponent implements OnInit {
-  organizationFound = false;
-
   constructor(
     private organizationService: OrganizationService,
     private contentService: ContentService

@@ -9,12 +9,8 @@
 </div>
 
 <app-ssn-card header="Ship Search" icon="ship.png">
-  <div *ngIf="!shipFound">
-    <app-search-ship [showDropdown]=false (shipSearchResult)="onShipSearchResult($event)"></app-search-ship>
-  </div>
-
+  <app-search-ship [showDropdown]=false (shipSearchResult)="onShipSearchResult($event)"></app-search-ship>
   <br>
-
   <div>
     <app-ship-smart-table></app-ship-smart-table>
   </div>
