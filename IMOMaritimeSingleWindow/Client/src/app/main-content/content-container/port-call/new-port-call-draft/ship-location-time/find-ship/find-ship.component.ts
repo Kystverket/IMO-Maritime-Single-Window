@@ -16,10 +16,6 @@ export class FindShipComponent implements OnInit {
 
   ngOnInit() { }
 
-  deselectShip() {
-    this.shipFound = false;
-    this.portCallService.setShipData(null);
-  }
 
   onShipResult(shipResult) {
     if (shipResult) {
@@ -42,5 +38,10 @@ export class FindShipComponent implements OnInit {
       this.shipFound = false;
       this.portCallService.setShipData(null);
     }
+  }
+
+  deselectShip() {
+    this.shipFound = false;
+    this.portCallService.setShipData(null);
   }
 }
