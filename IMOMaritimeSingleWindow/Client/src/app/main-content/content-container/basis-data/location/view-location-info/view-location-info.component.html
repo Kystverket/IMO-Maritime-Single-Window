@@ -10,7 +10,7 @@
 
 <app-ssn-card header="Location Search" icon="pax.png">
   <div *ngIf="!locationFound">
-    <app-search-location [showDropdown]=false></app-search-location>
+    <app-search-location [showDropdown]=false (locationSearchResult)="onLocationSearchResult($event)"></app-search-location>
   </div>
 
   <br>
