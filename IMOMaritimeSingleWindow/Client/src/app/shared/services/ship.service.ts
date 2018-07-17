@@ -19,15 +19,8 @@ export class ShipService {
   private shipSourceUrl: string;
   private shipStatusListUrl: string;
   private shipUrl: string;
-  private flagCodeSearchUrl: string;
   private contactListShipUrl: string;
   private shipContactListUrl: string;
-
-  private organizationDataSource = new BehaviorSubject<any>(null);
-  organizationData$ = this.organizationDataSource.asObservable();
-
-  private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
-  shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
 
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
@@ -58,7 +51,6 @@ export class ShipService {
     this.powerTypeUrl = 'api/shippowertype';
     this.shipSourceUrl = 'api/shipsource';
     this.shipStatusListUrl = 'api/shipstatus';
-    this.flagCodeSearchUrl = 'api/shipflagcode/search';
     this.contactListShipUrl = 'api/shipcontact/ship';
     this.shipContactListUrl = 'api/shipcontact/list';
   }
@@ -86,11 +78,6 @@ export class ShipService {
     this.shipOverviewDataSource.next(data);
   }
 
-  setOrganizationData(data) {
-    this.dataPristineSource.next(false);
-    this.organizationDataSource.next(data);
-  }
-
   setCountryData(data) {
     this.dataPristineSource.next(false);
     this.countryDataSource.next(data);
@@ -99,11 +86,6 @@ export class ShipService {
   setShipSearchData(data) {
     this.dataPristineSource.next(false);
     this.shipSearchDataSource.next(data);
-  }
-
-  setShipFlagCodeData(data) {
-    this.dataPristineSource.next(false);
-    this.shipFlagCodeDataSource.next(data);
   }
 
   setCertificateData(data) {
@@ -129,13 +111,6 @@ export class ShipService {
       return Observable.of([]);
     }
     return this.searchService.search(this.shipSearchUrl, term, amount);
-  }
-
-  searchFlagCode(term: string, amount = 10) {
-    if (term.length < 1) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.flagCodeSearchUrl, term);
   }
 
   getShipTypes() {

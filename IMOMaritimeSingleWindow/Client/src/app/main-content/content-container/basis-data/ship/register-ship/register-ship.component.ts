@@ -10,6 +10,9 @@ import { ShipService } from 'app/shared/services/ship.service';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
 import { CertificateOfRegistryComponent } from './certificate-of-registry/certificate-of-registry.component';
+import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
+import { ShipFlagCodeModel } from 'app/shared/models/ship-flag-code-model';
+import { OrganizationModel } from 'app/shared/models/organization-model';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -29,7 +32,6 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
-  shipFlagCodeSelected: boolean;
   contactSelected: boolean;
   certificateSelected = false;
 
@@ -56,11 +58,14 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   powerTypeDropdownString = 'Select type';
   shipStatusDropdownString = 'Select status';
 
+  shipFlagCodeSelected: boolean;
+  shipFlagCodeModel: ShipFlagCodeModel;
+  shipFlagCodeProperties = new ShipFlagCodeProperties().getPropertyList();
+
   organizationSelected: boolean;
-  organizationModel: any;
+  organizationModel: OrganizationModel;
   organizationProperties = new OrganizationProperties().getPropertyList();
 
-  shipFlagCodeModel: any;
   selectedContactModels: ShipContactModel[];
   certificateModel: CertificateOfRegistryModel;
   datePickerModel: { year: number, month: number, day: number };
@@ -125,7 +130,6 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
         if (data) {
           this.setAllValues(data);
         } else if (!this.newShip) {
-          this.shipService.setShipFlagCodeData(null);
           this.contactService.setContactData(null);
           this.newShip = true;
           this.shipHeader = 'Register New Ship';
@@ -202,18 +206,6 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   }
 
   subscribeToData() {
-    this.shipService.shipFlagCodeData$.subscribe(
-      data => {
-        if (data) {
-          this.shipFlagCodeModel = data;
-          this.shipModel.shipFlagCodeId = data.shipFlagCodeId;
-          this.shipFlagCodeSelected = true;
-        } else {
-          this.shipFlagCodeSelected = false;
-        }
-      }
-    );
-
     this.contactService.contactData$.subscribe(
       data => {
         if (data && data.length !== 0) {
@@ -263,7 +255,7 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
       this.shipStatusDropdownString = ship.shipStatus.name;
     }
     this.setOrganization(ship.organization);
-    this.shipService.setShipFlagCodeData(ship.shipFlagCode);
+    this.setShipFlagCode(ship.shipFlagCode);
     this.contactService.setContactData(ship.shipContact);
     this.contactSelected = (ship.shipContact != null);
     if (this.justSelected) {
@@ -283,11 +275,33 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipTypeSelected = false;
   }
 
+  onShipFlagCodeResult(shipFlagCodeResult) {
+    this.setShipFlagCode(shipFlagCodeResult);
+  }
+
+  setShipFlagCode(shipFlagCodeData: ShipFlagCodeModel) {
+    this.shipFlagCodeModel = shipFlagCodeData;
+    if (shipFlagCodeData) {
+      this.shipModel.shipFlagCodeId = shipFlagCodeData.shipFlagCodeId;
+      this.shipFlagCodeSelected = true;
+      ShipFlagCodeProperties.setShipFlagCodeData(this.shipFlagCodeProperties, this.shipFlagCodeModel);
+      const twoCharCode = this.shipFlagCodeModel.country.twoCharCode.toLowerCase() || 'xx';
+      const countryFlag = twoCharCode + '.png';
+      ShipFlagCodeProperties.setCountry(this.shipFlagCodeProperties, this.shipFlagCodeModel.country.name, countryFlag);
+    }
+  }
+
+  deselectShipFlagCode() {
+    this.shipFlagCodeSelected = false;
+    this.shipFlagCodeModel = null;
+    this.shipModel.shipFlagCodeId = null;
+  }
+
   onOrganizationResult(organizationResult) {
     this.setOrganization(organizationResult);
   }
 
-  setOrganization(organizationData) {
+  setOrganization(organizationData: OrganizationModel) {
     this.organizationModel = organizationData;
     if (organizationData) {
       this.shipModel.organizationId = organizationData.organizationId;
@@ -297,9 +311,9 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   }
 
   deselectOrganization() {
+    this.organizationSelected = false;
     this.organizationModel = null;
     this.shipModel.organizationId = null;
-    this.organizationSelected = false;
   }
 
   selectHullType(hullType: any) {

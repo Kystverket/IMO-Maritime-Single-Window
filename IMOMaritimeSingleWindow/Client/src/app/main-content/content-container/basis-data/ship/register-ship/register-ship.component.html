@@ -388,7 +388,19 @@
 
   <div class="row">
     <div class="col">
-      <app-search-ship-flag-code></app-search-ship-flag-code>
+      <app-ssn-card header="Flag Code" icon="flag.png">
+        <div *ngIf="!shipFlagCodeSelected">
+          <app-search-ship-flag-code (shipFlagCodeResult)="onShipFlagCodeResult($event)"></app-search-ship-flag-code>
+        </div>
+
+        <div *ngIf="shipFlagCodeSelected" class="text-center">
+          <div class="table-responsive">
+            <app-ssn-table [entryData]=shipFlagCodeProperties></app-ssn-table>
+          </div>
+          <button class="btn btn-ssn" (click)="deselectShipFlagCode()">
+            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+        </div>
+      </app-ssn-card>
     </div>
   </div>
 

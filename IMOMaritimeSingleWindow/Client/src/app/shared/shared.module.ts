@@ -35,6 +35,7 @@ import { DbConnectionService } from 'app/shared/services/db-connection.service';
 import { DateTimePickerComponent } from './components/date-time-picker/date-time-picker.component';
 import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
 import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-table/prev-and-next-poc-table.component';
+import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/search-ship-flag-code.component';
 
 @NgModule({
   imports: [
@@ -71,6 +72,7 @@ import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-tab
     DateTimePickerComponent,
     SsnTableComponent,
     PrevAndNextPocTableComponent,
+    SearchShipFlagCodeComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -93,7 +95,8 @@ import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-tab
     TableCardComponent,
     DateTimePickerComponent,
     SsnTableComponent,
-    PrevAndNextPocTableComponent
+    PrevAndNextPocTableComponent,
+    SearchShipFlagCodeComponent
   ],
   providers: [
     ContactService,
