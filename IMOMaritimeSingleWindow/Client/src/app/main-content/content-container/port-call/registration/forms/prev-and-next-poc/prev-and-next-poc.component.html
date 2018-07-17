@@ -1,5 +1,5 @@
 <app-ssn-card header="Previous Port of Call" icon="location.png">
-    <app-search-location [hidden]="prevLocationModel" [restrictTypeHarbour]=true></app-search-location>
+    <app-search-location *ngIf="!prevLocationFound" [restrictTypeHarbour]=true (locationResult)="onPrevLocationResult($event)"></app-search-location>
     <div class="text-center" *ngIf="prevLocationModel">
         <app-ssn-table [entryData]="prevLocationData"></app-ssn-table>
         <button class="btn btn-ssn" (click)="deselectPrevLocation()">
@@ -9,7 +9,7 @@
 </app-ssn-card>
 
 <app-ssn-card header="Next Port of Call" icon="location.png">
-    <app-search-location [hidden]="nextLocationModel" [restrictTypeHarbour]=true></app-search-location>
+    <app-search-location *ngIf="!nextLocationFound" [restrictTypeHarbour]=true (locationResult)="onNextLocationResult($event)"></app-search-location>
     <div class="text-center" *ngIf="nextLocationModel">
         <app-ssn-table [entryData]="nextLocationData"></app-ssn-table>
         <button class="btn btn-ssn" (click)="deselectNextLocation()">

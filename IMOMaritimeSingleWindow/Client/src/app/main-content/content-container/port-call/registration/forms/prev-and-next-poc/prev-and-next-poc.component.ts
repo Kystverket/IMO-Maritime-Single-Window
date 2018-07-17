@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
@@ -12,14 +11,13 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
   templateUrl: './prev-and-next-poc.component.html',
   styleUrls: ['./prev-and-next-poc.component.css']
 })
-export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
-  @ViewChildren(SearchLocationComponent) searchLocationComponentList: QueryList<SearchLocationComponent>;
-
-  prevPortOfCallComponent: SearchLocationComponent;
-  nextPortOfCallComponent: SearchLocationComponent;
+export class PrevAndNextPocComponent implements OnInit {
 
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
+
+  prevLocationFound = false;
+  nextLocationFound = false;
 
   etdModel: DateTime;
   etaModel: DateTime;
@@ -37,6 +35,7 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       data => {
         this.prevLocationModel = data;
         if (data) {
+          this.prevLocationFound = true;
           const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
@@ -51,6 +50,7 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       data => {
         this.nextLocationModel = data;
         if (data) {
+          this.nextLocationFound = true;
           const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
@@ -94,25 +94,26 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
     );
   }
 
-  ngAfterViewInit() {
-    this.prevPortOfCallComponent = this.searchLocationComponentList.first;
-    this.nextPortOfCallComponent = this.searchLocationComponentList.last;
+  onPrevLocationResult(prevLocationResult) {
+    if (prevLocationResult) {
+      this.prevAndNextPocService.setPrevPortOfCall(prevLocationResult);
+    }
+  }
 
-    this.prevPortOfCallComponent.getService().locationData$.subscribe(
-      locationResult => {
-        if (locationResult) {
-          this.prevAndNextPocService.setPrevPortOfCall(locationResult);
-        }
-      }
-    );
+  onNextLocationResult(nextLocationResult) {
+    if (nextLocationResult) {
+      this.prevAndNextPocService.setNextPortOfCall(nextLocationResult);
+    }
+  }
 
-    this.nextPortOfCallComponent.getService().locationData$.subscribe(
-      locationResult => {
-        if (locationResult) {
-          this.prevAndNextPocService.setNextPortOfCall(locationResult);
-        }
-      }
-    );
+  deselectPrevLocation() {
+    this.prevLocationFound = false;
+    this.prevAndNextPocService.setPrevPortOfCall(null);
+  }
+
+  deselectNextLocation() {
+    this.nextLocationFound = false;
+    this.prevAndNextPocService.setNextPortOfCall(null);
   }
 
   onEtdResult(etdResult) {
@@ -131,16 +132,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       this.prevAndNextPocService.setNextPortOfCallEta(date);
       this.validateDateTime();
     }
-  }
-
-  deselectPrevLocation() {
-    this.prevAndNextPocService.setPrevPortOfCall(null);
-    this.prevPortOfCallComponent.getService().clearLocationSearch();
-  }
-
-  deselectNextLocation() {
-    this.prevAndNextPocService.setNextPortOfCall(null);
-    this.nextPortOfCallComponent.getService().clearLocationSearch();
   }
 
   private validateDateTime() {
