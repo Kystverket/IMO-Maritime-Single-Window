@@ -2,11 +2,11 @@
   <div class="row">
 
     <div class="col-lg-6">
-      <app-date-time-picker header="ETA"></app-date-time-picker>
+      <app-date-time-picker header="ETA" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
     </div>
 
     <div class="col-lg-6">
-      <app-date-time-picker header="ETD"></app-date-time-picker>
+      <app-date-time-picker header="ETD" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
     </div>
 
   </div>

@@ -116,28 +116,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       }
     );
 
-    this.etdComponent.getService().dateTimeData$.subscribe(
-      etdResult => {
-        if (etdResult) {
-          const dateTime: DateTime = etdResult;
-          const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
-          this.prevAndNextPocService.setPrevPortOfCallEtd(date);
-          this.validateDateTime();
-        }
-      }
-    );
-
-    this.etaComponent.getService().dateTimeData$.subscribe(
-      etaResult => {
-        if (etaResult) {
-          const dateTime: DateTime = etaResult;
-          const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
-          this.prevAndNextPocService.setNextPortOfCallEta(date);
-          this.validateDateTime();
-        }
-      }
-    );
-
     setTimeout(() => {
       if (this.etdModel) {
         this.etdComponent.setDateTimeView(this.etdModel);
@@ -149,6 +127,24 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
         this.etaComponent.setDateTimeView(this.etaModel);
       }
     });
+  }
+
+  onEtdResult(etdResult) {
+    if (etdResult) {
+      const dateTime: DateTime = etdResult;
+      const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
+      this.prevAndNextPocService.setPrevPortOfCallEtd(date);
+      this.validateDateTime();
+    }
+  }
+
+  onEtaResult(etaResult) {
+    if (etaResult) {
+      const dateTime: DateTime = etaResult;
+      const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
+      this.prevAndNextPocService.setNextPortOfCallEta(date);
+      this.validateDateTime();
+    }
   }
 
   deselectPrevLocation() {

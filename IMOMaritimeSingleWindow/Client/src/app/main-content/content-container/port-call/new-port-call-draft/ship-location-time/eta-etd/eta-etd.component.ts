@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, QueryList, ViewChildren, OnInit } from '@angular/core';
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
@@ -11,12 +11,7 @@ import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
   templateUrl: './eta-etd.component.html',
   styleUrls: ['./eta-etd.component.css']
 })
-export class EtaEtdComponent implements AfterViewInit {
-
-  @ViewChildren(DateTimePickerComponent) dateTimePickerComponentList: QueryList<DateTimePickerComponent>;
-
-  etaPickerComponent: DateTimePickerComponent;
-  etdPickerComponent: DateTimePickerComponent;
+export class EtaEtdComponent implements OnInit {
 
   etaEtdModel: EtaEtdDateTime = {
     eta: null,
@@ -28,24 +23,7 @@ export class EtaEtdComponent implements AfterViewInit {
 
   constructor(private portCallService: PortCallService) {}
 
-  ngAfterViewInit() {
-    this.etaPickerComponent = this.dateTimePickerComponentList.first;
-    this.etdPickerComponent = this.dateTimePickerComponentList.last;
-
-    this.etaPickerComponent.getService().dateTimeData$.subscribe(
-      data => {
-        this.etaEtdModel.eta = data;
-        this.validateData();
-      }
-    );
-
-    this.etdPickerComponent.getService().dateTimeData$.subscribe(
-      data => {
-        this.etaEtdModel.etd = data;
-        this.validateData();
-      }
-    );
-
+  ngOnInit() {
     this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData != null) {
         this.etaEtdModel = {
@@ -60,6 +38,16 @@ export class EtaEtdComponent implements AfterViewInit {
         };
       }
     });
+  }
+
+  onEtaResult(etaResult) {
+    this.etaEtdModel.eta = etaResult;
+    this.validateData();
+  }
+
+  onEtdResult(etdResult) {
+    this.etaEtdModel.etd = etdResult;
+    this.validateData();
   }
 
   private validateData() {

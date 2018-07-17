@@ -1,17 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { DateTime } from '../../interfaces/dateTime.interface';
-import { DateTimePickerService } from './date-time-picker.service';
 
 @Component({
   selector: 'app-date-time-picker',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.css'],
-  providers: [DateTimePickerService]
+  providers: []
 })
 export class DateTimePickerComponent implements OnInit {
 
   @Input() header: string;
+
+  @Output() dateTimeResult = new EventEmitter<DateTime>();
 
   dateTimeModel: DateTime = {
     date: null,
@@ -20,17 +21,9 @@ export class DateTimePickerComponent implements OnInit {
 
   validDateFormat = true;
 
-  constructor(private dateTimePickerService: DateTimePickerService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.dateTimePickerService.dateTimeData$.subscribe(
-      data => {
-        if (data) {
-          this.dateTimeModel = data;
-        }
-      }
-    );
-  }
+  ngOnInit() { }
 
   dateChanged($event) {
     this.validDateFormat = this.hasValidDateFormat($event);
@@ -43,9 +36,9 @@ export class DateTimePickerComponent implements OnInit {
 
   persistData() {
     if (this.dateTimeModel.date && this.validDateFormat && this.dateTimeModel.time) {
-      this.dateTimePickerService.setDateTimeData(this.dateTimeModel);
+      this.dateTimeResult.emit(this.dateTimeModel);
     } else {
-      this.dateTimePickerService.setDateTimeData(null);
+      this.dateTimeResult.emit(null);
     }
   }
 
@@ -55,10 +48,6 @@ export class DateTimePickerComponent implements OnInit {
 
   setDateTimeView(dateTime: DateTime) {
     this.dateTimeModel = dateTime;
-  }
-
-  getService() {
-    return this.dateTimePickerService;
   }
 
 }
