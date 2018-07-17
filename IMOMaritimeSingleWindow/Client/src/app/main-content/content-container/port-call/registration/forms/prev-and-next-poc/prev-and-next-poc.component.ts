@@ -36,12 +36,10 @@ export class PrevAndNextPocComponent implements OnInit {
         this.prevLocationModel = data;
         if (data) {
           this.prevLocationFound = true;
+          LocationProperties.setLocationData(this.prevLocationData, this.prevLocationModel);
           const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
-          LocationProperties.setLocationName(this.prevLocationData, this.prevLocationModel.name);
-          LocationProperties.setLocationCode(this.prevLocationData, this.prevLocationModel.locationCode);
-          LocationProperties.setLocationType(this.prevLocationData, this.prevLocationModel.locationType.name);
         }
       }
     );
@@ -51,12 +49,10 @@ export class PrevAndNextPocComponent implements OnInit {
         this.nextLocationModel = data;
         if (data) {
           this.nextLocationFound = true;
+          LocationProperties.setLocationData(this.nextLocationData, this.nextLocationModel);
           const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
-          LocationProperties.setLocationName(this.nextLocationData, this.nextLocationModel.name);
-          LocationProperties.setLocationCode(this.nextLocationData, this.nextLocationModel.locationCode);
-          LocationProperties.setLocationType(this.nextLocationData, this.nextLocationModel.locationType.name);
         }
       }
     );

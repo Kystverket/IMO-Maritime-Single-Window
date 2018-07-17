@@ -15,30 +15,28 @@ export class FindLocationComponent implements OnInit {
     locationFound = false;
 
     locationFlag: string;
-    locationProperties = LocationProperties.PROPERTIES;
-    locationInfo: any[];
+    locationProperties = new LocationProperties().getPropertyList();
+
     constructor(private portCallService: PortCallService) { }
 
     ngOnInit() { }
 
     onLocationResult(locationResult) {
         if (locationResult) {
-            this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
-            this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
-            this.locationProperties.LOCATION_TYPE.data = locationResult.locationType.name;
-            this.locationProperties.LOCATION_NAME.data = locationResult.name;
-            this.locationProperties.LOCATION_CODE.data = locationResult.locationCode;
-
             this.locationFound = true;
             this.portCallService.setLocationData(locationResult);
+            LocationProperties.setLocationData(this.locationProperties, locationResult);
+            const twoCharCode = locationResult.country.twoCharCode.toLowerCase() || 'xx';
+            const countryFlag = twoCharCode + '.png';
+            LocationProperties.setCountry(this.locationProperties, locationResult.country.name, countryFlag);
         } else {
             this.locationFound = false;
             this.portCallService.setLocationData(null);
         }
-        this.locationInfo = Object.values(this.locationProperties);
     }
 
     deselectLocation() {
         this.locationFound = false;
+        this.portCallService.setLocationData(null);
     }
 }
