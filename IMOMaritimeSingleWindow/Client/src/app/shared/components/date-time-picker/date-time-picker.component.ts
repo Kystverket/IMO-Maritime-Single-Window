@@ -12,12 +12,12 @@ export class DateTimePickerComponent implements OnInit {
 
   @Input() header: string;
 
-  @Output() dateTimeResult = new EventEmitter<DateTime>();
-
-  dateTimeModel: DateTime = {
+  @Input() dateTimeModel: DateTime = {
     date: null,
     time: new NgbTime(0, 0, 0)
   };
+
+  @Output() dateTimeResult = new EventEmitter<DateTime>();
 
   validDateFormat = true;
 
@@ -25,12 +25,12 @@ export class DateTimePickerComponent implements OnInit {
 
   ngOnInit() { }
 
-  dateChanged($event) {
-    this.validDateFormat = this.hasValidDateFormat($event);
+  dateChanged(dateResult) {
+    this.validDateFormat = this.hasValidDateFormat(dateResult);
     this.persistData();
   }
 
-  timeChanged($event) {
+  timeChanged() {
     this.persistData();
   }
 
@@ -45,9 +45,4 @@ export class DateTimePickerComponent implements OnInit {
   private hasValidDateFormat(model): boolean {
     return typeof model !== 'string';
   }
-
-  setDateTimeView(dateTime: DateTime) {
-    this.dateTimeModel = dateTime;
-  }
-
 }

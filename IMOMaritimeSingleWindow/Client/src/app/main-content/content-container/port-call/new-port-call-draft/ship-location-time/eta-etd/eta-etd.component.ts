@@ -1,10 +1,8 @@
-import { AfterViewInit, Component, QueryList, ViewChildren, OnInit } from '@angular/core';
-import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { EtaEtdDateTime } from '../../../../../../shared/interfaces/eta-etd-date-time.interface';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-eta-etd',

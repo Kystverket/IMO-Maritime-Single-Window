@@ -1,7 +1,6 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, AfterViewChecked } from '@angular/core';
+import { AfterViewInit, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
 import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
@@ -15,13 +14,9 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 })
 export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   @ViewChildren(SearchLocationComponent) searchLocationComponentList: QueryList<SearchLocationComponent>;
-  @ViewChildren(DateTimePickerComponent) dateTimePickerComponentList: QueryList<DateTimePickerComponent>;
 
   prevPortOfCallComponent: SearchLocationComponent;
   nextPortOfCallComponent: SearchLocationComponent;
-
-  etdComponent: DateTimePickerComponent;
-  etaComponent: DateTimePickerComponent;
 
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
@@ -74,7 +69,10 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
         } else {
-          this.etdModel = null;
+          this.etdModel = {
+            date: null,
+            time: new NgbTime(0, 0, 0)
+          };
         }
       }
     );
@@ -87,7 +85,10 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
         } else {
-          this.etaModel = null;
+          this.etaModel = {
+            date: null,
+            time: new NgbTime(0, 0, 0)
+          };
         }
       }
     );
@@ -96,9 +97,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.prevPortOfCallComponent = this.searchLocationComponentList.first;
     this.nextPortOfCallComponent = this.searchLocationComponentList.last;
-
-    this.etdComponent = this.dateTimePickerComponentList.first;
-    this.etaComponent = this.dateTimePickerComponentList.last;
 
     this.prevPortOfCallComponent.getService().locationData$.subscribe(
       locationResult => {
@@ -115,18 +113,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
         }
       }
     );
-
-    setTimeout(() => {
-      if (this.etdModel) {
-        this.etdComponent.setDateTimeView(this.etdModel);
-      }
-    });
-
-    setTimeout(() => {
-      if (this.etaModel) {
-        this.etaComponent.setDateTimeView(this.etaModel);
-      }
-    });
   }
 
   onEtdResult(etdResult) {
@@ -181,7 +167,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   private persistDateTime() {
     if (!this.dateSequenceError && !this.timeSequenceError) {
       if (this.etdModel) {
-        this.etdComponent.setDateTimeView(this.etdModel);
         const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
         this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
       } else {
@@ -189,11 +174,9 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           date: null,
           time: new NgbTime(0, 0, 0)
         };
-        this.etdComponent.setDateTimeView(etdDateTime);
         this.prevAndNextPocService.setPrevPortOfCallEtd(null);
       }
       if (this.etaModel) {
-        this.etaComponent.setDateTimeView(this.etaModel);
         const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
         this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
       } else {
@@ -201,7 +184,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           date: null,
           time: new NgbTime(0, 0, 0)
         };
-        this.etaComponent.setDateTimeView(etaDateTime);
         this.prevAndNextPocService.setNextPortOfCallEta(null);
       }
     }

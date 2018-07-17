@@ -5,7 +5,7 @@
         <button class="btn btn-ssn" (click)="deselectPrevLocation()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-    <app-date-time-picker header="ETD" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+    <app-date-time-picker header="ETD" [dateTimeModel]="etdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
 </app-ssn-card>
 
 <app-ssn-card header="Next Port of Call" icon="location.png">
@@ -15,7 +15,7 @@
         <button class="btn btn-ssn" (click)="deselectNextLocation()">
             <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-    <app-date-time-picker header="ETA" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+    <app-date-time-picker header="ETA" [dateTimeModel]="etaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
     <div class="row" *ngIf="dateSequenceError">
         <div class="col-2"></div>
         <div class="col-8 alert alert-danger" role="alert">
