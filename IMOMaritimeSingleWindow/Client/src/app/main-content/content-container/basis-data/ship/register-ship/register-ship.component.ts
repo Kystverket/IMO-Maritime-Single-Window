@@ -175,8 +175,8 @@ export class RegisterShipComponent implements OnInit {
     this.setShipFlagCode(ship.shipFlagCode);
     this.setOrganization(ship.organization);
     this.setCertificateOfRegistry(ship.certificateOfRegistry);
-    this.contactService.setContactData(ship.shipContact);
-    this.contactSelected = ship.shipContact != null;
+    this.setContactData(ship.shipContact);
+
   }
 
   selectShipType($event: any) {
@@ -189,6 +189,41 @@ export class RegisterShipComponent implements OnInit {
     this.shipModel.shipTypeId = null;
     this.selectedShipType = null;
     this.shipTypeSelected = false;
+  }
+
+  selectLengthType(lengthType: any) {
+    this.shipModel.shipLengthTypeId = lengthType.shipLengthTypeId;
+    this.lengthTypeDropdownString = lengthType.name;
+    this.lengthTypeSelected = true;
+    this.touchData();
+  }
+
+  selectBreadthType(breadthType: any) {
+    this.shipModel.shipBreadthTypeId = breadthType.shipBreadthTypeId;
+    this.breadthTypeDropdownString = breadthType.name;
+    this.breadthTypeSelected = true;
+    this.touchData();
+  }
+
+  selectPowerType(powerType: any) {
+    this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
+    this.powerTypeDropdownString = powerType.name;
+    this.powerTypeSelected = true;
+    this.touchData();
+  }
+
+  selectHullType(hullType: any) {
+    this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
+    this.hullTypeDropdownString = hullType.name;
+    this.hullTypeSelected = true;
+    this.touchData();
+  }
+
+  selectShipStatus(shipStatus: any) {
+    this.shipModel.shipStatusId = shipStatus.shipStatusId;
+    this.shipStatusDropdownString = shipStatus.name;
+    this.shipStatusSelected = true;
+    this.touchData();
   }
 
   onShipFlagCodeResult(shipFlagCodeResult) {
@@ -212,6 +247,11 @@ export class RegisterShipComponent implements OnInit {
     this.shipFlagCodeSelected = false;
     this.shipFlagCodeModel = null;
     this.shipModel.shipFlagCodeId = null;
+  }
+
+  setContactData(contactData) {
+    this.contactService.setContactData(contactData);
+    this.contactSelected = contactData != null;
   }
 
   onOrganizationResult(organizationResult) {
@@ -257,41 +297,6 @@ export class RegisterShipComponent implements OnInit {
     } else {
       this.certificateSelected = false;
     }
-  }
-
-  selectHullType(hullType: any) {
-    this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
-    this.hullTypeDropdownString = hullType.name;
-    this.hullTypeSelected = true;
-    this.touchData();
-  }
-
-  selectLengthType(lengthType: any) {
-    this.shipModel.shipLengthTypeId = lengthType.shipLengthTypeId;
-    this.lengthTypeDropdownString = lengthType.name;
-    this.lengthTypeSelected = true;
-    this.touchData();
-  }
-
-  selectBreadthType(breadthType: any) {
-    this.shipModel.shipBreadthTypeId = breadthType.shipBreadthTypeId;
-    this.breadthTypeDropdownString = breadthType.name;
-    this.breadthTypeSelected = true;
-    this.touchData();
-  }
-
-  selectPowerType(powerType: any) {
-    this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
-    this.powerTypeDropdownString = powerType.name;
-    this.powerTypeSelected = true;
-    this.touchData();
-  }
-
-  selectShipStatus(shipStatus: any) {
-    this.shipModel.shipStatusId = shipStatus.shipStatusId;
-    this.shipStatusDropdownString = shipStatus.name;
-    this.shipStatusSelected = true;
-    this.touchData();
   }
 
   touchData() {

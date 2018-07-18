@@ -36,17 +36,18 @@ export class SelectShipContactComponent implements OnInit {
                   return cm;
                 });
               }
-            });
+            }
+          );
         }
       }
     );
   }
+
   contactInfoChanged(contactMedium: ShipContactModel) {
     this.contactService.setContactData(this.selectedContactModels);
   }
 
   contactMediumSelected() {
-    console.log(this.selectedContactModels);
     this.contactService.setContactData(this.selectedContactModels);
   }
 
