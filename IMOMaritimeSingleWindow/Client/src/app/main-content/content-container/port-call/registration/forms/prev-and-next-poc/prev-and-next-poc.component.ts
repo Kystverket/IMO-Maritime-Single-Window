@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-prev-and-next-poc',
   templateUrl: './prev-and-next-poc.component.html',
   styleUrls: ['./prev-and-next-poc.component.css']
 })
-export class PrevAndNextPocComponent implements OnInit {
+export class PrevAndNextPocComponent implements OnInit, OnDestroy {
 
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
@@ -28,10 +29,15 @@ export class PrevAndNextPocComponent implements OnInit {
   prevLocationData = new LocationProperties().getPropertyList();
   nextLocationData = new LocationProperties().getPropertyList();
 
+  prevPortOfCallDataSubscription: Subscription;
+  nextPortOfCallDataSubscription: Subscription;
+  prevPortOfCallEtdDataSubscription: Subscription;
+  nextPortOfCallEtaDataSubscription: Subscription;
+
   constructor(private prevAndNextPocService: PrevAndNextPocService) { }
 
   ngOnInit() {
-    this.prevAndNextPocService.prevPortOfCallData$.subscribe(
+    this.prevPortOfCallDataSubscription = this.prevAndNextPocService.prevPortOfCallData$.subscribe(
       data => {
         this.prevLocationModel = data;
         if (data) {
@@ -44,7 +50,7 @@ export class PrevAndNextPocComponent implements OnInit {
       }
     );
 
-    this.prevAndNextPocService.nextPortOfCallData$.subscribe(
+    this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(
       data => {
         this.nextLocationModel = data;
         if (data) {
@@ -57,7 +63,7 @@ export class PrevAndNextPocComponent implements OnInit {
       }
     );
 
-    this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
+    this.prevPortOfCallEtdDataSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       data => {
         if (data) {
           this.etdModel = {
@@ -73,7 +79,7 @@ export class PrevAndNextPocComponent implements OnInit {
       }
     );
 
-    this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
+    this.nextPortOfCallEtaDataSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       data => {
         if (data) {
           this.etaModel = {
@@ -88,6 +94,13 @@ export class PrevAndNextPocComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.prevPortOfCallDataSubscription.unsubscribe();
+    this.nextPortOfCallDataSubscription.unsubscribe();
+    this.prevPortOfCallEtdDataSubscription.unsubscribe();
+    this.nextPortOfCallEtaDataSubscription.unsubscribe();
   }
 
   onPrevLocationResult(prevLocationResult) {

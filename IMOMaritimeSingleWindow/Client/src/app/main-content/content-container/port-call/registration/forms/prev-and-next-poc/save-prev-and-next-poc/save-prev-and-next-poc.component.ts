@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocationModel } from 'app/shared/models/location-model';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Subscription } from 'rxjs/Subscription';
 
 const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
@@ -14,7 +15,7 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
   templateUrl: './save-prev-and-next-poc.component.html',
   styleUrls: ['./save-prev-and-next-poc.component.css']
 })
-export class SavePrevAndNextPocComponent implements OnInit {
+export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
 
@@ -31,6 +32,13 @@ export class SavePrevAndNextPocComponent implements OnInit {
   prevEtdFound: boolean;
   nextEtaFound: boolean;
 
+  dataIsPristineSubscription: Subscription;
+  prevPortOfCallDataSubscription: Subscription;
+  nextPortOfCallDataSubscription: Subscription;
+  prevPortOfCallEtdDataSubscription: Subscription;
+  nextPortOfCallEtaDataSubscription: Subscription;
+  detailsIdentificationDataSubscription: Subscription;
+
   constructor(
     private portCallService: PortCallService,
     private prevAndNextPocService: PrevAndNextPocService
@@ -39,27 +47,27 @@ export class SavePrevAndNextPocComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.prevAndNextPocService.dataIsPristine$.subscribe(
+    this.dataIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
       pristineData => {
         this.dataIsPristine = pristineData;
       }
     );
 
-    this.prevAndNextPocService.prevPortOfCallData$.subscribe(
+    this.prevPortOfCallDataSubscription = this.prevAndNextPocService.prevPortOfCallData$.subscribe(
       prevLocationData => {
         this.prevLocationFound = (prevLocationData != null);
         this.prevLocationModel = prevLocationData;
       }
     );
 
-    this.prevAndNextPocService.nextPortOfCallData$.subscribe(
+    this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(
       nextLocationData => {
         this.nextLocationFound = (nextLocationData != null);
         this.nextLocationModel = nextLocationData;
       }
     );
 
-    this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
+    this.prevPortOfCallEtdDataSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       etdData => {
         if (etdData) {
           this.prevEtdFound = true;
@@ -74,7 +82,7 @@ export class SavePrevAndNextPocComponent implements OnInit {
       }
     );
 
-    this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
+    this.nextPortOfCallEtaDataSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       etaData => {
         if (etaData) {
           this.nextEtaFound = true;
@@ -89,13 +97,22 @@ export class SavePrevAndNextPocComponent implements OnInit {
       }
     );
 
-    this.portCallService.detailsIdentificationData$.subscribe(
+    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData.portCallId;
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.dataIsPristineSubscription.unsubscribe();
+    this.prevPortOfCallDataSubscription.unsubscribe();
+    this.nextPortOfCallDataSubscription.unsubscribe();
+    this.prevPortOfCallEtdDataSubscription.unsubscribe();
+    this.nextPortOfCallEtaDataSubscription.unsubscribe();
+    this.detailsIdentificationDataSubscription.unsubscribe();
   }
 
   savePrevAndNextPoc() {
