@@ -7,16 +7,16 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class ShipService {
-  private shipTypeUrl: string;
-  private hullTypeUrl: string;
-  private lengthTypeUrl: string;
-  private breadthTypeUrl: string;
-  private powerTypeUrl: string;
-  private shipSourceUrl: string;
-  private shipStatusListUrl: string;
-  private shipUrl: string;
-  private contactListShipUrl: string;
-  private shipContactListUrl: string;
+  private shipUrl = 'api/ship';
+  private shipTypeUrl = 'api/shiptype';
+  private hullTypeUrl = 'api/shiphulltype';
+  private lengthTypeUrl = 'api/shiplengthtype';
+  private breadthTypeUrl = 'api/shipbreadthtype';
+  private powerTypeUrl = 'api/shippowertype';
+  private shipSourceUrl = 'api/shipsource';
+  private shipStatusListUrl = 'api/shipstatus';
+  private contactListShipUrl = 'api/shipcontact/ship';
+  private shipContactListUrl = 'api/shipcontact/list';
 
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
@@ -27,29 +27,10 @@ export class ShipService {
   private certificateDataSource = new BehaviorSubject<any>(null);
   certificateData$ = this.certificateDataSource.asObservable();
 
-  private dataPristineSource = new BehaviorSubject<boolean>(true);
-  dataPristine$ = this.dataPristineSource.asObservable();
-
   constructor(
     private http: Http,
     private authRequest: AuthRequest
-  ) {
-    this.shipUrl = 'api/ship';
-    this.shipTypeUrl = 'api/shiptype';
-    this.hullTypeUrl = 'api/shiphulltype';
-    this.lengthTypeUrl = 'api/shiplengthtype';
-    this.breadthTypeUrl = 'api/shipbreadthtype';
-    this.powerTypeUrl = 'api/shippowertype';
-    this.shipSourceUrl = 'api/shipsource';
-    this.shipStatusListUrl = 'api/shipstatus';
-    this.contactListShipUrl = 'api/shipcontact/ship';
-    this.shipContactListUrl = 'api/shipcontact/list';
-  }
-
-  // På sikt skal denne bort, og alt skal håndteres i RegisterShip-klassen
-  setDataPristine(data: boolean) {
-    this.dataPristineSource.next(data);
-  }
+  ) { }
 
   registerShip(newShip: any) {
     const auth_header = this.authRequest.GetHeaders();
@@ -66,18 +47,11 @@ export class ShipService {
   }
 
   setShipOverviewData(data) {
-    this.dataPristineSource.next(false);
     this.shipOverviewDataSource.next(data);
   }
 
   setShipSearchData(data) {
-    this.dataPristineSource.next(false);
     this.shipSearchDataSource.next(data);
-  }
-
-  setCertificateData(data) {
-    this.dataPristineSource.next(false);
-    this.certificateDataSource.next(data);
   }
 
   updateShip(ship: any) {

@@ -1,5 +1,6 @@
 import { OrganizationModel } from './organization-model';
 import { ShipFlagCodeModel } from './ship-flag-code-model';
+import { CertificateOfRegistryModel } from './certificate-of-registry-model';
 
 export class ShipModel {
     shipId: number;
@@ -33,7 +34,7 @@ export class ShipModel {
     dateOfKeelLaying: Date;
     // connected models:
     organization: OrganizationModel;
-    certificateOfRegistry: any;
+    certificateOfRegistry: CertificateOfRegistryModel;
     shipHullType: any;
     shipStatus: any;
     shipPowerType: any;

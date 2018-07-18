@@ -36,6 +36,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
 import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-table/prev-and-next-poc-table.component';
 import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/search-ship-flag-code.component';
+import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 
 @NgModule({
   imports: [
@@ -73,6 +74,7 @@ import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/
     SsnTableComponent,
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
+    ContactSelectComponent
   ],
   exports: [
     ConfirmationModalComponent,
@@ -96,7 +98,8 @@ import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/
     DateTimePickerComponent,
     SsnTableComponent,
     PrevAndNextPocTableComponent,
-    SearchShipFlagCodeComponent
+    SearchShipFlagCodeComponent,
+    ContactSelectComponent
   ],
   providers: [
     ContactService,
