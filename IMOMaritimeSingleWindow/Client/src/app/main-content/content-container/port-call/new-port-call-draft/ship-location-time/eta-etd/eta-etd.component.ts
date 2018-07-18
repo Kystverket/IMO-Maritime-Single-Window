@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-eta-etd',
   templateUrl: './eta-etd.component.html',
   styleUrls: ['./eta-etd.component.css']
 })
-export class EtaEtdComponent implements OnInit {
+export class EtaEtdComponent implements OnInit, OnDestroy {
 
   etaEtdModel: EtaEtdDateTime = {
     eta: null,
@@ -19,10 +20,12 @@ export class EtaEtdComponent implements OnInit {
   dateSequenceError = false;
   timeSequenceError = false;
 
+  etaEtdDataSubscription: Subscription;
+
   constructor(private portCallService: PortCallService) {}
 
   ngOnInit() {
-    this.portCallService.etaEtdData$.subscribe(etaEtdData => {
+    this.etaEtdDataSubscription = this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData != null) {
         this.etaEtdModel = {
           eta: {
@@ -36,6 +39,10 @@ export class EtaEtdComponent implements OnInit {
         };
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.etaEtdDataSubscription.unsubscribe();
   }
 
   onEtaResult(etaResult) {

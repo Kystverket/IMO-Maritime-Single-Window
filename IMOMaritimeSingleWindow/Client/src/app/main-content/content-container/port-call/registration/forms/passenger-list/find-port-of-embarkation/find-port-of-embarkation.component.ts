@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationService } from 'app/shared/services/location.service';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-find-port-of-embarkation',
@@ -9,7 +10,7 @@ import { PortCallPassengerListService } from 'app/shared/services/port-call-pass
   styleUrls: ['./find-port-of-embarkation.component.css'],
   providers: [LocationService]
 })
-export class FindPortOfEmbarkationComponent implements OnInit {
+export class FindPortOfEmbarkationComponent implements OnInit, OnDestroy {
 
   @Input() showDropDown = true;
 
@@ -20,25 +21,17 @@ export class FindPortOfEmbarkationComponent implements OnInit {
   locationProperties = LocationProperties.PROPERTIES;
   locationInfo: any[];
 
+  locationDataSubscription: Subscription;
+
   constructor(
     private locationService: LocationService,
     private passengerListService: PortCallPassengerListService
   ) { }
 
-  deselectLocation() {
-    this.locationFound = false;
-    this.locationService.setLocationData(null);
-  }
-
-
   ngOnInit() {
-
-    this.locationService.locationData$.subscribe(
+    this.locationDataSubscription = this.locationService.locationData$.subscribe(
       locationResult => {
-        console.log(locationResult);
-
         if (locationResult) {
-          console.log(locationResult.name);
           this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
           this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
           this.locationProperties.LOCATION_TYPE.data = locationResult.locationType.name;
@@ -56,4 +49,12 @@ export class FindPortOfEmbarkationComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.locationDataSubscription.unsubscribe();
+  }
+
+  deselectLocation() {
+    this.locationFound = false;
+    this.locationService.setLocationData(null);
+  }
 }

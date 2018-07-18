@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
@@ -11,6 +11,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-overview',
@@ -18,7 +19,7 @@ import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
   styleUrls: ['./overview.component.css'],
   providers: [PortCallOverviewService, OrganizationService, DatePipe]
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
@@ -82,6 +83,52 @@ export class OverviewComponent implements OnInit {
       }
     }
   };
+
+  userClaimsDataSubscription: Subscription;
+  getOrganizationForUserSubscription: Subscription;
+
+  constructor(
+    private datePipe: DatePipe,
+    private accountService: AccountService,
+    private organizationService: OrganizationService,
+    private contentService: ContentService,
+    private portCallService: PortCallService,
+    private overviewService: PortCallOverviewService
+  ) { }
+
+  ngOnInit() {
+    this.userClaimsDataSubscription = this.accountService.userClaimsData$.subscribe(userClaims => {
+      if (userClaims) {
+        const userClaimsTypePortCall = userClaims.filter(
+          claim => claim.type === PortCallClaims.TYPE
+        ); // Find user claims where claim type is Port Call
+        const keys = Object.keys(this.permissions);
+        keys.forEach(key => {
+          this.permissions[key] = userClaimsTypePortCall.some(
+            claim => claim.value.toUpperCase() === key.toString().toUpperCase()
+          );
+        });
+      }
+    });
+    this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser().subscribe(organizationResult => {
+      if (organizationResult) {
+        this.userIsGovernmentAgency =
+          organizationResult.organizationType &&
+          organizationResult.organizationType.name ===
+          OrganizationTypes.GOVERNMENT_AGENCY_STRING;
+        if (this.userIsGovernmentAgency) {
+          this.portCallService.setClearance(organizationResult);
+        }
+      }
+      this.userOrganization = organizationResult;
+      this.loadOverview();
+    });
+  }
+
+  ngOnDestroy() {
+    this.userClaimsDataSubscription.unsubscribe();
+    this.getOrganizationForUserSubscription.unsubscribe();
+  }
 
   overviewRow(ov) {
     const row = {
@@ -210,46 +257,6 @@ export class OverviewComponent implements OnInit {
       },
       error => console.log(error)
     );
-  }
-
-  constructor(
-    private datePipe: DatePipe,
-    private accountService: AccountService,
-    private organizationService: OrganizationService,
-    private contentService: ContentService,
-    private portCallService: PortCallService,
-    private overviewService: PortCallOverviewService
-  ) { }
-
-  ngOnInit() {
-    this.accountService.userClaimsData$.subscribe(userClaims => {
-      if (userClaims) {
-        const userClaimsTypePortCall = userClaims.filter(
-          claim => claim.type === PortCallClaims.TYPE
-        ); // Find user claims where claim type is Port Call
-        const keys = Object.keys(this.permissions);
-        keys.forEach(key => {
-          this.permissions[key] = userClaimsTypePortCall.some(
-            claim => claim.value.toUpperCase() === key.toString().toUpperCase()
-          );
-        });
-      }
-    });
-    this.organizationService
-      .getOrganizationForUser()
-      .subscribe(organizationResult => {
-        if (organizationResult) {
-          this.userIsGovernmentAgency =
-            organizationResult.organizationType &&
-            organizationResult.organizationType.name ===
-            OrganizationTypes.GOVERNMENT_AGENCY_STRING;
-          if (this.userIsGovernmentAgency) {
-            this.portCallService.setClearance(organizationResult);
-          }
-        }
-        this.userOrganization = organizationResult;
-        this.loadOverview();
-      });
   }
 
   toggleCancelledPortCalls(showCancelled) {
