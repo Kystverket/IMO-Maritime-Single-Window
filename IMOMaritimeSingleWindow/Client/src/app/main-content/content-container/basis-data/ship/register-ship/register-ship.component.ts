@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -12,6 +12,7 @@ import { ShipModel } from 'app/shared/models/ship-model';
 import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { ShipService } from 'app/shared/services/ship.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -25,7 +26,7 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
   styleUrls: ['./register-ship.component.css'],
   providers: [ShipModel]
 })
-export class RegisterShipComponent implements OnInit {
+export class RegisterShipComponent implements OnInit, OnDestroy {
 
   newShip = false;
   shipHeader: string;
@@ -73,6 +74,16 @@ export class RegisterShipComponent implements OnInit {
   dataIsPristine = true;
   dataIsPristineText: string;
 
+  contactDataSubscription: Subscription;
+  shipOverviewDataSubscription: Subscription;
+
+  shipTypesSubscription: Subscription;
+  hullTypesSubscription: Subscription;
+  lengthTypesSubscription: Subscription;
+  breadthTypesSubscription: Subscription;
+  powerTypesSubscription: Subscription;
+  shipStatusListSubscription: Subscription;
+
   // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(
     public shipModel: ShipModel,
@@ -109,7 +120,7 @@ export class RegisterShipComponent implements OnInit {
   ngOnInit() {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.certificateModel = new CertificateOfRegistryModel();
-    this.contactService.contactData$.subscribe(data => {
+    this.contactDataSubscription = this.contactService.contactData$.subscribe(data => {
       if (data && data.length !== 0) {
         this.selectedContactModels = data;
         this.contactSelected = true;
@@ -117,7 +128,7 @@ export class RegisterShipComponent implements OnInit {
         this.contactSelected = false;
       }
     });
-    this.shipService.shipOverviewData$.subscribe(data => {
+    this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(data => {
       if (data) {
         this.setAllValues(data);
       } else if (!this.newShip) {
@@ -128,12 +139,23 @@ export class RegisterShipComponent implements OnInit {
         this.confirmButtonTitle = 'Register Ship';
       }
     });
-    this.shipService.getShipTypes().subscribe(data => (this.shipTypeList = data));
-    this.shipService.getHullTypes().subscribe(data => (this.hullTypeList = data));
-    this.shipService.getLengthTypes().subscribe(data => (this.lengthTypeList = data));
-    this.shipService.getBreadthTypes().subscribe(data => (this.breadthTypeList = data));
-    this.shipService.getPowerTypes().subscribe(data => (this.powerTypeList = data));
-    this.shipService.getShipStatusList().subscribe(data => (this.shipStatusList = data));
+    this.shipTypesSubscription = this.shipService.getShipTypes().subscribe(data => (this.shipTypeList = data));
+    this.hullTypesSubscription = this.shipService.getHullTypes().subscribe(data => (this.hullTypeList = data));
+    this.lengthTypesSubscription = this.shipService.getLengthTypes().subscribe(data => (this.lengthTypeList = data));
+    this.breadthTypesSubscription = this.shipService.getBreadthTypes().subscribe(data => (this.breadthTypeList = data));
+    this.powerTypesSubscription = this.shipService.getPowerTypes().subscribe(data => (this.powerTypeList = data));
+    this.shipStatusListSubscription = this.shipService.getShipStatusList().subscribe(data => (this.shipStatusList = data));
+  }
+
+  ngOnDestroy() {
+    this.contactDataSubscription.unsubscribe();
+    this.shipOverviewDataSubscription.unsubscribe();
+    this.shipTypesSubscription.unsubscribe();
+    this.hullTypesSubscription.unsubscribe();
+    this.lengthTypesSubscription.unsubscribe();
+    this.breadthTypesSubscription.unsubscribe();
+    this.powerTypesSubscription.unsubscribe();
+    this.shipStatusListSubscription.unsubscribe();
   }
 
   setAllValues(ship: ShipModel) {
