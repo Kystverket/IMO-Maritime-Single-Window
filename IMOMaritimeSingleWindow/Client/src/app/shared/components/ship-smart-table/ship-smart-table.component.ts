@@ -47,6 +47,22 @@ export class ShipSmartTableComponent implements OnInit {
     private shipService: ShipService
   ) { }
 
+  ngOnInit() {
+    this.shipService.shipSearchData$.subscribe(data => {
+      if (data) {
+        if (data.length !== 0) {
+          const rowList = [];
+          data.forEach(ship => {
+            const row = this.dataRow(ship);
+            rowList.push(row);
+          });
+          this.tableData = rowList;
+        }
+      }
+      this.dataSource.load(this.tableData);
+    });
+  }
+
   dataRow(ship) {
     const row = {
       shipModel: ship,
@@ -63,22 +79,6 @@ export class ShipSmartTableComponent implements OnInit {
       actions: 'btn'
     };
     return row;
-  }
-
-  ngOnInit() {
-    this.shipService.shipSearchData$.subscribe(data => {
-      if (data) {
-        if (data.length !== 0) {
-          const rowList = [];
-          data.forEach(ship => {
-            const row = this.dataRow(ship);
-            rowList.push(row);
-          });
-          this.tableData = rowList;
-        }
-      }
-      this.dataSource.load(this.tableData);
-    });
   }
 
 }

@@ -18,22 +18,12 @@ export class ShipButtonRowComponent implements ViewCell, OnInit {
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
-  shipData: any[];
-
   constructor(
     private shipService: ShipService,
     private contentService: ContentService
   ) { }
 
-  ngOnInit() {
-    this.shipService.shipOverviewData$.subscribe(
-      results => {
-        if (results) {
-          this.shipData = results;
-        }
-      }
-    );
-  }
+  ngOnInit() { }
 
   onEditClick() {
     this.setContent(CONTENT_NAMES.REGISTER_SHIP);

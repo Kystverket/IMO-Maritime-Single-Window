@@ -10,7 +10,6 @@ import { ViewLocationInfoComponent } from './location/view-location-info/view-lo
 import { RegisterOrganizationComponent } from './organization/register-organization/register-organization.component';
 import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
 import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
-import { SearchShipFlagCodeComponent } from './ship/search-ship-flag-code/search-ship-flag-code.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { LocationService } from 'app/shared/services/location.service';
@@ -34,7 +33,6 @@ import { CertificateOfRegistryComponent } from './ship/register-ship/certificate
   declarations: [
     RegisterUserComponent,
     RegisterShipComponent,
-    SearchShipFlagCodeComponent,
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
     ViewOrganizationInfoComponent,

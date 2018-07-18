@@ -5,7 +5,7 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 
 const RESULT_SUCCES = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -34,13 +34,13 @@ export class RegisterUserComponent implements OnInit {
 
   organizationModel: any;
   organizationSelected: boolean;
+  organizationProperties = new OrganizationProperties().getPropertyList();
 
   roleList: any[];
   selectedRole: any;
 
   constructor(
     private accountService: AccountService,
-    private organizationService: OrganizationService,
     private contentService: ContentService,
     private modalService: NgbModal
   ) { }
@@ -48,19 +48,6 @@ export class RegisterUserComponent implements OnInit {
   ngOnInit() {
     this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
-    );
-
-    this.organizationService.setOrganizationData(null);
-    this.organizationService.organizationData$.subscribe(
-      data => {
-        if (data) {
-          this.organizationModel = data;
-          this.user.organizationId = data.organizationId;
-          this.organizationSelected = true;
-        } else {
-          this.organizationSelected = false;
-        }
-      }
     );
 
     this.getEmailLink();
@@ -99,9 +86,20 @@ export class RegisterUserComponent implements OnInit {
       );
   }
 
+  onOrganizationResult(organizationResult) {
+    this.setOrganization(organizationResult);
+  }
+
+  setOrganization(organizationData) {
+    this.organizationModel = organizationData;
+    this.user.organizationId = organizationData.organizationId;
+    this.organizationSelected = true;
+    OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
+  }
+
   deselectOrganization() {
-    this.user.organizationId = null;
     this.organizationModel = null;
+    this.user.organizationId = null;
     this.organizationSelected = false;
   }
 

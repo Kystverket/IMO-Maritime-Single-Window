@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class LocationSearchService {
+export class SearchLocationService {
   private searchService: SearchService;
   private searchUrl: string;
   private searchHarbourUrl: string;
@@ -15,25 +14,6 @@ export class LocationSearchService {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/location/search';
     this.searchHarbourUrl = 'api/location/harbour/search';
-  }
-
-  private locationDataSource = new BehaviorSubject<any>(null);
-  locationData$ = this.locationDataSource.asObservable();
-
-  private locationSearchDataSource = new BehaviorSubject<any>(null);
-  locationSearchData$ = this.locationSearchDataSource.asObservable();
-
-  setLocationData(data) {
-    this.locationDataSource.next(data);
-  }
-
-  setLocationSearchData(data) {
-    this.locationSearchDataSource.next(data);
-  }
-
-  clearLocationSearch() {
-    this.setLocationData(null);
-    this.setLocationSearchData(null);
   }
 
   public search(term: string, restrictTypeHarbour: boolean, amount = 10) {

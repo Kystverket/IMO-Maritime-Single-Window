@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { CertificateOfRegistryService } from 'app/main-content/content-container/basis-data/ship/register-ship/certificate-of-registry/certificate-of-registry.service';
 import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
-import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { LocationModel } from 'app/shared/models/location-model';
+import { LocationProperties } from 'app/shared/constants/location-properties';
 
 @Component({
   selector: 'app-certificate-of-registry',
@@ -11,18 +11,16 @@ import { LocationModel } from 'app/shared/models/location-model';
   styleUrls: ['./certificate-of-registry.component.css'],
   providers: [CertificateOfRegistryService]
 })
-export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
-  @ViewChild(SearchLocationComponent) searchLocationComponent: SearchLocationComponent;
+export class CertificateOfRegistryComponent implements OnInit {
 
   certificateModel: CertificateOfRegistryModel;
   dateOfIssueModel: NgbDate;
   selectedPort: LocationModel;
   portLocationSelected = false;
   validCertificateDateFormat = true;
-  countryName: string;
-  locationName: string;
-  locationCode: string;
-  locationTypeName: string;
+
+  locationProperties = new LocationProperties().getPropertyList();
+
   constructor(private certificateService: CertificateOfRegistryService) { }
 
   ngOnInit() {
@@ -35,11 +33,8 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
           this.dateOfIssueModel = new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
         }
         if (this.certificateModel.portLocation) {
-          this.countryName = this.certificateModel.portLocation.country.name || '';
-          this.locationName = this.certificateModel.portLocation.name || '';
-          this.locationCode = this.certificateModel.portLocation.locationCode || '';
-          this.locationTypeName = this.certificateModel.portLocation.locationType.name || '';
           this.portLocationSelected = true;
+          this.setLocationData(this.certificateModel.portLocation);
         } else {
           this.portLocationSelected = false;
         }
@@ -53,34 +48,28 @@ export class CertificateOfRegistryComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-
-    this.searchLocationComponent.getService().locationData$.subscribe(data => {
-      if (data) {
-        this.selectedPort = data;
-        this.countryName = data.country.name || '';
-        this.locationName = data.name || '';
-        this.locationCode = data.locationCode || '';
-        this.locationTypeName = data.locationType.name || '';
-        this.portLocationSelected = true;
-      } else {
-        this.portLocationSelected = false;
-        this.selectedPort = null;
-      }
-      this.persistData();
-    });
-
-    setTimeout(() => {
-      if (this.certificateModel.portLocation) {
-        this.searchLocationComponent.getService().setLocationData(this.certificateModel.portLocation);
-      }
-    });
+  onLocationResult(locationResult) {
+    if (locationResult) {
+      this.selectedPort = locationResult;
+      this.portLocationSelected = true;
+      this.setLocationData(this.selectedPort);
+    } else {
+      this.portLocationSelected = false;
+      this.selectedPort = null;
+    }
+    this.persistData();
   }
 
   deselectPortLocation() {
     this.portLocationSelected = false;
     this.certificateModel.portLocation = null;
-    this.searchLocationComponent.getService().setLocationData(null);
+  }
+
+  private setLocationData(locationModel) {
+    LocationProperties.setLocationData(this.locationProperties, locationModel);
+    const twoCharCode = locationModel.country.twoCharCode.toLowerCase() || 'xx';
+    const countryFlag = twoCharCode + '.png';
+    LocationProperties.setCountry(this.locationProperties, locationModel.country.name, countryFlag);
   }
 
   persistData() {

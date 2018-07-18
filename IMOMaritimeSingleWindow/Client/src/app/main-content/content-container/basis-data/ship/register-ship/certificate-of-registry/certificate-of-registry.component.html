@@ -5,31 +5,11 @@
         <div class="col">
           <app-ssn-card header="Port of Registry">
             <div [hidden]="portLocationSelected">
-              <app-search-location [restrictTypeHarbour]=true [showDropdown]=true></app-search-location>
+              <app-search-location [restrictTypeHarbour]=true [showDropdown]=true (locationResult)="onLocationResult($event)"></app-search-location>
             </div>
             <div *ngIf="portLocationSelected" class="text-center">
               <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr class="bg-ssn text-ssn">
-                      <th>Country</th>
-                      <th>Location Name</th>
-                      <th>LoCode</th>
-                      <th>Location Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <img height="32px" src="assets/images/Flags/128x128/{{certificateModel.portLocation.country.twoCharCode.toLowerCase()}}.png"
-                        /> {{ countryName }}
-                      </td>
-                      <td>{{ locationName }}</td>
-                      <td>{{ locationCode }}</td>
-                      <td>{{ locationTypeName }}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                <app-ssn-table [entryData]="locationProperties"></app-ssn-table>
               </div>
               <button class="btn btn-ssn" (click)="deselectPortLocation()">
                 <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>

@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, OnInit, QueryList, ViewChildren, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
-import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
@@ -13,18 +11,13 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
   templateUrl: './prev-and-next-poc.component.html',
   styleUrls: ['./prev-and-next-poc.component.css']
 })
-export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
-  @ViewChildren(SearchLocationComponent) searchLocationComponentList: QueryList<SearchLocationComponent>;
-  @ViewChildren(DateTimePickerComponent) dateTimePickerComponentList: QueryList<DateTimePickerComponent>;
-
-  prevPortOfCallComponent: SearchLocationComponent;
-  nextPortOfCallComponent: SearchLocationComponent;
-
-  etdComponent: DateTimePickerComponent;
-  etaComponent: DateTimePickerComponent;
+export class PrevAndNextPocComponent implements OnInit {
 
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
+
+  prevLocationFound = false;
+  nextLocationFound = false;
 
   etdModel: DateTime;
   etaModel: DateTime;
@@ -42,12 +35,11 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       data => {
         this.prevLocationModel = data;
         if (data) {
+          this.prevLocationFound = true;
+          LocationProperties.setLocationData(this.prevLocationData, this.prevLocationModel);
           const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
-          LocationProperties.setLocationName(this.prevLocationData, this.prevLocationModel.name);
-          LocationProperties.setLocationCode(this.prevLocationData, this.prevLocationModel.locationCode);
-          LocationProperties.setLocationType(this.prevLocationData, this.prevLocationModel.locationType.name);
         }
       }
     );
@@ -56,12 +48,11 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
       data => {
         this.nextLocationModel = data;
         if (data) {
+          this.nextLocationFound = true;
+          LocationProperties.setLocationData(this.nextLocationData, this.nextLocationModel);
           const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
           const countryFlag = twoCharCode + '.png';
           LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
-          LocationProperties.setLocationName(this.nextLocationData, this.nextLocationModel.name);
-          LocationProperties.setLocationCode(this.nextLocationData, this.nextLocationModel.locationCode);
-          LocationProperties.setLocationType(this.nextLocationData, this.nextLocationModel.locationType.name);
         }
       }
     );
@@ -74,7 +65,10 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
         } else {
-          this.etdModel = null;
+          this.etdModel = {
+            date: null,
+            time: new NgbTime(0, 0, 0)
+          };
         }
       }
     );
@@ -87,78 +81,53 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
             time: new NgbTime(data.getHours(), data.getMinutes(), 0)
           };
         } else {
-          this.etaModel = null;
+          this.etaModel = {
+            date: null,
+            time: new NgbTime(0, 0, 0)
+          };
         }
       }
     );
   }
 
-  ngAfterViewInit() {
-    this.prevPortOfCallComponent = this.searchLocationComponentList.first;
-    this.nextPortOfCallComponent = this.searchLocationComponentList.last;
+  onPrevLocationResult(prevLocationResult) {
+    if (prevLocationResult) {
+      this.prevAndNextPocService.setPrevPortOfCall(prevLocationResult);
+    }
+  }
 
-    this.etdComponent = this.dateTimePickerComponentList.first;
-    this.etaComponent = this.dateTimePickerComponentList.last;
-
-    this.prevPortOfCallComponent.getService().locationData$.subscribe(
-      locationResult => {
-        if (locationResult) {
-          this.prevAndNextPocService.setPrevPortOfCall(locationResult);
-        }
-      }
-    );
-
-    this.nextPortOfCallComponent.getService().locationData$.subscribe(
-      locationResult => {
-        if (locationResult) {
-          this.prevAndNextPocService.setNextPortOfCall(locationResult);
-        }
-      }
-    );
-
-    this.etdComponent.getService().dateTimeData$.subscribe(
-      etdResult => {
-        if (etdResult) {
-          const dateTime: DateTime = etdResult;
-          const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
-          this.prevAndNextPocService.setPrevPortOfCallEtd(date);
-          this.validateDateTime();
-        }
-      }
-    );
-
-    this.etaComponent.getService().dateTimeData$.subscribe(
-      etaResult => {
-        if (etaResult) {
-          const dateTime: DateTime = etaResult;
-          const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
-          this.prevAndNextPocService.setNextPortOfCallEta(date);
-          this.validateDateTime();
-        }
-      }
-    );
-
-    setTimeout(() => {
-      if (this.etdModel) {
-        this.etdComponent.setDateTimeView(this.etdModel);
-      }
-    });
-
-    setTimeout(() => {
-      if (this.etaModel) {
-        this.etaComponent.setDateTimeView(this.etaModel);
-      }
-    });
+  onNextLocationResult(nextLocationResult) {
+    if (nextLocationResult) {
+      this.prevAndNextPocService.setNextPortOfCall(nextLocationResult);
+    }
   }
 
   deselectPrevLocation() {
+    this.prevLocationFound = false;
     this.prevAndNextPocService.setPrevPortOfCall(null);
-    this.prevPortOfCallComponent.getService().clearLocationSearch();
   }
 
   deselectNextLocation() {
+    this.nextLocationFound = false;
     this.prevAndNextPocService.setNextPortOfCall(null);
-    this.nextPortOfCallComponent.getService().clearLocationSearch();
+  }
+
+  onEtdResult(etdResult) {
+    if (etdResult) {
+      const dateTime: DateTime = etdResult;
+      const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
+      this.prevAndNextPocService.setPrevPortOfCallEtd(date);
+      this.validateDateTime();
+    }
+  }
+
+  onEtaResult(etaResult) {
+    if (etaResult) {
+      const dateTime: DateTime = etaResult;
+      const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
+      this.prevAndNextPocService.setNextPortOfCallEta(date);
+      this.validateDateTime();
+    }
   }
 
   private validateDateTime() {
@@ -185,7 +154,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
   private persistDateTime() {
     if (!this.dateSequenceError && !this.timeSequenceError) {
       if (this.etdModel) {
-        this.etdComponent.setDateTimeView(this.etdModel);
         const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
         this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
       } else {
@@ -193,11 +161,9 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           date: null,
           time: new NgbTime(0, 0, 0)
         };
-        this.etdComponent.setDateTimeView(etdDateTime);
         this.prevAndNextPocService.setPrevPortOfCallEtd(null);
       }
       if (this.etaModel) {
-        this.etaComponent.setDateTimeView(this.etaModel);
         const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
         this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
       } else {
@@ -205,7 +171,6 @@ export class PrevAndNextPocComponent implements OnInit, AfterViewInit {
           date: null,
           time: new NgbTime(0, 0, 0)
         };
-        this.etaComponent.setDateTimeView(etaDateTime);
         this.prevAndNextPocService.setNextPortOfCallEta(null);
       }
     }

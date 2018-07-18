@@ -1,3 +1,6 @@
+import { OrganizationModel } from './organization-model';
+import { ShipFlagCodeModel } from './ship-flag-code-model';
+
 export class ShipModel {
     shipId: number;
     shipHullTypeId: number;
@@ -29,7 +32,7 @@ export class ShipModel {
     certificateOfRegistryId: number;
     dateOfKeelLaying: Date;
     // connected models:
-    organization: any;
+    organization: OrganizationModel;
     certificateOfRegistry: any;
     shipHullType: any;
     shipStatus: any;
@@ -37,7 +40,7 @@ export class ShipModel {
     shipBreadthType: any;
     shipLengthType: any;
     shipSource: any;
-    shipFlagCode: any;
+    shipFlagCode: ShipFlagCodeModel;
     shipType: any;
     shipContact: any[];
 }

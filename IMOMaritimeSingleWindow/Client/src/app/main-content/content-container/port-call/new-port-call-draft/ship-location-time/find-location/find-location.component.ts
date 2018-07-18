@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { SearchLocationComponent } from 'app/shared/components/search-location/search-location.component';
+import { Component, OnInit } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import 'rxjs/add/operator/debounceTime';
@@ -11,39 +10,33 @@ import 'rxjs/add/operator/map';
     templateUrl: './find-location.component.html',
     styleUrls: ['./find-location.component.css']
 })
-export class FindLocationComponent implements AfterViewInit {
-
-    @ViewChild(SearchLocationComponent) searchLocationComponent: SearchLocationComponent;
+export class FindLocationComponent implements OnInit {
 
     locationFound = false;
 
     locationFlag: string;
-    locationProperties = LocationProperties.PROPERTIES;
-    locationInfo: any[];
+    locationProperties = new LocationProperties().getPropertyList();
+
     constructor(private portCallService: PortCallService) { }
+
+    ngOnInit() { }
+
+    onLocationResult(locationResult) {
+        if (locationResult) {
+            this.locationFound = true;
+            this.portCallService.setLocationData(locationResult);
+            LocationProperties.setLocationData(this.locationProperties, locationResult);
+            const twoCharCode = locationResult.country.twoCharCode.toLowerCase() || 'xx';
+            const countryFlag = twoCharCode + '.png';
+            LocationProperties.setCountry(this.locationProperties, locationResult.country.name, countryFlag);
+        } else {
+            this.locationFound = false;
+            this.portCallService.setLocationData(null);
+        }
+    }
 
     deselectLocation() {
         this.locationFound = false;
-    }
-
-    ngAfterViewInit() {
-        this.searchLocationComponent.getService().locationData$.subscribe(
-            locationResult => {
-                if (locationResult) {
-                    this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
-                    this.locationProperties.COUNTRY.data = (locationResult.country) ? locationResult.country.name : null;
-                    this.locationProperties.LOCATION_TYPE.data = locationResult.locationType.name;
-                    this.locationProperties.LOCATION_NAME.data = locationResult.name;
-                    this.locationProperties.LOCATION_CODE.data = locationResult.locationCode;
-
-                    this.locationFound = true;
-                    this.portCallService.setLocationData(locationResult);
-                } else {
-                    this.locationFound = false;
-                    this.portCallService.setLocationData(null);
-                }
-                this.locationInfo = Object.values(this.locationProperties);
-            }
-        );
+        this.portCallService.setLocationData(null);
     }
 }
