@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { ContactService } from '../../services/contact.service';
-import { ConstantsService } from '../../services/constants.service';
-import { ShipContactModel } from '../../models/ship-contact-model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ContactService } from 'app/shared/services/contact.service';
+import { ConstantsService } from 'app/shared/services/constants.service';
+import { ShipContactModel } from 'app/shared/models/ship-contact-model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-select-ship-contact',
   templateUrl: './select-ship-contact.component.html',
   styleUrls: ['./select-ship-contact.component.css']
 })
-export class SelectShipContactComponent implements OnInit {
+export class SelectShipContactComponent implements OnInit, OnDestroy {
   contactList: ShipContactModel[];
   selectedContactModels: ShipContactModel[];
+
+  getContactMediumListSubscription: Subscription;
 
   constructor(private constantsService: ConstantsService, private contactService: ContactService) { }
 
   ngOnInit() {
-    this.constantsService.getContactMediumList().subscribe(
+    this.getContactMediumListSubscription = this.constantsService.getContactMediumList().subscribe(
       data => {
         if (data) {
           this.contactList = data.map(cm => {
@@ -41,6 +44,10 @@ export class SelectShipContactComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.getContactMediumListSubscription.unsubscribe();
   }
 
   contactInfoChanged(contactMedium: ShipContactModel) {

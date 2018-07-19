@@ -1,14 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ShipService } from 'app/shared/services/ship.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ShipButtonRowComponent } from './ship-button-row/ship-button-row.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-ship-smart-table',
   templateUrl: './ship-smart-table.component.html',
   styleUrls: ['./ship-smart-table.component.css']
 })
-export class ShipSmartTableComponent implements OnInit {
+export class ShipSmartTableComponent implements OnInit, OnDestroy {
 
   tableData = [];
   dataSource: LocalDataSource = new LocalDataSource();
@@ -43,12 +44,14 @@ export class ShipSmartTableComponent implements OnInit {
     }
   };
 
+  shipSearchDataSubscription: Subscription;
+
   constructor(
     private shipService: ShipService
   ) { }
 
   ngOnInit() {
-    this.shipService.shipSearchData$.subscribe(data => {
+    this.shipSearchDataSubscription = this.shipService.shipSearchData$.subscribe(data => {
       if (data) {
         if (data.length !== 0) {
           const rowList = [];
@@ -61,6 +64,10 @@ export class ShipSmartTableComponent implements OnInit {
       }
       this.dataSource.load(this.tableData);
     });
+  }
+
+  ngOnDestroy() {
+    this.shipSearchDataSubscription.unsubscribe();
   }
 
   dataRow(ship) {
