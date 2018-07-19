@@ -76,7 +76,7 @@ export class ShipSmartTableComponent implements OnInit, OnDestroy {
       country:
         `<div class="no-wrap"><div hidden>` +
         ship.shipFlagCode.country.name + // ugly fix for alphabetical sorting but it works
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ship.shipFlagCode.country.name +

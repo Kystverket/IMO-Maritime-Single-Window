@@ -93,7 +93,7 @@
                       disabled="true" />
                     <div class="input-group-append">
                       <button class="btn btn-sm btn-ssn" (click)="deselectShipType()">
-                        <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px">
+                        <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                       </button>
                     </div>
                   </div>
@@ -398,7 +398,7 @@
             <app-ssn-table [entryData]=shipFlagCodeProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectShipFlagCode()">
-            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
       </app-ssn-card>
     </div>
@@ -422,7 +422,7 @@
             <app-ssn-table [entryData]=organizationProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectOrganization()">
-            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
       </app-ssn-card>
     </div>
@@ -470,7 +470,7 @@
             <p class="no-wrap mb-0" *ngIf="!certificateSelected">Certificate of registry must be provided.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" />{{ confirmButtonTitle }}</button>
+            <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />{{ confirmButtonTitle }}</button>
         </div>
 
         <div class="text-center" *ngIf="form.valid && shipModel.name && shipModel.callSign && shipModel.imoNo && shipTypeSelected
@@ -558,7 +558,7 @@
               <tbody>
                 <tr>
                   <td>
-                    <img src="assets/images/Flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
+                    <img src="assets/images/flags/{{ shipFlagCodeModel.country.twoCharCode | lowercase }}.png" height="20px" />
                   </td>
                   <td>{{ shipFlagCodeModel.name }}</td>
                   <td>{{ shipFlagCodeModel.country.name }}</td>
@@ -608,13 +608,13 @@
             <span>{{ dataIsPristineText }}</span>
             <br>
             <button class="btn btn-ssn mt-2" disabled>
-              <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+              <img src="assets/images/icons/128x128/white/save.png" height="24px">
               <span>{{ confirmButtonTitle }}</span>
             </button>
           </div>
           <div class="text-center" *ngIf="!(dataIsPristine)">
             <button class="btn btn-ssn" (click)="registerShip()">
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+              <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
         </div>
       </app-ssn-card>

@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./confirmation-view.component.css']
 })
 export class ConfirmationViewComponent implements OnInit, OnDestroy {
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   falForms: any;
 
   reportingForThisPortCallDataSubcription: Subscription;

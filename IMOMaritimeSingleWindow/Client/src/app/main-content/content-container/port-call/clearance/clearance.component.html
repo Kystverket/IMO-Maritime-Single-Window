@@ -23,13 +23,13 @@
         <div class="text-center">
           <button class="btn btn-success" (click)="showWarningBox(content, true)">
             <div class="mx-auto">
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="32px">
+              <img src="assets/images/icons/128x128/white/checkmark.png" height="32px">
             </div>
             <small>Accept</small>
           </button>
           <button class="btn btn-danger" (click)="showWarningBox(content, false)">
             <div class="mx-auto">
-              <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="32px">
+              <img src="assets/images/icons/128x128/white/cancel.png" height="32px">
             </div>
             <small>Reject</small>
           </button>
@@ -41,7 +41,7 @@
   <div class="row text-center">
     <div class="col">
       <button class="btn btn-outline-light" (click)="goBack()" (mouseover)="backButtonIcon='left-arrow'" (mouseout)="backButtonIcon='white/left-arrow'">
-        <img src="assets/images/VoyageIcons/128x128/{{backButtonIcon}}.png" height="32px">
+        <img src="assets/images/icons/128x128/{{backButtonIcon}}.png" height="32px">
         <span class="no-wrap"> GO BACK</span>
       </button>
     </div>
@@ -67,11 +67,11 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-success" *ngIf="givingClearance" (click)="saveClearance(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px">
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px">
       <span>Give Clearance</span>
     </button>
     <button class="btn btn-danger" *ngIf="!givingClearance" (click)="saveClearance(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Reject Clearance</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

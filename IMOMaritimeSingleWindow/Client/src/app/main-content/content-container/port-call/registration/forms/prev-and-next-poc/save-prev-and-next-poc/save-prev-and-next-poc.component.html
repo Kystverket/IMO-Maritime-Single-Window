@@ -5,12 +5,12 @@
     <p *ngIf="!prevEtdFound" class="no-wrap mb-0">ETD for previous port of call not set.</p>
     <p *ngIf="!nextEtaFound" class="no-wrap">ETA for next port of call not set.</p>
     <button class="btn btn-ssn" disabled>
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" />Save Voyages</button>
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />Save Voyages</button>
   </div>
   <div *ngIf="prevLocationFound && nextLocationFound && prevEtdFound && nextEtaFound">
     <div class="text-center" *ngIf="!dataIsPristine">
       <button class="btn btn-ssn" (click)="savePrevAndNextPoc()">
-        <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span>Save Voyages</span>
       </button>
     </div>
@@ -19,7 +19,7 @@
       <span>{{ dataIsPristineText }}</span>
       <br>
       <button class="btn btn-ssn mt-2" disabled>
-        <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span>Save Voyages</span>
       </button>
     </div>

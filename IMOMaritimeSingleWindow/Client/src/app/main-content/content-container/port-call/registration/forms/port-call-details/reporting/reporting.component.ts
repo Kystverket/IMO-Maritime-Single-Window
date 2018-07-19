@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ReportingComponent implements OnInit, OnDestroy {
 
-  baseIconUrl = 'assets/images/VoyageIcons/128x128/';
+  baseIconUrl = 'assets/images/icons/128x128/';
   reportingModel: {
     reportingDpg: boolean,
     reportingCargo: boolean,

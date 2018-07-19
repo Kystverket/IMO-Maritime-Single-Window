@@ -13,7 +13,7 @@ export class LocationProperties {
   static LOCATION_NAME = 'Location Name';
   static LOCATION_CODE = 'Location Code';
   static LOCATION_TYPE = 'Location Type';
-  static FLAGS_FOLDER = 'assets/images/Flags/';
+  static FLAGS_FOLDER = 'assets/images/flags/';
 
   propertyList: DataProperty[] = [
     { description: LocationProperties.COUNTRY, data: null, imageUrl: null },

@@ -14,11 +14,11 @@
                     tmFocus validateEmail>
                   <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
-                    <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
+                    <img height="16px" src="assets/images/icons/128x128/green/checkmark.png">
                     <small class="text-success">email available</small>
                   </div>
                   <div *ngIf="emailChecked && emailTaken">
-                    <img height="16px" src="assets/images/Validation/32x32/icon-alert-warning.png">
+                    <img height="16px" src="assets/images/icons/128x128/red/warning.png">
                     <small class="text-danger">email is already in use</small>
                   </div>
                 </div>
@@ -104,7 +104,7 @@
             <app-ssn-table [entryData]=organizationProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectOrganization()">
-            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
       </app-ssn-card>
     </div>

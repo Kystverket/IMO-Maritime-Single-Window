@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs/Subscription';
 export class ProgressBarComponent implements OnInit, OnDestroy {
   formNames = FORM_NAMES;
 
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   baseMenuEntries: any[] = [
     {
       name: this.formNames.PREV_AND_NEXT_POC,

@@ -136,7 +136,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       shipName:
         `<div class="no-wrap"><div hidden>` +
         ov.ship.name + // ugly fix for alphabetical sorting but it works
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.ship.name +
@@ -147,7 +147,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       locationName:
         `<div hidden>` +
         ov.location.name + // same ugly fix as ship name
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         ov.location.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.location.name +

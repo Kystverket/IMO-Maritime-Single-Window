@@ -62,7 +62,7 @@
                     />
                     <div class="input-group-append">
                       <button class="btn btn-sm btn-ssn" (click)="deselectCountry()">
-                        <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px">
+                        <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                       </button>
                     </div>
                   </div>
@@ -94,11 +94,11 @@
             <p *ngIf="!locationModel.name" class="no-wrap mb-0">Location name not set.</p>
             <p *ngIf="!countrySelected" class="no-wrap">Country not selected.</p>
             <button class="btn btn-ssn" disabled>
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+              <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
           <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected">
             <button class="btn btn-ssn" (click)="registerLocation()">
-              <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+              <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
         </app-ssn-card>
       </div>

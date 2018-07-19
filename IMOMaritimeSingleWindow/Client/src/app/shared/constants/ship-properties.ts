@@ -23,7 +23,7 @@ export class ShipProperties {
   static LENGTH = 'Length';
   static SHIP_TYPE = 'Ship Type';
   static SHIP_STATUS = 'Ship Status';
-  static FLAGS_FOLDER = 'assets/images/Flags/';
+  static FLAGS_FOLDER = 'assets/images/flags/';
 
   propertyList: DataProperty[] = [
     { description: 'Country', data: null, imageUrl: null },

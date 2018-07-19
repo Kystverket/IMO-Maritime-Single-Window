@@ -6,7 +6,7 @@
           <span>Warning: Voyages are unsaved.</span>
           <br>
           <button class="btn btn-ssn mt-2" (click)="savePrevAndNextPortCall()">
-            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Voyages</button>
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Voyages</button>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
           <span>Warning: Port Call Details are unsaved.</span>
           <br>
           <button class="btn btn-ssn mt-2" (click)="saveDetails()">
-            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Details</button>
         </div>
       </div>
 
@@ -27,7 +27,7 @@
           <span>Error: Port Call Details contains invalid data.</span>
           <br>
           <button class="btn btn-ssn mt-2" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Details</button>
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Details</button>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@
           <span>Warning: Ship Stores List is unsaved.</span>
           <br>
           <button class="btn btn-ssn mt-2" (click)="saveShipStores()">
-            <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Save Ship Stores
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Ship Stores
           </button>
         </div>
       </div>
@@ -50,7 +50,7 @@
           <span>Port call is already active. You can still update the information.</span>
           <br>
           <button class="btn btn-ssn mt-2" (click)="goBack()">
-            <img src="assets/images/VoyageIcons/128x128/white/left-arrow.png" height="24px"> Return to overview</button>
+            <img src="assets/images/icons/128x128/white/left-arrow.png" height="24px"> Return to overview</button>
         </div>
       </div>
     </div>
@@ -60,11 +60,11 @@
         <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for authorities to review.</p>
         <p>This action cannot be undone.</p>
         <button class="btn btn-ssn" (click)="send()">
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
+          <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
       <div *ngIf="!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)" class="col">
         <button class="btn btn-ssn" disabled>
-          <img src="assets/images/VoyageIcons/128x128/white/save.png" height="24px"> Activate</button>
+          <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
     </div>
 

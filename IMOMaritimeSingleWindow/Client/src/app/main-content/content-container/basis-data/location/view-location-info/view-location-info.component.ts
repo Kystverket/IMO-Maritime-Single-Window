@@ -79,7 +79,7 @@ export class ViewLocationInfoComponent implements OnInit {
       country:
         `<div class="no-wrap"><div hidden>` +
         location.country.name + // ugly fix for alphabetical sorting but it works
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         location.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         location.country.name +
