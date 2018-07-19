@@ -24,9 +24,6 @@ export class ShipService {
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
-  private certificateDataSource = new BehaviorSubject<any>(null);
-  certificateData$ = this.certificateDataSource.asObservable();
-
   constructor(
     private http: Http,
     private authRequest: AuthRequest
