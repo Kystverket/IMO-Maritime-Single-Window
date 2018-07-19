@@ -16,6 +16,8 @@ export class TableCardComponent implements OnInit {
 
   @Input() collapsed: boolean;
 
+  collapsedIconPath = 'assets/images/VoyageIcons/128x128/';
+  collapsedIconColor = 'white/';
   collapsedIcon: string;
 
   constructor() {}
