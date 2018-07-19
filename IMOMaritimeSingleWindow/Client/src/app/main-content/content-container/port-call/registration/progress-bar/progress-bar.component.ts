@@ -51,7 +51,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   crewPassengersAndDimensionsMetaSubscription: Subscription;
   portCalldataIsPristineSubscription: Subscription;
   portCalldetailsPristineSubscription: Subscription;
-  shipStoresdetailsPristineSubscription: Subscription;
   shipStoresdataIsPristineSubscription: Subscription;
 
   constructor(
@@ -120,7 +119,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
@@ -128,7 +127,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+    this.portCalldataIsPristineSubscription = this.prevAndNextPortCallService.dataIsPristine$.subscribe(
       pristineData => {
         this.menuEntries.find(
           p => p.name === this.formNames.PREV_AND_NEXT_POC
@@ -136,27 +135,21 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.portCallService.detailsPristine$.subscribe(
+    this.portCalldetailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
         ).hasUnsavedData = !detailsDataIsPristine;
       }
     );
-    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
-      this.menuEntries.find(
-        p => p.name === this.formNames.PORT_CALL_DETAILS
-      ).hasUnsavedData = !detailsDataIsPristine;
-    });
 
-    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+    this.shipStoresdataIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
       const shipStores = this.menuEntries.find(
         p => p.name === this.formNames.SHIP_STORES
       );
       if (shipStores) {
         shipStores.hasUnsavedData = !shipStoresDataIsPristine;
       }
-
     });
   }
 
@@ -166,7 +159,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
     this.portCalldataIsPristineSubscription.unsubscribe();
     this.portCalldetailsPristineSubscription.unsubscribe();
-    this.shipStoresdetailsPristineSubscription.unsubscribe();
     this.shipStoresdataIsPristineSubscription.unsubscribe();
   }
 
