@@ -12,6 +12,8 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ViewPortCallComponent implements OnInit, OnDestroy {
 
+  backButtonIcon = 'white/left-arrow';
+
   shipDataSubscription: Subscription;
 
   constructor(

@@ -15,6 +15,8 @@ import { Subscription } from 'rxjs/Subscription';
 export class ClearanceComponent implements OnInit, OnDestroy {
   clearanceModel: ClearanceModel = new ClearanceModel();
 
+  backButtonIcon = 'white/left-arrow';
+
   clearanceList: any[] = [];
 
   givingClearance: boolean;
