@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
-import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { FORM_NAMES } from 'app/shared/constants/form-names';
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.css']
 })
-export class ProgressBarComponent implements OnInit {
+export class ProgressBarComponent implements OnInit, OnDestroy {
   formNames = FORM_NAMES;
 
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
@@ -45,6 +46,14 @@ export class ProgressBarComponent implements OnInit {
 
   selectedPortCallForm: string;
 
+  reportingForThisPortCallDataSubscription: Subscription;
+  portCallFormNameSubscription: Subscription;
+  crewPassengersAndDimensionsMetaSubscription: Subscription;
+  portCalldataIsPristineSubscription: Subscription;
+  portCalldetailsPristineSubscription: Subscription;
+  shipStoresdetailsPristineSubscription: Subscription;
+  shipStoresdataIsPristineSubscription: Subscription;
+
   constructor(
     private portCallService: PortCallService,
     private prevAndNextPortCallService: PrevAndNextPocService,
@@ -53,11 +62,9 @@ export class ProgressBarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    console.log(this.formNames.PORT_CALL_DETAILS);
-
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
-    this.portCallService.reportingForThisPortCallData$.subscribe(
+
+    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           const falForms = [
@@ -107,7 +114,7 @@ export class ProgressBarComponent implements OnInit {
       }
     );
 
-    this.contentService.portCallFormName$.subscribe(
+    this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
       portCallFormName => {
         this.selectedPortCallForm = portCallFormName;
       }
@@ -151,6 +158,16 @@ export class ProgressBarComponent implements OnInit {
       }
 
     });
+  }
+
+  ngOnDestroy() {
+    this.reportingForThisPortCallDataSubscription.unsubscribe();
+    this.portCallFormNameSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
+    this.portCalldataIsPristineSubscription.unsubscribe();
+    this.portCalldetailsPristineSubscription.unsubscribe();
+    this.shipStoresdetailsPristineSubscription.unsubscribe();
+    this.shipStoresdataIsPristineSubscription.unsubscribe();
   }
 
   setPortCallForm(contentName: string) {

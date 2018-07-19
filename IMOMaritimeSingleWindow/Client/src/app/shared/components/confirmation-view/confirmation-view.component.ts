@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-confirmation-view',
   templateUrl: './confirmation-view.component.html',
   styleUrls: ['./confirmation-view.component.css']
 })
-export class ConfirmationViewComponent implements OnInit {
+export class ConfirmationViewComponent implements OnInit, OnDestroy {
   iconPath = 'assets/images/VoyageIcons/128x128/white/';
   falForms: any;
+
+  reportingForThisPortCallDataSubcription: Subscription;
 
   constructor(private portCallService: PortCallService) {}
 
   ngOnInit() {
-    this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubcription = this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           this.falForms = [
@@ -46,5 +49,9 @@ export class ConfirmationViewComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.reportingForThisPortCallDataSubcription.unsubscribe();
   }
 }
