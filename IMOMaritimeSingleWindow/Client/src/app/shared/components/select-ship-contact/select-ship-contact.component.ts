@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { ContactService } from 'app/shared/services/contact.service';
-import { ConstantsService } from 'app/shared/services/constants.service';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
+import { ConstantsService } from 'app/shared/services/constants.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -11,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SelectShipContactComponent implements OnInit, OnDestroy {
 
-  @Input() selectedContactModelList: ShipContactModel[] = [];
+  @Input() selectedContactModelList: ShipContactModel[];
 
   @Output() contactModelListResult = new EventEmitter<ShipContactModel[]>();
 
@@ -19,7 +18,7 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
 
   getContactMediumListSubscription: Subscription;
 
-  constructor(private constantsService: ConstantsService, private contactService: ContactService) { }
+  constructor(private constantsService: ConstantsService) { }
 
   ngOnInit() {
     this.getContactMediumListSubscription = this.constantsService.getContactMediumList().subscribe(
@@ -42,12 +41,21 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
 
   contactInfoChanged() {
     this.contactModelListResult.emit(this.selectedContactModelList);
-    this.contactService.setContactData(this.selectedContactModelList);
   }
 
-  contactMediumSelected() {
+  onAdd($event) {
+    this.selectedContactModelList.push($event);
     this.contactModelListResult.emit(this.selectedContactModelList);
-    this.contactService.setContactData(this.selectedContactModelList);
+  }
+
+  onRemove($event) {
+    const index = this.selectedContactModelList.findIndex((item, i) => item.contactMediumId === $event.value.contactMediumId);
+    if (index !== -1) {
+      this.selectedContactModelList.splice(index, 1);
+      this.contactModelListResult.emit(this.selectedContactModelList);
+    } else {
+      console.error('Selected contact medium could not be found.');
+    }
   }
 
   preferredSet(selectedContactModel: ShipContactModel) {
@@ -62,7 +70,6 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
       }
     );
     this.contactModelListResult.emit(updatedContactModelList);
-    this.contactService.setContactData(updatedContactModelList);
   }
 }
 

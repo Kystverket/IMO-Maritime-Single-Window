@@ -413,7 +413,7 @@
     </div>
     <div class="col-6">
       <app-ssn-card header="Contact stored in selectedContactModels">
-        <pre>{{ selectedContactModels | json }}</pre>
+        <pre>{{ selectedContactModelList | json }}</pre>
       </app-ssn-card>
     </div>
   </div>
@@ -581,7 +581,7 @@
             </table>
           </div>
 
-          <app-selected-contact-mediums></app-selected-contact-mediums>
+          <app-selected-contact-mediums [selectedContactModelList]="shipModel.shipContact"></app-selected-contact-mediums>
 
           <div class="table-responsive">
             <table class="table table-bordered">

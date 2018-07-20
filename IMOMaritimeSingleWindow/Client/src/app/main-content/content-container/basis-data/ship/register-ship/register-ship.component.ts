@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -9,7 +9,6 @@ import { OrganizationModel } from 'app/shared/models/organization-model';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
 import { ShipFlagCodeModel } from 'app/shared/models/ship-flag-code-model';
 import { ShipModel } from 'app/shared/models/ship-model';
-import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -33,7 +32,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
-  certificateSelected = false;
 
   hullTypeSelected = false;
   lengthTypeSelected = false;
@@ -63,12 +61,13 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   shipFlagCodeProperties = new ShipFlagCodeProperties().getPropertyList();
 
   contactSelected: boolean;
-  selectedContactModels: ShipContactModel[];
+  selectedContactModelList: ShipContactModel[];
 
   organizationSelected: boolean;
   organizationModel: OrganizationModel;
   organizationProperties = new OrganizationProperties().getPropertyList();
 
+  certificateSelected = false;
   certificateModel: CertificateOfRegistryModel;
   certificateDateString: string;
 
@@ -155,7 +154,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
     this.shipTypeSelected = ship.shipType != null;
     this.organizationModel = ship.organization;
     this.organizationSelected = ship.organization != null;
-    this.selectedContactModels = ship.shipContact;
+    this.selectedContactModelList = ship.shipContact;
 
     this.hullTypeSelected = ship.shipHullType != null;
     if (this.hullTypeSelected) {
@@ -264,7 +263,8 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   }
 
   setContactData(contactData) {
-    this.selectedContactModels = contactData;
+    this.selectedContactModelList = contactData;
+    this.shipModel.shipContact = this.selectedContactModelList;
     this.contactSelected = contactData.length !== 0;
   }
 
@@ -332,12 +332,11 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
       this.shipService.registerShip(this.shipModel).subscribe(
         result => {
           this.shipModel.shipId = result.shipId;
-          const shipContactList = this.selectedContactModels.map(
+          const shipContactList = this.selectedContactModelList.map(
             contactModel => {
               const shipContact = new ShipContactModel();
               shipContact.shipId = this.shipModel.shipId;
-              shipContact.contactMediumId =
-                contactModel.contactMedium.contactMediumId;
+              shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
               shipContact.contactValue = contactModel.contactValue;
               shipContact.isPreferred = contactModel.isPreferred;
               shipContact.comments = contactModel.comments;
@@ -369,12 +368,11 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
       // update
       this.shipService.updateShip(this.shipModel).subscribe(
         result => {
-          const shipContactList = this.selectedContactModels.map(
+          const shipContactList = this.selectedContactModelList.map(
             contactModel => {
               const shipContact = new ShipContactModel();
               shipContact.shipId = this.shipModel.shipId;
-              shipContact.contactMediumId =
-                contactModel.contactMedium.contactMediumId;
+              shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
               shipContact.contactValue = contactModel.contactValue;
               shipContact.isPreferred = contactModel.isPreferred;
               shipContact.comments = contactModel.comments;

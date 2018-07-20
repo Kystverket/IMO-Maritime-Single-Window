@@ -1,9 +1,10 @@
 <app-ssn-card header="Contact Information" icon="contact.png">
+  <pre> {{ selectedContactModelList | json }} </pre>
   <div class="text-center">
     <label for="contact_info">Select contact information</label>
   </div>
   <ng-select id="contact_info" [items]="contactList" [multiple]="true" [closeOnSelect]="true" bindLabel="contactMedium.contactMediumType"
-    placeholder="Select contact mediums" [(ngModel)]="selectedContactModelList" (change)="contactMediumSelected()"></ng-select>
+    placeholder="Select contact mediums" [ngModel]="selectedContactModelList" (add)="onAdd($event)" (remove)="onRemove($event)"></ng-select>
 
   <div *ngFor="let contactModel of selectedContactModelList; let i = index" class="form-group row mt-3">
     <div class="col">

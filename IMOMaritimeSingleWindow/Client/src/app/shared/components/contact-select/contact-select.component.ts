@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ContactModel } from 'app/shared/models/contact-model';
 import { ConstantsService } from 'app/shared/services/constants.service';
-import { ContactService } from 'app/shared/services/contact.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -17,8 +16,7 @@ export class ContactSelectComponent implements OnInit, OnDestroy {
   getContactMediumListSubscription: Subscription;
 
   constructor(
-    private constantsService: ConstantsService,
-    private contactService: ContactService
+    private constantsService: ConstantsService
   ) {}
 
   ngOnInit() {
@@ -54,10 +52,12 @@ export class ContactSelectComponent implements OnInit, OnDestroy {
   }
 
   contactMediumSelected() {
-    this.contactService.setContactData(this.selectedContactModels);
+    // Outdated
+    // this.contactService.setContactData(this.selectedContactModels);
   }
 
   contactInfoChanged(contactMedium: ContactModel) {
-    this.contactService.setContactData(this.selectedContactModels);
+    // Outdated
+    // this.contactService.setContactData(this.selectedContactModels);
   }
 }
