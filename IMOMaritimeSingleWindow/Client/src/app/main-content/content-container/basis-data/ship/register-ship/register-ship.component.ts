@@ -86,7 +86,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
 
   constructor(
     private shipService: ShipService,
-    private contactService: ContactService,
     private contentService: ContentService,
     private modalService: NgbModal
   ) { }
@@ -122,7 +121,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
       if (data) {
         this.setAllValues(data);
       } else if (!this.newShip) {
-        this.contactService.setContactData(null);
         this.newShip = true;
         this.shipHeader = 'Register New Ship';
         this.confirmHeader = 'Confirm Ship Registration';
@@ -261,14 +259,13 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   }
 
   onContactDataResult(contactData: ShipContactModel[]) {
-    console.log(contactData);
-    this.selectedContactModels = contactData;
-    this.contactSelected = contactData.length !== 0;
+    this.setContactData(contactData);
+    this.touchData();
   }
 
   setContactData(contactData) {
-    this.contactService.setContactData(contactData);
-    this.contactSelected = contactData != null;
+    this.selectedContactModels = contactData;
+    this.contactSelected = contactData.length !== 0;
   }
 
   onOrganizationResult(organizationResult) {

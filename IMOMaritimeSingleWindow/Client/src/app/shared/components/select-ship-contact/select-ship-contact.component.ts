@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SelectShipContactComponent implements OnInit, OnDestroy {
 
-  @Input() selectedContactModelList: ShipContactModel[];
+  @Input() selectedContactModelList: ShipContactModel[] = [];
 
   @Output() contactModelListResult = new EventEmitter<ShipContactModel[]>();
 
@@ -31,20 +31,6 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
             contact.contactMedium = cm;
             return contact;
           });
-          this.contactService.contactData$.subscribe(
-            shipContactData => {
-              if (shipContactData) {
-                this.selectedContactModelList = shipContactData;
-                this.contactList = this.contactList.map(cm => {
-                  const shipContact = shipContactData.find(sc => sc.contactMediumId === cm.contactMediumId);
-                  if (shipContact != null) {
-                    return shipContact;
-                  }
-                  return cm;
-                });
-              }
-            }
-          );
         }
       }
     );
@@ -55,20 +41,16 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
   }
 
   contactInfoChanged() {
-    console.log('info change');
     this.contactModelListResult.emit(this.selectedContactModelList);
     this.contactService.setContactData(this.selectedContactModelList);
   }
 
   contactMediumSelected() {
-    console.log('medium change');
-
     this.contactModelListResult.emit(this.selectedContactModelList);
     this.contactService.setContactData(this.selectedContactModelList);
   }
 
   preferredSet(selectedContactModel: ShipContactModel) {
-    console.log('preferredChange');
     const updatedContactModelList = this.selectedContactModelList.map(
       contactModel => {
         if (contactModel.contactMediumId === selectedContactModel.contactMediumId) {
