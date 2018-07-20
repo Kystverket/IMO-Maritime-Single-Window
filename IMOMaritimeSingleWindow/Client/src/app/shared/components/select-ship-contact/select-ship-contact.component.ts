@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
 import { ContactService } from 'app/shared/services/contact.service';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
@@ -10,8 +10,12 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./select-ship-contact.component.css']
 })
 export class SelectShipContactComponent implements OnInit, OnDestroy {
+
+  @Input() selectedContactModelList: ShipContactModel[];
+
+  @Output() contactModelListResult = new EventEmitter<ShipContactModel[]>();
+
   contactList: ShipContactModel[];
-  selectedContactModels: ShipContactModel[];
 
   getContactMediumListSubscription: Subscription;
 
@@ -30,7 +34,7 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
           this.contactService.contactData$.subscribe(
             shipContactData => {
               if (shipContactData) {
-                this.selectedContactModels = shipContactData;
+                this.selectedContactModelList = shipContactData;
                 this.contactList = this.contactList.map(cm => {
                   const shipContact = shipContactData.find(sc => sc.contactMediumId === cm.contactMediumId);
                   if (shipContact != null) {
@@ -50,16 +54,22 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
     this.getContactMediumListSubscription.unsubscribe();
   }
 
-  contactInfoChanged(contactMedium: ShipContactModel) {
-    this.contactService.setContactData(this.selectedContactModels);
+  contactInfoChanged() {
+    console.log('info change');
+    this.contactModelListResult.emit(this.selectedContactModelList);
+    this.contactService.setContactData(this.selectedContactModelList);
   }
 
   contactMediumSelected() {
-    this.contactService.setContactData(this.selectedContactModels);
+    console.log('medium change');
+
+    this.contactModelListResult.emit(this.selectedContactModelList);
+    this.contactService.setContactData(this.selectedContactModelList);
   }
 
   preferredSet(selectedContactModel: ShipContactModel) {
-    const updatedModels = this.selectedContactModels.map(
+    console.log('preferredChange');
+    const updatedContactModelList = this.selectedContactModelList.map(
       contactModel => {
         if (contactModel.contactMediumId === selectedContactModel.contactMediumId) {
           return selectedContactModel;
@@ -69,6 +79,8 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
         return notPreferredContactModel;
       }
     );
+    this.contactModelListResult.emit(updatedContactModelList);
+    this.contactService.setContactData(updatedContactModelList);
   }
 }
 

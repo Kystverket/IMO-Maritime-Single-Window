@@ -23,16 +23,16 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 @Component({
   selector: 'app-register-ship',
   templateUrl: './register-ship.component.html',
-  styleUrls: ['./register-ship.component.css'],
-  providers: [ShipModel]
+  styleUrls: ['./register-ship.component.css']
 })
 export class RegisterShipComponent implements OnInit, OnDestroy {
+
+  shipModel = new ShipModel();
 
   newShip = false;
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
-  contactSelected: boolean;
   certificateSelected = false;
 
   hullTypeSelected = false;
@@ -62,11 +62,12 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   shipFlagCodeModel: ShipFlagCodeModel;
   shipFlagCodeProperties = new ShipFlagCodeProperties().getPropertyList();
 
+  contactSelected: boolean;
+  selectedContactModels: ShipContactModel[];
+
   organizationSelected: boolean;
   organizationModel: OrganizationModel;
   organizationProperties = new OrganizationProperties().getPropertyList();
-
-  selectedContactModels: ShipContactModel[];
 
   certificateModel: CertificateOfRegistryModel;
   certificateDateString: string;
@@ -74,7 +75,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   dataIsPristine = true;
   dataIsPristineText: string;
 
-  contactDataSubscription: Subscription;
   shipOverviewDataSubscription: Subscription;
 
   shipTypesSubscription: Subscription;
@@ -84,9 +84,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   powerTypesSubscription: Subscription;
   shipStatusListSubscription: Subscription;
 
-  // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
   constructor(
-    public shipModel: ShipModel,
     private shipService: ShipService,
     private contactService: ContactService,
     private contentService: ContentService,
@@ -99,7 +97,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
     this.shipModel.callSign = 'tjo123';
     this.shipModel.imoNo = 1234567;
     this.shipModel.mmsiNo = 7654321;
-    this.selectShipType(this.shipTypeList[0]);
+    // this.selectShipType(this.shipTypeList[0]);
     this.shipModel.yearOfBuild = 1234;
     this.selectLengthType(this.lengthTypeList[0]);
     this.shipModel.length = 100;
@@ -120,14 +118,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.certificateModel = new CertificateOfRegistryModel();
-    this.contactDataSubscription = this.contactService.contactData$.subscribe(data => {
-      if (data && data.length !== 0) {
-        this.selectedContactModels = data;
-        this.contactSelected = true;
-      } else {
-        this.contactSelected = false;
-      }
-    });
     this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(data => {
       if (data) {
         this.setAllValues(data);
@@ -148,7 +138,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.contactDataSubscription.unsubscribe();
     this.shipOverviewDataSubscription.unsubscribe();
     this.shipTypesSubscription.unsubscribe();
     this.hullTypesSubscription.unsubscribe();
@@ -269,6 +258,12 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
     this.shipFlagCodeSelected = false;
     this.shipFlagCodeModel = null;
     this.shipModel.shipFlagCodeId = null;
+  }
+
+  onContactDataResult(contactData: ShipContactModel[]) {
+    console.log(contactData);
+    this.selectedContactModels = contactData;
+    this.contactSelected = contactData.length !== 0;
   }
 
   setContactData(contactData) {

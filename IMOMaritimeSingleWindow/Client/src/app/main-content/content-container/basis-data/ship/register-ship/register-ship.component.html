@@ -404,9 +404,23 @@
     </div>
   </div>
 
+  <!-- Debugging -->
+  <div class="row">
+    <div class="col-6">
+      <app-ssn-card header="Contact stored in shipModel">
+          <pre>{{ shipModel.shipContact | json }}</pre>
+      </app-ssn-card>
+    </div>
+    <div class="col-6">
+      <app-ssn-card header="Contact stored in selectedContactModels">
+          <pre>{{ selectedContactModels | json }}</pre>
+      </app-ssn-card>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col">
-      <app-select-ship-contact></app-select-ship-contact>
+      <app-select-ship-contact (contactModelListResult)="onContactDataResult($event)"></app-select-ship-contact>
     </div>
   </div>
 
