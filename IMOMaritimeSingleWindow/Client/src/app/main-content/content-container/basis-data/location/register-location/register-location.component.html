@@ -6,10 +6,10 @@
         <form>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_type_dropdown">Location Type</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="location_type_dropdown">Location Type</label>
                   <div ngbDropdown>
                     <button class="btn btn-sm btn-ssn" id="location_type_dropdown" ngbDropdownToggle> {{ locationTypeDropdownString }}</button>
                     <div ngbDropdownMenu aria-labelledby="location_type_dropdown">
@@ -22,20 +22,20 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_name">Location Name</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="location_name">Location Name</label>
                   <input [(ngModel)]="locationModel.name" name="locationName" type="text" class="form-control form-control-sm" id="location_name"
                     placeholder="Enter location name" />
                 </div>
               </div>
             </div>
 
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_code">Location Code</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="location_code">Location Code</label>
                   <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm" id="location_code"
                     placeholder="Enter location code" />
                 </div>
@@ -44,19 +44,19 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6" *ngIf="!countrySelected">
+            <div class="col-md-6 col-lg-6" *ngIf="!countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="country_select">Country</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="country_select">Country</label>
                   <ng-select id="country_select" name="country_select" [items]="countryList" [multiple]="false" [closeOnSelect]="true" bindLabel="name"
                     placeholder="Select country" [(ngModel)]="selectedCountry" (change)="selectCountry($event)"></ng-select>
                 </div>
               </div>
             </div>
-            <div class="col-lg-6" *ngIf="countrySelected">
+            <div class="col-md-6 col-lg-6" *ngIf="countrySelected">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="country">Country</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="country">Country</label>
                   <div class="input-group">
                     <input id="country" name="country" type="text" class="form-control form-control-sm" [ngModel]="selectedCountry.name" disabled="true"
                     />
@@ -69,10 +69,10 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-3" for="location_post_code">Post Code</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="location_post_code">Post Code</label>
                   <input [(ngModel)]="locationModel.postCode" name="locationPostCode" type="text" class="form-control form-control-sm" id="location_post_code"
                     placeholder="Enter location post code" />
                 </div>
