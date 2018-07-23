@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { LocationModel } from 'app/shared/models/location-model';
@@ -8,7 +8,7 @@ import { LocationModel } from 'app/shared/models/location-model';
   templateUrl: './find-port-of-embarkation.component.html',
   styleUrls: ['./find-port-of-embarkation.component.css']
 })
-export class FindPortOfEmbarkationComponent implements OnInit {
+export class FindPortOfEmbarkationComponent implements OnInit, OnDestroy {
 
   @Input() showDropDown = true;
   @Input() label: string;
@@ -50,4 +50,12 @@ export class FindPortOfEmbarkationComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.locationDataSubscription.unsubscribe();
+  }
+
+  deselectLocation() {
+    this.locationFound = false;
+    this.locationService.setLocationData(null);
+  }
 }

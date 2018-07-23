@@ -4,7 +4,7 @@
     <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
     <p *ngIf="!dateTimeFound" class="no-wrap">ETA and ETD not set.</p>
     <button class="btn btn-ssn" disabled>
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
 
   <div *ngIf="shipFound && locationFound && dateTimeFound" class="text-center">
@@ -23,20 +23,20 @@
         <tbody>
           <tr>
             <td>
-              <img src="assets/images/Flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
+              <img src="assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
             </td>
             <td>{{ shipModel.name }}</td>
             <td>{{ locationModel.name }}</td>
             <td>{{ locationModel.locationCode }}</td>
-            <td>{{ etaEtdModel.eta.year }}-{{ dateTimeFormat(etaEtdModel.eta.month) }}-{{ dateTimeFormat(etaEtdModel.eta.day)
-              }} {{ dateTimeFormat(etaEtdModel.eta.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.minute) }}</td>
-            <td>{{ etaEtdModel.etd.year }}-{{ dateTimeFormat(etaEtdModel.etd.month) }}-{{ dateTimeFormat(etaEtdModel.etd.day)
-              }} {{ dateTimeFormat(etaEtdModel.etd.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.minute) }}</td>
+            <td>{{ etaEtdModel.eta.date.year }}-{{ dateTimeFormat(etaEtdModel.eta.date.month) }}-{{ dateTimeFormat(etaEtdModel.eta.date.day)
+              }} {{ dateTimeFormat(etaEtdModel.eta.time.hour) }}:{{ dateTimeFormat(etaEtdModel.eta.time.minute) }}</td>
+            <td>{{ etaEtdModel.etd.date.year }}-{{ dateTimeFormat(etaEtdModel.etd.date.month) }}-{{ dateTimeFormat(etaEtdModel.etd.date.day)
+              }} {{ dateTimeFormat(etaEtdModel.etd.time.hour) }}:{{ dateTimeFormat(etaEtdModel.etd.time.minute) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
     <button class="btn btn-ssn" (click)="startPortCallRegistration()">
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
 </app-ssn-card>

@@ -1,11 +1,10 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img src="assets/images/flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+  <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+  <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
+</ng-template>
 
-  <ng-template #rt let-r="result" let-t="term">
-    <img src="assets/images/Flags/128x128/{{r.country.twoCharCode.toLowerCase()}}.png" height="16px" />
-    <strong *ngIf="r.name">Name: </strong> {{ r.name }}
-    <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
-  </ng-template>
-
-<div *ngIf="!locationSelected" class="text-center">
+<div class="text-center">
   <label for="search-location">Search using location name or UN/LOCODE code</label>
   <div class="row">
     <div class="col-2"></div>
@@ -20,7 +19,7 @@
         <p>Searching</p>
       </div>
       <div *ngIf="searchFailed">
-        <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+        <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="32px">
         <p>No results</p>
       </div>
     </div>

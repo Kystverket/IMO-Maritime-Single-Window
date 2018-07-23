@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td>
-        <img *ngIf="shipFlag" src="assets/images/Flags/128x128/{{shipFlag | lowercase}}.png" class="my-2" height="32px">
+        <img *ngIf="shipFlag" src="assets/images/flags/128x128/{{shipFlag | lowercase}}.png" class="my-2" height="32px">
       </td>
       <td *ngFor="let entry of shipInfo" class="no-wrap px-1 mx-1">
         <tr>
@@ -31,7 +31,7 @@
   </tbody>
   <tbody class="text-center" *ngIf="!shipHasContactInfo">
     <div class="my-3">
-      <img src="assets/images/VoyageIcons/128x128/white/warning.png" height="24px">
+      <img src="assets/images/icons/128x128/white/warning.png" height="24px">
       <span>No contact information for this ship has been provided.</span>
     </div>
   </tbody>

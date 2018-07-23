@@ -338,8 +338,6 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("location");
 
-
-
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 
                 entity.Property(e => e.CountryId).HasColumnName("country_id");
@@ -703,6 +701,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.DateOfKeelLaying).HasColumnName("date_of_keel_laying");
 
                 entity.Property(e => e.DeadweightTonnage).HasColumnName("deadweight_tonnage");
+
+                entity.Property(e => e.NetTonnage).HasColumnName("net_tonnage");
 
                 entity.Property(e => e.Draught).HasColumnName("draught");
 

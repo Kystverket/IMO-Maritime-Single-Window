@@ -1,33 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { ShipContactModel } from '../models/ship-contact-model';
 import { AuthRequest } from './auth.request.service';
-import { SearchService } from './search.service';
 import 'rxjs/add/observable/of';
 
 @Injectable()
 export class ShipService {
-  private searchService: SearchService;
-  private shipSearchUrl: string;
-  private shipTypeUrl: string;
-  private hullTypeUrl: string;
-  private lengthTypeUrl: string;
-  private breadthTypeUrl: string;
-  private powerTypeUrl: string;
-  private shipSourceUrl: string;
-  private shipStatusListUrl: string;
-  private shipUrl: string;
-  private flagCodeSearchUrl: string;
-  private contactListShipUrl: string;
-  private shipContactListUrl: string;
-
-  private organizationDataSource = new BehaviorSubject<any>(null);
-  organizationData$ = this.organizationDataSource.asObservable();
-
-  private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
-  shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
+  private shipUrl = 'api/ship';
+  private shipTypeUrl = 'api/shiptype';
+  private hullTypeUrl = 'api/shiphulltype';
+  private lengthTypeUrl = 'api/shiplengthtype';
+  private breadthTypeUrl = 'api/shipbreadthtype';
+  private powerTypeUrl = 'api/shippowertype';
+  private shipSourceUrl = 'api/shipsource';
+  private shipStatusListUrl = 'api/shipstatus';
+  private contactListShipUrl = 'api/shipcontact/ship';
+  private shipContactListUrl = 'api/shipcontact/list';
 
   private shipOverviewDataSource = new BehaviorSubject<any>(null);
   shipOverviewData$ = this.shipOverviewDataSource.asObservable();
@@ -35,27 +24,10 @@ export class ShipService {
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
-  private countryDataSource = new BehaviorSubject<any>(null);
-  countryData$ = this.countryDataSource.asObservable();
-
   constructor(
     private http: Http,
     private authRequest: AuthRequest
-  ) {
-    this.searchService = new SearchService(http);
-    this.shipUrl = 'api/ship';
-    this.shipSearchUrl = 'api/ship/search';
-    this.shipTypeUrl = 'api/shiptype';
-    this.hullTypeUrl = 'api/shiphulltype';
-    this.lengthTypeUrl = 'api/shiplengthtype';
-    this.breadthTypeUrl = 'api/shipbreadthtype';
-    this.powerTypeUrl = 'api/shippowertype';
-    this.shipSourceUrl = 'api/shipsource';
-    this.shipStatusListUrl = 'api/shipstatus';
-    this.flagCodeSearchUrl = 'api/shipflagcode/search';
-    this.contactListShipUrl = 'api/shipcontact/ship';
-    this.shipContactListUrl = 'api/shipcontact/list';
-  }
+  ) { }
 
   registerShip(newShip: any) {
     const auth_header = this.authRequest.GetHeaders();
@@ -75,14 +47,6 @@ export class ShipService {
     this.shipOverviewDataSource.next(data);
   }
 
-  setOrganizationData(data) {
-    this.organizationDataSource.next(data);
-  }
-
-  setCountryData(data) {
-    this.countryDataSource.next(data);
-  }
-
   setShipSearchData(data) {
     this.shipSearchDataSource.next(data);
   }
@@ -97,24 +61,6 @@ export class ShipService {
   saveShipContactList(shipContactList: ShipContactModel[]) {
     return this.http.post(this.shipContactListUrl, shipContactList)
       .map(res => res.json());
-  }
-
-  setShipFlagCodeData(data) {
-    this.shipFlagCodeDataSource.next(data);
-  }
-
-  search(term: string, amount = 10) {
-    if (term.length < 2) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.shipSearchUrl, term, amount);
-  }
-
-  searchFlagCode(term: string, amount = 10) {
-    if (term.length < 1) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.flagCodeSearchUrl, term);
   }
 
   getShipTypes() {

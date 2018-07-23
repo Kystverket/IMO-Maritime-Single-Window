@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PurposeService } from 'app/shared/services/purpose.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const OTHER_PURPOSE_ID = '100249';
 
@@ -10,11 +11,15 @@ const OTHER_PURPOSE_ID = '100249';
   styleUrls: ['./selected-purposes.component.css'],
   providers: [PurposeService]
 })
-export class SelectedPurposesComponent implements OnInit {
+export class SelectedPurposesComponent implements OnInit, OnDestroy {
   selectedPurposes: any;
   purposeList: any[];
 
   otherPurposeName = '';
+
+  getPurposesSubscription: Subscription;
+  portCallPurposeDataSubscription: Subscription;
+  otherPurposeNameSubscription: Subscription;
 
   constructor(
     private purposeService: PurposeService,
@@ -22,17 +27,23 @@ export class SelectedPurposesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.purposeService.getPurposes().subscribe(data => {
+    this.getPurposesSubscription = this.purposeService.getPurposes().subscribe(data => {
       this.purposeList = data;
     });
-    this.portCallService.portCallPurposeData$.subscribe(data => {
+    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(data => {
       if (data != null) {
         this.selectedPurposes = data;
       }
     });
-    this.portCallService.otherPurposeName$.subscribe(data => {
+    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(data => {
       this.otherPurposeName = data;
     });
+  }
+
+  ngOnDestroy() {
+    this.getPurposesSubscription.unsubscribe();
+    this.portCallPurposeDataSubscription.unsubscribe();
+    this.otherPurposeNameSubscription.unsubscribe();
   }
 
   getPurposeName(id) {

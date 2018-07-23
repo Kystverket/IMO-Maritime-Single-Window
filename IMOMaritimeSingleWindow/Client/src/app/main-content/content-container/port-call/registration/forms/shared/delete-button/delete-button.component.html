@@ -1,5 +1,5 @@
 <button class="btn btn-sm btn-ssn" ngbTooltip="Delete Ship Store" (click)="onDeleteClick(deleteModal)">
-  <img height="16px" src="assets/images/VoyageIcons/128x128/white/cancel.png">
+  <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
 </button>
 
 <ng-template #deleteModal let-close="close()">
@@ -18,11 +18,11 @@
   </div>
   <div [ngSwitch]="selectedForm" class="modal-footer">
     <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteShipStoreEntry(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Delete Ship Store</span>
     </button>
     <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)="deletePassengerEntry(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Passenger Entry</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

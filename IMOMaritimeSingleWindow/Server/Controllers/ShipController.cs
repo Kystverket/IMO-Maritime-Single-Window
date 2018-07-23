@@ -1,15 +1,11 @@
+using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using IMOMaritimeSingleWindow.Data;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Helpers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;
-using IMOMaritimeSingleWindow.Auth;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -114,6 +110,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.Organization)
                         .Include(s => s.ShipHullType)
                         .Include(s => s.ShipBreadthType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.LocationType)
+                        .Include(s => s.CertificateOfRegistry.PortLocation.Country)
                         .FirstOrDefault();
             return Json(ship);
         }

@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
@@ -10,11 +12,18 @@ import { FORM_NAMES } from 'app/shared/constants/form-names';
   templateUrl: './progress-bar.component.html',
   styleUrls: ['./progress-bar.component.css']
 })
-export class ProgressBarComponent implements OnInit {
+export class ProgressBarComponent implements OnInit, OnDestroy {
   formNames = FORM_NAMES;
 
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   baseMenuEntries: any[] = [
+    {
+      name: this.formNames.PREV_AND_NEXT_POC,
+      icon: 'voyage.png',
+      checked: true,
+      hasError: false,
+      hasUnsavedData: false
+    },
     {
       name: this.formNames.PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
@@ -37,18 +46,24 @@ export class ProgressBarComponent implements OnInit {
 
   selectedPortCallForm: string;
 
+  reportingForThisPortCallDataSubscription: Subscription;
+  portCallFormNameSubscription: Subscription;
+  crewPassengersAndDimensionsMetaSubscription: Subscription;
+  portCalldataIsPristineSubscription: Subscription;
+  portCalldetailsPristineSubscription: Subscription;
+  shipStoresdataIsPristineSubscription: Subscription;
+
   constructor(
     private portCallService: PortCallService,
+    private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: PortCallShipStoresService
-  ) {}
+  ) { }
 
   ngOnInit() {
-
-    console.log(this.formNames.PORT_CALL_DETAILS);
-
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
-    this.portCallService.reportingForThisPortCallData$.subscribe(
+
+    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           const falForms = [
@@ -94,17 +109,17 @@ export class ProgressBarComponent implements OnInit {
 
           // Set checked in services for FAL forms
           this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
-          }
+        }
       }
     );
 
-    this.contentService.portCallFormName$.subscribe(
+    this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
       portCallFormName => {
         this.selectedPortCallForm = portCallFormName;
       }
     );
 
-    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
@@ -112,21 +127,39 @@ export class ProgressBarComponent implements OnInit {
       }
     );
 
-    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
-      this.menuEntries.find(
-        p => p.name === this.formNames.PORT_CALL_DETAILS
-      ).hasUnsavedData = !detailsDataIsPristine;
-    });
+    this.portCalldataIsPristineSubscription = this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.menuEntries.find(
+          p => p.name === this.formNames.PREV_AND_NEXT_POC
+        ).hasUnsavedData = !pristineData;
+      }
+    );
 
-    this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+    this.portCalldetailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(
+      detailsDataIsPristine => {
+        this.menuEntries.find(
+          p => p.name === this.formNames.PORT_CALL_DETAILS
+        ).hasUnsavedData = !detailsDataIsPristine;
+      }
+    );
+
+    this.shipStoresdataIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
       const shipStores = this.menuEntries.find(
-          p => p.name === this.formNames.SHIP_STORES
-        );
+        p => p.name === this.formNames.SHIP_STORES
+      );
       if (shipStores) {
         shipStores.hasUnsavedData = !shipStoresDataIsPristine;
       }
-
     });
+  }
+
+  ngOnDestroy() {
+    this.reportingForThisPortCallDataSubscription.unsubscribe();
+    this.portCallFormNameSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
+    this.portCalldataIsPristineSubscription.unsubscribe();
+    this.portCalldetailsPristineSubscription.unsubscribe();
+    this.shipStoresdataIsPristineSubscription.unsubscribe();
   }
 
   setPortCallForm(contentName: string) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
@@ -8,13 +8,15 @@ import { FindPortOfDisembarkationComponent } from './find-port-of-disembarkation
 import { FindPortOfEmbarkationComponent } from './find-port-of-embarkation/find-port-of-embarkation.component';
 import { FindCountryOfBirthComponent } from './find-country-of-birth/find-country-of-birth.component';
 import { FindNationalityComponent } from './find-nationality/find-nationality.component';
+import { LocationService } from 'app/shared/services/location.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-passenger-list',
   templateUrl: './passenger-list.component.html',
   styleUrls: ['./passenger-list.component.css']
 })
-export class PassengerListComponent implements OnInit {
+export class PassengerListComponent implements OnInit, OnDestroy {
 
   @ViewChild(FindPortOfDisembarkationComponent)
   private findPortOfDisembarkationComponent: FindPortOfDisembarkationComponent;
@@ -106,13 +108,17 @@ export class PassengerListComponent implements OnInit {
     }
   };
 
+  countries = ['Norway', 'Sweden'];
+
+  passengerListSubscription: Subscription;
+  passengerModelSubscription: Subscription;
+
   constructor(
     private passengerListService: PortCallPassengerListService
   ) { }
 
-
   ngOnInit() {
-    this.passengerListService.passengerList$.subscribe(list => {
+    this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
       if (list) {
         this.passengerList = list;
         console.log(list);
@@ -121,13 +127,17 @@ export class PassengerListComponent implements OnInit {
       }
     });
 
-    this.passengerListService.passengerModel$.subscribe(model => {
+    this.passengerModelSubscription = this.passengerListService.passengerModel$.subscribe(model => {
       if (model) {
         this.passengerModel = model;
       }
       console.log('In subscription of model: ' + JSON.stringify(this.passengerModel));
     });
+  }
 
+  ngOnDestroy() {
+    this.passengerListSubscription.unsubscribe();
+    this.passengerModelSubscription.unsubscribe();
   }
 
   addPassenger() {
