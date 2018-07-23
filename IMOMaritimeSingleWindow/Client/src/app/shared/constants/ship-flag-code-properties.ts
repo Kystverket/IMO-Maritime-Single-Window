@@ -5,7 +5,7 @@ export class ShipFlagCodeProperties {
   static SHIP_FLAG_CODE_NAME = 'Flag Code';
   static SHIP_FLAG_CODE_DESCRIPTION = 'Desciption';
   static COUNTRY = 'Country';
-  static FLAGS_FOLDER = 'assets/images/Flags/';
+  static FLAGS_FOLDER = 'assets/images/flags/';
 
   propertyList: DataProperty[] = [
     { description: ShipFlagCodeProperties.COUNTRY, data: null, imageUrl: null },

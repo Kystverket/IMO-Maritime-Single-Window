@@ -1,43 +1,37 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
+import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
+import { OrganizationModel } from 'app/shared/models/organization-model';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
+import { ShipFlagCodeModel } from 'app/shared/models/ship-flag-code-model';
 import { ShipModel } from 'app/shared/models/ship-model';
-import { ContactService } from 'app/shared/services/contact.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { ShipService } from 'app/shared/services/ship.service';
-import { OrganizationProperties } from 'app/shared/constants/organization-properties';
-import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
-import { CertificateOfRegistryComponent } from './certificate-of-registry/certificate-of-registry.component';
-import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
-import { ShipFlagCodeModel } from 'app/shared/models/ship-flag-code-model';
-import { OrganizationModel } from 'app/shared/models/organization-model';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
-const RESULT_FAILURE =
-  'There was a problem when trying to save the ship to the database. Please try again later.';
-const RESULT_SAVED_WITHOUT_CONTACT =
-  'Ship was saved to the database, but there was an error when trying to save the ship\'s contact information. Please provide this information later.';
-const INITIAL_DATA_IS_PRISTINE_TEXT =
-  'There are no unsaved changes in this page.';
+const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
+const RESULT_SAVED_WITHOUT_CONTACT = 'Ship was saved to the database, but there was an error when trying to save the ship\'s contact information. Please provide this information later.';
+const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 
 @Component({
   selector: 'app-register-ship',
   templateUrl: './register-ship.component.html',
-  styleUrls: ['./register-ship.component.css'],
-  providers: [ShipModel]
+  styleUrls: ['./register-ship.component.css']
 })
-export class RegisterShipComponent implements OnInit, AfterViewInit {
-  @ViewChild(CertificateOfRegistryComponent)
-  certificateComponent: CertificateOfRegistryComponent;
+export class RegisterShipComponent implements OnInit, OnDestroy {
+
+  shipModel = new ShipModel();
+
   newShip = false;
   shipHeader: string;
   confirmHeader: string;
   confirmButtonTitle: string;
-  contactSelected: boolean;
-  certificateSelected = false;
 
   hullTypeSelected = false;
   lengthTypeSelected = false;
@@ -66,40 +60,42 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
   shipFlagCodeModel: ShipFlagCodeModel;
   shipFlagCodeProperties = new ShipFlagCodeProperties().getPropertyList();
 
+  contactSelected: boolean;
+  selectedContactModelList: ShipContactModel[];
+
   organizationSelected: boolean;
   organizationModel: OrganizationModel;
   organizationProperties = new OrganizationProperties().getPropertyList();
 
-  selectedContactModels: ShipContactModel[];
+  certificateSelected = false;
   certificateModel: CertificateOfRegistryModel;
-  datePickerModel: { year: number; month: number; day: number };
   certificateDateString: string;
-  portName: string;
-  certificateNumber: number;
-  validCertificateDateFormat = true;
 
-  justSelected = true;
-  certificateJustSelected = true;
   dataIsPristine = true;
   dataIsPristineText: string;
-  certificateIsPristine = true;
 
-  // shipModel should be private, but Angular's AoT compilation can't handle it. Will be fixed in Angular 6.0
+  shipOverviewDataSubscription: Subscription;
+
+  shipTypesSubscription: Subscription;
+  hullTypesSubscription: Subscription;
+  lengthTypesSubscription: Subscription;
+  breadthTypesSubscription: Subscription;
+  powerTypesSubscription: Subscription;
+  shipStatusListSubscription: Subscription;
+
   constructor(
-    public shipModel: ShipModel,
     private shipService: ShipService,
-    private contactService: ContactService,
     private contentService: ContentService,
     private modalService: NgbModal
   ) { }
 
   // for development purposes, remove before prod
-  setFast() {
+  setInfoShortcut() {
     this.shipModel.name = 'TJOHEI';
     this.shipModel.callSign = 'tjo123';
     this.shipModel.imoNo = 1234567;
     this.shipModel.mmsiNo = 7654321;
-    this.selectShipType(this.shipTypeList[0]);
+    // this.selectShipType(this.shipTypeList[0]);
     this.shipModel.yearOfBuild = 1234;
     this.selectLengthType(this.lengthTypeList[0]);
     this.shipModel.length = 100;
@@ -119,87 +115,33 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
-    this.shipService.dataPristine$.subscribe(data => {
-      this.dataIsPristine = data;
-    });
     this.certificateModel = new CertificateOfRegistryModel();
-    this.contactService.contactData$.subscribe(data => {
-      if (data && data.length !== 0) {
-        this.selectedContactModels = data;
-        this.contactSelected = true;
-      } else {
-        this.contactSelected = false;
-      }
-    });
-    this.shipService.shipOverviewData$.subscribe(data => {
+    this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(data => {
       if (data) {
         this.setAllValues(data);
       } else if (!this.newShip) {
-        this.contactService.setContactData(null);
         this.newShip = true;
         this.shipHeader = 'Register New Ship';
         this.confirmHeader = 'Confirm Ship Registration';
         this.confirmButtonTitle = 'Register Ship';
       }
     });
-    this.shipService.getShipTypes().subscribe(data => (this.shipTypeList = data));
-    this.shipService.getHullTypes().subscribe(data => (this.hullTypeList = data));
-    this.shipService.getLengthTypes().subscribe(data => (this.lengthTypeList = data));
-    this.shipService.getBreadthTypes().subscribe(data => (this.breadthTypeList = data));
-    this.shipService.getPowerTypes().subscribe(data => (this.powerTypeList = data));
-    this.shipService.getShipStatusList().subscribe(data => (this.shipStatusList = data));
+    this.shipTypesSubscription = this.shipService.getShipTypes().subscribe(data => (this.shipTypeList = data));
+    this.hullTypesSubscription = this.shipService.getHullTypes().subscribe(data => (this.hullTypeList = data));
+    this.lengthTypesSubscription = this.shipService.getLengthTypes().subscribe(data => (this.lengthTypeList = data));
+    this.breadthTypesSubscription = this.shipService.getBreadthTypes().subscribe(data => (this.breadthTypeList = data));
+    this.powerTypesSubscription = this.shipService.getPowerTypes().subscribe(data => (this.powerTypeList = data));
+    this.shipStatusListSubscription = this.shipService.getShipStatusList().subscribe(data => (this.shipStatusList = data));
   }
 
-  ngAfterViewInit() {
-    this.certificateComponent.getService().certificateData$.subscribe(data => {
-      this.certificateModel = data;
-      if (data) {
-        if (this.certificateModel.dateOfIssue) {
-          this.certificateDateString = this.dateString(
-            new Date(this.certificateModel.dateOfIssue)
-          );
-        }
-        if (
-          this.certificateModel.dateOfIssue &&
-          this.certificateModel.portLocationId &&
-          this.certificateModel.portLocation &&
-          this.certificateModel.certificateNumber &&
-          this.certificateModel.dateOfIssue
-        ) {
-          this.portName = this.certificateModel.portLocation.name;
-          this.certificateNumber = this.certificateModel.certificateNumber;
-          this.certificateSelected = true;
-        } else {
-          this.certificateSelected = false;
-        }
-      } else {
-        this.certificateSelected = false;
-      }
-    });
-
-    this.certificateComponent
-      .getService()
-      .validDateFormatData$.subscribe(data => {
-        if (data) {
-          this.validCertificateDateFormat = data;
-        }
-      });
-
-    setTimeout(() => {
-      if (this.shipModel) {
-        this.certificateComponent
-          .getService()
-          .setCertificateData(this.shipModel.certificateOfRegistry);
-        if (this.certificateJustSelected) {
-          this.certificateComponent.getService().setDataPristine(true);
-          this.certificateJustSelected = false;
-        }
-      }
-    });
-
-    this.certificateComponent.getService().dataPristine$.subscribe(data => {
-      this.certificateIsPristine = data;
-    });
+  ngOnDestroy() {
+    this.shipOverviewDataSubscription.unsubscribe();
+    this.shipTypesSubscription.unsubscribe();
+    this.hullTypesSubscription.unsubscribe();
+    this.lengthTypesSubscription.unsubscribe();
+    this.breadthTypesSubscription.unsubscribe();
+    this.powerTypesSubscription.unsubscribe();
+    this.shipStatusListSubscription.unsubscribe();
   }
 
   setAllValues(ship: ShipModel) {
@@ -212,7 +154,7 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipTypeSelected = ship.shipType != null;
     this.organizationModel = ship.organization;
     this.organizationSelected = ship.organization != null;
-    this.selectedContactModels = ship.shipContact;
+    this.selectedContactModelList = ship.shipContact;
 
     this.hullTypeSelected = ship.shipHullType != null;
     if (this.hullTypeSelected) {
@@ -238,25 +180,58 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     if (this.shipStatusSelected) {
       this.shipStatusDropdownString = ship.shipStatus.name;
     }
-    this.setOrganization(ship.organization);
     this.setShipFlagCode(ship.shipFlagCode);
-    this.contactService.setContactData(ship.shipContact);
-    this.contactSelected = ship.shipContact != null;
-    if (this.justSelected) {
-      this.shipService.setDataPristine(true);
-      this.justSelected = false;
-    }
+    this.setOrganization(ship.organization);
+    this.setCertificateOfRegistry(ship.certificateOfRegistry);
+    this.setContactData(ship.shipContact);
+
   }
 
   selectShipType($event: any) {
     this.shipModel.shipTypeId = $event.shipTypeId;
     this.shipTypeSelected = true;
+    this.touchData();
   }
 
   deselectShipType() {
     this.shipModel.shipTypeId = null;
     this.selectedShipType = null;
     this.shipTypeSelected = false;
+  }
+
+  selectLengthType(lengthType: any) {
+    this.shipModel.shipLengthTypeId = lengthType.shipLengthTypeId;
+    this.lengthTypeDropdownString = lengthType.name;
+    this.lengthTypeSelected = true;
+    this.touchData();
+  }
+
+  selectBreadthType(breadthType: any) {
+    this.shipModel.shipBreadthTypeId = breadthType.shipBreadthTypeId;
+    this.breadthTypeDropdownString = breadthType.name;
+    this.breadthTypeSelected = true;
+    this.touchData();
+  }
+
+  selectPowerType(powerType: any) {
+    this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
+    this.powerTypeDropdownString = powerType.name;
+    this.powerTypeSelected = true;
+    this.touchData();
+  }
+
+  selectHullType(hullType: any) {
+    this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
+    this.hullTypeDropdownString = hullType.name;
+    this.hullTypeSelected = true;
+    this.touchData();
+  }
+
+  selectShipStatus(shipStatus: any) {
+    this.shipModel.shipStatusId = shipStatus.shipStatusId;
+    this.shipStatusDropdownString = shipStatus.name;
+    this.shipStatusSelected = true;
+    this.touchData();
   }
 
   onShipFlagCodeResult(shipFlagCodeResult) {
@@ -269,18 +244,10 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     if (shipFlagCodeData) {
       this.shipModel.shipFlagCodeId = shipFlagCodeData.shipFlagCodeId;
       this.shipFlagCodeSelected = true;
-      ShipFlagCodeProperties.setShipFlagCodeData(
-        this.shipFlagCodeProperties,
-        this.shipFlagCodeModel
-      );
-      const twoCharCode =
-        this.shipFlagCodeModel.country.twoCharCode.toLowerCase() || 'xx';
+      ShipFlagCodeProperties.setShipFlagCodeData(this.shipFlagCodeProperties, this.shipFlagCodeModel);
+      const twoCharCode = this.shipFlagCodeModel.country.twoCharCode.toLowerCase() || 'xx';
       const countryFlag = twoCharCode + '.png';
-      ShipFlagCodeProperties.setCountry(
-        this.shipFlagCodeProperties,
-        this.shipFlagCodeModel.country.name,
-        countryFlag
-      );
+      ShipFlagCodeProperties.setCountry(this.shipFlagCodeProperties, this.shipFlagCodeModel.country.name, countryFlag);
     }
   }
 
@@ -288,6 +255,17 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipFlagCodeSelected = false;
     this.shipFlagCodeModel = null;
     this.shipModel.shipFlagCodeId = null;
+  }
+
+  onContactDataResult(contactData: ShipContactModel[]) {
+    this.setContactData(contactData);
+    this.touchData();
+  }
+
+  setContactData(contactData) {
+    this.selectedContactModelList = contactData;
+    this.shipModel.shipContact = this.selectedContactModelList;
+    this.contactSelected = contactData.length !== 0;
   }
 
   onOrganizationResult(organizationResult) {
@@ -313,56 +291,52 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     this.shipModel.organizationId = null;
   }
 
-  selectHullType(hullType: any) {
-    this.shipModel.shipHullTypeId = hullType.shipHullTypeId;
-    this.hullTypeDropdownString = hullType.name;
-    this.hullTypeSelected = true;
+  onCertificateOfRegistryResult(certificateResult) {
+    this.setCertificateOfRegistry(certificateResult);
+    this.touchData();
   }
 
-  selectLengthType(lengthType: any) {
-    this.shipModel.shipLengthTypeId = lengthType.shipLengthTypeId;
-    this.lengthTypeDropdownString = lengthType.name;
-    this.lengthTypeSelected = true;
-  }
-
-  selectBreadthType(breadthType: any) {
-    this.shipModel.shipBreadthTypeId = breadthType.shipBreadthTypeId;
-    this.breadthTypeDropdownString = breadthType.name;
-    this.breadthTypeSelected = true;
-  }
-
-  selectPowerType(powerType: any) {
-    this.shipModel.shipPowerTypeId = powerType.shipPowerTypeId;
-    this.powerTypeDropdownString = powerType.name;
-    this.powerTypeSelected = true;
-  }
-
-  selectShipStatus(shipStatus: any) {
-    this.shipModel.shipStatusId = shipStatus.shipStatusId;
-    this.shipStatusDropdownString = shipStatus.name;
-    this.shipStatusSelected = true;
+  setCertificateOfRegistry(certificateData: CertificateOfRegistryModel) {
+    this.certificateModel = certificateData;
+    if (certificateData) {
+      if (this.certificateModel.dateOfIssue) {
+        this.certificateDateString = this.dateString(new Date(this.certificateModel.dateOfIssue));
+      }
+      if (this.certificateModel.dateOfIssue && this.certificateModel.portLocationId
+          && this.certificateModel.portLocation && this.certificateModel.certificateNumber) {
+        this.certificateSelected = true;
+      } else {
+        this.certificateSelected = false;
+      }
+    } else {
+      this.certificateSelected = false;
+    }
   }
 
   touchData() {
     this.dataIsPristine = false;
   }
 
-  registerShip() {
+  private updateCertificate() {
+    // safeCertificate is used for removing unnecessary location objects within the certificate
     const safeCertificate = new CertificateOfRegistryModel();
     safeCertificate.certificateNumber = this.certificateModel.certificateNumber;
     safeCertificate.dateOfIssue = this.certificateModel.dateOfIssue;
     safeCertificate.portLocationId = this.certificateModel.portLocationId;
     this.shipModel.certificateOfRegistry = safeCertificate;
+  }
+
+  registerShip() {
+    this.updateCertificate();
     if (this.newShip) {
       this.shipService.registerShip(this.shipModel).subscribe(
         result => {
           this.shipModel.shipId = result.shipId;
-          const shipContactList = this.selectedContactModels.map(
+          const shipContactList = this.selectedContactModelList.map(
             contactModel => {
               const shipContact = new ShipContactModel();
               shipContact.shipId = this.shipModel.shipId;
-              shipContact.contactMediumId =
-                contactModel.contactMedium.contactMediumId;
+              shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
               shipContact.contactValue = contactModel.contactValue;
               shipContact.isPreferred = contactModel.isPreferred;
               shipContact.comments = contactModel.comments;
@@ -394,12 +368,11 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
       // update
       this.shipService.updateShip(this.shipModel).subscribe(
         result => {
-          const shipContactList = this.selectedContactModels.map(
+          const shipContactList = this.selectedContactModelList.map(
             contactModel => {
               const shipContact = new ShipContactModel();
               shipContact.shipId = this.shipModel.shipId;
-              shipContact.contactMediumId =
-                contactModel.contactMedium.contactMediumId;
+              shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
               shipContact.contactValue = contactModel.contactValue;
               shipContact.isPreferred = contactModel.isPreferred;
               shipContact.comments = contactModel.comments;
@@ -460,10 +433,6 @@ export class RegisterShipComponent implements OnInit, AfterViewInit {
     } else {
       return number;
     }
-  }
-
-  private hasValidDateFormat(model): boolean {
-    return typeof model !== 'string' && model != null;
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

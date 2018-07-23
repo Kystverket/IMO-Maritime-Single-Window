@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { OrganizationModel } from 'app/shared/models/organization-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Organization was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the organization to the database. Please try again later.';
@@ -15,7 +16,7 @@ const RESULT_FAILURE = 'There was a problem when trying to save the organization
   styleUrls: ['./register-organization.component.css'],
   providers: [OrganizationModel]
 })
-export class RegisterOrganizationComponent implements OnInit {
+export class RegisterOrganizationComponent implements OnInit, OnDestroy {
   newOrganization = false;
   organizationHeader: string;
   confirmHeader: string;
@@ -25,6 +26,9 @@ export class RegisterOrganizationComponent implements OnInit {
   selectedOrganizationType: any;
   organizationTypeDropdownString = 'Select organization type';
 
+  organizationDataSubscription: Subscription;
+  organizationTypesSubscription: Subscription;
+
   constructor(
     public organizationModel: OrganizationModel,
     private organizationService: OrganizationService,
@@ -33,7 +37,7 @@ export class RegisterOrganizationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.organizationService.organizationData$.subscribe(
+    this.organizationDataSubscription = this.organizationService.organizationData$.subscribe(
       data => {
         if (data) {
           this.organizationHeader = 'Edit Organization';
@@ -51,7 +55,7 @@ export class RegisterOrganizationComponent implements OnInit {
       }
     );
 
-    this.organizationService.getOrganizationTypes().subscribe(
+    this.organizationTypesSubscription = this.organizationService.getOrganizationTypes().subscribe(
       organizationTypesData => {
         this.organizationTypeList = organizationTypesData;
         // Temporary until we add more organization types (certificate issuer)
@@ -63,6 +67,11 @@ export class RegisterOrganizationComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.organizationDataSubscription.unsubscribe();
+    this.organizationTypesSubscription.unsubscribe();
   }
 
   registerOrganization() {

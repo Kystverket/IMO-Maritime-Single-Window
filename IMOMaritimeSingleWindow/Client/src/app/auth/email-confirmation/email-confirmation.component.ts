@@ -24,8 +24,7 @@ export class EmailConfirmationComponent implements OnInit {
     const tokenQueryModel = this.uriQueryService.getTokenQueryModel(this.activatedRoute.snapshot.queryParams);
     // console.log(tokenQueryModel);
 
-    this.accountService.confirmEmail(tokenQueryModel)
-      .subscribe(result => {
+    this.accountService.confirmEmail(tokenQueryModel).subscribe(result => {
         // If email confirmation token was valid
         if (result) {
           // Update html to reflect email successfully confirmed

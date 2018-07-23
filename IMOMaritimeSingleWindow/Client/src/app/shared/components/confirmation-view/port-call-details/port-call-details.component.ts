@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const NO_OF_CREW = 'No. of Crew';
 const NO_OF_PASSENGERS = 'No. of Passengers';
@@ -11,7 +12,7 @@ const AIR_DRAUGHT = 'Air Draught';
   templateUrl: './port-call-details.component.html',
   styleUrls: ['./port-call-details.component.css']
 })
-export class PortCallDetailsComponent implements OnInit {
+export class PortCallDetailsComponent implements OnInit, OnDestroy {
   portCallDetailsInfo: any[] = [
     { description: NO_OF_CREW, data: null },
     { description: NO_OF_PASSENGERS, data: null },
@@ -19,10 +20,12 @@ export class PortCallDetailsComponent implements OnInit {
     { description: AIR_DRAUGHT, data: null }
   ];
 
+  crewPassengersAndDimensionsDataSubscription: Subscription;
+
   constructor(private portCallService: PortCallService) {}
 
   ngOnInit() {
-    this.portCallService.crewPassengersAndDimensionsData$.subscribe(data => {
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(data => {
       if (data != null) {
         this.portCallDetailsInfo.find(p => p.description === NO_OF_CREW).data =
           data.numberOfCrew;
@@ -38,5 +41,9 @@ export class PortCallDetailsComponent implements OnInit {
           data.airDraught;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
   }
 }

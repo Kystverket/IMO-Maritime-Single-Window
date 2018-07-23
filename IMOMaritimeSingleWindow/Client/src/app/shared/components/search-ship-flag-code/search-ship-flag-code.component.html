@@ -1,5 +1,5 @@
 <ng-template #rt let-r="result" let-t="term">
-  <img *ngIf="r.country.twoCharCode" src="assets/images/Flags/{{ r.country.twoCharCode | lowercase }}.png" height="16px" />
+  <img *ngIf="r.country.twoCharCode" src="assets/images/flags/{{ r.country.twoCharCode | lowercase }}.png" height="16px" />
   <strong *ngIf="r.name">Code: </strong> {{ r.name }}
   <strong *ngIf="r.country.name">Country: </strong> {{ r.country.name }}
 </ng-template>
@@ -19,7 +19,7 @@
         <p>Searching</p>
       </div>
       <div *ngIf="searchFailed">
-        <img class="mx-auto" src="assets/images/VoyageIcons/128x128/cancel.png" height="32px">
+        <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="32px">
         <p>No results</p>
       </div>
     </div>

@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { LocationService } from '../../../../../../shared/services/location.service';
+import { LocationService } from 'app/shared/services/location.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-passenger-list',
   templateUrl: './passenger-list.component.html',
   styleUrls: ['./passenger-list.component.css']
 })
-export class PassengerListComponent implements OnInit {
+export class PassengerListComponent implements OnInit, OnDestroy {
 
   @Input() showDropdown = true;
 
@@ -95,26 +96,32 @@ export class PassengerListComponent implements OnInit {
 
   countries = ['Norway', 'Sweden'];
 
+  passengerListSubscription: Subscription;
+  passengerModelSubscription: Subscription;
+
   constructor(
     private passengerListService: PortCallPassengerListService,
     private locationService: LocationService
   ) { }
 
-
   ngOnInit() {
-    this.passengerListService.passengerList$.subscribe(list => {
+    this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
       if (list) {
         this.passengerList = list;
         this.passengerListDataSource.load(list);
       }
     });
 
-    this.passengerListService.passengerModel$.subscribe(model => {
+    this.passengerModelSubscription = this.passengerListService.passengerModel$.subscribe(model => {
       if (model) {
         this.passengerModel = model;
       }
     });
+  }
 
+  ngOnDestroy() {
+    this.passengerListSubscription.unsubscribe();
+    this.passengerModelSubscription.unsubscribe();
   }
 
   addPassenger() {

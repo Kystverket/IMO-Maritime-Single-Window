@@ -5,19 +5,19 @@
         <form>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-4 col-xl-3" for="organization_name">Organization Name</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="organization_name">Organization Name</label>
                   <input [(ngModel)]="organizationModel.name" name="organizationName" type="text" class="form-control form-control-sm" id="organization_name"
                     placeholder="Enter organization name" />
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4 col-xl-3" for="organization_no">Organization Number</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="organization_no">Organization Number</label>
                   <input [(ngModel)]="organizationModel.organizationNo" name="organizationNo" type="text" class="form-control form-control-sm"
                     id="organization_no" placeholder="Enter organization number">
                 </div>
@@ -26,10 +26,10 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-3 col-md-3 col-lg-3 col-xl-2" for="description">Description</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="description">Description</label>
                   <input [(ngModel)]="organizationModel.description" name="description" type="text" class="form-control form-control-sm" id="description"
                     placeholder="Enter description">
                 </div>
@@ -52,12 +52,12 @@
             <p *ngIf="!organizationModel.organizationNo" class="no-wrap mb-0">Organization number not set.</p>
           </div>
           <button class="btn btn-ssn" disabled>
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+            <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
 
         <div *ngIf="organizationTypeSelected && organizationModel.name && organizationModel.organizationNo" class="text-center">
           <button class="btn btn-ssn" (click)="registerOrganization()">
-            <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
+            <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
         </div>
       </app-ssn-card>
     </div>

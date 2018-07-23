@@ -27,6 +27,11 @@ export class SearchPassengerPortComponent implements OnInit {
   );
 
   constructor(private locationService: LocationService) { }
+
+  ngOnInit() {
+    this.locationService.setLocationData(null);
+  }
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(150),
@@ -72,10 +77,6 @@ export class SearchPassengerPortComponent implements OnInit {
 
   deselectLocation() {
     this.locationSelected = false;
-    this.locationService.setLocationData(null);
-  }
-
-  ngOnInit() {
     this.locationService.setLocationData(null);
   }
 }

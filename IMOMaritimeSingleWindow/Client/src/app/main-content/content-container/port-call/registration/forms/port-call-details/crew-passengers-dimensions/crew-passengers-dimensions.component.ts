@@ -1,14 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-crew-passengers-dimensions',
   templateUrl: './crew-passengers-dimensions.component.html',
   styleUrls: ['./crew-passengers-dimensions.component.css']
 })
-export class CrewPassengersDimensionsComponent implements OnInit {
+export class CrewPassengersDimensionsComponent implements OnInit, OnDestroy {
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -19,16 +20,22 @@ export class CrewPassengersDimensionsComponent implements OnInit {
     airDraught: null
   };
 
+  crewPassengersAndDimensionsDataSubscription: Subscription;
+
   constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       data => {
         if (data) {
           this.crewPassengersAndDimensionsModel = data;
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
   }
 
   persistData() {

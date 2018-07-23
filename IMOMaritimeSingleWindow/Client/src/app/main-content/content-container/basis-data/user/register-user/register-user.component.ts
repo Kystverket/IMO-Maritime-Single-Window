@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -6,6 +6,7 @@ import { UserModelWithPassword } from 'app/shared/models/user-model-with-passwor
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCES = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -16,7 +17,7 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
   styleUrls: ['./register-user.component.css'],
   providers: [AccountService]
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
 
   user: UserModelWithPassword = {
     email: '',
@@ -39,6 +40,8 @@ export class RegisterUserComponent implements OnInit {
   roleList: any[];
   selectedRole: any;
 
+  getAllRolesSubscription: Subscription;
+
   constructor(
     private accountService: AccountService,
     private contentService: ContentService,
@@ -46,11 +49,15 @@ export class RegisterUserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.accountService.getAllRoles().subscribe(
+    this.getAllRolesSubscription = this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
 
     this.getEmailLink();
+  }
+
+  ngOnDestroy() {
+    this.getAllRolesSubscription.unsubscribe();
   }
 
   getEmailLink() {

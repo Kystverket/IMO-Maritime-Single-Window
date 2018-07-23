@@ -33,6 +33,16 @@ export class LoginComponent implements OnInit {
     private accountService: AccountService
   ) { }
 
+  ngOnInit() {
+    // subscribe to router event
+    this.activatedRoute.queryParams.subscribe(
+      (param: any) => {
+        this.brandNew = param['brandNew'];
+        // this.credentials.userName = param['userName'];
+      }
+    );
+  }
+
   login({ value, valid }: { value: Credentials, valid: boolean }) {
     this.submitted = true;
     this.errors = '';
@@ -68,15 +78,4 @@ export class LoginComponent implements OnInit {
         );
     }
   }
-
-  ngOnInit() {
-    // subscribe to router event
-    this.activatedRoute.queryParams.subscribe(
-      (param: any) => {
-        this.brandNew = param['brandNew'];
-        // this.credentials.userName = param['userName'];
-      }
-    );
-  }
-
 }
