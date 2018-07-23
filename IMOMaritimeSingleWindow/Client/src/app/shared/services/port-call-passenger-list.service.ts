@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { PassengerModel } from '../models/port-call-passenger-model';
 import { Http } from '@angular/http';
+import { PersonOnBoardModel } from '../models/person-on-board-model';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -24,7 +25,7 @@ export class PortCallPassengerListService {
   private dataIsPristine = new BehaviorSubject<Boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
 
-  private passengerModelSource = new BehaviorSubject<PassengerModel>(new PassengerModel());
+  private passengerModelSource = new BehaviorSubject<PersonOnBoardModel>(new PersonOnBoardModel());
   passengerModel$ = this.passengerModelSource.asObservable();
 
   private embarkationModelDataSource = new BehaviorSubject<any>(null);
@@ -100,7 +101,9 @@ export class PortCallPassengerListService {
   }
 
   setDateOfBirth(data) {
+    console.log(data);
     const dateOfBirth = this.getDateFormat(data);
+    console.log(dateOfBirth);
     this.dateOfBirthModelDataSource.next(dateOfBirth);
     const tempPassengerModel = this.passengerModelSource.getValue();
     tempPassengerModel.dateOfBirth = dateOfBirth;

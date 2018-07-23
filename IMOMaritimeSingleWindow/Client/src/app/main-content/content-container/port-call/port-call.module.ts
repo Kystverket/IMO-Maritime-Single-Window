@@ -30,7 +30,6 @@ import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-// tslint:disable-next-line:max-line-length
 import { ShipStoresComponent } from 'app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
@@ -38,18 +37,11 @@ import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-s
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { CountryService } from 'app/shared/services/country.service';
-// tslint:disable-next-line:max-line-length
-import { SearchPassengerPortComponent } from './registration/forms/shared/search-passenger-port/search-passenger-port.component';
 import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
 import { FindCountryOfBirthComponent } from './registration/forms/passenger-list/find-country-of-birth/find-country-of-birth.component';
-// tslint:disable-next-line:max-line-length
-import { FindPortOfDisembarkationComponent } from './registration/forms/passenger-list/find-port-of-disembarkation/find-port-of-disembarkation.component';
-// tslint:disable-next-line:max-line-length
-import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { FindNationalityComponent } from './registration/forms/passenger-list/find-nationality/find-nationality.component';
 import { DateOfBirthComponent } from './registration/forms/passenger-list/date-of-birth/date-of-birth.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
-import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 
 @NgModule({
@@ -92,15 +84,11 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    SearchPassengerPortComponent,
     SearchCountryComponent,
     FindCountryOfBirthComponent,
-    FindPortOfDisembarkationComponent,
-    FindPortOfEmbarkationComponent,
     FindNationalityComponent,
     DateOfBirthComponent,
     SavePassengerListComponent,
-    SearchPassengerPortComponent,
     SavePrevAndNextPocComponent
   ],
   exports: [

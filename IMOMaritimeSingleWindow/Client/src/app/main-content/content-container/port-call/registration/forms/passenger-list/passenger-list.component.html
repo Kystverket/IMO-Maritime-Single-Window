@@ -6,7 +6,7 @@
         <div class="form-group row">
           <label for="familyName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Family Name</label>
           <div class="col my-auto">
-            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
+            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.surname" placeholder="Family Name" class="form-control form-control-sm"
               required name="familyName">
           </div>
         </div>
@@ -128,17 +128,40 @@
           </li>
         </div>
 
-        <div class="form-group row">
-          <label for="app-find-port-of-embarkation" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Embarkation</label>
-          <div class="col my-auto">
-            <app-find-port-of-embarkation [label]="'Port of Embarkation'"></app-find-port-of-embarkation>
+        <div class="form-group">
+          <label for="search-port-of-embarkation" class="row form-control-sm">Port of Embarkation</label>
+          <div class="row my-auto">
+
+            <app-search-location *ngIf="!passengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfEmbarkationResult($event)"
+              id="search-port-of-embarkation"></app-search-location>
+
+            <div class="input-group" *ngIf="passengerModel.portOfEmbarkation">
+              <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
+                [(ngModel)]="passengerModel.portOfEmbarkation.name">
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
+                  <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
+                </button>
+              </div>
+            </div>
+            
           </div>
         </div>
 
-        <div class="form-group row">
-          <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Disembarkation</label>
-          <div class="col my-auto">
-            <app-find-port-of-disembarkation [label]="'Port of Disembarkation'"></app-find-port-of-disembarkation>
+        <div class="form-group">
+          <label for="app-find-port-of-disembarkation" class="row form-control-sm">Port of Disembarkation</label>
+          <div class="row my-auto">
+            <app-search-location *ngIf="!passengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfDisembarkationResult($event)"
+              id="app-find-port-of-disembarkation"></app-search-location>
+            <div class="input-group" *ngIf="passengerModel.portOfDisembarkation">
+              <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
+                [(ngModel)]="passengerModel.portOfDisembarkation.name">
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
+                  <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 

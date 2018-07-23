@@ -3,12 +3,12 @@
 
 <div *ngIf="nationalityFound" class="input-group">
   <div class="input-group-prepend flag">
-    <img src="assets/images/Flags/128x128/{{nationalityFlag | lowercase}}.png" height="30px">
+    <img src="assets/images/flags/128x128/{{nationalityFlag | lowercase}}.png" height="30px">
   </div>
     <input id="search-location" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="nationalityModel.name"
     />
   <div>
     <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="deselectCountry()">
-      <img height="20px" src="assets/images/VoyageIcons/128x128/white/cancel.png">
+      <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
     </button>
   </div>

@@ -1,27 +1,21 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LocalDataSource } from 'ng2-smart-table';
-import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
-import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { FindPortOfDisembarkationComponent } from './find-port-of-disembarkation/find-port-of-disembarkation.component';
-import { FindPortOfEmbarkationComponent } from './find-port-of-embarkation/find-port-of-embarkation.component';
+import { LocalDataSource } from 'ng2-smart-table';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { FindCountryOfBirthComponent } from './find-country-of-birth/find-country-of-birth.component';
 import { FindNationalityComponent } from './find-nationality/find-nationality.component';
-import { LocationService } from 'app/shared/services/location.service';
-import { Subscription } from 'rxjs/Subscription';
+import { SmartTableModel } from './smartTableModel';
+import { PortModel } from './portModel';
 
 @Component({
   selector: 'app-passenger-list',
   templateUrl: './passenger-list.component.html',
   styleUrls: ['./passenger-list.component.css']
 })
-export class PassengerListComponent implements OnInit, OnDestroy {
+export class PassengerListComponent implements OnInit {
 
-  @ViewChild(FindPortOfDisembarkationComponent)
-  private findPortOfDisembarkationComponent: FindPortOfDisembarkationComponent;
-  @ViewChild(FindPortOfEmbarkationComponent)
-  private findPortOfEmbarkationComponent: FindPortOfEmbarkationComponent;
   @ViewChild(FindCountryOfBirthComponent)
   private findCountryOfBirthComponent: FindCountryOfBirthComponent;
   @ViewChild(FindNationalityComponent)
@@ -33,7 +27,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
 
   portCallId: number;
   passengerList: any[] = [];
-  passengerModel: PassengerModel = new PassengerModel();
+  passengerModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
 
   booleanList: string[] = ['Yes', 'No'];
@@ -46,6 +40,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
   formValid = false;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
+  smartTableList = [];
 
   tableSettings = {
     actions: false,
@@ -76,26 +71,14 @@ export class PassengerListComponent implements OnInit, OnDestroy {
       dateOfBirth: {
         title: 'Date of Birth'
       },
-      placeOfBirth: {
-        title: 'Place of Birth'
-      },
-      countryOfBirth: {
-        title: 'Location Onboard'
-      },
-      natureOfIdentityDoc: {
-        title: 'Nature of Identity Document'
-      },
-      numberOfIdentityDoc: {
-        title: 'Identity Document No.'
-      },
-      permitNumber: {
-        title: 'Permit Number'
-      },
       portOfEmbarkation: {
         title: 'Port of Embarkation'
       },
       portOfDisembarkation: {
         title: 'Port of Disembarkation'
+      },
+      inTransit: {
+        title: 'In Transit'
       },
       delete: {
         title: 'Delete',
@@ -108,49 +91,38 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     }
   };
 
-  countries = ['Norway', 'Sweden'];
-
-  passengerListSubscription: Subscription;
-  passengerModelSubscription: Subscription;
-
   constructor(
     private passengerListService: PortCallPassengerListService
   ) { }
 
+
   ngOnInit() {
-    this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
+    // Generate smart table list from existing data
+
+    this.passengerListService.passengerList$.subscribe(list => {
       if (list) {
         this.passengerList = list;
-        console.log(list);
-        this.passengerListDataSource.load(list);
-        // this.makeSmartTable(list);
       }
     });
 
-    this.passengerModelSubscription = this.passengerListService.passengerModel$.subscribe(model => {
+    this.passengerListService.passengerModel$.subscribe(model => {
       if (model) {
         this.passengerModel = model;
       }
       console.log('In subscription of model: ' + JSON.stringify(this.passengerModel));
     });
-  }
 
-  ngOnDestroy() {
-    this.passengerListSubscription.unsubscribe();
-    this.passengerModelSubscription.unsubscribe();
   }
 
   addPassenger() {
     this.listIsPristine = false;
-    if (this.passengerList.length > 0) {
-      this.passengerModel.passengerId = this.passengerList[this.passengerList.length - 1].passengerId + 1;
-    } else {
-      this.passengerModel.passengerId = 1;
-    }
+
+    // Add to smart table list
+    this.addToSmartTable(this.passengerModel);
 
     // Add this passenger to local model and create new model
     this.passengerList.push(this.passengerModel);
-    this.passengerModel = new PassengerModel();
+    this.passengerModel = new PersonOnBoardModel();
 
     // Update values in service
     this.passengerListService.setPassengerModel(this.passengerModel);
@@ -161,8 +133,6 @@ export class PassengerListComponent implements OnInit, OnDestroy {
   }
 
   resetChildren() {
-    this.findPortOfDisembarkationComponent.deselectPort();
-    this.findPortOfEmbarkationComponent.deselectPort();
     this.findCountryOfBirthComponent.deselectCountry();
     this.findNationalityComponent.deselectCountry();
   }
@@ -192,29 +162,52 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     this.formTransit = $event;
     Object.keys(this.booleanModel).forEach(key => {
       if (key === $event) {
-        this.passengerModel.transit = this.booleanModel[key];
+        this.passengerModel.inTransit = this.booleanModel[key];
         return;
       }
     });
   }
 
+  // Add one passenger to smart table
+  addToSmartTable(passenger) {
+    this.smartTableList.push(this.makeSmartTableEntry(passenger));
+    this.passengerListDataSource.load(this.smartTableList);
+  }
+
+
+  makeSmartTableEntry(passenger) {
+    const modifiedPassenger = new SmartTableModel();
+    modifiedPassenger.passengerId = 0;
+    modifiedPassenger.givenName = passenger.givenName;
+    modifiedPassenger.familyName = passenger.surname; // Change to familyName
+    if (passenger.nationality) {
+      modifiedPassenger.nationality = passenger.nationality.name;
+    }
+    if (passenger.dateOfBirth) {
+      modifiedPassenger.dateOfBirth = passenger.dateOfBirth.toDateString();
+    }
+    if (passenger.portOfEmbarkation) {
+      modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
+    }
+    if (passenger.portOfDisembarkation) {
+      modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
+    }
+    Object.keys(this.booleanModel).forEach(key => {
+      if (this.booleanModel[key] === passenger.inTransit) {
+        modifiedPassenger.inTransit = key;
+      }
+    });
+
+    return modifiedPassenger;
+  }
+
+
+  // Make smart table from exising data from db
   makeSmartTable(list) {
+    // TODO: give IDs
     list.forEach(passenger => {
       if (passenger) {
-        console.log(passenger.nationality);
-        if (passenger.nationality) {
-          passenger.nationality = passenger.nationality.name;
-        }
-        passenger.countryOfBirth = passenger.countryOfBirth.name;
-        passenger.dateOfBirth = passenger.dateOfBirth.toDateString();
-        passenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
-        passenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
-        Object.keys(this.booleanModel).forEach(key => {
-          if (this.booleanModel[key] === passenger.transit) {
-            passenger.transit = key;
-            console.log(passenger.transit);
-          }
-        });
+        passenger = this.makeSmartTableEntry(passenger);
       }
       // missing nature of identity doc
       // gender
@@ -224,27 +217,45 @@ export class PassengerListComponent implements OnInit, OnDestroy {
 
   addMockData() {
     const mockData = {
-      familyName: 'Dalan',
+      personOnBoardId: 49292,
+      surname: 'Dalan',
       givenName: 'Camilla',
-      nationality: 'Norwegian',
-      dateOfBirth: new Date(),
+      dateOfBirth: null,
       placeOfBirth: 'Oslo',
-      countryOfBirth: 'Norway',
-      natureOfIdentityDoc: 'Passport',
-      numberOfIdentityDoc: 39572824,
-      permitNumber: 4252,
+      occupationName: '',
+      occupationCode: '',
+      roleCode: '',
+      inTransit: true,
+      rankName: '',
+      rankCode: '',
+
+      countryOfBirthId: 0,
+      nationalityId: 0,
+      personOnBoardTypeId: 0,
+      genderId: 0,
+      portCallId: this.portCallId,
+      portOfEmbarkationId: 0,
+      portOfDisembarkationId: 0,
+      natureOfIdentityDocId: 0,
+
+      countryOfBirth: null,
+      nationality: null,
+      personOnBoardType: null,
+      gender: null,
+      portCall: null,
       portOfEmbarkation: 'Trondheim',
       portOfDisembarkation: 'Oslo',
-      transit: true,
-      passengerId: 49292,
-      portCallId: 160
+      natureOfIdentityDoc: 'Passport',
+
+      numberOfIdentityDoc: 39572824,
+      permitNumber: 4252,
     };
     this.passengerModel = mockData;
     this.addPassenger();
   }
 
     mockFillForm() {
-      this.passengerModel.familyName = 'Dalan';
+      this.passengerModel.surname = 'Dalan';
       this.passengerModel.givenName = 'Camilla';
       this.passengerModel.dateOfBirth = new Date();
       this.passengerModel.placeOfBirth = 'Oslo';
@@ -252,6 +263,29 @@ export class PassengerListComponent implements OnInit, OnDestroy {
       this.passengerModel.permitNumber = 4232;
     }
 
+    onPortOfEmbarkationResult($event) {
+      this.passengerModel.portOfEmbarkation = this.setPortData($event);
+    }
 
+    onPortOfDisembarkationResult($event) {
+      this.passengerModel.portOfDisembarkation = this.setPortData($event);
+    }
+
+    setPortData(portdata) {
+      const portModel = new PortModel();
+      portModel.locationId = portdata.locationId;
+      portModel.countryId = portdata.countryId;
+      portModel.name = portdata.name;
+
+      return portModel;
+    }
+
+    deselectPortOfDisembarkation() {
+      this.passengerModel.portOfDisembarkation = null;
+    }
+
+    deselectPortOfEmbarkation() {
+      this.passengerModel.portOfEmbarkation = null;
+    }
 
 }
