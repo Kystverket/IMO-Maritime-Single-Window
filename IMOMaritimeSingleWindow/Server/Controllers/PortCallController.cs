@@ -73,6 +73,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.Location.LocationType)
+            .Include(pc => pc.PreviousLocation)
+            .Include(pc => pc.NextLocation)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
@@ -299,10 +301,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCall);
         }
 
-
-
-
-        [HttpGet("get/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetPortCallJson(int id)
         {
             var portCall = GetPortCall(id);

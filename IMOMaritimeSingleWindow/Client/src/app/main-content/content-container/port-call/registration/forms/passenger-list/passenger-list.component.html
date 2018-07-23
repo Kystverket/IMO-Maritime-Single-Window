@@ -1,0 +1,198 @@
+<app-ssn-card header="Passenger List" icon="pax.png">
+
+  <form>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label for="familyName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Family Name</label>
+          <div class="col my-auto">
+            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
+              required name="familyName">
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Only letters allowed.</small>
+          </li>
+          <li>
+            <small>More than one letter required.</small>
+          </li>
+        </div>
+
+        <div class="form-group row" required>
+          <label for="nationality" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Nationality</label>
+          <div class="col my-auto">
+            <input id="nationality" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="passengerModel.nationality"
+              name="nationality" placeholder="Enter search here..."
+              (selectItem)="selectNationality($event)">
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="placeOfBirth" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Place of Birth</label>
+          <div class="col my-auto">
+            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.placeOfBirth" placeholder="Place of Birth"
+              class="form-control form-control-sm" name="placeOfBirth">
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Only letters allowed.</small>
+          </li>
+          <li>
+            <small>More than one letter required.</small>
+          </li>
+        </div>
+
+        <div class="form-group row">
+          <label for="natureOfIdentityDoc" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Nature of Identity Document</label>
+          <div class="col my-auto">
+            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.natureOfIdentityDoc" name="natureOfIdentityDoc"
+              [closeOnSelect]="true" bindLabel="name" placeholder="Nature of Identity Document" (change)="selectNationality($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="visaOrResidenceNumber" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Visa or Residence Permit Number</label>
+          <div class="col my-auto">
+            <input type="number" required [(ngModel)]="passengerModel.permitNumber" placeholder="Visa or Residence Permit Number" class="form-control form-control-sm"
+              name="visaOrResidenceNumber" integerValidator positiveNumberValidator>
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Visa/permit number must be an integer.</small>
+          </li>
+          <li>
+            <small>Visa/permit number number must be a positive number.</small>
+          </li>
+        </div>
+
+        <div class="form-group row">
+          <label for="portOfDisembarkation" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Port of Disembarkation</label>
+          <div class="col my-auto">
+            <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.portOfDisembarkation" placeholder="Port of Disembarkation"
+              class="form-control form-control-sm" required name="portOfDisembarkation">
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Only letters allowed.</small>
+          </li>
+          <li>
+            <small>More than one letter required.</small>
+          </li>
+        </div>
+
+      </div>
+      <!-- /.col-lg-6 -->
+
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <label for="givenName" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Given Name</label>
+          <div class="col my-auto">
+            <input type="text" required [(ngModel)]="passengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+              pattern="^[a-zA-Z0-9.]+$" name="givenName">
+          </div>
+        </div>
+
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Only letters, numbers and "." allowed.</small>
+          </li>
+          <li>
+            <small>More than one letter required.</small>
+          </li>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="dateOfBirth" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Date of Birth</label>
+          <div class="col my-auto">
+            <input type="number" required [(ngModel)]="passengerModel.dateOfBirth" placeholder="Date of Birth" class="form-control form-control-sm"
+              name="dateOfBirth" integerValidator positiveNumberValidator>
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Number of passengers must be an integer.</small>
+          </li>
+          <li>
+            <small>Number of passengers must be a positive number.</small>
+          </li>
+        </div>
+
+        <div class="form-group row" required>
+          <label for="countryOfBirth" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Country of Birth</label>
+          <div class="col my-auto">
+            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.countryOfBirth" name="countryOfBirth"
+              [closeOnSelect]="true" bindLabel="name" placeholder="Country of Birth" (change)="selectCountryOfBirth($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="numberOfIdentityDoc" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Number of Identity Document</label>
+          <div class="col my-auto">
+            <input type="number" required [(ngModel)]="passengerModel.numberOfIdentityDoc" placeholder="Number of Identity Document"
+              class="form-control form-control-sm" name="numberOfIdentityDoc" integerValidator positiveNumberValidator>
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Identity document number must be an integer.</small>
+          </li>
+          <li>
+            <small>Identity document number must be a positive number.</small>
+          </li>
+        </div>
+
+        <app-find-port-of-embarkation></app-find-port-of-embarkation>
+
+        
+
+        <div class="form-group row" required>
+          <label for="transit" class="col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4">Transit</label>
+          <div class="col my-auto">
+            <ng-select class="ng-select-placeholder-size" [items]="countryList" [(ngModel)]="passengerModel.transit" name="transit" [closeOnSelect]="true"
+              bindLabel="name" placeholder="Transit" (change)="selectNationality($event)">
+            </ng-select>
+          </div>
+        </div>
+
+      </div>
+      <!-- /.col-lg-6 -->
+    </div>
+  </form>
+
+  <div class="col-lg-12">
+
+    <pre>{{ passengerModel | json }}</pre>
+
+    <div class="form-group">
+      <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+        <span>Submit</span>
+      </button>
+      <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
+        <span>Submit</span>
+      </button>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-ssn mt-2" (click)=addMockData()>
+        <span>Add mockdata</span>
+      </button>
+    </div>
+
+    <div class="mb-3">
+
+      <div class="table-responsive">
+        <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+        </div>
+        <ng2-smart-table [settings]="tableSettings" [source]="passengerListDataSource"></ng2-smart-table>
+
+      </div>
+    </div>
+  </div>
+</app-ssn-card>

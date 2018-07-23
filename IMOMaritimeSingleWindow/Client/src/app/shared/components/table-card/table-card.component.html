@@ -7,8 +7,8 @@
       <span>{{ header }}</span>
     </div>
     <div class="d-table-cell ml-auto">
-      <button *ngIf="collapsible" class="btn btn-sm btn-outline-light">
-        <img src="{{iconPath}}{{collapsedIcon}}" height="16px">
+      <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (mouseover)="collapsedIconColor=''" (mouseout)="collapsedIconColor='white/'">
+        <img src="{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}" height="16px">
       </button>
     </div>
   </div>

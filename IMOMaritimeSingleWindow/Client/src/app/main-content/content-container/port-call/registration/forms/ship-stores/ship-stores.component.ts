@@ -1,20 +1,20 @@
-import { Component, OnInit, ViewChild, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
-import { DeleteButtonComponent } from './delete-button/delete-button.component';
-import { PortCallService } from '../../../../../../shared/services/port-call.service';
+import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
+import { PortCallService } from 'app/shared/services/port-call.service';
 import { Observable } from 'rxjs/Observable';
-import { DataSource } from 'ng2-smart-table/lib/data-source/data-source';
-import { MeasurementTypeModel } from '../../../../../../shared/models/measurement-type-model';
+import { MeasurementTypeModel } from 'app/shared/models/measurement-type-model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-ship-stores',
   templateUrl: './ship-stores.component.html',
   styleUrls: ['./ship-stores.component.css']
 })
-export class ShipStoresComponent implements OnInit {
+export class ShipStoresComponent implements OnInit, OnDestroy {
   portCallShipStoresList: PortCallShipStoresModel[] = [];
 
   portCallShipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
@@ -76,6 +76,8 @@ export class ShipStoresComponent implements OnInit {
     }
   };
 
+  detailsIdentificationDataSubscription: Subscription;
+
   constructor(
     private shipStoresService: PortCallShipStoresService,
     private portCallService: PortCallService
@@ -84,7 +86,7 @@ export class ShipStoresComponent implements OnInit {
   ngOnInit() {
     this.portCallShipStoresModel = new PortCallShipStoresModel();
 
-    this.portCallService.detailsIdentificationData$.subscribe(element => {
+    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(element => {
       if (element) {
         this.portCallShipStoresModel.portCallId = element.portCallId;
 
@@ -103,6 +105,13 @@ export class ShipStoresComponent implements OnInit {
             } else {
               this.shipStoresDataSource.load(this.generateSmartTable());
             }
+
+                      /*if (!this.measurementTypeList) {
+            this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
+              this.measurementTypeList = measurementTypeList;
+            });
+          }
+          console.log(this.measurementTypeList);*/
           }
         });
 
@@ -117,6 +126,10 @@ export class ShipStoresComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.detailsIdentificationDataSubscription.unsubscribe();
   }
 
   // Generate list that will be sent to shipStoresDataSource that is connected to the smart table

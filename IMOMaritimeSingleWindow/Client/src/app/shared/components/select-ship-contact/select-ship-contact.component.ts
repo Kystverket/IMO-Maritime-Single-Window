@@ -1,21 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ContactService } from '../../services/contact.service';
-import { ConstantsService } from '../../services/constants.service';
-import { ShipContactModel } from '../../models/ship-contact-model';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ShipContactModel } from 'app/shared/models/ship-contact-model';
+import { ConstantsService } from 'app/shared/services/constants.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-select-ship-contact',
   templateUrl: './select-ship-contact.component.html',
   styleUrls: ['./select-ship-contact.component.css']
 })
-export class SelectShipContactComponent implements OnInit {
-  contactList: ShipContactModel[];
-  selectedContactModels: ShipContactModel[];
+export class SelectShipContactComponent implements OnInit, OnDestroy {
 
-  constructor(private constantsService: ConstantsService, private contactService: ContactService) { }
+  @Input() selectedContactModelList: ShipContactModel[];
+
+  @Output() contactModelListResult = new EventEmitter<ShipContactModel[]>();
+
+  contactList: ShipContactModel[];
+
+  getContactMediumListSubscription: Subscription;
+
+  constructor(private constantsService: ConstantsService) { }
 
   ngOnInit() {
-    this.constantsService.getContactMediumList().subscribe(
+    this.getContactMediumListSubscription = this.constantsService.getContactMediumList().subscribe(
       data => {
         if (data) {
           this.contactList = data.map(cm => {
@@ -24,34 +30,41 @@ export class SelectShipContactComponent implements OnInit {
             contact.contactMedium = cm;
             return contact;
           });
-          this.contactService.contactData$.subscribe(
-            shipContactData => {
-              if (shipContactData) {
-                this.selectedContactModels = shipContactData;
-                this.contactList = this.contactList.map(cm => {
-                  const shipContact = shipContactData.find(sc => sc.contactMediumId === cm.contactMediumId);
-                  if (shipContact != null) {
-                    return shipContact;
-                  }
-                  return cm;
-                });
-              }
-            });
         }
       }
     );
-  }
-  contactInfoChanged(contactMedium: ShipContactModel) {
-    this.contactService.setContactData(this.selectedContactModels);
+
+    if (this.selectedContactModelList === undefined) {
+      this.selectedContactModelList = [];
+    }
   }
 
-  contactMediumSelected() {
-    console.log(this.selectedContactModels);
-    this.contactService.setContactData(this.selectedContactModels);
+  ngOnDestroy() {
+    this.getContactMediumListSubscription.unsubscribe();
+  }
+
+  contactInfoChanged() {
+    this.contactModelListResult.emit(this.selectedContactModelList);
+  }
+
+  onAdd($event) {
+    console.log(this.selectedContactModelList);
+    this.selectedContactModelList.push($event);
+    this.contactModelListResult.emit(this.selectedContactModelList);
+  }
+
+  onRemove($event) {
+    const index = this.selectedContactModelList.findIndex((item, i) => item.contactMediumId === $event.value.contactMediumId);
+    if (index !== -1) {
+      this.selectedContactModelList.splice(index, 1);
+      this.contactModelListResult.emit(this.selectedContactModelList);
+    } else {
+      console.error('Selected contact medium could not be found.');
+    }
   }
 
   preferredSet(selectedContactModel: ShipContactModel) {
-    const updatedModels = this.selectedContactModels.map(
+    const updatedContactModelList = this.selectedContactModelList.map(
       contactModel => {
         if (contactModel.contactMediumId === selectedContactModel.contactMediumId) {
           return selectedContactModel;
@@ -61,6 +74,7 @@ export class SelectShipContactComponent implements OnInit {
         return notPreferredContactModel;
       }
     );
+    this.contactModelListResult.emit(updatedContactModelList);
   }
 }
 

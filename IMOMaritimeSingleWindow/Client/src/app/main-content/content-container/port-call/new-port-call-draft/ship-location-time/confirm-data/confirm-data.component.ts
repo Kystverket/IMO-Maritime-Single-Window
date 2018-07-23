@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -10,6 +10,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS =
   'The port call draft was successfully created. You will now be taken to the wizard for ' +
@@ -22,7 +23,7 @@ const RESULT_FAILURE =
   templateUrl: './confirm-data.component.html',
   styleUrls: ['./confirm-data.component.css']
 })
-export class ConfirmDataComponent implements OnInit {
+export class ConfirmDataComponent implements OnInit, OnDestroy {
   shipModel: any;
   locationModel: any;
   etaEtdModel: EtaEtdDateTime;
@@ -32,6 +33,10 @@ export class ConfirmDataComponent implements OnInit {
   locationFound: boolean;
   dateTimeFound = false;
 
+  shipDataSubscription: Subscription;
+  locationDataSubscription: Subscription;
+  etaEtdDataSubscription: Subscription;
+
   constructor(
     private portCallService: PortCallService,
     private contentService: ContentService,
@@ -39,7 +44,7 @@ export class ConfirmDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.portCallService.shipData$.subscribe(shipData => {
+    this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipData => {
       if (shipData) {
         this.shipFound = true;
         this.shipModel = shipData;
@@ -47,7 +52,7 @@ export class ConfirmDataComponent implements OnInit {
         this.shipFound = false;
       }
     });
-    this.portCallService.locationData$.subscribe(locationData => {
+    this.locationDataSubscription = this.portCallService.locationData$.subscribe(locationData => {
       if (locationData) {
         this.locationFound = true;
         this.locationModel = locationData;
@@ -55,7 +60,7 @@ export class ConfirmDataComponent implements OnInit {
         this.locationFound = false;
       }
     });
-    this.portCallService.etaEtdData$.subscribe(etaEtdData => {
+    this.etaEtdDataSubscription = this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData && etaEtdData.eta !== null && etaEtdData.etd !== null) {
         this.dateTimeFound = true;
         if (etaEtdData != null) {
@@ -74,6 +79,12 @@ export class ConfirmDataComponent implements OnInit {
         this.dateTimeFound = false;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.shipDataSubscription.unsubscribe();
+    this.locationDataSubscription.unsubscribe();
+    this.etaEtdDataSubscription.unsubscribe();
   }
 
   dateTimeFormat(number: number) {

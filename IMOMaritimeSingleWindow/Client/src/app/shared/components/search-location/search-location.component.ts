@@ -1,24 +1,30 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { LocationSearchService } from './location-search.service';
+import { SearchLocationService } from './search-location.service';
+import { LocationModel } from '../../models/location-model';
 
 @Component({
   selector: 'app-search-location',
   templateUrl: './search-location.component.html',
   styleUrls: ['./search-location.component.css'],
-  providers: [LocationSearchService]
+  providers: [SearchLocationService]
 })
 export class SearchLocationComponent implements OnInit {
 
   @Input() showDropdown = true;
   @Input() restrictTypeHarbour = false;
 
+  @Output() locationResult = new EventEmitter<LocationModel>();
+  @Output() locationSearchResult = new EventEmitter<any>();
+
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
   resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN_2;
+
   locationModel: any;
+  locationSelected: boolean;
 
   searching = false;
   searchFailed = false;
@@ -26,7 +32,9 @@ export class SearchLocationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private locationSearchService: LocationSearchService) { }
+  constructor(private locationSearchService: SearchLocationService) {
+    this.locationSelected = false;
+  }
 
   ngOnInit() { }
 
@@ -57,7 +65,7 @@ export class SearchLocationComponent implements OnInit {
           this.locationSearchService.search(this.locationModel, this.restrictTypeHarbour, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
-              this.locationSearchService.setLocationSearchData(data);
+              this.locationSearchResult.emit(data);
               this.searching = false;
             });
         }
@@ -69,15 +77,7 @@ export class SearchLocationComponent implements OnInit {
 
   selectLocation($event) {
     this.locationModel = $event.item;
-    this.locationSearchService.setLocationData(this.locationModel);
-  }
-
-  deselectLocation() {
-    this.locationModel = null;
-    this.locationSearchService.clearLocationSearch();
-  }
-
-  getService() {
-    return this.locationSearchService;
+    this.locationSelected = true;
+    this.locationResult.emit(this.locationModel);
   }
 }

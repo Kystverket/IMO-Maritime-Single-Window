@@ -7,6 +7,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { AuthRequest } from './auth.request.service';
+import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { LocationModel } from '../models/location-model';
 
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 
@@ -76,13 +78,12 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
-  constructor(private http: Http, private authRequestService: AuthRequest) {
+  constructor(private http: Http, private authRequestService: AuthRequest, private prevAndNextPocService: PrevAndNextPocService) {
     // Port call
     this.portCallUrl = 'api/portcall';
     this.portCallUserUrl = 'api/portcall/user';
     this.updatePortCallStatusActiveUrl = 'api/portcall/updatestatus/active';
-    this.updatePortCallStatusCancelledUrl =
-      'api/portcall/updatestatus/cancelled';
+    this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
     // Purpose
     this.purposePortCallUrl = 'api/purpose/portcall';
     this.purposeOtherNameUrl = 'api/purpose/othername';
@@ -144,30 +145,19 @@ export class PortCallService {
     console.log('Updating port call...');
     const authHeaders = this.authRequestService.GetHeaders();
     const options = new RequestOptions({ headers: authHeaders });
-    this.http
+    return this.http
       .put(this.portCallUrl, portCall, options)
-      .map(res => res.json())
-      .subscribe(data => {
-        console.log('Success');
-        console.log(data);
-      });
+      .map(res => res.json());
   }
   setShipData(data) {
     this.shipDataSource.next(data);
   }
-  // Location
   setLocationData(data) {
-    // NEW
     this.locationDataSource.next(data);
   }
-  // ETA / ETD
-
   setEtaEtdData(data) {
-    // NEW
     this.etaEtdDataSource.next(data);
   }
-  // Status
-
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
@@ -199,6 +189,7 @@ export class PortCallService {
         console.log('Port call successfully cancelled.');
       });
   }
+
   // Delete port call draft
   deletePortCallDraft(portCall: PortCallModel) {
     console.log('Deleting port call...');
@@ -278,9 +269,32 @@ export class PortCallService {
     this.otherPurposeDataSource.next(data);
   }
 
+  savePrevAndNextPortCall(portCallId: number, prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
+    // const updatedPortCallData = new PortCallModel();
+    this.getPortCallById(portCallId).subscribe(data => {
+      if (data) {
+        const updatedPortCallData = data;
+        updatedPortCallData.previousLocationId = prevPortOfCall.locationId;
+        updatedPortCallData.nextLocationId = nextPortCall.locationId;
+        updatedPortCallData.previousLocationEtd = prevEtd;
+        updatedPortCallData.nextLocationEta = nextEta;
+        this.updatePortCall(updatedPortCallData).subscribe(
+          result => {
+            console.log(result);
+            this.prevAndNextPocService.dataIsPristine.next(true);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+    });
+
+
+  }
+
   // SAVE DETAILS
   saveDetails(details: any, purposes: any, otherName: string) {
-    // NEW
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
     this.http
@@ -292,7 +306,6 @@ export class PortCallService {
       });
   }
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
-    // NEW
     if (purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http

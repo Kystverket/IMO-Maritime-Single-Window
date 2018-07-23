@@ -4,21 +4,20 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SharedModule } from 'app/shared/shared.module';
-import { RegisterLocationComponent } from './location/register-location/register-location.component';
-import { ViewLocationInfoComponent } from './location/view-location-info/view-location-info.component';
-import { RegisterOrganizationComponent } from './organization/register-organization/register-organization.component';
-import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
-import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
-import { SearchShipFlagCodeComponent } from './ship/search-ship-flag-code/search-ship-flag-code.component';
-import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
-import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { LocationService } from 'app/shared/services/location.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 import { ShipService } from 'app/shared/services/ship.service';
-import { ContactService } from 'app/shared/services/contact.service';
+import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { RegisterLocationComponent } from './location/register-location/register-location.component';
 import { LocationButtonRowComponent } from './location/view-location-info/location-button-row/location-button-row.component';
+import { ViewLocationInfoComponent } from './location/view-location-info/view-location-info.component';
+import { RegisterOrganizationComponent } from './organization/register-organization/register-organization.component';
+import { ViewOrganizationInfoComponent } from './organization/view-organization-info/view-organization-info.component';
+import { CertificateOfRegistryComponent } from './ship/register-ship/certificate-of-registry/certificate-of-registry.component';
+import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
+import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
+import { RegisterUserComponent } from './user/register-user/register-user.component';
 
 @NgModule({
   imports: [
@@ -33,13 +32,13 @@ import { LocationButtonRowComponent } from './location/view-location-info/locati
   declarations: [
     RegisterUserComponent,
     RegisterShipComponent,
-    SearchShipFlagCodeComponent,
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
     ViewOrganizationInfoComponent,
     RegisterLocationComponent,
     ViewLocationInfoComponent,
-    LocationButtonRowComponent
+    LocationButtonRowComponent,
+    CertificateOfRegistryComponent
   ],
   exports: [
     RegisterUserComponent,
@@ -53,8 +52,7 @@ import { LocationButtonRowComponent } from './location/view-location-info/locati
   providers: [
     LocationService,
     OrganizationService,
-    ShipService,
-    ContactService
+    ShipService
   ],
   entryComponents: [
     LocationButtonRowComponent

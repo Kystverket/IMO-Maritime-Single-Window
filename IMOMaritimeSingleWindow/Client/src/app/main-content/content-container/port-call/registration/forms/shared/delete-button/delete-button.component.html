@@ -1,0 +1,32 @@
+<button class="btn btn-sm btn-ssn" ngbTooltip="Delete Ship Store" (click)="onDeleteClick(deleteModal)">
+  <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+</button>
+
+<ng-template #deleteModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete Ship Stores</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>Are you sure you wish to delete this ship store?</span>
+      <br>
+      <span>This action cannot be undone.</span>
+    </div>
+  </div>
+  <div [ngSwitch]="selectedForm" class="modal-footer">
+    <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteShipStoreEntry(); close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <span>Delete Ship Store</span>
+    </button>
+    <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)="deletePassengerEntry(); close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <span>Passenger Entry</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>

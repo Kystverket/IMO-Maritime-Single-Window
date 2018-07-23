@@ -4,7 +4,7 @@
     <div class="d-table-cell pl-1" ngbTooltip="View port call information" *ngIf="permissions.view">
       <button class="btn btn-sm btn-ssn" (click)="onViewClick()">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/eye.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/eye.png" height="20px" />
         </div>
       </button>
     </div>
@@ -12,13 +12,13 @@
     <div class="d-table-cell pl-1" *ngIf="permissions.edit">
       <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
 
       <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="!portCallIsCancelled">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
     </div>
@@ -26,13 +26,13 @@
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
       <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
         </div>
       </button>
 
       <button class="btn btn-sm btn-ssn" ngbTooltip="Review port call clearance" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
         </div>
       </button>
     </div>
@@ -40,13 +40,13 @@
     <div class="d-table-cell pl-1" *ngIf="permissions.cancel && !portCallIsDraft">
       <button class="btn btn-sm btn-ssn" *ngIf="portCallIsDraft || portCallIsCancelled" disabled>
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
       </button>
 
       <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
       </button>
     </div>
@@ -54,7 +54,7 @@
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
       <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="onDeleteClick(deleteModal)">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/trash.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/trash.png" height="16px" />
         </div>
       </button>
     </div>
@@ -78,7 +78,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="cancelPortCall(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Cancel Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">
@@ -103,7 +103,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="deletePortCall(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Delete Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

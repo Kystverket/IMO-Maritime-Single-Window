@@ -9,12 +9,8 @@
 </div>
 
 <app-ssn-card header="Location Search" icon="pax.png">
-  <div *ngIf="!locationFound">
-    <app-search-location [showDropdown]=false></app-search-location>
-  </div>
-
+  <app-search-location [showDropdown]=false (locationSearchResult)="onLocationSearchResult($event)"></app-search-location>
   <br>
-
   <div>
     <div class="mb-3">
       <table class="table table-bordered text-center mx-auto mb-0">

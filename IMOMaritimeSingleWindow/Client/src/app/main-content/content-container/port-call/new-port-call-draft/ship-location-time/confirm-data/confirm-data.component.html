@@ -4,7 +4,7 @@
     <p *ngIf="!locationFound" class="no-wrap mb-0">No location selected.</p>
     <p *ngIf="!dateTimeFound" class="no-wrap">ETA and ETD not set.</p>
     <button class="btn btn-ssn" disabled>
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
 
   <div *ngIf="shipFound && locationFound && dateTimeFound" class="text-center">
@@ -23,7 +23,7 @@
         <tbody>
           <tr>
             <td>
-              <img src="assets/images/Flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
+              <img src="assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
             </td>
             <td>{{ shipModel.name }}</td>
             <td>{{ locationModel.name }}</td>
@@ -37,6 +37,6 @@
       </table>
     </div>
     <button class="btn btn-ssn" (click)="startPortCallRegistration()">
-      <img src="assets/images/VoyageIcons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
+      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
   </div>
 </app-ssn-card>
