@@ -5,7 +5,7 @@
  *  url: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
  *  demonstrating how to implement a framework for authenticating users with JWT
  *  in an ASP.NET Core 2/Angular 5 web application.
- *  
+ *
  *  The original class this class is based upon can be found on the project's GitHub repository
  *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
  *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Controllers/AccountsController.cs
@@ -72,7 +72,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var result = await _userManager.CreateAsync(applicationUser);
 
             if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             // Functionality for sending email to user with new account, so that they can set their own password
             var callbackUrl = await GenerateEmailConfirmationLinkAsync(applicationUser);
 
@@ -106,7 +106,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
         }
 
-
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/account/user
         [HttpPost("user")]
@@ -130,27 +129,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
+            var addedUser = await _userManager.FindByEmailAsync(model.Email);
             // Add the user to the specified role
-            result = await _userManager.AddToRoleAsync(userIdentity, model.RoleName);
+            result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-            
+
             return new OkObjectResult("Account created");
         }
-
-        [AllowAnonymous]
-        [HttpGet("emailLink")]
-        public async Task<IActionResult> GetEmailLink()
-        {
-            var user = await _userManager.FindByEmailAsync("agent4@imo-msw.org");
-            var callbackUrl = await GenerateEmailConfirmationLinkAsync(user);
-            // Return url
-            return Ok(callbackUrl);
-        }
-        
         
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="emailConfirmationToken"></param>
@@ -163,7 +152,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var emConToken = Uri.UnescapeDataString(emailConfirmationToken);
             if (userId == null || emailConfirmationToken == null)
                 return BadRequest();
-            
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return BadRequest();
@@ -261,7 +250,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(passwordResetLink);
         }
 
-        
+
 
         /// <summary>
         /// Gets the roles assignable to users.
@@ -309,7 +298,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <param name="email">The email address to search by</param>
         /// <returns>A boolean</returns>
         [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
-        [HttpGet("emailTaken/{email}")] 
+        [HttpGet("emailTaken/{email}")]
         public async Task<IActionResult> EmailTaken(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -357,7 +346,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private async Task<Uri> GeneratePasswordResetLinkAsync(ApplicationUser applicationUser)
         {
             var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
-            
+
             QueryBuilder queryBuilder = new QueryBuilder(
                 new Dictionary<string, string>()
                 {
@@ -427,7 +416,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             };
             return uriBuilder.Uri;
         }
-        
+
 
 #endregion
 
