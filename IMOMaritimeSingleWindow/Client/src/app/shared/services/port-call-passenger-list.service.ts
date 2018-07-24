@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
-import { PassengerModel } from '../models/port-call-passenger-model';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
 
@@ -40,8 +39,8 @@ export class PortCallPassengerListService {
   private nationalityModelDataSource = new BehaviorSubject<any>(null);
   nationalityModelData$ = this.nationalityModelDataSource.asObservable();
 
-  private dateOfBirthModelDataSource = new BehaviorSubject<any>(null);
-  dateOfBirthData$ = this.dateOfBirthModelDataSource.asObservable();
+  /*private dateModelDataSource = new BehaviorSubject<any>(null);
+  dateOfBirthData$ = this.dateModelDataSource.asObservable();*/
 
   // Http
   registerPassengerList(passengerList: any[]) {
@@ -101,12 +100,8 @@ export class PortCallPassengerListService {
   }
 
   setDateOfBirth(data) {
-    console.log(data);
-    const dateOfBirth = this.getDateFormat(data);
-    console.log(dateOfBirth);
-    this.dateOfBirthModelDataSource.next(dateOfBirth);
     const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.dateOfBirth = dateOfBirth;
+    tempPassengerModel.dateOfBirth = data;
     this.setPassengerModel(tempPassengerModel);
   }
 
@@ -133,20 +128,6 @@ export class PortCallPassengerListService {
   }
 
   // Helper methods
-
-  getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
-    return new Date(dateString);
-  }
-
-  getNgbDateFormat(date) {
-    const newDate = new Date(date);
-    return {
-      year: newDate.getFullYear(),
-      month: newDate.getMonth() + 1,
-      day: newDate.getDate()
-    };
-  }
 
   createComparableObject(item) {
     const object = {

@@ -40,7 +40,7 @@ import { CountryService } from 'app/shared/services/country.service';
 import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
 import { FindCountryOfBirthComponent } from './registration/forms/passenger-list/find-country-of-birth/find-country-of-birth.component';
 import { FindNationalityComponent } from './registration/forms/passenger-list/find-nationality/find-nationality.component';
-import { DateOfBirthComponent } from './registration/forms/passenger-list/date-of-birth/date-of-birth.component';
+import { SelectDateComponent } from './registration/forms/passenger-list/date-of-birth/select-date.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 
@@ -87,7 +87,7 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     SearchCountryComponent,
     FindCountryOfBirthComponent,
     FindNationalityComponent,
-    DateOfBirthComponent,
+    SelectDateComponent,
     SavePassengerListComponent,
     SavePrevAndNextPocComponent
   ],

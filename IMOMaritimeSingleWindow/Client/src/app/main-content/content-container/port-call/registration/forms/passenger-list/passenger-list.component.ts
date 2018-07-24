@@ -228,6 +228,8 @@ export class PassengerListComponent implements OnInit {
       inTransit: true,
       rankName: '',
       rankCode: '',
+      identityDocIssueDate: null,
+      identityDocExpiryDate: null,
 
       countryOfBirthId: 0,
       nationalityId: 0,
@@ -286,6 +288,37 @@ export class PassengerListComponent implements OnInit {
 
     deselectPortOfEmbarkation() {
       this.passengerModel.portOfEmbarkation = null;
+    }
+
+    setDateOfBirth($event) {
+      console.log($event);
+      this.passengerModel.dateOfBirth = this.getDateFormat($event);
+    }
+
+    setIdentityDocIssueDate($event) {
+      this.passengerModel.identityDocIssueDate = this.getDateFormat($event);
+      console.log($event);
+    }
+
+    setIdentityDocExpiryDate($event) {
+      this.passengerModel.identityDocExpiryDate = this.getDateFormat($event);
+      console.log($event);
+    }
+
+      // Helper methods
+
+    getDateFormat(date) {
+      const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
+      return new Date(dateString);
+    }
+
+    getNgbDateFormat(date) {
+      const newDate = new Date(date);
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth() + 1,
+        day: newDate.getDate()
+      };
     }
 
 }

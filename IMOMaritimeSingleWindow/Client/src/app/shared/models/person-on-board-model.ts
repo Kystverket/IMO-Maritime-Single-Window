@@ -15,6 +15,9 @@ export class PersonOnBoardModel {
     rankName: string;
     rankCode: string;
     permitNumber: number;
+    identityDocIssueDate: Date;
+    identityDocExpiryDate: Date;
+
     // ids
     countryOfBirthId: number; // country id
     nationalityId: number;  // country id
