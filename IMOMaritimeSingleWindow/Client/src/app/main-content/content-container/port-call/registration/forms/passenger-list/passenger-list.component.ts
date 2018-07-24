@@ -86,7 +86,7 @@ export class PassengerListComponent implements OnInit {
         title: 'Port of Disembarkation'
       },
       delete: {
-        title: 'Delete',
+        title: 'Actions',
         // deleteButtonContent: 'Delete',
         type: 'custom',
         filter: false,
@@ -132,6 +132,10 @@ export class PassengerListComponent implements OnInit {
         this.genderList = results;
       });
     }
+
+    this.passengerListService.getIdentityDocumentTypes().subscribe(results => {
+      console.log(results);
+    });
   }
 
   addPassenger() {

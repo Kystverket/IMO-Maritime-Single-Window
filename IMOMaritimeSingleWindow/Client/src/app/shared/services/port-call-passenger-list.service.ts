@@ -9,10 +9,12 @@ export class PortCallPassengerListService {
 
   private personOnBoardListUrl: string;
   private genderUrl: string;
+  private identityDocTypeUrl: string;
 
   constructor(private http: Http) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
     this.genderUrl = 'api/gender';
+    this.identityDocTypeUrl = 'api/identitydocumenttype';
   }
 
   private passengerListSource = new BehaviorSubject<any>(null);
@@ -57,6 +59,11 @@ export class PortCallPassengerListService {
 
   getGenderList() {
     const uri = this.genderUrl;
+    return this.http.get(uri).map(res => res.json());
+  }
+
+  getIdentityDocumentTypes() {
+    const uri = this.identityDocTypeUrl;
     return this.http.get(uri).map(res => res.json());
   }
   // Setters
