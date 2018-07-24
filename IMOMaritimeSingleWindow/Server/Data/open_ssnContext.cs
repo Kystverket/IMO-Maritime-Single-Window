@@ -22,6 +22,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<DpgType> DpgType { get; set; }
         public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
+        public virtual DbSet<IdentityDocumentType> IdentityDocumentType { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
@@ -411,6 +412,17 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("gender");
 
                 entity.Property(e => e.GenderId).HasColumnName("gender_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+            });
+
+            modelBuilder.Entity<IdentityDocumentType>(entity =>
+            {
+                entity.ToTable("identity_document_type");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Description).HasColumnName("description");
             });
