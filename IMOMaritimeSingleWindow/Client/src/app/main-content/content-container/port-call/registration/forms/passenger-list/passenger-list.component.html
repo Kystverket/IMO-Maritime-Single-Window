@@ -240,8 +240,10 @@
       <div class="table-responsive">
         <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
         </div>
-        <ng2-smart-table [settings]="tableSettings" [source]="passengerListDataSource"></ng2-smart-table>
-
+        <ng2-smart-table [settings]="tableSettings" [source]="passengerListDataSource">
+          <app-delete-button (removeTableEntry)="removeTableEntry($event)"></app-delete-button>
+        </ng2-smart-table>
+        
       </div>
     </div>
   </div>

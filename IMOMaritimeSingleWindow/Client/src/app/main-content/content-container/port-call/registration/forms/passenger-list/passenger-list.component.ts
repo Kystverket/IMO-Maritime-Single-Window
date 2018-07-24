@@ -107,6 +107,16 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.passengerList$.subscribe(list => {
       if (list) {
         this.passengerList = list;
+        // Update passenger Ids
+        // this.resetAllPassengerIds(list);
+
+        // Create smart table
+        if (list.length === 0) {
+          this.smartTableList = [];
+          this.passengerListDataSource.load(this.smartTableList);
+        } else if (list.length > 0) {
+          this.makeSmartTable(list);
+        }
       }
     });
 
@@ -188,7 +198,7 @@ export class PassengerListComponent implements OnInit {
 
   makeSmartTableEntry(passenger) {
     const modifiedPassenger = new SmartTableModel();
-    modifiedPassenger.passengerId = 0;
+    modifiedPassenger.passengerId = passenger.passengerId;
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.surname; // Change to familyName
     if (passenger.nationality) {
@@ -340,5 +350,16 @@ export class PassengerListComponent implements OnInit {
       };
     }
 
+    removeTableEntry($event) {
+      console.log($event);
+    }
+
+    /*resetAllPassengerIds(list) {
+      let id = 1;
+      list.forEach(passenger => {
+        passenger.passengerId = id;
+        id++;
+      });
+    }*/
 
 }

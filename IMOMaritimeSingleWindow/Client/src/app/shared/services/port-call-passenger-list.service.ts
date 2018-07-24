@@ -62,7 +62,8 @@ export class PortCallPassengerListService {
   // Setters
 
   setPassengersList(data) {
-    this.passengerListSource.next(data);
+    const newList = this.setPassengerIds(data);
+    this.passengerListSource.next(newList);
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
@@ -117,18 +118,22 @@ export class PortCallPassengerListService {
 
   deletePassengerEntry(data) {
     let copyPassengerList = this.passengerListSource.getValue();
-    data = JSON.stringify(this.createComparableObject(data));
+    if (copyPassengerList.length === 1) {
+      this.setPassengersList([]);
+    } else {
+      data = JSON.stringify(this.createComparableObject(data));
 
-    // Find clicked item
-    copyPassengerList.forEach((item, index) => {
-      item = JSON.stringify(this.createComparableObject(item));
-      if (item === data) {
-        copyPassengerList.splice(index, 1);
-      }
-    });
+      // Find clicked item
+      copyPassengerList.forEach((item, index) => {
+        item = JSON.stringify(this.createComparableObject(item));
+        if (item === data) {
+          copyPassengerList.splice(index, 1);
+        }
+      });
+      copyPassengerList = this.setPassengerIds(copyPassengerList);
+      this.setPassengersList(copyPassengerList);
+    }
 
-    copyPassengerList = this.setPassengerIds(copyPassengerList);
-    this.setPassengersList(copyPassengerList);
 
     this.setDataIsPristine(false);
   }
