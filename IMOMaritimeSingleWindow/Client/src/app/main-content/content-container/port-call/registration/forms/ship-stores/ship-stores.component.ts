@@ -105,13 +105,6 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
             } else {
               this.shipStoresDataSource.load(this.generateSmartTable());
             }
-
-                      /*if (!this.measurementTypeList) {
-            this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
-              this.measurementTypeList = measurementTypeList;
-            });
-          }
-          console.log(this.measurementTypeList);*/
           }
         });
 

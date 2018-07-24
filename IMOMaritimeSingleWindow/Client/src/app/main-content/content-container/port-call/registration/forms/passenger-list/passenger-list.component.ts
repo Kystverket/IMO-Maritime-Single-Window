@@ -8,6 +8,8 @@ import { FindCountryOfBirthComponent } from './find-country-of-birth/find-countr
 import { FindNationalityComponent } from './find-nationality/find-nationality.component';
 import { SmartTableModel } from './smartTableModel';
 import { PortModel } from './portModel';
+import { Observable } from 'rxjs/Observable';
+import { GenderModel } from 'app/shared/models/gender-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -24,6 +26,9 @@ export class PassengerListComponent implements OnInit {
   @ViewChild(NgForm) form: NgForm;
 
   @Input() showDropdown = true;
+
+  genderList: Observable<any>;
+  selectedGender: GenderModel;
 
   portCallId: number;
   passengerList: any[] = [];
@@ -57,7 +62,7 @@ export class PassengerListComponent implements OnInit {
     noDataMessage: 'There are no passengers in this list.',
     columns: {
       passengerId: {
-        title: 'Passenger ID'
+        title: 'ID'
       },
       familyName: {
         title: 'Family Name',
@@ -68,6 +73,9 @@ export class PassengerListComponent implements OnInit {
       nationality: {
         title: 'Nationality'
       },
+      gender: {
+        title: 'Gender'
+      },
       dateOfBirth: {
         title: 'Date of Birth'
       },
@@ -76,9 +84,6 @@ export class PassengerListComponent implements OnInit {
       },
       portOfDisembarkation: {
         title: 'Port of Disembarkation'
-      },
-      inTransit: {
-        title: 'In Transit'
       },
       delete: {
         title: 'Delete',
@@ -112,6 +117,12 @@ export class PassengerListComponent implements OnInit {
       console.log('In subscription of model: ' + JSON.stringify(this.passengerModel));
     });
 
+    // Get gender list
+    if (!this.genderList) {
+      this.passengerListService.getGenderList().subscribe(results => {
+        this.genderList = results;
+      });
+    }
   }
 
   addPassenger() {
@@ -192,11 +203,14 @@ export class PassengerListComponent implements OnInit {
     if (passenger.portOfDisembarkation) {
       modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
     }
-    Object.keys(this.booleanModel).forEach(key => {
+    if (passenger.gender) {
+      modifiedPassenger.gender = passenger.gender.description;
+    }
+    /*Object.keys(this.booleanModel).forEach(key => {
       if (this.booleanModel[key] === passenger.inTransit) {
         modifiedPassenger.inTransit = key;
       }
-    });
+    });*/
 
     return modifiedPassenger;
   }
@@ -305,6 +319,11 @@ export class PassengerListComponent implements OnInit {
       console.log($event);
     }
 
+    selectGender($event) {
+      console.log($event);
+      this.passengerModel.gender = $event;
+    }
+
       // Helper methods
 
     getDateFormat(date) {
@@ -320,5 +339,6 @@ export class PassengerListComponent implements OnInit {
         day: newDate.getDate()
       };
     }
+
 
 }

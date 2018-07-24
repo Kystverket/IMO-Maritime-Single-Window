@@ -7,10 +7,12 @@ import { PersonOnBoardModel } from '../models/person-on-board-model';
 @Injectable()
 export class PortCallPassengerListService {
 
-  personOnBoardListUrl: string;
+  private personOnBoardListUrl: string;
+  private genderUrl: string;
 
   constructor(private http: Http) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
+    this.genderUrl = 'api/gender';
   }
 
   private passengerListSource = new BehaviorSubject<any>(null);
@@ -53,6 +55,10 @@ export class PortCallPassengerListService {
     return this.http.put(uri, passengerList).map(res => res.json());
   }
 
+  getGenderList() {
+    const uri = this.genderUrl;
+    return this.http.get(uri).map(res => res.json());
+  }
   // Setters
 
   setPassengersList(data) {
