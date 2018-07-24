@@ -66,9 +66,10 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
     this.prevPortOfCallEtdDataSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       data => {
         if (data) {
+          const dateTime = new Date(data);
           this.etdModel = {
-            date: new NgbDate(data.getFullYear(), data.getMonth() + 1, data.getDate()),
-            time: new NgbTime(data.getHours(), data.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etdModel = {
@@ -82,9 +83,10 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
     this.nextPortOfCallEtaDataSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       data => {
         if (data) {
+          const dateTime = new Date(data);
           this.etaModel = {
-            date: new NgbDate(data.getFullYear(), data.getMonth() + 1, data.getDate()),
-            time: new NgbTime(data.getHours(), data.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etaModel = {
@@ -104,15 +106,11 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
   }
 
   onPrevLocationResult(prevLocationResult) {
-    if (prevLocationResult) {
-      this.prevAndNextPocService.setPrevPortOfCall(prevLocationResult);
-    }
+    this.prevAndNextPocService.setPrevPortOfCall(prevLocationResult);
   }
 
   onNextLocationResult(nextLocationResult) {
-    if (nextLocationResult) {
-      this.prevAndNextPocService.setNextPortOfCall(nextLocationResult);
-    }
+    this.prevAndNextPocService.setNextPortOfCall(nextLocationResult);
   }
 
   deselectPrevLocation() {
@@ -144,7 +142,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
   }
 
   private validateDateTime() {
-    if (this.etaModel && this.etdModel) {
+    if (this.etaModel.date && this.etdModel.date) {
       const etaDate = new NgbDate(this.etaModel.date.year, this.etaModel.date.month, this.etaModel.date.day);
       const etdDate = new NgbDate(this.etdModel.date.year, this.etdModel.date.month, this.etdModel.date.day);
 
@@ -166,7 +164,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
 
   private persistDateTime() {
     if (!this.dateSequenceError && !this.timeSequenceError) {
-      if (this.etdModel) {
+      if (this.etdModel.date) {
         const etdDateTime: Date = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
         this.prevAndNextPocService.setPrevPortOfCallEtd(etdDateTime);
       } else {
@@ -176,7 +174,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
         };
         this.prevAndNextPocService.setPrevPortOfCallEtd(null);
       }
-      if (this.etaModel) {
+      if (this.etaModel.date) {
         const etaDateTime: Date = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
         this.prevAndNextPocService.setNextPortOfCallEta(etaDateTime);
       } else {

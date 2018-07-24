@@ -71,9 +71,10 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       etdData => {
         if (etdData) {
           this.prevEtdFound = true;
+          const dateTime = new Date(etdData);
           this.etdModel = {
-            date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
-            time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.prevEtdFound = false;
@@ -86,9 +87,10 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       etaData => {
         if (etaData) {
           this.nextEtaFound = true;
+          const dateTime = new Date(etaData);
           this.etaModel = {
-            date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
-            time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.nextEtaFound = false;
