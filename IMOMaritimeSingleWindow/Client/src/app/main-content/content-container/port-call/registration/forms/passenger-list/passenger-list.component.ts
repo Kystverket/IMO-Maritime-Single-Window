@@ -124,7 +124,6 @@ export class PassengerListComponent implements OnInit {
       if (model) {
         this.passengerModel = model;
       }
-      console.log('In subscription of model: ' + JSON.stringify(this.passengerModel));
     });
 
     // Get gender list
@@ -197,6 +196,7 @@ export class PassengerListComponent implements OnInit {
 
 
   makeSmartTableEntry(passenger) {
+    console.log(passenger);
     const modifiedPassenger = new SmartTableModel();
     modifiedPassenger.passengerId = passenger.passengerId;
     modifiedPassenger.givenName = passenger.givenName;
@@ -221,22 +221,18 @@ export class PassengerListComponent implements OnInit {
         modifiedPassenger.inTransit = key;
       }
     });*/
-
     return modifiedPassenger;
   }
 
-
-  // Make smart table from exising data from db
   makeSmartTable(list) {
-    // TODO: give IDs
+    const newList = [];
     list.forEach(passenger => {
       if (passenger) {
-        passenger = this.makeSmartTableEntry(passenger);
+        newList.push(this.makeSmartTableEntry(passenger));
       }
       // missing nature of identity doc
-      // gender
-      this.passengerListDataSource.load(list);
     });
+    this.passengerListDataSource.load(newList);
   }
 
   addMockData() {
@@ -315,22 +311,18 @@ export class PassengerListComponent implements OnInit {
     }
 
     setDateOfBirth($event) {
-      console.log($event);
       this.passengerModel.dateOfBirth = this.getDateFormat($event);
     }
 
     setIdentityDocIssueDate($event) {
       this.passengerModel.identityDocIssueDate = this.getDateFormat($event);
-      console.log($event);
     }
 
     setIdentityDocExpiryDate($event) {
       this.passengerModel.identityDocExpiryDate = this.getDateFormat($event);
-      console.log($event);
     }
 
     selectGender($event) {
-      console.log($event);
       this.passengerModel.gender = $event;
     }
 

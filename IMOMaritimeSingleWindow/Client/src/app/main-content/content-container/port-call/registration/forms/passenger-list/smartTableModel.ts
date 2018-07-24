@@ -5,6 +5,6 @@ export class SmartTableModel {
     gender: string;
     nationality: string;
     dateOfBirth: any;
-    portOfEmbarkation: any;
-    portOfDisembarkation: any;
+    portOfEmbarkation: string;
+    portOfDisembarkation: string;
 }
