@@ -278,6 +278,7 @@ export class PortCallService {
         updatedPortCallData.nextLocationId = nextPortCall.locationId;
         updatedPortCallData.previousLocationEtd = prevEtd;
         updatedPortCallData.nextLocationEta = nextEta;
+        console.log(updatedPortCallData);
         this.updatePortCall(updatedPortCallData).subscribe(
           result => {
             console.log(result);

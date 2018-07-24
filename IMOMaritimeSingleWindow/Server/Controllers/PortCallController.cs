@@ -120,7 +120,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 case Constants.Strings.UserRoles.Admin:
                     portCallList = _context.PortCall.ToList();
                     break;
-                // Agent                    
+                // Agent
                 case Constants.Strings.UserRoles.Agent:
                     portCallList = _context.OrganizationPortCall.Where(opc => opc.OrganizationId == dbUser.OrganizationId)
                                                                 .Select(opc => opc.PortCall)
@@ -172,6 +172,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCall.PortCallId + " could not be found in database.");
                 }
                 _context.PortCall.Update(portCall);
+                _context.SaveChanges();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
