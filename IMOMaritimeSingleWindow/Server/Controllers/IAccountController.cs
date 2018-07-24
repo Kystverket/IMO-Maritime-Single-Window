@@ -7,10 +7,11 @@ namespace IMOMaritimeSingleWindow.Controllers
     public interface IAccountController
     {
         Task<IActionResult> Register([FromBody]RegistrationViewModel model);
-        Task<IActionResult> GetEmailLink();
 
         /// <summary>
-        /// 
+        /// Let's a user confirm their ownership of the
+        /// email address that was assigned when
+        /// the account was created.
         /// </summary>
         /// <param name="userId"></param>
         /// <param name="emailConfirmationToken"></param>

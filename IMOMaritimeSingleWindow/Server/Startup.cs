@@ -129,13 +129,10 @@ namespace IMOMaritimeSingleWindow
 
             builder.AddDefaultTokenProviders();
 
-            //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
-
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
             //builder.AddUserManager<ApplicationUserManager>()
             //.AddRoleManager<ApplicationRoleManager>();
-
-
+            
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -145,8 +142,8 @@ namespace IMOMaritimeSingleWindow
             // services.AddAutoMapper();
             //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
 
-            services.TryAddScoped<UserManager>();
-            services.TryAddScoped<ApplicationRoleManager>();
+            //services.TryAddScoped<UserManager>();
+            //services.TryAddScoped<ApplicationRoleManager>();
 
             // Tip from https://stackoverflow.com/a/42298278
             var config = new MapperConfiguration(cfg =>

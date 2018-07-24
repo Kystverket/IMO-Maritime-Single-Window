@@ -40,17 +40,16 @@ namespace IMOMaritimeSingleWindow.Identity
         }
 
         #region UserManager<TUser>
-        
+
         public override async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
         {
             ThrowIfDisposed();
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var userRoleStore = GetUserRoleStore();
-            
             var normalizedRoleName = NormalizeKey(role);
-            
+            var userRoleStore = GetUserRoleStore();
+
             if (await userRoleStore.IsInRoleAsync(user, normalizedRoleName, CancellationToken))
             {
                 return IdentityResult.Failed(ErrorDescriber.UserAlreadyInRole(normalizedRoleName));
@@ -58,9 +57,6 @@ namespace IMOMaritimeSingleWindow.Identity
             await userRoleStore.AddToRoleAsync(user, normalizedRoleName, CancellationToken);
 
             var userStore = GetUserStore();
-            
-            await userStore.SetNormalizedRoleNameAsync(user, role);
-
             //await base.AddToRoleAsync(user, role);
             return await userStore.UpdateRoleAsync(user);
         }
@@ -103,7 +99,7 @@ namespace IMOMaritimeSingleWindow.Identity
             var userRoleStore = GetUserStore();
             return await userRoleStore.GetRoleNameAsync(user);
         }
-        
+
         #endregion
 
     }
