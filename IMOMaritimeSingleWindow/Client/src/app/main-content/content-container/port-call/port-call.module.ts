@@ -33,11 +33,11 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
 // tslint:disable-next-line:max-line-length
 import { ShipStoresComponent } from 'app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
-import { PortCallShipStoresService } from '../../../shared/services/port-call-ship-stores.service';
+import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
-import { PortCallPassengerListService } from '../../../shared/services/port-call-passenger-list.service';
-import { CountryService } from '../../../shared/services/country.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { CountryService } from 'app/shared/services/country.service';
 // tslint:disable-next-line:max-line-length
 import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';

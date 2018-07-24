@@ -63,10 +63,10 @@
 
                 <div *ngIf="quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')" class="alert alert-danger">
                     <li *ngIf="quantity.hasError('notIntegerError')">
-                        <small>Number of passengers must be an integer.</small>
+                        <small>The quantity specified must be an integer.</small>
                     </li>
                     <li *ngIf="quantity.hasError('notPositiveNumberError')">
-                        <small>Number of passengers must be a positive number.</small>
+                        <small>The quantity specified must be a positive number.</small>
                     </li>
                 </div>
 
@@ -88,10 +88,10 @@
                 </div>
                 <div *ngIf="locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')" class="alert alert-danger">
                     <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
-                        <small>Number of passengers must be an integer.</small>
+                        <small>The location on board code must be an integer.</small>
                     </li>
                     <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
-                        <small>Number of passengers must be a positive number.</small>
+                        <small>The location on board code must be a positive number.</small>
                     </li>
                 </div>
             </div>
