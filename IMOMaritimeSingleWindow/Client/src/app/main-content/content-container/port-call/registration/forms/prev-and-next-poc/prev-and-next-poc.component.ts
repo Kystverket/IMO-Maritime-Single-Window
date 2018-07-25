@@ -41,11 +41,14 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       data => {
         this.prevLocationModel = data;
         if (data) {
+          console.log(data);
           this.prevLocationFound = true;
           LocationProperties.setLocationData(this.prevLocationData, this.prevLocationModel);
-          const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
-          const countryFlag = twoCharCode + '.png';
-          LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
+          if (this.prevLocationModel.country != null) {
+            const twoCharCode = this.prevLocationModel.country.twoCharCode.toLowerCase() || 'xx';
+            const countryFlag = twoCharCode + '.png';
+            LocationProperties.setCountry(this.prevLocationData, this.prevLocationModel.country.name, countryFlag);
+          }
         }
       }
     );
@@ -56,9 +59,11 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
         if (data) {
           this.nextLocationFound = true;
           LocationProperties.setLocationData(this.nextLocationData, this.nextLocationModel);
-          const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
-          const countryFlag = twoCharCode + '.png';
-          LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
+          if (this.nextLocationModel.country != null) {
+            const twoCharCode = this.nextLocationModel.country.twoCharCode.toLowerCase() || 'xx';
+            const countryFlag = twoCharCode + '.png';
+            LocationProperties.setCountry(this.nextLocationData, this.nextLocationModel.country.name, countryFlag);
+          }
         }
       }
     );

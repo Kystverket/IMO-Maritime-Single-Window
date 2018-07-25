@@ -152,7 +152,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       data => {
         if (data) {
           console.log(data);
-          console.log(new Date(data.portCall.previousLocationEtd));
           this.portCallService.setPortCall(data);
           this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
           this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);

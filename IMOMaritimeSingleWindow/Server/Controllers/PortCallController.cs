@@ -54,6 +54,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
+            overview.PreviousLocation = portCall.PreviousLocation;
+            overview.NextLocation = portCall.NextLocation;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList
@@ -75,6 +77,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
+            .Include(pc => pc.PreviousLocation.Country)
+            .Include(pc => pc.NextLocation.Country)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
