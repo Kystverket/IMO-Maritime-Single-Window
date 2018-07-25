@@ -1,13 +1,9 @@
 <app-ssn-card header="Save Voyages" icon="save.png">
-  <div *ngIf="!prevLocationFound || !nextLocationFound || !prevEtdFound || !nextEtaFound" class="text-center">
-    <p *ngIf="!prevLocationFound" class="no-wrap mb-0">Previous port of call not selected.</p>
-    <p *ngIf="!nextLocationFound" class="no-wrap mb-0">Next port of call not selected.</p>
-    <p *ngIf="!prevEtdFound" class="no-wrap mb-0">ETD for previous port of call not set.</p>
-    <p *ngIf="!nextEtaFound" class="no-wrap">ETA for next port of call not set.</p>
-    <button class="btn btn-ssn" disabled>
-      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />Save Voyages</button>
+  <div *ngIf="(!prevLocationFound && prevEtdFound) || (!nextLocationFound && nextEtaFound)" class="text-center mb-3">
+    <p *ngIf="!prevLocationFound && prevEtdFound" class="no-wrap mb-0">Please provide a location for Previous Port of Call</p>
+    <p *ngIf="!nextLocationFound && nextEtaFound" class="no-wrap mb-0">Please provide a location for Next Port of Call</p>
   </div>
-  <div *ngIf="prevLocationFound && nextLocationFound && prevEtdFound && nextEtaFound">
+  <div *ngIf="true">
     <div class="text-center" *ngIf="!dataIsPristine">
       <button class="btn btn-ssn" (click)="savePrevAndNextPoc()">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">

@@ -133,8 +133,10 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       const dateTime: DateTime = etdResult;
       const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
       this.prevAndNextPocService.setPrevPortOfCallEtd(date);
-      this.validateDateTime();
+    } else {
+      this.prevAndNextPocService.setPrevPortOfCallEtd(null);
     }
+    this.validateDateTime();
   }
 
   onEtaResult(etaResult) {
@@ -142,8 +144,10 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       const dateTime: DateTime = etaResult;
       const date: Date = new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
       this.prevAndNextPocService.setNextPortOfCallEta(date);
-      this.validateDateTime();
+    } else {
+      this.prevAndNextPocService.setNextPortOfCallEta(null);
     }
+    this.validateDateTime();
   }
 
   private validateDateTime() {
