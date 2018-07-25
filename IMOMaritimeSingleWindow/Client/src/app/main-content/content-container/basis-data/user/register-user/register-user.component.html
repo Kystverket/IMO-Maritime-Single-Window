@@ -9,10 +9,9 @@
               <div class="form-group row">
                 <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2" for="email">Email</label>
                 <div class="col">
-                  <input id="email" name="email" class="form-control form-control-sm"
-                    placeholder="Enter email"  
-                    [(ngModel)]="user.email" #email="ngModel" [email]="true" (ngModelChange)="emailChecked = false"
-                    (blur)="userExists(email.valid)" autocomplete="username" tmFocus validateEmail>
+                  <input id="email" name="email" class="form-control form-control-sm" placeholder="Enter email" [(ngModel)]="user.email" #email="ngModel"
+                    [email]="true" (ngModelChange)="emailChecked = false" (blur)="userExists(email.valid)" autocomplete="username"
+                    tmFocus validateEmail>
                   <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
                     <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
@@ -22,16 +21,6 @@
                     <img height="16px" src="assets/images/Validation/32x32/icon-alert-warning.png">
                     <small class="text-danger">email is already in use</small>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="password">Password</label>
-                <div class="col">
-                  <input id="password" type="password" name="password" class="form-control form-control-sm"
-                    placeholder="Enter password"
-                    [(ngModel)]="user.password" autocomplete="new-password" required>
                 </div>
               </div>
             </div>
@@ -143,17 +132,16 @@
   <div class="row">
     <div class="col">
       <app-ssn-card header="Confirm User Registration">
-        <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)">
+        <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)">
           <div class="mb-3">
             <p class="mb-0" *ngIf="!user.email">Email not set.</p>
             <p class="mb-0" *ngIf="user.email && emailChecked && emailTaken">Selected email is already in use.</p>
-            <p class="mb-0" *ngIf="!user.password">Password not set.</p>
             <p class="mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
             <p class="mb-0" *ngIf="!user.roleName">Role not assigned.</p>
           </div>
           <button class="btn btn-ssn" disabled>Register User</button>
         </div>
-        <div class="text-center" *ngIf="user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName">
+        <div class="text-center" *ngIf="user.email && emailChecked && !emailTaken && organizationSelected && user.roleName">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>
@@ -178,9 +166,35 @@
               </tbody>
             </table>
           </div>
-          <button class="btn btn-ssn" (click)="registerUserWithPassword()">Register User</button>
+          <button class="btn btn-ssn" (click)="registerUser(template)">Register User</button>
         </div>
       </app-ssn-card>
     </div>
   </div>
 </app-ssn-bg>
+
+
+
+<ng-template #template let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">User registration result</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="registrationSuccessful">
+      <span>User registered successfully.</span>
+      <br>
+      <span>Please click the link below to set a new password for the user:</span>
+      <br>
+      <span><a href={{emailConfirmationLink}}>link</a></span>
+    </div>
+    <div *ngIf="!registrationSuccessful">
+      <span>Something went wrong while attempting to register the user!</span>
+    </div>
+    <button type="button" class="btn btn-ssn" (click)="close">
+        <span>Close</span>
+      </button>
+  </div>
+</ng-template>
