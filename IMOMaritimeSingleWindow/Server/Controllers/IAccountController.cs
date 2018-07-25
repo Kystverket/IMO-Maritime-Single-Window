@@ -27,6 +27,15 @@ namespace IMOMaritimeSingleWindow.Controllers
         Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model);
 
         /// <summary>
+        /// Lets a user request a password reset link
+        /// to their email account in the event that the
+        /// user has forgotten their password.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns>A password reset link</returns>
+        Task<IActionResult> ForgotPassword(string userName);
+
+        /// <summary>
         /// Lets a user change their password after verification
         /// of account ownership (i.e. via email link).
         /// </summary>
@@ -34,15 +43,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <returns> An HTTP 200 OK reponse if the provided password
         /// reset token was valid and the password was successfully reset. </returns>
         Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model);
-
-        /// <summary>
-        /// Sends a password reset link to the user.
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
-        // Should be post with body
-        Task<IActionResult> SendPasswordResetLink(string userName);
-
+        
         /// <summary>
         /// Gets the roles assignable to users.
         /// </summary>

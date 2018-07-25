@@ -7,9 +7,9 @@ import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TokenQueryModel } from '../models/token-query-model';
-import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
 import { PasswordResetModel } from '../models/password-reset-model';
 import { PasswordChangeModel } from '../models/password-change-model';
+import { UserModel } from '../models/user-model';
 
 
 @Injectable()
@@ -72,8 +72,7 @@ export class AccountService extends BaseRequest {
         this.userClaimsDataSource.next(data);
     }
 
-    // Will be deprecated once email registration is implemented.
-    registerUser(newUser: UserModelWithPassword) {
+    registerUser(newUser: UserModel) {
         const options = this.getRequestOptions();
         return this.http.post(this.userUrl, newUser, options);
     }

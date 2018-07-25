@@ -56,34 +56,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             _mapper = mapper;
         }
 
-        // [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/account/user
-        [HttpPost("user/test")]
-        public async Task<IActionResult> RegisterTest([FromBody]RegistrationViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var applicationUser = _mapper.Map<ApplicationUser>(model);
-
-            // Validate user and try to create new user in the backing store
-            var result = await _userManager.CreateAsync(applicationUser);
-
-            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GenerateEmailConfirmationLinkAsync(applicationUser);
-
-            // Construct message
-            var infotext = $"An email has been sent to {applicationUser.Email} containing the confirmation link: {callbackUrl}";
-            return Ok(infotext);
-        }
-
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/account/user
-        [HttpPost("user/")]
+        [HttpPost("userT")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -91,33 +66,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(ModelState);
             }
 
-            var applicationUser = _mapper.Map<ApplicationUser>(model);
-
-            // Validate user and try to create new user in the backing store
-            var result = await _userManager.CreateAsync(applicationUser);
-
-            if (!result.Succeeded) return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            // Functionality for sending email to user with new account, so that they can set their own password
-            var callbackUrl = await GenerateEmailConfirmationLinkAsync(applicationUser);
-
-            // Send confirmation link to user's registered email address
-
-            return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
-        }
-
-        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/account/user
-        [HttpPost("user")]
-        public async Task<IActionResult> RegisterWithPassword([FromBody]RegistrationWithPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             // Tries to map the model to an object of type ApplicationUser
-            var userIdentity = _mapper.Map<ApplicationUser>(model);
+            var applicationUser = _mapper.Map<ApplicationUser>(model);
 
             // Verify the role the user is attempted added to exists
             var role = await _roleManager.FindByNameAsync(model.RoleName);
@@ -125,7 +75,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
 
             // Validate user and try to create new user with given password in the backing store
-            var result = await _userManager.CreateAsync(userIdentity, model.Password);
+            var result = await _userManager.CreateAsync(applicationUser);
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
@@ -135,9 +85,49 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (!result.Succeeded)
                 return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
 
-            return new OkObjectResult("Account created");
+            var callbackUrl = await GenerateEmailConfirmationLinkAsync(addedUser);
+
+            // TODO: Send confirmation link to user's registered email address
+
+            return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
         }
-        
+
+        // Temporary test method
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        // POST api/account/user
+        [HttpPost("user")]
+        public async Task<IActionResult> RegisterTest([FromBody]RegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Tries to map the model to an object of type ApplicationUser
+            var applicationUser = _mapper.Map<ApplicationUser>(model);
+
+            // Verify the role the user is attempted added to exists
+            var role = await _roleManager.FindByNameAsync(model.RoleName);
+            if (role == null)
+                return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
+
+            // Validate user and try to create new user with given password in the backing store
+            var result = await _userManager.CreateAsync(applicationUser);
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+            var addedUser = await _userManager.FindByEmailAsync(model.Email);
+            // Add the user to the specified role
+            result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
+            if (!result.Succeeded)
+                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+            var callbackUrl = await GenerateEmailConfirmationLinkAsync(addedUser);
+
+            // Return url
+            return new OkObjectResult(callbackUrl);
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -149,7 +139,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("user/email/confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, [Bind(Prefix="token")] string emailConfirmationToken)
         {
-            var emConToken = Uri.UnescapeDataString(emailConfirmationToken);
+            var _emailConfirmationToken = Uri.UnescapeDataString(emailConfirmationToken);
             if (userId == null || emailConfirmationToken == null)
                 return BadRequest();
 
@@ -157,7 +147,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             if (user == null)
                 return BadRequest();
 
-            var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, emConToken);
+            var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, _emailConfirmationToken);
             if (!emailVerificationResult.Succeeded)
             {
                 #if !RELEASE
@@ -233,7 +223,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("user/password/forgotten")]    // Should be post with body
-        public async Task<IActionResult> SendPasswordResetLink(string userName)
+        public async Task<IActionResult> ForgotPassword(string userName)
         {
             if (String.IsNullOrEmpty(userName))
                 return BadRequest(nameof(userName));
