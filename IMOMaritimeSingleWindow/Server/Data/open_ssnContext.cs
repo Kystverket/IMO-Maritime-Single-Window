@@ -22,6 +22,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<DpgType> DpgType { get; set; }
         public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
+        public virtual DbSet<IdentityDocument> IdentityDocument { get; set; }
         public virtual DbSet<IdentityDocumentType> IdentityDocumentType { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
@@ -416,6 +417,39 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Description).HasColumnName("description");
             });
 
+            modelBuilder.Entity<IdentityDocument>(entity =>
+            {
+                entity.ToTable("identity_document");
+
+                entity.Property(e => e.IdentityDocumentId)
+                    .HasColumnName("identity_document_id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.IdentityDocumentExpiryDate)
+                    .HasColumnName("identity_document_expiry_date")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdentityDocumentIssueDate)
+                    .HasColumnName("identity_document_issue_date")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.IdentityDocumentTypeId).HasColumnName("identity_document_type_id");
+
+                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
+
+                entity.Property(e => e.VisaOrResidencePermitNumber).HasColumnName("visa_or_residence_permit_number");
+
+                entity.HasOne(d => d.IdentityDocumentType)
+                    .WithMany(p => p.IdentityDocument)
+                    .HasForeignKey(d => d.IdentityDocumentTypeId)
+                    .HasConstraintName("FK_identity_document_identity_document_type_id");
+
+                entity.HasOne(d => d.Nationality)
+                    .WithMany(p => p.IdentityDocument)
+                    .HasForeignKey(d => d.NationalityId)
+                    .HasConstraintName("FK_identity_document_nationality_id");
+            });
+
             modelBuilder.Entity<IdentityDocumentType>(entity =>
             {
                 entity.ToTable("identity_document_type");
@@ -687,31 +721,25 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("person_on_board");
 
-                entity.HasIndex(e => e.CountryOfBirthId)
-                    .HasName("fki_passenger_country_of_birth_id_fkey");
-
-                entity.HasIndex(e => e.NationalityId)
-                    .HasName("fki_passenger_nationality_id_fkey");
-
-                entity.HasIndex(e => e.PersonOnBoardTypeId)
-                    .HasName("fki_person_on_board_person_on_board_type_id_fkey");
-
-                entity.HasIndex(e => e.PortCallId)
-                    .HasName("fki_passenger_port_call_id_fkey");
-
                 entity.Property(e => e.PersonOnBoardId)
                     .HasColumnName("person_on_board_id")
-                    .HasDefaultValueSql("nextval('passenger_passenger_id_seq'::regclass)");
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.CountryOfBirthId).HasColumnName("country_of_birth_id");
 
                 entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
 
+                entity.Property(e => e.FamilyName)
+                    .IsRequired()
+                    .HasColumnName("family_name");
+
+                entity.Property(e => e.GenderId).HasColumnName("gender_id");
+
                 entity.Property(e => e.GivenName).HasColumnName("given_name");
 
-                entity.Property(e => e.InTransit).HasColumnName("in_transit");
+                entity.Property(e => e.IdentityDocumentId).HasColumnName("identity_document_id");
 
-                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
+                entity.Property(e => e.InTransit).HasColumnName("in_transit");
 
                 entity.Property(e => e.OccupationCode).HasColumnName("occupation_code");
 
@@ -723,45 +751,50 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
+                entity.Property(e => e.PortOfDisembarkationId).HasColumnName("port_of_disembarkation_id");
+
+                entity.Property(e => e.PortOfEmbarkationId).HasColumnName("port_of_embarkation_id");
+
                 entity.Property(e => e.RankCode).HasColumnName("rank_code");
 
                 entity.Property(e => e.RankName).HasColumnName("rank_name");
 
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
 
-                entity.Property(e => e.Surname).HasColumnName("surname");
-
-                entity.Property(e => e.GenderId).HasColumnName("gender_id");
-
                 entity.HasOne(d => d.CountryOfBirth)
-                    .WithMany(p => p.PersonOnBoardCountryOfBirth)
+                    .WithMany(p => p.PersonOnBoard)
                     .HasForeignKey(d => d.CountryOfBirthId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("person_on_board_country_of_birth_id_fkey");
-
-                entity.HasOne(d => d.Nationality)
-                    .WithMany(p => p.PersonOnBoardNationality)
-                    .HasForeignKey(d => d.NationalityId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("person_on_board_nationality_id_fkey");
-
-                entity.HasOne(d => d.PersonOnBoardType)
-                    .WithMany(p => p.PersonOnBoard)
-                    .HasForeignKey(d => d.PersonOnBoardTypeId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("person_on_board_person_on_board_type_id_fkey");
-
-                entity.HasOne(d => d.PortCall)
-                    .WithMany(p => p.PersonOnBoard)
-                    .HasForeignKey(d => d.PortCallId)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("person_on_board_port_call_id_fkey");
+                    .HasConstraintName("FK_person_on_board_country_of_birth_id");
 
                 entity.HasOne(d => d.Gender)
                     .WithMany(p => p.PersonOnBoard)
                     .HasForeignKey(d => d.GenderId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("person_on_board_gender_id_fkey");
+                    .HasConstraintName("FK_person_on_board_gender_id");
+
+                entity.HasOne(d => d.IdentityDocument)
+                    .WithMany(p => p.PersonOnBoard)
+                    .HasForeignKey(d => d.IdentityDocumentId)
+                    .HasConstraintName("FK_person_on_board_identity_document_id");
+
+                entity.HasOne(d => d.PersonOnBoardType)
+                    .WithMany(p => p.PersonOnBoard)
+                    .HasForeignKey(d => d.PersonOnBoardTypeId)
+                    .HasConstraintName("FK_person_on_board_person_on_board_type_id");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.PersonOnBoard)
+                    .HasForeignKey(d => d.PortCallId)
+                    .HasConstraintName("FK_person_on_board_port_call_id");
+
+                entity.HasOne(d => d.PortOfDisembarkation)
+                    .WithMany(p => p.PersonOnBoardPortOfDisembarkation)
+                    .HasForeignKey(d => d.PortOfDisembarkationId)
+                    .HasConstraintName("FK_person_on_board_port_of_disembarkation_id");
+
+                entity.HasOne(d => d.PortOfEmbarkation)
+                    .WithMany(p => p.PersonOnBoardPortOfEmbarkation)
+                    .HasForeignKey(d => d.PortOfEmbarkationId)
+                    .HasConstraintName("FK_person_on_board_port_of_embarkation_id");
             });
 
             modelBuilder.Entity<PersonOnBoardType>(entity =>

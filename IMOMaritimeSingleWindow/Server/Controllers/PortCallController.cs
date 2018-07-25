@@ -76,8 +76,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.OrganizationPortCall)
-            .Include(pc => pc.PersonOnBoard)
-            .ThenInclude(pob => pob.PersonOnBoardType)
+            /*.Include(pc => pc.PersonOnBoard)
+            .ThenInclude(pob => pob.PersonOnBoardType)*/
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;

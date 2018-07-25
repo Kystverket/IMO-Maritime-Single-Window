@@ -9,7 +9,8 @@ namespace IMOMaritimeSingleWindow.Models
         {
             CertificateOfRegistry = new HashSet<CertificateOfRegistry>();
             Department = new HashSet<Department>();
-            CertificateOfRegistry = new HashSet<CertificateOfRegistry>();
+            PersonOnBoardPortOfDisembarkation = new HashSet<PersonOnBoard>();
+            PersonOnBoardPortOfEmbarkation = new HashSet<PersonOnBoard>();
             PortCallLocation = new HashSet<PortCall>();
             PortCallNextLocation = new HashSet<PortCall>();
             PortCallPreviousLocation = new HashSet<PortCall>();
@@ -31,6 +32,8 @@ namespace IMOMaritimeSingleWindow.Models
         public Municipality Municipality { get; set; }
         public ICollection<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public ICollection<Department> Department { get; set; }
+        public ICollection<PersonOnBoard> PersonOnBoardPortOfDisembarkation { get; set; }
+        public ICollection<PersonOnBoard> PersonOnBoardPortOfEmbarkation { get; set; }
         public ICollection<PortCall> PortCallLocation { get; set; }
         public ICollection<PortCall> PortCallNextLocation { get; set; }
         public ICollection<PortCall> PortCallPreviousLocation { get; set; }
