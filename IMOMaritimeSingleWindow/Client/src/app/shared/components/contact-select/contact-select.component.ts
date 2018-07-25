@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ContactModel } from 'app/shared/models/contact-model';
 import { ConstantsService } from 'app/shared/services/constants.service';
-import { ContactService } from 'app/shared/services/contact.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-contact-select',
@@ -9,17 +9,18 @@ import { ContactService } from 'app/shared/services/contact.service';
   styleUrls: ['./contact-select.component.css'],
   providers: [ConstantsService]
 })
-export class ContactSelectComponent implements OnInit {
+export class ContactSelectComponent implements OnInit, OnDestroy {
   contactList: ContactModel[];
   selectedContactModels: ContactModel[];
 
+  getContactMediumListSubscription: Subscription;
+
   constructor(
-    private constantsService: ConstantsService,
-    private contactService: ContactService
+    private constantsService: ConstantsService
   ) {}
 
   ngOnInit() {
-    this.constantsService.getContactMediumList().subscribe(data => {
+    this.getContactMediumListSubscription = this.constantsService.getContactMediumList().subscribe(data => {
       if (data) {
         this.contactList = data.map(d => {
           const contactModel = new ContactModel();
@@ -28,6 +29,10 @@ export class ContactSelectComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.getContactMediumListSubscription.unsubscribe();
   }
 
   preferredSet(selectedContactModel: ContactModel) {
@@ -47,10 +52,12 @@ export class ContactSelectComponent implements OnInit {
   }
 
   contactMediumSelected() {
-    this.contactService.setContactData(this.selectedContactModels);
+    // Outdated
+    // this.contactService.setContactData(this.selectedContactModels);
   }
 
   contactInfoChanged(contactMedium: ContactModel) {
-    this.contactService.setContactData(this.selectedContactModels);
+    // Outdated
+    // this.contactService.setContactData(this.selectedContactModels);
   }
 }

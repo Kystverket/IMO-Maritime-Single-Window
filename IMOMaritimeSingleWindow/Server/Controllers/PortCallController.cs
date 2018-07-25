@@ -23,6 +23,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("{portCallId}/falShipStores")]
+        public IActionResult GetFalShipStores(int portCallId)
+        {
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId).ToList();
+            if (shipStores == null)
+            {
+                return NotFound();
+            }
+            return Json(shipStores);
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
@@ -62,6 +73,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.Location.LocationType)
+            .Include(pc => pc.PreviousLocation)
+            .Include(pc => pc.NextLocation)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
@@ -288,10 +301,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(portCall);
         }
 
-
-
-
-        [HttpGet("get/{id}")]
+        [HttpGet("{id}")]
         public IActionResult GetPortCallJson(int id)
         {
             var portCall = GetPortCall(id);

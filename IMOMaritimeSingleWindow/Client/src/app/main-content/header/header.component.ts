@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userName = 'default';
   userClaims: any;
 
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   menuEntries: MenuEntry[] = [
     {
       title: 'PORT CALLS',

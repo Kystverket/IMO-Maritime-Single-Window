@@ -117,7 +117,7 @@ export class AccountService extends BaseRequest {
         // return this.http
         //     .post(uri, JSON.stringify(queryModel))
         //     .map(res => res.json());
-        
+
             const uri = [this.emailUrl, 'confirm'].join('/');
             return this.http.post(uri, null, {
                 params: {

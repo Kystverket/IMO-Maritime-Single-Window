@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -6,6 +6,8 @@ import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
 import { UserModel } from '../../../../../shared/models/user-model';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -16,7 +18,7 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
   styleUrls: ['./register-user.component.css'],
   providers: [AccountService]
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
 
   user: UserModel = {
     email: '',
@@ -33,22 +35,25 @@ export class RegisterUserComponent implements OnInit {
 
   organizationModel: any;
   organizationSelected: boolean;
+  organizationProperties = new OrganizationProperties().getPropertyList();
 
   roleList: any[];
   selectedRole: any;
+
+  getAllRolesSubscription: Subscription;
 
   registrationSuccessful: boolean;
   emailConfirmationLink: string;
 
   constructor(
     private accountService: AccountService,
-    private organizationService: OrganizationService,
     private contentService: ContentService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private organizationService: OrganizationService
   ) { }
 
   ngOnInit() {
-    this.accountService.getAllRoles().subscribe(
+    this.getAllRolesSubscription = this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
 
@@ -66,6 +71,9 @@ export class RegisterUserComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.getAllRolesSubscription.unsubscribe();
+  }
   userExists(emailValid: boolean) {
     if (emailValid) {
       return this.accountService.emailTaken(this.user.email)
@@ -96,9 +104,20 @@ export class RegisterUserComponent implements OnInit {
     );
   }
 
+  onOrganizationResult(organizationResult) {
+    this.setOrganization(organizationResult);
+  }
+
+  setOrganization(organizationData) {
+    this.organizationModel = organizationData;
+    this.user.organizationId = organizationData.organizationId;
+    this.organizationSelected = true;
+    OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
+  }
+
   deselectOrganization() {
-    this.user.organizationId = null;
     this.organizationModel = null;
+    this.user.organizationId = null;
     this.organizationSelected = false;
   }
 

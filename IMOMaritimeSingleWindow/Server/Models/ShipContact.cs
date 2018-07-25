@@ -11,6 +11,7 @@ namespace IMOMaritimeSingleWindow.Models
         public bool IsPreferred { get; set; }
         public string ContactValue { get; set; }
         public string Comments { get; set; }
+
         public ContactMedium ContactMedium { get; set; }
         public Ship Ship { get; set; }
     }

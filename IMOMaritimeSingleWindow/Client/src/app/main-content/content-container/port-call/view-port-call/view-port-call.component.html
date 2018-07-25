@@ -16,8 +16,8 @@
 
   <div class="row text-center">
     <div class="col">
-      <button class="btn btn-light" (click)="goBack()">
-        <img src="assets/images/VoyageIcons/128x128/left-arrow.png" height="32px">
+      <button class="btn btn-outline-light" (click)="goBack()" (mouseover)="backButtonIcon='left-arrow'" (mouseout)="backButtonIcon='white/left-arrow'">
+        <img src="assets/images/icons/128x128/{{backButtonIcon}}.png" height="32px">
         <span class="no-wrap"> GO BACK</span>
       </button>
     </div>

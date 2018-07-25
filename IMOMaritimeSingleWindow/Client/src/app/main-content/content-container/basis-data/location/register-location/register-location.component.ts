@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { LocationModel } from 'app/shared/models/location-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { LocationService } from 'app/shared/services/location.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Location was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
@@ -15,7 +16,8 @@ const RESULT_FAILURE = 'There was a problem when trying to save the location to 
   styleUrls: ['./register-location.component.css'],
   providers: [LocationModel]
 })
-export class RegisterLocationComponent implements OnInit {
+export class RegisterLocationComponent implements OnInit, OnDestroy {
+
   newLocation: boolean;
   locationHeader: string;
   confirmHeader: string;
@@ -30,13 +32,19 @@ export class RegisterLocationComponent implements OnInit {
   selectedCountry: any;
   countrySearchFailed = false;
 
+  locationDataSubscription: Subscription;
+  locationTypesSubscription: Subscription;
+  countriesSubscription: Subscription;
 
-  constructor(public locationModel: LocationModel, private locationService: LocationService,
-    private contentService: ContentService, private modalService: NgbModal
+  constructor(
+    public locationModel: LocationModel,
+    private contentService: ContentService,
+    private locationService: LocationService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.locationService.locationData$.subscribe(
+    this.locationDataSubscription = this.locationService.locationData$.subscribe(
       data => {
         if (data) {
           this.newLocation = false;
@@ -57,7 +65,7 @@ export class RegisterLocationComponent implements OnInit {
         }
       }
     );
-    this.locationService.getLocationTypes().subscribe(
+    this.locationTypesSubscription = this.locationService.getLocationTypes().subscribe(
       results => {
         this.locationTypeList = results;
       },
@@ -65,7 +73,7 @@ export class RegisterLocationComponent implements OnInit {
         console.log(error);
       }
     );
-    this.locationService.getCountries().subscribe(
+    this.countriesSubscription = this.locationService.getCountries().subscribe(
       results => {
         this.countryList = results;
       },
@@ -75,11 +83,18 @@ export class RegisterLocationComponent implements OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.locationDataSubscription.unsubscribe();
+    this.locationTypesSubscription.unsubscribe();
+    this.countriesSubscription.unsubscribe();
+  }
+
   selectCountry($event) {
     this.selectedCountry = $event;
     this.locationModel.countryId = $event.countryId;
     this.countrySelected = true;
   }
+
   deselectCountry() {
     this.selectedCountry = null;
     this.locationModel.country = null;

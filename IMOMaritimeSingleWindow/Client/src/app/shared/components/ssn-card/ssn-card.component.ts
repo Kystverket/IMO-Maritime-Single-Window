@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./ssn-card.component.css']
 })
 export class SsnCardComponent implements OnInit {
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
 
   @Input() icon: string;
 
@@ -16,6 +16,8 @@ export class SsnCardComponent implements OnInit {
 
   @Input() collapsed: boolean;
 
+  collapsedIconPath = 'assets/images/icons/128x128/';
+  collapsedIconColor = 'white/';
   collapsedIcon: string;
 
   constructor() {}
