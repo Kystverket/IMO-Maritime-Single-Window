@@ -8,6 +8,7 @@ import { SmartTableModel } from './smartTableModel';
 import { PortModel } from './portModel';
 import { Observable } from 'rxjs/Observable';
 import { GenderModel } from 'app/shared/models/gender-model';
+import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -55,7 +56,7 @@ export class PassengerListComponent implements OnInit {
     },
     noDataMessage: 'There are no passengers in this list.',
     columns: {
-      passengerId: {
+      personOnBoardId: {
         title: 'ID'
       },
       familyName: {
@@ -183,11 +184,11 @@ export class PassengerListComponent implements OnInit {
   makeSmartTableEntry(passenger) {
     console.log(passenger);
     const modifiedPassenger = new SmartTableModel();
-    modifiedPassenger.passengerId = passenger.passengerId;
+    modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
     modifiedPassenger.givenName = passenger.givenName;
-    modifiedPassenger.familyName = passenger.surname; // Change to familyName
-    if (passenger.nationality) {
-      modifiedPassenger.nationality = passenger.nationality.name;
+    modifiedPassenger.familyName = passenger.familyName;
+    if (passenger.identityDocument.nationality) {
+      modifiedPassenger.nationality = passenger.identityDocument.nationality;
     }
     if (passenger.dateOfBirth) {
       modifiedPassenger.dateOfBirth = passenger.dateOfBirth.toDateString();
@@ -223,7 +224,7 @@ export class PassengerListComponent implements OnInit {
   addMockData() {
     const mockData = {
       personOnBoardId: 49292,
-      surname: 'Dalan',
+      familyName: 'Dalan',
       givenName: 'Camilla',
       dateOfBirth: null,
       placeOfBirth: 'Oslo',
@@ -233,8 +234,6 @@ export class PassengerListComponent implements OnInit {
       inTransit: true,
       rankName: '',
       rankCode: '',
-      identityDocIssueDate: null,
-      identityDocExpiryDate: null,
 
       countryOfBirthId: 0,
       nationalityId: 0,
@@ -244,6 +243,7 @@ export class PassengerListComponent implements OnInit {
       portOfEmbarkationId: 0,
       portOfDisembarkationId: 0,
       natureOfIdentityDocId: 0,
+      identityDocumentId: 0,
 
       countryOfBirth: null,
       nationality: null,
@@ -252,22 +252,31 @@ export class PassengerListComponent implements OnInit {
       portCall: null,
       portOfEmbarkation: 'Trondheim',
       portOfDisembarkation: 'Oslo',
-      natureOfIdentityDoc: 'Passport',
+      identityDocument: {
+        identityDocumentId: 0,
+        identityDocumentTypeId: 2,
+        nationalityId: 100312,
+        visaOrResidencePermitNumber: 4252,
+        identityDocumentIssueDate: new Date(),
+        identityDocumentExpiryDate: new Date(),
 
-      numberOfIdentityDoc: 39572824,
-      permitNumber: 4252,
+      identityDocumentType: {
+        id: 0,
+        type: 'Passport'
+      },
+      nationality: 'Norway',
+      },
     };
     this.passengerModel = mockData;
     this.addPassenger();
   }
 
     mockFillForm() {
-      this.passengerModel.surname = 'Dalan';
+      this.passengerModel.familyName = 'Dalan';
       this.passengerModel.givenName = 'Camilla';
       this.passengerModel.dateOfBirth = new Date();
       this.passengerModel.placeOfBirth = 'Oslo';
-      this.passengerModel.numberOfIdentityDoc = 4298384;
-      this.passengerModel.permitNumber = 4232;
+      this.passengerModel.identityDocumentId = 4298384;
     }
 
     onPortOfEmbarkationResult($event) {
@@ -300,15 +309,26 @@ export class PassengerListComponent implements OnInit {
     }
 
     setIdentityDocIssueDate($event) {
-      this.passengerModel.identityDocIssueDate = this.getDateFormat($event);
+      if (!this.passengerModel.identityDocument) {
+        this.passengerModel.identityDocument = new IdentityDocumentModel();
+      }
+      this.passengerModel.identityDocument.identityDocumentIssueDate = this.getDateFormat($event);
     }
 
     setIdentityDocExpiryDate($event) {
-      this.passengerModel.identityDocExpiryDate = this.getDateFormat($event);
+      if (!this.passengerModel.identityDocument) {
+        this.passengerModel.identityDocument = new IdentityDocumentModel();
+      }
+      this.passengerModel.identityDocument.identityDocumentExpiryDate = this.getDateFormat($event);
     }
 
     selectGender($event) {
       this.passengerModel.gender = $event;
+    }
+
+    selectIdentityDocumentType($event) {
+      this.passengerModel.identityDocument.identityDocumentType = $event;
+      console.log($event);
     }
 
       // Helper methods

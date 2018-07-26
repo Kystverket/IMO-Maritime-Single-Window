@@ -1,5 +1,5 @@
 export class SmartTableModel {
-    passengerId: number;
+    personOnBoardId: number;
     givenName: string;
     familyName: string;
     gender: string;

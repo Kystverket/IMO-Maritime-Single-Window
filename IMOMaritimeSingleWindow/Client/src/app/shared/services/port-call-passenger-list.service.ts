@@ -170,7 +170,7 @@ export class PortCallPassengerListService {
   setPassengerIds(list) {
     let tempPassengerId = 1;
     list.forEach(passenger => {
-      passenger.passengerId = tempPassengerId;
+      passenger.personOnBoardId = tempPassengerId;
       tempPassengerId++;
     });
     return list;
