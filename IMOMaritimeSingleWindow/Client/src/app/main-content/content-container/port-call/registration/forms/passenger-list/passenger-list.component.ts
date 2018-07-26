@@ -4,8 +4,6 @@ import { PortCallPassengerListService } from 'app/shared/services/port-call-pass
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
-import { FindCountryOfBirthComponent } from './find-country-of-birth/find-country-of-birth.component';
-import { FindNationalityComponent } from './find-nationality/find-nationality.component';
 import { SmartTableModel } from './smartTableModel';
 import { PortModel } from './portModel';
 import { Observable } from 'rxjs/Observable';
@@ -18,17 +16,13 @@ import { GenderModel } from 'app/shared/models/gender-model';
 })
 export class PassengerListComponent implements OnInit {
 
-  @ViewChild(FindCountryOfBirthComponent)
-  private findCountryOfBirthComponent: FindCountryOfBirthComponent;
-  @ViewChild(FindNationalityComponent)
-  private findNationalityComponent: FindNationalityComponent;
-
   @ViewChild(NgForm) form: NgForm;
 
   @Input() showDropdown = true;
 
   genderList: Observable<any>;
   selectedGender: GenderModel;
+  identityDocTypeList: Observable<any>;
 
   portCallId: number;
   passengerList: any[] = [];
@@ -134,7 +128,8 @@ export class PassengerListComponent implements OnInit {
     }
 
     this.passengerListService.getIdentityDocumentTypes().subscribe(results => {
-      console.log(results);
+      this.identityDocTypeList = results;
+      console.log(this.identityDocTypeList);
     });
   }
 
@@ -153,12 +148,6 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(
       this.passengerList
     );
-    this.resetChildren();
-  }
-
-  resetChildren() {
-    this.findCountryOfBirthComponent.deselectCountry();
-    this.findNationalityComponent.deselectCountry();
   }
 
   isValid(valid: Boolean): Boolean {
@@ -168,14 +157,6 @@ export class PassengerListComponent implements OnInit {
 
   private sendMetaData(): void {
     this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
-  }
-
-  selectNationality($event) {
-    if ($event) {
-      this.passengerModel.nationality = $event.name;
-    } else {
-      this.passengerModel.nationality = null;
-    }
   }
 
   selectCountryOfBirth($event) {
@@ -344,6 +325,28 @@ export class PassengerListComponent implements OnInit {
         month: newDate.getMonth() + 1,
         day: newDate.getDate()
       };
+    }
+
+    selectIdentityDocumentType($event) {
+      this.passengerModel.natureOfIdentityDoc = $event;
+      console.log($event);
+    }
+
+    setNationality($event) {
+      console.log($event.item);
+      this.passengerModel.nationality = $event.item.name;
+    }
+
+    unsetNationality() {
+      this.passengerModel.nationality = null;
+    }
+
+    setCountryOfBirth($event) {
+      this.passengerModel.countryOfBirth = $event.item.name;
+    }
+
+    unsetCountryOfBirth() {
+      this.passengerModel.countryOfBirth = null;
     }
 
     removeTableEntry($event) {

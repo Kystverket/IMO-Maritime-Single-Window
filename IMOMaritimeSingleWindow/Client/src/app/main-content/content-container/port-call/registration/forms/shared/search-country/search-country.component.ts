@@ -17,6 +17,7 @@ export class SearchCountryComponent implements OnInit {
   @Input() showDropDown = true;
 
   @Output() selectCountry: EventEmitter<any> = new EventEmitter();
+  @Output() deselectCountry: EventEmitter<any> = new EventEmitter();
 
   locationFound = false;
   locationFlag: string;
@@ -79,14 +80,17 @@ export class SearchCountryComponent implements OnInit {
   selectLocation($event) {
     this.locationSelected = true;
     this.locationModel = $event.item;
+    this.locationFlag = ($event.item.twoCharCode) ? $event.item.twoCharCode.toLowerCase() : null;
     this.selectCountry.emit($event);
     // this.countryService.setCountryData(this.locationModel);
   }
 
-  /*deselectLocation() {
+  deselectLocation() {
     this.locationSelected = false;
-    this.countryService.setCountryData(null);
-  }*/
+    this.locationModel = null;
+    this.locationFlag = null;
+    this.deselectCountry.emit();
+  }
 
   ngOnInit() {
   }
