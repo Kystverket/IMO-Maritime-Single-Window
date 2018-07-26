@@ -133,6 +133,7 @@ export class PassengerListComponent implements OnInit {
 
     // Add this passenger to local model and create new model
     this.passengerList.push(this.passengerModel);
+    console.log(this.passengerList);
     this.passengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
 
@@ -157,7 +158,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   selectCountryOfBirth($event) {
-    this.passengerModel.countryOfBirth = $event.name;
+    this.passengerModel.countryOfBirthId = $event.countryId;
   }
 
   selectTransit($event) {
@@ -217,12 +218,15 @@ export class PassengerListComponent implements OnInit {
   }
 
   onPortOfEmbarkationResult($event) {
-    this.passengerModel.portOfEmbarkation = this.makePortModel($event);
+    console.log($event);
+    this.passengerModel.portOfEmbarkationId = $event;
+    // this.passengerModel.portOfEmbarkation = this.makePortModel($event);
 
   }
 
   onPortOfDisembarkationResult($event) {
-    this.passengerModel.portOfDisembarkation = this.makePortModel($event);
+    this.passengerModel.portOfDisembarkationId = $event;
+    // this.passengerModel.portOfDisembarkation = this.makePortModel($event);
   }
 
   makePortModel($event) {
@@ -244,11 +248,11 @@ export class PassengerListComponent implements OnInit {
   }
 
   deselectPortOfDisembarkation() {
-    this.passengerModel.portOfDisembarkation = new PortModel();
+    this.passengerModel.portOfDisembarkationId = null;
   }
 
   deselectPortOfEmbarkation() {
-    this.passengerModel.portOfEmbarkation = new PortModel();
+    this.passengerModel.portOfEmbarkationId = null;
   }
 
   setDateOfBirth($event) {
@@ -299,23 +303,19 @@ export class PassengerListComponent implements OnInit {
   }
 
   setCountryOfBirth($event) {
-    this.passengerModel.countryOfBirth = $event.item.name;
     this.passengerModel.countryOfBirthId = $event.item.countryId;
   }
 
   unsetCountryOfBirth() {
-    this.passengerModel.countryOfBirth = null;
     this.passengerModel.countryOfBirthId = null;
   }
 
   setNationality($event) {
     console.log($event);
-    this.passengerModel.nationality = $event.item.name;
     this.passengerModel.nationalityId = $event.item.countryId;
   }
 
   unsetNationality() {
-    this.passengerModel.nationality = null;
     this.passengerModel.nationalityId = null;
   }
 
@@ -339,9 +339,6 @@ export class PassengerListComponent implements OnInit {
     const mockPortOfDisembakrationModel = new PortModel();
     mockPortOfDisembakrationModel.name = 'Kiel';
 
-    mockPassengerModel.portOfEmbarkation = mockPortOfEmbakrationModel;
-    mockPassengerModel.portOfDisembarkation = mockPortOfDisembakrationModel;
-
     this.passengerModel = mockPassengerModel;
     this.identityDocumentModel = mockIdentityDocumentModel;
     this.addPassenger();
@@ -352,6 +349,7 @@ export class PassengerListComponent implements OnInit {
       this.passengerModel.givenName = 'Camilla';
       this.passengerModel.dateOfBirth = new Date();
       this.passengerModel.placeOfBirth = 'Oslo';
-      this.passengerModel.identityDocumentId = 4298384;
+      this.identityDocumentModel.identityDocumentId = 4232;
+      this.identityDocumentModel.visaOrResidencePermitNumber = 421;
     }
 }

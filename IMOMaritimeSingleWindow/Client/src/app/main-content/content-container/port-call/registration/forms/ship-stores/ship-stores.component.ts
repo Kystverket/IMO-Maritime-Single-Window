@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 import { LocalDataSource } from 'ng2-smart-table';

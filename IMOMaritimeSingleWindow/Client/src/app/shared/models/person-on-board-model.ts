@@ -27,13 +27,9 @@ export class PersonOnBoardModel {
     identityDocumentId: number;
 
     // models
-    countryOfBirth: any; // need country model
-    nationality: any; // same
     personOnBoardType: PersonOnBoardTypeModel;
-    gender: any;
+    gender: GenderModel;
     portCall: PortCallModel;
-    portOfEmbarkation: any;
-    portOfDisembarkation: any;
     identityDocument: IdentityDocumentModel;
 
     /*natureOfIdentityDoc: any;

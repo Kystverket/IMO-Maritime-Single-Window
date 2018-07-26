@@ -56,6 +56,7 @@ export class PortCallShipStoresService {
   }
   // Update  existing ship stores list in database
   updateShipStores(shipStoresList: any[]) {
+    console.log(shipStoresList);
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
     return this.http.put(uri, shipStoresList).map(res => {
