@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PortCallShipStoresService {
@@ -13,7 +14,7 @@ export class PortCallShipStoresService {
   private portCallShipStoresUrl: string; // Ship stores for a given port call
   private measurementTypeUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.shipStoresUrl = 'api/falShipStores';
     this.shipStoresListUrl = 'api/falShipStores/list';
     this.portCallUrl = 'api/portCall';
@@ -40,43 +41,45 @@ export class PortCallShipStoresService {
 
   // API calls
   // Get ship stores object by its primary key ID
-  getShipStoresById(shipStoresId: number) {
+  getShipStoresById(shipStoresId: number): Observable<any> {
     const uri = [this.shipStoresUrl, shipStoresId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
   // Add new ship stores list to database
   addShipStores(shipStoresList: any[]) {
     console.log('Adding Ship Stores...');
     const uri = this.shipStoresListUrl;
-    this.http.post(uri, shipStoresList).map(res => {
-      console.log(res);
-      this.setDataIsPristine(true);
-      return res.json();
-    });
+    this.http.post(uri, shipStoresList).subscribe(
+      res => {
+        if (res) {
+          this.setDataIsPristine(true);
+        }
+      }
+    );
   }
   // Update  existing ship stores list in database
   updateShipStores(shipStoresList: any[]) {
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList).map(res => {
-      res.json();
-      if (res.status === 200) {
-        console.log('Ship stores successfully saved.');
-        this.setDataIsPristine(true);
-      }
-    });
+    return this.http.put(uri, shipStoresList).subscribe(
+      res => {
+        if (res) {
+          console.log('Ship stores successfully saved.');
+          this.setDataIsPristine(true);
+        }
+      });
   }
   // Get all ship stores for a given port call
-  getShipStoresByPortCallId(portCallId: number) {
+  getShipStoresByPortCallId(portCallId: number): Observable<any> {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.shipStoresString].join('/');
 
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
   // Get list of all measurement types
-  getMeasurementTypeList() {
+  getMeasurementTypeList(): Observable<any> {
     const uri = this.measurementTypeUrl;
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 
   /************************

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from '../models/location-model';
 import { BaseService } from './base.service';
 

@@ -3,8 +3,8 @@ import { Headers, Http } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from '../utils/config.service';
-import { AccountService } from './account.service';
 import { BaseService } from './base.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
 
@@ -22,7 +22,7 @@ export class LoginService extends BaseService {
   private loggedIn = false;
 
   constructor(
-    private http: Http,
+    private http: HttpClient,
     private configService: ConfigService,
     private jwtHelperService: JwtHelperService
   ) {
@@ -38,8 +38,9 @@ export class LoginService extends BaseService {
   }
 
   login(userName, password) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
 
     return this.http
       .post(
@@ -47,10 +48,10 @@ export class LoginService extends BaseService {
         JSON.stringify({ userName, password }),
         { headers }
       )
-      .map(res => res.json())
+      .map(res => JSON.stringify(res))
       .map(res => {
         if (res) {
-          localStorage.setItem('auth_token', res.auth_token);
+          localStorage.setItem('auth_token', JSON.parse(res).auth_token);
           this.loggedIn = true;
           this._loggedInSource.next(true);
           this._authNavStatusSource.next(true);
