@@ -18,8 +18,8 @@ export class ShipService {
   private contactListShipUrl = 'api/shipcontact/ship';
   private shipContactListUrl = 'api/shipcontact/list';
 
-  private shipOverviewDataSource = new BehaviorSubject<any>(null);
-  shipOverviewData$ = this.shipOverviewDataSource.asObservable();
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
 
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
@@ -43,8 +43,8 @@ export class ShipService {
       .map(res => res.json());
   }
 
-  setShipOverviewData(data) {
-    this.shipOverviewDataSource.next(data);
+  setShipData(data) {
+    this.shipDataSource.next(data);
   }
 
   setShipSearchData(data) {

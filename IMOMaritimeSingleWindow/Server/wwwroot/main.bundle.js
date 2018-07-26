@@ -1767,7 +1767,7 @@ var RegisterShipComponent = /** @class */ (function () {
     RegisterShipComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.subscribeToData();
-        this.shipService.shipOverviewData$.subscribe(function (data) {
+        this.shipService.shipData$.subscribe(function (data) {
             if (data) {
                 _this.setAllValues(data);
             }
@@ -2170,7 +2170,7 @@ var ViewShipInfoComponent = /** @class */ (function () {
     ViewShipInfoComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipService.setShipOverviewData(null);
-        this.shipService.shipOverviewData$.subscribe(function (shipResult) {
+        this.shipService.shipData$.subscribe(function (shipResult) {
             if (shipResult) {
                 _this.shipFound = true;
             }
@@ -3372,7 +3372,7 @@ var FindShipComponent = /** @class */ (function () {
     FindShipComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipService.setShipOverviewData(null);
-        this.shipService.shipOverviewData$.subscribe(function (shipResult) {
+        this.shipService.shipData$.subscribe(function (shipResult) {
             if (shipResult) {
                 _this.shipFlag = (shipResult.shipFlagCode.country) ? shipResult.shipFlagCode.country.twoCharCode.toLowerCase() : null;
                 _this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
@@ -6821,7 +6821,7 @@ var ShipInfoTableComponent = /** @class */ (function () {
     ShipInfoTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipHasContactInfo = false;
-        this.shipService.shipOverviewData$.subscribe(function (shipResult) {
+        this.shipService.shipData$.subscribe(function (shipResult) {
             if (shipResult) {
                 if (shipResult.shipFlagCode.country) {
                     _this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
@@ -6926,7 +6926,7 @@ var ShipButtonRowComponent = /** @class */ (function () {
     }
     ShipButtonRowComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.shipService.shipOverviewData$.subscribe(function (results) {
+        this.shipService.shipData$.subscribe(function (results) {
             if (results) {
                 _this.shipData = results;
             }
@@ -9145,8 +9145,8 @@ var ShipService = /** @class */ (function () {
         this.organizationData$ = this.organizationDataSource.asObservable();
         this.shipFlagCodeDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
-        this.shipOverviewDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.shipOverviewData$ = this.shipOverviewDataSource.asObservable();
+        this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipData$ = this.shipDataSource.asObservable();
         this.shipSearchDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipSearchData$ = this.shipSearchDataSource.asObservable();
         this.countryDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
@@ -9178,7 +9178,7 @@ var ShipService = /** @class */ (function () {
             .map(function (res) { return res.json(); });
     };
     ShipService.prototype.setShipOverviewData = function (data) {
-        this.shipOverviewDataSource.next(data);
+        this.shipDataSource.next(data);
     };
     ShipService.prototype.setOrganizationData = function (data) {
         this.organizationDataSource.next(data);
