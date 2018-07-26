@@ -9,6 +9,7 @@ import { PortModel } from './portModel';
 import { Observable } from 'rxjs/Observable';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
+import { PassengerModel } from '../../../../../../shared/models/port-call-passenger-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -28,6 +29,7 @@ export class PassengerListComponent implements OnInit {
   portCallId: number;
   passengerList: any[] = [];
   passengerModel: PersonOnBoardModel = new PersonOnBoardModel();
+  identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   listIsPristine = true;
 
   booleanList: string[] = ['Yes', 'No'];
@@ -115,11 +117,11 @@ export class PassengerListComponent implements OnInit {
       }
     });
 
-    this.passengerListService.passengerModel$.subscribe(model => {
+    /*this.passengerListService.passengerModel$.subscribe(model => {
       if (model) {
         this.passengerModel = model;
       }
-    });
+    });*/
 
     // Get gender list
     if (!this.genderList) {
@@ -130,12 +132,12 @@ export class PassengerListComponent implements OnInit {
 
     this.passengerListService.getIdentityDocumentTypes().subscribe(results => {
       this.identityDocTypeList = results;
-      console.log(this.identityDocTypeList);
     });
   }
 
   addPassenger() {
     this.listIsPristine = false;
+    this.passengerModel.identityDocument = this.identityDocumentModel;
 
     // Add to smart table list
     this.addToSmartTable(this.passengerModel);
@@ -143,12 +145,17 @@ export class PassengerListComponent implements OnInit {
     // Add this passenger to local model and create new model
     this.passengerList.push(this.passengerModel);
     this.passengerModel = new PersonOnBoardModel();
+    this.identityDocumentModel = new IdentityDocumentModel();
 
     // Update values in service
-    this.passengerListService.setPassengerModel(this.passengerModel);
+    // this.passengerListService.setPassengerModel(this.passengerModel);
     this.passengerListService.setPassengersList(
       this.passengerList
     );
+
+    this.unsetIssuingNation();
+    this.unsetCountryOfBirth();
+    this.unsetNationality();
   }
 
   isValid(valid: Boolean): Boolean {
@@ -182,7 +189,6 @@ export class PassengerListComponent implements OnInit {
 
 
   makeSmartTableEntry(passenger) {
-    console.log(passenger);
     const modifiedPassenger = new SmartTableModel();
     modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
     modifiedPassenger.givenName = passenger.givenName;
@@ -222,52 +228,30 @@ export class PassengerListComponent implements OnInit {
   }
 
   addMockData() {
-    const mockData = {
-      personOnBoardId: 49292,
-      familyName: 'Dalan',
-      givenName: 'Camilla',
-      dateOfBirth: null,
-      placeOfBirth: 'Oslo',
-      occupationName: '',
-      occupationCode: '',
-      roleCode: '',
-      inTransit: true,
-      rankName: '',
-      rankCode: '',
+    const mockPassengerModel = new PersonOnBoardModel();
+    const mockIdentityDocumentModel = new IdentityDocumentModel();
+    mockPassengerModel.familyName = 'Karlsen';
+    mockPassengerModel.givenName = 'Unni';
+    mockIdentityDocumentModel.issuingNation = 'Norway';
 
-      countryOfBirthId: 0,
-      nationalityId: 0,
-      personOnBoardTypeId: 0,
-      genderId: 0,
-      portCallId: this.portCallId,
-      portOfEmbarkationId: 0,
-      portOfDisembarkationId: 0,
-      natureOfIdentityDocId: 0,
-      identityDocumentId: 0,
+    const mockGenderModel = new GenderModel();
+    mockGenderModel.description = 'Nothing';
 
-      countryOfBirth: null,
-      nationality: null,
-      personOnBoardType: null,
-      gender: null,
-      portCall: null,
-      portOfEmbarkation: 'Trondheim',
-      portOfDisembarkation: 'Oslo',
-      identityDocument: {
-        identityDocumentId: 0,
-        identityDocumentTypeId: 2,
-        nationalityId: 100312,
-        visaOrResidencePermitNumber: 4252,
-        identityDocumentIssueDate: new Date(),
-        identityDocumentExpiryDate: new Date(),
+    mockPassengerModel.gender = mockGenderModel;
 
-      identityDocumentType: {
-        id: 0,
-        type: 'Passport'
-      },
-      nationality: 'Norway',
-      },
-    };
-    this.passengerModel = mockData;
+    mockPassengerModel.dateOfBirth = new Date();
+
+    const mockPortOfEmbakrationModel = new PortModel();
+    mockPortOfEmbakrationModel.name = 'Porsgrunn';
+
+    const mockPortOfDisembakrationModel = new PortModel();
+    mockPortOfDisembakrationModel.name = 'Kiel';
+
+    mockPassengerModel.portOfEmbarkation = mockPortOfEmbakrationModel;
+    mockPassengerModel.portOfDisembarkation = mockPortOfDisembakrationModel;
+
+    this.passengerModel = mockPassengerModel;
+    this.identityDocumentModel = mockIdentityDocumentModel;
     this.addPassenger();
   }
 
@@ -309,17 +293,11 @@ export class PassengerListComponent implements OnInit {
     }
 
     setIdentityDocIssueDate($event) {
-      if (!this.passengerModel.identityDocument) {
-        this.passengerModel.identityDocument = new IdentityDocumentModel();
-      }
-      this.passengerModel.identityDocument.identityDocumentIssueDate = this.getDateFormat($event);
+      this.identityDocumentModel.identityDocumentIssueDate = this.getDateFormat($event);
     }
 
     setIdentityDocExpiryDate($event) {
-      if (!this.passengerModel.identityDocument) {
-        this.passengerModel.identityDocument = new IdentityDocumentModel();
-      }
-      this.passengerModel.identityDocument.identityDocumentExpiryDate = this.getDateFormat($event);
+      this.identityDocumentModel.identityDocumentExpiryDate = this.getDateFormat($event);
     }
 
     selectGender($event) {
@@ -327,8 +305,7 @@ export class PassengerListComponent implements OnInit {
     }
 
     selectIdentityDocumentType($event) {
-      this.passengerModel.identityDocument.identityDocumentType = $event;
-      console.log($event);
+      this.identityDocumentModel.identityDocumentType = $event;
     }
 
       // Helper methods
@@ -347,38 +324,36 @@ export class PassengerListComponent implements OnInit {
       };
     }
 
-    selectIdentityDocumentType($event) {
-      this.passengerModel.natureOfIdentityDoc = $event;
+    setIssuingNation($event) {
       console.log($event);
+      this.identityDocumentModel.issuingNation = $event.item.name;
+      this.identityDocumentModel.issuingNationId = $event.item.countryId;
     }
 
-    setNationality($event) {
-      console.log($event.item);
-      this.passengerModel.nationality = $event.item.name;
-    }
-
-    unsetNationality() {
-      this.passengerModel.nationality = null;
+    unsetIssuingNation() {
+      this.identityDocumentModel.issuingNation = null;
+      this.identityDocumentModel.issuingNationId = null;
     }
 
     setCountryOfBirth($event) {
       this.passengerModel.countryOfBirth = $event.item.name;
+      this.passengerModel.countryOfBirthId = $event.item.countryId;
     }
 
     unsetCountryOfBirth() {
       this.passengerModel.countryOfBirth = null;
+      this.passengerModel.countryOfBirthId = null;
     }
 
-    removeTableEntry($event) {
+    setNationality($event) {
       console.log($event);
+      this.passengerModel.nationality = $event.item.name;
+      this.passengerModel.nationalityId = $event.item.countryId;
     }
 
-    /*resetAllPassengerIds(list) {
-      let id = 1;
-      list.forEach(passenger => {
-        passenger.passengerId = id;
-        id++;
-      });
-    }*/
+    unsetNationality() {
+      this.passengerModel.nationality = null;
+      this.passengerModel.nationalityId = null;
+    }
 
 }

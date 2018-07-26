@@ -23,8 +23,6 @@ export class SelectDateComponent implements OnInit {
 
   dateChanged($event): void {
     this.updateModel($event);
-    console.log($event);
-    console.log('dateModel: ' + JSON.stringify(this.dateModel));
   }
 
   private updateModel($event): void {

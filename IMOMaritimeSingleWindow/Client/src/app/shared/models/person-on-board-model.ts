@@ -30,7 +30,7 @@ export class PersonOnBoardModel {
     countryOfBirth: any; // need country model
     nationality: any; // same
     personOnBoardType: PersonOnBoardTypeModel;
-    gender: GenderModel;
+    gender: any;
     portCall: PortCallModel;
     portOfEmbarkation: any;
     portOfDisembarkation: any;

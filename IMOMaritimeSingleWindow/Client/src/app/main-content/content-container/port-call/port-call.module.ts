@@ -38,7 +38,7 @@ import { PassengerListComponent } from './registration/forms/passenger-list/pass
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { CountryService } from 'app/shared/services/country.service';
 import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
-import { SelectDateComponent } from './registration/forms/passenger-list/date-of-birth/select-date.component';
+import { SelectDateComponent } from './registration/forms/passenger-list/select-date/select-date.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 

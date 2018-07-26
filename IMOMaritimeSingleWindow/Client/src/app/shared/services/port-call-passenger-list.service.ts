@@ -71,6 +71,7 @@ export class PortCallPassengerListService {
   setPassengersList(data) {
     const newList = this.setPassengerIds(data);
     this.passengerListSource.next(newList);
+    console.log(this.passengerListSource.getValue());
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
@@ -128,12 +129,11 @@ export class PortCallPassengerListService {
     if (copyPassengerList.length === 1) {
       this.setPassengersList([]);
     } else {
-      data = JSON.stringify(this.createComparableObject(data));
-
+      // data = JSON.stringify(this.createComparableObject(data));
       // Find clicked item
       copyPassengerList.forEach((item, index) => {
-        item = JSON.stringify(this.createComparableObject(item));
-        if (item === data) {
+        // item = JSON.stringify(this.createComparableObject(item));
+        if (item.personOnBoardId === data.personOnBoardId) {
           copyPassengerList.splice(index, 1);
         }
       });
@@ -141,13 +141,12 @@ export class PortCallPassengerListService {
       this.setPassengersList(copyPassengerList);
     }
 
-
     this.setDataIsPristine(false);
   }
 
   // Helper methods
 
-  createComparableObject(item) {
+  /*createComparableObject(item) {
     const object = {
       familyName: item.familyName,
       givenName: item.givenName,
@@ -155,7 +154,9 @@ export class PortCallPassengerListService {
       dateOfBirth: item.dateOfBirth,
       placeOfBirth: item.placeOfBirth,
       countryOfBirth: item.countryOfBirth,
-      natureOfIdentityDoc: item.natureOfIdentityDoc,
+      identityDocument: {
+        identityDocumentType: item.identityDocument.identityDocumentType
+      },
       numberOfIdentityDoc: item.numberOfIdentityDoc,
       permitNumber: item.permitNumber,
       portOfEmbarkation: item.portOfEmbarkation,
@@ -165,7 +166,7 @@ export class PortCallPassengerListService {
       portCallId: item.portCallId
     };
     return object;
-  }
+  }*/
 
   setPassengerIds(list) {
     let tempPassengerId = 1;

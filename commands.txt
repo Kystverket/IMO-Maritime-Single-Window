@@ -1,0 +1,3 @@
+Build dotnet: dotnet build
+Run dotnet: dotnet watch run
+Scaffolding: dotnet ef dbcontext scaffold "Host=51.144.94.82;Database=imomsw;Username=postgres;Password=Fundator01" Npgsql.EntityFrameworkCore.PostgreSQL --output-dir TestModels

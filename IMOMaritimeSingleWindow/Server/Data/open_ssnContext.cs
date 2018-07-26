@@ -435,7 +435,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.IdentityDocumentTypeId).HasColumnName("identity_document_type_id");
 
-                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
+                entity.Property(e => e.IssuingNationId).HasColumnName("issuing_nation_id");
 
                 entity.Property(e => e.VisaOrResidencePermitNumber).HasColumnName("visa_or_residence_permit_number");
 
@@ -444,10 +444,10 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.IdentityDocumentTypeId)
                     .HasConstraintName("FK_identity_document_identity_document_type_id");
 
-                entity.HasOne(d => d.Nationality)
+                entity.HasOne(d => d.IssuingNation)
                     .WithMany(p => p.IdentityDocument)
-                    .HasForeignKey(d => d.NationalityId)
-                    .HasConstraintName("FK_identity_document_nationality_id");
+                    .HasForeignKey(d => d.IssuingNationId)
+                    .HasConstraintName("FK_identity_document_issuing_nation_id");
             });
 
             modelBuilder.Entity<IdentityDocumentType>(entity =>
@@ -741,6 +741,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.InTransit).HasColumnName("in_transit");
 
+                entity.Property(e => e.NationalityId).HasColumnName("nationality_id");
+
                 entity.Property(e => e.OccupationCode).HasColumnName("occupation_code");
 
                 entity.Property(e => e.OccupationName).HasColumnName("occupation_name");
@@ -762,7 +764,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
 
                 entity.HasOne(d => d.CountryOfBirth)
-                    .WithMany(p => p.PersonOnBoard)
+                    .WithMany(p => p.PersonOnBoardCountryOfBirth)
                     .HasForeignKey(d => d.CountryOfBirthId)
                     .HasConstraintName("FK_person_on_board_country_of_birth_id");
 
@@ -775,6 +777,11 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.PersonOnBoard)
                     .HasForeignKey(d => d.IdentityDocumentId)
                     .HasConstraintName("FK_person_on_board_identity_document_id");
+
+                entity.HasOne(d => d.Nationality)
+                    .WithMany(p => p.PersonOnBoardNationality)
+                    .HasForeignKey(d => d.NationalityId)
+                    .HasConstraintName("FK_person_on_board_nationality_id");
 
                 entity.HasOne(d => d.PersonOnBoardType)
                     .WithMany(p => p.PersonOnBoard)
