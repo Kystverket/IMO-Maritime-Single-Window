@@ -282,7 +282,7 @@ export class PortCallService {
         this.updatePortCall(updatedPortCallData).subscribe(
           result => {
             console.log(result);
-            this.prevAndNextPocService.dataIsPristine.next(true);
+            this.prevAndNextPocService.setDataPristine(true);
           },
           error => {
             console.log(error);

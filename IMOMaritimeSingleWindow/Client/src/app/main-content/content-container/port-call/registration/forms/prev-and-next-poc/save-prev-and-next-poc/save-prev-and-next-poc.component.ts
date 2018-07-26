@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { LocationModel } from 'app/shared/models/location-model';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { PortCallService } from 'app/shared/services/port-call.service';
@@ -16,6 +16,9 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
   styleUrls: ['./save-prev-and-next-poc.component.css']
 })
 export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
+
+  dateSequenceError = false;
+
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
 
@@ -38,6 +41,7 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
   prevPortOfCallEtdDataSubscription: Subscription;
   nextPortOfCallEtaDataSubscription: Subscription;
   detailsIdentificationDataSubscription: Subscription;
+  prevAndNextPortOfCallMetaSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
@@ -103,6 +107,14 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData.portCallId;
+        }
+      }
+    );
+
+    this.prevAndNextPortOfCallMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(
+      metaData => {
+        if (metaData) {
+          this.dateSequenceError = !metaData.valid;
         }
       }
     );

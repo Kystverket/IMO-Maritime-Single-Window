@@ -1,51 +1,60 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from '../models/location-model';
 import { BaseService } from './base.service';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 
 @Injectable()
 export class PrevAndNextPocService extends BaseService {
-    private prevPortOfCallSource = new BehaviorSubject<LocationModel>(null);
-    prevPortOfCallData$ = this.prevPortOfCallSource.asObservable();
+  private prevPortOfCallSource = new BehaviorSubject<LocationModel>(null);
+  prevPortOfCallData$ = this.prevPortOfCallSource.asObservable();
 
-    private nextPortOfCallSource = new BehaviorSubject<LocationModel>(null);
-    nextPortOfCallData$ = this.nextPortOfCallSource.asObservable();
+  private nextPortOfCallSource = new BehaviorSubject<LocationModel>(null);
+  nextPortOfCallData$ = this.nextPortOfCallSource.asObservable();
 
-    private prevPortOfCallEtdSource = new BehaviorSubject<Date>(null);
-    prevPortOfCallEtdData$ = this.prevPortOfCallEtdSource.asObservable();
+  private prevPortOfCallEtdSource = new BehaviorSubject<Date>(null);
+  prevPortOfCallEtdData$ = this.prevPortOfCallEtdSource.asObservable();
 
-    private nextPortOfCallEtaSource = new BehaviorSubject<Date>(null);
-    nextPortOfCallEtaData$ = this.nextPortOfCallEtaSource.asObservable();
+  private nextPortOfCallEtaSource = new BehaviorSubject<Date>(null);
+  nextPortOfCallEtaData$ = this.nextPortOfCallEtaSource.asObservable();
 
-    dataIsPristine = new BehaviorSubject<boolean>(true);
-    dataIsPristine$ = this.dataIsPristine.asObservable();
+  private prevAndNextPortOfCallMeta = new BehaviorSubject<FormMetaData>({
+    valid: true
+  });
+  prevAndNextPortOfCallMeta$ = this.prevAndNextPortOfCallMeta.asObservable();
 
-    constructor() {
-        super();
-    }
+  private dataIsPristine = new BehaviorSubject<boolean>(true);
+  dataIsPristine$ = this.dataIsPristine.asObservable();
 
-    setDataPristine(data: boolean) {
-        this.dataIsPristine.next(data);
-    }
+  constructor() {
+    super();
+  }
 
-    setPrevPortOfCall(prevPortOfCall: LocationModel) {
-        this.dataIsPristine.next(false);
-        this.prevPortOfCallSource.next(prevPortOfCall);
-    }
+  setDataPristine(data: boolean) {
+    this.dataIsPristine.next(data);
+  }
 
-    setNextPortOfCall(nextPortOfCall: LocationModel) {
-        this.dataIsPristine.next(false);
-        this.nextPortOfCallSource.next(nextPortOfCall);
-    }
+  setPrevPortOfCall(prevPortOfCall: LocationModel) {
+    this.dataIsPristine.next(false);
+    this.prevPortOfCallSource.next(prevPortOfCall);
+  }
 
-    setPrevPortOfCallEtd(prevPortOfCallEtd) {
-        this.dataIsPristine.next(false);
-        this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
-    }
+  setNextPortOfCall(nextPortOfCall: LocationModel) {
+    this.dataIsPristine.next(false);
+    this.nextPortOfCallSource.next(nextPortOfCall);
+  }
 
-    setNextPortOfCallEta(nextPortOfCallEta: Date) {
-        this.dataIsPristine.next(false);
-        this.nextPortOfCallEtaSource.next(nextPortOfCallEta);
-    }
+  setPrevPortOfCallEtd(prevPortOfCallEtd) {
+    this.dataIsPristine.next(false);
+    this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
+  }
+
+  setNextPortOfCallEta(nextPortOfCallEta: Date) {
+    this.dataIsPristine.next(false);
+    this.nextPortOfCallEtaSource.next(nextPortOfCallEta);
+  }
+
+  setPrevAndNextPortOfCallMeta(metaData: FormMetaData) {
+      this.prevAndNextPortOfCallMeta.next(metaData);
+  }
 }
