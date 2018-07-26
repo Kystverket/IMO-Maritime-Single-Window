@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-save-passenger-list',

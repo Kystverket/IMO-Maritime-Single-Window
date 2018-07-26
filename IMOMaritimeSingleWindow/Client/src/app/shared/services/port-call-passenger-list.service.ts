@@ -31,18 +31,6 @@ export class PortCallPassengerListService {
   private passengerModelSource = new BehaviorSubject<PersonOnBoardModel>(new PersonOnBoardModel());
   passengerModel$ = this.passengerModelSource.asObservable();
 
-  private embarkationModelDataSource = new BehaviorSubject<any>(null);
-  embarkationModelData$ = this.embarkationModelDataSource.asObservable();
-
-  private disembarkationModelDataSource = new BehaviorSubject<any>(null);
-  disembarkationModelData$ = this.disembarkationModelDataSource.asObservable();
-
-  private countryOfBirthModelDataSource = new BehaviorSubject<any>(null);
-  countryOfBirthModelData$ = this.countryOfBirthModelDataSource.asObservable();
-
-  private nationalityModelDataSource = new BehaviorSubject<any>(null);
-  nationalityModelData$ = this.nationalityModelDataSource.asObservable();
-
   /*private dateModelDataSource = new BehaviorSubject<any>(null);
   dateOfBirthData$ = this.dateModelDataSource.asObservable();*/
 
@@ -82,44 +70,6 @@ export class PortCallPassengerListService {
     this.dataIsPristine.next(isPristine);
   }
 
-  setPortOfEmbarkation(data) {
-    const tempPortModel = this.createPortObject(data);
-
-    this.embarkationModelDataSource.next(tempPortModel);
-    const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.portOfEmbarkation = tempPortModel;
-    this.setPassengerModel(tempPassengerModel);
-  }
-
-  setPortOfDisembarkation(data) {
-    const tempPortModel = this.createPortObject(data);
-
-    this.disembarkationModelDataSource.next(tempPortModel);
-    const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.portOfDisembarkation = tempPortModel;
-    this.setPassengerModel(tempPassengerModel);
-  }
-
-  setCountryOfBirth(data) {
-    this.countryOfBirthModelDataSource.next(data);
-    const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.countryOfBirth = data;
-    this.setPassengerModel(tempPassengerModel);
-  }
-
-  setNationality(data) {
-    this.nationalityModelDataSource.next(data);
-    const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.nationality = data;
-    this.setPassengerModel(tempPassengerModel);
-  }
-
-  setDateOfBirth(data) {
-    const tempPassengerModel = this.passengerModelSource.getValue();
-    tempPassengerModel.dateOfBirth = data;
-    this.setPassengerModel(tempPassengerModel);
-  }
-
   setPassengerModel(data) {
     this.passengerModelSource.next(data);
   }
@@ -129,10 +79,8 @@ export class PortCallPassengerListService {
     if (copyPassengerList.length === 1) {
       this.setPassengersList([]);
     } else {
-      // data = JSON.stringify(this.createComparableObject(data));
       // Find clicked item
       copyPassengerList.forEach((item, index) => {
-        // item = JSON.stringify(this.createComparableObject(item));
         if (item.personOnBoardId === data.personOnBoardId) {
           copyPassengerList.splice(index, 1);
         }
@@ -146,28 +94,6 @@ export class PortCallPassengerListService {
 
   // Helper methods
 
-  /*createComparableObject(item) {
-    const object = {
-      familyName: item.familyName,
-      givenName: item.givenName,
-      nationality: item.nationality,
-      dateOfBirth: item.dateOfBirth,
-      placeOfBirth: item.placeOfBirth,
-      countryOfBirth: item.countryOfBirth,
-      identityDocument: {
-        identityDocumentType: item.identityDocument.identityDocumentType
-      },
-      numberOfIdentityDoc: item.numberOfIdentityDoc,
-      permitNumber: item.permitNumber,
-      portOfEmbarkation: item.portOfEmbarkation,
-      portOfDisembarkation: item.portOfDisembarkation,
-      transit: item.transit,
-      passengerId: item.passengerId,
-      portCallId: item.portCallId
-    };
-    return object;
-  }*/
-
   setPassengerIds(list) {
     let tempPassengerId = 1;
     list.forEach(passenger => {
@@ -175,34 +101,6 @@ export class PortCallPassengerListService {
       tempPassengerId++;
     });
     return list;
-  }
-
-  createPortObject(data) {
-    if (data) {
-      const tempPortModel = {
-        locationId: data.locationId,
-        countryId: data.countryId,
-        locationTypeId: data.locationTypeId,
-        locationSourceId: data.locationSourceId,
-        municipalityId: data.municipalityId,
-        locationCode: data.locationCode,
-        locationNo: data.locationNo,
-        postCode: data.postCode,
-        name: data.name,
-        country: {
-          countryId: data.country.countryId,
-          callCode: data.country.callCode,
-          name: data.country.name,
-          threeCharCode: data.country.threeCharCode,
-          twoCharCode: data.country.twoCharCode
-        },
-        locationSource: data.locationSource,
-        municipality: data.municipality
-        };
-      return tempPortModel;
-    } else {
-      return null;
-    }
   }
 
 }
