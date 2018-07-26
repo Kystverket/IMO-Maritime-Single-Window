@@ -71,9 +71,10 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       etdData => {
         if (etdData) {
           this.prevEtdFound = true;
+          const dateTime = new Date(etdData);
           this.etdModel = {
-            date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
-            time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.prevEtdFound = false;
@@ -86,9 +87,10 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       etaData => {
         if (etaData) {
           this.nextEtaFound = true;
+          const dateTime = new Date(etaData);
           this.etaModel = {
-            date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
-            time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.nextEtaFound = false;
@@ -116,8 +118,8 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
   }
 
   savePrevAndNextPoc() {
-    const prevDate = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
-    const nextDate = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
+    const prevDate = this.etdModel != null ? new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute) : null;
+    const nextDate = this.etaModel != null ? new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute) : null;
     this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
     this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
   }

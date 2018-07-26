@@ -39,7 +39,7 @@ export class PrevAndNextPocService extends BaseService {
         this.nextPortOfCallSource.next(nextPortOfCall);
     }
 
-    setPrevPortOfCallEtd(prevPortOfCallEtd: Date) {
+    setPrevPortOfCallEtd(prevPortOfCallEtd) {
         this.dataIsPristine.next(false);
         this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
     }
