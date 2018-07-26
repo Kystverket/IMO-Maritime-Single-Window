@@ -16,7 +16,6 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? InTransit { get; set; }
         public string RankName { get; set; }
         public string RankCode { get; set; }
-
         public int? CountryOfBirthId { get; set; }
         public int? PersonOnBoardTypeId { get; set; }
         public int? GenderId { get; set; }
@@ -34,5 +33,13 @@ namespace IMOMaritimeSingleWindow.Models
         public Location PortOfEmbarkation { get; set; }
         public IdentityDocument IdentityDocument { get; set; }
         public Country Nationality { get; set; }
+        public override String ToString()
+        {
+            return PersonOnBoardId + "\n"
+            + FamilyName + "\n"
+            + GivenName + "\n"
+            + DateOfBirth + "\n"
+            + OccupationName;
+        }
     }
 }

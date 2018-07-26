@@ -50,11 +50,22 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 return BadRequest(ModelState);
             }
+            personOnBoardList.ForEach(p =>
+            {
+                Console.WriteLine(p.ToString());
+            });
             try
             {
-                var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId));
-                _context.PersonOnBoard.RemoveRange(removeList);
+                personOnBoardList.ForEach(p =>
+                {
+                    if (_context.PersonOnBoard.Any(pob => pob.PortCallId == p.PortCallId))
+                    {
+                        _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == p.PortCallId));
+                    }
+                });
+                /* var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId)).ToList();
+                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
+                _context.PersonOnBoard.RemoveRange(removeList); */
                 foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
                 {
                     if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))

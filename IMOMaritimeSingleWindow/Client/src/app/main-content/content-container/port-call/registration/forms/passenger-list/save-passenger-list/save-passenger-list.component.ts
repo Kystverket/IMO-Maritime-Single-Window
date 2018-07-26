@@ -44,7 +44,13 @@ export class SavePassengerListComponent implements OnInit {
   }
 
   savePassengerList() {
-    this.passengerService.updatePassengerList(this.passengerList).subscribe();
+    console.log(this.passengerList);
+    this.passengerList.forEach(p => {
+      p.portCallId = this.portCallId;
+      p.portOfDisembarkation = null;
+      p.portOfEmbarkation = null;
+    });
+    this.passengerService.updatePassengerList(this.passengerList).subscribe(res => console.log(res));
   }
 
 }
