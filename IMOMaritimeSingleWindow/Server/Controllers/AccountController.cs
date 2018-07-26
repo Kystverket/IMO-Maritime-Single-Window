@@ -17,6 +17,7 @@ using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Services;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
 
         private readonly IHostingEnvironment _env;
@@ -45,15 +47,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
             IMapper mapper,
             IHostingEnvironment env
             )
         {
-            _env = env;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
             _mapper = mapper;
+            _env = env;
         }
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
@@ -235,6 +239,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             var passwordResetLink = await GeneratePasswordResetLinkAsync(applicationUser);
             // Send email to user
+
 
             // For now returns link to webclient
             return Ok(passwordResetLink);

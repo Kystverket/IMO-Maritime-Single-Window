@@ -69,6 +69,7 @@ namespace IMOMaritimeSingleWindow
 
         {
 
+
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CORS with different policies
             //services.AddCors(options =>
@@ -106,6 +107,12 @@ namespace IMOMaritimeSingleWindow
             connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
+
+            // Configure email service
+            services.ConfigureEmailSenderOptions(Configuration);
+            services.ConfigureSendGridOptions(Configuration);
+
+            services.AddEmailSender();
 
 
             //Configure identity services
