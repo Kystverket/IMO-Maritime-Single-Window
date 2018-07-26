@@ -66,17 +66,18 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
     this.nextPortOfCallDataSubscription.unsubscribe();
   }
 
-  private dateTimeFormat(time) {
+  private dateTimeFormat(dateTime) {
+    dateTime = new Date(dateTime);
     return (
-      time.getFullYear() +
+      dateTime.getFullYear() +
       '-' +
-      this.twoDigitFormat(time.getMonth() + 1) +
+      this.twoDigitFormat(dateTime.getMonth() + 1) +
       '-' +
-      this.twoDigitFormat(time.getDate()) +
+      this.twoDigitFormat(dateTime.getDate()) +
       ' ' +
-      this.twoDigitFormat(time.getHours()) +
+      this.twoDigitFormat(dateTime.getHours()) +
       ':' +
-      this.twoDigitFormat(time.getMinutes())
+      this.twoDigitFormat(dateTime.getMinutes())
     );
   }
 

@@ -1,13 +1,20 @@
 <app-ssn-card header="Save Voyages" icon="save.png">
-  <div *ngIf="!prevLocationFound || !nextLocationFound || !prevEtdFound || !nextEtaFound" class="text-center">
-    <p *ngIf="!prevLocationFound" class="no-wrap mb-0">Previous port of call not selected.</p>
-    <p *ngIf="!nextLocationFound" class="no-wrap mb-0">Next port of call not selected.</p>
-    <p *ngIf="!prevEtdFound" class="no-wrap mb-0">ETD for previous port of call not set.</p>
-    <p *ngIf="!nextEtaFound" class="no-wrap">ETA for next port of call not set.</p>
-    <button class="btn btn-ssn" disabled>
-      <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />Save Voyages</button>
+  <div *ngIf="(!prevLocationFound && prevEtdFound) || (!nextLocationFound && nextEtaFound) || dateSequenceError"
+    class="text-center">
+    <div class="alert alert-danger">
+      <span>You can't save voyages.</span>
+      <br>
+      <span>Reason:</span>
+      <li *ngIf="!prevLocationFound && prevEtdFound"><small>Previous Port of Call ETD is provided without a location</small></li>
+      <li *ngIf="!nextLocationFound && nextEtaFound"><small>Next Port of Call ETA is provided without a location</small></li>
+      <li *ngIf="dateSequenceError"><small>Date sequence error</small></li>
+    </div>
+    <button class="btn btn-ssn mt-2" disabled>
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save Voyages</span>
+    </button>
   </div>
-  <div *ngIf="prevLocationFound && nextLocationFound && prevEtdFound && nextEtaFound">
+  <div *ngIf="!((!prevLocationFound && prevEtdFound) || (!nextLocationFound && nextEtaFound) || dateSequenceError)">
     <div class="text-center" *ngIf="!dataIsPristine">
       <button class="btn btn-ssn" (click)="savePrevAndNextPoc()">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">

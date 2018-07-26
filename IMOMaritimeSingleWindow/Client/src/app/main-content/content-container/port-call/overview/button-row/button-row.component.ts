@@ -160,9 +160,9 @@ export class ButtonRowComponent implements ViewCell, OnInit {
             this.passengerListService.setPassengersList(passengerList);
           }
           this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
-          this.prevAndNextService.setPrevPortOfCallEtd(new Date(data.portCall.previousLocationEtd));
+          this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
           this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
-          this.prevAndNextService.setNextPortOfCallEta(new Date(data.portCall.nextLocationEta));
+          this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
           this.prevAndNextService.setDataPristine(true);
           this.setPurpose(content);
         }
