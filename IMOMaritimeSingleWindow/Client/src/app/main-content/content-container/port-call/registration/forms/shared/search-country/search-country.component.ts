@@ -19,7 +19,6 @@ export class SearchCountryComponent implements OnInit {
   @Output() selectCountry: EventEmitter<any> = new EventEmitter();
   @Output() deselectCountry: EventEmitter<any> = new EventEmitter();
 
-  locationFound = false;
   locationFlag: string;
   locationProperties = LocationProperties.PROPERTIES;
   locationInfo: any[];

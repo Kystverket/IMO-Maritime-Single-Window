@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
+import { templateJitUrl } from '@angular/compiler';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -42,7 +43,37 @@ export class PortCallPassengerListService {
 
   updatePassengerList(passengerList: any[]) {
     const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, passengerList).map(res => res.json());
+    this.dataIsPristine.next(true); // Move into the http request
+    return this.http.put(uri, this.makeTestList(passengerList)).map(res => res.json());
+  }
+
+  makeTestList(list) {
+    const tempList = [];
+    list.forEach(passenger => {
+      const tempPassenger = {
+        personOnBoardId: passenger.personOnBoardId,
+        familyName: passenger.familyName,
+        givenName: passenger.givenName,
+        dateOfBirth: null,
+        placeOfBirth: null,
+        occupationName: null,
+        occupationCode: null,
+        roleCode: null,
+        inTransit: null,
+        rankName: null,
+        rankCode: null,
+        countryOfBirthId: null,
+        personOnBoardTypeId: null,
+        genderId: null,
+        portCallId: 160,
+        portOfEmbarkationId: null,
+        portOfDisembarkationId: null,
+        identityDocumentId: null,
+        nationalityId: null
+      };
+      tempList.push(tempPassenger);
+    });
+    return tempList;
   }
 
   getGenderList() {
