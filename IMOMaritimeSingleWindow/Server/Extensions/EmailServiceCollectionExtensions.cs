@@ -40,9 +40,11 @@ namespace IMOMaritimeSingleWindow.Extensions
         public static IServiceCollection AddSendGridClient(this IServiceCollection services)
         {
             // Assumes options have been configured
-            var sendGridClientOptions = services.BuildServiceProvider().GetService<SendGridClientOptions>();
 
-            services.AddTransient<SendGridClient>(ctx => new SendGridClient(sendGridClientOptions));
+            services.AddTransient<SendGridClient>(ctx => new SendGridClient
+            (
+                ctx.GetRequiredService<IOptionsSnapshot<SendGridClientOptions>>().Value
+            ));
 
             return services;
         }
@@ -54,11 +56,13 @@ namespace IMOMaritimeSingleWindow.Extensions
             var emailSenderOptions = serviceProvider.GetService<IOptions<EmailSenderOptions>>();
             var sendGridClientOptions = serviceProvider.GetService<IOptions<SendGridClientOptions>>();
 
-            services.AddTransient<IEmailSender>(ctx =>
+            services.AddTransient<IEmailSender>(cfg =>
                 new EmailSender
                 (
-                    emailClient: new SendGridClient(sendGridClientOptions.Value),
-                    senderOptions: emailSenderOptions
+                    emailClient: new SendGridClient(
+                        cfg.GetRequiredService<IOptionsSnapshot<SendGridClientOptions>>().Value
+                    ),
+                    senderOptions: cfg.GetRequiredService<IOptionsSnapshot<EmailSenderOptions>>().Value
                 )
             );
 

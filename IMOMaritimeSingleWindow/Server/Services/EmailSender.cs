@@ -11,10 +11,10 @@ namespace IMOMaritimeSingleWindow.Services
         readonly SendGridClient _emailClient;
         readonly EmailSenderOptions _senderOptions;
 
-        public EmailSender(SendGridClient emailClient, IOptions<EmailSenderOptions> senderOptions)
+        public EmailSender(SendGridClient emailClient, EmailSenderOptions senderOptions)
         {
             _emailClient = emailClient;
-            _senderOptions = senderOptions.Value;
+            _senderOptions = senderOptions;
         }
 
         public async Task SendEmail(string subject, string message, string receiver)
