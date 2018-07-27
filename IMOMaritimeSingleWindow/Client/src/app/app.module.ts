@@ -36,7 +36,7 @@ import { RootGuard } from './guards/root.guard';
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:4200'],
-        blacklistedRoutes: ['localhost:4200/login']
+        blacklistedRoutes: ['localhost:4200/auth/login', 'localhost:4200/auth']
       }
     }),
     NgbModule.forRoot(),

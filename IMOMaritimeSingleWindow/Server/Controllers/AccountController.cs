@@ -62,7 +62,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/account/user
-        [HttpPost("userT")]
+        [HttpPost("user")]
         public async Task<IActionResult> Register([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)
@@ -91,7 +91,15 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var callbackUrl = await GenerateEmailConfirmationLinkAsync(addedUser);
 
-            // TODO: Send confirmation link to user's registered email address
+            // Compose email
+
+            var subject = "IMO-MSW account registration";
+            var htmlLink = $"<a href='{callbackUrl}'>website</a>";
+            var message = $"An account has been created for you for use on the IMO Maritime Single Window {htmlLink}.";
+            message += "<br>Please click the link to visit the website in order to assign a password to your account.";
+
+            // Send confirmation link to user's registered email address
+            await _emailSender.SendEmail(subject, message, model.Email);
 
             return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
         }
@@ -99,7 +107,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         // Temporary test method
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
         // POST api/account/user
-        [HttpPost("user")]
+        [HttpPost("userT")]
         public async Task<IActionResult> RegisterTest([FromBody]RegistrationViewModel model)
         {
             if (!ModelState.IsValid)

@@ -1,14 +1,8 @@
-using System;
-using System.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-
-
-using Microsoft.EntityFrameworkCore;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Repositories
 {
@@ -22,20 +16,30 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             return DbSet
                 .Where(usr => usr.NormalizedEmail == email)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
                 .FirstOrDefault();
         }
 
         public User GetByUserName(string userName)
         {
             return DbSet
-                .Where(usr => usr.Email == userName)
+                .Where(usr => usr.Email.Equals(userName))
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
                 .FirstOrDefault();
         }
 
         public User GetByNormalizedUserName(string normalizedUserName)
         {
+            var us = DbSet
+                .Where(usr => usr.NormalizedEmail.Equals(normalizedUserName))
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Password)
+                .FirstOrDefault();
+
             return DbSet
-                .Where(usr => usr.NormalizedEmail == normalizedUserName)
+                .Where(usr => usr.NormalizedEmail.Equals(normalizedUserName))
                 .Include(usr => usr.Person)
                 .Include(usr => usr.Password)
                 .FirstOrDefault();
@@ -54,7 +58,6 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             var passwordEntry = Context.Set<Password>().Add(new Password { Hash = passwordHash });
             user.Password = passwordEntry.Entity;
-            //user.PasswordId = passwordEntry.Entity.PasswordId;
             Context.Set<User>().Update(user);
         }
 
