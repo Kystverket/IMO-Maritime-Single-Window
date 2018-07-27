@@ -22,9 +22,12 @@ const RESULT_FAILURE = 'There was a problem when trying to activate this port ca
   styleUrls: ['./activate-port-call.component.css']
 })
 export class ActivatePortCallComponent implements OnInit, OnDestroy {
-  prevAndNextPortCallDataIsPristine = true;
 
+  prevAndNextPortCallDataIsPristine = true;
   detailsDataIsPristine = true;
+
+  voyagesMeta: FormMetaData;
+
   detailsIdentificationModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
@@ -50,6 +53,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   nextPortOfCallDataSubscription: Subscription;
   prevPortOfCallEtdSubscription: Subscription;
   nextPortOfCallEtaSubscription: Subscription;
+  voyagesMetaSubscription: Subscription;
   detailsPristineSubscription: Subscription;
   detailsIdentificationSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
@@ -59,6 +63,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   crewPassengersAndDimensionsMetaSubscription: Subscription;
   portCallStatusDataSubscription: Subscription;
 
+
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
@@ -67,6 +72,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    //
+    // Voyages
+    //
     this.dataIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
       pristineData => {
         this.prevAndNextPortCallDataIsPristine = pristineData;
@@ -85,9 +93,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.prevPortOfCallEtdSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       etdData => {
         if (etdData) {
+          const dateTime = new Date(etdData);
           this.etdModel = {
-            date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
-            time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etdModel = null;
@@ -97,15 +106,26 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.nextPortOfCallEtaSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       etaData => {
         if (etaData) {
+          const dateTime = new Date(etaData);
           this.etaModel = {
-            date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
-            time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etaModel = null;
         }
       }
     );
+    this.voyagesMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(
+      metaData => {
+        if (metaData) {
+          this.voyagesMeta = metaData;
+        }
+      }
+    );
+    //
+    // Details
+    //
     this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.detailsDataIsPristine = detailsDataIsPristine;
     });
