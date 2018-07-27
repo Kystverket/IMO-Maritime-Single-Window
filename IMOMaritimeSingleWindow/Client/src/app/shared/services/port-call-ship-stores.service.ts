@@ -29,13 +29,13 @@ export class PortCallShipStoresService {
   });
   shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
 
-  private dataIsPristine = new BehaviorSubject<Boolean>(true);
+  private dataIsPristine = new BehaviorSubject<boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
 
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
 
-  private isCheckedInProgressBar = new BehaviorSubject<Boolean>(false);
+  private isCheckedInProgressBar = new BehaviorSubject<boolean>(false);
   isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
 
   // API calls
@@ -57,6 +57,7 @@ export class PortCallShipStoresService {
   // Update  existing ship stores list in database
   updateShipStores(shipStoresList: any[]) {
     console.log('Updating ship stores...');
+    console.log(shipStoresList);
     const uri = this.shipStoresListUrl;
     return this.http.put(uri, shipStoresList).map(res => {
       res.json();
@@ -95,11 +96,11 @@ export class PortCallShipStoresService {
     this.shipStoresInformationMeta.next(metaData);
   }
 
-  setDataIsPristine(isPristine: Boolean) {
+  setDataIsPristine(isPristine: boolean) {
     this.dataIsPristine.next(isPristine);
   }
 
-  setCheckedInProgressBar(checked: Boolean) {
+  setCheckedInProgressBar(checked: boolean) {
     this.isCheckedInProgressBar.next(checked);
   }
 
