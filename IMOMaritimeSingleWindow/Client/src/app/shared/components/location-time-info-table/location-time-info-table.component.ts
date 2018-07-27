@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocationTimeProperties } from 'app/shared/constants/location-time-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-location-time-info-table',
   templateUrl: './location-time-info-table.component.html',
   styleUrls: ['./location-time-info-table.component.css']
 })
-export class LocationTimeInfoTableComponent implements OnInit {
+export class LocationTimeInfoTableComponent implements OnInit, OnDestroy {
   locationFlag: string;
   locationTimeProperties = LocationTimeProperties.PROPERTIES;
   locationTimeInfo: any[] = [];
 
+  locationDataSubscription: Subscription;
+
   constructor(private portCallService: PortCallService) {}
+
   ngOnInit() {
     this.locationTimeProperties = LocationTimeProperties.PROPERTIES;
-    this.portCallService.locationData$.subscribe(locationResult => {
+    this.locationDataSubscription = this.portCallService.locationData$.subscribe(locationResult => {
       if (locationResult) {
         this.locationFlag = locationResult.country
           ? locationResult.country.twoCharCode.toLowerCase()
@@ -39,6 +43,10 @@ export class LocationTimeInfoTableComponent implements OnInit {
       }
       this.locationTimeInfo = Object.values(this.locationTimeProperties);
     });
+  }
+
+  ngOnDestroy() {
+    this.locationDataSubscription.unsubscribe();
   }
 
   private dateTimeFormat(time) {

@@ -5,51 +5,49 @@
         <form #f="ngForm" novalidate>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-1 col-md-1 col-lg-2 col-xl-2" for="email">Email</label>
                 <div class="col">
-                  <input id="email" name="email" class="form-control form-control-sm"
-                    placeholder="Enter email"  
-                    [(ngModel)]="user.email" #email="ngModel" [email]="true" (ngModelChange)="emailChecked = false"
-                    (blur)="userExists(email.valid)" autocomplete="username" tmFocus validateEmail>
+                  <label class="col-form-label-sm no-wrap mb-0" for="email">Email</label>
+                  <input id="email" name="email" class="form-control form-control-sm" placeholder="Enter email" [(ngModel)]="user.email" #email="ngModel"
+                    [email]="true" (ngModelChange)="emailChecked = false" (blur)="userExists(email.valid)" autocomplete="username"
+                    tmFocus validateEmail>
                   <small *ngIf="!email.valid && !email.pristine" class="text-danger">Please enter a valid email address</small>
                   <div *ngIf="emailChecked && !emailTaken">
-                    <img height="16px" src="assets/images/Validation/32x32/icon-valid-ok.png">
+                    <img height="16px" src="assets/images/icons/128x128/green/checkmark.png">
                     <small class="text-success">email available</small>
                   </div>
                   <div *ngIf="emailChecked && emailTaken">
-                    <img height="16px" src="assets/images/Validation/32x32/icon-alert-warning.png">
+                    <img height="16px" src="assets/images/icons/128x128/red/warning.png">
                     <small class="text-danger">email is already in use</small>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="password">Password</label>
                 <div class="col">
-                  <input id="password" type="password" name="password" class="form-control form-control-sm"
-                    placeholder="Enter password"
-                    [(ngModel)]="user.password" autocomplete="new-password" required>
+                  <label class="col-form-label-sm no-wrap mb-0" for="password">Password</label>
+                  <input id="password" type="password" name="password" class="form-control form-control-sm" placeholder="Enter password" [(ngModel)]="user.password"
+                    autocomplete="new-password" required>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="given_name">Given name</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="given_name">Given name</label>
                   <input id="given_name" name="givenName" class="form-control form-control-sm" [(ngModel)]="user.givenName" placeholder="Enter Given name">
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2" for="surname">Surname</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="surname">Surname</label>
                   <input id="surname" name="surname" class="form-control form-control-sm" [(ngModel)]="user.surname" placeholder="Enter surname">
                 </div>
               </div>
@@ -57,10 +55,10 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-2" for="phone_number">Phone number</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="phone_number">Phone number</label>
                   <input id="phone_number" name="phoneNumber" class="form-control form-control-sm" [(ngModel)]="user.phoneNumber" placeholder="Enter phone number">
                 </div>
               </div>
@@ -68,19 +66,19 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-4 col-xl-4" for="company_phone_number">Company phone number</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="company_phone_number">Company phone number</label>
                   <input id="company_phone_number" name="companyPhoneNumber" class="form-control form-control-sm" [(ngModel)]="user.companyPhoneNumber"
                     placeholder="Enter your company phone number">
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <label class="col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-3 col-xl-3" for="company_email">Company email</label>
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="company_email">Company email</label>
                   <input id="company_email" name="companyEmail" class="form-control form-control-sm" [(ngModel)]="user.companyEmail" #compEmail="ngModel"
                     [email]="true" tmFocus validateEmail placeholder="Enter your company email address">
                 </div>
@@ -98,28 +96,15 @@
     <div class="col">
       <app-ssn-card header="Select Organization" icon="pax.png">
         <div *ngIf="!organizationSelected">
-          <app-search-organization></app-search-organization>
+          <app-search-organization (organizationResult)="onOrganizationResult($event)"></app-search-organization>
         </div>
 
         <div *ngIf="organizationSelected" class="text-center">
           <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr class="bg-ssn text-ssn">
-                  <th>Organization Name</th>
-                  <th>Organization Number</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{ organizationModel.name }}</td>
-                  <td>{{ organizationModel.organizationNo }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>
           </div>
           <button class="btn btn-ssn" (click)="deselectOrganization()">
-            <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
         </div>
       </app-ssn-card>
     </div>

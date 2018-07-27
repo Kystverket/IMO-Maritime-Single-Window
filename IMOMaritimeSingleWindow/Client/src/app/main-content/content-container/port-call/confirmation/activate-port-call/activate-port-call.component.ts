@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -11,18 +11,17 @@ import { LocationModel } from 'app/shared/models/location-model';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Subscription } from 'rxjs/Subscription';
 
-const RESULT_SUCCES =
-  'This port call has been activated, and is now awaiting clearance.';
-const RESULT_FAILURE =
-  'There was a problem when trying to activate this port call. Please try again later.';
+const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
+const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
 
 @Component({
   selector: 'app-activate-port-call',
   templateUrl: './activate-port-call.component.html',
   styleUrls: ['./activate-port-call.component.css']
 })
-export class ActivatePortCallComponent implements OnInit {
+export class ActivatePortCallComponent implements OnInit, OnDestroy {
   prevAndNextPortCallDataIsPristine = true;
 
   detailsDataIsPristine = true;
@@ -46,6 +45,20 @@ export class ActivatePortCallComponent implements OnInit {
   STATUS_ACTIVE = 'Active';
   STATUS_DRAFT = 'Draft';
 
+  dataIsPristineSubscription: Subscription;
+  prevPortOfCallDataSubscription: Subscription;
+  nextPortOfCallDataSubscription: Subscription;
+  prevPortOfCallEtdSubscription: Subscription;
+  nextPortOfCallEtaSubscription: Subscription;
+  detailsPristineSubscription: Subscription;
+  detailsIdentificationSubscription: Subscription;
+  crewPassengersAndDimensionsDataSubscription: Subscription;
+  reportingForThisPortCallDataSubscription: Subscription;
+  portCallPurposeDataSubscription: Subscription;
+  otherPurposeNameSubscription: Subscription;
+  crewPassengersAndDimensionsMetaSubscription: Subscription;
+  portCallStatusDataSubscription: Subscription;
+
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
@@ -54,25 +67,22 @@ export class ActivatePortCallComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.prevAndNextPocService.dataIsPristine$.subscribe(
+    this.dataIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
       pristineData => {
         this.prevAndNextPortCallDataIsPristine = pristineData;
       }
     );
-
-    this.prevAndNextPocService.prevPortOfCallData$.subscribe(
+    this.prevPortOfCallDataSubscription = this.prevAndNextPocService.prevPortOfCallData$.subscribe(
       prevLocationData => {
         this.prevLocationModel = prevLocationData;
       }
     );
-
-    this.prevAndNextPocService.nextPortOfCallData$.subscribe(
+    this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(
       nextLocationData => {
         this.nextLocationModel = nextLocationData;
       }
     );
-
-    this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
+    this.prevPortOfCallEtdSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       etdData => {
         if (etdData) {
           this.etdModel = {
@@ -84,8 +94,7 @@ export class ActivatePortCallComponent implements OnInit {
         }
       }
     );
-
-    this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
+    this.nextPortOfCallEtaSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       etaData => {
         if (etaData) {
           this.etaModel = {
@@ -97,10 +106,10 @@ export class ActivatePortCallComponent implements OnInit {
         }
       }
     );
-    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+    this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.detailsDataIsPristine = detailsDataIsPristine;
     });
-    this.portCallService.detailsIdentificationData$.subscribe(
+    this.detailsIdentificationSubscription = this.portCallService.detailsIdentificationData$.subscribe(
       detailsIdentificationData => {
         if (detailsIdentificationData) {
           this.detailsIdentificationModel = detailsIdentificationData;
@@ -108,36 +117,36 @@ export class ActivatePortCallComponent implements OnInit {
         }
       }
     );
-    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
     );
-    this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
           this.reportingModel = reportingData;
         }
       }
     );
-    this.portCallService.portCallPurposeData$.subscribe(purposeData => {
+    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(purposeData => {
       if (purposeData) {
         this.purposeModel = purposeData;
       }
     });
-    this.portCallService.otherPurposeName$.subscribe(otherPurposeNameData => {
+    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(otherPurposeNameData => {
       if (otherPurposeNameData) {
         this.otherPurposeName = otherPurposeNameData;
       }
     });
-    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.detailsMeta = metaData;
       }
     );
-    this.portCallService.portCallStatusData$.subscribe(statusData => {
+    this.portCallStatusDataSubscription = this.portCallService.portCallStatusData$.subscribe(statusData => {
       if (statusData) {
         if (statusData === this.STATUS_DRAFT) {
           this.portCallIsDraft = true;
@@ -147,6 +156,22 @@ export class ActivatePortCallComponent implements OnInit {
         this.portCallStatus = statusData;
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.dataIsPristineSubscription.unsubscribe();
+    this.prevPortOfCallDataSubscription.unsubscribe();
+    this.nextPortOfCallDataSubscription.unsubscribe();
+    this.prevPortOfCallEtdSubscription.unsubscribe();
+    this.nextPortOfCallEtaSubscription.unsubscribe();
+    this.detailsPristineSubscription.unsubscribe();
+    this.detailsIdentificationSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
+    this.reportingForThisPortCallDataSubscription.unsubscribe();
+    this.portCallPurposeDataSubscription.unsubscribe();
+    this.otherPurposeNameSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
+    this.portCallStatusDataSubscription.unsubscribe();
   }
 
   savePrevAndNextPortCall() {

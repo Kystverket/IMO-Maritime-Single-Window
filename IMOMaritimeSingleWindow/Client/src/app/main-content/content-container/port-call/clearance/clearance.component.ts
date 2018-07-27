@@ -1,23 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ClearanceModel } from 'app/shared/models/clearance-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-clearance',
   templateUrl: './clearance.component.html',
   styleUrls: ['./clearance.component.css']
 })
-export class ClearanceComponent implements OnInit {
+export class ClearanceComponent implements OnInit, OnDestroy {
   clearanceModel: ClearanceModel = new ClearanceModel();
+
+  backButtonIcon = 'white/left-arrow';
 
   clearanceList: any[] = [];
 
   givingClearance: boolean;
   clearanceText;
+
+  clearanceListSubscription: Subscription;
+  shipDataSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -27,7 +33,7 @@ export class ClearanceComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.portCallService.clearanceListData$.subscribe(data => {
+    this.clearanceListSubscription = this.portCallService.clearanceListData$.subscribe(data => {
       if (data) {
         this.clearanceList = data;
         this.portCallService.clearanceData$.subscribe(clearanceUser => {
@@ -41,9 +47,14 @@ export class ClearanceComponent implements OnInit {
       }
     });
 
-    this.portCallService.shipData$.subscribe(shipResult => {
+    this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipResult => {
       this.shipService.setShipOverviewData(shipResult);
     });
+  }
+
+  ngOnDestroy() {
+    this.clearanceListSubscription.unsubscribe();
+    this.shipDataSubscription.unsubscribe();
   }
 
   showWarningBox(content: any, clearance: boolean) {

@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody class="text-left">
-      <tr *ngFor="let contactModel of selectedContactModels">
+      <tr *ngFor="let contactModel of selectedContactModelList">
         <td class="bg-ssn text-ssn">{{ contactModel.contactMedium.contactMediumType }}</td>
         <td [attr.colspan]="!contactModel.isPreferred ? 2 : null">{{ contactModel.contactValue ? contactModel.contactValue : 'Value not set' }}</td>
         <td *ngIf="contactModel.isPreferred">Preferred</td>

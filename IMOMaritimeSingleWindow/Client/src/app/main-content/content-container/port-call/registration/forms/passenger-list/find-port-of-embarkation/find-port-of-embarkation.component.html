@@ -9,7 +9,7 @@
   </div>
   <div>
     <button class="btn btn-sm btn-ssn" ngbTooltip="Remove port" (click)="deselectLocation()">
-      <img height="16px" src="assets/images/VoyageIcons/128x128/white/cancel.png">
+      <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
     </button>
   </div>
 </div>
@@ -23,7 +23,7 @@
       </thead>
       <tbody>
         <td *ngIf="locationFlag">
-          <img src="assets/images/Flags/128x128/{{locationFlag | lowercase}}.png" height="20px">
+          <img src="assets/images/flags/128x128/{{locationFlag | lowercase}}.png" height="20px">
         </td>
         <td *ngFor="let entry of locationInfo">
           <div *ngIf="entry.data">{{ entry.data }}</div>

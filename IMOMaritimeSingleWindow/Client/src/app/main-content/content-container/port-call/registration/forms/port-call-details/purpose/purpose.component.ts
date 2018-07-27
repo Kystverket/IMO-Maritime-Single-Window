@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PurposeService } from 'app/shared/services/purpose.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const OTHER_PURPOSE_ID = 100249;
 
@@ -10,7 +11,7 @@ const OTHER_PURPOSE_ID = 100249;
   styleUrls: ['./purpose.component.css'],
   providers: [PurposeService]
 })
-export class PurposeComponent implements OnInit {
+export class PurposeComponent implements OnInit, OnDestroy {
 
   selectedPurposes = [];
   purposeList: any[] = [];
@@ -19,16 +20,20 @@ export class PurposeComponent implements OnInit {
   otherPurposeSelected = false;
   otherPurposeName = '';
 
+  getPurposesSubscription: Subscription;
+  portCallPurposeDataSubscription: Subscription;
+  otherPurposeNameSubscription: Subscription;
+
   constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.purposeService.getPurposes().subscribe(
+    this.getPurposesSubscription = this.purposeService.getPurposes().subscribe(
       data => {
         this.purposeList = data;
         this.amountOfPurposes = Object.keys(this.purposeList).length;
       }
     );
-    this.portCallService.portCallPurposeData$.subscribe(
+    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(
       data => {
         if (data) {
           this.selectedPurposes = data;
@@ -36,11 +41,17 @@ export class PurposeComponent implements OnInit {
         }
       }
     );
-    this.portCallService.otherPurposeName$.subscribe(
+    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(
       data => {
         this.otherPurposeName = data;
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.getPurposesSubscription.unsubscribe();
+    this.portCallPurposeDataSubscription.unsubscribe();
+    this.otherPurposeNameSubscription.unsubscribe();
   }
 
   purposeSelected() {

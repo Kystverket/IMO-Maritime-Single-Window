@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { OrganizationButtonRowComponent } from './organization-button-row/organization-button-row.component';
+import { Subscription } from 'rxjs/Subscription';
 import { OrganizationService } from '../../services/organization.service';
+import { OrganizationButtonRowComponent } from './organization-button-row/organization-button-row.component';
 
 @Component({
   selector: 'app-organization-smart-table',
   templateUrl: './organization-smart-table.component.html',
   styleUrls: ['./organization-smart-table.component.css']
 })
-export class OrganizationSmartTableComponent implements OnInit {
+export class OrganizationSmartTableComponent implements OnInit, OnDestroy {
 
   tableData = [];
   dataSource: LocalDataSource = new LocalDataSource();
@@ -47,24 +48,14 @@ export class OrganizationSmartTableComponent implements OnInit {
     }
   };
 
+  organizationSearchDataSubscription: Subscription;
+
   constructor(
     private organizationService: OrganizationService
   ) { }
 
-  dataRow(organization) {
-    const row = {
-      organizationModel: organization,
-      name: organization.name,
-      type: organization.organizationType.name,
-      organizationNumber: organization.organizationNo || `<div class="font-italic">Not provided.</div>`,
-      description: organization.description || `<div class="font-italic">Not provided.</div>`,
-      actions: 'btn'
-    };
-    return row;
-  }
-
   ngOnInit() {
-    this.organizationService.organizationSearchData$.subscribe(data => {
+    this.organizationSearchDataSubscription = this.organizationService.organizationSearchData$.subscribe(data => {
       if (data) {
         if (data.length !== 0) {
           const rowList = [];
@@ -79,4 +70,19 @@ export class OrganizationSmartTableComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.organizationSearchDataSubscription.unsubscribe();
+  }
+
+  dataRow(organization) {
+    const row = {
+      organizationModel: organization,
+      name: organization.name,
+      type: organization.organizationType.name,
+      organizationNumber: organization.organizationNo || `<div class="font-italic">Not provided.</div>`,
+      description: organization.description || `<div class="font-italic">Not provided.</div>`,
+      actions: 'btn'
+    };
+    return row;
+  }
 }

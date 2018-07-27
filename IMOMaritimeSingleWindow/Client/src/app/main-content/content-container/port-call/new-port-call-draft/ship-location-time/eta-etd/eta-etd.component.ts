@@ -1,22 +1,16 @@
-import { AfterViewInit, Component, QueryList, ViewChildren } from '@angular/core';
-import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { DateTimePickerComponent } from 'app/shared/components/date-time-picker/date-time-picker.component';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { EtaEtdDateTime } from '../../../../../../shared/interfaces/eta-etd-date-time.interface';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-eta-etd',
   templateUrl: './eta-etd.component.html',
   styleUrls: ['./eta-etd.component.css']
 })
-export class EtaEtdComponent implements AfterViewInit {
-
-  @ViewChildren(DateTimePickerComponent) dateTimePickerComponentList: QueryList<DateTimePickerComponent>;
-
-  etaPickerComponent: DateTimePickerComponent;
-  etdPickerComponent: DateTimePickerComponent;
+export class EtaEtdComponent implements OnInit, OnDestroy {
 
   etaEtdModel: EtaEtdDateTime = {
     eta: null,
@@ -26,27 +20,12 @@ export class EtaEtdComponent implements AfterViewInit {
   dateSequenceError = false;
   timeSequenceError = false;
 
+  etaEtdDataSubscription: Subscription;
+
   constructor(private portCallService: PortCallService) {}
 
-  ngAfterViewInit() {
-    this.etaPickerComponent = this.dateTimePickerComponentList.first;
-    this.etdPickerComponent = this.dateTimePickerComponentList.last;
-
-    this.etaPickerComponent.getService().dateTimeData$.subscribe(
-      data => {
-        this.etaEtdModel.eta = data;
-        this.validateData();
-      }
-    );
-
-    this.etdPickerComponent.getService().dateTimeData$.subscribe(
-      data => {
-        this.etaEtdModel.etd = data;
-        this.validateData();
-      }
-    );
-
-    this.portCallService.etaEtdData$.subscribe(etaEtdData => {
+  ngOnInit() {
+    this.etaEtdDataSubscription = this.portCallService.etaEtdData$.subscribe(etaEtdData => {
       if (etaEtdData != null) {
         this.etaEtdModel = {
           eta: {
@@ -60,6 +39,20 @@ export class EtaEtdComponent implements AfterViewInit {
         };
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.etaEtdDataSubscription.unsubscribe();
+  }
+
+  onEtaResult(etaResult) {
+    this.etaEtdModel.eta = etaResult;
+    this.validateData();
+  }
+
+  onEtdResult(etdResult) {
+    this.etaEtdModel.etd = etdResult;
+    this.validateData();
   }
 
   private validateData() {
