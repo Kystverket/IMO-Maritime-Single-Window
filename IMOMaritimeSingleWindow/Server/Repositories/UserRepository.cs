@@ -32,12 +32,6 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public User GetByNormalizedUserName(string normalizedUserName)
         {
-            var us = DbSet
-                .Where(usr => usr.NormalizedEmail.Equals(normalizedUserName))
-                .Include(usr => usr.Person)
-                .Include(usr => usr.Password)
-                .FirstOrDefault();
-
             return DbSet
                 .Where(usr => usr.NormalizedEmail.Equals(normalizedUserName))
                 .Include(usr => usr.Person)
@@ -58,17 +52,20 @@ namespace IMOMaritimeSingleWindow.Repositories
         {
             var passwordEntry = Context.Set<Password>().Add(new Password { Hash = passwordHash });
             user.Password = passwordEntry.Entity;
-            Context.Set<User>().Update(user);
+            DbSet.Update(user);
         }
 
         public IQueryable<User> GetIqueryAble()
         {
-            return Context.Set<User>().AsQueryable();
+            return DbSet.AsQueryable();
         }
 
         public int GetAccessFailedCount(Guid userId)
         {
-            throw new NotImplementedException();
+            return DbSet
+                .Where(usr => usr.UserId == userId)
+                .Select(usr => usr.AccessFailedCount)
+                .FirstOrDefault();
         }
 
         public bool GetLockoutEnabled(Guid userId)
@@ -78,7 +75,10 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public DateTimeOffset? GetLockoutEndDate(Guid userId)
         {
-            throw new NotImplementedException();
+            return DbSet
+                .Where(usr => usr.UserId == userId)
+                .Select(usr => usr.LockoutEnd)
+                .FirstOrDefault();
         }
 
 
