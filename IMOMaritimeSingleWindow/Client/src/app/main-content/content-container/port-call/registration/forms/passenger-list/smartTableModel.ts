@@ -1,5 +1,5 @@
 export class SmartTableModel {
-    personOnBoardId: number;
+    sequenceNumber: number;
     givenName: string;
     familyName: string;
     gender: string;

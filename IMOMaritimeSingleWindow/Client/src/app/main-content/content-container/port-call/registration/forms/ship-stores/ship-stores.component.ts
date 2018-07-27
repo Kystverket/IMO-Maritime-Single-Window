@@ -159,6 +159,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   }
 
   persistData() {
+    console.log(this.portCallShipStoresModel);
       this.listIsPristine = false;
       this.shipStoresService.setDataIsPristine(false);
     // Add sequence number for model to be submitted

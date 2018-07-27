@@ -15,6 +15,7 @@ export class PersonOnBoardModel {
     inTransit: boolean; // true/false indicator of whether the referenced person is in transit to a foreign country
     rankName: string;
     rankCode: string;
+    sequenceNumber: string;
 
     // ids
     countryOfBirthId: number; // country id
@@ -27,9 +28,13 @@ export class PersonOnBoardModel {
     identityDocumentId: number;
 
     // models
+    countryOfBirth: any;
+    nationality: any;
     personOnBoardType: PersonOnBoardTypeModel;
     gender: GenderModel;
     portCall: PortCallModel;
+    portOfEmbarkation: any;
+    portOfDisembarkation: any;
     identityDocument: IdentityDocumentModel;
 
     /*natureOfIdentityDoc: any;

@@ -55,7 +55,7 @@ export class PassengerListComponent implements OnInit {
     },
     noDataMessage: 'There are no passengers in this list.',
     columns: {
-      personOnBoardId: {
+      sequenceNumber: {
         title: 'ID'
       },
       familyName: {
@@ -157,10 +157,6 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
   }
 
-  selectCountryOfBirth($event) {
-    this.passengerModel.countryOfBirthId = $event.countryId;
-  }
-
   selectTransit($event) {
     this.formTransit = $event;
     Object.keys(this.booleanModel).forEach(key => {
@@ -180,7 +176,7 @@ export class PassengerListComponent implements OnInit {
 
   makeSmartTableEntry(passenger) {
     const modifiedPassenger = new SmartTableModel();
-    modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
+    modifiedPassenger.sequenceNumber = passenger.sequenceNumber;
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.familyName;
     if (passenger.nationality) {
@@ -275,7 +271,39 @@ export class PassengerListComponent implements OnInit {
     this.identityDocumentModel.identityDocumentType = $event;
   }
 
-    // Helper methods
+  setIssuingNation($event) {
+    console.log($event);
+    this.identityDocumentModel.issuingNation = $event.item.name;
+    this.identityDocumentModel.issuingNationId = $event.item.countryId;
+  }
+
+  unsetIssuingNation() {
+    this.identityDocumentModel.issuingNation = null;
+    this.identityDocumentModel.issuingNationId = null;
+  }
+
+  setCountryOfBirth($event) {
+    this.passengerModel.countryOfBirth = $event.item.name;
+    this.passengerModel.countryOfBirthId = $event.item.countryId;
+  }
+
+  unsetCountryOfBirth() {
+    this.passengerModel.countryOfBirth = null;
+    this.passengerModel.countryOfBirthId = null;
+  }
+
+  setNationality($event) {
+    console.log($event);
+    this.passengerModel.nationality = $event.item.name;
+    this.passengerModel.nationalityId = $event.item.countryId;
+  }
+
+  unsetNationality() {
+    this.passengerModel.nationality = null;
+    this.passengerModel.nationalityId = null;
+  }
+
+  // Helper methods
 
   getDateFormat(date) {
     const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
@@ -291,36 +319,9 @@ export class PassengerListComponent implements OnInit {
     };
   }
 
-  setIssuingNation($event) {
-    console.log($event);
-    this.identityDocumentModel.issuingNation = $event.item.name;
-    this.identityDocumentModel.issuingNationId = $event.item.countryId;
-  }
-
-  unsetIssuingNation() {
-    this.identityDocumentModel.issuingNation = null;
-    this.identityDocumentModel.issuingNationId = null;
-  }
-
-  setCountryOfBirth($event) {
-    this.passengerModel.countryOfBirthId = $event.item.countryId;
-  }
-
-  unsetCountryOfBirth() {
-    this.passengerModel.countryOfBirthId = null;
-  }
-
-  setNationality($event) {
-    console.log($event);
-    this.passengerModel.nationalityId = $event.item.countryId;
-  }
-
-  unsetNationality() {
-    this.passengerModel.nationalityId = null;
-  }
-
   addMockData() {
     const mockPassengerModel = new PersonOnBoardModel();
+    console.log(mockPassengerModel);
     const mockIdentityDocumentModel = new IdentityDocumentModel();
     mockPassengerModel.familyName = 'Karlsen';
     mockPassengerModel.givenName = 'Unni';

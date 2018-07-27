@@ -763,6 +763,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
 
+                entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
+
                 entity.HasOne(d => d.CountryOfBirth)
                     .WithMany(p => p.PersonOnBoardCountryOfBirth)
                     .HasForeignKey(d => d.CountryOfBirthId)

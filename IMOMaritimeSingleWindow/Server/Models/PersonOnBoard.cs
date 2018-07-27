@@ -24,6 +24,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int? PortOfDisembarkationId { get; set; }
         public long? IdentityDocumentId { get; set; }
         public int? NationalityId { get; set; }
+        public int? SequenceNumber { get; set; }
 
         public Country CountryOfBirth { get; set; }
         public PersonOnBoardType PersonOnBoardType { get; set; }

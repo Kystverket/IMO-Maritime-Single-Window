@@ -1,5 +1,5 @@
 <app-ssn-card header="Save Passenger List" icon="save.png">
-  <div class="text-center" *ngIf=listIsPristine>
+  <div class="text-center" >
     <span>You have unsaved changes.</span>
     <br>
     <button class="btn btn-ssn" (click)="savePassengerList()">
@@ -8,7 +8,7 @@
     </button>
   </div>
 
-  <div class="text-center" *ngIf="listIsPristine">
+  <div class="text-center">
     <span>There is nothing to save.</span>
     <br>
     <button class="btn btn-ssn mt-2" disabled>

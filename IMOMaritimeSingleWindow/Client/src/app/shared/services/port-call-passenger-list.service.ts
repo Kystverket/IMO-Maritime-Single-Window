@@ -77,6 +77,7 @@ export class PortCallPassengerListService {
       console.log(passenger);
       const tempPassenger = new PersonOnBoardModel();
       tempPassenger.personOnBoardId = passenger.personOnBoardId;
+      tempPassenger.sequenceNumber = passenger.sequenceNumber;
       tempPassenger.familyName = passenger.familyName;
       tempPassenger.givenName = passenger.givenName;
       tempPassenger.portCallId = passenger.portCallId;
@@ -84,7 +85,6 @@ export class PortCallPassengerListService {
       console.log(tempPassenger);
 
       const tempPassenger2 = {
-        personOnBoardId: passenger.personOnBoardId,
         familyName: passenger.familyName,
         givenName: passenger.givenName,
         dateOfBirth: null,
@@ -121,7 +121,7 @@ export class PortCallPassengerListService {
   // Setters
 
   setPassengersList(data) {
-    const newList = this.setPassengerIds(data);
+    const newList = this.setSequenceNumbers(data);
     this.passengerListSource.next(newList);
     console.log(this.passengerListSource.getValue());
   }
@@ -149,7 +149,7 @@ export class PortCallPassengerListService {
           copyPassengerList.splice(index, 1);
         }
       });
-      copyPassengerList = this.setPassengerIds(copyPassengerList);
+      copyPassengerList = this.setSequenceNumbers(copyPassengerList);
       this.setPassengersList(copyPassengerList);
     }
 
@@ -158,10 +158,10 @@ export class PortCallPassengerListService {
 
   // Helper methods
 
-  setPassengerIds(list) {
+  setSequenceNumbers(list) {
     let tempPassengerId = 1;
     list.forEach(passenger => {
-      passenger.personOnBoardId = tempPassengerId;
+      passenger.sequenceNumber = tempPassengerId;
       tempPassengerId++;
     });
     return list;
