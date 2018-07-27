@@ -239,18 +239,14 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             try
             {
                 _user = _unitOfWork.Users.Get(usr => usr.UserId.Equals(userId), includeProperties: nameof(User.Person) + "," + nameof(User.Password)).FirstOrDefault();
-                //_user = _unitOfWork.Users.Get(userId);
             }
             catch (NullReferenceException) { }
             return _user;
         }
         protected User GetUserById(string userId)
         {
-            User _user = null;
             var id = ConvertIdFromString(userId);
-            try { _user = _unitOfWork.Users.Get(id); }
-            catch (NullReferenceException) { }
-            return _user;
+            return GetUserById(id);
         }
         #endregion
     }
