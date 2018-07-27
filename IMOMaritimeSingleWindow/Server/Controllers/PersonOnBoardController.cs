@@ -44,26 +44,49 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpPut("list")]
-       public IActionResult UpdateList([FromBody] List<PersonOnBoard> personOnBoardList)
-       {
-           if (!ModelState.IsValid)
-           {
-               return BadRequest(ModelState);
-           }
-           try
-           {
-
-               var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId)).ToList();
-               _context.PersonOnBoard.RemoveRange(oldList);
-               _context.PersonOnBoard.AddRange(personOnBoardList);
-               _context.SaveChanges();
-               return Ok(true);
-           }
-           catch (Exception e)
-           {
-               return BadRequest(e);
-           }
-       }
+        public IActionResult UpdateList([FromBody] List<PersonOnBoard> personOnBoardList)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            /*personOnBoardList.ForEach(p =>
+            {
+                Console.WriteLine(p.ToString());
+            });*/
+            try
+            {
+                /*personOnBoardList.ForEach(p =>
+                {
+                    if (_context.PersonOnBoard.Any(pob => pob.PortCallId == p.PortCallId))
+                    {
+                        _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == p.PortCallId));
+                    }
+                }); */
+                var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId)).ToList();
+                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
+                _context.PersonOnBoard.RemoveRange(removeList);
+                // _context.PersonOnBoard.AddRange(personOnBoardList);
+                // _context.SaveChanges();
+                foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
+                {
+                    if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
+                    {
+                        _context.Update(personOnBoardEntity);
+                    }
+                    else
+                    {
+                        _context.Add(personOnBoardEntity);
+                    }
+                }
+                _context.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)

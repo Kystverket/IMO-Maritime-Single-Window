@@ -10,7 +10,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name</label>
-                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
+                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
                   required name="familyName">
               </div>
             </div>
@@ -26,7 +26,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name</label>
-                <input type="text" required [(ngModel)]="passengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                <input type="text" required [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
                   pattern="^[a-zA-Z0-9.]+$" name="givenName">
               </div>
             </div>
@@ -67,7 +67,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
-                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="passengerModel.placeOfBirth" placeholder="Place of Birth"
+                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
                   class="form-control form-control-sm" name="placeOfBirth">
               </div>
             </div>
@@ -83,7 +83,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="passengerModel.gender" name="gender" [closeOnSelect]="true" 
+                <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender" [closeOnSelect]="true" 
                   bindLabel="description" placeholder="Gender" (change)="selectGender($event)">
                 </ng-select>
               </div>
@@ -171,7 +171,7 @@
             <div class="form-group row" required>
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
-                <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="formTransit" name="transit" [closeOnSelect]="true"
+                <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
                   bindLabel="name" placeholder="Transit" (change)="selectTransit($event)">
                 </ng-select>
               </div>
@@ -182,12 +182,12 @@
             <div class="form-group">
               <div class="col my-auto">
                 <label for="search-port-of-embarkation" class="col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
-                <app-search-location *ngIf="!passengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfEmbarkationResult($event)"
+                <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfEmbarkationResult($event)"
                   id="search-port-of-embarkation"></app-search-location>
 
-                <div class="input-group" *ngIf="passengerModel.portOfEmbarkation">
+                <div class="input-group" *ngIf="portCallPassengerModel.portOfEmbarkation">
                   <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm" 
-                    [(ngModel)]="passengerModel.portOfEmbarkation.name"> 
+                    [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name"> 
                   <div class="input-group-append">
                     <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
@@ -201,11 +201,11 @@
             <div class="form-group">
               <div class="col my-auto">
                 <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
-                <app-search-location *ngIf="!passengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfDisembarkationResult($event)"
+                <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfDisembarkationResult($event)"
                   id="app-find-port-of-disembarkation"></app-search-location>
-                <div class="input-group" *ngIf="passengerModel.portOfDisembarkation">
+                <div class="input-group" *ngIf="portCallPassengerModel.portOfDisembarkation">
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
-                    [(ngModel)]="passengerModel.portOfDisembarkation.name">
+                    [(ngModel)]="portCallPassengerModel.portOfDisembarkation.name">
                   <div class="input-group-append">
                     <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
@@ -224,7 +224,7 @@
 
   <div class="col-lg-12">
 
-    <pre>{{ passengerModel | json }}</pre>
+    <pre>{{ portCallPassengerModel | json }}</pre>
 
     <div class="form-group">
       <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">

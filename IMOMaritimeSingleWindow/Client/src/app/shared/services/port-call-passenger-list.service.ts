@@ -3,8 +3,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
-import { templateJitUrl, templateSourceUrl } from '@angular/compiler';
-import { IdentityDocumentModel } from '../models/identity-document-model';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -14,6 +12,8 @@ export class PortCallPassengerListService {
   private identityDocTypeUrl: string;
   private personOnBoardString: string;
   private portCallUrl: string;
+  private personOnBoardUrl: string;
+  private personOnBoardId: number;
 
   constructor(private http: Http) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
@@ -21,8 +21,13 @@ export class PortCallPassengerListService {
     this.identityDocTypeUrl = 'api/identitydocumenttype';
     this.personOnBoardString = 'persononboard';
     this.portCallUrl = 'api/portcall';
+    this.personOnBoardUrl = 'api/personOnBoard';
+    this.personOnBoardId = 5;
   }
 
+/*   private passengerModelSource = new BehaviorSubject<PersonOnBoardModel>(null);
+  passengerModel$ = this.passengerModelSource.asObservable();
+ */
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
 
@@ -34,22 +39,36 @@ export class PortCallPassengerListService {
   private dataIsPristine = new BehaviorSubject<Boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
 
-  private passengerModelSource = new BehaviorSubject<PersonOnBoardModel>(new PersonOnBoardModel());
-  passengerModel$ = this.passengerModelSource.asObservable();
+  private sequenceNumberSource = new BehaviorSubject<number>(1);
+  sequenceNumber$ = this.sequenceNumberSource.asObservable();
+
+  private isCheckedInProgressBar = new BehaviorSubject<Boolean>(false);
+  isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
 
   /*private dateModelDataSource = new BehaviorSubject<any>(null);
   dateOfBirthData$ = this.dateModelDataSource.asObservable();*/
 
   // Http
+  getPassengerById(personOnBoardId: number) {
+    const uri = [this.personOnBoardUrl, personOnBoardId].join('/');
+    console.log(uri);
+    return this.http.get(uri).map(res => res.json());
+  }
+
   addPassengerList(passengerList: any[]) {
+    console.log('Adding passenger...');
     const uri = this.personOnBoardListUrl;
     return this.http.post(uri, passengerList).map(res => {
-      res.json();
       this.setDataIsPristine(true);
+      return res.json();
     });
   }
 
   updatePassengerList(passengerList: any[]) {
+    console.log('Passengers right before they are supposed to be saved to db: ');
+    console.log(passengerList);
+
+    console.log('Updating passengers...');
     const uri = this.personOnBoardListUrl;
     return this.http.put(uri, this.makeTestList(passengerList)).map(res => {
       res.json();
@@ -60,50 +79,26 @@ export class PortCallPassengerListService {
     });
   }
 
-  getPassengerListByPortCall() {
-    if (this.passengerListSource.getValue()) {
-      const portCallId = this.passengerListSource.getValue()[0].portCallId;
+  getPassengerListByPortCallId(portCallId) {
       let uri = [this.portCallUrl, portCallId].join('/');
       uri = [uri, this.personOnBoardString].join('/');
-      console.log(uri);
-
-      return this.http.get(uri).map(res => res.json());
-    }
+      return this.http.get(uri).map(res => {
+        return res.json();
+      });
   }
 
   makeTestList(list) {
-    const tempList = [];
+    const tempList: PersonOnBoardModel[] = [];
     list.forEach(passenger => {
-      console.log(passenger);
       const tempPassenger = new PersonOnBoardModel();
-      tempPassenger.personOnBoardId = passenger.personOnBoardId;
+      // tempPassenger.personOnBoardId = passenger.personOnBoardId;
       tempPassenger.sequenceNumber = passenger.sequenceNumber;
       tempPassenger.familyName = passenger.familyName;
       tempPassenger.givenName = passenger.givenName;
       tempPassenger.portCallId = passenger.portCallId;
 
-      console.log(tempPassenger);
+      console.log('In makeTestList: passenger: ' + JSON.stringify(passenger) + ', tempPassenger: ' + JSON.stringify(tempPassenger));
 
-      const tempPassenger2 = {
-        familyName: passenger.familyName,
-        givenName: passenger.givenName,
-        dateOfBirth: null,
-        placeOfBirth: null,
-        occupationName: null,
-        occupationCode: null,
-        roleCode: null,
-        inTransit: null,
-        rankName: null,
-        rankCode: null,
-        countryOfBirthId: null,
-        personOnBoardTypeId: null,
-        genderId: null,
-        portCallId: 160,
-        portOfEmbarkationId: null,
-        portOfDisembarkationId: null,
-        identityDocumentId: null,
-        nationalityId: null
-      };
       tempList.push(tempPassenger);
     });
     return tempList;
@@ -121,9 +116,11 @@ export class PortCallPassengerListService {
   // Setters
 
   setPassengersList(data) {
+    console.log('Passengers right before new data is set in service: ');
+    console.log(data);
+
     const newList = this.setSequenceNumbers(data);
     this.passengerListSource.next(newList);
-    console.log(this.passengerListSource.getValue());
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
@@ -134,9 +131,9 @@ export class PortCallPassengerListService {
     this.dataIsPristine.next(isPristine);
   }
 
-  setPassengerModel(data) {
+/*   setPassengerModel(data) {
     this.passengerModelSource.next(data);
-  }
+  } */
 
   deletePassengerEntry(data) {
     let copyPassengerList = this.passengerListSource.getValue();

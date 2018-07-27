@@ -153,18 +153,13 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     return list;
   }
 
-  // Set measurement type and id of model
-  selectMeasurementType($event) {
-    this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
-  }
-
   persistData() {
     console.log(this.portCallShipStoresModel);
-      this.listIsPristine = false;
-      this.shipStoresService.setDataIsPristine(false);
+    this.listIsPristine = false;
+    this.shipStoresService.setDataIsPristine(false);
     // Add sequence number for model to be submitted
     if (this.portCallShipStoresList.length > 0) {
-    this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
+      this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
     } else {
       this.portCallShipStoresModel.sequenceNumber = 1;
     }
@@ -188,4 +183,8 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     this.shipStoresService.setShipStoresInformationMeta({ valid: this.form.valid });
   }
 
+  // Set measurement type and id of model
+  selectMeasurementType($event) {
+    this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
+  }
 }

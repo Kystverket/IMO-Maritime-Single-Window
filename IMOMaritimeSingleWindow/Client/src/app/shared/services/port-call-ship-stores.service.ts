@@ -46,7 +46,7 @@ export class PortCallShipStoresService {
   }
   // Add new ship stores list to database
   addShipStores(shipStoresList: any[]) {
-    console.log('Adding Ship Stores...');
+    console.log('Adding ship stores...');
     const uri = this.shipStoresListUrl;
     this.http.post(uri, shipStoresList).map(res => {
       console.log(res);
@@ -88,6 +88,8 @@ export class PortCallShipStoresService {
 
   // Update shipStoresInformationData
   setShipStoresInformationData(data) {
+    console.log('Right before data is set in service');
+    console.log(data);
     this.shipStoresInformationSource.next(data);
   }
 
