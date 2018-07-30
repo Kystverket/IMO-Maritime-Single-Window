@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
@@ -70,6 +71,15 @@ namespace IMOMaritimeSingleWindow.Identity
         {
             user.EmailConfirmed = true;
             return base.CreateAsync(user, password);
+        }
+
+        public string GetDisplayName(ApplicationUser user)
+        {
+            if (String.IsNullOrWhiteSpace(user.GivenName) && String.IsNullOrWhiteSpace(user.Surname))
+                return user.UserName;
+            var displayName = user.GivenName.Split(' ').FirstOrDefault();
+            displayName += ' ' + user.Surname.Split(' ').LastOrDefault();
+            return displayName;
         }
 
         #endregion // UserManager<TUser>

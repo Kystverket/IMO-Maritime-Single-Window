@@ -36,7 +36,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller, IAccountController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -52,7 +52,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             IHostingEnvironment env
             )
         {
-            _userManager = userManager;
+            _userManager = userManager as UserManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
@@ -270,16 +270,17 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         /// <summary>
-        /// Gets the username of the logged in user
+        /// Gets the display name of the logged in user
         /// </summary>
-        /// <returns>Username as a string</returns>
+        /// <returns>Display name as a string</returns>
         [Authorize]
-        [HttpGet("user/name")]
-        public async Task<IActionResult> GetUserName()
+        [HttpGet("user/displayName")]
+        public async Task<IActionResult> GetDisplayName()
         {
             var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
-            return Json(user.UserName);
+            var displayName = _userManager.GetDisplayName(user);
+            return Json(displayName);
         }
 
         /// <summary>

@@ -51,10 +51,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         Task<IActionResult> GetAllRoles();
 
         /// <summary>
-        /// Gets the username of the logged in user
+        /// Gets the display name of the logged in user
         /// </summary>
-        /// <returns>Username as a string</returns>
-        Task<IActionResult> GetUserName();
+        /// <returns>Display name as a string</returns>
+        Task<IActionResult> GetDisplayName();
 
         /// <summary>
         /// Gets the user by email address

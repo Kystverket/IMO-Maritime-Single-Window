@@ -45,7 +45,7 @@ export class AccountService extends BaseRequest {
         this.userUrl = this.actionUrl + '/user';                /* /api/account/user                */
         this.rolesUrl = this.actionUrl + '/roles';              /* /api/account/roles               */
         this.userClaimsUrl = this.userUrl + '/claims';          /* /api/account/claims              */
-        this.userNameUrl = this.userUrl + '/name';              /* /api/account/user/name           */
+        this.userNameUrl = this.userUrl + '/displayName';       /* /api/account/user/displayName    */
         this.emailUrl = this.userUrl + '/email';                /* /api/account/user/email          */
         this.passwordUrl = this.userUrl + '/password';          /* /api/account/user/password       */
         this.emailTakenUrl = this.actionUrl + '/emailTaken';    /* /api/account/emailTaken          */
@@ -77,7 +77,7 @@ export class AccountService extends BaseRequest {
         return this.http.post(this.userUrl, newUser, options);
     }
 
-    getUserName() {
+    getDisplayName() {
         const options = this.getRequestOptions();
         return this.http
             .get(this.userNameUrl, options)

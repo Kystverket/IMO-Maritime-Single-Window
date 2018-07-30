@@ -103,7 +103,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     if (this.loggedIn) {
-      this.accountService.getUserName().subscribe(result => {
+      this.accountService.getDisplayName().subscribe(result => {
         if (result) {
           this.userName = result;
         }
