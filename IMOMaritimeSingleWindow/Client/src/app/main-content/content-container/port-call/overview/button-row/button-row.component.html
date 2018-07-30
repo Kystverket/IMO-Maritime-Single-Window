@@ -23,6 +23,16 @@
       </button>
     </div>
 
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled && !portCallIsDraft" disabled>
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/time.png" height="20px" />
+        </div>
+      </button>
+
+      <app-set-actual-time *ngIf="!portCallIsCancelled && !portCallIsDraft"></app-set-actual-time>
+    </div>
+
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
       <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
         <div class="mx-auto">
@@ -44,7 +54,7 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
@@ -52,7 +62,7 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="onDeleteClick(deleteModal)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="openModal(deleteModal)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/trash.png" height="16px" />
         </div>

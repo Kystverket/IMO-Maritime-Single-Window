@@ -1,0 +1,27 @@
+<button class="btn btn-sm btn-ssn" ngbTooltip="Set actual time of arrival and departure" (click)="openModal(actualTimeModal)">
+  <div class="mx-auto">
+    <img src="assets/images/icons/128x128/white/time.png" height="20px" />
+  </div>
+</button>
+
+<ng-template #actualTimeModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Set actual time of arrival and departure</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-date-time-picker [header]="'ATA'" (dateTimeResult)="onAtaResult($event)"></app-date-time-picker>
+    <app-date-time-picker [header]="'ATD'" (dateTimeResult)="onAtdResult($event)"></app-date-time-picker>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" (click)="save()">
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
