@@ -59,7 +59,7 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
 
   saveShipStores() {
       this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
-      this.shipStoresService.updateShipStores(this.portCallShipStoresList).subscribe(res => {});
+      this.shipStoresService.updateShipStores(this.portCallShipStoresList, this.portCallId).subscribe(res => {});
   }
 
 }

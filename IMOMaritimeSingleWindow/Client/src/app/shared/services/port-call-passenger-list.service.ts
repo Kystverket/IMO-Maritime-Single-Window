@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
+import { port } from '_debugger';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -64,13 +65,19 @@ export class PortCallPassengerListService {
     });
   }
 
-  updatePassengerList(passengerList: any[]) {
+  updatePassengerList(passengerList: any[], portCallId: number) {
     console.log('Passengers right before they are supposed to be saved to db: ');
     console.log(passengerList);
 
     console.log('Updating passengers...');
     const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, this.makeTestList(passengerList)).map(res => {
+    return this.http.put(uri, this.makeTestList(passengerList),
+  {
+    params: {
+      portCallId: portCallId
+    }
+  }
+  ).map(res => {
       res.json();
       if (res.status === 200) {
         console.log('Passenger successfully saved.');

@@ -55,11 +55,17 @@ export class PortCallShipStoresService {
     });
   }
   // Update  existing ship stores list in database
-  updateShipStores(shipStoresList: any[]) {
+  updateShipStores(shipStoresList: any[], portCallId: number) {
     console.log(shipStoresList);
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList).map(res => {
+    return this.http.put(uri, shipStoresList,
+    {
+      params: {
+        portCallId: portCallId
+      }
+    })
+    .map(res => {
       res.json();
       if (res.status === 200) {
         console.log('Ship stores successfully saved.');

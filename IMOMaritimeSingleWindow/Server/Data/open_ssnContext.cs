@@ -377,7 +377,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.PortCallId)
                     .HasName("fki_fal_ship_stores_port_call_id_fkey");
 
-                entity.Property(e => e.FalShipStoresId).HasColumnName("fal_ship_stores_id");
+                entity.Property(e => e.FalShipStoresId)
+                .HasColumnName("fal_ship_stores_id");
 
                 entity.Property(e => e.ArticleCode).HasColumnName("article_code");
 

@@ -44,39 +44,34 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpPut("list")]
-        public IActionResult UpdateList([FromBody] List<PersonOnBoard> personOnBoardList)
+        public IActionResult UpdateList([FromBody] List<PersonOnBoard> personOnBoardList, long portCallId)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            /*personOnBoardList.ForEach(p =>
-            {
-                Console.WriteLine(p.ToString());
-            });*/
             try
             {
-                /*personOnBoardList.ForEach(p =>
+                if (!personOnBoardList.Any())
                 {
-                    if (_context.PersonOnBoard.Any(pob => pob.PortCallId == p.PortCallId))
-                    {
-                        _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == p.PortCallId));
-                    }
-                }); */
-                var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId)).ToList();
-                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
-                _context.PersonOnBoard.RemoveRange(removeList);
-                // _context.PersonOnBoard.AddRange(personOnBoardList);
-                // _context.SaveChanges();
-                foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
+                    _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2));
+                } else
                 {
-                    if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
+                    var oldList = _context.PersonOnBoard.AsNoTracking().Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2).ToList();
+                    // Every entry in oldList that does not match a PersonOnBoardId of any of the entries in personOnBoardList
+                    var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
+                    _context.PersonOnBoard.RemoveRange(removeList);
+
+                    foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
                     {
-                        _context.Update(personOnBoardEntity);
-                    }
-                    else
-                    {
-                        _context.Add(personOnBoardEntity);
+                        if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
+                        {
+                            _context.Update(personOnBoardEntity);
+                        }
+                        else
+                        {
+                            _context.Add(personOnBoardEntity);
+                        }
                     }
                 }
                 _context.SaveChanges();
@@ -102,7 +97,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            List<PersonOnBoard> resultList = _context.PersonOnBoard.OrderBy(s => s.PersonOnBoardId).ToList();
+            List<PersonOnBoard> resultList = _context.PersonOnBoard.Where(s => s.PersonOnBoardTypeId == 2).OrderBy(s => s.PersonOnBoardId).ToList();
+
             return Json(resultList);
         }
 
