@@ -94,11 +94,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.setContent(CONTENT_NAMES.PORT_CALL_CLEARANCE);
   }
 
-  onCancelClick(content: any) {
-    this.modalService.open(content);
-  }
-
-  onDeleteClick(content: any) {
+  openModal(content: any) {
     this.modalService.open(content);
   }
 
