@@ -16,21 +16,17 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="!portCallIsCancelled">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsActive">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
-    </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
-      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled && !portCallIsDraft" disabled>
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="portCallIsDraft">
         <div class="mx-auto">
-          <img src="assets/images/icons/128x128/white/time.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
-
-      <app-set-actual-time *ngIf="!portCallIsCancelled && !portCallIsDraft"></app-set-actual-time>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
@@ -54,7 +50,7 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
@@ -62,7 +58,7 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="openModal(deleteModal)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="onDeleteClick(deleteModal)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/trash.png" height="16px" />
         </div>
@@ -71,6 +67,38 @@
 
   </div>
 </div>
+
+<ng-template #editModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">WARNING</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>To edit an active port call, you must revert it back to a draft.</span>
+      <br>
+      <span>Any active clearances for the port call will be reset.</span>
+      <br>
+      <span>The port call must be reactivated to receive new clearances.</span>
+      <br>
+      <br>
+      <span>Are you sure you wish to edit this port call?</span>
+      <br>
+      <span>This action cannot be undone.</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="editActivePortCall(); close">
+      <img src="assets/images/icons/128x128/white/warning.png" height="24px">
+      <span>Reset Clearance & Edit Port Call as Draft</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
 
 <ng-template #cancelModal let-close="close()">
   <div class="modal-header">
