@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PurposeService {
   private purposeUrl = 'api/purpose';
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) { }
 
-  getPurposes() {
-    return this.http.get(this.purposeUrl).map(res => res.json());
+  getPurposes(): Observable<any> {
+    return this.http.get(this.purposeUrl);
   }
 }

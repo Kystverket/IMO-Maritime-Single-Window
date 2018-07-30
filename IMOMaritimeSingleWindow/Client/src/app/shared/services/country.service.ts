@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { SearchService } from './search.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class CountryService {
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.searchService = new SearchService(http);
     this.searchUrl = 'api/country/search/';
   }
@@ -13,7 +13,7 @@ export class CountryService {
   private searchService: SearchService;
   private searchUrl: string;
 
-  public search(term: string) {
+  public search(term: string): Observable<any> {
     if (term.length < 2) {
       return Observable.of([]);
     }

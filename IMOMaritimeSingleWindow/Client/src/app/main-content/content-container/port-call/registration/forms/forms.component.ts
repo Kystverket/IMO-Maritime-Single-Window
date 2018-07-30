@@ -28,7 +28,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(
       shipResult => {
-        this.shipService.setShipOverviewData(shipResult);
+        this.shipService.setShipData(shipResult);
       }
     );
     this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(

@@ -4,6 +4,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ShipContactModel } from '../models/ship-contact-model';
 import { AuthRequest } from './auth.request.service';
 import 'rxjs/add/observable/of';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ShipService {
@@ -18,33 +20,28 @@ export class ShipService {
   private contactListShipUrl = 'api/shipcontact/ship';
   private shipContactListUrl = 'api/shipcontact/list';
 
-  private shipOverviewDataSource = new BehaviorSubject<any>(null);
-  shipOverviewData$ = this.shipOverviewDataSource.asObservable();
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
 
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
   constructor(
-    private http: Http,
-    private authRequest: AuthRequest
+    private http: HttpClient
   ) { }
 
-  registerShip(newShip: any) {
-    const auth_header = this.authRequest.GetHeaders();
-    const options = new RequestOptions({ headers: auth_header });
+  registerShip(newShip: any): Observable<any> {
     return this.http
-      .post(this.shipUrl, newShip, options)
-      .map(res => res.json());
+      .post(this.shipUrl, newShip);
   }
 
-  getShip(id: number) {
+  getShip(id: number): Observable<any> {
     const uri = [this.shipUrl, id].join('/');
-    return this.http.get(uri)
-      .map(res => res.json());
+    return this.http.get(uri);
   }
 
-  setShipOverviewData(data) {
-    this.shipOverviewDataSource.next(data);
+  setShipData(data) {
+    this.shipDataSource.next(data);
   }
 
   setShipSearchData(data) {
@@ -52,47 +49,43 @@ export class ShipService {
   }
 
   updateShip(ship: any) {
-    const auth_header = this.authRequest.GetHeaders();
-    const options = new RequestOptions({ headers: auth_header });
-    return this.http.put(this.shipUrl, ship, options)
-      .map(res => res.json());
+    return this.http.put(this.shipUrl, ship);
   }
 
   saveShipContactList(shipContactList: ShipContactModel[]) {
-    return this.http.post(this.shipContactListUrl, shipContactList)
-      .map(res => res.json());
+    return this.http.post(this.shipContactListUrl, shipContactList);
   }
 
-  getShipTypes() {
-    return this.http.get(this.shipTypeUrl).map(res => res.json());
+  getShipTypes(): Observable<any> {
+    return this.http.get(this.shipTypeUrl);
   }
 
-  getHullTypes() {
-    return this.http.get(this.hullTypeUrl).map(res => res.json());
+  getHullTypes(): Observable<any> {
+    return this.http.get(this.hullTypeUrl);
   }
 
-  getLengthTypes() {
-    return this.http.get(this.lengthTypeUrl).map(res => res.json());
+  getLengthTypes(): Observable<any> {
+    return this.http.get(this.lengthTypeUrl);
   }
 
-  getBreadthTypes() {
-    return this.http.get(this.breadthTypeUrl).map(res => res.json());
+  getBreadthTypes(): Observable<any> {
+    return this.http.get(this.breadthTypeUrl);
   }
 
-  getPowerTypes() {
-    return this.http.get(this.powerTypeUrl).map(res => res.json());
+  getPowerTypes(): Observable<any> {
+    return this.http.get(this.powerTypeUrl);
   }
 
-  getShipSources() {
-    return this.http.get(this.shipSourceUrl).map(res => res.json());
+  getShipSources(): Observable<any> {
+    return this.http.get(this.shipSourceUrl);
   }
 
-  getShipStatusList() {
-    return this.http.get(this.shipStatusListUrl).map(res => res.json());
+  getShipStatusList(): Observable<any> {
+    return this.http.get(this.shipStatusListUrl);
   }
 
-  getContactList(shipId: number) {
+  getContactList(shipId: number): Observable<any> {
     const uri: string = [this.contactListShipUrl, shipId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 }

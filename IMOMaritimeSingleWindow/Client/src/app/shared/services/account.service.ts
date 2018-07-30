@@ -35,12 +35,10 @@ export class AccountService extends BaseRequest {
     userOrganizationData$ = this.userOrganizationDataSource.asObservable();
 
     constructor(
-        private http: Http,
-        private httpClient: HttpClient,
-        authRequestService: AuthRequest,
+        private http: HttpClient,
         configService: ConfigService
     ) {
-        super(configService, authRequestService);
+        super(configService);
         this.actionUrl = this.baseUrl + this.accountBaseUrl;    /* /api/account/                    */
         this.userUrl = this.actionUrl + '/user';                /* /api/account/user                */
         this.rolesUrl = this.actionUrl + '/roles';              /* /api/account/roles               */
@@ -49,58 +47,46 @@ export class AccountService extends BaseRequest {
         this.emailUrl = this.userUrl + '/email';                /* /api/account/user/email          */
         this.passwordUrl = this.userUrl + '/password';          /* /api/account/user/password       */
         this.emailTakenUrl = this.actionUrl + '/emailTaken';    /* /api/account/emailTaken          */
-
     }
 
     getAllRoles() {
-        const options = this.getRequestOptions();
         return this.http
-            .get(this.rolesUrl, options)
-            .map(res => res.json());
+            .get(this.rolesUrl);
     }
 
     setUserOrganization(data) {
         this.userOrganizationDataSource.next(data);
     }
 
-    getUserClaims() {
-        const options = this.getRequestOptions();
-        return this.http.get(this.userClaimsUrl, options)
-            .map(res => res.json());
+    getUserClaims(): Observable<any> {
+        return this.http.get(this.userClaimsUrl);
     }
+
     setUserClaims(data) {
         this.userClaimsDataSource.next(data);
     }
 
-    registerUser(newUser: UserModel) {
-        const options = this.getRequestOptions();
-        return this.http.post(this.userUrl, newUser, options);
+    registerUser(newUser: UserModel): Observable<any> {
+        return this.http.post(this.userUrl, newUser);
     }
 
     getDisplayName() {
         const options = this.getRequestOptions();
         return this.http
-            .get(this.userNameUrl, options)
-            .map(res => res.json());
+            .get(this.userNameUrl);
     }
 
-    getUserByEmail(email: string) {
-        const options = this.getRequestOptions();
+    getUserByEmail(email: string): Observable<any> {
         const uri = [this.userUrl, email].join('/');
 
         return this.http
-            .get(uri, options)
-            .map(res => res.json());
+            .get(uri);
     }
 
     emailTaken(email: string): Observable<boolean> {
-        const options = this.getRequestOptions();
         const uri = [this.emailTakenUrl, email].join('/');
-        console.log(uri);
-
         return this.http
-            .get(uri, options)
-            .map(res => res.json());
+            .get<boolean>(uri);
     }
 
     changeRole(userName: string, roleName: string) {
@@ -197,11 +183,10 @@ export class AccountService extends BaseRequest {
     //     });
     // }
 
-    getEmailLink() {
+    getEmailLink(): Observable<any> {
         const uri = [this.actionUrl, 'emailLink'].join('/');
         return this.http
-            .get(uri)
-            .map(res => res.text());
+            .get(uri);
     }
 
 }
