@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ssn-bg.component.css']
 })
 export class SsnBgComponent implements OnInit {
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
 
   @Input() icon: string;
 

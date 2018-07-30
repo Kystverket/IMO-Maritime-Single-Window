@@ -9,12 +9,8 @@
 </div>
 
 <app-ssn-card header="Organization Search" icon="pax.png">
-  <div *ngIf="!organizationFound">
-    <app-search-organization [showDropdown]=false></app-search-organization>
-  </div>
-
+  <app-search-organization [showDropdown]=false (organizationSearchResult)="onOrganizationSearchResult($event)"></app-search-organization>
   <br>
-
   <div>
     <app-organization-smart-table></app-organization-smart-table>
   </div>

@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-port-call',
   templateUrl: './port-call.component.html',
   styleUrls: ['./port-call.component.css']
 })
-export class PortCallComponent implements OnInit {
-  selectedComponent: string;
+export class PortCallComponent implements OnInit, OnDestroy {
+  selectedComponent: 'Passenger List';
   permissions = PortCallClaims.portCallPermissions;
+
+  userClaimsDataSubscription: Subscription;
+
   constructor(
     private accountService: AccountService,
     private contentService: ContentService,
@@ -21,7 +24,7 @@ export class PortCallComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.accountService.userClaimsData$.subscribe(userClaims => {
+    this.userClaimsDataSubscription = this.accountService.userClaimsData$.subscribe(userClaims => {
       if (userClaims) {
         const userClaimsTypePortCall = userClaims.filter(
           claim => claim.type === PortCallClaims.TYPE
@@ -34,6 +37,10 @@ export class PortCallComponent implements OnInit {
         });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.userClaimsDataSubscription.unsubscribe();
   }
 
   selectRegister() {

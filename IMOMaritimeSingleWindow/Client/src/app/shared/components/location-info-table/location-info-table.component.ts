@@ -1,22 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationService } from 'app/shared/services/location.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-location-info-table',
   templateUrl: './location-info-table.component.html',
   styleUrls: ['./location-info-table.component.css']
 })
-export class LocationInfoTableComponent implements OnInit {
+export class LocationInfoTableComponent implements OnInit, OnDestroy {
 
   locationFlag: string;
   locationProperties = LocationProperties.PROPERTIES;
   locationInfo: any[] = [];
 
+  locationDataSubscription: Subscription;
+
   constructor(private locationService: LocationService) { }
+
   ngOnInit() {
     this.locationProperties = LocationProperties.PROPERTIES;
-    this.locationService.locationData$.subscribe(
+    this.locationDataSubscription = this.locationService.locationData$.subscribe(
       locationResult => {
         if (locationResult) {
           this.locationFlag = (locationResult.country) ? locationResult.country.twoCharCode.toLowerCase() : null;
@@ -28,8 +32,10 @@ export class LocationInfoTableComponent implements OnInit {
         this.locationInfo = Object.values(this.locationProperties);
       }
     );
+  }
 
-
+  ngOnDestroy() {
+    this.locationDataSubscription.unsubscribe();
   }
 
 }

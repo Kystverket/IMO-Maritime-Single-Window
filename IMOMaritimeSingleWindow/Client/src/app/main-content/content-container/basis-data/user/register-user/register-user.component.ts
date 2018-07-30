@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { UserModelWithPassword } from 'app/shared/models/user-model-with-password';
-import { UserModel } from 'app/shared/models/user-model';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
+import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCES = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -15,9 +15,9 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.css'],
-  providers: [UserModel, AccountService]
+  providers: [AccountService]
 })
-export class RegisterUserComponent implements OnInit {
+export class RegisterUserComponent implements OnInit, OnDestroy {
 
   user: UserModelWithPassword = {
     email: '',
@@ -35,44 +35,45 @@ export class RegisterUserComponent implements OnInit {
 
   organizationModel: any;
   organizationSelected: boolean;
+  organizationProperties = new OrganizationProperties().getPropertyList();
 
   roleList: any[];
   selectedRole: any;
 
+  getAllRolesSubscription: Subscription;
+
   constructor(
-    private userModel: UserModel,
     private accountService: AccountService,
-    private organizationService: OrganizationService,
     private contentService: ContentService,
     private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.accountService.getAllRoles().subscribe(
+    this.getAllRolesSubscription = this.accountService.getAllRoles().subscribe(
       data => this.roleList = data
     );
 
-    this.organizationService.setOrganizationData(null);
-    this.organizationService.organizationData$.subscribe(
-      data => {
-        if (data) {
-          this.organizationModel = data;
-          this.user.organizationId = data.organizationId;
-          this.organizationSelected = true;
-        } else {
-          this.organizationSelected = false;
-        }
+    this.getEmailLink();
+  }
+
+  ngOnDestroy() {
+    this.getAllRolesSubscription.unsubscribe();
+  }
+
+  getEmailLink() {
+    this.accountService.getEmailLink().subscribe(result => {
+      if (result) {
       }
-    );
+    });
   }
 
   userExists(emailValid: boolean) {
     if (emailValid) {
       return this.accountService.emailTaken(this.user.email)
-      .subscribe(result => {
-        this.emailTaken = result;
-        this.emailChecked = true;
-      });
+        .subscribe(result => {
+          this.emailTaken = result;
+          this.emailChecked = true;
+        });
     }
   }
 
@@ -92,9 +93,20 @@ export class RegisterUserComponent implements OnInit {
       );
   }
 
+  onOrganizationResult(organizationResult) {
+    this.setOrganization(organizationResult);
+  }
+
+  setOrganization(organizationData) {
+    this.organizationModel = organizationData;
+    this.user.organizationId = organizationData.organizationId;
+    this.organizationSelected = true;
+    OrganizationProperties.setOrganizationData(this.organizationProperties, this.organizationModel);
+  }
+
   deselectOrganization() {
-    this.user.organizationId = null;
     this.organizationModel = null;
+    this.user.organizationId = null;
     this.organizationSelected = false;
   }
 

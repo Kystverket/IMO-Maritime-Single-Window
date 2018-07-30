@@ -10,6 +10,7 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
 
 @Component({
   selector: 'app-button-row',
@@ -37,6 +38,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private prevAndNextService: PrevAndNextPocService,
     private modalService: NgbModal
   ) { }
 
@@ -84,7 +86,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onEditClick() {
-    this.contentService.setPortCallForm('Port Call Details');
+    this.contentService.setPortCallForm('Voyages');
     this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
@@ -149,7 +151,13 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.overviewService.getOverview(this.rowData.overviewModel.portCall.portCallId).subscribe(
       data => {
         if (data) {
+          console.log(data);
           this.portCallService.setPortCall(data);
+          this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
+          this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
+          this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
+          this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
+          this.prevAndNextService.setDataPristine(true);
           this.setPurpose(content);
         }
       }
@@ -200,5 +208,4 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       }
     );
   }
-
 }

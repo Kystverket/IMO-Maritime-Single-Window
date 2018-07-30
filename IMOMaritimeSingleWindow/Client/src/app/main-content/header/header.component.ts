@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   online$: Observable<boolean>;
 
   hasDbConnection = true;
+  hasServerConnection = true;
   dbConnectionSubscription: Subscription;
 
   menuIsCollapsed = true;
@@ -34,8 +35,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userName = 'default';
   userClaims: any;
 
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   menuEntries: MenuEntry[] = [
+    {
+      title: 'PORT CALLS',
+      iconPath: this.iconPath + 'portcall.png',
+      menuName: CONTENT_NAMES.VIEW_PORT_CALLS
+    },
     {
       title: 'USERS',
       iconPath: this.iconPath + 'user.png',
@@ -55,11 +61,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       title: 'ORGANIZATIONS',
       iconPath: this.iconPath + 'pax.png',
       menuName: CONTENT_NAMES.VIEW_ORGANIZATIONS
-    },
-    {
-      title: 'PORT CALLS',
-      iconPath: this.iconPath + 'portcall.png',
-      menuName: CONTENT_NAMES.VIEW_PORT_CALLS
     }
   ];
 
@@ -123,13 +124,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dbConnectionSubscription) {
       this.dbConnectionSubscription.unsubscribe();
     }
-    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection ? 30000 : 5000).subscribe(() => {
-      this.dbConnectionService.getHasDbConnection().subscribe(hasConnection => {
-        if (this.hasDbConnection !== hasConnection) {
-          this.hasDbConnection = hasConnection;
+    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection && this.hasServerConnection ? 15000 : 5000).subscribe(() => {
+      this.dbConnectionService.getHasDbConnection().subscribe(
+        hasConnection => {
+          this.hasServerConnection = true;
+          if (this.hasDbConnection !== hasConnection) {
+            this.hasDbConnection = hasConnection;
+            this.startDbConnectionCheck();
+          }
+        },
+        error => {
+          this.hasServerConnection = false;
           this.startDbConnectionCheck();
         }
-      });
+      );
     });
   }
 

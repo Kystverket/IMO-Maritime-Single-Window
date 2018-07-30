@@ -1,0 +1,17 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th *ngFor="let entry of entryData" class="bg-ssn text-ssn no-wrap p-1">
+        <span>{{ entry.description }}</span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td *ngFor="let entry of entryData" class="p-1">
+        <img *ngIf="entry.imageUrl" src="{{ entry.imageUrl }}" height="24px" />
+        <span>{{ entry.data }}</span>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,54 +1,47 @@
 import { Component, OnInit } from '@angular/core';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { ShipService } from 'app/shared/services/ship.service';
 
 @Component({
   selector: 'app-find-ship',
   templateUrl: './find-ship.component.html',
-  styleUrls: ['./find-ship.component.css'],
-  providers: [ShipService]
+  styleUrls: ['./find-ship.component.css']
 })
 export class FindShipComponent implements OnInit {
 
-  shipFlag: string;
   shipFound = false;
+  shipProperties = new ShipProperties().getPropertyList();
 
-  shipProperties: any = ShipProperties.PROPERTIES;
-  shipInfo: any[];
+  constructor(private portCallService: PortCallService) { }
 
-  constructor(private portCallService: PortCallService, private shipService: ShipService) { }
+  ngOnInit() { }
+
+
+  onShipResult(shipResult) {
+    if (shipResult) {
+      const twoCharCode = shipResult.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
+      const countryFlag = twoCharCode + '.png';
+      ShipProperties.setCountry(this.shipProperties, null, countryFlag);
+      ShipProperties.setShipName(this.shipProperties, shipResult.name);
+      ShipProperties.setCallSign(this.shipProperties, shipResult.callSign);
+      ShipProperties.setImoNo(this.shipProperties, shipResult.imoNo);
+      ShipProperties.setMmsiNo(this.shipProperties, shipResult.mmsiNo);
+      ShipProperties.setGrossTonnage(this.shipProperties, shipResult.grossTonnage);
+      ShipProperties.setNetTonnage(this.shipProperties, shipResult.netTonnage);
+      ShipProperties.setLength(this.shipProperties, shipResult.length);
+      ShipProperties.setShipType(this.shipProperties, shipResult.shipType.name);
+      ShipProperties.setShipStatus(this.shipProperties, shipResult.shipStatus.name);
+
+      this.shipFound = true;
+      this.portCallService.setShipData(shipResult);
+    } else {
+      this.shipFound = false;
+      this.portCallService.setShipData(null);
+    }
+  }
 
   deselectShip() {
     this.shipFound = false;
-    this.shipService.setShipOverviewData(null);
-  }
-
-  ngOnInit() {
-    this.shipService.setShipOverviewData(null);
-    this.shipService.shipOverviewData$.subscribe(
-      shipResult => {
-        if (shipResult) {
-          this.shipFlag = (shipResult.shipFlagCode.country) ? shipResult.shipFlagCode.country.twoCharCode.toLowerCase() : null;
-          this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
-          this.shipProperties.SHIP_STATUS.data = (shipResult.shipStatus) ? shipResult.shipStatus.name : null;
-          this.shipProperties.SHIP_NAME.data = shipResult.name;
-          this.shipProperties.CALL_SIGN.data = shipResult.callSign;
-          this.shipProperties.IMO_NO.data = shipResult.imoNo;
-          this.shipProperties.MMSI_NO.data = shipResult.mmsiNo;
-          this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
-          this.shipProperties.LENGTH.data = shipResult.length;
-
-          this.shipFound = true;
-          this.portCallService.setShipData(shipResult);
-
-        } else {
-          this.shipFound = false;
-          this.shipProperties = ShipProperties.PROPERTIES;
-          this.portCallService.setShipData(null);
-        }
-        this.shipInfo = Object.values(this.shipProperties);
-      }
-    );
+    this.portCallService.setShipData(null);
   }
 }
