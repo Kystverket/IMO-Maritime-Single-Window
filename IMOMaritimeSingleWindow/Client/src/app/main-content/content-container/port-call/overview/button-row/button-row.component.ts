@@ -10,6 +10,7 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
 import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
 
 @Component({
@@ -38,6 +39,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private passengerListService: PortCallPassengerListService,
     private prevAndNextService: PrevAndNextPocService,
     private modalService: NgbModal
   ) { }
@@ -153,10 +155,14 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         if (data) {
           console.log(data);
           this.portCallService.setPortCall(data);
+          if (data.portCall.personOnBoard) {
+            const passengerList = data.portCall.personOnBoard.filter(p => p.personOnBoardType.name === 'Passenger');
+            this.passengerListService.setPassengersList(passengerList);
+          }
           this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
-          this.prevAndNextService.setPrevPortOfCallEtd(new Date(data.portCall.previousLocationEtd));
+          this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
           this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
-          this.prevAndNextService.setNextPortOfCallEta(new Date(data.portCall.nextLocationEta));
+          this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
           this.prevAndNextService.setDataPristine(true);
           this.setPurpose(content);
         }

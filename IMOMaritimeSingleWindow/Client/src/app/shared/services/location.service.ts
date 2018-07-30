@@ -52,6 +52,7 @@ export class LocationService {
     this.locationDataSource.next(data);
   }
 
+
   public updateLocation(location: LocationModel) {
     location.country = null;
     location.locationType = null;

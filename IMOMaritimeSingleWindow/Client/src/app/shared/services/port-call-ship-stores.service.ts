@@ -46,7 +46,7 @@ export class PortCallShipStoresService {
   }
   // Add new ship stores list to database
   addShipStores(shipStoresList: any[]) {
-    console.log('Adding Ship Stores...');
+    console.log('Adding ship stores...');
     const uri = this.shipStoresListUrl;
     this.http.post(uri, shipStoresList).map(res => {
       console.log(res);
@@ -55,10 +55,17 @@ export class PortCallShipStoresService {
     });
   }
   // Update  existing ship stores list in database
-  updateShipStores(shipStoresList: any[]) {
+  updateShipStores(shipStoresList: any[], portCallId: number) {
+    console.log(shipStoresList);
     console.log('Updating ship stores...');
     const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList).map(res => {
+    return this.http.put(uri, shipStoresList,
+    {
+      params: {
+        portCallId: portCallId
+      }
+    })
+    .map(res => {
       res.json();
       if (res.status === 200) {
         console.log('Ship stores successfully saved.');
@@ -87,6 +94,8 @@ export class PortCallShipStoresService {
 
   // Update shipStoresInformationData
   setShipStoresInformationData(data) {
+    console.log('Right before data is set in service');
+    console.log(data);
     this.shipStoresInformationSource.next(data);
   }
 

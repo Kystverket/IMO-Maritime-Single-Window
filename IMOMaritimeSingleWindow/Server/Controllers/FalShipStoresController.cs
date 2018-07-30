@@ -44,7 +44,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpPut("list")]
-        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList)
+        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList, long portCallId)
         {
             if (!ModelState.IsValid)
             {
@@ -52,18 +52,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
-                _context.FalShipStores.RemoveRange(removeList);
-                foreach (FalShipStores shipStoresEntity in shipStoresList)
+                if (!shipStoresList.Any())
                 {
-                    if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                    _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(s => s.PortCallId == portCallId));
+                } else
+                {
+                    var oldList = _context.FalShipStores.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
+                    var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId)).ToList();
+                    _context.FalShipStores.RemoveRange(removeList);
+
+                    foreach (FalShipStores shipStoresEntity in shipStoresList)
                     {
-                        _context.Update(shipStoresEntity);
-                    }
-                    else
-                    {
-                        _context.Add(shipStoresEntity);
+                        if ( _context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                        {
+                            _context.FalShipStores.Update(shipStoresEntity);
+                        } else
+                        {
+                            _context.FalShipStores.Add(shipStoresEntity);
+                        }
                     }
                 }
                 _context.SaveChanges();

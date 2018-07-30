@@ -1,0 +1,19 @@
+<app-ssn-card header="Save Passenger List" icon="save.png">
+  <div class="text-center" >
+    <span>You have unsaved changes.</span>
+    <br>
+    <button class="btn btn-ssn" (click)="savePassengerList()">
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save Passenger List</span>
+    </button>
+  </div>
+
+  <div class="text-center">
+    <span>There is nothing to save.</span>
+    <br>
+    <button class="btn btn-ssn mt-2" disabled>
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save Passenger List</span>
+    </button>
+  </div>
+</app-ssn-card>

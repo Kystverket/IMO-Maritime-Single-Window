@@ -34,6 +34,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpGet("{portCallId}/personOnBoard")]
+        public IActionResult GetPersonOnBoard(int portCallId)
+        {
+            var personOnBoard = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId).ToList();
+            if (personOnBoard == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoard);
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
@@ -54,6 +65,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
+            overview.PreviousLocation = portCall.PreviousLocation;
+            overview.NextLocation = portCall.NextLocation;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList
@@ -75,7 +88,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
+            .Include(pc => pc.PreviousLocation.Country)
+            .Include(pc => pc.NextLocation.Country)
             .Include(pc => pc.OrganizationPortCall)
+            /*.Include(pc => pc.PersonOnBoard)
+            .ThenInclude(pob => pob.PersonOnBoardType)*/
             .Include(pc => pc.PortCallStatus).FirstOrDefault();
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
@@ -120,7 +137,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 case Constants.Strings.UserRoles.Admin:
                     portCallList = _context.PortCall.ToList();
                     break;
-                // Agent                    
+                // Agent
                 case Constants.Strings.UserRoles.Agent:
                     portCallList = _context.OrganizationPortCall.Where(opc => opc.OrganizationId == dbUser.OrganizationId)
                                                                 .Select(opc => opc.PortCall)
@@ -172,6 +189,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCall.PortCallId + " could not be found in database.");
                 }
                 _context.PortCall.Update(portCall);
+                _context.SaveChanges();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)

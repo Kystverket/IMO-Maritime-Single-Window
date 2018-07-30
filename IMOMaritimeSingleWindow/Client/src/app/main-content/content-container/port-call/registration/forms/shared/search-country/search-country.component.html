@@ -1,0 +1,30 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img src="assets/images/flags/128x128/{{r.twoCharCode.toLowerCase()}}.png" height="16px" />
+  <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+</ng-template>
+ 
+<div *ngIf="!locationSelected" class="input-group">
+    <input id="search-location" type="text" class="form-control form-control-sm" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+      [resultTemplate]="rt" (selectItem)="selectLocation($event)" placeholder="Enter search here..." />
+  <div class="input-group-append" *ngIf="searching">
+    <img class="mx-auto" src="assets/images/animations/location.gif" height="20px">
+    <p>Searching</p>
+  </div>
+  <div class="input-group-append" *ngIf="searchFailed">
+    <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="20px">
+    <p>No results</p>
+  </div>
+</div>
+ 
+<div *ngIf="locationSelected" class="input-group">
+  <div class="input-group-prepend flag">
+    <img src="assets/images/flags/128x128/{{locationFlag | lowercase}}.png" height="30px">
+  </div>
+  <input id="search-location" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="locationModel.name"
+  />
+  <div>
+    <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="deselectLocation()">
+      <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
+    </button>
+  </div>
+</div>

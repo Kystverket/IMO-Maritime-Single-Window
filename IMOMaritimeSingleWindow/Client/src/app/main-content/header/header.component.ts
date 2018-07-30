@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   online$: Observable<boolean>;
 
   hasDbConnection = true;
+  hasServerConnection = true;
   dbConnectionSubscription: Subscription;
 
   menuIsCollapsed = true;
@@ -123,13 +124,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dbConnectionSubscription) {
       this.dbConnectionSubscription.unsubscribe();
     }
-    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection ? 30000 : 5000).subscribe(() => {
-      this.dbConnectionService.getHasDbConnection().subscribe(hasConnection => {
-        if (this.hasDbConnection !== hasConnection) {
-          this.hasDbConnection = hasConnection;
+    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection && this.hasServerConnection ? 15000 : 5000).subscribe(() => {
+      this.dbConnectionService.getHasDbConnection().subscribe(
+        hasConnection => {
+          this.hasServerConnection = true;
+          if (this.hasDbConnection !== hasConnection) {
+            this.hasDbConnection = hasConnection;
+            this.startDbConnectionCheck();
+          }
+        },
+        error => {
+          this.hasServerConnection = false;
           this.startDbConnectionCheck();
         }
-      });
+      );
     });
   }
 
