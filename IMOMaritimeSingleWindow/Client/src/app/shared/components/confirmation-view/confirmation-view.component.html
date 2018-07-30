@@ -18,6 +18,10 @@
     <div class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
         <div [ngSwitch]="entry.name">
+          <div *ngSwitchCase="'Ship Stores'" class="text-center my-3">
+            <span class="no-wrap">{{ entry.name }} information</span>
+            <span class="no-wrap">has been provided.</span>
+          </div>
           <div *ngSwitchDefault class="text-center my-3">
             <img src="{{iconPath}}warning.png" height="24px" />
             <span class="no-wrap">{{ entry.name }} information</span>

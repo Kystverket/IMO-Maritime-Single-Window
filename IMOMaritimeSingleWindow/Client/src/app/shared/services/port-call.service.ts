@@ -274,14 +274,15 @@ export class PortCallService {
     this.getPortCallById(portCallId).subscribe(data => {
       if (data) {
         const updatedPortCallData = data;
-        updatedPortCallData.previousLocationId = prevPortOfCall.locationId;
-        updatedPortCallData.nextLocationId = nextPortCall.locationId;
+        updatedPortCallData.previousLocationId = prevPortOfCall != null ? prevPortOfCall.locationId : null;
+        updatedPortCallData.nextLocationId = nextPortCall != null ? nextPortCall.locationId : null;
         updatedPortCallData.previousLocationEtd = prevEtd;
         updatedPortCallData.nextLocationEta = nextEta;
+        console.log(updatedPortCallData);
         this.updatePortCall(updatedPortCallData).subscribe(
           result => {
             console.log(result);
-            this.prevAndNextPocService.dataIsPristine.next(true);
+            this.prevAndNextPocService.setDataPristine(true);
           },
           error => {
             console.log(error);

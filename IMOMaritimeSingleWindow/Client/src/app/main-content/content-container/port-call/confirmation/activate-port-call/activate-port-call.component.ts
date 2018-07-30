@@ -12,6 +12,8 @@ import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
+import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -22,9 +24,15 @@ const RESULT_FAILURE = 'There was a problem when trying to activate this port ca
   styleUrls: ['./activate-port-call.component.css']
 })
 export class ActivatePortCallComponent implements OnInit, OnDestroy {
-  prevAndNextPortCallDataIsPristine = true;
 
+  prevAndNextPortCallDataIsPristine = true;
   detailsDataIsPristine = true;
+  shipStoresDataIsPristine = true;
+
+  shipStoresIsChecked = false;
+
+  voyagesMeta: FormMetaData;
+
   detailsIdentificationModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
@@ -39,17 +47,20 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   etaModel: DateTime = null;
   portCallId: number;
 
+  shipStoresList: any[];
+
   portCallStatus: string;
   portCallIsActive = false;
   portCallIsDraft = false;
   STATUS_ACTIVE = 'Active';
   STATUS_DRAFT = 'Draft';
 
-  dataIsPristineSubscription: Subscription;
+  voyagesIsPristineSubscription: Subscription;
   prevPortOfCallDataSubscription: Subscription;
   nextPortOfCallDataSubscription: Subscription;
   prevPortOfCallEtdSubscription: Subscription;
   nextPortOfCallEtaSubscription: Subscription;
+  voyagesMetaSubscription: Subscription;
   detailsPristineSubscription: Subscription;
   detailsIdentificationSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
@@ -58,16 +69,23 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   otherPurposeNameSubscription: Subscription;
   crewPassengersAndDimensionsMetaSubscription: Subscription;
   portCallStatusDataSubscription: Subscription;
+  shipStoresDataSubscription: Subscription;
+  shipStoresIsPristineSubscription: Subscription;
+  shipStoresIsCheckedSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
     private prevAndNextPocService: PrevAndNextPocService,
+    private shipStoresService: PortCallShipStoresService,
     private modalService: NgbModal
   ) { }
 
   ngOnInit() {
-    this.dataIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
+    //
+    // Voyages
+    //
+    this.voyagesIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
       pristineData => {
         this.prevAndNextPortCallDataIsPristine = pristineData;
       }
@@ -85,9 +103,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.prevPortOfCallEtdSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
       etdData => {
         if (etdData) {
+          const dateTime = new Date(etdData);
           this.etdModel = {
-            date: new NgbDate(etdData.getFullYear(), etdData.getMonth() + 1, etdData.getDate()),
-            time: new NgbTime(etdData.getHours(), etdData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etdModel = null;
@@ -97,15 +116,26 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.nextPortOfCallEtaSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
       etaData => {
         if (etaData) {
+          const dateTime = new Date(etaData);
           this.etaModel = {
-            date: new NgbDate(etaData.getFullYear(), etaData.getMonth() + 1, etaData.getDate()),
-            time: new NgbTime(etaData.getHours(), etaData.getMinutes(), 0)
+            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
           };
         } else {
           this.etaModel = null;
         }
       }
     );
+    this.voyagesMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(
+      metaData => {
+        if (metaData) {
+          this.voyagesMeta = metaData;
+        }
+      }
+    );
+    //
+    // Details
+    //
     this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.detailsDataIsPristine = detailsDataIsPristine;
     });
@@ -146,6 +176,29 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.detailsMeta = metaData;
       }
     );
+    //
+    // Ship Stores
+    //
+    this.shipStoresDataSubscription = this.shipStoresService.shipStoresList$.subscribe(
+      shipStoresData => {
+        if (shipStoresData) {
+          this.shipStoresList = shipStoresData;
+        }
+      }
+    );
+    this.shipStoresIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.shipStoresDataIsPristine = pristineData;
+      }
+    );
+    this.shipStoresIsCheckedSubscription = this.shipStoresService.isCheckedInProgressBar$.subscribe(
+      isCheckedData => {
+        this.shipStoresIsChecked = isCheckedData;
+      }
+    );
+    //
+    // Status
+    //
     this.portCallStatusDataSubscription = this.portCallService.portCallStatusData$.subscribe(statusData => {
       if (statusData) {
         if (statusData === this.STATUS_DRAFT) {
@@ -159,7 +212,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.dataIsPristineSubscription.unsubscribe();
+    this.voyagesIsPristineSubscription.unsubscribe();
     this.prevPortOfCallDataSubscription.unsubscribe();
     this.nextPortOfCallDataSubscription.unsubscribe();
     this.prevPortOfCallEtdSubscription.unsubscribe();
@@ -172,6 +225,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.otherPurposeNameSubscription.unsubscribe();
     this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
     this.portCallStatusDataSubscription.unsubscribe();
+    this.shipStoresDataSubscription.unsubscribe();
+    this.shipStoresIsCheckedSubscription.unsubscribe();
+    this.shipStoresIsPristineSubscription.unsubscribe();
   }
 
   savePrevAndNextPortCall() {
@@ -203,6 +259,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       '\nPRISTINE: ',
       this.detailsDataIsPristine
     );
+  }
+
+  saveShipStores() {
+    this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
+    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => { });
   }
 
   send() {
