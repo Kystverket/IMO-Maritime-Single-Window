@@ -32,7 +32,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   permissions = PortCallClaims.buttonRowPermissions;
   portCallIsDraft = false;
   portCallIsCancelled = false;
-  portCallIsActive = false;
+  portCallIsAwaitingClearance = false;
 
   constructor(
     private accountService: AccountService,
@@ -46,7 +46,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   ngOnInit() {
     this.portCallIsDraft = (this.rowData.overviewModel.status === PortCallStatusTypes.DRAFT);
     this.portCallIsCancelled = (this.rowData.overviewModel.status === PortCallStatusTypes.CANCELLED);
-    this.portCallIsActive = (this.rowData.overviewModel.status === PortCallStatusTypes.ACTIVE);
+    this.portCallIsAwaitingClearance = (this.rowData.overviewModel.status === PortCallStatusTypes.AWAITING_CLEARANCE);
     this.accountService.userClaimsData$.subscribe(
       userClaims => {
         if (userClaims) {
@@ -138,16 +138,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
 
-  editActivePortCall() {
+  editAwaitingClearancePortCall() {
     this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCall.portCallId).subscribe(
       draftResponse => {
         if (draftResponse) {
-          const newActiveData = this.overviewData.filter(row => row !== this.rowData);
+          const newAwaitingClearanceData = this.overviewData.filter(row => row !== this.rowData);
           const newClearedData = this.clearedOverviewData.filter(row => row !== this.rowData);
           const newDraftData = this.draftOverviewData.filter(row => row !== this.rowData);
           this.rowData.overviewModel.status = PortCallStatusTypes.DRAFT;
           newDraftData.push(this.rowData);
-          this.overviewService.setOverviewData(newActiveData);
+          this.overviewService.setOverviewData(newAwaitingClearanceData);
           this.overviewService.setClearedData(newClearedData);
           this.overviewService.setDraftData(newDraftData);
           this.onEditClick();

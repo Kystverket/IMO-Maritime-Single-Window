@@ -16,7 +16,7 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsActive">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsAwaitingClearance">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
@@ -25,6 +25,14 @@
       <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="portCallIsDraft">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
+        </div>
+      </button>
+    </div>
+
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/time.png" height="20px" />
         </div>
       </button>
 
@@ -79,7 +87,7 @@
   </div>
   <div class="modal-body">
     <div>
-      <span>To edit an active port call, you must revert it back to a draft.</span>
+      <span>To edit this port call, you must revert it back to a draft.</span>
       <br>
       <span>Any active clearances for the port call will be reset.</span>
       <br>
@@ -92,8 +100,8 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-danger" (click)="editActivePortCall(); close">
-      <img src="assets/images/icons/128x128/white/warning.png" height="24px">
+    <button class="btn btn-danger" (click)="editAwaitingClearancePortCall(); close">
+      <img src="assets/images/icons/128x128/white/warning.png" height="20px">
       <span>Reset Clearance & Edit Port Call as Draft</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">
@@ -118,7 +126,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="cancelPortCall(); close">
-      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="20px">
       <span>Cancel Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">
@@ -143,7 +151,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="deletePortCall(); close">
-      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="20px">
       <span>Delete Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

@@ -186,8 +186,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("updatestatus/active/{portCallId}")]
-        public IActionResult SetStatusActive(int portCallId)
+        [HttpPost("updatestatus/awaitingclearance/{portCallId}")]
+        public IActionResult SetStatusAwaitingClearance(int portCallId)
         {
             try
             {
@@ -196,7 +196,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
-                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTIVE;
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_AWAITING_CLEARANCE;
                 _context.Update(portCall);
                 _context.SaveChanges();
                 return Json(portCall);

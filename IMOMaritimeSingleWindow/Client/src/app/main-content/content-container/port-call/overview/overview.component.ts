@@ -206,7 +206,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       status:
         ov.status === PortCallStatusTypes.CANCELLED
           ? `<div class="text-danger">` + ov.status + `</div>`
-          : ov.status,
+          : `<div class="no-wrap">` + ov.status + `</div>`,
       clearances:
         'clearances',
       actions: 'btn'
