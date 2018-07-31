@@ -50,7 +50,7 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="onDeleteClick(deleteModal)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="openModal(deleteModal)">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/trash.png" height="16px" />
         </div>
