@@ -87,6 +87,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
             time: new NgbTime(0, 0, 0)
           };
         }
+        this.validateDateTime();
       }
     );
 
@@ -104,6 +105,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
             time: new NgbTime(0, 0, 0)
           };
         }
+        this.validateDateTime();
       }
     );
 
@@ -119,6 +121,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
             time: new NgbTime(etaEtdData.etd.hour, etaEtdData.etd.minute, 0)
           };
         }
+        this.validateDateTime();
       }
     );
   }
@@ -158,6 +161,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       this.prevAndNextPocService.setPrevPortOfCallEtd(null);
     }
     this.validateDateTime();
+    this.persistDateTime();
   }
 
   onEtaResult(etaResult) {
@@ -169,11 +173,12 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       this.prevAndNextPocService.setNextPortOfCallEta(null);
     }
     this.validateDateTime();
+    this.persistDateTime();
   }
 
   private validateDateTime() {
-    const prevEtdDate = this.prevEtdModel.date != null ? new NgbDate(this.prevEtdModel.date.year, this.prevEtdModel.date.month, this.prevEtdModel.date.day) : null;
-    const nextEtaDate = this.nextEtaModel.date != null ? new NgbDate(this.nextEtaModel.date.year, this.nextEtaModel.date.month, this.nextEtaModel.date.day) : null;
+    const prevEtdDate = this.prevEtdModel != null && this.prevEtdModel.date != null ? new NgbDate(this.prevEtdModel.date.year, this.prevEtdModel.date.month, this.prevEtdModel.date.day) : null;
+    const nextEtaDate = this.nextEtaModel != null && this.nextEtaModel.date != null ? new NgbDate(this.nextEtaModel.date.year, this.nextEtaModel.date.month, this.nextEtaModel.date.day) : null;
 
     // Checking for sequence errors between prev and current port of call
     if (prevEtdDate && this.currentEtaModel) {
@@ -199,7 +204,6 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       this.nextEtaIsBeforeCurrentEtdError = false;
     }
     this.prevAndNextPocService.setPrevAndNextPortOfCallMeta({valid: !(this.prevEtdIsAfterCurrentEtaError || this.nextEtaIsBeforeCurrentEtdError)});
-    this.persistDateTime();
   }
 
   private persistDateTime() {

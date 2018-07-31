@@ -55,21 +55,9 @@
       </div>
     </div>
 
-    <div class="row" *ngIf="!portCallIsDraft">
-      <div class="col">
-        <div class="text-center">
-          <span>Port call is already active. You can still update the information.</span>
-          <br>
-          <button class="btn btn-ssn mt-2" (click)="goBack()">
-            <img src="assets/images/icons/128x128/white/left-arrow.png" height="24px"> Return to overview</button>
-        </div>
-      </div>
-    </div>
-
     <div class="row" *ngIf="portCallIsDraft">
       <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine" class="col">
-        <p class="mb-0">After activating the port call, it will no longer be a draft, and it will be visble for authorities to review.</p>
-        <p>This action cannot be undone.</p>
+        <p class="mb-0">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
