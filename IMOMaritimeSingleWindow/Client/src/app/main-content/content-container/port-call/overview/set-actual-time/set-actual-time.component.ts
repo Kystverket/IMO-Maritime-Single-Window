@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallModel } from 'app/shared/models/port-call-model';
 
 @Component({
   selector: 'app-set-actual-time',
@@ -11,7 +13,16 @@ import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 })
 export class SetActualTimeComponent implements OnInit {
 
-  @Input() portCallId;
+  @Input() portCallModel: PortCallModel;
+
+  portCallAta: DateTime = {
+    date: null,
+    time: new NgbTime(0, 0, 0)
+  };
+  portCallAtd: DateTime = {
+    date: null,
+    time: new NgbTime(0, 0, 0)
+  };
 
   currentDate: NgbDate;
   ataModel: DateTime;
@@ -20,24 +31,55 @@ export class SetActualTimeComponent implements OnInit {
   ataAfterTodayError = false;
   atdAfterTodayError = false;
   dateSequenceError = false;
+  ataDateFormatError = false;
+  atdDateFormatError = false;
 
-  constructor(private modalService: NgbModal) { }
+  saving = false;
+  saved = false;
+  saveError = false;
+
+  constructor(private portCallService: PortCallService, private modalService: NgbModal) { }
 
   ngOnInit() {
+    if (this.portCallModel.locationAta != null) {
+      const ata = new Date(this.portCallModel.locationAta);
+      this.portCallAta = {
+        date: new NgbDate(ata.getFullYear(), ata.getMonth() + 1, ata.getDate()),
+        time: new NgbTime(ata.getHours(), ata.getMinutes(), 0)
+      };
+      this.ataModel = this.portCallAta;
+    }
+
+    if (this.portCallModel.locationAtd != null) {
+      const atd = new Date(this.portCallModel.locationAtd);
+      this.portCallAtd = {
+        date: new NgbDate(atd.getFullYear(), atd.getMonth() + 1, atd.getDate()),
+        time: new NgbTime(atd.getHours(), atd.getMinutes(), 0)
+      };
+      this.atdModel = this.portCallAtd;
+    }
+
     const today = new Date();
     this.currentDate = new NgbDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    this.validateDateTime();
   }
 
   onAtaResult(ataResult: DateTime) {
     this.ataModel = ataResult;
-    console.log(ataResult);
     this.validateDateTime();
   }
 
   onAtdResult(atdResult) {
     this.atdModel = atdResult;
-    console.log(atdResult);
     this.validateDateTime();
+  }
+
+  onAtaDateFormatError(ataDateFormatErrorResult) {
+    this.ataDateFormatError = ataDateFormatErrorResult;
+  }
+
+  onAtdDateFormatError(atdDateFormatErrorResult) {
+    this.atdDateFormatError = atdDateFormatErrorResult;
   }
 
   validateDateTime() {
@@ -49,6 +91,10 @@ export class SetActualTimeComponent implements OnInit {
         date: new NgbDate(this.ataModel.date.year, this.ataModel.date.month, this.ataModel.date.day),
         time: new NgbTime(this.ataModel.time.hour, this.ataModel.time.minute, 0)
       };
+      this.portCallModel.locationAta = new Date(arrival.date.year, arrival.date.month - 1, arrival.date.day,
+        arrival.time.hour, arrival.time.minute, 0);
+    } else {
+      this.portCallModel.locationAta = null;
     }
 
     if (this.atdModel && this.atdModel.date) {
@@ -56,6 +102,10 @@ export class SetActualTimeComponent implements OnInit {
         date: new NgbDate(this.atdModel.date.year, this.atdModel.date.month, this.atdModel.date.day),
         time: new NgbTime(this.atdModel.time.hour, this.atdModel.time.minute, 0)
       };
+      this.portCallModel.locationAtd = new Date(departure.date.year, departure.date.month - 1, departure.date.day,
+        departure.time.hour, departure.time.minute, 0);
+    } else {
+      this.portCallModel.locationAtd = null;
     }
 
     this.ataAfterTodayError = arrival != null ? this.currentDate.before(arrival.date) : false;
@@ -73,11 +123,32 @@ export class SetActualTimeComponent implements OnInit {
   }
 
   save() {
-    console.log('Not yet implemented');
+    this.saving = true;
+    this.saved = false;
+    this.saveError = false;
+
+    this.portCallService.updatePortCall(this.portCallModel).subscribe(
+      result => {
+        this.saved = true;
+        console.log(result);
+      },
+      error => {
+        this.saveError = true;
+        console.log(error);
+      },
+      () => {
+        this.saving = false;
+      }
+    );
   }
 
   openModal(content: any) {
-    this.modalService.open(content);
+    console.log(this.portCallAta);
+    console.log(this.portCallAtd);
+    this.saving = false;
+    this.saved = false;
+    this.saveError = false;
+    this.modalService.open(content, {size: 'lg'});
   }
 
 }

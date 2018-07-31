@@ -30,7 +30,7 @@
         </div>
       </button>
 
-      <app-set-actual-time *ngIf="!portCallIsCancelled && !portCallIsDraft"></app-set-actual-time>
+      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" *ngIf="!portCallIsCancelled && !portCallIsDraft"></app-set-actual-time>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
