@@ -99,7 +99,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             message += "<br>Please click the link to visit the website in order to assign a password to your account.";
 
             // Send confirmation link to user's registered email address
-            await _emailSender.SendEmail(subject, message, model.Email);
+            await _emailSender.SendHtml(subject, message, model.Email);
 
             return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
         }
@@ -151,13 +151,15 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost("user/email/confirm")]
         public async Task<IActionResult> ConfirmEmail(string userId, [Bind(Prefix="token")] string emailConfirmationToken)
         {
-            var _emailConfirmationToken = Uri.UnescapeDataString(emailConfirmationToken);
-            if (userId == null || emailConfirmationToken == null)
+            if (String.IsNullOrWhiteSpace(userId) || String.IsNullOrWhiteSpace(emailConfirmationToken))
                 return BadRequest();
-
+            
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
                 return BadRequest();
+
+            // Parse URI query parameter
+            var _emailConfirmationToken = Uri.UnescapeDataString(emailConfirmationToken);
 
             var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, _emailConfirmationToken);
             if (!emailVerificationResult.Succeeded)
@@ -171,7 +173,6 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             return Json(passwordChangeToken);
-            //return Ok(true);
         }
 
         /// <summary>
@@ -211,18 +212,17 @@ namespace IMOMaritimeSingleWindow.Controllers
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
-
-            if (model.UserId == null || model.NewPassword == null || model.PasswordResetToken == null)
-                return BadRequest();
-
+                return BadRequest(ModelState);
+            
             var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
                 return BadRequest();
 
+            // Parse URI query parameter
             var passwordResetToken = Uri.UnescapeDataString(model.PasswordResetToken);
-            var result = await _userManager.ResetPasswordAsync(user, passwordResetToken, model.NewPassword);
-            if (result.Succeeded)
+
+            var passwordResetResult = await _userManager.ResetPasswordAsync(user, passwordResetToken, model.NewPassword);
+            if (passwordResetResult.Succeeded)
                 return Ok("Password changed");
 
             return BadRequest();
@@ -239,18 +239,25 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             if (String.IsNullOrEmpty(userName))
                 return BadRequest(nameof(userName));
-            var applicationUser = await _userManager.FindByEmailAsync(userName);
-            if(applicationUser == null)
+
+            var user = await _userManager.FindByEmailAsync(userName);
+            if(user == null)
                 return BadRequest();
 
-            var userId = await _userManager.GetUserIdAsync(applicationUser);
-            var user = await _userManager.FindByIdAsync(userId);
-            var passwordResetLink = await GeneratePasswordResetLinkAsync(applicationUser);
+            var userId = await _userManager.GetUserIdAsync(user);
+            var passwordResetLink = await GeneratePasswordResetLinkAsync(user);
+            if (passwordResetLink == null)
+                return BadRequest();
             // Send email to user
 
+            var subject = "Password reset request";
+            var message = "<p>A reset of your password was requested. Please click the link below to reset your password:</p>";
+            message += $"<br><a href='{passwordResetLink}'>Password reset link</a>";
+            message += "<br><p>If you did not request this password reset, please ignore this message.</p>";
 
-            // For now returns link to webclient
-            return Ok(passwordResetLink);
+            await _emailSender.SendHtml(subject, message, recipient: user.Email);
+            
+            return Ok(true);
         }
 
 
@@ -350,6 +357,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         private async Task<Uri> GeneratePasswordResetLinkAsync(ApplicationUser applicationUser)
         {
             var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
+            if (passwordResetToken == null)
+                return null;
 
             QueryBuilder queryBuilder = new QueryBuilder(
                 new Dictionary<string, string>()
@@ -421,8 +430,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return uriBuilder.Uri;
         }
 
-
-#endregion
+        #endregion
 
     }
 }

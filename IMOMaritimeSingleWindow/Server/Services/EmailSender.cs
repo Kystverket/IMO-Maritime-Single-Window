@@ -1,5 +1,4 @@
 using IMOMaritimeSingleWindow.Helpers;
-using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace IMOMaritimeSingleWindow.Services
             _senderOptions = senderOptions;
         }
 
-        public async Task SendEmail(string subject, string message, string receiver)
+        public async Task SendEmail(string subject, string message, string recipient)
         {
             
             var msg = new SendGridMessage()
@@ -26,7 +25,21 @@ namespace IMOMaritimeSingleWindow.Services
                 Subject = subject,
                 PlainTextContent = message
             };
-            msg.AddTo(new EmailAddress(receiver));
+            
+            msg.AddTo(new EmailAddress(recipient));
+            var result = await _emailClient.SendEmailAsync(msg);
+        }
+
+        public async Task SendHtml(string subject, string html, string recipient)
+        {
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(_senderOptions.From),
+                Subject = subject,
+                HtmlContent = html
+            };
+
+            msg.AddTo(new EmailAddress(recipient));
             var result = await _emailClient.SendEmailAsync(msg);
         }
     }
