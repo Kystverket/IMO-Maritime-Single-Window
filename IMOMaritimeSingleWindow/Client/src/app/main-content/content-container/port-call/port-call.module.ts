@@ -42,6 +42,7 @@ import { CountryService } from '../../../shared/services/country.service';
 import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
+import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-time.component';
 
 @NgModule({
   imports: [
@@ -85,7 +86,8 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     PassengerListComponent,
     FindPortOfEmbarkationComponent,
     SearchPassengerPortComponent,
-    SavePrevAndNextPocComponent
+    SavePrevAndNextPocComponent,
+    SetActualTimeComponent
   ],
   exports: [
     ClearanceComponent,

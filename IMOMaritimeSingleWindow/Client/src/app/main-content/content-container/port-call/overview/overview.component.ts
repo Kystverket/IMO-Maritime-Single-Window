@@ -84,6 +84,45 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }
   };
 
+  draftTableSettings = {
+    mode: 'external',
+    actions: false,
+    attr: {
+      class: 'table table-bordered'
+    },
+    noDataMessage: 'There are no port calls in this list.',
+
+    columns: {
+      shipName: {
+        title: 'Ship Name',
+        type: 'html'
+      },
+      callSign: {
+        title: 'Call Sign',
+        type: 'html'
+      },
+      locationName: {
+        title: 'Location Name',
+        type: 'html'
+      },
+      eta: {
+        title: 'ETA',
+        type: 'html'
+      },
+      etd: {
+        title: 'ETD',
+        type: 'html'
+      },
+      actions: {
+        title: 'Actions',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ButtonRowComponent
+      }
+    }
+  };
+
   userClaimsDataSubscription: Subscription;
   getOrganizationForUserSubscription: Subscription;
 

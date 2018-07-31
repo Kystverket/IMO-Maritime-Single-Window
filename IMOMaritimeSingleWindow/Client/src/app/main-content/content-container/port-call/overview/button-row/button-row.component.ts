@@ -32,6 +32,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   permissions = PortCallClaims.buttonRowPermissions;
   portCallIsDraft = false;
   portCallIsCancelled = false;
+  portCallIsActive = false;
 
   constructor(
     private accountService: AccountService,
@@ -45,6 +46,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   ngOnInit() {
     this.portCallIsDraft = (this.rowData.overviewModel.status === PortCallStatusTypes.DRAFT);
     this.portCallIsCancelled = (this.rowData.overviewModel.status === PortCallStatusTypes.CANCELLED);
+    this.portCallIsActive = (this.rowData.overviewModel.status === PortCallStatusTypes.ACTIVE);
     this.accountService.userClaimsData$.subscribe(
       userClaims => {
         if (userClaims) {
@@ -86,7 +88,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onEditClick() {
-    this.contentService.setPortCallForm('Voyages');
+    this.contentService.setPortCallForm(CONTENT_NAMES.VOYAGES);
     this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
@@ -94,11 +96,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.setContent(CONTENT_NAMES.PORT_CALL_CLEARANCE);
   }
 
-  onCancelClick(content: any) {
-    this.modalService.open(content);
-  }
-
-  onDeleteClick(content: any) {
+  openModal(content: any) {
     this.modalService.open(content);
   }
 
@@ -110,11 +108,11 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
       this.overviewService.setOverviewData(this.overviewData);
     }
-    if (this.draftOverviewData.find(r => r.overviewModel.portCallId === pcId)) {
+    if (this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId)) {
       this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
       this.overviewService.setDraftData(this.draftOverviewData);
     }
-    if (this.clearedOverviewData.find(r => r.overviewModel.portCallId === pcId)) {
+    if (this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId)) {
       this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
@@ -133,6 +131,26 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.overviewService.setDraftData(newDraftData);
           this.overviewService.setClearedData(newClearedData);
           console.log(deleteResponse);
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  editActivePortCall() {
+    this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCall.portCallId).subscribe(
+      draftResponse => {
+        if (draftResponse) {
+          const newActiveData = this.overviewData.filter(row => row !== this.rowData);
+          const newClearedData = this.clearedOverviewData.filter(row => row !== this.rowData);
+          const newDraftData = this.draftOverviewData.filter(row => row !== this.rowData);
+          this.rowData.overviewModel.status = PortCallStatusTypes.DRAFT;
+          newDraftData.push(this.rowData);
+          this.overviewService.setOverviewData(newActiveData);
+          this.overviewService.setClearedData(newClearedData);
+          this.overviewService.setDraftData(newDraftData);
+          this.onEditClick();
         }
       }, error => {
         console.log(error);
