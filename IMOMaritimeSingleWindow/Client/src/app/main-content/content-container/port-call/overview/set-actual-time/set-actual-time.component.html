@@ -13,10 +13,17 @@
   </div>
   <div class="modal-body">
     <app-date-time-picker [header]="'ATA'" (dateTimeResult)="onAtaResult($event)"></app-date-time-picker>
+    <div class="alert alert-danger" *ngIf="ataAfterTodayError">Actual arrival time cannot be set to the future.</div>
     <app-date-time-picker [header]="'ATD'" (dateTimeResult)="onAtdResult($event)"></app-date-time-picker>
+    <div class="alert alert-danger" *ngIf="atdAfterTodayError">Actual departure time cannot be set to the future.</div>
+    <div class="alert alert-danger" *ngIf="dateSequenceError">Departure time must be after arrival time.</div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" (click)="save()">
+    <button class="btn btn-success" disabled *ngIf="ataAfterTodayError || atdAfterTodayError || dateSequenceError">
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save</span>
+    </button>
+    <button class="btn btn-success" (click)="save()" *ngIf="!(ataAfterTodayError || atdAfterTodayError || dateSequenceError)">
       <img src="assets/images/icons/128x128/white/save.png" height="24px">
       <span>Save</span>
     </button>
