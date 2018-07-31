@@ -20,6 +20,7 @@ export class PortCallService {
   private portCallUserUrl: string;
   private updatePortCallStatusActiveUrl: string;
   private updatePortCallStatusCancelledUrl: string;
+  private updatePortCallStatusDraftUrl: string;
   // Global purpose
   private purposePortCallUrl: string;
   private purposeOtherNameUrl: string;
@@ -84,6 +85,7 @@ export class PortCallService {
     this.portCallUserUrl = 'api/portcall/user';
     this.updatePortCallStatusActiveUrl = 'api/portcall/updatestatus/active';
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
     // Purpose
     this.purposePortCallUrl = 'api/purpose/portcall';
     this.purposeOtherNameUrl = 'api/purpose/othername';
@@ -188,6 +190,14 @@ export class PortCallService {
       .subscribe(updateStatusResponse => {
         console.log('Port call successfully cancelled.');
       });
+  }
+  // Set port call status to draft
+  updatePortCallStatusDraft(portCallId: number) {
+    const uri = [this.updatePortCallStatusDraftUrl, portCallId].join('/');
+    console.log('Updating port call status to draft...');
+    return this.http
+      .put(uri, null)
+      .map(res => res.json());
   }
 
   // Delete port call draft

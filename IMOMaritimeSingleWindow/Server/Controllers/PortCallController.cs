@@ -230,6 +230,33 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        [HttpPut("updateStatus/draft/{portCallId}")]
+        public IActionResult SetStatusDraft(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).Include(pc => pc.OrganizationPortCall).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
+                foreach (OrganizationPortCall opc in portCall.OrganizationPortCall)
+                {
+                    opc.Cleared = null;
+                    opc.Remark = null;
+                }
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
         [HttpDelete()]
         public IActionResult DeletePortCall([FromBody] PortCall portCall)

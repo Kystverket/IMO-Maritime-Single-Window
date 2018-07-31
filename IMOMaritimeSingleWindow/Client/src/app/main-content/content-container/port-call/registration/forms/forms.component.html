@@ -15,7 +15,7 @@
 <div [ngSwitch]="selectedComponent">
     <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS"></app-port-call-details>
     <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES"></app-ship-stores>
-    <app-passenger-list *ngSwitchCase="formNames.PAX"></app-passenger-list>
+    <!-- <app-passenger-list *ngSwitchCase="formNames.PAX"></app-passenger-list> -->
     <app-prev-and-next-poc *ngSwitchCase="formNames.PREV_AND_NEXT_POC"></app-prev-and-next-poc>
     <app-confirmation *ngSwitchCase="'Confirm and Activate'"></app-confirmation>
     <div *ngSwitchDefault class="alert alert-danger" role="alert">
