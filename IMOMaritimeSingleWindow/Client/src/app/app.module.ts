@@ -21,6 +21,7 @@ import { NgModule } from '@angular/core';
 import { ErrorGuard } from './guards/error.guard';
 import { ErrorModule } from './error/error.module';
 import { RootGuard } from './guards/root.guard';
+import { BLACKLISTED_ROUTES } from './shared/constants/blacklisted-routes';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { RootGuard } from './guards/root.guard';
       config: {
         tokenGetter: tokenGetter,
         whitelistedDomains: ['localhost:4200'],
-        blacklistedRoutes: ['localhost:4200/auth/login', 'localhost:4200/auth']
+        blacklistedRoutes: BLACKLISTED_ROUTES
       }
     }),
     NgbModule.forRoot(),
