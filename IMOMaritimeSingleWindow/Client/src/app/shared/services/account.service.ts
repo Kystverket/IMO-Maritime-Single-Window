@@ -3,7 +3,6 @@ import { BaseRequest } from 'app/shared/utils/base.request';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from 'app/shared/utils/config.service';
 import { HttpClient } from '@angular/common/http';
-import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { TokenQueryModel } from '../models/token-query-model';
@@ -49,7 +48,7 @@ export class AccountService extends BaseRequest {
         this.emailTakenUrl = this.actionUrl + '/emailTaken';    /* /api/account/emailTaken          */
     }
 
-    getAllRoles() {
+    getAllRoles(): Observable<any> {
         return this.http
             .get(this.rolesUrl);
     }
@@ -70,10 +69,9 @@ export class AccountService extends BaseRequest {
         return this.http.post(this.userUrl, newUser);
     }
 
-    getDisplayName() {
-        const options = this.getRequestOptions();
+    getDisplayName(): Observable<string> {
         return this.http
-            .get(this.userNameUrl);
+            .get<string>(this.userNameUrl);
     }
 
     getUserByEmail(email: string): Observable<any> {
@@ -90,82 +88,45 @@ export class AccountService extends BaseRequest {
     }
 
     changeRole(userName: string, roleName: string) {
-        /* Not yet implemented
-        return this.http.post(url,body)
-            .map(res => res.json());
-         */
+        /* Not yet implemented */
     }
 
     confirmEmail(queryModel: TokenQueryModel): Observable<TokenQueryModel> {
-        // return Observable.of(false);
-
-        // const uri = [this.emailUrl, 'confirm'].join('/');
-        // return this.http
-        //     .post(uri, JSON.stringify(queryModel))
-        //     .map(res => res.json());
 
             const uri = [this.emailUrl, 'confirm'].join('/');
-            return this.http.post(uri, null, {
+            return this.http.post<string>(uri, null, {
                 params: {
                     userId: queryModel.userId,
                     token: queryModel.token
                 }
             })
-                .map(result => {
-                    const token = result.json();
+                .map(token => {
                     const model = new TokenQueryModel(queryModel.userId, token);
                     console.log(model);
                     return model;
                 });
     }
 
-    sendPasswordResetLink(userName: string) {
+    // Allow anonymous
+    requestPasswordReset(userName: string): Observable<boolean> {
         const uri = [this.passwordUrl, 'forgotten'].join('/');
-        // Implementation for testing purposes
         return this.http
-            .get(uri, {
+            .get<boolean>(uri, {
                 params: {
                     userName: userName
                 }
-            })
-            .map(res => res.text());
-        // Actual implementation comes here...
+            });
     }
 
+    // Allow anonymous
     resetPassword(model: PasswordResetModel): Observable<boolean> {
         const uri = [this.passwordUrl, 'reset'].join('/');
-
-        return this.http.put(uri, model)
-            .map(res => {
-                return res.json();
-            }, error => {
-                return Observable.of(false);
-            }
-            );
+        return this.http.put<boolean>(uri, model);
     }
 
     changePassword(model: PasswordChangeModel): Observable<boolean> {
         const uri = [this.passwordUrl, 'change'].join('/');
-        const options = this.getRequestOptions();
-        return this.http.put(uri, model, options)
-            .map(res => {
-                    return res.json();
-                }, error => {
-                    return Observable.of(false);
-                }
-            );
-    }
-
-    getPasswordResetToken(userId: string): Observable<string> {
-        return Observable.of('default token');
-        /* const uri = [this.passwordUrl, 'reset'].join('/');
-        return this.httpClient
-            .post(uri, null, {
-                params: {
-                    userId
-                }
-            })
-            .map(res => res.toString()); */
+        return this.http.put<boolean>(uri, model);
     }
 
     // getPasswordResetToken() {
@@ -182,11 +143,5 @@ export class AccountService extends BaseRequest {
     //             .map(res => res.text());
     //     });
     // }
-
-    getEmailLink(): Observable<any> {
-        const uri = [this.actionUrl, 'emailLink'].join('/');
-        return this.http
-            .get(uri);
-    }
 
 }

@@ -17,8 +17,8 @@ export class PasswordForgottenComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendPasswordResetRequest() {
-    this.accountService.sendPasswordResetLink(this.email)
+  requestPasswordReset() {
+    this.accountService.requestPasswordReset(this.email)
     .subscribe(res => {
       if (res) {
         console.log(res);

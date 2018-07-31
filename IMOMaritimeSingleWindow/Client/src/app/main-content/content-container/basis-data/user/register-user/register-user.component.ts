@@ -53,7 +53,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getAllRolesSubscription = this.accountService.getAllRoles().subscribe(
+    this.getAllRolesSubscription = this.accountService.getAllRoles()
+    .subscribe(
       data => this.roleList = data
     );
 
