@@ -88,7 +88,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onEditClick() {
-    this.contentService.setPortCallForm('Voyages');
+    this.contentService.setPortCallForm(CONTENT_NAMES.VOYAGES);
     this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
