@@ -12,7 +12,6 @@ import { IdentityDocumentModel } from 'app/shared/models/identity-document-model
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
-import { LocationService } from 'app/shared/services/location.service';
 
 @Component({
   selector: 'app-passenger-list',
@@ -104,8 +103,7 @@ export class PassengerListComponent implements OnInit {
   constructor(
     private passengerListService: PortCallPassengerListService,
     private portCallService: PortCallService,
-    private identityDocumentService: IdentityDocumentService,
-    private locationService: LocationService
+    private identityDocumentService: IdentityDocumentService
   ) {}
 
 
@@ -130,7 +128,6 @@ export class PassengerListComponent implements OnInit {
           if (list) {
             this.portCallPassengerList = list;
             this.portCallPassengerModel.portCallId = element.portCallId;
-            // this.generateIdentityDocumentList(list);
           }
 
           // Get gender list
@@ -175,13 +172,13 @@ export class PassengerListComponent implements OnInit {
 
     // Add
     this.portCallPassengerList.push(this.portCallPassengerModel);
-    this.identityDocumentList.push(this.identityDocumentModel);
+    // this.identityDocumentList.push(this.identityDocumentModel);
 
     // Update values in service
     this.passengerListService.setPassengersList(
       this.portCallPassengerList
     );
-    this.identityDocumentService.setIdentityDocumentList(this.identityDocumentList);
+    // this.identityDocumentService.setIdentityDocumentList(this.identityDocumentList);
 
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
@@ -190,20 +187,6 @@ export class PassengerListComponent implements OnInit {
     this.deselectCountryOfBirth();
     this.deselectNationality();
   }
-
-/*   generateIdentityDocumentList(passengerList: any[]) {
-    const identityDocumentList = [];
-    passengerList.forEach(passenger => {
-      let identityDocument = null;
-      this.identityDocumentService.getIdentityDocumentById(passenger.identityDocumentId).subscribe(res => {
-        identityDocument = res;
-      });
-      if (identityDocument) {
-        this.identityDocumentList.push(identityDocument);
-      }
-    });
-    this.identityDocumentService.setIdentityDocumentList(identityDocumentList);
-  } */
 
 /*   ngOnDestroy()  {
     this.detailsIdentificationDataSubscription.unsubscribe();
@@ -216,6 +199,7 @@ export class PassengerListComponent implements OnInit {
         newList.push(this.makeSmartTableEntry(passenger));
       });
     }
+    console.log(newList);
     return newList;
   }
 
@@ -227,7 +211,7 @@ export class PassengerListComponent implements OnInit {
     modifiedPassenger.sequenceNumber = passenger.sequenceNumber;
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.familyName;
-    modifiedPassenger.nationality = passenger.nationality;
+
     if (passenger.dateOfBirth) {
       if (typeof passenger.dateOfBirth === 'string') {
         modifiedPassenger.dateOfBirth = passenger.dateOfBirth;
@@ -237,21 +221,15 @@ export class PassengerListComponent implements OnInit {
     }
     if (passenger.portOfEmbarkation) {
       modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
-    } else if (passenger.portOfEmbarkationId) {
-      this.locationService.getLocationById(passenger.portOfEmbarkationId).subscribe(res => {
-        modifiedPassenger.portOfEmbarkation = res.name;
-      });
     }
     if (passenger.portOfDisembarkation) {
       modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
     }
-    if (this.genderList) {
-      this.genderList.forEach(gender => {
-        if (gender.genderId === passenger.genderId) {
-          modifiedPassenger.gender = gender.description;
-          return;
-        }
-      });
+    if (passenger.nationality) {
+      modifiedPassenger.nationality = passenger.nationality.name;
+    }
+    if (passenger.gender) {
+      modifiedPassenger.gender = passenger.gender.description;
     }
 
     /*Object.keys(this.booleanModel).forEach(key => {
