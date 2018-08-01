@@ -4,7 +4,7 @@
 </ng-template>
  
 <div *ngIf="!locationSelected" class="input-group">
-    <input id="search-location" type="text" class="form-control form-control-sm" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+    <input id="search-country" type="text" class="form-control form-control-sm" [(ngModel)]="locationModel" [ngbTypeahead]="search"
       [resultTemplate]="rt" (selectItem)="selectLocation($event)" placeholder="Enter search here..." />
   <div class="input-group-append" *ngIf="searching">
     <img class="mx-auto" src="assets/images/animations/location.gif" height="20px">

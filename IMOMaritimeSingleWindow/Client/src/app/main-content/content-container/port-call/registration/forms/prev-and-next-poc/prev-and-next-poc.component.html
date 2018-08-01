@@ -1,5 +1,13 @@
 <app-ssn-card header="Previous Port of Call" icon="location.png">
-    <app-search-location *ngIf="!prevLocationFound" [restrictTypeHarbour]=true (locationResult)="onPrevLocationResult($event)"></app-search-location>
+    <div class="text-center">
+        <label for="search-location">Search using location name or UN/LOCODE code</label>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <app-search-location *ngIf="!prevLocationFound" [restrictTypeHarbour]=true (locationResult)="onPrevLocationResult($event)"></app-search-location>
+            </div>
+        </div>
+    </div>
     <div class="text-center" *ngIf="prevLocationModel">
         <app-ssn-table [entryData]="prevLocationData"></app-ssn-table>
         <button class="btn btn-ssn" (click)="deselectPrevLocation()">
@@ -15,7 +23,15 @@
 </app-ssn-card>
 
 <app-ssn-card header="Next Port of Call" icon="location.png">
-    <app-search-location *ngIf="!nextLocationFound" [restrictTypeHarbour]=true (locationResult)="onNextLocationResult($event)"></app-search-location>
+    <div class="text-center">
+        <label for="search-location">Search using location name or UN/LOCODE code</label>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <app-search-location *ngIf="!nextLocationFound" [restrictTypeHarbour]=true (locationResult)="onNextLocationResult($event)"></app-search-location>
+            </div>
+        </div>
+    </div>
     <div class="text-center" *ngIf="nextLocationModel">
         <app-ssn-table [entryData]="nextLocationData"></app-ssn-table>
         <button class="btn btn-ssn" (click)="deselectNextLocation()">

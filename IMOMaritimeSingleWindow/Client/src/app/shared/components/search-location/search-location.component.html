@@ -4,24 +4,17 @@
   <strong *ngIf="r.locationCode">Code: </strong> {{ r.locationCode }}
 </ng-template>
 
-<div class="text-center">
-  <label for="search-location">Search using location name or UN/LOCODE code</label>
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-      <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
-        [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" placeholder="Enter search here..."
-      />
-    </div>
-    <div class="col-2">
-      <div *ngIf="searching">
-        <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">
-        <p>Searching</p>
-      </div>
-      <div *ngIf="searchFailed">
-        <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="32px">
-        <p>No results</p>
-      </div>
-    </div>
+<div class="input-group">
+  <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+    [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" placeholder="Enter search here..."
+  />
+
+  <div *ngIf="searching" class="input-group-append">
+    <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">
+    <p>Searching</p>
+  </div>
+  <div *ngIf="searchFailed" class="input-group-append">
+    <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="32px">
+    <p>No results</p>
   </div>
 </div>
