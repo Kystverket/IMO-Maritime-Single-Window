@@ -83,18 +83,19 @@ export class PortCallPassengerListService {
       if (res.status === 200) {
         console.log('Passenger successfully saved.');
         this.setDataIsPristine(true);
-        this.updateIdentityDocumentList(passengerList);
+        console.log(res.json());
+        // this.updateIdentityDocumentList(passengerList);
       }
     });
   }
 
-  updateIdentityDocumentList(passengerList: any[]) {
+  /* updateIdentityDocumentList(passengerList: any[]) {
     const identityDocumentList: IdentityDocumentModel[] = [];
     passengerList.forEach(passenger => {
       identityDocumentList.push(passenger.identityDocument);
     });
     console.log('Updating identitydocuments');
-  }
+  } */
 
   cleanPassengerList(passengerList: any[]) {
     console.log(passengerList);
@@ -106,11 +107,15 @@ export class PortCallPassengerListService {
       passenger.portCall = null;
       passenger.portOfEmbarkation = null;
       passenger.portOfDisembarkation = null;
+      passenger.nationality = null;
+
       if (passenger.identityDocument) {
-        passenger.identityDocument.identityDocumentType = null;
-        passenger.identityDocument.issuingNation = null;
+        passenger.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentType = null;
+          identityDocument.issuingNation = null;
+        });
+
       }
-      console.log(passenger);
       newPassengerList.push(passenger);
     });
     console.log(newPassengerList);

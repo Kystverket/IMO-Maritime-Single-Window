@@ -48,6 +48,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             if (!ModelState.IsValid)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return BadRequest(ModelState);
             }
             try
@@ -75,16 +76,18 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                 }
                 _context.SaveChanges();
-                return Ok(true);
+                // return Ok(true);
+                return Json(personOnBoardList);
             }
             catch (Exception e)
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return BadRequest(e);
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult GetPersonOnBoard(int id)
         {
             PersonOnBoard personOnBoard = _context.PersonOnBoard.FirstOrDefault(s => s.PersonOnBoardId == id);
             if (personOnBoard == null)
@@ -94,11 +97,22 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(personOnBoard);
         }
 
+        [HttpGet("{id}/identitydocument")]
+        public IActionResult GetIdentityDocument(int id)
+        {
+            IdentityDocument identitydocument = _context.IdentityDocument.FirstOrDefault(s => s.PersonOnBoardId == id);
+            if (identitydocument == null)
+            {
+                return NotFound();
+            }
+            return Json(identitydocument);
+        }
+
         [HttpGet("")]
         public IActionResult GetAll()
         {
             List<PersonOnBoard> resultList = _context.PersonOnBoard.Where(s => s.PersonOnBoardTypeId == 2).OrderBy(s => s.PersonOnBoardId).ToList();
-
+            // List<PersonOnBoard> resultList = _context.PersonOnBoard.OrderBy(s => s.PersonOnBoardId).ToList();
             return Json(resultList);
         }
 

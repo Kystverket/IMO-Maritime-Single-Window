@@ -38,10 +38,10 @@ import { PassengerListComponent } from './registration/forms/passenger-list/pass
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { CountryService } from 'app/shared/services/country.service';
 import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
-import { SelectDateComponent } from './registration/forms/passenger-list/select-date/select-date.component';
 import { SelectDateComponent } from './registration/forms/shared/select-date/select-date.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
+import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 
 @NgModule({
   imports: [
@@ -95,6 +95,13 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService]
+  providers: [
+    PortCallService,
+    PortCallShipStoresService,
+    PortCallPassengerListService,
+    CountryService,
+    PrevAndNextPocService,
+    IdentityDocumentService
+  ]
 })
 export class PortCallModule { }

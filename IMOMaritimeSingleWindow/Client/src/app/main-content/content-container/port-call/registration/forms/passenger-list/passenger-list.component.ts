@@ -171,7 +171,7 @@ export class PassengerListComponent implements OnInit {
     console.log(this.identityDocumentModel);
     // Modify
     this.portCallPassengerModel.personOnBoardTypeId = 2;
-    this.portCallPassengerModel.identityDocument = this.identityDocumentModel;
+    this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
     // Add
     this.portCallPassengerList.push(this.portCallPassengerModel);
