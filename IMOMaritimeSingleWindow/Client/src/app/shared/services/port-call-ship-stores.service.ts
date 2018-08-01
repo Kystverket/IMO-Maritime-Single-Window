@@ -49,7 +49,7 @@ export class PortCallShipStoresService {
   addShipStores(shipStoresList: any[]) {
     console.log('Adding Ship Stores...');
     const uri = this.shipStoresListUrl;
-    this.http.post(uri, shipStoresList).subscribe(
+    this.http.post(uri, shipStoresList).map(
       res => {
         if (res) {
           this.setDataIsPristine(true);
@@ -62,7 +62,7 @@ export class PortCallShipStoresService {
     console.log('Updating ship stores...');
     console.log(shipStoresList);
     const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList).subscribe(
+    return this.http.put(uri, shipStoresList).map(
       res => {
         if (res) {
           console.log('Ship stores successfully saved.');
