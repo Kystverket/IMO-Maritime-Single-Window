@@ -20,6 +20,7 @@ export class PortCallService {
   private updatePortCallStatusAwaitingClearanceUrl: string;
   private updatePortCallStatusCancelledUrl: string;
   private updatePortCallStatusClearedUrl: string;
+  private updatePortCallStatusCompletedUrl: string;
   private updatePortCallStatusDraftUrl: string;
   // Global purpose
   private purposePortCallUrl: string;
@@ -85,6 +86,7 @@ export class PortCallService {
     this.portCallUserUrl = 'api/portcall/user';
     this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
     this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
     this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
     // Purpose
@@ -185,6 +187,12 @@ export class PortCallService {
   updatePortCallStatusCleared(portCallId: number) {
     const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
     console.log('Updating port call status to cleared...');
+    return this.http.post(uri, null).map(res => res.json());
+  }
+  // Set port call status to completed
+  updatePortCallStatusCompleted(portCallId: number) {
+    const uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
+    console.log('Updating port call status to completed...');
     return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled

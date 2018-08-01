@@ -104,6 +104,24 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.modalService.open(content);
   }
 
+  onCompletePortCall() {
+    const pcId = this.rowData.overviewModel.portCall.portCallId;
+    this.rowData.overviewModel.status = PortCallStatusTypes.COMPLETED;
+    this.portCallIsCleared = false;
+    this.portCallIsCompleted = true;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.COMPLETED;
+    this.overviewService.setOverviewData(this.overviewData);
+  }
+
+  onUncompletePortCall() {
+    const pcId = this.rowData.overviewModel.portCall.portCallId;
+    this.rowData.overviewModel.status = PortCallStatusTypes.CLEARED;
+    this.portCallIsCleared = true;
+    this.portCallIsCompleted = false;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.CLEARED;
+    this.overviewService.setOverviewData(this.overviewData);
+  }
+
   cancelPortCall() {
     const pcId = this.rowData.overviewModel.portCall.portCallId;
     this.rowData.overviewModel.status = PortCallStatusTypes.CANCELLED;

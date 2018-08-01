@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { PortCallModel } from 'app/shared/models/port-call-model';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-set-actual-time',
@@ -14,6 +14,9 @@ import { PortCallModel } from 'app/shared/models/port-call-model';
 export class SetActualTimeComponent implements OnInit {
 
   @Input() portCallModel: PortCallModel;
+
+  @Output() statusChangedToComplete = new EventEmitter();
+  @Output() statusChangedToCleared = new EventEmitter();
 
   portCallAta: DateTime = {
     date: null,
@@ -131,6 +134,23 @@ export class SetActualTimeComponent implements OnInit {
       result => {
         this.saved = true;
         console.log(result);
+        if (null != result.locationAtd) {
+          this.portCallService.updatePortCallStatusCompleted(result.portCallId).subscribe(
+            res => {
+              console.log('Status set to completed.');
+              this.statusChangedToComplete.emit();
+            },
+            err => console.log(err)
+          );
+        } else {
+          this.portCallService.updatePortCallStatusCleared(result.portCallId).subscribe(
+            res => {
+              console.log('Status set to cleared.');
+              this.statusChangedToCleared.emit();
+            },
+            err => console.log(err)
+          );
+        }
       },
       error => {
         this.saveError = true;
