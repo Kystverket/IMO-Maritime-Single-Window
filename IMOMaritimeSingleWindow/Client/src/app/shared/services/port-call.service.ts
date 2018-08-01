@@ -19,6 +19,7 @@ export class PortCallService {
   private portCallUserUrl: string;
   private updatePortCallStatusAwaitingClearanceUrl: string;
   private updatePortCallStatusCancelledUrl: string;
+  private updatePortCallStatusClearedUrl: string;
   private updatePortCallStatusDraftUrl: string;
   // Global purpose
   private purposePortCallUrl: string;
@@ -84,6 +85,7 @@ export class PortCallService {
     this.portCallUserUrl = 'api/portcall/user';
     this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
     this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
     // Purpose
     this.purposePortCallUrl = 'api/purpose/portcall';
@@ -173,10 +175,16 @@ export class PortCallService {
     this.setPortCallStatus('Draft');
     return this.http.post(uri, portCall, options).map(res => res.json());
   }
-  // Set port call status to actual
+  // Set port call status to awaiting clearance
   updatePortCallStatusAwaitingClearance(portCallId: number) {
     const uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
     console.log('Updating port call status to awaiting clearance...');
+    return this.http.post(uri, null).map(res => res.json());
+  }
+  // Set port call status to cleared
+  updatePortCallStatusCleared(portCallId: number) {
+    const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
+    console.log('Updating port call status to cleared...');
     return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled
@@ -424,12 +432,7 @@ export class PortCallService {
 
   getClearanceListForPortCall(portCallId: number) {
     const uri: string = [this.clearancePortCallUrl, portCallId].join('/');
-
-    return this.http.get(uri).map(res =>
-      res.json().catch(error => {
-        return Observable.of(error);
-      })
-    );
+    return this.http.get(uri).map(res => res.json());
   }
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL

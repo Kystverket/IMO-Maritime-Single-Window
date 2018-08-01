@@ -16,7 +16,7 @@
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsAwaitingClearance">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsAwaitingClearance || portCallIsCleared">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
@@ -29,7 +29,7 @@
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.edit">
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit && !portCallIsDraft">
       <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/time.png" height="20px" />
@@ -70,7 +70,7 @@
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
       <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="openModal(deleteModal)">
         <div class="mx-auto">
-          <img src="assets/images/icons/128x128/white/trash.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/trash.png" height="20px" />
         </div>
       </button>
     </div>

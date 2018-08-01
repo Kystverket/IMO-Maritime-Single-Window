@@ -3,6 +3,7 @@ export class PortCallStatusTypes {
   static DRAFT = 'Draft';
   static CANCELLED = 'Cancelled';
   static COMPLETED = 'Completed';
+  static CLEARED = 'Cleared';
 
   static DRAFT_ID = 100235;
 }

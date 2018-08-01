@@ -33,6 +33,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   portCallIsDraft = false;
   portCallIsCancelled = false;
   portCallIsAwaitingClearance = false;
+  portCallIsCleared = false;
 
   constructor(
     private accountService: AccountService,
@@ -47,6 +48,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.portCallIsDraft = (this.rowData.overviewModel.status === PortCallStatusTypes.DRAFT);
     this.portCallIsCancelled = (this.rowData.overviewModel.status === PortCallStatusTypes.CANCELLED);
     this.portCallIsAwaitingClearance = (this.rowData.overviewModel.status === PortCallStatusTypes.AWAITING_CLEARANCE);
+    this.portCallIsCleared = (this.rowData.overviewModel.status === PortCallStatusTypes.CLEARED);
     this.accountService.userClaimsData$.subscribe(
       userClaims => {
         if (userClaims) {
