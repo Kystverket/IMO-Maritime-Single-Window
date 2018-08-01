@@ -24,6 +24,7 @@ export class PasswordComponent implements OnInit {
   fieldsFilled = false;
   errors: string;
   isChangeComponent = false;
+  fieldFocused = true;
 
   private componentName: string;
   private componentType: number;
@@ -38,18 +39,21 @@ export class PasswordComponent implements OnInit {
     private router: Router
   ) {}
 
-  checkFill() {
+  validateFields() {
+    this.fieldsFilled = this.checkFieldsFilled();
+    this.passwordMatch = this.checkPasswordsMatch();
+  }
+
+  private checkFieldsFilled(): boolean {
     if (this.componentType === PASSWORD_COMPONENT_TYPE.CHANGE) {
-      this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '' && this.currentPassword !== '';
+      return this.inputOne !== '' && this.inputTwo !== '' && this.currentPassword !== '';
     } else {
-      this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
+      return this.inputOne !== '' && this.inputTwo !== '';
     }
   }
 
-  checkPasswords() {
-    this.checkFill();
-    this.passwordMatch =
-      !(this.inputOne === '' || this.inputTwo === '') &&
+  checkPasswordsMatch(): boolean {
+     return !(this.inputOne === '' || this.inputTwo === '') &&
       this.inputOne === this.inputTwo;
   }
 
