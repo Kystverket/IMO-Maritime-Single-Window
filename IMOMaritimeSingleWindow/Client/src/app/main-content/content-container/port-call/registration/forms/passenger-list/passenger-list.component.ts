@@ -333,10 +333,12 @@ export class PassengerListComponent implements OnInit {
 
   // Deselect Methods
   deselectPortOfDisembarkation() {
+    this.portCallPassengerModel.portOfDisembarkation = null;
     this.portCallPassengerModel.portOfDisembarkationId = null;
   }
 
   deselectPortOfEmbarkation() {
+    this.portCallPassengerModel.portOfEmbarkation = null;
     this.portCallPassengerModel.portOfEmbarkationId = null;
   }
 
