@@ -22,8 +22,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_user == null)
                 return Task.FromResult<ApplicationUser>(null);
 
-            var appUser = _mapper.Map<ApplicationUser>(_user);
-            return Task.FromResult(appUser);
+            return Task.FromResult(_helper.ConvertToApplicationUser(_user));
         }
         #endregion
     }

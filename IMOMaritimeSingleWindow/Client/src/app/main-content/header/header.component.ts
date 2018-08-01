@@ -104,7 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     if (this.loggedIn) {
-      this.accountService.getUserName().subscribe(result => {
+      this.accountService.getDisplayName().subscribe(result => {
         if (result) {
           this.userName = result;
         }
@@ -163,7 +163,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   logout() {
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   setContent(contentName: string) {

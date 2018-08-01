@@ -48,7 +48,7 @@ export class ClearanceComponent implements OnInit, OnDestroy {
     });
 
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipResult => {
-      this.shipService.setShipOverviewData(shipResult);
+      this.shipService.setShipData(shipResult);
     });
   }
 

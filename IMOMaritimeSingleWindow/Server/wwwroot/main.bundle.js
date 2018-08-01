@@ -2041,9 +2041,8 @@ var RegisterShipComponent = /** @class */ (function () {
     };
     RegisterShipComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
-        this.certificateModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models_certificate_of_registry_model__["a" /* CertificateOfRegistryModel */]();
-        this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(function (data) {
+        this.subscribeToData();
+        this.shipService.shipData$.subscribe(function (data) {
             if (data) {
                 _this.setAllValues(data);
             }
@@ -2390,6 +2389,24 @@ var ViewShipInfoComponent = /** @class */ (function () {
     ViewShipInfoComponent.prototype.registerNewShip = function () {
         this.shipService.setShipOverviewData(null);
         this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
+    };
+    ViewShipInfoComponent.prototype.editShip = function () {
+        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
+    };
+    ViewShipInfoComponent.prototype.searchShips = function () {
+        this.showTable = true;
+    };
+    ViewShipInfoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.shipService.setShipOverviewData(null);
+        this.shipService.shipData$.subscribe(function (shipResult) {
+            if (shipResult) {
+                _this.shipFound = true;
+            }
+            else {
+                _this.shipFound = false;
+            }
+        });
     };
     ViewShipInfoComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -3638,6 +3655,31 @@ var FindShipComponent = /** @class */ (function () {
     FindShipComponent.prototype.deselectShip = function () {
         this.shipFound = false;
         this.portCallService.setShipData(null);
+    };
+    FindShipComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.shipService.setShipOverviewData(null);
+        this.shipService.shipData$.subscribe(function (shipResult) {
+            if (shipResult) {
+                _this.shipFlag = (shipResult.shipFlagCode.country) ? shipResult.shipFlagCode.country.twoCharCode.toLowerCase() : null;
+                _this.shipProperties.SHIP_TYPE.data = (shipResult.shipType) ? shipResult.shipType.name : null;
+                _this.shipProperties.SHIP_STATUS.data = (shipResult.shipStatus) ? shipResult.shipStatus.name : null;
+                _this.shipProperties.SHIP_NAME.data = shipResult.name;
+                _this.shipProperties.CALL_SIGN.data = shipResult.callSign;
+                _this.shipProperties.IMO_NO.data = shipResult.imoNo;
+                _this.shipProperties.MMSI_NO.data = shipResult.mmsiNo;
+                _this.shipProperties.GROSS_TONNAGE.data = shipResult.grossTonnage;
+                _this.shipProperties.LENGTH.data = shipResult.length;
+                _this.shipFound = true;
+                _this.portCallService.setShipData(shipResult);
+            }
+            else {
+                _this.shipFound = false;
+                _this.shipProperties = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_ship_properties__["a" /* ShipProperties */].PROPERTIES;
+                _this.portCallService.setShipData(null);
+            }
+            _this.shipInfo = Object.values(_this.shipProperties);
+        });
     };
     FindShipComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -8787,7 +8829,7 @@ var ShipInfoTableComponent = /** @class */ (function () {
     ShipInfoTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipHasContactInfo = false;
-        this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(function (shipResult) {
+        this.shipService.shipData$.subscribe(function (shipResult) {
             if (shipResult) {
                 if (shipResult.shipFlagCode.country) {
                     _this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
@@ -8891,7 +8933,14 @@ var ShipButtonRowComponent = /** @class */ (function () {
         this.contentService = contentService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
-    ShipButtonRowComponent.prototype.ngOnInit = function () { };
+    ShipButtonRowComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.shipService.shipData$.subscribe(function (results) {
+            if (results) {
+                _this.shipData = results;
+            }
+        });
+    };
     ShipButtonRowComponent.prototype.onEditClick = function () {
         this.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
     };
@@ -11825,6 +11874,17 @@ var ShipService = /** @class */ (function () {
     function ShipService(http, authRequest) {
         this.http = http;
         this.authRequest = authRequest;
+        this.organizationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.organizationData$ = this.organizationDataSource.asObservable();
+        this.shipFlagCodeDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
+        this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipData$ = this.shipDataSource.asObservable();
+        this.shipSearchDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipSearchData$ = this.shipSearchDataSource.asObservable();
+        this.countryDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.countryData$ = this.countryDataSource.asObservable();
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_5__search_service__["a" /* SearchService */](http);
         this.shipUrl = 'api/ship';
         this.shipTypeUrl = 'api/shiptype';
         this.hullTypeUrl = 'api/shiphulltype';
@@ -11853,7 +11913,7 @@ var ShipService = /** @class */ (function () {
             .map(function (res) { return res.json(); });
     };
     ShipService.prototype.setShipOverviewData = function (data) {
-        this.shipOverviewDataSource.next(data);
+        this.shipDataSource.next(data);
     };
     ShipService.prototype.setShipSearchData = function (data) {
         this.shipSearchDataSource.next(data);

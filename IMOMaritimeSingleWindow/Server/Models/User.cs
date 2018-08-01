@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -26,7 +26,7 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? LockoutEnabled { get; set; }
         public DateTimeOffset? LockoutEnd { get; set; }
         public string ConcurrencyStamp { get; set; }
-        public int? AccessFailedCount { get; set; }
+        public int AccessFailedCount { get; set; }
         public Guid? RoleId { get; set; }
 
         public Organization Organization { get; set; }

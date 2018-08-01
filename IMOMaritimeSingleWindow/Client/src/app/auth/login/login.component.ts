@@ -8,6 +8,7 @@ import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';
 import 'rxjs/add/operator/finally';
+import { PasswordService } from '../password.service';
 
 @Component({
   selector: 'app-login',
@@ -30,18 +31,9 @@ export class LoginComponent implements OnInit {
     private contentService: ContentService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private passwordService: PasswordService
   ) { }
-
-  ngOnInit() {
-    // subscribe to router event
-    this.activatedRoute.queryParams.subscribe(
-      (param: any) => {
-        this.brandNew = param['brandNew'];
-        // this.credentials.userName = param['userName'];
-      }
-    );
-  }
 
   login({ value, valid }: { value: Credentials, valid: boolean }) {
     this.submitted = true;
@@ -78,4 +70,20 @@ export class LoginComponent implements OnInit {
         );
     }
   }
+
+  setResetRequested() {
+    this.passwordService.setResetRequested(true);
+  }
+
+  ngOnInit() {
+    // subscribe to router event
+    this.activatedRoute.queryParams.subscribe(
+      (param: any) => {
+        this.brandNew = param['brandNew'];
+        // this.credentials.userName = param['userName'];
+      }
+    );
+    this.passwordService.setResetRequested(false);
+  }
+
 }

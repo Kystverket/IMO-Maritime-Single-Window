@@ -1,5 +1,3 @@
-import { RequestOptions } from '@angular/http';
-import { AuthRequest } from 'app/shared/services/auth.request.service';
 import { BaseService } from 'app/shared/services/base.service';
 import { ConfigService } from './config.service';
 
@@ -7,16 +5,9 @@ export abstract class BaseRequest extends BaseService {
   protected baseUrl: string;
 
   constructor(
-    private configService: ConfigService,
-    private authRequestService: AuthRequest
+    private configService: ConfigService
   ) {
     super();
     this.baseUrl = this.configService.getApiURI();
-  }
-
-  getRequestOptions() {
-    const headers = this.authRequestService.GetHeaders();
-    const requestOptions = new RequestOptions({ headers: headers });
-    return requestOptions;
   }
 }

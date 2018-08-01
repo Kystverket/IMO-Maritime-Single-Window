@@ -74,7 +74,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   dataIsPristine = true;
   dataIsPristineText: string;
 
-  shipOverviewDataSubscription: Subscription;
+  shipDataSubscription: Subscription;
 
   shipTypesSubscription: Subscription;
   hullTypesSubscription: Subscription;
@@ -116,7 +116,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.certificateModel = new CertificateOfRegistryModel();
-    this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(data => {
+    this.shipDataSubscription = this.shipService.shipData$.subscribe(data => {
       if (data) {
         this.setAllValues(data);
       } else if (!this.newShip) {
@@ -135,7 +135,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.shipOverviewDataSubscription.unsubscribe();
+    this.shipDataSubscription.unsubscribe();
     this.shipTypesSubscription.unsubscribe();
     this.hullTypesSubscription.unsubscribe();
     this.lengthTypesSubscription.unsubscribe();

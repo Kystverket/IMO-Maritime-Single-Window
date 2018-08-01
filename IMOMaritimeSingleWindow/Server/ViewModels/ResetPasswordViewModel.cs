@@ -1,5 +1,3 @@
-using System;
-
 namespace IMOMaritimeSingleWindow.ViewModels
 {
     public class ResetPasswordViewModel
