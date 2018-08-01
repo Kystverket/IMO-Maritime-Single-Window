@@ -48,8 +48,6 @@ export class SavePassengerListComponent implements OnInit {
     this.passengerList.forEach(p => {
       // save personOnBoardId in smart table?
       p.portCallId = this.portCallId;
-      p.portOfDisembarkationId = null;
-      p.portOfEmbarkationId = null;
     });
     this.passengerService.updatePassengerList(this.passengerList, this.portCallId).subscribe(res => console.log(res));
   }

@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
-import { port } from '_debugger';
+import { IdentityDocumentModel } from '../models/identity-document-model';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -68,10 +68,11 @@ export class PortCallPassengerListService {
   updatePassengerList(passengerList: any[], portCallId: number) {
     console.log('Passengers right before they are supposed to be saved to db: ');
     console.log(passengerList);
+    const cleanedPassengerList = this.cleanPassengerList(passengerList);
 
     console.log('Updating passengers...');
     const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, this.makeTestList(passengerList),
+    return this.http.put(uri, cleanedPassengerList,
   {
     params: {
       portCallId: portCallId
@@ -82,8 +83,38 @@ export class PortCallPassengerListService {
       if (res.status === 200) {
         console.log('Passenger successfully saved.');
         this.setDataIsPristine(true);
+        this.updateIdentityDocumentList(passengerList);
       }
     });
+  }
+
+  updateIdentityDocumentList(passengerList: any[]) {
+    const identityDocumentList: IdentityDocumentModel[] = [];
+    passengerList.forEach(passenger => {
+      identityDocumentList.push(passenger.identityDocument);
+    });
+    console.log('Updating identitydocuments');
+  }
+
+  cleanPassengerList(passengerList: any[]) {
+    console.log(passengerList);
+    const newPassengerList = [];
+    passengerList.forEach(passenger => {
+      passenger.countryOfBirth = null;
+      passenger.personOnBoardType = null;
+      passenger.gender = null;
+      passenger.portCall = null;
+      passenger.portOfEmbarkation = null;
+      passenger.portOfDisembarkation = null;
+      if (passenger.identityDocument) {
+        passenger.identityDocument.identityDocumentType = null;
+        passenger.identityDocument.issuingNation = null;
+      }
+      console.log(passenger);
+      newPassengerList.push(passenger);
+    });
+    console.log(newPassengerList);
+    return newPassengerList;
   }
 
   getPassengerListByPortCallId(portCallId) {
@@ -128,6 +159,7 @@ export class PortCallPassengerListService {
 
     const newList = this.setSequenceNumbers(data);
     this.passengerListSource.next(newList);
+    console.log(this.passengerListSource.getValue());
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
