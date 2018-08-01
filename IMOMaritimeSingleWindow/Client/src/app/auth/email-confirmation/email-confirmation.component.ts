@@ -15,6 +15,7 @@ export class EmailConfirmationComponent implements OnInit {
 
   errors: string;
   emailConfirmationSuccessful = false;
+  isRequesting = true;
 
   constructor(
     private router: Router,
@@ -59,14 +60,17 @@ export class EmailConfirmationComponent implements OnInit {
   async initAsync() {
     const tokenQueryModel = this.uriQueryService.getTokenQueryModel(this.activatedRoute.snapshot.queryParams);
     await this.confirmEmail(tokenQueryModel);
+    this.isRequesting = false;
     console.log('emailConfirmed?', this.emailConfirmationSuccessful);
   }
 
   async confirmEmail(tokenQueryModel: TokenQueryModel) {
     await this.accountService.confirmEmail(tokenQueryModel)
       .toPromise().then(resultModel => {
-        this.emailConfirmationSuccessful = true;
-        this.uriQueryService.setTokenQueryModel(resultModel);
+        if (resultModel) {
+          this.emailConfirmationSuccessful = true;
+          this.uriQueryService.setTokenQueryModel(resultModel);
+        }
       }, error => {
         this.emailConfirmationSuccessful = false;
         this.errors = error;
