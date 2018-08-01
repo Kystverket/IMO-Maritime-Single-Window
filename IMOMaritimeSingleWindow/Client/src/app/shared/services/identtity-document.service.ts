@@ -1,18 +1,18 @@
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
-import { PersonOnBoardModel } from '../models/person-on-board-model';
 
 @Injectable()
 export class IdentityDocumentService {
     private identityDocumentUrl: string;
     private identityDocumentListUrl: string;
+    private identityDocTypeUrl: string;
 
     constructor(private http: Http) {
         this.identityDocumentListUrl = 'api/identitydocument/list';
         this.identityDocumentUrl = 'api/identitydocument';
+        this.identityDocTypeUrl = 'api/identitydocumenttype';
     }
 
     private identityDocumentList = new BehaviorSubject<any>(null);
@@ -38,6 +38,11 @@ export class IdentityDocumentService {
           }
         });
     }
+
+    getIdentityDocumentTypes() {
+        const uri = this.identityDocTypeUrl;
+        return this.http.get(uri).map(res => res.json());
+      }
 
     getIdentityDocumentByPersonOnBoardId(personOnBoardId: number) {
     }

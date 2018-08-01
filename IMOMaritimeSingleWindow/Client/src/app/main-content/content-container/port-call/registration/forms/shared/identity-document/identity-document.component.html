@@ -1,0 +1,73 @@
+<form>
+  <app-ssn-card header="Identity Document Information" icon="user-info.png">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+            <app-search-country (selectCountry)="setIssuingNation($event)" (deselectCountry)="deselectIssuingNation()"></app-search-country>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="natureOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
+            <ng-select class="ng-select-placeholder-size" [items]="identityDocTypeList" [(ngModel)]="identityDocumentModel.identityDocumentType"
+              name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
+              (change)="selectIdentityDocumentType($event)">
+            </ng-select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="numberOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+            <input type="number" required [(ngModel)]="identityDocumentModel.identityDocumentNumber" placeholder="Number of Identity Document"
+              class="form-control form-control-sm" name="numberOfIdentityDoc" integerValidator positiveNumberValidator (ngModelChange)="setNumberOfIdentityDoc($event)">
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Identity document number must be an integer.</small>
+          </li>
+          <li>
+            <small>Identity document number must be a positive number.</small>
+          </li>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6">
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="visaOrResidenceNumber" class="col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+            <input type="number" required [(ngModel)]="identityDocumentModel.visaOrResidencePermitNumber" placeholder="Visa or Residence Permit Number"
+              class="form-control form-control-sm" name="visaOrResidenceNumber" integerValidator positiveNumberValidator (ngModelChange)="setVisaOrPermitNumber($event)">
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="formValid">
+          <li>
+            <small>Visa/permit number must be an integer.</small>
+          </li>
+          <li>
+            <small>Visa/permit number number must be a positive number.</small>
+          </li>
+        </div>
+
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Identiy Document Issue Date</label>
+            <app-select-date (selectDate)="setIdentityDocIssueDate($event)"></app-select-date>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col my-auto">
+            <label for="app-select-date" class="col-form-label-sm no-wrap mb-0">Identiy Document Expiry Date</label>
+            <app-select-date (selectDate)="setIdentityDocExpiryDate($event)"></app-select-date>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-ssn-card>
+</form>

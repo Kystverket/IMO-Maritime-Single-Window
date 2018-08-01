@@ -137,11 +137,6 @@ export class PassengerListComponent implements OnInit {
             });
           }
 
-          // Get identity document types list
-          this.passengerListService.getIdentityDocumentTypes().subscribe(results => {
-            this.identityDocTypeList = results;
-          });
-
           this.passengerListDataSource.load(this.generateSmartTable());
         });
       }
@@ -274,6 +269,11 @@ export class PassengerListComponent implements OnInit {
   }
 
   // Select Methods
+  setIdentityDocumentModel($event) {
+    this.identityDocumentModel = $event;
+    console.log(this.identityDocumentModel);
+  }
+
   setPortOfEmbarkation($event) {
     this.portCallPassengerModel.portOfEmbarkation = this.makePortModel($event);
     this.portCallPassengerModel.portOfEmbarkationId = $event.locationId;
@@ -288,26 +288,9 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.dateOfBirth = this.getDateFormat($event);
   }
 
-  setIdentityDocIssueDate($event) {
-    this.identityDocumentModel.identityDocumentIssueDate = this.getDateFormat($event);
-  }
-
-  setIdentityDocExpiryDate($event) {
-    this.identityDocumentModel.identityDocumentExpiryDate = this.getDateFormat($event);
-  }
-
   selectGender($event) {
     this.portCallPassengerModel.gender = $event;
     this.portCallPassengerModel.genderId = $event.genderId;
-  }
-
-  selectIdentityDocumentType($event) {
-    this.identityDocumentModel.identityDocumentType = $event;
-  }
-
-  setIssuingNation($event) {
-    this.identityDocumentModel.issuingNation = $event.item.name;
-    this.identityDocumentModel.issuingNationId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
@@ -319,7 +302,6 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.nationality = $event.item.name;
     this.portCallPassengerModel.nationalityId = $event.item.countryId;
   }
-
 
   selectTransit($event) {
     this.inTransit = $event;

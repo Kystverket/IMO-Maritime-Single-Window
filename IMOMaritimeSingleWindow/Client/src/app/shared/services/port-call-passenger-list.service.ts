@@ -3,14 +3,12 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
-import { IdentityDocumentModel } from '../models/identity-document-model';
 
 @Injectable()
 export class PortCallPassengerListService {
 
   private personOnBoardListUrl: string;
   private genderUrl: string;
-  private identityDocTypeUrl: string;
   private personOnBoardString: string;
   private portCallUrl: string;
   private personOnBoardUrl: string;
@@ -19,7 +17,6 @@ export class PortCallPassengerListService {
   constructor(private http: Http) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
     this.genderUrl = 'api/gender';
-    this.identityDocTypeUrl = 'api/identitydocumenttype';
     this.personOnBoardString = 'persononboard';
     this.portCallUrl = 'api/portcall';
     this.personOnBoardUrl = 'api/personOnBoard';
@@ -149,11 +146,6 @@ export class PortCallPassengerListService {
 
   getGenderList() {
     const uri = this.genderUrl;
-    return this.http.get(uri).map(res => res.json());
-  }
-
-  getIdentityDocumentTypes() {
-    const uri = this.identityDocTypeUrl;
     return this.http.get(uri).map(res => res.json());
   }
   // Setters

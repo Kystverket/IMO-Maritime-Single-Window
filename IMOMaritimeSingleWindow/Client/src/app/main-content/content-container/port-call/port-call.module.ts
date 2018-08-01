@@ -41,6 +41,7 @@ import { SelectDateComponent } from './registration/forms/shared/select-date/sel
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
 
 @NgModule({
   imports: [
@@ -84,7 +85,8 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
     PassengerListComponent,
     SelectDateComponent,
     SavePassengerListComponent,
-    SavePrevAndNextPocComponent
+    SavePrevAndNextPocComponent,
+    IdentityDocumentComponent
   ],
   exports: [
     ClearanceComponent,
