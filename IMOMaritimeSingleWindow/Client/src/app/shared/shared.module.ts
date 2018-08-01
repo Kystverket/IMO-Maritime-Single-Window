@@ -18,6 +18,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { LocationInfoTableComponent } from './components/location-info-table/location-info-table.component';
 import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
 import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-table/prev-and-next-poc-table.component';
+import { SearchCountryComponent } from './components/search-country/search-country.component';
 import { SearchLocationComponent } from './components/search-location/search-location.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/search-ship-flag-code.component';
@@ -57,6 +58,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     OrganizationSmartTableComponent,
     PortCallDetailsComponent,
     PositiveNumberValidator,
+    SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
@@ -84,6 +86,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     NumberValidator,
     OrganizationSmartTableComponent,
     PositiveNumberValidator,
+    SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,

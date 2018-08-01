@@ -20,7 +20,7 @@
   <div class="input-group-prepend flag">
     <img src="assets/images/flags/128x128/{{locationFlag | lowercase}}.png" height="30px">
   </div>
-  <input id="search-location" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="locationModel.name"
+  <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="locationModel.name"
   />
   <div>
     <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="deselectLocation()">

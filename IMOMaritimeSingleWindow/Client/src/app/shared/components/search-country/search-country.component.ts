@@ -13,7 +13,6 @@ import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 })
 export class SearchCountryComponent implements OnInit {
 
-  @Input() label: string;
   @Input() showDropDown = true;
 
   @Output() selectCountry: EventEmitter<any> = new EventEmitter();

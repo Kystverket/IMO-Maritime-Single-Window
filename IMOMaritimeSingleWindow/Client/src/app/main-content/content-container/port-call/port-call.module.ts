@@ -37,7 +37,6 @@ import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-s
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { CountryService } from 'app/shared/services/country.service';
-import { SearchCountryComponent } from './registration/forms/shared/search-country/search-country.component';
 import { SelectDateComponent } from './registration/forms/shared/select-date/select-date.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
@@ -83,7 +82,6 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    SearchCountryComponent,
     SelectDateComponent,
     SavePassengerListComponent,
     SavePrevAndNextPocComponent
