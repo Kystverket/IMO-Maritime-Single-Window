@@ -10,7 +10,7 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 
 @Component({
   selector: 'app-button-row',
@@ -34,6 +34,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   portCallIsCancelled = false;
   portCallIsAwaitingClearance = false;
   portCallIsCleared = false;
+  portCallIsCompleted = false;
 
   constructor(
     private accountService: AccountService,
@@ -49,6 +50,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.portCallIsCancelled = (this.rowData.overviewModel.status === PortCallStatusTypes.CANCELLED);
     this.portCallIsAwaitingClearance = (this.rowData.overviewModel.status === PortCallStatusTypes.AWAITING_CLEARANCE);
     this.portCallIsCleared = (this.rowData.overviewModel.status === PortCallStatusTypes.CLEARED);
+    this.portCallIsCompleted = (this.rowData.overviewModel.status === PortCallStatusTypes.COMPLETED);
     this.accountService.userClaimsData$.subscribe(
       userClaims => {
         if (userClaims) {

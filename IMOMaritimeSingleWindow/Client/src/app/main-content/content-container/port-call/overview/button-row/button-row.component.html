@@ -10,7 +10,7 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.edit">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled || portCallIsCompleted" disabled>
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
@@ -30,23 +30,23 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.edit && !portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled || portCallIsAwaitingClearance" disabled>
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/time.png" height="20px" />
         </div>
       </button>
 
-      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" *ngIf="!portCallIsCancelled && !portCallIsDraft"></app-set-actual-time>
+      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" *ngIf="portCallIsCleared || portCallIsCompleted"></app-set-actual-time>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
-      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled || portCallIsCompleted" disabled>
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Review port call clearance" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Review port call clearance" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled && !portCallIsCompleted">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
         </div>
@@ -54,13 +54,13 @@
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.cancel && !portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsDraft || portCallIsCancelled" disabled>
+      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled || portCallIsCompleted" disabled>
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="portCallIsAwaitingClearance || portCallIsCleared">
         <div class="mx-auto">
           <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
