@@ -50,7 +50,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
-                <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="unsetNationality()"></app-search-country>
+                <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Coutry of Birth</label>
-                <app-search-country (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="unsetCountryOfBirth()"></app-search-country>
+                <app-search-country (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
               </div>
             </div>
 
@@ -99,7 +99,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Issuing Nation</label>
-                <app-search-country (selectCountry)="setIssuingNation($event)" (deselectCountry)="unsetIssuingNation()"></app-search-country>
+                <app-search-country (selectCountry)="setIssuingNation($event)" (deselectCountry)="deselectIssuingNation()"></app-search-country>
               </div>
             </div>
 
@@ -116,7 +116,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="numberOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
-                <input type="number" required [(ngModel)]="identityDocumentModel.identityDocumentId" placeholder="Number of Identity Document"
+                <input type="number" required [(ngModel)]="identityDocumentModel.identityDocumentNumber" placeholder="Number of Identity Document"
                   class="form-control form-control-sm" name="numberOfIdentityDoc" integerValidator positiveNumberValidator>
               </div>
             </div>
@@ -182,7 +182,7 @@
             <div class="form-group">
               <div class="col my-auto">
                 <label for="search-port-of-embarkation" class="col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
-                <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfEmbarkationResult($event)"
+                <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfEmbarkation($event)"
                   id="search-port-of-embarkation"></app-search-location>
 
                 <div class="input-group" *ngIf="portCallPassengerModel.portOfEmbarkation">
@@ -201,7 +201,7 @@
             <div class="form-group">
               <div class="col my-auto">
                 <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
-                <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="onPortOfDisembarkationResult($event)"
+                <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"
                   id="app-find-port-of-disembarkation"></app-search-location>
                 <div class="input-group" *ngIf="portCallPassengerModel.portOfDisembarkation">
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
