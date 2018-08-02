@@ -39,7 +39,7 @@
           </div>
         </button>
       </div>
-      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" (statusChangedToComplete)="onCompletePortCall()" (statusChangedToCleared)="onUncompletePortCall()" *ngIf="portCallIsCleared || portCallIsCompleted"></app-set-actual-time>
+      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" (portCallModelChange)="onPortCallModelChange($event)" *ngIf="portCallIsCleared || portCallIsCompleted"></app-set-actual-time>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.clearance">

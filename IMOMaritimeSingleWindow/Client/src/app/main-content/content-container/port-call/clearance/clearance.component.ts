@@ -87,7 +87,10 @@ export class ClearanceComponent implements OnInit, OnDestroy {
       );
     } else {
       this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(
-        res => console.log('Status set to awaiting clearance'),
+        res => {
+          console.log(res);
+          console.log('Status set to awaiting clearance');
+        },
         err => console.log(err)
       );
     }
