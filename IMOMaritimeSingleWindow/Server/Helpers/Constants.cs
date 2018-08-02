@@ -13,10 +13,11 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
                 public const int OTHER_PURPOSE_ID = 100249;
-                public const int PORT_CALL_STATUS_ACTIVE = 100232;
+                public const int PORT_CALL_STATUS_AWAITING_CLEARANCE = 100232;
                 public const int PORT_CALL_STATUS_CANCELLED = 100233;
                 public const int PORT_CALL_STATUS_COMPLETED = 100234;
                 public const int PORT_CALL_STATUS_DRAFT = 100235;
+                public const int PORT_CALL_STATUS_CLEARED = 100236;
             }
         }
 

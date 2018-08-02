@@ -18,6 +18,7 @@ export class DateTimePickerComponent implements OnInit {
   };
 
   @Output() dateTimeResult = new EventEmitter<DateTime>();
+  @Output() dateFormatError = new EventEmitter<boolean>();
 
   validDateFormat = true;
 
@@ -35,7 +36,11 @@ export class DateTimePickerComponent implements OnInit {
   }
 
   persistData() {
-    if (this.dateTimeModel.date && this.validDateFormat && this.dateTimeModel.time) {
+    this.dateFormatError.emit(!this.validDateFormat);
+    if (this.dateTimeModel.date && this.validDateFormat) {
+      if (this.dateTimeModel.time == null) {
+        this.dateTimeModel.time = new NgbTime(0, 0, 0);
+      }
       this.dateTimeResult.emit(this.dateTimeModel);
     } else {
       this.dateTimeResult.emit(null);
