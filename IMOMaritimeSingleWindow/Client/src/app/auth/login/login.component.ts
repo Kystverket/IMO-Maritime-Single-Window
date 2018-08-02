@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.errors = '';
     if (valid) {
       this.isRequesting = true;
-      this.loginService.login(value.userName, value.password)
+      this.loginService.login(value)
         .finally(() => {
           this.isRequesting = false;
         })
