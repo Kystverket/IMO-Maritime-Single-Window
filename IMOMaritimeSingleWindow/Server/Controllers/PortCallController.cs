@@ -35,9 +35,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HttpGet("{portCallId}/personOnBoard")]
-        public IActionResult GetPersonOnBoard(int portCallId)
+        public IActionResult GetAllPersonOnBoardByPortCall(int portCallId)
         {
-            var personOnBoard = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
             .Include(pob => pob.PortCall)
             .Include(pob => pob.Nationality)
             .Include(pob => pob.IdentityDocument)
@@ -46,6 +46,25 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pob => pob.PortOfDisembarkation)
             .Include(pob => pob.Gender)
             .ToList();
+            if (personOnBoardList == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoardList);
+        }
+
+        [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
+        public IActionResult GetPersonOnBoardById(int portCallId, int personOnBoardId)
+        {
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId);
+            var personOnBoard = personOnBoardList.Where(s => s.PersonOnBoardId == personOnBoardId)
+            .Include(pob => pob.PortCall)
+            .Include(pob => pob.Nationality)
+            .Include(pob => pob.IdentityDocument)
+            .Include(pob => pob.CountryOfBirth)
+            .Include(pob => pob.PortOfEmbarkation)
+            .Include(pob => pob.PortOfDisembarkation)
+            .Include(pob => pob.Gender);
             if (personOnBoard == null)
             {
                 return NotFound();
