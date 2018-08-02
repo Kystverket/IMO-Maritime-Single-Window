@@ -42,24 +42,18 @@ export class LoginService extends BaseService {
 
   protected /*override*/ handleError(error: HttpErrorResponse | any) {
     let errMsg: any;
-    console.log('typeof error:', typeof error);
-    console.log('error', error);
 
     if (error instanceof HttpErrorResponse) {
       const ERROR = error as HttpErrorResponse;
       if (ERROR.status >= 500) {
         errMsg = `${ERROR.status} ${ERROR.statusText}`;
       } else if (ERROR.status >= 400) {
-        errMsg = 'LOGIN FAILED';
+        errMsg = 'Login failed';
       } else if (ERROR.error.error instanceof SyntaxError) {
-        console.log('else if (error instanceof SyntaxError)');
         errMsg = 'Application error';
       } else {
-        console.log('else');
         errMsg = error.message ? error.message : error.toString();
       }
-
-      console.error(errMsg);
       return Observable.throw(errMsg);
     }
   }

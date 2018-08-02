@@ -7,17 +7,16 @@ import { Credentials } from 'app/shared/interfaces/credentials.interface';
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { LoginService } from 'app/shared/services/login.service';
-import 'rxjs/add/operator/finally';
 import { PasswordService } from '../password.service';
+import { MenuClaims } from '../../shared/constants/menu-claims';
+import { AuthService } from '../../shared/services/auth-service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-
 export class LoginComponent implements OnInit {
-
   login_title = 'LOGIN';
 
   brandNew: boolean;
@@ -32,43 +31,62 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private accountService: AccountService,
+    private authService: AuthService,
     private passwordService: PasswordService
-  ) { }
+  ) {}
 
-  login({ value, valid }: { value: Credentials, valid: boolean }) {
+  private logError(error: any) {
+    this.errors = error;
+    this.credentials.password = '';
+  }
+
+  async login({ value, valid }: { value: Credentials; valid: boolean }) {
     this.submitted = true;
     this.errors = '';
     if (valid) {
       this.isRequesting = true;
-      this.loginService.login(value)
-        .finally(() => {
-          this.isRequesting = false;
-        })
-        .subscribe(result => {
-          // Login succeeded
-          if (result) {
-            // Set user claims observable so they are
-            // available for the entire application
-            this.accountService.getUserClaims()
-              // Navigate to root when done
-              .finally(() => {
-                this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
-                this.router.navigate(['']);
-              })
-              .subscribe(claims => {
-                if (claims) {
-                  this.accountService.setUserClaims(claims);
-                  localStorage.setItem('user_claims', JSON.stringify(claims));
-                }
-              });
-          }
-          // Login failed
-        }, error => {
-          this.errors = error;
-          this.credentials.password = '';
-          }
+
+      const jwtResponse = await this.loginService
+        .login(value)
+        .toPromise()
+        .then(
+          jwt => {
+            if (jwt) {
+              return jwt;
+            }
+            // Login failed
+          },
+          error => this.logError(error)
         );
+      if (!this.errors) {
+        await this.accountService
+          .getUserClaims()
+          .toPromise()
+          .then(
+            claims => {
+              if (claims) {
+                this.accountService.setUserClaims(claims);
+                if (this.authService.hasPortCallMenuClaim(claims)) {
+                  this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+                  this.router.navigate(['']);
+                }
+              } else {
+                this.loginService.logout();
+                this.router.navigate(['/error']);
+              }
+              // Error getting user claims
+            },
+            error => this.logError(error)
+          );
+      }
+      this.isRequesting = false;
     }
+  }
+
+  hasPortCallMenuClaim(claims: any[]): boolean {
+    return claims
+      .filter(claim => claim.type === MenuClaims.TYPE)
+      .some(claim => claim.value === MenuClaims.PORT_CALL);
   }
 
   setResetRequested() {
@@ -77,13 +95,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     // subscribe to router event
-    this.activatedRoute.queryParams.subscribe(
-      (param: any) => {
-        this.brandNew = param['brandNew'];
-        // this.credentials.userName = param['userName'];
-      }
-    );
+    this.activatedRoute.queryParams.subscribe((param: any) => {
+      this.brandNew = param['brandNew'];
+      // this.credentials.userName = param['userName'];
+    });
     this.passwordService.setResetRequested(false);
   }
-
 }
