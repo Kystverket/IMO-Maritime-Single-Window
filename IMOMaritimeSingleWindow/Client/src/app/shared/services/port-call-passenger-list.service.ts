@@ -163,13 +163,9 @@ export class PortCallPassengerListService {
     this.passengerListMeta.next(metaData);
   }
 
-  setDataIsPristine(isPristine) {
+  setDataIsPristine(isPristine: Boolean) {
     this.dataIsPristine.next(isPristine);
   }
-
-/*   setPassengerModel(data) {
-    this.passengerModelSource.next(data);
-  } */
 
   deletePassengerEntry(data) {
     let copyPassengerList = this.passengerListSource.getValue();
