@@ -34,6 +34,20 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpGet("{portCallId}/consignments")]
+        public IActionResult GetConsignments(int portCallId)
+        {
+            var consignments = _context.Consignment.Where(c => c.PortCallId == portCallId)
+                                                    .Include(c => c.CargoItem)
+                                                    .ThenInclude(c => c.PackageType)
+                                                    .ToList();
+            if (consignments == null)
+            {
+                return NotFound();
+            }
+            return Json(consignments);
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
