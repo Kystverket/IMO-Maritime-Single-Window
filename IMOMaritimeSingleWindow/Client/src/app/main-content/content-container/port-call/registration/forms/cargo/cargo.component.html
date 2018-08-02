@@ -1,0 +1,6 @@
+<app-ssn-card header="Cargo" icon="cargo.png">
+  <div *ngFor="let entry of consignmentList">
+    <pre>{{ entry.remark }}</pre>
+    <app-cargo-table [cargoItemList]="entry.cargoItem"></app-cargo-table>
+  </div>
+</app-ssn-card>

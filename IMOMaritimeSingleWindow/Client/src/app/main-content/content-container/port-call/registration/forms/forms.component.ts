@@ -14,11 +14,13 @@ import { Subscription } from 'rxjs/Subscription';
 export class FormsComponent implements OnInit, OnDestroy {
 
   selectedComponent: string;
+  portCallId: number;
 
   formNames: any;
 
   shipDataSubscription: Subscription;
   portCallFormNameSubscription: Subscription;
+  portCallIdSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -26,6 +28,13 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService) { }
 
   ngOnInit() {
+    this.portCallIdSubscription = this.portCallService.detailsIdentificationData$.subscribe(
+      idResult => {
+        if (idResult) {
+          this.portCallId = idResult.portCallId;
+        }
+      }
+    );
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(
       shipResult => {
         this.shipService.setShipOverviewData(shipResult);

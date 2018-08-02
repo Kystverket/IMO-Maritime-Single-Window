@@ -1,6 +1,6 @@
 import { Injectable } from '../../../../node_modules/@angular/core';
 import { HttpClient } from '../../../../node_modules/@angular/common/http';
-import { BehaviorSubject } from '../../../../node_modules/rxjs';
+import { BehaviorSubject, Observable } from '../../../../node_modules/rxjs';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
 @Injectable()
@@ -23,9 +23,9 @@ export class FalCargoService {
         this.consignmentListSource.next(data);
     }
 
-    getConsignmentListForPortCall(portCallId: number) {
+    getConsignmentListForPortCall(portCallId: number): Observable<ConsignmentModel[]> {
         const uri = [this.portCallUrl, portCallId, this.consignmentsString].join('/');
-        return this.http.get(uri);
+        return this.http.get<ConsignmentModel[]>(uri);
     }
 
     saveConsignmentListForPortCall(consignmentList: ConsignmentModel[], portCallId: number) {
