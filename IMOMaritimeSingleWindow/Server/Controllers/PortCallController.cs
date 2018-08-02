@@ -48,6 +48,26 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(consignments);
         }
 
+        [HttpPut("{portCallId}/consignments")]
+        public IActionResult UpdateConsignmentList([FromBody] List<Consignment> consignmentList, int portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Consignment.RemoveRange(_context.Consignment.Where(c => c.PortCallId == portCallId).ToList());
+                _context.Consignment.AddRange(consignmentList);
+                _context.SaveChanges();
+                return Json(consignmentList);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
