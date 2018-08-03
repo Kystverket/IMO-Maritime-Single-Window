@@ -66,6 +66,34 @@ export class ClearanceComponent implements OnInit, OnDestroy {
     this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
+
+    if (this.clearanceModel.cleared) {
+      this.portCallService.getClearanceListForPortCall(this.clearanceModel.portCallId).subscribe(
+        result => {
+          const clearances = result;
+          let allCleared = true;
+          clearances.forEach(clearance => {
+            if (!clearance.cleared && clearance.organizationPortCallId !== this.clearanceModel.organizationPortCallId) {
+              allCleared = false;
+            }
+          });
+          if (allCleared) {
+            this.portCallService.updatePortCallStatusCleared(this.clearanceModel.portCallId).subscribe(
+              res => console.log('Status set to cleared.'),
+              err => console.log(err)
+            );
+          }
+        }
+      );
+    } else {
+      this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(
+        res => {
+          console.log(res);
+          console.log('Status set to awaiting clearance');
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   goBack() {
