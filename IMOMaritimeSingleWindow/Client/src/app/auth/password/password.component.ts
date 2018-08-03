@@ -1,14 +1,14 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { TokenQueryModel } from "../../shared/models/token-query-model";
-import { AccountService } from "../../shared/services/account.service";
-import { UriQueryService } from "../../shared/services/uri-query.service";
-import { ActivatedRoute, Route, Router } from "@angular/router";
-import { PasswordResetModel } from "../../shared/models/password-reset-model";
-import { PasswordChangeModel } from "../../shared/models/password-change-model";
+import { Component, OnInit, Input } from '@angular/core';
+import { TokenQueryModel } from '../../shared/models/token-query-model';
+import { AccountService } from '../../shared/services/account.service';
+import { UriQueryService } from '../../shared/services/uri-query.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { PasswordResetModel } from '../../shared/models/password-reset-model';
+import { PasswordChangeModel } from '../../shared/models/password-change-model';
 import {
   PASSWORD_COMPONENT_NAME,
   PASSWORD_COMPONENT_TYPE
-} from "../../shared/constants/password-component-types";
+} from '../../shared/constants/password-component-types';
 
 @Component({
   selector: 'app-password',
@@ -110,10 +110,8 @@ export class PasswordComponent implements OnInit {
 
     this.accountService.resetPassword(model).subscribe(
       res => {
-        if (res) {
-          console.log('reset successful');
-          return true;
-        }
+        console.log('reset successful');
+        return true;
       },
       error => {
         console.log('error');

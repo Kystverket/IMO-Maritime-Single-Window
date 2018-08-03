@@ -1,16 +1,16 @@
-import { AuthRequest } from "./auth.request.service";
-import { BaseRequest } from "app/shared/utils/base.request";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { ConfigService } from "app/shared/utils/config.service";
+import { AuthRequest } from './auth.request.service';
+import { BaseRequest } from 'app/shared/utils/base.request';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConfigService } from 'app/shared/utils/config.service';
 import {
   HttpClient,
   HttpResponse,
   HttpHeaders,
   HttpErrorResponse
-} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs/Observable";
-import { TokenQueryModel } from "../models/token-query-model";
+} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { TokenQueryModel } from '../models/token-query-model';
 import { PasswordResetModel } from '../models/password-reset-model';
 import { PasswordChangeModel } from '../models/password-change-model';
 import { UserModel } from '../models/user-model';

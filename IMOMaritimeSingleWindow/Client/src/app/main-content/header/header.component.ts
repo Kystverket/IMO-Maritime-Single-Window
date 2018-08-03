@@ -6,7 +6,7 @@ import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
 import { AccountService } from '../../shared/services/account.service';
 import { ContentService } from '../../shared/services/content.service';
 import { LoginService } from '../../shared/services/login.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
 import { of } from 'rxjs/observable/of';
