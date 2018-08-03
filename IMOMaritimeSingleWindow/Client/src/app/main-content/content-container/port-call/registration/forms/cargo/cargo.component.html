@@ -1,6 +1,6 @@
 <app-ssn-card header="Cargo" icon="cargo.png">
-  <div *ngFor="let entry of consignmentList">
-    <pre>{{ entry.remark }}</pre>
-    <app-cargo-table [cargoItemList]="entry.cargoItem"></app-cargo-table>
-  </div>
+  <label class="no-wrap mb-0" for="consignment_select">Select consignment</label>
+  <ng-select id="consignment_select" name="consignment_select" [items]="consignmentList" [multiple]="false" [closeOnSelect]="true"
+    bindLabel="remark" placeholder="Select consignment" [(ngModel)]="selectedConsignment" (change)="selectConsignment($event)"></ng-select>
+  <app-consignment-form *ngIf="consignmentIsSelected" [consignmentModel]="selectedConsignment"></app-consignment-form>
 </app-ssn-card>

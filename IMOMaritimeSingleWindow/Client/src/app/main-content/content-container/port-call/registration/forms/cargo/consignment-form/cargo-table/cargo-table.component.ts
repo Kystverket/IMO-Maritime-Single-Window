@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CargoItemModel } from 'app/shared/models/cargo-item-model';
-import { LocalDataSource } from '../../../../../../../../../node_modules/ng2-smart-table';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'app-cargo-table',
