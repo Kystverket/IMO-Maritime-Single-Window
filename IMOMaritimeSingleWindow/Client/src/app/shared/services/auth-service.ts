@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
 import { Observable } from 'rxjs/Observable';
-import { AuthRequest } from './auth.request.service';
 import { HttpClient } from '@angular/common/http';
+import { MenuClaims } from '../constants/menu-claims';
 
 @Injectable()
 export class AuthService extends BaseRequest {
@@ -37,4 +36,10 @@ export class AuthService extends BaseRequest {
     return this.http
       .get<boolean>(this.actionUrl + '/hasValidToken');
   }
+
+  hasPortCallMenuClaim(claims: any[]): boolean {
+    return claims.filter(claim => claim.type === MenuClaims.TYPE)
+    .some(claim => claim.value === MenuClaims.PORT_CALL);
+  }
+
 }
