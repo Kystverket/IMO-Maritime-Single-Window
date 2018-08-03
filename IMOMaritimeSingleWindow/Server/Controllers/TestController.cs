@@ -115,7 +115,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
             );
 
-            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientUris.EMAILCONFIRMATION))
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientURIs.EMAILCONFIRMATION))
             {
                 Query = queryBuilder.ToString()
             };

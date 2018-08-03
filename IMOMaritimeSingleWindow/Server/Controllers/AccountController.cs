@@ -350,7 +350,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
             );
 
-            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientUris.EMAILCONFIRMATION))
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientURIs.EMAILCONFIRMATION))
             {
                 Query = queryBuilder.ToString()
             };
@@ -372,7 +372,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
             );
 
-            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientUris.RESETPASSWORD))
+            UriBuilder uriBuilder = new UriBuilder(GetCallBackUri(Constants.Strings.ClientURIs.RESETPASSWORD))
             {
                 Query = queryBuilder.ToString()
             };

@@ -1,6 +1,7 @@
 import { AccountService } from './shared/services/account.service';
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
+import { AuthModule } from './auth/auth.module';
 import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
 import { AuthRequest } from './shared/services/auth.request.service';
 import { AuthService } from './shared/services/auth-service';
@@ -24,11 +25,13 @@ import { RootGuard } from './guards/root.guard';
 import { BLACKLISTED_ROUTES } from './shared/constants/blacklisted-routes';
 
 
+
 @NgModule({
   imports: [
     AppRoutingModule,
     BrowserModule,
     ContentContainerModule,
+    AuthModule,
     ErrorModule,
     FormsModule,
     HttpClientModule,

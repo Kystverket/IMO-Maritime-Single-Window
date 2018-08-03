@@ -26,8 +26,11 @@ export class PasswordComponent implements OnInit {
   errors: string;
   isChangeComponent = false;
   fieldFocused = true;
+
+  // Error component
+  submissionReady = false;
   actionSucceeded = false;
-  successText: string;
+  successMessage: string;
   errorDescription: string;
 
   private componentName: string;
@@ -90,12 +93,12 @@ export class PasswordComponent implements OnInit {
 
     this.accountService.changePassword(model).subscribe(
       response => {
-        this.actionSucceeded = true;
-        this.successText = 'Password change successful';
+        const message = 'Password change successful';
+        this.reportSuccess(message);
       },
       errors => {
-        this.errors = errors;
-        this.errorDescription = `Password ${this.purpose} unsuccessful`;
+        const message = `Password change unsuccessful`;
+        this.reportError(errors, message);
       }
     );
   }
@@ -109,13 +112,14 @@ export class PasswordComponent implements OnInit {
     };
 
     this.accountService.resetPassword(model).subscribe(
-      res => {
-        console.log('reset successful');
+      response => {
+        const message = 'Password reset successful';
+        this.reportSuccess(message);
         return true;
       },
-      error => {
-        console.log('error');
-        this.errors = error;
+      errors => {
+        const message = `Password reset unsuccessful`;
+        this.reportError(errors, message);
         return false;
       }
     );
@@ -132,16 +136,28 @@ export class PasswordComponent implements OnInit {
       };
       this.accountService.resetPassword(model).subscribe(
         result => {
-          if (result) {
-            console.log('Password reset successful');
-          }
+          const message = 'Password assignment successful!';
+          this.reportSuccess(message);
         },
-        error => {
-          this.errors = error;
-          console.log('Password reset unsuccessful');
+        errors => {
+          const message = 'Password assignment unsuccessful!';
+          this.reportError(errors, message);
         }
       );
     }
+  }
+
+  reportSuccess(message: string) {
+    this.submissionReady = true;
+    this.actionSucceeded = true;
+    this.successMessage = message;
+  }
+
+  reportError(error: any, message: string) {
+    this.submissionReady = true;
+    this.actionSucceeded = false;
+    this.errors = error;
+    this.errorDescription = message;
   }
 
   ngOnInit() {
@@ -152,13 +168,11 @@ export class PasswordComponent implements OnInit {
         this.isChangeComponent = true;
         this.componentType =
           PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.CHANGE];
-        console.log('Password change component');
         break;
       case PASSWORD_COMPONENT_NAME.RESET:
         // this.componentName = PASSWORD_COMPONENT_NAME.RESET;
         this.componentType =
           PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.RESET];
-        console.log('Password reset component');
         break;
       case PASSWORD_COMPONENT_NAME.SET:
         // this.componentName = PASSWORD_COMPONENT_NAME.SET;
@@ -167,7 +181,6 @@ export class PasswordComponent implements OnInit {
         this.uriQueryService.tokenQueryModelData$.subscribe(token => {
           this.passwordResetToken = token.token;
         });
-        console.log('Password set component');
         break;
       default:
         this.router.navigate(['/error']);
