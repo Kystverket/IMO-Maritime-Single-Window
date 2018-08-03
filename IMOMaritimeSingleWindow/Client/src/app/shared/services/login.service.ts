@@ -4,8 +4,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from '../utils/config.service';
 import { BaseService } from './base.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { Credentials } from '../interfaces/credentials.interface';
+import { JWTResponse } from '../interfaces/jwt-response.interface';
 
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
 
@@ -38,64 +40,51 @@ export class LoginService extends BaseService {
     });
   }
 
+  protected /*override*/ handleError(error: HttpErrorResponse | any) {
+    let errMsg: any;
 
-  protected /*override*/ handleError(error: Response | any) {
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      if (error.status === 400) {
-        console.log('error instanceof Response && error.status == 400');
-        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    if (error instanceof HttpErrorResponse) {
+      const ERROR = error as HttpErrorResponse;
+      if (ERROR.status >= 500) {
+        errMsg = `${ERROR.status} ${ERROR.statusText}`;
+      } else if (ERROR.status >= 400) {
+        errMsg = 'Login failed';
+      } else if (ERROR.error.error instanceof SyntaxError) {
+        errMsg = 'Application error';
       } else {
-        console.log('error instanceof Response && error.status != 400');
-        errMsg = "Server error";
-        // errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-      }
-    } else {
-      if (error.status === 400) {
-        const body = error.json() || '';
-        const err = body.error || JSON.stringify(body);
-        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-      } else {
-        // errMsg = "Server error";
         errMsg = error.message ? error.message : error.toString();
       }
-      // console.log(error.constructor.name);
-      // console.log(error.json());
-      // errMsg = error.message ? error.message : error.toString();
+      return Observable.throw(errMsg);
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
   }
 
-  login(userName, password) {
+  login(credentials: Credentials): Observable<JWTResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
     return this.http
-      .post(
+      .post<JWTResponse>(
         this.baseUrl + '/auth/login',
-        JSON.stringify({ userName, password }),
+        credentials,
         { headers }
       )
-      .map(res => JSON.stringify(res))
-      .map(res => {
-        if (res) {
-          localStorage.setItem('auth_token', JSON.parse(res).auth_token);
+      .map(jwtResponse => {
+        if (jwtResponse) {
+          localStorage.setItem('auth_token', jwtResponse.auth_token);
           this.loggedIn = true;
           this._loggedInSource.next(true);
           this._authNavStatusSource.next(true);
-          return true;
+        } else {
+          this._loggedInSource.next(false);
+          this._authNavStatusSource.next(false);
         }
-        this._loggedInSource.next(false);
-        this._authNavStatusSource.next(false);
-        return false;
+        return jwtResponse;
       }, error => {
         console.log('error logging in', error);
       })
       .catch(this.handleError);
+      // .catch( (error: HttpErrorResponse) => this.handleError2(error) );
   }
 
   logout() {
@@ -116,7 +105,7 @@ export class LoginService extends BaseService {
     return !isExpired;
   }
 
-  private tryParseAsJson(error: any) {
+  private tryParseAsJson(error: any): boolean {
     let response: any;
     try {
         response = error.json();

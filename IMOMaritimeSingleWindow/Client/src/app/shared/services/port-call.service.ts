@@ -163,12 +163,12 @@ export class PortCallService {
   }
 
   // REGISTER NEW PORT CALL
-  registerNewPortCall(portCall: PortCallModel) {
+  registerNewPortCall(portCall: PortCallModel): Observable<PortCallModel> {
     // NEW
     console.log('Registering new port call...');
     const uri: string = this.portCallUrl;
     this.setPortCallStatus('Draft');
-    return this.http.post(uri, portCall);
+    return this.http.post<PortCallModel>(uri, portCall);
   }
   // Set port call status to actual
   updatePortCallStatusActive(portCallId: number) {
@@ -192,7 +192,7 @@ export class PortCallService {
     console.log('Updating port call status to draft...');
     return this.http
       .put(uri, null)
-      .map(res => res.json());
+      .map(res => res);
   }
 
   // Delete port call draft

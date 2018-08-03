@@ -5,7 +5,10 @@ import { UriQueryService } from '../../shared/services/uri-query.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PasswordResetModel } from '../../shared/models/password-reset-model';
 import { PasswordChangeModel } from '../../shared/models/password-change-model';
-import { PASSWORD_COMPONENT_NAME, PASSWORD_COMPONENT_TYPE } from '../../shared/constants/password-component-types';
+import {
+  PASSWORD_COMPONENT_NAME,
+  PASSWORD_COMPONENT_TYPE
+} from '../../shared/constants/password-component-types';
 
 @Component({
   selector: 'app-password',
@@ -13,8 +16,6 @@ import { PASSWORD_COMPONENT_NAME, PASSWORD_COMPONENT_TYPE } from '../../shared/c
   styleUrls: ['./password.component.css']
 })
 export class PasswordComponent implements OnInit {
-
-
   @Input() purpose: string;
 
   currentPassword = '';
@@ -24,6 +25,10 @@ export class PasswordComponent implements OnInit {
   fieldsFilled = false;
   errors: string;
   isChangeComponent = false;
+  fieldFocused = true;
+  actionSucceeded = false;
+  successText: string;
+  errorDescription: string;
 
   private componentName: string;
   private componentType: number;
@@ -38,23 +43,31 @@ export class PasswordComponent implements OnInit {
     private router: Router
   ) {}
 
-  checkFill() {
+  validateFields() {
+    this.fieldsFilled = this.checkFieldsFilled();
+    this.passwordMatch = this.checkPasswordsMatch();
+  }
+
+  private checkFieldsFilled(): boolean {
     if (this.componentType === PASSWORD_COMPONENT_TYPE.CHANGE) {
-      this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '' && this.currentPassword !== '';
+      return (
+        this.inputOne !== '' &&
+        this.inputTwo !== '' &&
+        this.currentPassword !== ''
+      );
     } else {
-      this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
+      return this.inputOne !== '' && this.inputTwo !== '';
     }
   }
 
-  checkPasswords() {
-    this.checkFill();
-    this.passwordMatch =
+  private checkPasswordsMatch(): boolean {
+    return (
       !(this.inputOne === '' || this.inputTwo === '') &&
-      this.inputOne === this.inputTwo;
+      this.inputOne === this.inputTwo
+    );
   }
 
   editPassword() {
-    console.log('editPassword() called');
     switch (this.componentType) {
       case PASSWORD_COMPONENT_TYPE.CHANGE:
         this.changePassword();
@@ -74,14 +87,15 @@ export class PasswordComponent implements OnInit {
       currentPassword: this.currentPassword,
       newPassword: this.inputOne
     };
-    this.accountService.changePassword(model)
-      .subscribe(res => {
-        if (res) {
-          console.log('change successful');
-        }
-      }, error => {
-        console.log('error');
-        this.errors = error;
+
+    this.accountService.changePassword(model).subscribe(
+      response => {
+        this.actionSucceeded = true;
+        this.successText = 'Password change successful';
+      },
+      errors => {
+        this.errors = errors;
+        this.errorDescription = `Password ${this.purpose} unsuccessful`;
       }
     );
   }
@@ -96,11 +110,10 @@ export class PasswordComponent implements OnInit {
 
     this.accountService.resetPassword(model).subscribe(
       res => {
-        if (res) {
-          console.log('reset successful');
-          return true;
-        }
-      }, error => {
+        console.log('reset successful');
+        return true;
+      },
+      error => {
         console.log('error');
         this.errors = error;
         return false;
@@ -109,7 +122,6 @@ export class PasswordComponent implements OnInit {
   }
 
   setPassword() {
-
     if (this.passwordResetToken === null) {
       this.errors = 'Application error';
     } else {
@@ -121,9 +133,10 @@ export class PasswordComponent implements OnInit {
       this.accountService.resetPassword(model).subscribe(
         result => {
           if (result) {
-            console.log('Password reset successful?', result);
+            console.log('Password reset successful');
           }
-        }, error => {
+        },
+        error => {
           this.errors = error;
           console.log('Password reset unsuccessful');
         }
@@ -133,28 +146,28 @@ export class PasswordComponent implements OnInit {
 
   ngOnInit() {
     const purpose = this.purpose.toUpperCase();
-    console.log(purpose);
     switch (purpose) {
       case PASSWORD_COMPONENT_NAME.CHANGE:
         // this.componentName = PASSWORD_COMPONENT_NAME.CHANGE;
         this.isChangeComponent = true;
-        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.CHANGE];
-        console.log('Change component');
+        this.componentType =
+          PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.CHANGE];
+        console.log('Password change component');
         break;
       case PASSWORD_COMPONENT_NAME.RESET:
         // this.componentName = PASSWORD_COMPONENT_NAME.RESET;
-        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.RESET];
-        console.log('Reset component');
+        this.componentType =
+          PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.RESET];
+        console.log('Password reset component');
         break;
       case PASSWORD_COMPONENT_NAME.SET:
         // this.componentName = PASSWORD_COMPONENT_NAME.SET;
-        this.componentType = PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.SET];
-        this.uriQueryService.tokenQueryModelData$.subscribe(
-          token => {
-            this.passwordResetToken = token.token;
-          }
-        );
-        console.log('Set component');
+        this.componentType =
+          PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_NAME.SET];
+        this.uriQueryService.tokenQueryModelData$.subscribe(token => {
+          this.passwordResetToken = token.token;
+        });
+        console.log('Password set component');
         break;
       default:
         this.router.navigate(['/error']);
@@ -163,5 +176,4 @@ export class PasswordComponent implements OnInit {
       this.activatedRoute.snapshot.queryParams
     );
   }
-
 }

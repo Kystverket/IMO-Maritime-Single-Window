@@ -100,8 +100,10 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             // Send confirmation link to user's registered email address
             await _emailSender.SendHtml(subject, message, model.Email);
+            // log($"Email sent to {model.Email}");
 
-            return new OkObjectResult($"Account created. Confirmation link sent to {model.Email}");
+            // log($"Account created. Confirmation link sent to {model.Email}");
+            return Ok();
         }
 
         // Temporary test method
@@ -137,7 +139,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var callbackUrl = await GenerateEmailConfirmationLinkAsync(addedUser);
 
             // Return url
-            return new OkObjectResult(callbackUrl);
+            return Ok(callbackUrl);
         }
 
         /// <summary>
@@ -172,7 +174,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
 
             var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-            return Json(passwordChangeToken);
+            return Ok(passwordChangeToken);
         }
 
         /// <summary>
@@ -183,6 +185,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPut("user/password/change")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
+            return Ok();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -196,7 +199,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
             if (result.Succeeded)
-                return Ok("Password changed");
+                return Ok();
             return BadRequest();
         }
 
@@ -223,8 +226,10 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var passwordResetResult = await _userManager.ResetPasswordAsync(user, passwordResetToken, model.NewPassword);
             if (passwordResetResult.Succeeded)
-                return Ok("Password changed");
-
+            {
+                // log($"Password changed for user {user.Email}");
+                return Ok();
+            }
             return BadRequest();
         }
 
@@ -256,12 +261,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             message += "<br><p>If you did not request this password reset, please ignore this message.</p>";
 
             await _emailSender.SendHtml(subject, message, recipient: user.Email);
-            
-            return Ok(true);
+
+            // log($"Reset link sent to {userName}");
+            return Ok();
         }
-
-
-
+        
         /// <summary>
         /// Gets the roles assignable to users.
         /// </summary>
@@ -287,7 +291,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var userId = this.GetUserId();
             var user = await _userManager.FindByIdAsync(userId);
             var displayName = _userManager.GetDisplayName(user);
-            return Json(displayName);
+            return Ok(displayName);
         }
 
         /// <summary>
