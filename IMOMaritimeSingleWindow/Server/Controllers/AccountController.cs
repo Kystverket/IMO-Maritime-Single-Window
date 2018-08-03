@@ -185,7 +185,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPut("user/password/change")]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
-            return Ok();
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

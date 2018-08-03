@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
@@ -7,8 +6,8 @@ import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { LocationModel } from '../models/location-model';
-import { AuthRequest } from './auth.request.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { HttpClient } from '../../../../node_modules/@angular/common/http';
 
 
 
@@ -176,19 +175,19 @@ export class PortCallService {
   updatePortCallStatusAwaitingClearance(portCallId: number) {
     const uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
     console.log('Updating port call status to awaiting clearance...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to cleared
   updatePortCallStatusCleared(portCallId: number) {
     const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
     console.log('Updating port call status to cleared...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to completed
   updatePortCallStatusCompleted(portCallId: number) {
     const uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
     console.log('Updating port call status to completed...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to cancelled
   updatePortCallStatusCancelled(portCallId: number) {
@@ -212,14 +211,8 @@ export class PortCallService {
   // Delete port call draft
   deletePortCallDraft(portCall: PortCallModel) {
     console.log('Deleting port call...');
-    const options = ({
-      headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + localStorage.getItem('auth_token')
-      }),
-      body: portCall
-    });
     const uri: string = this.portCallUrl;
-    return this.http.delete(uri, options);
+    return this.http.delete(uri);
   }
   // Get methods
   getPortCallById(portCallId: number): Observable<PortCallModel> {
@@ -414,7 +407,7 @@ export class PortCallService {
 
   getClearanceListForPortCall(portCallId: number): Observable<any> {
     const uri: string = [this.clearancePortCallUrl, portCallId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
