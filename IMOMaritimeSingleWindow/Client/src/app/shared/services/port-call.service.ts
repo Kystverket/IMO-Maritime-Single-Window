@@ -145,7 +145,7 @@ export class PortCallService {
     this.setPortCallStatus(overview.status);
   }
 
-  updatePortCall(portCall: PortCallModel) {
+  updatePortCall(portCall: PortCallModel): Observable<any> {
     console.log('Updating port call...');
     return this.http
       .put(this.portCallUrl, portCall);
@@ -178,13 +178,13 @@ export class PortCallService {
     return this.http.post(uri, null);
   }
   // Set port call status to cleared
-  updatePortCallStatusCleared(portCallId: number) {
+  updatePortCallStatusCleared(portCallId: number): Observable<any> {
     const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
     console.log('Updating port call status to cleared...');
     return this.http.post(uri, null);
   }
   // Set port call status to completed
-  updatePortCallStatusCompleted(portCallId: number) {
+  updatePortCallStatusCompleted(portCallId: number): Observable<any> {
     const uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
     console.log('Updating port call status to completed...');
     return this.http.post(uri, null);
