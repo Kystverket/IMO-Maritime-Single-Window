@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
+import { ItemsList } from '../../../../node_modules/@ng-select/ng-select/ng-select/items-list';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -86,6 +87,25 @@ export class PortCallPassengerListService {
     });
   }
 
+  getPassengerListByPortCallId(portCallId) {
+      let uri = [this.portCallUrl, portCallId].join('/');
+      uri = [uri, this.personOnBoardString].join('/');
+      return this.http.get(uri).map(res => {
+        return res.json();
+      });
+  }
+
+  getPassengerByPortCallId(portCallId, personOnBoardId) {
+    let uri = [this.portCallUrl, portCallId].join('/');
+    uri = [uri, this.personOnBoardString].join('/');
+    uri = [uri, personOnBoardId].join('/');
+    console.log(uri);
+    return this.http.get(uri).map(res => {
+      console.log(res);
+      return res.json();
+    });
+  }
+
   /* updateIdentityDocumentList(passengerList: any[]) {
     const identityDocumentList: IdentityDocumentModel[] = [];
     passengerList.forEach(passenger => {
@@ -119,13 +139,6 @@ export class PortCallPassengerListService {
     return newPassengerList;
   }
 
-  getPassengerListByPortCallId(portCallId) {
-      let uri = [this.portCallUrl, portCallId].join('/');
-      uri = [uri, this.personOnBoardString].join('/');
-      return this.http.get(uri).map(res => {
-        return res.json();
-      });
-  }
 
   makeTestList(list) {
     const tempList: PersonOnBoardModel[] = [];
@@ -157,6 +170,7 @@ export class PortCallPassengerListService {
     const newList = this.setSequenceNumbers(data);
     this.passengerListSource.next(newList);
     console.log(this.passengerListSource.getValue());
+    this.setDataIsPristine(false);
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
@@ -173,11 +187,19 @@ export class PortCallPassengerListService {
       this.setPassengersList([]);
     } else {
       // Find clicked item
-      copyPassengerList.forEach((item, index) => {
-        if (item.personOnBoardId === data.personOnBoardId) {
-          copyPassengerList.splice(index, 1);
-        }
-      });
+      if (data.personOnBoardId) {
+        copyPassengerList.forEach((item, index) => {
+          if (item.personOnBoardId === data.personOnBoardId) {
+            copyPassengerList.splice(index, 1);
+          }
+        });
+      } else {
+        copyPassengerList.forEach((item, index) => {
+          if (item.sequenceNumber === data.sequenceNumber) {
+            copyPassengerList.splice(index, 1);
+          }
+        });
+      }
       copyPassengerList = this.setSequenceNumbers(copyPassengerList);
       this.setPassengersList(copyPassengerList);
     }
@@ -194,6 +216,27 @@ export class PortCallPassengerListService {
       tempPassengerId++;
     });
     return list;
+  }
+
+  editPassenger(editPassenger: PersonOnBoardModel) {
+    console.log(editPassenger);
+    const copyPassengerList = this.passengerListSource.getValue();
+    console.log(copyPassengerList);
+    if (editPassenger.personOnBoardId) {
+      copyPassengerList.forEach((passenger, index) => {
+        if (passenger.personOnBoardId === editPassenger.personOnBoardId) {
+          copyPassengerList[index] = editPassenger;
+        }
+      });
+      console.log(copyPassengerList);
+    } else {
+      copyPassengerList.forEach((passenger, index) => {
+        if (passenger.sequenceNumber === editPassenger.sequenceNumber) {
+          copyPassengerList[index] = editPassenger;
+        }
+      });
+    }
+    this.setPassengersList(copyPassengerList);
   }
 
 }

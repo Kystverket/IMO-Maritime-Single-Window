@@ -1,3 +1,4 @@
+import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -42,6 +43,7 @@ import { SavePassengerListComponent } from './registration/forms/passenger-list/
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
+import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
 
 @NgModule({
   imports: [
@@ -54,8 +56,9 @@ import { IdentityDocumentComponent } from './registration/forms/shared/identity-
     NgSelectModule,
     SharedModule,
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent],
   declarations: [
+    ActionButtonsComponent,
     ButtonRowComponent,
     ClearanceComponent,
     ClearanceRowComponent,
@@ -86,7 +89,8 @@ import { IdentityDocumentComponent } from './registration/forms/shared/identity-
     SelectDateComponent,
     SavePassengerListComponent,
     SavePrevAndNextPocComponent,
-    IdentityDocumentComponent
+    IdentityDocumentComponent,
+    PassengerModalComponent
   ],
   exports: [
     ClearanceComponent,

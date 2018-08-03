@@ -1,0 +1,54 @@
+<div class="d-table">
+  <div class="d-table-row">
+
+    <div class="d-table-cell pl-1" ngbTooltip="View information">
+      <button class="btn btn-sm btn-ssn" (click)="onViewClick()">
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/eye.png" height="20px" />
+        </div>
+      </button>
+    </div>
+
+    <div class="d-table-cell pl-1">
+
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit" (click)="onEditClick()">
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
+        </div>
+      </button>
+    </div>
+
+    <div class="d-table-cell pl-1">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete" (click)="openModal(deleteModal)">
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
+        </div>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #deleteModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Delete</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>Are you sure you wish to delete this entry?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="onDeleteClick(); close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <span>Delete Port Call</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>

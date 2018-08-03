@@ -1,6 +1,6 @@
 <app-ssn-card header="Add New Passenger" icon="pax.png">
 
-  <form>
+  <form name="mainForm">
 
     <div class="col-lg-12">
       <app-ssn-card header="Personalia" icon="user.png">
@@ -9,8 +9,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name</label>
-                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
-                  required name="familyName">
+                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
+                  class="form-control form-control-sm" required name="familyName">
               </div>
             </div>
             <div class="alert alert-danger" *ngIf="formValid">
@@ -82,8 +82,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender" [closeOnSelect]="true" 
-                  bindLabel="description" placeholder="Gender" (change)="selectGender($event)">
+                <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
+                  [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="selectGender($event)">
                 </ng-select>
               </div>
             </div>
@@ -115,8 +115,8 @@
                   id="search-port-of-embarkation"></app-search-location>
 
                 <div class="input-group" *ngIf="portCallPassengerModel.portOfEmbarkation">
-                  <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm" 
-                    [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name"> 
+                  <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
+                    [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name">
                   <div class="input-group-append">
                     <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
@@ -156,10 +156,10 @@
     <pre>{{ portCallPassengerModel | json }}</pre>
 
     <div class="form-group">
-      <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+      <button *ngIf="mainForm.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
         <span>Submit</span>
       </button>
-      <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
+      <button *ngIf="!mainForm.valid" type="submit" disabled class="btn btn-ssn mt-2">
         <span>Submit</span>
       </button>
     </div>
@@ -179,10 +179,233 @@
         </div>
         <ng2-smart-table [settings]="tableSettings" [source]="passengerListDataSource">
         </ng2-smart-table>
-        
+
       </div>
     </div>
   </div>
 </app-ssn-card>
 
 <app-save-passenger-list></app-save-passenger-list>
+
+
+  <ng-template #viewModal let-close="close()" class="modal fade">
+    <div class="modal-header">
+      <h4 class="modal-title">View</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+
+    </div>
+    <div class="modal-body" *ngIf="modalModel">
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.givenName" readonly type="text" name="givenName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.familyName" readonly type="text" name="familyName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.dateOfBirth" readonly type="text" name="dateOfBirth">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.countryOfBirth" class="form-control form-control-sm" [(ngModel)]="modalModel.countryOfBirth.name"
+              readonly type="text" name="countryOfBirth">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.nationality" class="form-control form-control-sm" [(ngModel)]="modalModel.nationality.name" readonly
+              type="text" name="nationality">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.inTransit" readonly type="text" name="inTransit">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.portOfEmbarkation" class="form-control form-control-sm" [(ngModel)]="modalModel.portOfEmbarkation.name"
+              readonly type="text" name="portOFEmbarkation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.portOfDisembarkation" class="form-control form-control-sm" [(ngModel)]="modalModel.portOfDisembarkation.name"
+              readonly type="text" name="portOfDisembarkation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentNumber" readonly
+              type="text" name="identityDocumentNumber">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentType" readonly type="text"
+              name="identityDocumentType">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentIssueDate" readonly
+              type="text" name="identityDocumentIssueDate">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentExpiryDate" readonly
+              type="text" name="identityDocumentExpiryDate">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].issuingNation.name"
+              readonly type="text" name="issuingNation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].visaOrResidencePermitNumber" readonly
+              type="text" name="visaOrResidencePermitNumber">
+          </div>
+        </div>
+      <pre>{{ modalModel | json }}</pre>
+    </div>
+  </ng-template>
+
+  <ng-template #editModal let-close="close()">
+    <div class="modal-header">
+      <h4 class="modal-title">Edit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="modalModel">
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.givenName" type="text" name="givenName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.familyName" type="text" name="familyName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.dateOfBirth" type="text" name="dateOfBirth">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.countryOfBirth" class="form-control form-control-sm" [(ngModel)]="modalModel.countryOfBirth.name"
+              type="text" name="countryOfBirth">
+            <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.nationality" class="form-control form-control-sm" [(ngModel)]="modalModel.nationality.name" type="text"
+              name="nationality">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
+          <div class="col my-auto">
+            <input class="form-control form-control-sm" [(ngModel)]="modalModel.inTransit" type="text" name="inTransit">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.portOfEmbarkation" class="form-control form-control-sm" [(ngModel)]="modalModel.portOfEmbarkation.name"
+              type="text" name="portOFEmbarkation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.portOfDisembarkation" class="form-control form-control-sm" [(ngModel)]="modalModel.portOfDisembarkation.name"
+              type="text" name="portOfDisembarkation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentNumber" type="text"
+              name="identityDocumentNumber">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentType" type="text"
+              name="identityDocumentType">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentIssueDate" type="text"
+              name="identityDocumentIssueDate">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].identityDocumentExpiryDate" type="text"
+              name="identityDocumentExpiryDate">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].issuingNation.name"
+              type="text" name="issuingNation">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+          <div class="col my-auto">
+            <input *ngIf="modalModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="modalModel.identityDocument[0].visaOrResidencePermitNumber" type="text"
+              name="visaOrResidencePermitNumber">
+          </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ssn" (click)="editPassenger(); close">
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button type="button" class="btn btn-ssn" (click)="close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </ng-template>

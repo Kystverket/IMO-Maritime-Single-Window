@@ -56,15 +56,14 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
         public IActionResult GetPersonOnBoardById(int portCallId, int personOnBoardId)
         {
-            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId);
-            var personOnBoard = personOnBoardList.Where(s => s.PersonOnBoardId == personOnBoardId)
-            .Include(pob => pob.PortCall)
+            var personOnBoardList = _context.PersonOnBoard.Where(pob => pob.PortCallId == portCallId)
             .Include(pob => pob.Nationality)
             .Include(pob => pob.IdentityDocument)
             .Include(pob => pob.CountryOfBirth)
             .Include(pob => pob.PortOfEmbarkation)
             .Include(pob => pob.PortOfDisembarkation)
             .Include(pob => pob.Gender);
+            var personOnBoard = personOnBoardList.FirstOrDefault(pob => pob.PersonOnBoardId == personOnBoardId);
             if (personOnBoard == null)
             {
                 return NotFound();

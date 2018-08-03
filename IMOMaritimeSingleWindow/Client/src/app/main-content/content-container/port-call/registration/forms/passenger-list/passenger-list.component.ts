@@ -12,6 +12,10 @@ import { IdentityDocumentModel } from 'app/shared/models/identity-document-model
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+
+declare var $: any;
 
 @Component({
   selector: 'app-passenger-list',
@@ -32,9 +36,12 @@ export class PassengerListComponent implements OnInit {
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   // selectedIdentityDocType: IdentityDocumentModel;
 
+  modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
 
-  @ViewChild(NgForm) form: NgForm;
+  @ViewChild(NgForm) mainForm: NgForm;
+  @ViewChild('viewModal') viewModal;
+  @ViewChild('editModal') editModal;
 
   booleanList: string[] = ['Yes', 'No'];
   booleanModel = {
@@ -92,7 +99,18 @@ export class PassengerListComponent implements OnInit {
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: DeleteButtonComponent,
+        renderComponent: ActionButtonsComponent,
+        onComponentInitFunction: (instance) => {
+          instance.view.subscribe(row => {
+            this.viewPassenger(row);
+          });
+          instance.edit.subscribe(row => {
+            this.editPassenger(row);
+          });
+          instance.delete.subscribe(row => {
+            this.deletePassenger(row);
+          });
+        }
       },
     }
   };
@@ -103,7 +121,8 @@ export class PassengerListComponent implements OnInit {
   constructor(
     private passengerListService: PortCallPassengerListService,
     private portCallService: PortCallService,
-    private identityDocumentService: IdentityDocumentService
+    private identityDocumentService: IdentityDocumentService,
+    private modalService: NgbModal
   ) {}
 
 
@@ -241,7 +260,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
+    this.passengerListService.setPassengerListMeta({ valid: this.mainForm.valid });
   }
 
   //  one passenger to smart table
@@ -354,6 +373,42 @@ export class PassengerListComponent implements OnInit {
       month: newDate.getMonth() + 1,
       day: newDate.getDate()
     };
+  }
+
+  viewPassenger(row) {
+    console.log('View!');
+    console.log(row);
+    this.getModel(row);
+    this.modalService.open(this.viewModal);
+  }
+
+  editPassenger(row) {
+    console.log('Edit!');
+    console.log(row);
+    this.getModel(row);
+    this.modalService.open(this.editModal);
+  }
+
+  deletePassenger(row) {
+    this.passengerListService.deletePassengerEntry(row);
+  }
+
+  getModel(row) {
+    if (row.personOnBoardId) {
+      this.passengerListService.getPassengerByPortCallId(this.portCallId, row.personOnBoardId)
+      .subscribe(res => {
+        console.log(res);
+        this.modalModel = res;
+      });
+    } else  {
+      this.portCallPassengerList.forEach(passenger => {
+        if (passenger.sequenceNumber === row.sequenceNumber) {
+          console.log(passenger);
+          this.modalModel = passenger;
+          return;
+        }
+      });
+    }
   }
 
   addMockData() {
