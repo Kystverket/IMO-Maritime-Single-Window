@@ -12,12 +12,22 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-date-time-picker [header]="'ATA'" (dateTimeResult)="onAtaResult($event)"></app-date-time-picker>
-    <app-date-time-picker [header]="'ATD'" (dateTimeResult)="onAtdResult($event)"></app-date-time-picker>
+    <app-date-time-picker [header]="'ATA'" [dateTimeModel]="portCallAta" (dateTimeResult)="onAtaResult($event)" (dateFormatError)="onAtaDateFormatError($event)"></app-date-time-picker>
+    <div class="alert alert-danger" *ngIf="ataAfterTodayError">Actual arrival time cannot be set to the future.</div>
+    <app-date-time-picker [header]="'ATD'" [dateTimeModel]="portCallAtd" (dateTimeResult)="onAtdResult($event)" (dateFormatError)="onAtdDateFormatError($event)"></app-date-time-picker>
+    <div class="alert alert-danger" *ngIf="atdAfterTodayError">Actual departure time cannot be set to the future.</div>
+    <div class="alert alert-danger" *ngIf="dateSequenceError">Departure time must be after arrival time.</div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success" (click)="save()">
+    <button class="btn btn-success" disabled *ngIf="ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError">
       <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save</span>
+    </button>
+    <span *ngIf="saving">Saving...</span>
+    <span class="badge badge-success" *ngIf="saved">Your changes has been saved.</span>
+    <span class="badge badge-danger" *ngIf="saveError">An error occured when trying to save.</span>
+    <button class="btn btn-success" (click)="save()" [disabled]="saving" *ngIf="!(ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError)">
+      <img src="assets/images/icons/128x128/white/save.png" height="20px">
       <span>Save</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

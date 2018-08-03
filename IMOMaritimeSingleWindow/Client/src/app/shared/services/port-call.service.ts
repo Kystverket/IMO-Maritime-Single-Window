@@ -3,15 +3,13 @@ import { Http, RequestOptions } from '@angular/http';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
+import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { LocationModel } from '../models/location-model';
 import { AuthRequest } from './auth.request.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
-import { LocationModel } from '../models/location-model';
 
-import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable()
@@ -19,8 +17,10 @@ export class PortCallService {
   // Global port call
   private portCallUrl: string;
   private portCallUserUrl: string;
-  private updatePortCallStatusActiveUrl: string;
+  private updatePortCallStatusAwaitingClearanceUrl: string;
   private updatePortCallStatusCancelledUrl: string;
+  private updatePortCallStatusClearedUrl: string;
+  private updatePortCallStatusCompletedUrl: string;
   private updatePortCallStatusDraftUrl: string;
   // Global purpose
   private purposePortCallUrl: string;
@@ -84,8 +84,10 @@ export class PortCallService {
     // Port call
     this.portCallUrl = 'api/portcall';
     this.portCallUserUrl = 'api/portcall/user';
-    this.updatePortCallStatusActiveUrl = 'api/portcall/updatestatus/active';
+    this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
     this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+    this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
+    this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
     this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
     // Purpose
     this.purposePortCallUrl = 'api/purpose/portcall';
@@ -170,11 +172,23 @@ export class PortCallService {
     this.setPortCallStatus('Draft');
     return this.http.post<PortCallModel>(uri, portCall);
   }
-  // Set port call status to actual
-  updatePortCallStatusActive(portCallId: number) {
-    const uri = [this.updatePortCallStatusActiveUrl, portCallId].join('/');
-    console.log('Updating port call status to active...');
-    return this.http.post(uri, null);
+  // Set port call status to awaiting clearance
+  updatePortCallStatusAwaitingClearance(portCallId: number) {
+    const uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
+    console.log('Updating port call status to awaiting clearance...');
+    return this.http.post(uri, null).map(res => res.json());
+  }
+  // Set port call status to cleared
+  updatePortCallStatusCleared(portCallId: number) {
+    const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
+    console.log('Updating port call status to cleared...');
+    return this.http.post(uri, null).map(res => res.json());
+  }
+  // Set port call status to completed
+  updatePortCallStatusCompleted(portCallId: number) {
+    const uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
+    console.log('Updating port call status to completed...');
+    return this.http.post(uri, null).map(res => res.json());
   }
   // Set port call status to cancelled
   updatePortCallStatusCancelled(portCallId: number) {
@@ -400,11 +414,7 @@ export class PortCallService {
 
   getClearanceListForPortCall(portCallId: number): Observable<any> {
     const uri: string = [this.clearancePortCallUrl, portCallId].join('/');
-
-    return this.http.get(uri)
-      .catch(error => {
-        return Observable.of(error);
-      });
+    return this.http.get(uri).map(res => res.json());
   }
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL

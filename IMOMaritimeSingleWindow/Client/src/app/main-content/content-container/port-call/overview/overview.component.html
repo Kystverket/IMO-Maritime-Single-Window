@@ -5,6 +5,10 @@
                 <button class="btn btn-sm btn-ssn" *ngIf="!showCancelledPortCalls" (click)="toggleCancelledPortCalls(true)">Show cancelled port calls</button>
                 <button class="btn btn-sm btn-ssn" *ngIf="showCancelledPortCalls" (click)="toggleCancelledPortCalls(false)">Hide cancelled port calls</button>
             </div>
+            <div>
+                <button class="btn btn-sm btn-ssn" *ngIf="!showCompletedPortCalls" (click)="toggleCompletedPortCalls(true)">Show completed port calls</button>
+                <button class="btn btn-sm btn-ssn" *ngIf="showCompletedPortCalls" (click)="toggleCompletedPortCalls(false)">Hide completed port calls</button>
+            </div>
         </app-ssn-card>
     </div>
 </div>
@@ -14,7 +18,7 @@
         <thead class="bg-ssn text-white">
             <tr>
                 <th class="py-1">
-                    <h5 class="mb-0">Active Port Calls</h5>
+                    <h5 class="mb-0">Port Calls</h5>
                 </th>
             </tr>
         </thead>
