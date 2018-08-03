@@ -73,3 +73,7 @@ export class AppModule {
 export function tokenGetter() {
   return localStorage.getItem('auth_token');
 }
+
+export function nameof(obj) {
+  return Object.keys(obj)[0];
+}
