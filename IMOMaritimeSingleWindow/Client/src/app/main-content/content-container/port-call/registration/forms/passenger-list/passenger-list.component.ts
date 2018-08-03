@@ -14,6 +14,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 
 declare var $: any;
 
@@ -38,6 +39,8 @@ export class PassengerListComponent implements OnInit {
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
+
+  @ViewChild(PassengerModalComponent) passengerModalComponent;
 
   @ViewChild(NgForm) mainForm: NgForm;
   @ViewChild('viewModal') viewModal;
@@ -376,39 +379,47 @@ export class PassengerListComponent implements OnInit {
   }
 
   viewPassenger(row) {
-    console.log('View!');
-    console.log(row);
-    this.getModel(row);
-    this.modalService.open(this.viewModal);
-  }
-
-  editPassenger(row) {
-    console.log('Edit!');
-    console.log(row);
-    this.getModel(row);
-    this.modalService.open(this.editModal);
-  }
-
-  deletePassenger(row) {
-    this.passengerListService.deletePassengerEntry(row);
-  }
-
-  getModel(row) {
     if (row.personOnBoardId) {
       this.passengerListService.getPassengerByPortCallId(this.portCallId, row.personOnBoardId)
-      .subscribe(res => {
-        console.log(res);
-        this.modalModel = res;
+      .subscribe(passenger => {
+        console.log(passenger);
+        if (passenger) {
+          this.passengerModalComponent.openViewModal(passenger);
+        }
       });
-    } else  {
+    } else {
       this.portCallPassengerList.forEach(passenger => {
         if (passenger.sequenceNumber === row.sequenceNumber) {
           console.log(passenger);
-          this.modalModel = passenger;
+          this.passengerModalComponent.openViewModal(passenger);
           return;
         }
       });
     }
+  }
+
+  editPassenger(row) {
+    if (row.personOnBoardId) {
+      this.passengerListService.getPassengerByPortCallId(this.portCallId, row.personOnBoardId)
+      .subscribe(passenger => {
+        console.log(passenger);
+        if (passenger) {
+          this.passengerModalComponent.openEditModal(passenger);
+        }
+      });
+    } else {
+      this.portCallPassengerList.forEach(passenger => {
+        if (passenger.sequenceNumber === row.sequenceNumber) {
+          console.log(passenger);
+          this.passengerModalComponent.openEditModal(passenger);
+          return;
+        }
+      });
+    }
+  }
+
+  deletePassenger(row) {
+    this.passengerListService.deletePassengerEntry(row);
   }
 
   addMockData() {

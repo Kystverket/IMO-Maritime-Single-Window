@@ -1,3 +1,221 @@
-<p>
-  passenger-modal works!
-</p>
+<ng-template #viewModal let-close="close()" class="modal fade">
+  <div class="modal-header">
+    <h4 class="modal-title">View</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body" *ngIf="inputPassengerModel">
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" readonly type="text" name="givenName">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" readonly type="text" name="familyName">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.dateOfBirth" readonly type="text" name="dateOfBirth">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.countryOfBirth" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
+            readonly type="text" name="countryOfBirth">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.nationality" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.nationality.name" readonly
+            type="text" name="nationality">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.inTransit" readonly type="text" name="inTransit">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfEmbarkation.name"
+            readonly type="text" name="portOFEmbarkation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfDisembarkation.name"
+            readonly type="text" name="portOfDisembarkation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber" readonly
+            type="text" name="identityDocumentNumber">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType" readonly type="text"
+            name="identityDocumentType">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate" readonly
+            type="text" name="identityDocumentIssueDate">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" readonly
+            type="text" name="identityDocumentExpiryDate">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+            readonly type="text" name="issuingNation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber" readonly
+            type="text" name="visaOrResidencePermitNumber">
+        </div>
+      </div>
+    <pre>{{ inputPassengerModel | json }}</pre>
+  </div>
+</ng-template>
+
+<ng-template #editModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Edit</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="inputPassengerModel">
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" type="text" name="givenName">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" type="text" name="familyName">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.dateOfBirth" type="text" name="dateOfBirth">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.countryOfBirth" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
+            type="text" name="countryOfBirth">
+          <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.nationality" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.nationality.name" type="text"
+            name="nationality">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.inTransit" type="text" name="inTransit">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfEmbarkation.name"
+            type="text" name="portOFEmbarkation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfDisembarkation.name"
+            type="text" name="portOfDisembarkation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber" type="text"
+            name="identityDocumentNumber">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType" type="text"
+            name="identityDocumentType">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate" type="text"
+            name="identityDocumentIssueDate">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" type="text"
+            name="identityDocumentExpiryDate">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+            type="text" name="issuingNation">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber" type="text"
+            name="visaOrResidencePermitNumber">
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ssn" (click)="editPassenger(); close">
+      <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+      <span>Edit Entry</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Cancel</span>
+    </button>
+  </div>
+</ng-template>
