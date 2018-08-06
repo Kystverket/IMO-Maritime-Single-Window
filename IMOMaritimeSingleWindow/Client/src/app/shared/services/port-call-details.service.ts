@@ -5,7 +5,7 @@ import { BaseService } from './base.service';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 
 @Injectable()
-export class PrevAndNextPocService extends BaseService {
+export class PortCallDetailsService extends BaseService {
   private prevPortOfCallSource = new BehaviorSubject<LocationModel>(null);
   prevPortOfCallData$ = this.prevPortOfCallSource.asObservable();
 

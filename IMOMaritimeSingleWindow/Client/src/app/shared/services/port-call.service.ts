@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
-import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { PortCallModel } from 'app/shared/models/port-call-model';
+import { FormMetaData } from '../interfaces/form-meta-data.interface';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
+import { PortCallModel } from '../models/port-call-model';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';

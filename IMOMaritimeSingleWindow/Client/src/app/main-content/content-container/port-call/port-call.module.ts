@@ -43,6 +43,7 @@ import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-l
 import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-time.component';
+import { CargoDescriptionComponent } from './registration/forms/port-call-details/cargo-description/cargo-description.component';
 
 @NgModule({
   imports: [
@@ -87,7 +88,8 @@ import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-ti
     FindPortOfEmbarkationComponent,
     SearchPassengerPortComponent,
     SavePrevAndNextPocComponent,
-    SetActualTimeComponent
+    SetActualTimeComponent,
+    CargoDescriptionComponent
   ],
   exports: [
     ClearanceComponent,
