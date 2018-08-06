@@ -40,7 +40,6 @@ export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
     this.portCallService.detailsIdentificationData$.subscribe(results => {
       if (results) {
         this.portCallId = results.portCallId;
-        console.log('Port Call ID: ' + this.portCallId);
       }
     });
 
@@ -61,16 +60,13 @@ export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
   onViewClick() {
     // this.passengerService.getPassengerByPortCallId(this.portCallId, this.rowData.)
     this.view.emit(this.rowData);
-    console.log(this.rowData);
   }
 
   onEditClick() {
     this.edit.emit(this.rowData);
-    console.log(this.rowData);
   }
 
   onDeleteClick() {
-    console.log(this.rowData);
     this.delete.emit(this.rowData);
     // this.passengerService.deletePassengerEntry(this.rowData);
   }
@@ -80,7 +76,6 @@ export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
   }
 
   setNationality($event) {
-    console.log($event);
     this.model.nationality = $event;
   }
 

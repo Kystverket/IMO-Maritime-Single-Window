@@ -210,7 +210,6 @@ export class PassengerListComponent implements OnInit {
         newList.push(this.makeSmartTableEntry(passenger));
       });
     }
-    console.log(newList);
     return newList;
   }
 
@@ -304,12 +303,12 @@ export class PassengerListComponent implements OnInit {
   }
 
   setCountryOfBirth($event) {
-    this.portCallPassengerModel.countryOfBirth = $event.item.name;
+    this.portCallPassengerModel.countryOfBirth = $event.item;
     this.portCallPassengerModel.countryOfBirthId = $event.item.countryId;
   }
 
   setNationality($event) {
-    this.portCallPassengerModel.nationality = $event.item.name;
+    this.portCallPassengerModel.nationality = $event.item;
     this.portCallPassengerModel.nationalityId = $event.item.countryId;
   }
 
@@ -369,7 +368,6 @@ export class PassengerListComponent implements OnInit {
   openViewPassengerModal(row) {
       this.portCallPassengerList.forEach(passenger => {
         if (passenger.sequenceNumber === row.sequenceNumber) {
-          console.log(passenger);
           this.passengerModalComponent.openViewModal(passenger);
           return;
         }
@@ -378,10 +376,8 @@ export class PassengerListComponent implements OnInit {
 
   openEditPassengerModal(row) {
     // set editPassengerId?
-    console.log(this.portCallPassengerList);
     this.portCallPassengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
-        console.log(passenger);
         this.passengerModalComponent.openEditModal(passenger);
         return;
       }
@@ -389,17 +385,12 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    console.log(this.portCallPassengerList);
-    console.log($event);
     this.portCallPassengerList.forEach((passenger, index) => {
       if (passenger.sequenceNumber === $event.sequenceNumber) {
         this.portCallPassengerList[index] = $event;
-        console.log(this.portCallPassengerList);
         return;
       }
     });
-    console.log('Edit!');
-    console.log(this.portCallPassengerList);
     this.passengerListService.setPassengersList(this.portCallPassengerList);
   }
 
@@ -420,7 +411,6 @@ export class PassengerListComponent implements OnInit {
 
   addMockData() {
     const mockportCallPassengerModel = new PersonOnBoardModel();
-    console.log(mockportCallPassengerModel);
     // const mockIdentityDocumentModel = new IdentityDocumentModel();
     mockportCallPassengerModel.familyName = 'Karlsen';
     mockportCallPassengerModel.givenName = 'Unni';

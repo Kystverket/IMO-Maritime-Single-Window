@@ -203,10 +203,12 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
+      <label for="natureOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
-          type="text" name="identityDocumentType">
+            <ng-select class="" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType.description"
+              name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
+              (change)="setIdentityDocumentType($event)">
+            </ng-select>
       </div>
     </div>
     <div class="form-group row">

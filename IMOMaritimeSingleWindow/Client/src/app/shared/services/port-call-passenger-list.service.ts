@@ -62,7 +62,6 @@ export class PortCallPassengerListService {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.personOnBoardString].join('/');
     return this.http.put(uri, cleanedPassengerList).map(res => {
-      console.log(res.json());
       this.setPassengersList(res.json());
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
@@ -138,8 +137,6 @@ export class PortCallPassengerListService {
       tempPassenger.givenName = passenger.givenName;
       tempPassenger.portCallId = passenger.portCallId;
 
-      console.log('In makeTestList: passenger: ' + JSON.stringify(passenger) + ', tempPassenger: ' + JSON.stringify(tempPassenger));
-
       tempList.push(tempPassenger);
     });
     return tempList;
@@ -152,12 +149,9 @@ export class PortCallPassengerListService {
   // Setters
 
   setPassengersList(data) {
-    console.log('Passengers right before new data is set in service: ');
-    console.log(data);
 
     const newList = this.setSequenceNumbers(data);
     this.passengerListSource.next(newList);
-    console.log(this.passengerListSource.getValue());
     this.setDataIsPristine(false);
   }
 
