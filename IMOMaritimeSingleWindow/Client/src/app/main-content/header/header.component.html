@@ -19,7 +19,7 @@
     <span class="badge badge-danger" *ngIf="!hasDbConnection">Connection to database lost.</span>
     <span class="badge badge-danger" *ngIf="!hasServerConnection">Connection to server lost.</span>
 
-    <ul class="navbar-nav ml-auto" *ngIf="loggedIn">
+    <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item">
         <form class="form-inline">
           <div class="btn-group">

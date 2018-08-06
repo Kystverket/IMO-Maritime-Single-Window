@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   menuIsCollapsed = true;
   subscription: Subscription;
   loggedIn: boolean;
+  redirected: boolean;
   roles: any = new Array();
   userMenuEntries: MenuEntry[];
   userName = 'default';
@@ -162,6 +163,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    // To prevent logout button from disappearing before
+    // redirection has begun
+    this.redirected = true;
+
     this.loginService.logout();
     this.router.navigate(['/auth/login']);
   }
