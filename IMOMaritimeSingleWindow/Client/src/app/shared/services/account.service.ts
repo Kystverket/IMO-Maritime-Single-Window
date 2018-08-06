@@ -102,15 +102,17 @@ export class AccountService extends BaseRequest {
   confirmEmail(queryModel: TokenQueryModel): Observable<TokenQueryModel> {
     const uri = [this.emailUrl, 'confirm'].join('/');
     return this.http
-      .post<string>(uri, null, {
+      .post(uri, null, {
         params: {
           userId: queryModel.userId,
           token: queryModel.token
-        }
+        },
+        responseType: 'text'
       })
       .map(token => {
         return new TokenQueryModel(queryModel.userId, token);
-      });
+      })
+      .catch(this.handleError);
   }
 
   // Allow anonymous
