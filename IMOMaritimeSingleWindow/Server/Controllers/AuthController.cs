@@ -161,7 +161,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("hasValidToken")]
         public IActionResult HasValidToken()
         {
-            return Ok(true);
+            return Ok();
         }
 
     }

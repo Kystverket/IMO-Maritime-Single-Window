@@ -16,24 +16,7 @@ export class ErrorGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
-      if (!this.authService.hasToken()) {
-        console.log('error guard');
-        this.router.navigate(['/auth/login']);
-        return false;
-      } else {
-        return this.authService.hasValidToken()
-        .map(tokenValid => {
-          if (!tokenValid) {
-            this.loginService.logout();
-            this.router.navigate(['/auth/login']);
-            return false;
-          } else {
-            // TODO: redirect to an error page
-            this.router.navigate(['']);
-            return true;
-          }
-        });
-      }
+      return true;
   }
+
 }
