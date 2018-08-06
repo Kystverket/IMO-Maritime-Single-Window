@@ -73,8 +73,12 @@ export class PassengerModalComponent implements OnInit {
 
   setIdentityDocumentType($event) {
     console.log($event);
-    this.inputPassengerModel.identityDocument[0].identityDocumentType = $event;
-    this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = $event.id;
+    if ($event) {
+      this.inputPassengerModel.identityDocument[0].identityDocumentType = $event;
+      this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = $event.id;
+    } else {
+      this.resetIdentityDocumentType();
+    }
   }
 
   // Resetters

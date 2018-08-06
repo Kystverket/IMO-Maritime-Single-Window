@@ -203,13 +203,13 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="natureOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
-      <div class="col my-auto">
-            <ng-select class="" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType.description"
+      <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
+
+            <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
               name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
               (change)="setIdentityDocumentType($event)">
             </ng-select>
-      </div>
+
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
