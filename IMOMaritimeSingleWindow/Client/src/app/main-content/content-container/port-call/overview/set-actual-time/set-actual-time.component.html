@@ -24,7 +24,7 @@
       <span>Save</span>
     </button>
     <span *ngIf="saving">Saving...</span>
-    <span class="badge badge-success" *ngIf="saved">Your changes has been saved.</span>
+    <span class="badge badge-success" *ngIf="saved">Your changes have been saved.</span>
     <span class="badge badge-danger" *ngIf="saveError">An error occured when trying to save.</span>
     <button class="btn btn-success" (click)="save()" [disabled]="saving" *ngIf="!(ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError)">
       <img src="assets/images/icons/128x128/white/save.png" height="20px">
