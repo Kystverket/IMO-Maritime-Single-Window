@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { SmartTableModel } from './smartTableModel';
 import { PortModel } from './portModel';
 import { Observable } from 'rxjs/Observable';
@@ -15,8 +14,6 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
-
-declare var $: any;
 
 @Component({
   selector: 'app-passenger-list',
@@ -43,8 +40,6 @@ export class PassengerListComponent implements OnInit {
   @ViewChild(PassengerModalComponent) passengerModalComponent;
 
   @ViewChild(NgForm) mainForm: NgForm;
-  @ViewChild('viewModal') viewModal;
-  @ViewChild('editModal') editModal;
 
   booleanList: string[] = ['Yes', 'No'];
   booleanModel = {
@@ -105,10 +100,10 @@ export class PassengerListComponent implements OnInit {
         renderComponent: ActionButtonsComponent,
         onComponentInitFunction: (instance) => {
           instance.view.subscribe(row => {
-            this.viewPassenger(row);
+            this.openViewPassengerModal(row);
           });
           instance.edit.subscribe(row => {
-            this.editPassenger(row);
+            this.openEditPassengerModal(row);
           });
           instance.delete.subscribe(row => {
             this.deletePassenger(row);
@@ -145,18 +140,18 @@ export class PassengerListComponent implements OnInit {
             this.identityDocumentList = list;
           }
         });
+        // Get gender list
+        if (!this.genderList) {
+          this.passengerListService.getGenderList().subscribe(results => {
+            this.genderList = results;
+          });
+        }
 
         this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
           if (list) {
+            console.log(list);
             this.portCallPassengerList = list;
             this.portCallPassengerModel.portCallId = element.portCallId;
-          }
-
-          // Get gender list
-          if (!this.genderList) {
-            this.passengerListService.getGenderList().subscribe(results => {
-              this.genderList = results;
-            });
           }
 
           this.passengerListDataSource.load(this.generateSmartTable());
@@ -378,16 +373,7 @@ export class PassengerListComponent implements OnInit {
     };
   }
 
-  viewPassenger(row) {
-    if (row.personOnBoardId) {
-      this.passengerListService.getPassengerByPortCallId(this.portCallId, row.personOnBoardId)
-      .subscribe(passenger => {
-        console.log(passenger);
-        if (passenger) {
-          this.passengerModalComponent.openViewModal(passenger);
-        }
-      });
-    } else {
+  openViewPassengerModal(row) {
       this.portCallPassengerList.forEach(passenger => {
         if (passenger.sequenceNumber === row.sequenceNumber) {
           console.log(passenger);
@@ -395,31 +381,48 @@ export class PassengerListComponent implements OnInit {
           return;
         }
       });
-    }
   }
 
-  editPassenger(row) {
-    if (row.personOnBoardId) {
-      this.passengerListService.getPassengerByPortCallId(this.portCallId, row.personOnBoardId)
-      .subscribe(passenger => {
+  openEditPassengerModal(row) {
+    // set editPassengerId?
+    console.log(this.portCallPassengerList);
+    this.portCallPassengerList.forEach(passenger => {
+      if (passenger.sequenceNumber === row.sequenceNumber) {
         console.log(passenger);
-        if (passenger) {
-          this.passengerModalComponent.openEditModal(passenger);
-        }
-      });
-    } else {
-      this.portCallPassengerList.forEach(passenger => {
-        if (passenger.sequenceNumber === row.sequenceNumber) {
-          console.log(passenger);
-          this.passengerModalComponent.openEditModal(passenger);
-          return;
-        }
-      });
-    }
+        this.passengerModalComponent.openEditModal(passenger);
+        return;
+      }
+    });
   }
+
+  editPassenger($event) {
+    console.log(this.portCallPassengerList);
+    console.log($event);
+    this.portCallPassengerList.forEach((passenger, index) => {
+      if (passenger.sequenceNumber === $event.sequenceNumber) {
+        this.portCallPassengerList[index] = $event;
+        console.log(this.portCallPassengerList);
+        return;
+      }
+    });
+    console.log('Edit!');
+    console.log(this.portCallPassengerList);
+    this.passengerListService.setPassengersList(this.portCallPassengerList);
+  }
+
 
   deletePassenger(row) {
     this.passengerListService.deletePassengerEntry(row);
+  }
+
+  savePassengers() {
+    console.log(this.portCallPassengerList);
+    this.portCallPassengerList.forEach(p => {
+      // save personOnBoardId in smart table?
+      p.portCallId = this.portCallId;
+    });
+    console.log(this.portCallPassengerList);
+    this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
   }
 
   addMockData() {

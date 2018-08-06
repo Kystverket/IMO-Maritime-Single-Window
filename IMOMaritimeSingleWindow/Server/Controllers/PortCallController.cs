@@ -40,11 +40,12 @@ namespace IMOMaritimeSingleWindow.Controllers
             var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
             .Include(pob => pob.PortCall)
             .Include(pob => pob.Nationality)
-            .Include(pob => pob.IdentityDocument)
             .Include(pob => pob.CountryOfBirth)
             .Include(pob => pob.PortOfEmbarkation)
             .Include(pob => pob.PortOfDisembarkation)
             .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
             if (personOnBoardList == null)
             {
@@ -69,6 +70,59 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return NotFound();
             }
             return Json(personOnBoard);
+        }
+
+        [HttpPut("{portCallId}/personOnboard/")]
+        public IActionResult UpdatePersonOnBoardList([FromBody] List<PersonOnBoard> personOnBoardList, long portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (!personOnBoardList.Any())
+                {
+                    _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2));
+                } else
+                {
+                    var oldList = _context.PersonOnBoard.AsNoTracking().Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2).ToList();
+                    // Every entry in oldList that does not match a PersonOnBoardId of any of the entries in personOnBoardList
+                    var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
+                    _context.PersonOnBoard.RemoveRange(removeList);
+
+                    foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
+                    {
+                        if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
+                        {
+                            _context.PersonOnBoard.Update(personOnBoardEntity);
+                        }
+                        else
+                        {
+                            _context.PersonOnBoard.Add(personOnBoardEntity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
+                                    .Include(pob => pob.Nationality)
+                                    .Include(pob => pob.CountryOfBirth)
+                                    .Include(pob => pob.PortOfEmbarkation)
+                                    .Include(pob => pob.PortOfDisembarkation)
+                                    .Include(pob => pob.Gender)
+                                    .Include(pob => pob.IdentityDocument)
+                                    .ThenInclude(i => i.IssuingNation)
+                                    .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+                                    .ToList();
+                // return Ok(true);
+                return Json(personOnBoardList);
+            }
+            catch (Exception e)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(e);
+            }
         }
 
         [HttpGet("partialOverview/{portCallId}")]

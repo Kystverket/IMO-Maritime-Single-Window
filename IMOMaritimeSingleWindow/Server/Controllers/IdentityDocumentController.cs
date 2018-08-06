@@ -24,13 +24,19 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            return Json(_context.IdentityDocument.ToList());
+            return Json(_context.IdentityDocument
+            .Include(i => i.IssuingNation)
+            .Include(i => i.IdentityDocumentType)
+            .ToList());
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            IdentityDocument identityDocument = _context.IdentityDocument.FirstOrDefault(i => i.IdentityDocumentId == id);
+            IdentityDocument identityDocument = _context.IdentityDocument.Where(i => i.IdentityDocumentId == id)
+            .Include(i => i.IssuingNation)
+            .Include(i => i.IdentityDocumentType)
+            .FirstOrDefault();
             if (identityDocument == null)
             {
                 return NotFound();

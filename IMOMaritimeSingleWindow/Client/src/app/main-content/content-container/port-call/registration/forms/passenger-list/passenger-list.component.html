@@ -58,7 +58,7 @@
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Coutry of Birth</label>
+                <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
                 <app-search-country (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
               </div>
             </div>
@@ -185,6 +185,6 @@
   </div>
 </app-ssn-card>
 
-<app-save-passenger-list></app-save-passenger-list>
+<app-save-passenger-list (save)="savePassengers()"></app-save-passenger-list>
 
-  <app-passenger-modal></app-passenger-modal>
+  <app-passenger-modal (outputPassengerModel)="editPassenger($event)" ></app-passenger-modal>

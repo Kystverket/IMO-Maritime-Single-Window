@@ -1,7 +1,7 @@
 <ng-template #viewModal let-close="close()" class="modal fade">
   <div class="modal-header">
     <h4 class="modal-title">View</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close">
+    <button type="button" class="close" aria-label="Close" (click)="resetInputPassengerModel(); close">
       <span aria-hidden="true">&times;</span>
     </button>
 
@@ -101,14 +101,18 @@
           readonly type="text" name="visaOrResidencePermitNumber">
       </div>
     </div>
-    <pre>{{ inputPassengerModel | json }}</pre>
   </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-ssn" (click)="resetInputPassengerModel(); close">
+        <span>Exit</span>
+      </button>
+    </div>
 </ng-template>
 
 <ng-template #editModal let-close="close()">
   <div class="modal-header">
     <h4 class="modal-title">Edit</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close">
+    <button type="button" class="close" aria-label="Close" (click)="resetInputPassengerModel(); close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -252,7 +256,7 @@
       <img src="assets/images/icons/128x128/white/edit.png" height="24px">
       <span>Edit Entry</span>
     </button>
-    <button type="button" class="btn btn-ssn" (click)="close">
+    <button type="button" class="btn btn-ssn" (click)="resetInputPassengerModel(); close">
       <span>Cancel</span>
     </button>
   </div>

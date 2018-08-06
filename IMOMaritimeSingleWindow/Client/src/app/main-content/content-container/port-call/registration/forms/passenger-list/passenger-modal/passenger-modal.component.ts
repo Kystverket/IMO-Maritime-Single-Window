@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter, ViewChildren } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { NgbModal } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
-import { SearchCountryComponent } from 'app/shared/components/search-country/search-country.component';
+import { LoginAuthGuard } from '../../../../../../../auth/guards/login-auth.guard';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -23,10 +23,7 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel = new PersonOnBoardModel();
   }
 
-  setInputPassengerModel(passengerModel: PersonOnBoardModel) {
-    console.log(passengerModel);
-    this.inputPassengerModel = passengerModel;
-  }
+  // Open modals
 
   openViewModal(passengerModel: PersonOnBoardModel) {
     this.setInputPassengerModel(passengerModel);
@@ -38,8 +35,23 @@ export class PassengerModalComponent implements OnInit {
     this.modalService.open(this.editModal);
   }
 
+  // Output
+
   editPassenger() {
     this.outputPassengerModel.emit(this.inputPassengerModel);
+  }
+
+  // Setters
+
+  setInputPassengerModel(passengerModel: PersonOnBoardModel) {
+    this.inputPassengerModel = passengerModel;
+    console.log(passengerModel);
+    console.log(this.inputPassengerModel);
+  }
+
+  resetInputPassengerModel() {
+    this.inputPassengerModel = new PersonOnBoardModel();
+    console.log(this.inputPassengerModel);
   }
 
   setNationality($event) {
@@ -58,6 +70,7 @@ export class PassengerModalComponent implements OnInit {
     console.log($event);
     this.inputPassengerModel.identityDocument[0].issuingNation = $event.item;
     this.inputPassengerModel.identityDocument[0].issuingNationId = $event.item.countryId;
+    console.log(this.inputPassengerModel);
   }
 
   deselectNationality() {

@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
-import { ItemsList } from '../../../../node_modules/@ng-select/ng-select/ng-select/items-list';
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -24,9 +23,6 @@ export class PortCallPassengerListService {
     this.personOnBoardId = 5;
   }
 
-/*   private passengerModelSource = new BehaviorSubject<PersonOnBoardModel>(null);
-  passengerModel$ = this.passengerModelSource.asObservable();
- */
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
 
@@ -44,9 +40,6 @@ export class PortCallPassengerListService {
   private isCheckedInProgressBar = new BehaviorSubject<Boolean>(false);
   isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
 
-  /*private dateModelDataSource = new BehaviorSubject<any>(null);
-  dateOfBirthData$ = this.dateModelDataSource.asObservable();*/
-
   // Http
   getPassengerById(personOnBoardId: number) {
     const uri = [this.personOnBoardUrl, personOnBoardId].join('/');
@@ -63,7 +56,7 @@ export class PortCallPassengerListService {
     });
   }
 
-  updatePassengerList(passengerList: any[], portCallId: number) {
+/*   updatePassengerList(passengerList: any[], portCallId: number) {
     console.log('Passengers right before they are supposed to be saved to db: ');
     console.log(passengerList);
     const cleanedPassengerList = this.cleanPassengerList(passengerList);
@@ -82,8 +75,19 @@ export class PortCallPassengerListService {
         console.log('Passenger successfully saved.');
         this.setDataIsPristine(true);
         console.log(res.json());
-        // this.updateIdentityDocumentList(passengerList);
       }
+    });
+  } */
+
+  updatePassengerList(passengerList: any[], portCallId: number) {
+    const cleanedPassengerList = this.cleanPassengerList(passengerList);
+    console.log('Updating passengers...');
+    let uri = [this.portCallUrl, portCallId].join('/');
+    uri = [uri, this.personOnBoardString].join('/');
+    return this.http.put(uri, cleanedPassengerList).map(res => {
+      console.log(res.json());
+      this.setPassengersList(res.json());
+      return res.json();
     });
   }
 
@@ -105,14 +109,6 @@ export class PortCallPassengerListService {
       return res.json();
     });
   }
-
-  /* updateIdentityDocumentList(passengerList: any[]) {
-    const identityDocumentList: IdentityDocumentModel[] = [];
-    passengerList.forEach(passenger => {
-      identityDocumentList.push(passenger.identityDocument);
-    });
-    console.log('Updating identitydocuments');
-  } */
 
   cleanPassengerList(passengerList: any[]) {
     console.log(passengerList);
