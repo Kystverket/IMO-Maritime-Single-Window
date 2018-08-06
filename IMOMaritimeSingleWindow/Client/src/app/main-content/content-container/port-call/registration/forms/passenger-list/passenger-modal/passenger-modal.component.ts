@@ -12,7 +12,9 @@ import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-t
 export class PassengerModalComponent implements OnInit {
 
   inputPassengerModel: PersonOnBoardModel;
+  startInputPassengerModel: PersonOnBoardModel;
 
+  passengerModel: PersonOnBoardModel = new PersonOnBoardModel();
   @Output() outputPassengerModel: EventEmitter<PersonOnBoardModel> = new EventEmitter();
 
   @ViewChild('viewModal') viewModal;
@@ -26,7 +28,6 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel = new PersonOnBoardModel();
 
     this.identityDocumentService.getIdentityDocumentTypes().subscribe(res => {
-      console.log(res);
       this.identityDocumentTypes = res;
     });
   }
@@ -39,6 +40,7 @@ export class PassengerModalComponent implements OnInit {
 
   openEditModal(passengerModel: PersonOnBoardModel) {
     this.setInputPassengerModel(passengerModel);
+    console.log(this.passengerModel);
     this.modalService.open(this.editModal);
   }
 
@@ -50,10 +52,14 @@ export class PassengerModalComponent implements OnInit {
   // Setters
   setInputPassengerModel(passengerModel: PersonOnBoardModel) {
     this.inputPassengerModel = passengerModel;
+    this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
+    this.passengerModel = Object.assign({}, passengerModel);
+    this.passengerModel.identityDocument = [Object.assign({}, passengerModel.identityDocument[0])];
   }
 
-  resetInputPassengerModel() {
-    this.inputPassengerModel = new PersonOnBoardModel();
+  resetInputPassengerModel($event: any) {
+    this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
+    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel, this.passengerModel.identityDocument[0]);
   }
 
   setNationality($event) {
@@ -72,13 +78,22 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setIdentityDocumentType($event) {
-    console.log($event);
     if ($event) {
       this.inputPassengerModel.identityDocument[0].identityDocumentType = $event;
       this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = $event.id;
     } else {
       this.resetIdentityDocumentType();
     }
+  }
+
+  selectPortOfEmbarkation($event) {
+    this.inputPassengerModel.portOfEmbarkation = $event;
+    this.inputPassengerModel.portOfEmbarkationId = $event.locationId;
+  }
+
+  selectPortOfDisembarkation($event) {
+    this.inputPassengerModel.portOfDisembarkation = $event;
+    this.inputPassengerModel.portOfDisembarkationId = $event.locationId;
   }
 
   // Resetters
@@ -100,5 +115,15 @@ export class PassengerModalComponent implements OnInit {
   resetIdentityDocumentType() {
     this.inputPassengerModel.identityDocument[0].identityDocumentType = null;
     this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = null;
+  }
+
+  deselectPortOfEmbarkation() {
+    this.inputPassengerModel.portOfEmbarkation = null;
+    this.inputPassengerModel.portOfEmbarkationId = null;
+  }
+
+  deselectPortOfDisembarkation() {
+    this.inputPassengerModel.portOfDisembarkation = null;
+    this.inputPassengerModel.portOfDisembarkationId = null;
   }
 }

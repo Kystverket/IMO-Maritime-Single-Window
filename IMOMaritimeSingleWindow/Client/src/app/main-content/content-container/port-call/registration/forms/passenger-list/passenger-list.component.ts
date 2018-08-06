@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
-import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 
 @Component({
@@ -103,6 +102,8 @@ export class PassengerListComponent implements OnInit {
             this.openViewPassengerModal(row);
           });
           instance.edit.subscribe(row => {
+            console.log(row);
+            console.log(instance);
             this.openEditPassengerModal(row);
           });
           instance.delete.subscribe(row => {
@@ -119,8 +120,7 @@ export class PassengerListComponent implements OnInit {
   constructor(
     private passengerListService: PortCallPassengerListService,
     private portCallService: PortCallService,
-    private identityDocumentService: IdentityDocumentService,
-    private modalService: NgbModal
+    private identityDocumentService: IdentityDocumentService
   ) {}
 
 
@@ -262,6 +262,7 @@ export class PassengerListComponent implements OnInit {
   makePortModel($event) {
     const tempPortModel = new PortModel();
     tempPortModel.locationId = $event.locationId;
+    tempPortModel.country = $event.country;
     tempPortModel.countryId = $event.countryId;
     tempPortModel.name = $event.name;
 
@@ -378,6 +379,7 @@ export class PassengerListComponent implements OnInit {
     // set editPassengerId?
     this.portCallPassengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
+        console.log(passenger);
         this.passengerModalComponent.openEditModal(passenger);
         return;
       }

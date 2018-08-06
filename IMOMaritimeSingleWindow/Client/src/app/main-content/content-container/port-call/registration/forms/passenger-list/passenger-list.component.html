@@ -115,6 +115,10 @@
                   id="search-port-of-embarkation"></app-search-location>
 
                 <div class="input-group" *ngIf="portCallPassengerModel.portOfEmbarkation">
+                  <div class="input-group-prepend flag" *ngIf="portCallPassengerModel.portOfEmbarkation.country">
+                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfEmbarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                      height="30px">
+                  </div>
                   <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name">
                   <div class="input-group-append">
@@ -133,6 +137,10 @@
                 <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"
                   id="app-find-port-of-disembarkation"></app-search-location>
                 <div class="input-group" *ngIf="portCallPassengerModel.portOfDisembarkation">
+                  <div class="input-group-prepend flag" *ngIf="portCallPassengerModel.portOfDisembarkation.country">
+                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfDisembarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                      height="30px">
+                  </div>
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfDisembarkation.name">
                   <div class="input-group-append">
@@ -152,8 +160,6 @@
   </form>
 
   <div class="col-lg-12">
-
-    <pre>{{ portCallPassengerModel | json }}</pre>
 
     <div class="form-group">
       <button *ngIf="mainForm.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
@@ -187,4 +193,4 @@
 
 <app-save-passenger-list (save)="savePassengers()"></app-save-passenger-list>
 
-  <app-passenger-modal (outputPassengerModel)="editPassenger($event)" ></app-passenger-modal>
+<app-passenger-modal (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
