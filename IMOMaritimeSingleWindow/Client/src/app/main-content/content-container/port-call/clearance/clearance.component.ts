@@ -63,6 +63,7 @@ export class ClearanceComponent implements OnInit, OnDestroy {
   }
 
   saveClearance() {
+    console.log(this.clearanceModel);
     this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
@@ -79,13 +80,17 @@ export class ClearanceComponent implements OnInit, OnDestroy {
           });
           if (allCleared) {
             this.portCallService.updatePortCallStatusCleared(this.clearanceModel.portCallId).subscribe(
-              res => console.log('Status set to cleared.'),
+              res => {
+                console.log(res);
+                console.log('Status set to cleared.');
+              },
               err => console.log(err)
             );
           }
         }
       );
     } else {
+      console.log('Setting status to AC...');
       this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(
         res => {
           console.log(res);
