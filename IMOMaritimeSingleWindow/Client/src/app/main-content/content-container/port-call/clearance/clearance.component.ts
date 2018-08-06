@@ -78,6 +78,7 @@ export class ClearanceComponent implements OnInit, OnDestroy {
               allCleared = false;
             }
           });
+          console.log('All cleared: ', allCleared);
           if (allCleared) {
             this.portCallService.updatePortCallStatusCleared(this.clearanceModel.portCallId).subscribe(
               res => {
