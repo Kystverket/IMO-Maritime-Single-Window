@@ -132,7 +132,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.dateOfBirth" type="text" name="dateOfBirth">
+          <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.dateOfBirth)"></app-select-date>
       </div>
     </div>
     <div class="form-group row">

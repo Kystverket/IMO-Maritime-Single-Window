@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, ViewChild, EventEmitter, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { NgbModal } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
@@ -96,6 +96,14 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.portOfDisembarkationId = $event.locationId;
   }
 
+  setDateOfBirth($event) {
+    if ($event) {
+      this.inputPassengerModel.dateOfBirth = this.getDateFormat($event);
+    } else {
+      this.resetDateOfBirth();
+    }
+  }
+
   // Resetters
   deselectNationality() {
     this.inputPassengerModel.nationality = null;
@@ -125,5 +133,23 @@ export class PassengerModalComponent implements OnInit {
   deselectPortOfDisembarkation() {
     this.inputPassengerModel.portOfDisembarkation = null;
     this.inputPassengerModel.portOfDisembarkationId = null;
+  }
+
+  resetDateOfBirth() {
+    this.inputPassengerModel.dateOfBirth = null;
+  }
+
+  getNgbDateFormat(date) {
+    const newDate = new Date(date);
+    return {
+      year: newDate.getFullYear(),
+      month: newDate.getMonth() + 1,
+      day: newDate.getDate()
+    };
+  }
+
+  getDateFormat(date) {
+    const dateString = date.year + '-' + date.month + '-' + (date.day);
+    return new Date(dateString);
   }
 }

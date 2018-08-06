@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DateModel } from './dateModel';
 
@@ -8,6 +8,9 @@ import { DateModel } from './dateModel';
   styleUrls: ['./select-date.component.css']
 })
 export class SelectDateComponent implements OnInit {
+
+  @Input() inputDate: any;
+
   @Output() selectDate: EventEmitter<any> = new EventEmitter();
 
   dateModel: DateModel = {
@@ -71,6 +74,9 @@ export class SelectDateComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.inputDate) {
+      this.dateModel = this.inputDate;
+    }
 
     if (this.dateModel != null) {
       this.ngbDateModel = {

@@ -105,6 +105,9 @@ export class PortCallPassengerListService {
     console.log(passengerList);
     const newPassengerList = [];
     passengerList.forEach(passenger => {
+      if (typeof passenger.dateOfBirth !== 'string') {
+        passenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
+      }
       passenger.countryOfBirth = null;
       passenger.personOnBoardType = null;
       passenger.gender = null;
