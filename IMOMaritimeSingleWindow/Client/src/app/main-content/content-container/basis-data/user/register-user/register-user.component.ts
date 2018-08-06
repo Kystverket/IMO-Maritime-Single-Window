@@ -85,22 +85,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     }
   }
 
-  registerUser(template: any) {
+  registerUser() {
     this.accountService.registerUser(this.user)
     .subscribe(
       result => {
-        if (result) {
-          console.log(result);
-          console.log('Link to password set form:', result.text());
-          this.emailConfirmationLink = result.text();
-          this.openCustomModal(template, true); // SUCCESS
-          // this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-        }
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+          // this.openCustomModal(template, true);  // SUCCESS
       },
       error => {
-        console.log(error);
-        this.openCustomModal(template, false);  // FAILURE
-        // this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+        // this.openCustomModal(template, false);  // FAILURE
       }
     );
   }
