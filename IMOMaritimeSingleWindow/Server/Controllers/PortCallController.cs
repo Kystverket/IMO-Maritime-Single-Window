@@ -37,9 +37,17 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{portCallId}/consignments")]
         public IActionResult GetConsignments(int portCallId)
         {
-            var consignments = _context.Consignment.Where(c => c.PortCallId == portCallId)
-                                                    .Include(c => c.CargoItem)
-                                                    .ThenInclude(c => c.PackageType)
+            var consignments = _context.Consignment.Where(consignment => consignment.PortCallId == portCallId)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.CargoItem)
+                                                        .ThenInclude(cargoItem => cargoItem.PackageType)
                                                     .ToList();
             if (consignments == null)
             {
@@ -57,7 +65,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                _context.Consignment.RemoveRange(_context.Consignment.Where(c => c.PortCallId == portCallId).ToList());
+                _context.Consignment.RemoveRange(_context.Consignment.Where(c => c.PortCallId == portCallId).Include(c => c.CargoItem));
                 _context.Consignment.AddRange(consignmentList);
                 _context.SaveChanges();
                 return Json(consignmentList);
@@ -88,8 +96,6 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
-            overview.PreviousLocation = portCall.PreviousLocation;
-            overview.NextLocation = portCall.NextLocation;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList

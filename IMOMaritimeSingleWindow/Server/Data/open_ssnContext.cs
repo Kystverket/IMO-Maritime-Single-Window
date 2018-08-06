@@ -191,6 +191,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.Remark).HasColumnName("remark");
 
+                entity.Property(e => e.Name).HasColumnName("name");
+
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.Consignment)
                     .HasForeignKey(d => d.PortCallId)

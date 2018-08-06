@@ -7,6 +7,7 @@ export class ConsignmentModel {
     portCallId: number;
     portOfLoadingId: number;
     portOfDischargeId: number;
+    name: string;
     remark: string;
     // models
     portCall: PortCallModel;

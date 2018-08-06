@@ -2,6 +2,7 @@ import { Injectable } from '../../../../node_modules/@angular/core';
 import { HttpClient } from '../../../../node_modules/@angular/common/http';
 import { BehaviorSubject, Observable } from '../../../../node_modules/rxjs';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { PackageTypeModel } from 'app/shared/models/package-type-model';
 
 @Injectable()
 export class FalCargoService {
@@ -33,8 +34,8 @@ export class FalCargoService {
         return this.http.put(uri, consignmentList);
     }
 
-    getPackageTypeList() {
+    getPackageTypeList(): Observable<PackageTypeModel[]> {
         const uri = this.packageTypeUrl;
-        return this.http.get(uri);
+        return this.http.get<PackageTypeModel[]>(uri);
     }
 }

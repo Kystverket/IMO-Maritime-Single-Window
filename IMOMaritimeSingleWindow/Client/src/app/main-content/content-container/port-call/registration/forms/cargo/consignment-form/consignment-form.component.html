@@ -1,32 +1,50 @@
-<app-ssn-bg header="Consignment" icon="cargo.png" *ngIf="consignmentModel">
+<app-ssn-card [header]="consignmentHeader" icon="cargo.png">
   <form #form="ngForm">
-    <app-ssn-card header="Port of Loading" icon="location.png">
-      <app-search-location *ngIf="!portOfLoadingFound" [restrictTypeHarbour]=true (locationResult)="onPortOfLoadingResult($event)">
-      </app-search-location>
-      <div class="text-center" *ngIf="portOfLoadingFound">
-        <app-ssn-table [entryData]="portOfLoadingData"></app-ssn-table>
-        <button class="btn btn-ssn" (click)="deselectPortOfLoading()">
-          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
-      </div>
-    </app-ssn-card>
 
-    <app-ssn-card header="Port of Discharge" icon="location.png">
-      <app-search-location *ngIf="!portOfDischargeFound" [restrictTypeHarbour]=true (locationResult)="onPortOfDischargeResult($event)">
-      </app-search-location>
-      <div class="text-center" *ngIf="portOfDischargeFound">
-        <app-ssn-table [entryData]="portOfDischargeData"></app-ssn-table>
-        <button class="btn btn-ssn" (click)="deselectPortOfDischarge()">
-          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label-xl no-wrap mb-0" for="consignmentName">Consignment name</label>
+          <input type="text" [(ngModel)]="consignmentModel.name" placeholder="Enter a name for this consignment" name="consignmentName"
+            class="form-control form-control-sm" />
+        </div>
       </div>
-    </app-ssn-card>
+    </div>
 
-    <div class="form-group">
-      <label class="col-form-label-sm no-wrap mb-0" for="remark">Remark</label>
-      <textarea *ngIf="consignmentModel.remark" [(ngModel)]="consignmentModel.remark" (ngModelChange)="touchData()" name="remark"
-        class="form-control form-control-sm" rows="4" id="remark"></textarea>
+    <div class="row">
+      <div class="col">
+        <app-ssn-card header="Port of Loading" icon="location.png">
+          <app-search-location *ngIf="!portOfLoadingFound" [restrictTypeHarbour]=true (locationResult)="onPortOfLoadingResult($event)">
+          </app-search-location>
+          <div class="text-center" *ngIf="portOfLoadingFound">
+            <app-ssn-table [entryData]="portOfLoadingData"></app-ssn-table>
+            <button class="btn btn-ssn" (click)="deselectPortOfLoading()">
+              <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+          </div>
+        </app-ssn-card>
+      </div>
+
+      <div class="col">
+        <app-ssn-card header="Port of Discharge" icon="location.png">
+          <app-search-location *ngIf="!portOfDischargeFound" [restrictTypeHarbour]=true (locationResult)="onPortOfDischargeResult($event)">
+          </app-search-location>
+          <div class="text-center" *ngIf="portOfDischargeFound">
+            <app-ssn-table [entryData]="portOfDischargeData"></app-ssn-table>
+            <button class="btn btn-ssn" (click)="deselectPortOfDischarge()">
+              <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+          </div>
+        </app-ssn-card>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="col-form-label-sm no-wrap mb-0" for="remark">Remark</label>
+          <textarea [(ngModel)]="consignmentModel.remark" (ngModelChange)="touchData()" name="remark" class="form-control form-control-sm"
+            rows="4" id="remark"></textarea>
+        </div>
+      </div>
     </div>
   </form>
-  <app-ssn-card header="Cargo items">
-    <app-cargo-table [cargoItemList]="consignmentModel.cargoItem"></app-cargo-table>
-  </app-ssn-card>
-</app-ssn-bg>
+</app-ssn-card>

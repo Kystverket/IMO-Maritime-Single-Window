@@ -54,8 +54,8 @@ export class CargoTableComponent implements OnInit, OnChanges {
     }
   };
 
-  generateRows(cargoItems: CargoItemModel[]) {
-    const rowData = cargoItems.map(item => {
+  generateRows() {
+    const rowData = this.cargoItemList.map(item => {
       const row = {
         cargoItemModel: item,
         shippingMarks: item.shippingMarks,
@@ -75,12 +75,13 @@ export class CargoTableComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit() {
-    const rows = this.generateRows(this.cargoItemList);
+    const rows = this.generateRows();
     this.cargoDataSource.load(rows);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
+    const rows = this.generateRows();
+    this.cargoDataSource.load(rows);
   }
 
 }

@@ -45,7 +45,8 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
 import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-time.component';
 import { CargoComponent } from './registration/forms/cargo/cargo.component';
 import { ConsignmentFormComponent } from './registration/forms/cargo/consignment-form/consignment-form.component';
-import { CargoTableComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/cargo-table/cargo-table.component';
+import { CargoTableComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component';
+import { CargoItemFormComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component';
 
 @NgModule({
   imports: [
@@ -93,7 +94,8 @@ import { CargoTableComponent } from 'app/main-content/content-container/port-cal
     SetActualTimeComponent,
     CargoComponent,
     CargoTableComponent,
-    ConsignmentFormComponent
+    ConsignmentFormComponent,
+    CargoItemFormComponent
   ],
   exports: [
     ClearanceComponent,
