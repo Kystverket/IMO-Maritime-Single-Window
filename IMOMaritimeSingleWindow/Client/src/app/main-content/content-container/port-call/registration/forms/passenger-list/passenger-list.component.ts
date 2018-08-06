@@ -35,7 +35,7 @@ export class PassengerListComponent implements OnInit {
   // selectedIdentityDocType: IdentityDocumentModel;
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
-  listIsPristine = true;
+  listIsPristine: Boolean = true;
 
   @ViewChild(PassengerModalComponent) passengerModalComponent;
 
@@ -140,6 +140,10 @@ export class PassengerListComponent implements OnInit {
             this.identityDocumentList = list;
           }
         });
+
+        this.passengerListService.dataIsPristine$.subscribe(isPristine => {
+          this.listIsPristine = isPristine;
+        });
         // Get gender list
         if (!this.genderList) {
           this.passengerListService.getGenderList().subscribe(results => {
@@ -173,11 +177,6 @@ export class PassengerListComponent implements OnInit {
   }
 
   addPassenger() {
-    console.log(this.portCallPassengerModel);
-    this.listIsPristine = false;
-    this.passengerListService.setDataIsPristine(false);
-
-    console.log(this.identityDocumentModel);
     // Modify
     this.portCallPassengerModel.personOnBoardTypeId = 2;
     this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
@@ -260,12 +259,6 @@ export class PassengerListComponent implements OnInit {
   private sendMetaData(): void {
     this.passengerListService.setPassengerListMeta({ valid: this.mainForm.valid });
   }
-
-  //  one passenger to smart table
-/*   ToSmartTable(passenger) {
-    this.smartTableList.push(this.makeSmartTableEntry(passenger));
-    this.passengerListDataSource.load(this.smartTableList);
-  } */
 
   makePortModel($event) {
     const tempPortModel = new PortModel();

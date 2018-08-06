@@ -66,7 +66,7 @@ export class PortCallPassengerListService {
       this.setPassengersList(res.json());
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
-        this.setDataIsPristine(false);
+        this.setDataIsPristine(true);
       }
       return res.json();
     });
