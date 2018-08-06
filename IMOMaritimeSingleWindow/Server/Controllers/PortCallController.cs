@@ -59,11 +59,12 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var personOnBoardList = _context.PersonOnBoard.Where(pob => pob.PortCallId == portCallId)
             .Include(pob => pob.Nationality)
-            .Include(pob => pob.IdentityDocument)
             .Include(pob => pob.CountryOfBirth)
             .Include(pob => pob.PortOfEmbarkation)
             .Include(pob => pob.PortOfDisembarkation)
-            .Include(pob => pob.Gender);
+            .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType);
             var personOnBoard = personOnBoardList.FirstOrDefault(pob => pob.PersonOnBoardId == personOnBoardId);
             if (personOnBoard == null)
             {

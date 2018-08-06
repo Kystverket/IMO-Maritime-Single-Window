@@ -56,29 +56,6 @@ export class PortCallPassengerListService {
     });
   }
 
-/*   updatePassengerList(passengerList: any[], portCallId: number) {
-    console.log('Passengers right before they are supposed to be saved to db: ');
-    console.log(passengerList);
-    const cleanedPassengerList = this.cleanPassengerList(passengerList);
-
-    console.log('Updating passengers...');
-    const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, cleanedPassengerList,
-  {
-    params: {
-      portCallId: portCallId
-    }
-  }
-  ).map(res => {
-      res.json();
-      if (res.status === 200) {
-        console.log('Passenger successfully saved.');
-        this.setDataIsPristine(true);
-        console.log(res.json());
-      }
-    });
-  } */
-
   updatePassengerList(passengerList: any[], portCallId: number) {
     const cleanedPassengerList = this.cleanPassengerList(passengerList);
     console.log('Updating passengers...');
@@ -87,6 +64,10 @@ export class PortCallPassengerListService {
     return this.http.put(uri, cleanedPassengerList).map(res => {
       console.log(res.json());
       this.setPassengersList(res.json());
+      if (res.status === 200) {
+        console.log('Successfully updated passengers.');
+        this.setDataIsPristine(false);
+      }
       return res.json();
     });
   }
@@ -106,6 +87,17 @@ export class PortCallPassengerListService {
     console.log(uri);
     return this.http.get(uri).map(res => {
       console.log(res);
+      return res.json();
+    });
+  }
+
+  getSimplePassengersList(portCallId) {
+    const uri = this.personOnBoardUrl;
+    return this.http.get(uri, {
+      params: {
+        portCallId: portCallId
+      }
+    }).map(res => {
       return res.json();
     });
   }
