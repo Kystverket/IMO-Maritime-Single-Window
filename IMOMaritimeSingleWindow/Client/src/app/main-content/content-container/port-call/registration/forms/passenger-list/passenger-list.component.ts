@@ -217,7 +217,7 @@ export class PassengerListComponent implements OnInit {
     modifiedPassenger.sequenceNumber = passenger.sequenceNumber;
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.familyName;
-
+    console.log(passenger.dateOfBirth);
     if (passenger.dateOfBirth) {
       if (typeof passenger.dateOfBirth === 'string') {
         modifiedPassenger.dateOfBirth = passenger.dateOfBirth.split('T')[0];
@@ -291,7 +291,11 @@ export class PassengerListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    this.portCallPassengerModel.dateOfBirth = this.getDateFormat($event);
+    if ($event) {
+      this.portCallPassengerModel.dateOfBirth = this.getDateFormat($event);
+    } else {
+      this.resetDateOfBirth();
+    }
     console.log($event);
     console.log(this.portCallPassengerModel.dateOfBirth);
     console.log(this.portCallPassengerModel);
@@ -346,6 +350,10 @@ export class PassengerListComponent implements OnInit {
   deselectIssuingNation() {
     this.identityDocumentModel.issuingNation = null;
     this.identityDocumentModel.issuingNationId = null;
+  }
+
+  resetDateOfBirth() {
+    this.portCallPassengerModel.dateOfBirth = null;
   }
 
   // Helper methods
