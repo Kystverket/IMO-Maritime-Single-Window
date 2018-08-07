@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -41,6 +42,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
+        private readonly ILogger<AccountController> _logger;
 
         private readonly IHostingEnvironment _env;
         public AccountController(
@@ -49,7 +51,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             IMapper mapper,
-            IHostingEnvironment env
+            IHostingEnvironment env,
+            ILogger<AccountController> logger
             )
         {
             _userManager = userManager as UserManager;
@@ -58,6 +61,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _emailSender = emailSender;
             _mapper = mapper;
             _env = env;
+            _logger = logger;
         }
 
         [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
@@ -99,47 +103,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             message += "<br>Please click the link to visit the website in order to assign a password to your account.";
 
             // Send confirmation link to user's registered email address
-            await _emailSender.SendHtml(subject, message, model.Email);
-            // log($"Email sent to {model.Email}");
-
-            // log($"Account created. Confirmation link sent to {model.Email}");
-            return Ok();
-        }
-
-        // Temporary test method
-        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
-        // POST api/account/user
-        [HttpPost("userT")]
-        public async Task<IActionResult> RegisterTest([FromBody]RegistrationViewModel model)
-        {
-            if (!ModelState.IsValid)
+            var emailSendResult = await _emailSender.SendHtml(subject, message, recipient: model.Email);
+            if (!emailSendResult.Succeeded)
             {
-                return BadRequest(ModelState);
+                _logger.LogError($"Failed to send email to user {model.Email}");
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
+            _logger.LogDebug($"Email sent to {model.Email}");
 
-            // Tries to map the model to an object of type ApplicationUser
-            var applicationUser = _mapper.Map<ApplicationUser>(model);
-
-            // Verify the role the user is attempted added to exists
-            var role = await _roleManager.FindByNameAsync(model.RoleName);
-            if (role == null)
-                return BadRequest($"The role \"{model.RoleName}\" does not exist! User not created.");
-
-            // Validate user and try to create new user with given password in the backing store
-            var result = await _userManager.CreateAsync(applicationUser);
-            if (!result.Succeeded)
-                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            var addedUser = await _userManager.FindByEmailAsync(model.Email);
-            // Add the user to the specified role
-            result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
-            if (!result.Succeeded)
-                return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
-            var callbackUrl = await GenerateEmailConfirmationLinkAsync(addedUser);
-
-            // Return url
-            return Ok(callbackUrl);
+            _logger.LogDebug($"Account created. Confirmation link sent to {model.Email}");
+            return Ok();
         }
 
         /// <summary>
@@ -233,10 +206,12 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         /// <summary>
-        /// Sends a password reset link to the user.
+        /// Lets a user request a password reset link 
+        /// to their email account in the event that the 
+        /// user has forgotten their password. 
         /// </summary>
         /// <param name="userName"></param>
-        /// <returns></returns>
+        /// <returns>A password reset link</returns> 
         [AllowAnonymous]
         [HttpGet("user/password/forgotten")]    // Should be post with body
         public async Task<IActionResult> ForgotPassword(string userName)

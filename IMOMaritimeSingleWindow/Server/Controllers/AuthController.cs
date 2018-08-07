@@ -21,6 +21,7 @@ using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
@@ -84,17 +85,15 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid credentials.", ModelState));
                 case (int)Constants.LoginStates.LockedOut:
                     _logger.LogWarning("User account is locked out.");
-                    var forbiddenRequestObject = BadRequest(ModelState);
-                    forbiddenRequestObject.StatusCode = Microsoft.AspNetCore.Http.StatusCodes.Status403Forbidden;
-                    return forbiddenRequestObject;
+                    return StatusCode(StatusCodes.Status403Forbidden, ModelState);
                 default:
-                    return new ForbidResult();
+                    return Forbid();
             }
 
             var identity = await GetClaimsIdentity(userName);
             if (identity == null)
             {
-                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
