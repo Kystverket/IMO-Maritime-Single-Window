@@ -65,6 +65,7 @@ export class PortCallPassengerListService {
     return this.http.put(uri, cleanedPassengerList).map(res => {
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
+        this.setPassengersList(res.json());
         this.setDataIsPristine(true);
       }
       return res.json();

@@ -390,6 +390,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   openEditPassengerModal(row) {
+    console.log(this.portCallPassengerList);
     // set editPassengerId?
     this.portCallPassengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {

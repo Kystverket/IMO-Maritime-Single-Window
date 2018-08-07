@@ -10,94 +10,100 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" readonly type="text" name="givenName">
+        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.givenName" readonly type="text" name="givenName">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" readonly type="text" name="familyName">
+        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.familyName" readonly type="text" name="familyName">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" readonly type="text" name="dateOfBirth" [(ngModel)]="inputPassengerModel.dateOfBirth">
+        <input class="form-control form-control-sm" readonly type="text" name="dateOfBirth" [ngModel]="inputPassengerModel.dateOfBirth.split('T')[0]">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.countryOfBirth" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
+        <input *ngIf="inputPassengerModel.countryOfBirth" class="form-control form-control-sm" [ngModel]="inputPassengerModel.countryOfBirth.name"
           readonly type="text" name="countryOfBirth">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.nationality" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.nationality.name"
+        <input *ngIf="inputPassengerModel.nationality" class="form-control form-control-sm" [ngModel]="inputPassengerModel.nationality.name"
           readonly type="text" name="nationality">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.gender.description" readonly type="text" name="gender">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="formBooleanModel[inputPassengerModel.inTransit]" readonly type="text" name="inTransit">
+        <input class="form-control form-control-sm" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]" readonly type="text" name="inTransit">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfEmbarkation.name"
+        <input *ngIf="inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.portOfEmbarkation.name"
           readonly type="text" name="portOFEmbarkation">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.portOfDisembarkation.name"
+        <input *ngIf="inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.portOfDisembarkation.name"
           readonly type="text" name="portOfDisembarkation">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber"
+        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentNumber"
           readonly type="text" name="identityDocumentNumber">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
+        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentType.description"
           readonly type="text" name="identityDocumentType">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate"
+        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate.split('T')[0]"
           readonly type="text" name="identityDocumentIssueDate">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate"
+        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate.split('T')[0]"
           readonly type="text" name="identityDocumentExpiryDate">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+        <input *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].issuingNation.name"
           readonly type="text" name="issuingNation">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber"
+        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber"
           readonly type="text" name="visaOrResidencePermitNumber">
       </div>
     </div>
@@ -173,9 +179,17 @@
       </div>
     </div>
     <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
+      <div class="col my-auto">
+        <ng-select class="ng-select-placeholder-size " [items]="genderList" [ngModel]="inputPassengerModel.gender"
+          name="gender" bindLabel="description" [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
+        </ng-select>
+      </div>
+    </div>
+    <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
       <div class="col my-auto">
-        <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="formBooleanModel[inputPassengerModel.inTransit]"
+        <ng-select class="ng-select-placeholder-size " [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
           name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="selectTransit($event)">
         </ng-select>
       </div>
