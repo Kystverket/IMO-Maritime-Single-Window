@@ -25,65 +25,33 @@ export class SelectDateComponent implements OnInit {
   constructor() { }
 
   dateChanged($event): void {
+    console.log($event);
     this.updateModel($event);
   }
 
   private updateModel($event): void {
+    this.validDateFormat = this.hasValidDateFormat($event);
     if ($event != null) {
-      if (this.hasValidDateFormat()) {
-        this.updateValidDate(true);
-        this.dateModel.year = $event.year;
-        this.dateModel.month = $event.month;
-        this.dateModel.day = $event.day;
+      if (this.validDateFormat) {
         this.validateData();
-      } else {
-        this.updateValidDate(false);
       }
-    } else {
-      this.updateValidDate(true);
+      this.validateData();
     }
-    // meningen at dette settes til null
-    this.dateModel.year = null;
-    this.dateModel.month = null;
-    this.dateModel.day = null;
-    this.validateData();
   }
 
-  private updateValidDate(valid: boolean) {
-    this.validDateFormat = valid;
-  }
-
-  private hasValidDateFormat() {
-    return typeof this.ngbDateModel !== 'string';
+  private hasValidDateFormat($event) {
+    return typeof $event !== 'string';
   }
 
   private validateData() {
-    // TODO: Validate
-    // then:
-    if (this.hasRequiredData()) {
+    if (this.validDateFormat && this.dateModel) {
       this.selectDate.emit(this.dateModel);
     }
-  }
-
-  private hasRequiredData(): boolean {
-    return (
-      this.dateModel.year != null &&
-      this.dateModel.month != null &&
-      this.dateModel.day != null
-    );
   }
 
   ngOnInit() {
     if (this.inputDate) {
       this.dateModel = this.inputDate;
-    }
-
-    if (this.dateModel != null) {
-      this.ngbDateModel = {
-        year: this.dateModel.year,
-        month: this.dateModel.month,
-        day: this.dateModel.day
-      };
     }
   }
 

@@ -10,8 +10,6 @@ import { AuthRequest } from './auth.request.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
 import { LocationModel } from '../models/location-model';
 
-import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
-
 
 @Injectable()
 export class PortCallService {

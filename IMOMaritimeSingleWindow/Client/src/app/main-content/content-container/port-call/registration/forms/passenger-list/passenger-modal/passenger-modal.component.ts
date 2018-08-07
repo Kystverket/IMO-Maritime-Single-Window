@@ -56,6 +56,7 @@ export class PassengerModalComponent implements OnInit {
 
   // Output
   editPassenger() {
+    console.log(this.inputPassengerModel);
     this.outputPassengerModel.emit(this.inputPassengerModel);
   }
 
@@ -64,13 +65,12 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel = passengerModel;
     this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
     this.passengerModel = Object.assign({}, passengerModel);
-    this.passengerModel.identityDocument = [Object.assign({}, passengerModel.identityDocument[0])];
-    console.log(this.booleanModel[this.inputPassengerModel.inTransit.toString()]);
+    this.passengerModel.identityDocument[0] = Object.assign({}, passengerModel.identityDocument[0]);
   }
 
   resetInputPassengerModel($event: any) {
     this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
-    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel, this.passengerModel.identityDocument[0]);
+    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel.identityDocument[0], this.passengerModel.identityDocument[0]);
   }
 
   setNationality($event) {
@@ -112,6 +112,22 @@ export class PassengerModalComponent implements OnInit {
       this.inputPassengerModel.dateOfBirth = this.getDateFormat($event);
     } else {
       this.resetDateOfBirth();
+    }
+  }
+
+  setIdentityDocumentIssueDate($event) {
+    if ($event) {
+      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = this.getDateFormat($event);
+    } else {
+      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = null;
+    }
+  }
+
+  setIdentityDocumentExpiryDate($event) {
+    if ($event) {
+      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
+    } else {
+      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = null;
     }
   }
 
@@ -166,7 +182,12 @@ export class PassengerModalComponent implements OnInit {
   }
 
   getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + (date.day);
-    return new Date(dateString);
+    console.log(typeof date);
+    if (date.year && date.month && date.day) {
+      const dateString = date.year + '-' + date.month + '-' + (date.day);
+      return new Date(dateString);
+    } else {
+      return null;
+    }
   }
 }

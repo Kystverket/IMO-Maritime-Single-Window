@@ -10,8 +10,8 @@ import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
-import { PrevAndNextPocService } from '../../../../../shared/services/prev-and-next-poc.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 
 @Component({
   selector: 'app-button-row',

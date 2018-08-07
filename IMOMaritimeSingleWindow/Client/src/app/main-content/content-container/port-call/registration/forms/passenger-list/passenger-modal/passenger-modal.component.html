@@ -240,15 +240,13 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate"
-          type="text" name="identityDocumentIssueDate">
+        <app-select-date (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)"></app-select-date>
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate"
-          type="text" name="identityDocumentExpiryDate">
+        <app-select-date (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)"></app-select-date>
       </div>
     </div>
     <div class="form-group row">

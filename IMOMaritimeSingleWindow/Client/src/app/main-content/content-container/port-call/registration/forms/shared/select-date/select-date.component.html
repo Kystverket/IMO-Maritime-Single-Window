@@ -7,3 +7,6 @@
   <input id="eta_date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp-eta" [showWeekNumbers]="true"
     [(ngModel)]="dateModel" ngbDatepicker #doB="ngbDatepicker" (ngModelChange)="dateChanged($event)">
 </div>
+<div *ngIf="!validDateFormat" class="alert alert-danger" role="alert">
+  <span>Invalid date format.</span>
+</div>
