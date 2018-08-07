@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
@@ -10,7 +10,7 @@ export class SearchShipService {
   private searchUrl: string;
   private shipUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/ship/search';
     this.shipUrl = 'api/ship';
@@ -25,7 +25,6 @@ export class SearchShipService {
 
   getShip(id: number) {
     const uri = [this.shipUrl, id].join('/');
-    return this.http.get(uri)
-      .map(res => res.json());
+    return this.http.get(uri);
   }
 }

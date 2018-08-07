@@ -1,19 +1,27 @@
 webpackJsonp(["main"],{
 
 /***/ "./src/$$_lazy_route_resource lazy recursive":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function webpackEmptyAsyncContext(req) {
-	// Here Promise.resolve().then() is used instead of new Promise() to prevent
-	// uncatched exception popping up in devtools
-	return Promise.resolve().then(function() {
-		throw new Error("Cannot find module '" + req + "'.");
+var map = {
+	"app/auth/auth.module": [
+		"./src/app/auth/auth.module.ts",
+		"auth.module"
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids)
+		return Promise.reject(new Error("Cannot find module '" + req + "'."));
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(ids[0]);
 	});
-}
-webpackEmptyAsyncContext.keys = function() { return []; };
-webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
-module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+};
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -25,16 +33,11 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routedComponents; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login_component__ = __webpack_require__("./src/app/login/login.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__ = __webpack_require__("./src/app/main-content/main-content.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__auth_email_confirmation_email_confirmation_component__ = __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__auth_guards_email_confirmation_guard__ = __webpack_require__("./src/app/auth/guards/email-confirmation.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__auth_password_reset_password_reset_component__ = __webpack_require__("./src/app/auth/password-reset/password-reset.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_guards_password_reset_guard__ = __webpack_require__("./src/app/auth/guards/password-reset.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__ = __webpack_require__("./src/app/auth/error/error.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_content_main_content_component__ = __webpack_require__("./src/app/main-content/main-content.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_selective_preloading_strategy__ = __webpack_require__("./src/selective-preloading-strategy.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__error_error_component__ = __webpack_require__("./src/app/error/error.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__guards_error_guard__ = __webpack_require__("./src/app/guards/error.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__guards_root_guard__ = __webpack_require__("./src/app/guards/root.guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -48,42 +51,41 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-
-
-
-
 var routes = [
     {
-        path: 'login',
-        component: __WEBPACK_IMPORTED_MODULE_5__login_login_component__["a" /* LoginComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */]]
+        path: 'auth',
+        loadChildren: 'app/auth/auth.module#AuthModule'
+    },
+    // {
+    //   path: 'login',
+    //   component: LoginComponent,
+    //   canActivate: [LoginAuthGuard]
+    // },
+    /* {
+      path: 'ConfirmEmail',
+      component: EmailConfirmationComponent,
+      canActivate: [EmailConfirmationGuard]
     },
     {
-        path: 'ConfirmEmail',
-        component: __WEBPACK_IMPORTED_MODULE_7__auth_email_confirmation_email_confirmation_component__["a" /* EmailConfirmationComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_8__auth_guards_email_confirmation_guard__["a" /* EmailConfirmationGuard */]]
-    },
-    {
-        path: 'ResetPassword',
-        component: __WEBPACK_IMPORTED_MODULE_9__auth_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_10__auth_guards_password_reset_guard__["a" /* PasswordResetGuard */]]
-    },
+      path: 'ResetPassword',
+      component: PasswordResetComponent,
+      canActivate: [PasswordResetGuard]
+    }, */
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__["a" /* MainContentComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2__auth_guards_auth_guard__["a" /* AuthGuard */]]
+        component: __WEBPACK_IMPORTED_MODULE_2__main_content_main_content_component__["a" /* MainContentComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_6__guards_root_guard__["a" /* RootGuard */]]
     },
     {
         path: 'error',
-        component: __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__["a" /* ErrorComponent */]
+        component: __WEBPACK_IMPORTED_MODULE_4__error_error_component__["a" /* ErrorComponent */]
     },
     {
         // TODO: Make ErrorComponent
         path: '**',
-        component: __WEBPACK_IMPORTED_MODULE_11__auth_error_error_component__["a" /* ErrorComponent */],
-        canActivate: [__WEBPACK_IMPORTED_MODULE_3__auth_guards_error_guard__["a" /* ErrorGuard */]]
-    },
+        component: __WEBPACK_IMPORTED_MODULE_4__error_error_component__["a" /* ErrorComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_5__guards_error_guard__["a" /* ErrorGuard */]]
+    }
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -91,17 +93,19 @@ var AppRoutingModule = /** @class */ (function () {
     AppRoutingModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forRoot(routes
-                //      { enableTracing: true } // <-- debugging purposes only
-                )
+                __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forRoot(routes, {
+                    // enableTracing: true, // <-- debugging purposes only
+                    preloadingStrategy: __WEBPACK_IMPORTED_MODULE_3_selective_preloading_strategy__["a" /* SelectivePreloadingStrategy */]
+                })
             ],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_3_selective_preloading_strategy__["a" /* SelectivePreloadingStrategy */]]
         })
     ], AppRoutingModule);
     return AppRoutingModule;
 }());
 
-var routedComponents = [__WEBPACK_IMPORTED_MODULE_6__main_content_main_content_component__["a" /* MainContentComponent */], __WEBPACK_IMPORTED_MODULE_5__login_login_component__["a" /* LoginComponent */]];
+var routedComponents = [__WEBPACK_IMPORTED_MODULE_2__main_content_main_content_component__["a" /* MainContentComponent */]];
 
 
 /***/ }),
@@ -173,44 +177,37 @@ var AppComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* unused harmony export tokenGetter */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__authenticate_xhr_backend__ = __webpack_require__("./src/authenticate-xhr.backend.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__("./src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_auth_module__ = __webpack_require__("./src/app/auth/auth.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_guards_auth_guard__ = __webpack_require__("./src/app/auth/guards/auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__auth_guards_email_confirmation_guard__ = __webpack_require__("./src/app/auth/guards/email-confirmation.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__auth_guards_error_guard__ = __webpack_require__("./src/app/auth/guards/error.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__auth_guards_login_auth_guard__ = __webpack_require__("./src/app/auth/guards/login-auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__auth_guards_password_reset_guard__ = __webpack_require__("./src/app/auth/guards/password-reset.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__auth_password_change_password_change_component__ = __webpack_require__("./src/app/auth/password-change/password-change.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__auth_password_reset_password_reset_component__ = __webpack_require__("./src/app/auth/password-reset/password-reset.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__main_content_footer_footer_component__ = __webpack_require__("./src/app/main-content/footer/footer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* unused harmony export nameof */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_component__ = __webpack_require__("./src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_routing_module__ = __webpack_require__("./src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__authenticate_xhr_backend__ = __webpack_require__("./src/authenticate-xhr.backend.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__ = __webpack_require__("./node_modules/@angular/platform-browser/esm5/platform-browser.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__main_content_content_container_content_container_module__ = __webpack_require__("./src/app/main-content/content-container/content-container.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_content_footer_footer_component__ = __webpack_require__("./src/app/main-content/footer/footer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__main_content_header_header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__guards_error_guard__ = __webpack_require__("./src/app/guards/error.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__error_error_module__ = __webpack_require__("./src/app/error/error.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__guards_root_guard__ = __webpack_require__("./src/app/guards/root.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_constants_blacklisted_routes__ = __webpack_require__("./src/app/shared/constants/blacklisted-routes.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-
-
-
-
 
 
 
@@ -239,49 +236,44 @@ var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* NgModule */])({
+        Object(__WEBPACK_IMPORTED_MODULE_19__angular_core__["J" /* NgModule */])({
             imports: [
-                __WEBPACK_IMPORTED_MODULE_8__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_10__auth_auth_module__["a" /* AuthModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_18__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["c" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_5__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
+                __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_6__angular_platform_browser__["a" /* BrowserModule */],
+                __WEBPACK_IMPORTED_MODULE_9__main_content_content_container_content_container_module__["a" /* ContentContainerModule */],
+                __WEBPACK_IMPORTED_MODULE_21__error_error_module__["a" /* ErrorModule */],
+                __WEBPACK_IMPORTED_MODULE_12__angular_forms__["b" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_14__angular_common_http__["c" /* HttpClientModule */],
+                __WEBPACK_IMPORTED_MODULE_15__angular_http__["d" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_16__auth0_angular_jwt__["b" /* JwtModule */].forRoot({
                     config: {
                         tokenGetter: tokenGetter,
                         whitelistedDomains: ['localhost:4200'],
-                        blacklistedRoutes: ['localhost:4200/login']
+                        blacklistedRoutes: __WEBPACK_IMPORTED_MODULE_23__shared_constants_blacklisted_routes__["a" /* BLACKLISTED_ROUTES */]
                     }
                 }),
-                __WEBPACK_IMPORTED_MODULE_6__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_18__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */].forRoot(),
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__main_content_footer_footer_component__["a" /* FooterComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__main_content_header_header_component__["a" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__auth_password_change_password_change_component__["a" /* PasswordChangeComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__auth_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
-                __WEBPACK_IMPORTED_MODULE_8__app_routing_module__["b" /* routedComponents */],
+                __WEBPACK_IMPORTED_MODULE_1__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__main_content_footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__main_content_header_header_component__["a" /* HeaderComponent */],
+                __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["b" /* routedComponents */],
             ],
             providers: [
-                { provide: __WEBPACK_IMPORTED_MODULE_3__angular_http__["g" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_7__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
-                __WEBPACK_IMPORTED_MODULE_21__shared_services_account_service__["a" /* AccountService */],
-                __WEBPACK_IMPORTED_MODULE_11__auth_guards_auth_guard__["a" /* AuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_23__shared_services_auth_request_service__["a" /* AuthRequest */],
-                __WEBPACK_IMPORTED_MODULE_22__shared_services_auth_service__["a" /* AuthService */],
-                __WEBPACK_IMPORTED_MODULE_27__shared_utils_config_service__["a" /* ConfigService */],
-                __WEBPACK_IMPORTED_MODULE_24__shared_services_constants_service__["a" /* ConstantsService */],
-                __WEBPACK_IMPORTED_MODULE_25__shared_services_content_service__["a" /* ContentService */],
-                __WEBPACK_IMPORTED_MODULE_12__auth_guards_email_confirmation_guard__["a" /* EmailConfirmationGuard */],
-                __WEBPACK_IMPORTED_MODULE_13__auth_guards_error_guard__["a" /* ErrorGuard */],
-                __WEBPACK_IMPORTED_MODULE_5__auth0_angular_jwt__["a" /* JwtHelperService */],
-                __WEBPACK_IMPORTED_MODULE_14__auth_guards_login_auth_guard__["a" /* LoginAuthGuard */],
-                __WEBPACK_IMPORTED_MODULE_26__shared_services_login_service__["a" /* LoginService */],
-                __WEBPACK_IMPORTED_MODULE_15__auth_guards_password_reset_guard__["a" /* PasswordResetGuard */],
+                { provide: __WEBPACK_IMPORTED_MODULE_15__angular_http__["g" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_3__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
+                __WEBPACK_IMPORTED_MODULE_0__shared_services_account_service__["a" /* AccountService */],
+                __WEBPACK_IMPORTED_MODULE_4__shared_services_auth_request_service__["a" /* AuthRequest */],
+                __WEBPACK_IMPORTED_MODULE_5__shared_services_auth_service__["a" /* AuthService */],
+                __WEBPACK_IMPORTED_MODULE_7__shared_utils_config_service__["a" /* ConfigService */],
+                __WEBPACK_IMPORTED_MODULE_8__shared_services_constants_service__["a" /* ConstantsService */],
+                __WEBPACK_IMPORTED_MODULE_10__shared_services_content_service__["a" /* ContentService */],
+                __WEBPACK_IMPORTED_MODULE_20__guards_error_guard__["a" /* ErrorGuard */],
+                __WEBPACK_IMPORTED_MODULE_16__auth0_angular_jwt__["a" /* JwtHelperService */],
+                __WEBPACK_IMPORTED_MODULE_17__shared_services_login_service__["a" /* LoginService */],
+                __WEBPACK_IMPORTED_MODULE_22__guards_root_guard__["a" /* RootGuard */]
             ],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_1__app_component__["a" /* AppComponent */]]
         })
     ], AppModule);
     return AppModule;
@@ -290,216 +282,28 @@ var AppModule = /** @class */ (function () {
 function tokenGetter() {
     return localStorage.getItem('auth_token');
 }
+function nameof(obj) {
+    return Object.keys(obj)[0];
+}
 
 
 /***/ }),
 
-/***/ "./src/app/auth/auth.module.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__email_confirmation_email_confirmation_component__ = __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__error_error_component__ = __webpack_require__("./src/app/auth/error/error.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__password_password_component__ = __webpack_require__("./src/app/auth/password/password.component.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-var AuthModule = /** @class */ (function () {
-    function AuthModule() {
-    }
-    AuthModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["J" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
-                __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_10__angular_router__["c" /* RouterModule */],
-                __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__["a" /* SharedModule */],
-            ],
-            exports: [
-                __WEBPACK_IMPORTED_MODULE_12__password_password_component__["a" /* PasswordComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__shared_components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__shared_components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */]
-            ],
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_8__email_confirmation_email_confirmation_component__["a" /* EmailConfirmationComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__error_error_component__["a" /* ErrorComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__password_password_component__["a" /* PasswordComponent */]
-            ],
-            providers: [
-                __WEBPACK_IMPORTED_MODULE_11__shared_services_uri_query_service__["a" /* UriQueryService */]
-            ]
-        })
-    ], AuthModule);
-    return AuthModule;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/email-confirmation/email-confirmation.component.css":
+/***/ "./src/app/error/error.component.css":
 /***/ (function(module, exports) {
 
 module.exports = ""
 
 /***/ }),
 
-/***/ "./src/app/auth/email-confirmation/email-confirmation.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"EMAIL CONFIRMATION\" icon=\"user.png\">\r\n\r\n    <app-ssn-card header=\"Password reset form\">\r\n      <div class=\"row\">\r\n        <h3>Thank you for confirming your email address.</h3>\r\n        \r\n      </div>\r\n      <div class=\"row\">\r\n        <div class=\"col\">\r\n            <h3>You will be redirected to /login in... </h3>\r\n        </div>\r\n        <div class=\"col\">\r\n            <h1>{{secondsRemaining}} seconds</h1>\r\n        </div>\r\n      </div>\r\n\r\n    </app-ssn-card>\r\n  </app-ssn-bg>\r\n\r\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/auth/email-confirmation/email-confirmation.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailConfirmationComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var EmailConfirmationComponent = /** @class */ (function () {
-    function EmailConfirmationComponent(router, activatedRoute, accountService, uriQueryService) {
-        this.router = router;
-        this.activatedRoute = activatedRoute;
-        this.accountService = accountService;
-        this.uriQueryService = uriQueryService;
-        this.secondsRemaining = 10;
-    }
-    EmailConfirmationComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        var tokenQueryModel = this.uriQueryService.getTokenQueryModel(this.activatedRoute.snapshot.queryParams);
-        // console.log(tokenQueryModel);
-        this.accountService.confirmEmail(tokenQueryModel).subscribe(function (result) {
-            // If email confirmation token was valid
-            if (result) {
-                // Update html to reflect email successfully confirmed
-                console.log('email confirmation was successful');
-                // Get password reset token
-                _this.accountService.getPasswordResetToken(tokenQueryModel.userId)
-                    .subscribe(function (passwordResetToken) {
-                    if (passwordResetToken) {
-                        console.log({ passwordResetToken: passwordResetToken });
-                        // Redirect? Or present link to navigate?
-                        // Redirect:
-                        // Navigate to reset password and supply token as query parameter in URI
-                        // this.router.navigate(['ResetPassword'], { queryParams: userId, token});
-                        // Present link? ...
-                    }
-                });
-            }
-        }, function (error) {
-            // Update html to reflect email confirmation was unsuccessful
-            console.log('email confirmation was unsuccessful');
-        });
-    };
-    EmailConfirmationComponent.prototype.startRedirect = function (queryModel) {
-        var _this = this;
-        var intervalId = setInterval(function (activatedRoute) {
-            if (_this.secondsRemaining === 0) {
-                clearInterval(intervalId);
-                _this.router.navigate(['/ResetPassword'], {
-                    queryParams: {
-                        userId: queryModel.userId,
-                        token: queryModel.token
-                    }
-                });
-            }
-            else {
-                _this.secondsRemaining--;
-            }
-        }, 1000);
-        /* activatedRoute.queryParamMap
-              .map((params: Params) => params.params)
-              .subscribe((params) => {
-                this.router.navigate(['/ResetPassword'], {
-                  queryParams: {
-                    userId: params.userId,
-                    token: params.token
-                  }
-                }
-                );
-                console.log(params);
-              }
-            ); */
-    };
-    EmailConfirmationComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-email-confirmation',
-            template: __webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.html"),
-            styles: [__webpack_require__("./src/app/auth/email-confirmation/email-confirmation.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__["a" /* UriQueryService */]])
-    ], EmailConfirmationComponent);
-    return EmailConfirmationComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/error/error.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/auth/error/error.component.html":
+/***/ "./src/app/error/error.component.html":
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"ERROR PAGE\">\r\n    <!-- <app-ssn-card> -->\r\n      <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n      <div class=\"row\">\r\n        <img src=\"../../../assets/images/Validation/validation-error.png\"\r\n        height=\"64px\" width=\"64px\" alt=\"Error\" />\r\n      </div>\r\n      <div class=\"row\">\r\n        <p>Something went wrong...</p>\r\n      </div>\r\n    <!-- </app-ssn-card> -->\r\n    </div>\r\n  </app-ssn-bg>\r\n</div>"
 
 /***/ }),
 
-/***/ "./src/app/auth/error/error.component.ts":
+/***/ "./src/app/error/error.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -523,8 +327,8 @@ var ErrorComponent = /** @class */ (function () {
     ErrorComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-error',
-            template: __webpack_require__("./src/app/auth/error/error.component.html"),
-            styles: [__webpack_require__("./src/app/auth/error/error.component.css")]
+            template: __webpack_require__("./src/app/error/error.component.html"),
+            styles: [__webpack_require__("./src/app/error/error.component.css")]
         }),
         __metadata("design:paramtypes", [])
     ], ErrorComponent);
@@ -535,115 +339,47 @@ var ErrorComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth/guards/auth.guard.ts":
+/***/ "./src/app/error/error.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ErrorModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("./node_modules/@angular/common/esm5/common.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__error_component__ = __webpack_require__("./src/app/error/error.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 
 
 
 
-var AuthGuard = /** @class */ (function () {
-    function AuthGuard(router, authService, loginService) {
-        this.router = router;
-        this.authService = authService;
-        this.loginService = loginService;
+var ErrorModule = /** @class */ (function () {
+    function ErrorModule() {
     }
-    AuthGuard.prototype.canActivate = function (next, state) {
-        var _this = this;
-        if (!this.authService.hasToken()) {
-            this.router.navigate(['/login']);
-            return false;
-        }
-        else {
-            return this.authService.hasValidToken()
-                .map(function (tokenValid) {
-                if (!tokenValid) {
-                    _this.loginService.logout();
-                    _this.router.navigate(['/login']);
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            });
-        }
-    };
-    AuthGuard = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */]])
-    ], AuthGuard);
-    return AuthGuard;
+    ErrorModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["J" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_2__shared_shared_module__["a" /* SharedModule */]
+            ],
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_3__error_component__["a" /* ErrorComponent */]
+            ]
+        })
+    ], ErrorModule);
+    return ErrorModule;
 }());
 
 
 
 /***/ }),
 
-/***/ "./src/app/auth/guards/email-confirmation.guard.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailConfirmationGuard; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var EmailConfirmationGuard = /** @class */ (function () {
-    function EmailConfirmationGuard(router) {
-        this.router = router;
-    }
-    EmailConfirmationGuard.prototype.canActivate = function (next, state) {
-        if (this.paramsNull([next.queryParams['userId'], next.queryParams['token']])) {
-            this.router.navigate(['/error']);
-            return false;
-        }
-        return true;
-    };
-    // Checks if any of the query parameters are null/undefined or empty string
-    EmailConfirmationGuard.prototype.paramsNull = function (params) {
-        return params.some(function (param) {
-            // Checks for null/undefined and empty string
-            return !param || param === '';
-        });
-    };
-    EmailConfirmationGuard = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
-    ], EmailConfirmationGuard);
-    return EmailConfirmationGuard;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/guards/error.guard.ts":
+/***/ "./src/app/guards/error.guard.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -674,7 +410,8 @@ var ErrorGuard = /** @class */ (function () {
     ErrorGuard.prototype.canActivate = function (next, state) {
         var _this = this;
         if (!this.authService.hasToken()) {
-            this.router.navigate(['/login']);
+            console.log('error guard');
+            this.router.navigate(['/auth/login']);
             return false;
         }
         else {
@@ -682,7 +419,7 @@ var ErrorGuard = /** @class */ (function () {
                 .map(function (tokenValid) {
                 if (!tokenValid) {
                     _this.loginService.logout();
-                    _this.router.navigate(['/login']);
+                    _this.router.navigate(['/auth/login']);
                     return false;
                 }
                 else {
@@ -706,11 +443,11 @@ var ErrorGuard = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/auth/guards/login-auth.guard.ts":
+/***/ "./src/app/guards/root.guard.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginAuthGuard; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RootGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
@@ -728,394 +465,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoginAuthGuard = /** @class */ (function () {
-    function LoginAuthGuard(router, authService, loginService) {
+var RootGuard = /** @class */ (function () {
+    function RootGuard(router, authService, loginService) {
         this.router = router;
         this.authService = authService;
         this.loginService = loginService;
     }
-    LoginAuthGuard.prototype.canActivate = function (next, state) {
+    RootGuard.prototype.canActivate = function (next, state) {
         var _this = this;
         if (!this.authService.hasToken()) {
-            return true;
+            this.router.navigate(['/auth/login']);
+            return false;
         }
         else {
             return this.authService.hasValidToken()
                 .map(function (tokenValid) {
-                console.log(tokenValid);
-                if (tokenValid) {
-                    _this.router.navigate(['']);
+                if (!tokenValid) {
+                    _this.loginService.logout();
+                    _this.router.navigate(['/auth/login']);
                     return false;
                 }
                 else {
-                    /* User tries to access login route with an invalid token
-                     * This is OK, just remove relevant variables from localStorage
-                     * so user can receive a new token upon login. */
-                    _this.loginService.logout();
                     return true;
                 }
             });
         }
     };
-    LoginAuthGuard = __decorate([
+    RootGuard = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__["a" /* AuthService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */]])
-    ], LoginAuthGuard);
-    return LoginAuthGuard;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/guards/password-reset.guard.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordResetGuard; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var PasswordResetGuard = /** @class */ (function () {
-    function PasswordResetGuard(router) {
-        this.router = router;
-    }
-    PasswordResetGuard.prototype.canActivate = function (next, state) {
-        // Verify query params are present
-        if (this.paramsNull([next.queryParams['userId'], next.queryParams['token']])) {
-            this.router.navigate(['/error']);
-            return false;
-        }
-        return true;
-    };
-    // Checks if any of the query parameters are null/undefined or empty string
-    PasswordResetGuard.prototype.paramsNull = function (params) {
-        return params.some(function (param) {
-            // Checks for null/undefined and empty string
-            return !param || param === '';
-        });
-    };
-    PasswordResetGuard = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
-    ], PasswordResetGuard);
-    return PasswordResetGuard;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/password-change/password-change.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/auth/password-change/password-change.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<p>\r\n  password-change works!\r\n</p>\r\n"
-
-/***/ }),
-
-/***/ "./src/app/auth/password-change/password-change.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordChangeComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var PasswordChangeComponent = /** @class */ (function () {
-    function PasswordChangeComponent() {
-    }
-    PasswordChangeComponent.prototype.ngOnInit = function () {
-    };
-    PasswordChangeComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-password-change',
-            template: __webpack_require__("./src/app/auth/password-change/password-change.component.html"),
-            styles: [__webpack_require__("./src/app/auth/password-change/password-change.component.css")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], PasswordChangeComponent);
-    return PasswordChangeComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/password-reset/password-reset.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/auth/password-reset/password-reset.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<app-password header=\"Reset\"></app-password>"
-
-/***/ }),
-
-/***/ "./src/app/auth/password-reset/password-reset.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordResetComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var PasswordResetComponent = /** @class */ (function () {
-    function PasswordResetComponent() {
-        this.inputOne = '';
-        this.inputTwo = '';
-        this.passwordMatch = false;
-        this.fieldsFilled = false;
-    }
-    PasswordResetComponent.prototype.checkFill = function () {
-        this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
-    };
-    PasswordResetComponent.prototype.checkPasswords = function () {
-        this.checkFill();
-        this.passwordMatch =
-            !(this.inputOne === '' || this.inputTwo === '') &&
-                this.inputOne === this.inputTwo;
-    };
-    PasswordResetComponent.prototype.resetPassword = function () {
-        return false;
-    };
-    PasswordResetComponent.prototype.ngOnInit = function () { };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", String)
-    ], PasswordResetComponent.prototype, "header", void 0);
-    PasswordResetComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-password-reset',
-            template: __webpack_require__("./src/app/auth/password-reset/password-reset.component.html"),
-            styles: [__webpack_require__("./src/app/auth/password-reset/password-reset.component.css")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], PasswordResetComponent);
-    return PasswordResetComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/auth/password/password.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/auth/password/password.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"{{ header + ' password' | uppercase }}\" icon=\"user.png\">\r\n    <app-ssn-card header=\"Password {{header}} form\">\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"first_password\">New password</label>\r\n        <div class=\"col\">\r\n          <input id=\"first_password\" name=\"first_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Enter a new password\"\r\n            [(ngModel)]=\"inputOne\" (blur)=\"checkPasswords()\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row mb-0\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"second_password\">Retype password</label>\r\n        <div class=\"col\">\r\n          <input id=\"second_password\" name=\"second_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Retype the password\"\r\n            [(ngModel)]=\"inputTwo\" (blur)=\"checkPasswords()\">\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"fieldsFilled\" class=\"row\">\r\n        <div class=\"col-sm-2 col-md-2 col-lg-2 col-xl-2\">\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"!passwordMatch\">\r\n          <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n          <small class=\"text-danger\">Passwords does not match</small>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"passwordMatch\">\r\n            <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n            <small class=\"text-success\">Passwords match</small>\r\n          </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!passwordMatch\">\r\n        <div class=\"row\">\r\n          <div class=\"col\">\r\n            <button class=\"btn btn-ssn\" disabled>{{header}} password</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <!-- Passwords typed in and passords match -->\r\n      <div *ngIf=\"passwordMatch\">\r\n        <div class=\"row\">\r\n          <div class=\"col\">\r\n            <button class=\"btn btn-ssn\" (click)=\"resetPassword()\">{{header}} password</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </app-ssn-card>\r\n  </app-ssn-bg>\r\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/auth/password/password.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var PasswordComponent = /** @class */ (function () {
-    function PasswordComponent() {
-        this.inputOne = '';
-        this.inputTwo = '';
-        this.passwordMatch = false;
-        this.fieldsFilled = false;
-    }
-    PasswordComponent.prototype.checkFill = function () {
-        this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
-    };
-    PasswordComponent.prototype.checkPasswords = function () {
-        this.checkFill();
-        this.passwordMatch =
-            !(this.inputOne === '' || this.inputTwo === '') &&
-                this.inputOne === this.inputTwo;
-    };
-    PasswordComponent.prototype.resetPassword = function () {
-        return false;
-    };
-    PasswordComponent.prototype.ngOnInit = function () { };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", String)
-    ], PasswordComponent.prototype, "header", void 0);
-    PasswordComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-password',
-            template: __webpack_require__("./src/app/auth/password/password.component.html"),
-            styles: [__webpack_require__("./src/app/auth/password/password.component.css")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], PasswordComponent);
-    return PasswordComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/login/login.component.css":
-/***/ (function(module, exports) {
-
-module.exports = ""
-
-/***/ }),
-
-/***/ "./src/app/login/login.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\"\r\n            placeholder=\"Enter email address\"\r\n            [(ngModel)]=\"credentials.userName\" #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\"\r\n          placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>"
-
-/***/ }),
-
-/***/ "./src/app/login/login.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_finally__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/finally.js");
-// Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-var LoginComponent = /** @class */ (function () {
-    function LoginComponent(loginService, contentService, router, activatedRoute, accountService) {
-        this.loginService = loginService;
-        this.contentService = contentService;
-        this.router = router;
-        this.activatedRoute = activatedRoute;
-        this.accountService = accountService;
-        this.login_title = 'LOGIN';
-        this.submitted = false;
-        this.credentials = { userName: '', password: '' };
-    }
-    LoginComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        // subscribe to router event
-        this.activatedRoute.queryParams.subscribe(function (param) {
-            _this.brandNew = param['brandNew'];
-            // this.credentials.userName = param['userName'];
-        });
-    };
-    LoginComponent.prototype.login = function (_a) {
-        var _this = this;
-        var value = _a.value, valid = _a.valid;
-        this.submitted = true;
-        this.errors = '';
-        if (valid) {
-            this.isRequesting = true;
-            this.loginService.login(value.userName, value.password)
-                .finally(function () {
-                _this.isRequesting = false;
-            })
-                .subscribe(function (result) {
-                // Login succeeded
-                if (result) {
-                    // Set user claims observable so they are
-                    // available for the entire application
-                    _this.accountService.getUserClaims()
-                        .finally(function () {
-                        _this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
-                        _this.router.navigate(['']);
-                    })
-                        .subscribe(function (claims) {
-                        if (claims) {
-                            _this.accountService.setUserClaims(claims);
-                            localStorage.setItem('user_claims', JSON.stringify(claims));
-                        }
-                    });
-                }
-                // Login failed
-            }, function (error) {
-                _this.errors = error;
-                _this.credentials.password = '';
-            });
-        }
-    };
-    LoginComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-login',
-            template: __webpack_require__("./src/app/login/login.component.html"),
-            styles: [__webpack_require__("./src/app/login/login.component.css")]
-        }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_login_service__["a" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_account_service__["a" /* AccountService */]])
-    ], LoginComponent);
-    return LoginComponent;
+    ], RootGuard);
+    return RootGuard;
 }());
 
 
@@ -2043,7 +1425,7 @@ var RegisterShipComponent = /** @class */ (function () {
         var _this = this;
         this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
         this.certificateModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models_certificate_of_registry_model__["a" /* CertificateOfRegistryModel */]();
-        this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(function (data) {
+        this.shipDataSubscription = this.shipService.shipData$.subscribe(function (data) {
             if (data) {
                 _this.setAllValues(data);
             }
@@ -2062,7 +1444,7 @@ var RegisterShipComponent = /** @class */ (function () {
         this.shipStatusListSubscription = this.shipService.getShipStatusList().subscribe(function (data) { return (_this.shipStatusList = data); });
     };
     RegisterShipComponent.prototype.ngOnDestroy = function () {
-        this.shipOverviewDataSubscription.unsubscribe();
+        this.shipDataSubscription.unsubscribe();
         this.shipTypesSubscription.unsubscribe();
         this.hullTypesSubscription.unsubscribe();
         this.lengthTypesSubscription.unsubscribe();
@@ -2388,7 +1770,7 @@ var ViewShipInfoComponent = /** @class */ (function () {
         this.shipService.setShipSearchData(shipSearchResult);
     };
     ViewShipInfoComponent.prototype.registerNewShip = function () {
-        this.shipService.setShipOverviewData(null);
+        this.shipService.setShipData(null);
         this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
     };
     ViewShipInfoComponent = __decorate([
@@ -2417,7 +1799,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"password\">Password</label>\r\n                  <input id=\"password\" type=\"password\" name=\"password\" class=\"form-control form-control-sm\" placeholder=\"Enter password\" [(ngModel)]=\"user.password\"\r\n                    autocomplete=\"new-password\" required>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.password\">Password not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && user.password && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUserWithPassword()\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>"
+module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
 
 /***/ }),
 
@@ -2432,7 +1814,8 @@ module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_constants_organization_properties__ = __webpack_require__("./src/app/shared/constants/organization-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_constants_organization_properties__ = __webpack_require__("./src/app/shared/constants/organization-properties.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2449,39 +1832,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var RESULT_SUCCES = 'User was successfully registered.';
+
+var RESULT_SUCCESS = 'User was successfully registered.';
 var RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
 var RegisterUserComponent = /** @class */ (function () {
-    function RegisterUserComponent(accountService, contentService, modalService) {
+    function RegisterUserComponent(accountService, contentService, modalService, organizationService) {
         this.accountService = accountService;
         this.contentService = contentService;
         this.modalService = modalService;
+        this.organizationService = organizationService;
         this.user = {
             email: '',
             phoneNumber: '',
             givenName: '',
             surname: '',
-            password: '',
             roleName: '',
             organizationId: '',
             companyEmail: '',
             companyPhoneNumber: ''
         };
-        this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_6_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
+        this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_7_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
     }
     RegisterUserComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.getAllRolesSubscription = this.accountService.getAllRoles().subscribe(function (data) { return _this.roleList = data; });
-        this.getEmailLink();
+        this.getAllRolesSubscription = this.accountService.getAllRoles()
+            .subscribe(function (data) { return _this.roleList = data; });
+        this.organizationService.setOrganizationData(null);
+        this.organizationService.organizationData$.subscribe(function (data) {
+            if (data) {
+                _this.organizationModel = data;
+                _this.user.organizationId = data.organizationId;
+                _this.organizationSelected = true;
+            }
+            else {
+                _this.organizationSelected = false;
+            }
+        });
     };
     RegisterUserComponent.prototype.ngOnDestroy = function () {
         this.getAllRolesSubscription.unsubscribe();
-    };
-    RegisterUserComponent.prototype.getEmailLink = function () {
-        this.accountService.getEmailLink().subscribe(function (result) {
-            if (result) {
-            }
-        });
     };
     RegisterUserComponent.prototype.userExists = function (emailValid) {
         var _this = this;
@@ -2493,17 +1882,15 @@ var RegisterUserComponent = /** @class */ (function () {
             });
         }
     };
-    RegisterUserComponent.prototype.registerUserWithPassword = function () {
+    RegisterUserComponent.prototype.registerUser = function () {
         var _this = this;
         this.accountService.registerUser(this.user)
             .subscribe(function (result) {
-            if (result) {
-                console.log(result);
-                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCES);
-            }
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
+            // this.openCustomModal(template, true);  // SUCCESS
         }, function (error) {
-            console.log(error);
             _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+            // this.openCustomModal(template, false);  // FAILURE
         });
     };
     RegisterUserComponent.prototype.onOrganizationResult = function (organizationResult) {
@@ -2513,7 +1900,7 @@ var RegisterUserComponent = /** @class */ (function () {
         this.organizationModel = organizationData;
         this.user.organizationId = organizationData.organizationId;
         this.organizationSelected = true;
-        __WEBPACK_IMPORTED_MODULE_6_app_shared_constants_organization_properties__["a" /* OrganizationProperties */].setOrganizationData(this.organizationProperties, this.organizationModel);
+        __WEBPACK_IMPORTED_MODULE_7_app_shared_constants_organization_properties__["a" /* OrganizationProperties */].setOrganizationData(this.organizationProperties, this.organizationModel);
     };
     RegisterUserComponent.prototype.deselectOrganization = function () {
         this.organizationModel = null;
@@ -2538,6 +1925,10 @@ var RegisterUserComponent = /** @class */ (function () {
             }
         });
     };
+    RegisterUserComponent.prototype.openCustomModal = function (template, success) {
+        this.registrationSuccessful = success;
+        this.modalService.open(template);
+    };
     RegisterUserComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-register-user',
@@ -2547,7 +1938,8 @@ var RegisterUserComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_organization_service__["a" /* OrganizationService */]])
     ], RegisterUserComponent);
     return RegisterUserComponent;
 }());
@@ -2733,7 +2125,7 @@ var ClearanceComponent = /** @class */ (function () {
             }
         });
         this.shipDataSubscription = this.portCallService.shipData$.subscribe(function (shipResult) {
-            _this.shipService.setShipOverviewData(shipResult);
+            _this.shipService.setShipData(shipResult);
         });
     };
     ClearanceComponent.prototype.ngOnDestroy = function () {
@@ -2745,9 +2137,36 @@ var ClearanceComponent = /** @class */ (function () {
         this.modalService.open(content);
     };
     ClearanceComponent.prototype.saveClearance = function () {
+        var _this = this;
+        console.log(this.clearanceModel);
         this.clearanceModel.remark = this.clearanceText;
         this.clearanceModel.cleared = this.givingClearance;
         this.portCallService.saveClearance(this.clearanceModel);
+        if (this.clearanceModel.cleared) {
+            this.portCallService.getClearanceListForPortCall(this.clearanceModel.portCallId).subscribe(function (result) {
+                var clearances = result;
+                var allCleared = true;
+                clearances.forEach(function (clearance) {
+                    if (!clearance.cleared && clearance.organizationPortCallId !== _this.clearanceModel.organizationPortCallId) {
+                        allCleared = false;
+                    }
+                });
+                console.log('All cleared: ', allCleared);
+                if (allCleared) {
+                    _this.portCallService.updatePortCallStatusCleared(_this.clearanceModel.portCallId).subscribe(function (res) {
+                        console.log(res);
+                        console.log('Status set to cleared.');
+                    }, function (err) { return console.log(err); });
+                }
+            });
+        }
+        else {
+            console.log('Setting status to AC...');
+            this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(function (res) {
+                console.log(res);
+                console.log('Status set to awaiting clearance');
+            }, function (err) { return console.log(err); });
+        }
     };
     ClearanceComponent.prototype.goBack = function () {
         this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
@@ -2780,7 +2199,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"!prevAndNextPortCallDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePrevAndNextPortCall()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && shipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores List is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"!portCallIsDraft\">\r\n      <div class=\"col\">\r\n        <div class=\"text-center\">\r\n          <span>Port call is already active. You can still update the information.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"goBack()\">\r\n            <img src=\"assets/images/icons/128x128/white/left-arrow.png\" height=\"24px\"> Return to overview</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine\" class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and it will be visble for authorities to review.</p>\r\n        <p>This action cannot be undone.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)\" class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"!prevAndNextPortCallDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePrevAndNextPortCall()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && shipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores List is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine\" class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)\" class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -2837,9 +2256,7 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.detailsModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
         this.etdModel = null;
         this.etaModel = null;
-        this.portCallIsActive = false;
         this.portCallIsDraft = false;
-        this.STATUS_ACTIVE = 'Active';
         this.STATUS_DRAFT = 'Draft';
     }
     ActivatePortCallComponent.prototype.ngOnInit = function () {
@@ -2989,12 +2406,12 @@ var ActivatePortCallComponent = /** @class */ (function () {
     };
     ActivatePortCallComponent.prototype.saveShipStores = function () {
         this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-        this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(function (res) { });
+        this.shipStoresService.updateShipStores(this.shipStoresList);
     };
     ActivatePortCallComponent.prototype.send = function () {
         var _this = this;
         this.portCallService
-            .updatePortCallStatusActive(this.detailsIdentificationModel.portCallId)
+            .updatePortCallStatusAwaitingClearance(this.detailsIdentificationModel.portCallId)
             .subscribe(function (updateStatusResponse) {
             console.log('Status successfully updated.');
             _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCES);
@@ -3713,7 +3130,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" *ngIf=\"portCallIsCancelled\" disabled>\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"!portCallIsCancelled\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled\" disabled>\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsDraft || portCallIsCancelled\" disabled>\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"onCancelClick(cancelModal)\" *ngIf=\"!(portCallIsDraft || portCallIsCancelled)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"onDeleteClick(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <div ngbTooltip=\"You cannot edit a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"openModal(editModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"portCallIsDraft\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}\" *ngIf=\"portCallIsCancelled || portCallIsAwaitingClearance\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n      <app-set-actual-time [portCallModel]=\"rowData.overviewModel.portCall\" (portCallModelChange)=\"onPortCallModelChange($event)\" *ngIf=\"portCallIsCleared || portCallIsCompleted\"></app-set-actual-time>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <div ngbTooltip=\"You cannot clear a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled && !portCallIsCompleted\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"openModal(cancelModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"openModal(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">WARNING</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>To edit this port call, you must revert it back to a draft.</span>\r\n      <br>\r\n      <span>Any active clearances for the port call will be reset.</span>\r\n      <br>\r\n      <span>The port call must be reactivated to receive new clearances.</span>\r\n      <br>\r\n      <br>\r\n      <span>Are you sure you wish to edit this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"editAwaitingClearancePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/warning.png\" height=\"20px\">\r\n      <span>Reset Clearance & Edit Port Call as Draft</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -3733,7 +3150,7 @@ module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3767,11 +3184,17 @@ var ButtonRowComponent = /** @class */ (function () {
         this.permissions = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__["a" /* PortCallClaims */].buttonRowPermissions;
         this.portCallIsDraft = false;
         this.portCallIsCancelled = false;
+        this.portCallIsAwaitingClearance = false;
+        this.portCallIsCleared = false;
+        this.portCallIsCompleted = false;
     }
     ButtonRowComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.portCallIsDraft = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].DRAFT);
         this.portCallIsCancelled = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED);
+        this.portCallIsAwaitingClearance = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].AWAITING_CLEARANCE);
+        this.portCallIsCleared = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED);
+        this.portCallIsCompleted = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED);
         this.accountService.userClaimsData$.subscribe(function (userClaims) {
             if (userClaims) {
                 // Find user claims where claim type is Port Call
@@ -3802,17 +3225,39 @@ var ButtonRowComponent = /** @class */ (function () {
         this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALL);
     };
     ButtonRowComponent.prototype.onEditClick = function () {
-        this.contentService.setPortCallForm('Voyages');
+        this.contentService.setPortCallForm(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VOYAGES);
         this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL);
     };
     ButtonRowComponent.prototype.onClearanceClick = function () {
         this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].PORT_CALL_CLEARANCE);
     };
-    ButtonRowComponent.prototype.onCancelClick = function (content) {
+    ButtonRowComponent.prototype.openModal = function (content) {
         this.modalService.open(content);
     };
-    ButtonRowComponent.prototype.onDeleteClick = function (content) {
-        this.modalService.open(content);
+    ButtonRowComponent.prototype.onPortCallModelChange = function (portCallModel) {
+        console.log(portCallModel);
+        var pcId = this.rowData.overviewModel.portCall.portCallId;
+        this.rowData.overviewModel.status = portCallModel.portCallStatus.name;
+        this.portCallIsCleared = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED);
+        this.portCallIsCompleted = (this.rowData.overviewModel.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED);
+        this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = portCallModel.portCallStatus.name;
+        this.overviewService.setOverviewData(this.overviewData);
+    };
+    ButtonRowComponent.prototype.onCompletePortCall = function () {
+        var pcId = this.rowData.overviewModel.portCall.portCallId;
+        this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED;
+        this.portCallIsCleared = false;
+        this.portCallIsCompleted = true;
+        this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED;
+        this.overviewService.setOverviewData(this.overviewData);
+    };
+    ButtonRowComponent.prototype.onUncompletePortCall = function () {
+        var pcId = this.rowData.overviewModel.portCall.portCallId;
+        this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED;
+        this.portCallIsCleared = true;
+        this.portCallIsCompleted = false;
+        this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED;
+        this.overviewService.setOverviewData(this.overviewData);
     };
     ButtonRowComponent.prototype.cancelPortCall = function () {
         var pcId = this.rowData.overviewModel.portCall.portCallId;
@@ -3822,11 +3267,11 @@ var ButtonRowComponent = /** @class */ (function () {
             this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
             this.overviewService.setOverviewData(this.overviewData);
         }
-        if (this.draftOverviewData.find(function (r) { return r.overviewModel.portCallId === pcId; })) {
+        if (this.draftOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; })) {
             this.draftOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
             this.overviewService.setDraftData(this.draftOverviewData);
         }
-        if (this.clearedOverviewData.find(function (r) { return r.overviewModel.portCallId === pcId; })) {
+        if (this.clearedOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; })) {
             this.clearedOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
             this.overviewService.setClearedData(this.clearedOverviewData);
         }
@@ -3843,6 +3288,24 @@ var ButtonRowComponent = /** @class */ (function () {
                 _this.overviewService.setDraftData(newDraftData);
                 _this.overviewService.setClearedData(newClearedData);
                 console.log(deleteResponse);
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ButtonRowComponent.prototype.editAwaitingClearancePortCall = function () {
+        var _this = this;
+        this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCall.portCallId).subscribe(function (draftResponse) {
+            if (draftResponse) {
+                var newAwaitingClearanceData = _this.overviewData.filter(function (row) { return row !== _this.rowData; });
+                var newClearedData = _this.clearedOverviewData.filter(function (row) { return row !== _this.rowData; });
+                var newDraftData = _this.draftOverviewData.filter(function (row) { return row !== _this.rowData; });
+                _this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].DRAFT;
+                newDraftData.push(_this.rowData);
+                _this.overviewService.setOverviewData(newAwaitingClearanceData);
+                _this.overviewService.setClearedData(newClearedData);
+                _this.overviewService.setDraftData(newDraftData);
+                _this.onEditClick();
             }
         }, function (error) {
             console.log(error);
@@ -3933,7 +3396,7 @@ var ButtonRowComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
             __WEBPACK_IMPORTED_MODULE_8_app_shared_services_content_service__["a" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_11__shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
+            __WEBPACK_IMPORTED_MODULE_11_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], ButtonRowComponent);
     return ButtonRowComponent;
@@ -4017,7 +3480,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/main-content/content-container/port-call/overview/overview.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"Options\" icon=\"cogs.png\" collapsible=\"true\" collapsed=\"true\">\r\n            <div>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"!showCancelledPortCalls\" (click)=\"toggleCancelledPortCalls(true)\">Show cancelled port calls</button>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"showCancelledPortCalls\" (click)=\"toggleCancelledPortCalls(false)\">Hide cancelled port calls</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Active Port Calls</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"overviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\" *ngIf=\"permissions.edit\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Port Call Drafts</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"draftOverviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\" *ngIf=\"userIsGovernmentAgency\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Cleared Port Calls</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"clearedByUserAgencyOverviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"Options\" icon=\"cogs.png\" collapsible=\"true\" collapsed=\"true\">\r\n            <div>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"!showCancelledPortCalls\" (click)=\"toggleCancelledPortCalls(true)\">Show cancelled port calls</button>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"showCancelledPortCalls\" (click)=\"toggleCancelledPortCalls(false)\">Hide cancelled port calls</button>\r\n            </div>\r\n            <div>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"!showCompletedPortCalls\" (click)=\"toggleCompletedPortCalls(true)\">Show completed port calls</button>\r\n                <button class=\"btn btn-sm btn-ssn\" *ngIf=\"showCompletedPortCalls\" (click)=\"toggleCompletedPortCalls(false)\">Hide completed port calls</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Port Calls</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"overviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\" *ngIf=\"permissions.edit\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Port Call Drafts</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"draftTableSettings\" [source]=\"draftOverviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"mb-3\" *ngIf=\"userIsGovernmentAgency\">\r\n    <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n        <thead class=\"bg-ssn text-white\">\r\n            <tr>\r\n                <th class=\"py-1\">\r\n                    <h5 class=\"mb-0\">Cleared Port Calls</h5>\r\n                </th>\r\n            </tr>\r\n        </thead>\r\n    </table>\r\n    <div class=\"table-responsive\">\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"clearedByUserAgencyOverviewSource\"></ng2-smart-table>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -4073,12 +3536,14 @@ var OverviewComponent = /** @class */ (function () {
         this.overviewList = [];
         this.draftOverviewList = [];
         this.cancelledOverviewList = [];
+        this.completedOverviewList = [];
         this.clearedByUserAgencyOverviewList = [];
         this.userIsGovernmentAgency = false;
         this.overviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
         this.draftOverviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
         this.clearedByUserAgencyOverviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
         this.showCancelledPortCalls = false;
+        this.showCompletedPortCalls = false;
         // Smart table
         this.tableSettings = {
             mode: 'external',
@@ -4128,12 +3593,50 @@ var OverviewComponent = /** @class */ (function () {
                 }
             }
         };
+        this.draftTableSettings = {
+            mode: 'external',
+            actions: false,
+            attr: {
+                class: 'table table-bordered'
+            },
+            noDataMessage: 'There are no port calls in this list.',
+            columns: {
+                shipName: {
+                    title: 'Ship Name',
+                    type: 'html'
+                },
+                callSign: {
+                    title: 'Call Sign',
+                    type: 'html'
+                },
+                locationName: {
+                    title: 'Location Name',
+                    type: 'html'
+                },
+                eta: {
+                    title: 'ETA',
+                    type: 'html'
+                },
+                etd: {
+                    title: 'ETD',
+                    type: 'html'
+                },
+                actions: {
+                    title: 'Actions',
+                    type: 'custom',
+                    filter: false,
+                    sort: false,
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_11__button_row_button_row_component__["a" /* ButtonRowComponent */]
+                }
+            }
+        };
     }
     OverviewComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.userClaimsDataSubscription = this.accountService.userClaimsData$.subscribe(function (userClaims) {
             if (userClaims) {
-                var userClaimsTypePortCall_1 = userClaims.filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__["a" /* PortCallClaims */].TYPE; }); // Find user claims where claim type is Port Call
+                var userClaimsTypePortCall_1 = userClaims.filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__["a" /* PortCallClaims */].TYPE; });
+                // Find user claims where claim type is Port Call
                 var keys = Object.keys(_this.permissions);
                 keys.forEach(function (key) {
                     _this.permissions[key] = userClaimsTypePortCall_1.some(function (claim) { return claim.value.toUpperCase() === key.toString().toUpperCase(); });
@@ -4189,7 +3692,7 @@ var OverviewComponent = /** @class */ (function () {
                 "</span>",
             status: ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED
                 ? "<div class=\"text-danger\">" + ov.status + "</div>"
-                : ov.status,
+                : "<div class=\"no-wrap\">" + ov.status + "</div>",
             clearances: 'clearances',
             actions: 'btn'
         };
@@ -4197,15 +3700,13 @@ var OverviewComponent = /** @class */ (function () {
     };
     OverviewComponent.prototype.loadOverview = function () {
         var _this = this;
-        this.overviewService.showCancelledPortCall$.subscribe(function (showCancelledPortCalls) {
-            if (showCancelledPortCalls !== null) {
-                _this.showCancelledPortCalls = showCancelledPortCalls;
-                var portCallList = _this.overviewList;
-                if (showCancelledPortCalls) {
-                    portCallList = portCallList.concat(_this.cancelledOverviewList);
-                }
-                _this.overviewService.setOverviewData(portCallList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
-            }
+        this.overviewService.showCancelledPortCalls$.subscribe(function (showCancelledPortCalls) {
+            _this.showCancelledPortCalls = showCancelledPortCalls;
+            _this.rerenderList();
+        });
+        this.overviewService.showCompletedPortCalls$.subscribe(function (showCompletedPortCalls) {
+            _this.showCompletedPortCalls = showCompletedPortCalls;
+            _this.rerenderList();
         });
         this.overviewService.overviewData$.subscribe(function (results) {
             if (results) {
@@ -4251,6 +3752,9 @@ var OverviewComponent = /** @class */ (function () {
                                 else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED) {
                                     _this.cancelledOverviewList.push(row);
                                 }
+                                else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED) {
+                                    _this.completedOverviewList.push(row);
+                                }
                                 else {
                                     _this.overviewList.push(row);
                                 }
@@ -4268,8 +3772,21 @@ var OverviewComponent = /** @class */ (function () {
             }
         }, function (error) { return console.log(error); });
     };
+    OverviewComponent.prototype.rerenderList = function () {
+        var portCallList = this.overviewList;
+        if (this.showCancelledPortCalls) {
+            portCallList = portCallList.concat(this.cancelledOverviewList);
+        }
+        if (this.showCompletedPortCalls) {
+            portCallList = portCallList.concat(this.completedOverviewList);
+        }
+        this.overviewService.setOverviewData(portCallList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
+    };
     OverviewComponent.prototype.toggleCancelledPortCalls = function (showCancelled) {
         this.overviewService.setShowCancelledPortCalls(showCancelled);
+    };
+    OverviewComponent.prototype.toggleCompletedPortCalls = function (showCompleted) {
+        this.overviewService.setShowCompletedPortCalls(showCompleted);
     };
     OverviewComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["n" /* Component */])({
@@ -4286,6 +3803,205 @@ var OverviewComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */]])
     ], OverviewComponent);
     return OverviewComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Set actual time of arrival and departure\" (click)=\"openModal(actualTimeModal)\">\r\n  <div class=\"mx-auto\">\r\n    <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n  </div>\r\n</button>\r\n\r\n<ng-template #actualTimeModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Set actual time of arrival and departure</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <app-date-time-picker [header]=\"'ATA'\" [dateTimeModel]=\"portCallAta\" (dateTimeResult)=\"onAtaResult($event)\" (dateFormatError)=\"onAtaDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"ataAfterTodayError\">Actual arrival time cannot be set to the future.</div>\r\n    <app-date-time-picker [header]=\"'ATD'\" [dateTimeModel]=\"portCallAtd\" (dateTimeResult)=\"onAtdResult($event)\" (dateFormatError)=\"onAtdDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"atdAfterTodayError\">Actual departure time cannot be set to the future.</div>\r\n    <div class=\"alert alert-danger\" *ngIf=\"dateSequenceError\">Departure time must be after arrival time.</div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-success\" disabled *ngIf=\"ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <span *ngIf=\"saving\">Saving...</span>\r\n    <span class=\"badge badge-success\" *ngIf=\"saved\">Your changes have been saved.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"saveError\">An error occured when trying to save.</span>\r\n    <button class=\"btn btn-success\" (click)=\"save()\" [disabled]=\"saving\" *ngIf=\"!(ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError)\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"20px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SetActualTimeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var SetActualTimeComponent = /** @class */ (function () {
+    function SetActualTimeComponent(portCallService, modalService) {
+        this.portCallService = portCallService;
+        this.modalService = modalService;
+        this.portCallModelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.portCallAta = {
+            date: null,
+            time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
+        };
+        this.portCallAtd = {
+            date: null,
+            time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
+        };
+        this.ataAfterTodayError = false;
+        this.atdAfterTodayError = false;
+        this.dateSequenceError = false;
+        this.ataDateFormatError = false;
+        this.atdDateFormatError = false;
+        this.saving = false;
+        this.saved = false;
+        this.saveError = false;
+    }
+    SetActualTimeComponent.prototype.ngOnInit = function () {
+        if (this.portCallModel.locationAta != null) {
+            var ata = new Date(this.portCallModel.locationAta);
+            this.portCallAta = {
+                date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](ata.getFullYear(), ata.getMonth() + 1, ata.getDate()),
+                time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](ata.getHours(), ata.getMinutes(), 0)
+            };
+            this.ataModel = this.portCallAta;
+        }
+        if (this.portCallModel.locationAtd != null) {
+            var atd = new Date(this.portCallModel.locationAtd);
+            this.portCallAtd = {
+                date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](atd.getFullYear(), atd.getMonth() + 1, atd.getDate()),
+                time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](atd.getHours(), atd.getMinutes(), 0)
+            };
+            this.atdModel = this.portCallAtd;
+        }
+        var today = new Date();
+        this.currentDate = new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](today.getFullYear(), today.getMonth() + 1, today.getDate());
+        this.validateDateTime();
+    };
+    SetActualTimeComponent.prototype.onAtaResult = function (ataResult) {
+        this.ataModel = ataResult;
+        this.validateDateTime();
+    };
+    SetActualTimeComponent.prototype.onAtdResult = function (atdResult) {
+        this.atdModel = atdResult;
+        this.validateDateTime();
+    };
+    SetActualTimeComponent.prototype.onAtaDateFormatError = function (ataDateFormatErrorResult) {
+        this.ataDateFormatError = ataDateFormatErrorResult;
+    };
+    SetActualTimeComponent.prototype.onAtdDateFormatError = function (atdDateFormatErrorResult) {
+        this.atdDateFormatError = atdDateFormatErrorResult;
+    };
+    SetActualTimeComponent.prototype.validateDateTime = function () {
+        var arrival = null;
+        var departure = null;
+        if (this.ataModel && this.ataModel.date) {
+            arrival = {
+                date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.ataModel.date.year, this.ataModel.date.month, this.ataModel.date.day),
+                time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](this.ataModel.time.hour, this.ataModel.time.minute, 0)
+            };
+            this.portCallModel.locationAta = new Date(arrival.date.year, arrival.date.month - 1, arrival.date.day, arrival.time.hour, arrival.time.minute, 0);
+        }
+        else {
+            this.portCallModel.locationAta = null;
+        }
+        if (this.atdModel && this.atdModel.date) {
+            departure = {
+                date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.atdModel.date.year, this.atdModel.date.month, this.atdModel.date.day),
+                time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](this.atdModel.time.hour, this.atdModel.time.minute, 0)
+            };
+            this.portCallModel.locationAtd = new Date(departure.date.year, departure.date.month - 1, departure.date.day, departure.time.hour, departure.time.minute, 0);
+        }
+        else {
+            this.portCallModel.locationAtd = null;
+        }
+        this.ataAfterTodayError = arrival != null ? this.currentDate.before(arrival.date) : false;
+        this.atdAfterTodayError = departure != null ? this.currentDate.before(departure.date) : false;
+        if (arrival != null && departure != null) {
+            this.dateSequenceError = arrival.date.after(departure.date);
+            if (arrival.date.equals(departure.date)) {
+                this.dateSequenceError = arrival.time.hour > departure.time.hour
+                    || (arrival.time.hour === departure.time.hour && arrival.time.minute >= departure.time.minute);
+            }
+        }
+        else {
+            this.dateSequenceError = false;
+        }
+    };
+    SetActualTimeComponent.prototype.save = function () {
+        var _this = this;
+        this.saving = true;
+        this.saved = false;
+        this.saveError = false;
+        this.portCallService.updatePortCall(this.portCallModel).subscribe(function (result) {
+            _this.saved = true;
+            console.log(result);
+            if (null != result.locationAtd) {
+                _this.portCallService.updatePortCallStatusCompleted(result.portCallId).subscribe(function (res) {
+                    _this.portCallModel = res;
+                    console.log('Status set to completed.');
+                }, function (err) { return console.log(err); });
+            }
+            else {
+                _this.portCallService.updatePortCallStatusCleared(result.portCallId).subscribe(function (res) {
+                    _this.portCallModel = res;
+                    console.log('Status set to cleared.');
+                }, function (err) { return console.log(err); });
+            }
+        }, function (error) {
+            _this.saveError = true;
+            console.log(error);
+        }, function () {
+            _this.saving = false;
+        });
+    };
+    SetActualTimeComponent.prototype.openModal = function (content) {
+        var _this = this;
+        this.saving = false;
+        this.saved = false;
+        this.saveError = false;
+        this.modalService.open(content, { size: 'lg' }).result.then(function (result) {
+            _this.modalClosed();
+        }, function (reason) {
+            _this.modalClosed();
+        });
+    };
+    SetActualTimeComponent.prototype.modalClosed = function () {
+        if (this.saved) {
+            this.portCallModelChange.emit(this.portCallModel);
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_model__["a" /* PortCallModel */])
+    ], SetActualTimeComponent.prototype, "portCallModel", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], SetActualTimeComponent.prototype, "portCallModelChange", void 0);
+    SetActualTimeComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-set-actual-time',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], SetActualTimeComponent);
+    return SetActualTimeComponent;
 }());
 
 
@@ -4422,6 +4138,7 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/search-passenger-port/search-passenger-port.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4472,6 +4189,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var PortCallModule = /** @class */ (function () {
     function PortCallModule() {
     }
@@ -4518,7 +4236,8 @@ var PortCallModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
                 __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__["a" /* FindPortOfEmbarkationComponent */],
                 __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__["a" /* SearchPassengerPortComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__["a" /* SavePrevAndNextPocComponent */]
+                __WEBPACK_IMPORTED_MODULE_41__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__["a" /* SavePrevAndNextPocComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_10__clearance_clearance_component__["a" /* ClearanceComponent */],
@@ -4584,7 +4303,7 @@ var FormsComponent = /** @class */ (function () {
     FormsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipDataSubscription = this.portCallService.shipData$.subscribe(function (shipResult) {
-            _this.shipService.setShipOverviewData(shipResult);
+            _this.shipService.setShipData(shipResult);
         });
         this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(function (content) {
             _this.selectedComponent = content;
@@ -5571,6 +5290,7 @@ var PrevAndNextPocComponent = /** @class */ (function () {
                     time: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
                 };
             }
+            _this.validateDateTime();
         });
         this.nextPortOfCallEtaDataSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(function (data) {
             if (data) {
@@ -5586,6 +5306,7 @@ var PrevAndNextPocComponent = /** @class */ (function () {
                     time: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
                 };
             }
+            _this.validateDateTime();
         });
         this.currentPortOfCallEtaEtdSubscription = this.portCallService.etaEtdData$.subscribe(function (etaEtdData) {
             if (etaEtdData) {
@@ -5598,6 +5319,7 @@ var PrevAndNextPocComponent = /** @class */ (function () {
                     time: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](etaEtdData.etd.hour, etaEtdData.etd.minute, 0)
                 };
             }
+            _this.validateDateTime();
         });
     };
     PrevAndNextPocComponent.prototype.ngOnDestroy = function () {
@@ -5631,6 +5353,7 @@ var PrevAndNextPocComponent = /** @class */ (function () {
             this.prevAndNextPocService.setPrevPortOfCallEtd(null);
         }
         this.validateDateTime();
+        this.persistDateTime();
     };
     PrevAndNextPocComponent.prototype.onEtaResult = function (etaResult) {
         if (etaResult) {
@@ -5642,10 +5365,11 @@ var PrevAndNextPocComponent = /** @class */ (function () {
             this.prevAndNextPocService.setNextPortOfCallEta(null);
         }
         this.validateDateTime();
+        this.persistDateTime();
     };
     PrevAndNextPocComponent.prototype.validateDateTime = function () {
-        var prevEtdDate = this.prevEtdModel.date != null ? new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.prevEtdModel.date.year, this.prevEtdModel.date.month, this.prevEtdModel.date.day) : null;
-        var nextEtaDate = this.nextEtaModel.date != null ? new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.nextEtaModel.date.year, this.nextEtaModel.date.month, this.nextEtaModel.date.day) : null;
+        var prevEtdDate = this.prevEtdModel != null && this.prevEtdModel.date != null ? new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.prevEtdModel.date.year, this.prevEtdModel.date.month, this.prevEtdModel.date.day) : null;
+        var nextEtaDate = this.nextEtaModel != null && this.nextEtaModel.date != null ? new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.nextEtaModel.date.year, this.nextEtaModel.date.month, this.nextEtaModel.date.day) : null;
         // Checking for sequence errors between prev and current port of call
         if (prevEtdDate && this.currentEtaModel) {
             this.prevEtdIsAfterCurrentEtaError = prevEtdDate.after(this.currentEtaModel.date);
@@ -5671,7 +5395,6 @@ var PrevAndNextPocComponent = /** @class */ (function () {
             this.nextEtaIsBeforeCurrentEtdError = false;
         }
         this.prevAndNextPocService.setPrevAndNextPortOfCallMeta({ valid: !(this.prevEtdIsAfterCurrentEtaError || this.nextEtaIsBeforeCurrentEtdError) });
-        this.persistDateTime();
     };
     PrevAndNextPocComponent.prototype.persistDateTime = function () {
         if (!this.prevEtdIsAfterCurrentEtaError && !this.nextEtaIsBeforeCurrentEtdError) {
@@ -5953,7 +5676,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Save Ship Stores\" icon=\"save.png\">\r\n  <div class=\"text-center\" *ngIf=\"!listIsPristine\">\r\n      <span>You have unsaved changes.</span>\r\n      <br>\r\n    <button class=\"btn btn-ssn\" (click)=\"saveShipStores()\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Details</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"text-center\" *ngIf=\"listIsPristine\">\r\n    <span>There is nothing to save.</span>\r\n    <br>\r\n    <button class=\"btn btn-ssn mt-2\" disabled>\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Details</span>\r\n    </button>\r\n  </div>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card header=\"Save Ship Stores\" icon=\"save.png\">\r\n  <div class=\"text-center\" *ngIf=\"!listIsPristine\">\r\n      <span>You have unsaved changes.</span>\r\n      <br>\r\n    <button class=\"btn btn-ssn\" (click)=\"saveShipStores()\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Ship Stores</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"text-center\" *ngIf=\"listIsPristine\">\r\n    <span>There is nothing to save.</span>\r\n    <br>\r\n    <button class=\"btn btn-ssn mt-2\" disabled>\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Ship Stores</span>\r\n    </button>\r\n  </div>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -6040,7 +5763,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n  --color-primary: #002d50;\r\
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\">\r\n\r\n    <form>\r\n        <div class=\"row\">\r\n            <div class=\"col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <label for=\"articleName\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Article Name</label>\r\n                    <div class=\"col my-auto\">\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleName\" #articleName=\"ngModel\"\r\n                            placeholder=\"Article Name\" class=\"form-control form-control-sm\" required name=\"articleName\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleName.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <label for=\"articleCode\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Article Code</label>\r\n                    <div class=\"col my-auto\">\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleCode\" #articleCode=\"ngModel\"\r\n                            placeholder=\"Article Code\" class=\"form-control form-control-sm\" name=\"articleCode\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleCode.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <label for=\"locationOnBoard\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Location on Board</label>\r\n                    <div class=\"col my-auto\">\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\"\r\n                            placeholder=\"Location on Board\" class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoard.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <label for=\"quantity\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Quantity</label>\r\n                    <div class=\"col my-auto\">\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n                            integerValidator positiveNumberValidator name=\"quantity\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div *ngIf=\"quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\" required>\r\n                    <label for=\"measurementType\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Measurement Type</label>\r\n                    <div class=\"col my-auto\">\r\n                        <ng-select id=\"measurementTypes\" [items]=\"measurementTypeList\" [(ngModel)]=\"selectedMeasurementType\" name=\"measurementType\"\r\n                            [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Measurement Type\" (change)=\"selectMeasurementType($event)\">\r\n                        </ng-select>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <label for=\"locationOnBoardCode\" class=\"col-form-label-sm no-wrap col-sm-4 col-md-3 col-lg-4\">Location on Board Code</label>\r\n                    <div class=\"col my-auto\">\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n                            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\" integerValidator positiveNumberValidator>\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </form>\r\n\r\n    <div class=\"col-lg-12\">\r\n\r\n        <div class=\"form-group\">\r\n            <button *ngIf=\"form.valid\" type=\"submit\" class=\"btn btn-ssn mt-2\" (click)=\"persistData()\">\r\n                <span>Submit</span>\r\n            </button>\r\n            <button *ngIf=\"!form.valid\" type=\"submit\" disabled class=\"btn btn-ssn mt-2\">\r\n                <span>Submit</span>\r\n            </button>\r\n        </div>\r\n\r\n        <div class=\"mb-3\">\r\n\r\n            <div class=\"table-responsive\">\r\n                <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n                </div>\r\n                <ng2-smart-table [settings]=\"tableSettings\" [source]=\"shipStoresDataSource\"></ng2-smart-table>\r\n\r\n            </div>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-ship-stores></app-save-ship-stores>"
+module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\">\r\n\r\n    <form>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleName\" class=\"col-form-label-sm no-wrap mb-0\">Article Name</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleName\" #articleName=\"ngModel\"\r\n                            placeholder=\"Article Name\" class=\"form-control form-control-sm\" required name=\"articleName\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleName.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleCode\" class=\"col-form-label-sm no-wrap mb-0\">Article Code</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleCode\" #articleCode=\"ngModel\"\r\n                            placeholder=\"Article Code\" class=\"form-control form-control-sm\" name=\"articleCode\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleCode.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoard\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\"\r\n                            placeholder=\"Location on Board\" class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoard.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"quantity\" class=\"col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n                            integerValidator positiveNumberValidator name=\"quantity\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div *ngIf=\"quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\" required>\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"measurementType\" class=\"col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n                        <ng-select id=\"measurementTypes\" [items]=\"measurementTypeList\" [(ngModel)]=\"selectedMeasurementType\" name=\"measurementType\"\r\n                            [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Measurement Type\" (change)=\"selectMeasurementType($event)\">\r\n                        </ng-select>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoardCode\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n                            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\" integerValidator positiveNumberValidator>\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </form>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"form-group\">\r\n                <button *ngIf=\"form.valid\" type=\"submit\" class=\"btn btn-sm btn-ssn mt-2\" (click)=\"persistData()\">\r\n                    <span>Submit</span>\r\n                </button>\r\n                <button *ngIf=\"!form.valid\" type=\"submit\" disabled class=\"btn btn-sm btn-ssn mt-2\">\r\n                    <span>Submit</span>\r\n                </button>\r\n            </div>\r\n        \r\n            <div class=\"mb-3\">\r\n                <div class=\"table-responsive\">\r\n                    <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n                    </div>\r\n                    <ng2-smart-table [settings]=\"tableSettings\" [source]=\"shipStoresDataSource\"></ng2-smart-table>\r\n        \r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-ship-stores></app-save-ship-stores>"
 
 /***/ }),
 
@@ -6523,7 +6246,7 @@ var ViewPortCallComponent = /** @class */ (function () {
     ViewPortCallComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipDataSubscription = this.portCallService.shipData$.subscribe(function (shipResult) {
-            _this.shipService.setShipOverviewData(shipResult);
+            _this.shipService.setShipData(shipResult);
         });
     };
     ViewPortCallComponent.prototype.ngOnDestroy = function () {
@@ -6608,7 +6331,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" *ngIf=\"userMenuEntries.length > 1\">\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"setContent(userMenuEntries[0].menuName)\" *ngIf=\"userMenuEntries.length === 1\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn\">\r\n      <li class=\"nav-item\">\r\n        <form class=\"form-inline\">\r\n          <div class=\"btn-group\">\r\n            <button class=\"btn btn-light btn-sm\">{{userName}}</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n        </form>\r\n      </li>\r\n    </ul>\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" *ngIf=\"userMenuEntries.length > 1\">\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"setContent(userMenuEntries[0].menuName)\" *ngIf=\"userMenuEntries.length === 1\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\">\r\n        <form class=\"form-inline\">\r\n          <div class=\"btn-group\">\r\n            <button routerLink=\"/auth/ChangePassword\" routerLinkActive=\"active\" class=\"btn btn-light btn-sm\">{{userName}}</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n        </form>\r\n      </li>\r\n    </ul>\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -6619,17 +6342,17 @@ module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HeaderComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_menu_claims__ = __webpack_require__("./src/app/shared/constants/menu-claims.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_constants_menu_claims__ = __webpack_require__("./src/app/shared/constants/menu-claims.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_Rx__ = __webpack_require__("./node_modules/rxjs/_esm5/Rx.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_observable_merge__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/merge.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_observable_fromEvent__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/fromEvent.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_operators_mapTo__ = __webpack_require__("./node_modules/rxjs/_esm5/operators/mapTo.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6669,30 +6392,30 @@ var HeaderComponent = /** @class */ (function () {
             {
                 title: 'PORT CALLS',
                 iconPath: this.iconPath + 'portcall.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS
+                menuName: __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS
             },
             {
                 title: 'USERS',
                 iconPath: this.iconPath + 'user.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_USER
+                menuName: __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_USER
             },
             {
                 title: 'SHIPS',
                 iconPath: this.iconPath + 'ship.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_SHIPS
+                menuName: __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_SHIPS
             },
             {
                 title: 'LOCATIONS',
                 iconPath: this.iconPath + 'location.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].LOCATIONS
+                menuName: __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__["a" /* CONTENT_NAMES */].LOCATIONS
             },
             {
                 title: 'ORGANIZATIONS',
                 iconPath: this.iconPath + 'pax.png',
-                menuName: __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_ORGANIZATIONS
+                menuName: __WEBPACK_IMPORTED_MODULE_2__shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_ORGANIZATIONS
             }
         ];
-        this.permissions = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_menu_claims__["a" /* MenuClaims */].PERMISSIONS;
+        this.permissions = __WEBPACK_IMPORTED_MODULE_3__shared_constants_menu_claims__["a" /* MenuClaims */].PERMISSIONS;
         this.online$ = Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_observable_merge__["a" /* merge */])(Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["a" /* of */])(navigator.onLine), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_fromEvent__["a" /* fromEvent */])(window, 'online').pipe(Object(__WEBPACK_IMPORTED_MODULE_11_rxjs_operators_mapTo__["a" /* mapTo */])(true)), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_observable_fromEvent__["a" /* fromEvent */])(window, 'offline').pipe(Object(__WEBPACK_IMPORTED_MODULE_11_rxjs_operators_mapTo__["a" /* mapTo */])(false)));
     }
     HeaderComponent.prototype.ngOnInit = function () {
@@ -6701,7 +6424,7 @@ var HeaderComponent = /** @class */ (function () {
         this.contentService.contentName$.subscribe(function () { return (_this.menuIsCollapsed = true); });
         this.accountService.userClaimsData$.subscribe(function (userClaims) {
             if (userClaims) {
-                var userClaimsTypeMenu_1 = userClaims.filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_menu_claims__["a" /* MenuClaims */].TYPE; });
+                var userClaimsTypeMenu_1 = userClaims.filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_3__shared_constants_menu_claims__["a" /* MenuClaims */].TYPE; });
                 var keys = Object.keys(_this.permissions);
                 keys.forEach(function (key) {
                     _this.permissions[key] = userClaimsTypeMenu_1.some(function (claim) { return claim.value === key; });
@@ -6710,7 +6433,7 @@ var HeaderComponent = /** @class */ (function () {
             }
         });
         if (this.loggedIn) {
-            this.accountService.getUserName().subscribe(function (result) {
+            this.accountService.getDisplayName().subscribe(function (result) {
                 if (result) {
                     _this.userName = result;
                 }
@@ -6760,8 +6483,11 @@ var HeaderComponent = /** @class */ (function () {
         }
     };
     HeaderComponent.prototype.logout = function () {
+        // To prevent logout button from disappearing before
+        // redirection has begun
+        this.redirected = true;
         this.loginService.logout();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/auth/login']);
     };
     HeaderComponent.prototype.setContent = function (contentName) {
         this.contentService.setContent(contentName);
@@ -6773,10 +6499,10 @@ var HeaderComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/header/header.component.css")],
             providers: []
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_login_service__["a" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_12_app_shared_services_db_connection_service__["a" /* DbConnectionService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__shared_services_login_service__["a" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_5__shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_4__shared_services_account_service__["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_12__shared_services_db_connection_service__["a" /* DbConnectionService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], HeaderComponent);
     return HeaderComponent;
@@ -6796,7 +6522,7 @@ module.exports = ""
 /***/ "./src/app/main-content/main-content.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-header></app-header>\r\n<div class=\"mt-2 mx-sm-auto mx-md-2 mx-lg-4\">\r\n  <app-content-container></app-content-container>\r\n</div>"
+module.exports = "<base href=\"/\">\r\n<app-header></app-header>\r\n<div class=\"mt-2 mx-sm-auto mx-md-2 mx-lg-4\">\r\n  <app-content-container></app-content-container>\r\n</div>"
 
 /***/ }),
 
@@ -7360,6 +7086,7 @@ var DateTimePickerComponent = /** @class */ (function () {
             time: new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
         };
         this.dateTimeResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.dateFormatError = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.validDateFormat = true;
     }
     DateTimePickerComponent.prototype.ngOnInit = function () { };
@@ -7371,7 +7098,11 @@ var DateTimePickerComponent = /** @class */ (function () {
         this.persistData();
     };
     DateTimePickerComponent.prototype.persistData = function () {
-        if (this.dateTimeModel.date && this.validDateFormat && this.dateTimeModel.time) {
+        this.dateFormatError.emit(!this.validDateFormat);
+        if (this.dateTimeModel.date && this.validDateFormat) {
+            if (this.dateTimeModel.time == null) {
+                this.dateTimeModel.time = new __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0);
+            }
             this.dateTimeResult.emit(this.dateTimeModel);
         }
         else {
@@ -7393,6 +7124,10 @@ var DateTimePickerComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
         __metadata("design:type", Object)
     ], DateTimePickerComponent.prototype, "dateTimeResult", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], DateTimePickerComponent.prototype, "dateFormatError", void 0);
     DateTimePickerComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-date-time-picker',
@@ -7403,6 +7138,82 @@ var DateTimePickerComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [])
     ], DateTimePickerComponent);
     return DateTimePickerComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/feedback/feedback.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/feedback/feedback.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div *ngIf=\"started\">\r\n  <div *ngIf=\"actionSucceeded\" class=\"alert-success\" role=\"alert\">\r\n    <h5>Success</h5>\r\n    <span>{{successMessage}}</span>\r\n  </div>\r\n  <div *ngIf=\"!actionSucceeded\" class=\"alert alert-danger\" role=\"alert\">\r\n    <h5>Error</h5>\r\n    <p>{{errors}}</p>\r\n    <p>{{errorDescription}}</p>\r\n  </div>\r\n</div>\r\n\r\n<!-- <div *ngIf=\"props.started\">\r\n  <div *ngIf=\"props.actionSucceeded\" class=\"alert-success\" role=\"alert\">\r\n    <h5>Success</h5>\r\n    <span>{{props.successMessage}}</span>\r\n  </div>\r\n  <div *ngIf=\"!actionSucceeded\" class=\"alert alert-danger\" role=\"alert\">\r\n    <h5>Error</h5>\r\n    <p>{{props.errors}}</p>\r\n    <p>{{props.errorDescription}}</p>\r\n  </div>\r\n</div> -->"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/feedback/feedback.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeedbackComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__interfaces_feedback_props_interface__ = __webpack_require__("./src/app/shared/interfaces/feedback-props.interface.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var FeedbackComponent = /** @class */ (function () {
+    function FeedbackComponent() {
+    }
+    FeedbackComponent.prototype.ngOnInit = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__interfaces_feedback_props_interface__["a" /* FeedbackProps */])
+    ], FeedbackComponent.prototype, "props", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], FeedbackComponent.prototype, "started", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Boolean)
+    ], FeedbackComponent.prototype, "actionSucceeded", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object)
+    ], FeedbackComponent.prototype, "errors", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], FeedbackComponent.prototype, "errorDescription", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], FeedbackComponent.prototype, "successMessage", void 0);
+    FeedbackComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-feedback',
+            template: __webpack_require__("./src/app/shared/components/feedback/feedback.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/feedback/feedback.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FeedbackComponent);
+    return FeedbackComponent;
 }());
 
 
@@ -8037,10 +7848,10 @@ var SearchLocationComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchLocationService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8058,21 +7869,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var SearchLocationService = /** @class */ (function () {
     function SearchLocationService(http) {
         this.http = http;
-        this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](this.http);
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_1_app_shared_services_search_service__["a" /* SearchService */](this.http);
         this.searchUrl = 'api/location/search';
         this.searchHarbourUrl = 'api/location/harbour/search';
     }
     SearchLocationService.prototype.search = function (term, restrictTypeHarbour, amount) {
         if (amount === void 0) { amount = 10; }
         if (term.length < 2) {
-            return __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["a" /* Observable */].of([]);
+            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of([]);
         }
         var uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
         return this.searchService.search(uri, term, amount);
     };
     SearchLocationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClient */]])
     ], SearchLocationService);
     return SearchLocationService;
 }());
@@ -8209,7 +8020,7 @@ var SearchOrganizationComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchOrganizationService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
@@ -8243,12 +8054,11 @@ var SearchOrganizationService = /** @class */ (function () {
     };
     SearchOrganizationService.prototype.getorganization = function (id) {
         var uri = [this.organizationUrl, id].join('/');
-        return this.http.get(uri)
-            .map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     SearchOrganizationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], SearchOrganizationService);
     return SearchOrganizationService;
 }());
@@ -8363,7 +8173,7 @@ var SearchShipFlagCodeComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchShipFlagCodeService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -8394,7 +8204,7 @@ var SearchShipFlagCodeService = /** @class */ (function () {
     };
     SearchShipFlagCodeService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], SearchShipFlagCodeService);
     return SearchShipFlagCodeService;
 }());
@@ -8530,7 +8340,7 @@ var SearchShipComponent = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchShipService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
@@ -8564,12 +8374,11 @@ var SearchShipService = /** @class */ (function () {
     };
     SearchShipService.prototype.getShip = function (id) {
         var uri = [this.shipUrl, id].join('/');
-        return this.http.get(uri)
-            .map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     SearchShipService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], SearchShipService);
     return SearchShipService;
 }());
@@ -8787,7 +8596,7 @@ var ShipInfoTableComponent = /** @class */ (function () {
     ShipInfoTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.shipHasContactInfo = false;
-        this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(function (shipResult) {
+        this.shipDataSubscription = this.shipService.shipData$.subscribe(function (shipResult) {
             if (shipResult) {
                 if (shipResult.shipFlagCode.country) {
                     _this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
@@ -8831,7 +8640,7 @@ var ShipInfoTableComponent = /** @class */ (function () {
         });
     };
     ShipInfoTableComponent.prototype.ngOnDestroy = function () {
-        this.shipOverviewDataSubscription.unsubscribe();
+        this.shipDataSubscription.unsubscribe();
     };
     ShipInfoTableComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -8903,7 +8712,7 @@ var ShipButtonRowComponent = /** @class */ (function () {
         this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
         this.shipService.getShip(this.rowData.shipModel.shipId).subscribe(function (data) {
             if (data) {
-                _this.shipService.setShipOverviewData(data);
+                _this.shipService.setShipData(data);
                 _this.contentService.setContent(content);
             }
         });
@@ -9332,12 +9141,31 @@ var TableCardComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/constants/blacklisted-routes.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BLACKLISTED_ROUTES; });
+var BLACKLISTED_ROUTES = [
+    // Page routes
+    'localhost:4200/auth',
+    'localhost:4200/auth/login',
+    // Api routes
+    'localhost:4200/api/account/user/password/forgotten',
+    'localhost:4200/api/account/user/password/reset'
+];
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/constants/content-names.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CONTENT_NAMES; });
 var CONTENT_NAMES = {
+    // Users, ships, locations, organizations
     REGISTER_USER: 'USERS',
     VIEW_SHIPS: 'SHIPS',
     REGISTER_SHIP: 'Register Ship',
@@ -9345,11 +9173,20 @@ var CONTENT_NAMES = {
     REGISTER_LOCATION: 'Register Location',
     VIEW_ORGANIZATIONS: 'ORGANIZATIONS',
     REGISTER_ORGANIZATION: 'Register Organization',
+    // Port calls
     VIEW_PORT_CALLS: 'PORT CALL',
     REGISTER_PORT_CALL_DRAFT: 'Register Port Call Draft',
     REGISTER_PORT_CALL: 'Register Port Call',
     VIEW_PORT_CALL: 'View Port Call',
-    PORT_CALL_CLEARANCE: 'Port Call Clearance'
+    PORT_CALL_CLEARANCE: 'Port Call Clearance',
+    // Port call forms
+    VOYAGES: 'Voyages',
+    PORT_CALL_DETAILS: 'Port Call Details',
+    DPG: 'DPG',
+    CARGO: 'Cargo',
+    SHIP_STORES: 'Ship Stores',
+    CREW: 'Crew',
+    PASSENGER_LIST: 'Passenger List'
 };
 
 
@@ -9614,10 +9451,11 @@ var PortCallClaims = /** @class */ (function () {
 var PortCallStatusTypes = /** @class */ (function () {
     function PortCallStatusTypes() {
     }
-    PortCallStatusTypes.ACTIVE = 'Active';
+    PortCallStatusTypes.AWAITING_CLEARANCE = 'Awaiting Clearance';
     PortCallStatusTypes.DRAFT = 'Draft';
     PortCallStatusTypes.CANCELLED = 'Cancelled';
     PortCallStatusTypes.COMPLETED = 'Completed';
+    PortCallStatusTypes.CLEARED = 'Cleared';
     PortCallStatusTypes.DRAFT_ID = 100235;
     return PortCallStatusTypes;
 }());
@@ -9818,6 +9656,21 @@ var ShipProperties = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/interfaces/feedback-props.interface.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeedbackProps; });
+var FeedbackProps = /** @class */ (function () {
+    function FeedbackProps() {
+    }
+    return FeedbackProps;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/models/certificate-of-registry-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9989,9 +9842,16 @@ var ShipModel = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TokenQueryModel; });
 var TokenQueryModel = /** @class */ (function () {
-    function TokenQueryModel(userId, token) {
-        this.setUserId(userId);
-        this.setToken(token);
+    function TokenQueryModel(userId, token, uriEncode) {
+        if (uriEncode === void 0) { uriEncode = true; }
+        if (uriEncode) {
+            this.setUserId(userId);
+            this.setToken(token);
+        }
+        else {
+            this.userId = userId;
+            this.token = token;
+        }
     }
     TokenQueryModel.prototype.setUserId = function (userId) {
         this.userId = encodeURIComponent(userId);
@@ -10011,14 +9871,12 @@ var TokenQueryModel = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_token_query_model__ = __webpack_require__("./src/app/shared/models/token-query-model.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10044,126 +9902,109 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
 var AccountService = /** @class */ (function (_super) {
     __extends(AccountService, _super);
-    function AccountService(http, httpClient, authRequestService, configService) {
-        var _this = _super.call(this, configService, authRequestService) || this;
+    function AccountService(http, configService) {
+        var _this = _super.call(this, configService) || this;
         _this.http = http;
-        _this.httpClient = httpClient;
         // URLs
         _this.accountBaseUrl = '/account';
         // Subjects & observables
-        _this.userClaimsDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.userClaimsDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.userClaimsData$ = _this.userClaimsDataSource.asObservable();
-        _this.userOrganizationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.userOrganizationDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.userOrganizationData$ = _this.userOrganizationDataSource.asObservable();
-        _this.actionUrl = _this.baseUrl + _this.accountBaseUrl; /* /api/account/                    */
-        _this.userUrl = _this.actionUrl + '/user'; /* /api/account/user                */
-        _this.rolesUrl = _this.actionUrl + '/roles'; /* /api/account/roles               */
-        _this.userClaimsUrl = _this.userUrl + '/claims'; /* /api/account/claims              */
-        _this.userNameUrl = _this.userUrl + '/name'; /* /api/account/user/name           */
-        _this.emailUrl = _this.userUrl + '/email'; /* /api/account/user/email          */
-        _this.passwordUrl = _this.userUrl + '/password'; /* /api/account/user/password       */
-        _this.emailTakenUrl = _this.actionUrl + '/emailTaken'; /* /api/account/emailTaken          */
+        _this.actionUrl =
+            _this.baseUrl + _this.accountBaseUrl; /* /api/account/                    */
+        _this.userUrl =
+            _this.actionUrl + '/user'; /* /api/account/user                */
+        _this.rolesUrl =
+            _this.actionUrl + '/roles'; /* /api/account/roles               */
+        _this.userClaimsUrl =
+            _this.userUrl + '/claims'; /* /api/account/claims              */
+        _this.userNameUrl =
+            _this.userUrl + '/displayName'; /* /api/account/user/displayName    */
+        _this.emailUrl =
+            _this.userUrl + '/email'; /* /api/account/user/email          */
+        _this.passwordUrl =
+            _this.userUrl + '/password'; /* /api/account/user/password       */
+        _this.emailTakenUrl =
+            _this.actionUrl + '/emailTaken'; /* /api/account/emailTaken          */
         return _this;
     }
     AccountService.prototype.getAllRoles = function () {
-        var options = this.getRequestOptions();
-        return this.http
-            .get(this.rolesUrl, options)
-            .map(function (res) { return res.json(); });
+        return this.http.get(this.rolesUrl);
     };
     AccountService.prototype.setUserOrganization = function (data) {
         this.userOrganizationDataSource.next(data);
     };
     AccountService.prototype.getUserClaims = function () {
-        var options = this.getRequestOptions();
-        return this.http.get(this.userClaimsUrl, options)
-            .map(function (res) { return res.json(); });
+        return this.http.get(this.userClaimsUrl);
     };
     AccountService.prototype.setUserClaims = function (data) {
         this.userClaimsDataSource.next(data);
+        localStorage.setItem('user_claims', JSON.stringify(data));
     };
-    // Will be deprecated once email registration is implemented.
     AccountService.prototype.registerUser = function (newUser) {
-        var options = this.getRequestOptions();
-        return this.http.post(this.userUrl, newUser, options);
+        return this.http.post(this.userUrl, newUser);
     };
-    AccountService.prototype.getUserName = function () {
-        var options = this.getRequestOptions();
-        return this.http
-            .get(this.userNameUrl, options)
-            .map(function (res) { return res.json(); });
+    AccountService.prototype.getDisplayName = function () {
+        return this.http.get(this.userNameUrl, { responseType: 'text' });
     };
     AccountService.prototype.getUserByEmail = function (email) {
-        var options = this.getRequestOptions();
         var uri = [this.userUrl, email].join('/');
-        return this.http
-            .get(uri, options)
-            .map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     AccountService.prototype.emailTaken = function (email) {
-        var options = this.getRequestOptions();
         var uri = [this.emailTakenUrl, email].join('/');
-        console.log(uri);
-        return this.http
-            .get(uri, options)
-            .map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     AccountService.prototype.changeRole = function (userName, roleName) {
-        /* Not yet implemented
-        return this.http.post(url,body)
-            .map(res => res.json());
-         */
+        /* Not yet implemented */
     };
     AccountService.prototype.confirmEmail = function (queryModel) {
-        return __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__["a" /* Observable */].of(true);
-        /* const uri = [this.emailUrl, 'confirm'].join('/');
+        var uri = [this.emailUrl, 'confirm'].join('/');
         return this.http
-            .post(uri, JSON.stringify(queryModel))
-            .map(res => res.json()); */
-    };
-    AccountService.prototype.getPasswordResetToken = function (userId) {
-        return __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__["a" /* Observable */].of('default token');
-        /* const uri = [this.passwordUrl, 'reset'].join('/');
-        return this.httpClient
             .post(uri, null, {
-                params: {
-                    userId
-                }
-            })
-            .map(res => res.toString()); */
+            params: {
+                userId: queryModel.userId,
+                token: queryModel.token
+            },
+            responseType: 'text'
+        })
+            .map(function (token) {
+            return new __WEBPACK_IMPORTED_MODULE_5__models_token_query_model__["a" /* TokenQueryModel */](queryModel.userId, token);
+        })
+            .catch(this.handleError);
     };
-    // getPasswordResetToken() {
-    //     this.route.queryParams.subscribe((queryParams: any) => {
-    //         const uri = [this.emailUrl, 'confirm'].join('/');
-    //         return this.http
-    //             .post(uri, null, {
-    //                 params: {
-    //                     userId: queryParams.userId,
-    //                     emailConfirmationToken: queryParams.emailConfirmationToken
-    //                 }
-    //             })
-    //             .map(res => res.text());
-    //     });
-    // }
-    AccountService.prototype.getEmailLink = function () {
-        var uri = [this.actionUrl, 'emailLink'].join('/');
+    // Allow anonymous
+    AccountService.prototype.requestPasswordReset = function (userName) {
+        var uri = [this.passwordUrl, 'forgotten'].join('/');
         return this.http
-            .get(uri)
-            .map(function (res) { return res.text(); });
+            .get(uri, {
+            params: {
+                userName: userName
+            }
+        })
+            .catch(this.handleError);
+    };
+    AccountService.prototype.changePassword = function (model) {
+        var uri = [this.passwordUrl, 'change'].join('/');
+        return this.http
+            .put(uri, model)
+            .catch(this.handleError);
+    };
+    // Allow anonymous
+    AccountService.prototype.resetPassword = function (model) {
+        var uri = [this.passwordUrl, 'reset'].join('/');
+        return this.http.put(uri, model);
     };
     AccountService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_6__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClient */],
-            __WEBPACK_IMPORTED_MODULE_0__auth_request_service__["a" /* AuthRequest */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__["a" /* ConfigService */]])
+        Object(__WEBPACK_IMPORTED_MODULE_4__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__["a" /* ConfigService */]])
     ], AccountService);
     return AccountService;
-}(__WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__["a" /* BaseRequest */]));
+}(__WEBPACK_IMPORTED_MODULE_0_app_shared_utils_base_request__["a" /* BaseRequest */]));
 
 
 
@@ -10175,10 +10016,10 @@ var AccountService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__constants_menu_claims__ = __webpack_require__("./src/app/shared/constants/menu-claims.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10205,46 +10046,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var AuthService = /** @class */ (function (_super) {
     __extends(AuthService, _super);
-    function AuthService(http, authService, configService) {
-        var _this = _super.call(this, configService, authService) || this;
+    function AuthService(http, configService) {
+        var _this = _super.call(this, configService) || this;
         _this.http = http;
-        _this.authService = authService;
         _this.authBaseUrl = '/auth';
         _this.actionUrl = _this.baseUrl + _this.authBaseUrl;
         return _this;
     }
     AuthService.prototype.isAdmin = function () {
-        var authHeader = this.authService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeader });
         return this.http
-            .get(this.actionUrl + '/isAdmin', options)
-            .map(function (res) { return res.json(); });
+            .get(this.actionUrl + '/isAdmin');
     };
     AuthService.prototype.canSetClearance = function () {
-        var authHeader = this.authService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeader });
-        return (this.http
-            .get('api/test/canSetPortCallClearance', options)
-            .map(function (res) { return res.json(); }));
+        return this.http
+            .get('api/test/canSetPortCallClearance');
     };
     AuthService.prototype.hasToken = function () {
         return localStorage.getItem('auth_token') != null;
     };
     AuthService.prototype.hasValidToken = function () {
-        var authHeader = this.authService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeader });
         return this.http
-            .get(this.actionUrl + '/hasValidToken', options)
-            .map(function (res) { return res.json(); });
+            .get(this.actionUrl + '/hasValidToken');
+    };
+    AuthService.prototype.hasPortCallMenuClaim = function (claims) {
+        return claims.filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_4__constants_menu_claims__["a" /* MenuClaims */].TYPE; })
+            .some(function (claim) { return claim.value === __WEBPACK_IMPORTED_MODULE_4__constants_menu_claims__["a" /* MenuClaims */].PORT_CALL; });
     };
     AuthService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_4__auth_request_service__["a" /* AuthRequest */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__["a" /* ConfigService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__["a" /* ConfigService */]])
     ], AuthService);
     return AuthService;
-}(__WEBPACK_IMPORTED_MODULE_2_app_shared_utils_base_request__["a" /* BaseRequest */]));
+}(__WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__["a" /* BaseRequest */]));
 
 
 
@@ -10294,12 +10128,14 @@ var AuthRequest = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/base.service.ts
+
 
 var BaseService = /** @class */ (function () {
     function BaseService() {
     }
-    BaseService.prototype.handleError = function (error) {
+    BaseService.prototype.handleModelOrAppError = function (error) {
         var applicationError = error.headers.get('Application-Error');
         // either applicationError in header or model error in body
         if (applicationError) {
@@ -10317,6 +10153,26 @@ var BaseService = /** @class */ (function () {
         modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
         return __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["a" /* Observable */].throw(modelStateErrors || 'Server error');
     };
+    BaseService.prototype.handleError = function (error) {
+        var errMsg;
+        console.log('an error occurred!');
+        if (error instanceof __WEBPACK_IMPORTED_MODULE_1__node_modules_angular_common_http__["d" /* HttpErrorResponse */]) {
+            var ERROR = error;
+            if (ERROR.status >= 500) {
+                errMsg = ERROR.status + " " + ERROR.statusText;
+            }
+            else if (ERROR.status >= 400) {
+                errMsg = 'Action failed';
+            }
+            else if (ERROR.error.error instanceof SyntaxError) {
+                errMsg = 'Application error';
+            }
+            else {
+                errMsg = error.message ? error.message : error.toString();
+            }
+            return __WEBPACK_IMPORTED_MODULE_0_rxjs_Observable__["a" /* Observable */].throw(errMsg);
+        }
+    };
     return BaseService;
 }());
 
@@ -10330,7 +10186,7 @@ var BaseService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConstantsService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10351,17 +10207,17 @@ var ConstantsService = /** @class */ (function () {
         this.getMenuClaimListUrl = 'api/claim/type/menu';
     }
     ConstantsService.prototype.getContactMediumList = function () {
-        return this.http.get(this.contactMediumUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.contactMediumUrl);
     };
     ConstantsService.prototype.getClaimList = function () {
-        return this.http.get(this.claimUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.claimUrl);
     };
     ConstantsService.prototype.GetPortCallClaimList = function () {
-        return this.http.get(this.portCallClaimsUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.portCallClaimsUrl);
     };
     ConstantsService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], ConstantsService);
     return ConstantsService;
 }());
@@ -10441,9 +10297,9 @@ var ContentService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CountryService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10460,18 +10316,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var CountryService = /** @class */ (function () {
     function CountryService(http) {
         this.http = http;
-        this.searchService = new __WEBPACK_IMPORTED_MODULE_3__search_service__["a" /* SearchService */](http);
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_2__search_service__["a" /* SearchService */](http);
         this.searchUrl = 'api/country/search/';
     }
     CountryService.prototype.search = function (term) {
         if (term.length < 2) {
-            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["a" /* Observable */].of([]);
+            return __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */].of([]);
         }
         return this.searchService.search(this.searchUrl, term);
     };
     CountryService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */]])
     ], CountryService);
     return CountryService;
 }());
@@ -10486,9 +10342,9 @@ var CountryService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DbConnectionService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10517,20 +10373,20 @@ var DbConnectionService = /** @class */ (function (_super) {
     function DbConnectionService(http) {
         var _this = _super.call(this) || this;
         _this.http = http;
-        _this.hasDbConnectionSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        _this.hasDbConnectionSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
         _this.hasDbConnection$ = _this.hasDbConnectionSource.asObservable();
         _this.connectionUrl = 'api/connection/state';
         return _this;
     }
     DbConnectionService.prototype.getHasDbConnection = function () {
-        return this.http.get(this.connectionUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.connectionUrl);
     };
     DbConnectionService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */]])
     ], DbConnectionService);
     return DbConnectionService;
-}(__WEBPACK_IMPORTED_MODULE_3__base_service__["a" /* BaseService */]));
+}(__WEBPACK_IMPORTED_MODULE_2__base_service__["a" /* BaseService */]));
 
 
 
@@ -10542,12 +10398,11 @@ var DbConnectionService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocationService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10563,19 +10418,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var LocationService = /** @class */ (function () {
-    function LocationService(http, authRequest) {
+    function LocationService(http) {
         this.http = http;
-        this.authRequest = authRequest;
-        this.locationDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.locationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.locationData$ = this.locationDataSource.asObservable();
-        this.locationSearchDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.locationSearchDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.locationSearchData$ = this.locationSearchDataSource.asObservable();
         this.locationUrl = 'api/location';
         this.locationTypeUrl = 'api/locationtype';
         this.countryUrl = 'api/country';
-        this.searchService = new __WEBPACK_IMPORTED_MODULE_5_app_shared_services_search_service__["a" /* SearchService */](this.http);
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__["a" /* SearchService */](http);
         this.searchUrl = 'api/location/search';
         this.searchHarbourUrl = 'api/location/harbour/search';
     }
@@ -10589,7 +10442,7 @@ var LocationService = /** @class */ (function () {
     LocationService.prototype.search = function (term, restrictTypeHarbour, amount) {
         if (amount === void 0) { amount = 10; }
         if (term.length < 2) {
-            return __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["a" /* Observable */].of([]);
+            return __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["a" /* Observable */].of([]);
         }
         var uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
         return this.searchService.search(uri, term, amount);
@@ -10600,28 +10453,22 @@ var LocationService = /** @class */ (function () {
     LocationService.prototype.updateLocation = function (location) {
         location.country = null;
         location.locationType = null;
-        var auth_headers = this.authRequest.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: auth_headers });
         return this.http
-            .put(this.locationUrl, location, options)
-            .map(function (res) { return res.json(); });
+            .put(this.locationUrl, location);
     };
     LocationService.prototype.registerLocation = function (newLocation) {
-        var authHeaders = this.authRequest.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeaders });
         return this.http
-            .post(this.locationUrl, newLocation, options)
-            .map(function (res) { return res.json(); });
+            .post(this.locationUrl, newLocation);
     };
     LocationService.prototype.getLocationTypes = function () {
-        return this.http.get(this.locationTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.locationTypeUrl);
     };
     LocationService.prototype.getCountries = function () {
-        return this.http.get(this.countryUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.countryUrl);
     };
     LocationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */], __WEBPACK_IMPORTED_MODULE_4__auth_request_service__["a" /* AuthRequest */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_common_http__["b" /* HttpClient */]])
     ], LocationService);
     return LocationService;
 }());
@@ -10636,11 +10483,12 @@ var LocationService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth0_angular_jwt__ = __webpack_require__("./node_modules/@auth0/angular-jwt/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10660,6 +10508,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -10676,10 +10525,10 @@ var LoginService = /** @class */ (function (_super) {
         _this.jwtHelperService = jwtHelperService;
         _this.baseUrl = '';
         // Observable navItem source
-        _this._authNavStatusSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        _this._authNavStatusSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         // Observable navItem stream
         _this.authNavStatus$ = _this._authNavStatusSource.asObservable();
-        _this._loggedInSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        _this._loggedInSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         _this.loggedIn$ = _this._loggedInSource.asObservable();
         _this.loggedIn = false;
         _this.loggedIn = !!localStorage.getItem('auth_token');
@@ -10687,31 +10536,54 @@ var LoginService = /** @class */ (function (_super) {
         // header component resulting in authed user nav links disappearing despite the fact user is still logged in
         _this._authNavStatusSource.next(_this.loggedIn);
         _this.baseUrl = configService.getApiURI();
-        _this.jwtHelperService = new __WEBPACK_IMPORTED_MODULE_2__auth0_angular_jwt__["a" /* JwtHelperService */]({
+        _this.jwtHelperService = new __WEBPACK_IMPORTED_MODULE_1__auth0_angular_jwt__["a" /* JwtHelperService */]({
             tokenGetter: function () { return localStorage.getItem(''); }
         });
         return _this;
     }
-    LoginService.prototype.login = function (userName, password) {
+    LoginService.prototype.handleError = function (error) {
+        var errMsg;
+        if (error instanceof __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpErrorResponse */]) {
+            var ERROR = error;
+            if (ERROR.status >= 500) {
+                errMsg = ERROR.status + " " + ERROR.statusText;
+            }
+            else if (ERROR.status >= 400) {
+                errMsg = 'Login failed';
+            }
+            else if (ERROR.error.error instanceof SyntaxError) {
+                errMsg = 'Application error';
+            }
+            else {
+                errMsg = error.message ? error.message : error.toString();
+            }
+            return __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["a" /* Observable */].throw(errMsg);
+        }
+    };
+    LoginService.prototype.login = function (credentials) {
         var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
+        var headers = new __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["e" /* HttpHeaders */]({
+            'Content-Type': 'application/json'
+        });
         return this.http
-            .post(this.baseUrl + '/auth/login', JSON.stringify({ userName: userName, password: password }), { headers: headers })
-            .map(function (res) { return res.json(); })
-            .map(function (res) {
-            if (res) {
-                localStorage.setItem('auth_token', res.auth_token);
+            .post(this.baseUrl + '/auth/login', credentials, { headers: headers })
+            .map(function (jwtResponse) {
+            if (jwtResponse) {
+                localStorage.setItem('auth_token', jwtResponse.auth_token);
                 _this.loggedIn = true;
                 _this._loggedInSource.next(true);
                 _this._authNavStatusSource.next(true);
-                return true;
             }
-            _this._loggedInSource.next(false);
-            _this._authNavStatusSource.next(false);
-            return false;
+            else {
+                _this._loggedInSource.next(false);
+                _this._authNavStatusSource.next(false);
+            }
+            return jwtResponse;
+        }, function (error) {
+            console.log('error logging in', error);
         })
             .catch(this.handleError);
+        // .catch( (error: HttpErrorResponse) => this.handleError2(error) );
     };
     LoginService.prototype.logout = function () {
         localStorage.removeItem('auth_token');
@@ -10728,14 +10600,24 @@ var LoginService = /** @class */ (function (_super) {
         var isExpired = this.jwtHelperService.isTokenExpired(token);
         return !isExpired;
     };
+    LoginService.prototype.tryParseAsJson = function (error) {
+        var response;
+        try {
+            response = error.json();
+        }
+        catch (jsonError) {
+            return false;
+        }
+        return true;
+    };
     LoginService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_4__utils_config_service__["a" /* ConfigService */],
-            __WEBPACK_IMPORTED_MODULE_2__auth0_angular_jwt__["a" /* JwtHelperService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_3__utils_config_service__["a" /* ConfigService */],
+            __WEBPACK_IMPORTED_MODULE_1__auth0_angular_jwt__["a" /* JwtHelperService */]])
     ], LoginService);
     return LoginService;
-}(__WEBPACK_IMPORTED_MODULE_5__base_service__["a" /* BaseService */]));
+}(__WEBPACK_IMPORTED_MODULE_4__base_service__["a" /* BaseService */]));
 
 
 
@@ -10747,11 +10629,10 @@ var LoginService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrganizationService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10766,16 +10647,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var OrganizationService = /** @class */ (function () {
-    function OrganizationService(http, authRequestService) {
+    function OrganizationService(http) {
         this.http = http;
-        this.authRequestService = authRequestService;
-        this.organizationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.organizationDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.organizationData$ = this.organizationDataSource.asObservable();
-        this.organizationSearchDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.organizationSearchDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.organizationSearchData$ = this.organizationSearchDataSource.asObservable();
-        this.searchService = new __WEBPACK_IMPORTED_MODULE_4__search_service__["a" /* SearchService */](http);
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_2__search_service__["a" /* SearchService */](http);
         this.organizationUrl = 'api/organization';
         this.organizationTypeUrl = 'api/organizationtype';
         this.organizationUserUrl = this.organizationUrl + '/user';
@@ -10788,38 +10667,30 @@ var OrganizationService = /** @class */ (function () {
         this.organizationSearchDataSource.next(data);
     };
     OrganizationService.prototype.registerOrganization = function (newOrganization) {
-        var authHeaders = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeaders });
         return this.http
-            .post(this.organizationUrl, newOrganization, options)
-            .map(function (res) { return res.json(); });
+            .post(this.organizationUrl, newOrganization);
     };
     OrganizationService.prototype.updateOrganization = function (organization) {
-        var auth_headers = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: auth_headers });
         return this.http
-            .put(this.organizationUrl, organization, options)
-            .map(function (res) { return res.json(); });
+            .put(this.organizationUrl, organization);
     };
     OrganizationService.prototype.search = function (term, amount) {
         if (amount === void 0) { amount = 10; }
         if (term.length < 2) {
-            return __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__["a" /* Observable */].of([]);
+            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of([]);
         }
         return this.searchService.search(this.searchOrganizationUrl, term, amount);
     };
     OrganizationService.prototype.getOrganizationTypes = function () {
-        return this.http.get(this.organizationTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.organizationTypeUrl);
     };
     OrganizationService.prototype.getOrganizationForUser = function () {
-        var auth_headers = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: auth_headers });
         var uri = this.organizationUserUrl;
-        return this.http.get(uri, options).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     OrganizationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */], __WEBPACK_IMPORTED_MODULE_3__auth_request_service__["a" /* AuthRequest */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClient */]])
     ], OrganizationService);
     return OrganizationService;
 }());
@@ -10834,11 +10705,10 @@ var OrganizationService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallOverviewService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -10863,23 +10733,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var PortCallOverviewService = /** @class */ (function (_super) {
     __extends(PortCallOverviewService, _super);
-    function PortCallOverviewService(http, authRequestService, configService) {
-        var _this = _super.call(this, configService, authRequestService) || this;
+    function PortCallOverviewService(http, configService) {
+        var _this = _super.call(this, configService) || this;
         _this.http = http;
-        _this.overviewDataSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.overviewDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.overviewData$ = _this.overviewDataSource.asObservable();
-        _this.draftOverviewDataSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.draftOverviewDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.draftOverviewData$ = _this.draftOverviewDataSource.asObservable();
-        _this.showCancelledPortCallsSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
-        _this.showCancelledPortCall$ = _this.showCancelledPortCallsSource.asObservable();
-        _this.clearedByUserAgencyDataSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.showCancelledPortCallsSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        _this.showCancelledPortCalls$ = _this.showCancelledPortCallsSource.asObservable();
+        _this.showCompletedPortCallsSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        _this.showCompletedPortCalls$ = _this.showCompletedPortCallsSource.asObservable();
+        _this.clearedByUserAgencyDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.clearedByUserAgencyOverviewData$ = _this.clearedByUserAgencyDataSource.asObservable();
-        _this.portCallDataSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.portCallDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.portCallData$ = _this.portCallDataSource.asObservable();
-        _this.loadingPortCallSource = new __WEBPACK_IMPORTED_MODULE_5_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        _this.loadingPortCallSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         _this.loadingPortCall$ = _this.loadingPortCallSource.asObservable();
         _this.portCallUrl = 'api/portcall';
         _this.partialOverviewUrl = _this.portCallUrl + '/partialOverview';
@@ -10899,37 +10770,38 @@ var PortCallOverviewService = /** @class */ (function (_super) {
     PortCallOverviewService.prototype.setShowCancelledPortCalls = function (showCancelled) {
         this.showCancelledPortCallsSource.next(showCancelled);
     };
+    PortCallOverviewService.prototype.setShowCompletedPortCalls = function (showCompleted) {
+        this.showCompletedPortCallsSource.next(showCompleted);
+    };
     PortCallOverviewService.prototype.setClearedData = function (data) {
         this.clearedByUserAgencyDataSource.next(data);
     };
     PortCallOverviewService.prototype.getPartialOverview = function (portCallId) {
         var uri = [this.partialOverviewUrl, portCallId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     PortCallOverviewService.prototype.getOverview = function (portCallId) {
         var uri = [this.overviewUrl, portCallId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     PortCallOverviewService.prototype.setPortCallData = function (data) {
         this.portCallDataSource.next(data);
     };
     PortCallOverviewService.prototype.getPortCalls = function () {
-        var options = this.getRequestOptions();
         var uri = this.portCallUserUrl;
-        return this.http.get(uri, options).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     PortCallOverviewService.prototype.getOverviews = function () {
         var uri = this.overviewUrl;
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     PortCallOverviewService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_4__auth_request_service__["a" /* AuthRequest */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_utils_config_service__["a" /* ConfigService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__["a" /* ConfigService */]])
     ], PortCallOverviewService);
     return PortCallOverviewService;
-}(__WEBPACK_IMPORTED_MODULE_2_app_shared_utils_base_request__["a" /* BaseRequest */]));
+}(__WEBPACK_IMPORTED_MODULE_1_app_shared_utils_base_request__["a" /* BaseRequest */]));
 
 
 
@@ -10941,11 +10813,11 @@ var PortCallOverviewService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallPassengerListService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_port_call_passenger_model__ = __webpack_require__("./src/app/shared/models/port-call-passenger-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_port_call_passenger_model__ = __webpack_require__("./src/app/shared/models/port-call-passenger-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10965,26 +10837,26 @@ var PortCallPassengerListService = /** @class */ (function () {
     function PortCallPassengerListService(http, countryService) {
         this.http = http;
         this.countryService = countryService;
-        this.passengerListSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.passengerListSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.passengerList$ = this.passengerListSource.asObservable();
-        this.passengerListMeta = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({
+        this.passengerListMeta = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({
             valid: true
         });
         this.passengerListMeta$ = this.passengerListMeta.asObservable();
-        this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
         this.dataIsPristine$ = this.dataIsPristine.asObservable();
-        this.passengerModelSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](new __WEBPACK_IMPORTED_MODULE_5__models_port_call_passenger_model__["a" /* PassengerModel */]());
+        this.passengerModelSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](new __WEBPACK_IMPORTED_MODULE_4__models_port_call_passenger_model__["a" /* PassengerModel */]());
         this.passengerModel$ = this.passengerModelSource.asObservable();
         this.personOnBoardListUrl = 'api/personOnBoard/list';
     }
     // Http
     PortCallPassengerListService.prototype.registerPassengerList = function (passengerList) {
         var uri = this.personOnBoardListUrl;
-        return this.http.post(uri, passengerList).map(function (res) { return res.json(); });
+        return this.http.post(uri, passengerList);
     };
     PortCallPassengerListService.prototype.updatePassengerList = function (passengerList) {
         var uri = this.personOnBoardListUrl;
-        return this.http.put(uri, passengerList).map(function (res) { return res.json(); });
+        return this.http.put(uri, passengerList);
     };
     PortCallPassengerListService.prototype.setPassengersList = function (data) {
         this.passengerListSource.next(data);
@@ -11012,7 +10884,7 @@ var PortCallPassengerListService = /** @class */ (function () {
     PortCallPassengerListService.prototype.searchCountry = function (term, amount) {
         if (amount === void 0) { amount = 10; }
         if (term.length < 1) {
-            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of([]);
+            return __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["a" /* Observable */].of([]);
         }
         return this.countryService.search(term);
     };
@@ -11060,7 +10932,7 @@ var PortCallPassengerListService = /** @class */ (function () {
     };
     PortCallPassengerListService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */], __WEBPACK_IMPORTED_MODULE_4__country_service__["a" /* CountryService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_3__country_service__["a" /* CountryService */]])
     ], PortCallPassengerListService);
     return PortCallPassengerListService;
 }());
@@ -11076,7 +10948,7 @@ var PortCallPassengerListService = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11114,7 +10986,7 @@ var PortCallShipStoresService = /** @class */ (function () {
     // Get ship stores object by its primary key ID
     PortCallShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
         var uri = [this.shipStoresUrl, shipStoresId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     // Add new ship stores list to database
     PortCallShipStoresService.prototype.addShipStores = function (shipStoresList) {
@@ -11122,9 +10994,9 @@ var PortCallShipStoresService = /** @class */ (function () {
         console.log('Adding Ship Stores...');
         var uri = this.shipStoresListUrl;
         this.http.post(uri, shipStoresList).map(function (res) {
-            console.log(res);
-            _this.setDataIsPristine(true);
-            return res.json();
+            if (res) {
+                _this.setDataIsPristine(true);
+            }
         });
     };
     // Update  existing ship stores list in database
@@ -11134,8 +11006,7 @@ var PortCallShipStoresService = /** @class */ (function () {
         console.log(shipStoresList);
         var uri = this.shipStoresListUrl;
         return this.http.put(uri, shipStoresList).map(function (res) {
-            res.json();
-            if (res.status === 200) {
+            if (res) {
                 console.log('Ship stores successfully saved.');
                 _this.setDataIsPristine(true);
             }
@@ -11145,12 +11016,12 @@ var PortCallShipStoresService = /** @class */ (function () {
     PortCallShipStoresService.prototype.getShipStoresByPortCallId = function (portCallId) {
         var uri = [this.portCallUrl, portCallId].join('/');
         uri = [uri, this.shipStoresString].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     // Get list of all measurement types
     PortCallShipStoresService.prototype.getMeasurementTypeList = function () {
         var uri = this.measurementTypeUrl;
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     /************************
      *
@@ -11215,7 +11086,7 @@ var PortCallShipStoresService = /** @class */ (function () {
     };
     PortCallShipStoresService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClient */]])
     ], PortCallShipStoresService);
     return PortCallShipStoresService;
 }());
@@ -11230,12 +11101,11 @@ var PortCallShipStoresService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__node_modules_angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11251,11 +11121,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var PortCallService = /** @class */ (function () {
-    function PortCallService(http, authRequestService, prevAndNextPocService) {
+    function PortCallService(http, prevAndNextPocService) {
         this.http = http;
-        this.authRequestService = authRequestService;
         this.prevAndNextPocService = prevAndNextPocService;
         // Subjects
         this.detailsPristine = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
@@ -11294,8 +11162,11 @@ var PortCallService = /** @class */ (function () {
         // Port call
         this.portCallUrl = 'api/portcall';
         this.portCallUserUrl = 'api/portcall/user';
-        this.updatePortCallStatusActiveUrl = 'api/portcall/updatestatus/active';
+        this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
         this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+        this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
+        this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
+        this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
         // Purpose
         this.purposePortCallUrl = 'api/purpose/portcall';
         this.purposeOtherNameUrl = 'api/purpose/othername';
@@ -11348,11 +11219,8 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService.prototype.updatePortCall = function (portCall) {
         console.log('Updating port call...');
-        var authHeaders = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeaders });
         return this.http
-            .put(this.portCallUrl, portCall, options)
-            .map(function (res) { return res.json(); });
+            .put(this.portCallUrl, portCall);
     };
     PortCallService.prototype.setShipData = function (data) {
         this.shipDataSource.next(data);
@@ -11370,17 +11238,27 @@ var PortCallService = /** @class */ (function () {
     PortCallService.prototype.registerNewPortCall = function (portCall) {
         // NEW
         console.log('Registering new port call...');
-        var authHeaders = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: authHeaders });
         var uri = this.portCallUrl;
         this.setPortCallStatus('Draft');
-        return this.http.post(uri, portCall, options).map(function (res) { return res.json(); });
+        return this.http.post(uri, portCall);
     };
-    // Set port call status to actual
-    PortCallService.prototype.updatePortCallStatusActive = function (portCallId) {
-        var uri = [this.updatePortCallStatusActiveUrl, portCallId].join('/');
-        console.log('Updating port call status to active...');
-        return this.http.post(uri, null).map(function (res) { return res.json(); });
+    // Set port call status to awaiting clearance
+    PortCallService.prototype.updatePortCallStatusAwaitingClearance = function (portCallId) {
+        var uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
+        console.log('Updating port call status to awaiting clearance...');
+        return this.http.post(uri, null);
+    };
+    // Set port call status to cleared
+    PortCallService.prototype.updatePortCallStatusCleared = function (portCallId) {
+        var uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
+        console.log('Updating port call status to cleared...');
+        return this.http.post(uri, null);
+    };
+    // Set port call status to completed
+    PortCallService.prototype.updatePortCallStatusCompleted = function (portCallId) {
+        var uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
+        console.log('Updating port call status to completed...');
+        return this.http.post(uri, null);
     };
     // Set port call status to cancelled
     PortCallService.prototype.updatePortCallStatusCancelled = function (portCallId) {
@@ -11388,30 +11266,32 @@ var PortCallService = /** @class */ (function () {
         console.log('Updating port call status to cancelled...');
         this.http
             .post(uri, null)
-            .map(function (res) { return res.json(); })
             .subscribe(function (updateStatusResponse) {
             console.log('Port call successfully cancelled.');
         });
     };
+    // Set port call status to draft
+    PortCallService.prototype.updatePortCallStatusDraft = function (portCallId) {
+        var uri = [this.updatePortCallStatusDraftUrl, portCallId].join('/');
+        console.log('Updating port call status to draft...');
+        return this.http
+            .put(uri, null)
+            .map(function (res) { return res; });
+    };
     // Delete port call draft
     PortCallService.prototype.deletePortCallDraft = function (portCall) {
         console.log('Deleting port call...');
-        var authHeaders = this.authRequestService.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({
-            headers: authHeaders,
-            body: portCall
-        });
         var uri = this.portCallUrl;
-        return this.http.delete(uri, options).map(function (res) { return res.json(); });
+        return this.http.delete(uri);
     };
     // Get methods
     PortCallService.prototype.getPortCallById = function (portCallId) {
         var uri = [this.portCallUrl, portCallId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     PortCallService.prototype.getPortCallsByUserId = function (userId) {
         var uri = [this.portCallUserUrl, userId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     /** * * * * * * * * * * * * *
      *                           *
@@ -11462,7 +11342,6 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService.prototype.savePrevAndNextPortCall = function (portCallId, prevPortOfCall, nextPortCall, prevEtd, nextEta) {
         var _this = this;
-        // const updatedPortCallData = new PortCallModel();
         this.getPortCallById(portCallId).subscribe(function (data) {
             if (data) {
                 var updatedPortCallData = data;
@@ -11470,7 +11349,6 @@ var PortCallService = /** @class */ (function () {
                 updatedPortCallData.nextLocationId = nextPortCall != null ? nextPortCall.locationId : null;
                 updatedPortCallData.previousLocationEtd = prevEtd;
                 updatedPortCallData.nextLocationEta = nextEta;
-                console.log(updatedPortCallData);
                 _this.updatePortCall(updatedPortCallData).subscribe(function (result) {
                     console.log(result);
                     _this.prevAndNextPocService.setDataPristine(true);
@@ -11487,7 +11365,6 @@ var PortCallService = /** @class */ (function () {
         console.log('Saving port call details...');
         this.http
             .post(this.detailsUrl, details)
-            .map(function (res) { return res.json(); })
             .subscribe(function (detailsResponse) {
             console.log('Successfully saved port call details.');
             _this.savePurposesForPortCall(details.portCallId, purposes, otherName);
@@ -11499,7 +11376,6 @@ var PortCallService = /** @class */ (function () {
             var uri = [this.purposePortCallUrl, pcId.toString()].join('/');
             this.http
                 .delete(uri, null)
-                .map(function (res) { return res.json(); })
                 .subscribe(function (removePurposeResponse) {
                 if (removePurposeResponse) {
                     _this.detailsPristine.next(true);
@@ -11517,7 +11393,6 @@ var PortCallService = /** @class */ (function () {
             console.log('Saving port call purposes to database...');
             this.http
                 .put(this.purposePortCallUrl, pcHasPurposeList)
-                .map(function (res) { return res.json(); })
                 .subscribe(function (purposeResponse) {
                 if (purposeResponse) {
                     _this.detailsPristine.next(true);
@@ -11531,14 +11406,6 @@ var PortCallService = /** @class */ (function () {
         var uri = [this.detailsPortCallUrl, portCallId].join('/');
         return this.http
             .get(uri)
-            .map(function (res) {
-            if (res && res.ok) {
-                return res.json();
-            }
-            else {
-                return res.status;
-            }
-        })
             .catch(function (e) {
             return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
         });
@@ -11547,11 +11414,7 @@ var PortCallService = /** @class */ (function () {
         var uri = [this.purposePortCallUrl, portCallId].join('/');
         return this.http
             .get(uri)
-            .map(function (res) {
-            return res.json();
-        })
             .catch(function (e) {
-            console.log(e);
             return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
         });
     };
@@ -11559,11 +11422,7 @@ var PortCallService = /** @class */ (function () {
         var uri = [this.purposeOtherNameUrl, portCallId].join('/');
         return this.http
             .get(uri)
-            .map(function (res) {
-            return res.json();
-        })
             .catch(function (e) {
-            console.log(e);
             return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
         });
     };
@@ -11584,7 +11443,6 @@ var PortCallService = /** @class */ (function () {
         console.log('Saving clearance to database...');
         this.http
             .put(this.clearanceUrl, clearanceModel)
-            .map(function (res) { return res.json(); })
             .subscribe(function (data) {
             console.log('Clearance saved successfully.');
         }, function (error) {
@@ -11593,11 +11451,7 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService.prototype.getClearanceListForPortCall = function (portCallId) {
         var uri = [this.clearancePortCallUrl, portCallId].join('/');
-        return this.http.get(uri).map(function (res) {
-            return res.json().catch(function (error) {
-                return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(error);
-            });
-        });
+        return this.http.get(uri);
     };
     // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
     PortCallService.prototype.registerClearanceAgenciesForPortCall = function (portCall) {
@@ -11605,7 +11459,6 @@ var PortCallService = /** @class */ (function () {
         // NEW
         this.http
             .post(this.clearanceUrl, portCall)
-            .map(function (res) { return res.json(); })
             .subscribe(function (clearanceData) {
             console.log('Clearance agency information successfully added to port call.');
             _this.clearanceListDataSource.next(clearanceData);
@@ -11629,7 +11482,7 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */], __WEBPACK_IMPORTED_MODULE_5__auth_request_service__["a" /* AuthRequest */], __WEBPACK_IMPORTED_MODULE_6__prev_and_next_poc_service__["a" /* PrevAndNextPocService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__node_modules_angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_4__prev_and_next_poc_service__["a" /* PrevAndNextPocService */]])
     ], PortCallService);
     return PortCallService;
 }());
@@ -11727,7 +11580,7 @@ var PrevAndNextPocService = /** @class */ (function (_super) {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurposeService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11745,11 +11598,11 @@ var PurposeService = /** @class */ (function () {
         this.purposeUrl = 'api/purpose';
     }
     PurposeService.prototype.getPurposes = function () {
-        return this.http.get(this.purposeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.purposeUrl);
     };
     PurposeService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], PurposeService);
     return PurposeService;
 }());
@@ -11764,7 +11617,7 @@ var PurposeService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11784,11 +11637,11 @@ var SearchService = /** @class */ (function () {
         if (amount === void 0) { amount = 10; }
         var encodedTerm = encodeURIComponent(term);
         var uri = [baseUrl, encodedTerm, amount].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     SearchService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
     ], SearchService);
     return SearchService;
 }());
@@ -11803,10 +11656,9 @@ var SearchService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_request_service__ = __webpack_require__("./src/app/shared/services/auth.request.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11820,11 +11672,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ShipService = /** @class */ (function () {
-    function ShipService(http, authRequest) {
+    function ShipService(http) {
         this.http = http;
-        this.authRequest = authRequest;
         this.shipUrl = 'api/ship';
         this.shipTypeUrl = 'api/shiptype';
         this.hullTypeUrl = 'api/shiphulltype';
@@ -11835,126 +11685,61 @@ var ShipService = /** @class */ (function () {
         this.shipStatusListUrl = 'api/shipstatus';
         this.contactListShipUrl = 'api/shipcontact/ship';
         this.shipContactListUrl = 'api/shipcontact/list';
-        this.shipOverviewDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.shipOverviewData$ = this.shipOverviewDataSource.asObservable();
-        this.shipSearchDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipData$ = this.shipDataSource.asObservable();
+        this.shipSearchDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipSearchData$ = this.shipSearchDataSource.asObservable();
     }
     ShipService.prototype.registerShip = function (newShip) {
-        var auth_header = this.authRequest.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: auth_header });
         return this.http
-            .post(this.shipUrl, newShip, options)
-            .map(function (res) { return res.json(); });
+            .post(this.shipUrl, newShip);
     };
     ShipService.prototype.getShip = function (id) {
         var uri = [this.shipUrl, id].join('/');
-        return this.http.get(uri)
-            .map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
-    ShipService.prototype.setShipOverviewData = function (data) {
-        this.shipOverviewDataSource.next(data);
+    ShipService.prototype.setShipData = function (data) {
+        this.shipDataSource.next(data);
     };
     ShipService.prototype.setShipSearchData = function (data) {
         this.shipSearchDataSource.next(data);
     };
     ShipService.prototype.updateShip = function (ship) {
-        var auth_header = this.authRequest.GetHeaders();
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["e" /* RequestOptions */]({ headers: auth_header });
-        return this.http.put(this.shipUrl, ship, options)
-            .map(function (res) { return res.json(); });
+        return this.http.put(this.shipUrl, ship);
     };
     ShipService.prototype.saveShipContactList = function (shipContactList) {
-        return this.http.post(this.shipContactListUrl, shipContactList)
-            .map(function (res) { return res.json(); });
+        return this.http.post(this.shipContactListUrl, shipContactList);
     };
     ShipService.prototype.getShipTypes = function () {
-        return this.http.get(this.shipTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.shipTypeUrl);
     };
     ShipService.prototype.getHullTypes = function () {
-        return this.http.get(this.hullTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.hullTypeUrl);
     };
     ShipService.prototype.getLengthTypes = function () {
-        return this.http.get(this.lengthTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.lengthTypeUrl);
     };
     ShipService.prototype.getBreadthTypes = function () {
-        return this.http.get(this.breadthTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.breadthTypeUrl);
     };
     ShipService.prototype.getPowerTypes = function () {
-        return this.http.get(this.powerTypeUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.powerTypeUrl);
     };
     ShipService.prototype.getShipSources = function () {
-        return this.http.get(this.shipSourceUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.shipSourceUrl);
     };
     ShipService.prototype.getShipStatusList = function () {
-        return this.http.get(this.shipStatusListUrl).map(function (res) { return res.json(); });
+        return this.http.get(this.shipStatusListUrl);
     };
     ShipService.prototype.getContactList = function (shipId) {
         var uri = [this.contactListShipUrl, shipId].join('/');
-        return this.http.get(uri).map(function (res) { return res.json(); });
+        return this.http.get(uri);
     };
     ShipService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */],
-            __WEBPACK_IMPORTED_MODULE_3__auth_request_service__["a" /* AuthRequest */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */]])
     ], ShipService);
     return ShipService;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/services/uri-query.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UriQueryService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__ = __webpack_require__("./src/app/shared/models/token-query-model.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var UriQueryService = /** @class */ (function () {
-    function UriQueryService() {
-    }
-    UriQueryService.prototype.getTokenQueryModel = function (queryParams) {
-        // console.log({hasProperties: this.hasProperties(queryParams)});
-        if (this.hasProperties(queryParams) && !this.anyParamsNull(queryParams)) {
-            return new __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__["a" /* TokenQueryModel */](queryParams['userId'], queryParams['token']);
-        }
-        return null;
-    };
-    UriQueryService.prototype.anyParamsNull = function (queryParams) {
-        return this.paramNull(queryParams.userId) && this.paramNull(queryParams.token);
-    };
-    UriQueryService.prototype.paramNull = function (param) {
-        return !param || param === '';
-    };
-    UriQueryService.prototype.hasProperties = function (queryParams) {
-        /* console.log({
-          'userId': queryParams['userId'],
-          'token': queryParams['token']
-        });
-        console.log({
-          'hasUserId': !!queryParams['userId'],
-          'hasToken': !!queryParams['token']
-        }); */
-        return !!queryParams['userId'] && !!queryParams['token'];
-    };
-    UriQueryService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], UriQueryService);
-    return UriQueryService;
 }());
 
 
@@ -12004,12 +11789,14 @@ var UriQueryService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -12088,7 +11875,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_30__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_19__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_22__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__["a" /* FeedbackComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
@@ -12113,7 +11901,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_30__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_19__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_22__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__["a" /* FeedbackComponent */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_32__services_location_service__["a" /* LocationService */],
@@ -12140,8 +11929,7 @@ var SharedModule = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseRequest; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_app_shared_services_base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -12153,23 +11941,16 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 
-
 var BaseRequest = /** @class */ (function (_super) {
     __extends(BaseRequest, _super);
-    function BaseRequest(configService, authRequestService) {
+    function BaseRequest(configService) {
         var _this = _super.call(this) || this;
         _this.configService = configService;
-        _this.authRequestService = authRequestService;
         _this.baseUrl = _this.configService.getApiURI();
         return _this;
     }
-    BaseRequest.prototype.getRequestOptions = function () {
-        var headers = this.authRequestService.GetHeaders();
-        var requestOptions = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["e" /* RequestOptions */]({ headers: headers });
-        return requestOptions;
-    };
     return BaseRequest;
-}(__WEBPACK_IMPORTED_MODULE_1_app_shared_services_base_service__["a" /* BaseService */]));
+}(__WEBPACK_IMPORTED_MODULE_0_app_shared_services_base_service__["a" /* BaseService */]));
 
 
 
@@ -12416,7 +12197,11 @@ var AuthenticateXHRBackend = /** @class */ (function (_super) {
                 3. As at this early stage you can't access the Router for forwarding to the login page,
                 4. refreshing the same page will trigger the Guard checks, which will forward you to the login screen */
                 localStorage.removeItem('auth_token');
-                window.location.href = window.location.href + '?' + new Date().getMilliseconds();
+                localStorage.removeItem('user_claims');
+                var loc = window.location;
+                var baseUrl = loc.protocol + '//' + loc.hostname + (loc.port ? (':' + loc.port) : '') + '/';
+                window.location.href = baseUrl + '?' + new Date().getMilliseconds();
+                // window.location.href = window.location.href + '?' + new Date().getMilliseconds();
             }
             return __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */].throw(error);
         });
@@ -12469,6 +12254,47 @@ if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment *
 }
 Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */])
     .catch(function (err) { return console.log(err); });
+
+
+/***/ }),
+
+/***/ "./src/selective-preloading-strategy.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectivePreloadingStrategy; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+var SelectivePreloadingStrategy = /** @class */ (function () {
+    function SelectivePreloadingStrategy() {
+        this.preloadedModules = [];
+    }
+    SelectivePreloadingStrategy.prototype.preload = function (route, load) {
+        if (route.data && route.data['preload']) {
+            // add the route path to the preloaded module array
+            this.preloadedModules.push(route.path);
+            // log the route path to the console
+            console.log('Preloaded: ' + route.path);
+            return load();
+        }
+        else {
+            return Object(__WEBPACK_IMPORTED_MODULE_1_rxjs_observable_of__["a" /* of */])(null);
+        }
+    };
+    SelectivePreloadingStrategy = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])()
+    ], SelectivePreloadingStrategy);
+    return SelectivePreloadingStrategy;
+}());
+
 
 
 /***/ }),

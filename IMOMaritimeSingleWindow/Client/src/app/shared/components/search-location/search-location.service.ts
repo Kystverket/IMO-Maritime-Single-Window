@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class SearchLocationService {
@@ -10,7 +10,7 @@ export class SearchLocationService {
   private searchUrl: string;
   private searchHarbourUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/location/search';
     this.searchHarbourUrl = 'api/location/harbour/search';

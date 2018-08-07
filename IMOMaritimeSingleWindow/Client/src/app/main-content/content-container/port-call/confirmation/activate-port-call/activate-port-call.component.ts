@@ -50,9 +50,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresList: any[];
 
   portCallStatus: string;
-  portCallIsActive = false;
   portCallIsDraft = false;
-  STATUS_ACTIVE = 'Active';
   STATUS_DRAFT = 'Draft';
 
   voyagesIsPristineSubscription: Subscription;
@@ -263,12 +261,12 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   saveShipStores() {
     this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => { });
+    this.shipStoresService.updateShipStores(this.shipStoresList);
   }
 
   send() {
     this.portCallService
-      .updatePortCallStatusActive(this.detailsIdentificationModel.portCallId)
+      .updatePortCallStatusAwaitingClearance(this.detailsIdentificationModel.portCallId)
       .subscribe(
         updateStatusResponse => {
           console.log('Status successfully updated.');

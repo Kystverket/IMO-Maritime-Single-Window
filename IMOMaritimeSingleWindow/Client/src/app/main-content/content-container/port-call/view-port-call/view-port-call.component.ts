@@ -20,11 +20,11 @@ export class ViewPortCallComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private shipService: ShipService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipResult => {
-      this.shipService.setShipOverviewData(shipResult);
+      this.shipService.setShipData(shipResult);
     });
   }
 
