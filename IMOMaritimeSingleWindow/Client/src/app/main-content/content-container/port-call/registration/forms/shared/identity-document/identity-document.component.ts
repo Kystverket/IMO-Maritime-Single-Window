@@ -76,8 +76,16 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
-    return new Date(dateString);
+    if (date.year && date.month && date.day) {
+      const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+      return dateString;
+    } else {
+      return null;
+    }
+  }
+
+  getDisplayDateFormat(date) {
+    return date.split('T')[0];
   }
 
   getNgbDateFormat(date) {

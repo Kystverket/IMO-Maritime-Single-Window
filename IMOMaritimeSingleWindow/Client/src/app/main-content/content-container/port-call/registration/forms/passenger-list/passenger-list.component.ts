@@ -102,8 +102,6 @@ export class PassengerListComponent implements OnInit {
             this.openViewPassengerModal(row);
           });
           instance.edit.subscribe(row => {
-            console.log(row);
-            console.log(instance);
             this.openEditPassengerModal(row);
           });
           instance.delete.subscribe(row => {
@@ -355,8 +353,16 @@ export class PassengerListComponent implements OnInit {
   // Helper methods
 
   getDateFormat(date) {
-    const dateString = date.year + '-' + date.month + '-' + (date.day + 1);
-    return new Date(dateString);
+    if (date.year && date.month && date.day) {
+      const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+      return dateString;
+    } else {
+      return null;
+    }
+  }
+
+  getDisplayDateFormat(date) {
+    return date.split('T')[0];
   }
 
   getNgbDateFormat(date) {
@@ -392,23 +398,19 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerList.forEach((passenger, index) => {
       if (passenger.sequenceNumber === $event.sequenceNumber) {
         this.portCallPassengerList[index] = $event;
+        this.portCallPassengerList[index].identityDocument[0] = $event.identityDocument[0];
+        console.log(this.portCallPassengerList);
         return;
       }
     });
     this.passengerListService.setPassengersList(this.portCallPassengerList);
   }
 
-
   deletePassenger(row) {
     this.passengerListService.deletePassengerEntry(row);
   }
 
   savePassengers() {
-    console.log(this.portCallPassengerList);
-    this.portCallPassengerList.forEach(p => {
-      // save personOnBoardId in smart table?
-      p.portCallId = this.portCallId;
-    });
     console.log(this.portCallPassengerList);
     this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
   }

@@ -5,8 +5,8 @@ export class IdentityDocumentModel {
     identityDocumentTypeId: number;
     issuingNationId: number;
     visaOrResidencePermitNumber: number;
-    identityDocumentIssueDate: Date;
-    identityDocumentExpiryDate: Date;
+    identityDocumentIssueDate: any;
+    identityDocumentExpiryDate: any;
     identityDocumentNumber: number;
     personOnBoardId: number;
 

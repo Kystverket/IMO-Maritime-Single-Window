@@ -66,6 +66,8 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
     this.passengerModel = Object.assign({}, passengerModel);
     this.passengerModel.identityDocument[0] = Object.assign({}, passengerModel.identityDocument[0]);
+    console.log(this.passengerModel.identityDocument[0]);
+    console.log(typeof this.passengerModel.identityDocument[0].identityDocumentExpiryDate);
   }
 
   resetInputPassengerModel($event: any) {
@@ -124,8 +126,10 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setIdentityDocumentExpiryDate($event) {
+    console.log($event);
     if ($event) {
       this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
+      console.log(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate);
     } else {
       this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = null;
     }
@@ -182,12 +186,15 @@ export class PassengerModalComponent implements OnInit {
   }
 
   getDateFormat(date) {
-    console.log(typeof date);
     if (date.year && date.month && date.day) {
-      const dateString = date.year + '-' + date.month + '-' + (date.day);
-      return new Date(dateString);
+      const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+      return dateString;
     } else {
       return null;
     }
+  }
+
+  getDisplayDateFormat(date) {
+    return date.split('T')[0];
   }
 }

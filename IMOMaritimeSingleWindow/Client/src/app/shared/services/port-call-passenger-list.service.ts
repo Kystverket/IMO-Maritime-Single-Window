@@ -57,6 +57,7 @@ export class PortCallPassengerListService {
   }
 
   updatePassengerList(passengerList: any[], portCallId: number) {
+    console.log(passengerList);
     const cleanedPassengerList = this.cleanPassengerList(passengerList);
     console.log('Updating passengers...');
     let uri = [this.portCallUrl, portCallId].join('/');
@@ -105,9 +106,7 @@ export class PortCallPassengerListService {
     console.log(passengerList);
     const newPassengerList = [];
     passengerList.forEach(passenger => {
-      if (typeof passenger.dateOfBirth !== 'string') {
-        passenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
-      }
+
       passenger.countryOfBirth = null;
       passenger.personOnBoardType = null;
       passenger.gender = null;
@@ -116,13 +115,33 @@ export class PortCallPassengerListService {
       passenger.portOfDisembarkation = null;
       passenger.nationality = null;
 
-      if (passenger.identityDocument) {
+      // Handle date formats
+      if (typeof passenger.dateOfBirth !== 'string') {
+        passenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
+      } else {
+        passenger.dateOfBirth = (new Date(passenger.dateOfBirth.split('T'))).toUTCString();
+        console.log(passenger.dateOfBirth);
+      }
         passenger.identityDocument.forEach(identityDocument => {
           identityDocument.identityDocumentType = null;
           identityDocument.issuingNation = null;
-        });
 
-      }
+          // Handle date formats
+          if (identityDocument.identityDocumentIssueDate) {
+            if (typeof identityDocument.identityDocumentIssueDate !== 'string') {
+              identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate.toUTCString();
+            } else {
+              identityDocument.identityDocumentIssueDate = (new Date(identityDocument.identityDocumentIssueDate.split('T'))).toUTCString();
+            }
+          }
+          if (identityDocument.identityDocumentExpiryDate) {
+            if (typeof identityDocument.identityDocumentExpiryDate !== 'string') {
+              identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate.toUTCString();
+            } else {
+              identityDocument.identityDocumentExpiryDate = (new Date(identityDocument.identityDocumentExpiryDate.split('T'))).toUTCString();
+            }
+          }
+        });
       newPassengerList.push(passenger);
     });
     console.log(newPassengerList);

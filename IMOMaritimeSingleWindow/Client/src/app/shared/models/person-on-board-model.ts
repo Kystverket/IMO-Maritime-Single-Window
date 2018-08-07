@@ -7,7 +7,7 @@ export class PersonOnBoardModel {
     personOnBoardId: number;
     givenName: string;
     familyName: string;
-    dateOfBirth: Date;
+    dateOfBirth: any;
     placeOfBirth: string;
     occupationName: string;
     occupationCode: string;
