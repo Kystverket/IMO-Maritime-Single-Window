@@ -96,7 +96,7 @@ import { FalCargoService } from '../../../shared/services/fal-cargo.service';
     CargoComponent,
     CargoTableComponent,
     ConsignmentFormComponent,
-    CargoItemFormComponent
+    CargoItemFormComponent,
   ],
   exports: [
     ClearanceComponent,

@@ -85,6 +85,16 @@ export class CargoComponent implements OnInit, OnDestroy {
     this.modal = this.modalService.open(content, { size: 'lg' });
   }
 
+  onDeleteCargoItem($event) {
+    this.consignmentWithTableDataList = this.consignmentWithTableDataList.map(entry => {
+      if (entry.consignmentModel.cargoItem && entry.consignmentModel.cargoItem.length > 0) {
+        entry.consignmentModel.cargoItem = entry.consignmentModel.cargoItem.filter(item => item !== $event.cargoItemModel);
+      }
+      return entry;
+    });
+    this.touchData();
+  }
+
   saveChanges() {
     this.saving = true;
     const consignmentList = this.consignmentWithTableDataList.map(entry => entry.consignmentModel);
@@ -103,11 +113,6 @@ export class CargoComponent implements OnInit, OnDestroy {
     );
   }
 
-  touchData() {
-    const consignmentList = this.consignmentWithTableDataList.map(entry => entry.consignmentModel);
-    this.cargoService.setConsignmentListData(consignmentList);
-    this.cargoService.setDataIsPristine(false);
-  }
 
   saveConsignment() {
     this.openConsignment = Object.assign(this.openConsignment, this.consignmentCopy);
@@ -129,6 +134,11 @@ export class CargoComponent implements OnInit, OnDestroy {
       this.consignmentWithTableDataList.unshift(obj);
     }
     this.setTableData();
+    this.touchData();
+  }
+
+  deleteConsignment() {
+    this.consignmentWithTableDataList = this.consignmentWithTableDataList.filter(entry => entry.consignmentModel !== this.openConsignment);
     this.touchData();
   }
 
@@ -166,5 +176,10 @@ export class CargoComponent implements OnInit, OnDestroy {
     return portOfLoadingData;
   }
 
+  touchData() {
+    const consignmentList = this.consignmentWithTableDataList.map(entry => entry.consignmentModel);
+    this.cargoService.setConsignmentListData(consignmentList);
+    this.cargoService.setDataIsPristine(false);
+  }
 
 }
