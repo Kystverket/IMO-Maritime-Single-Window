@@ -154,16 +154,14 @@ export class PassengerListComponent implements OnInit {
             console.log(list);
             this.portCallPassengerList = list;
             this.portCallPassengerModel.portCallId = element.portCallId;
+            this.passengerListDataSource.load(this.generateSmartTable(list));
           }
-
-          this.passengerListDataSource.load(this.generateSmartTable());
         });
       }
 
     });
-
     // On start
-    this.passengerListService.getPassengerListByPortCallId(this.portCallId).subscribe(list => {
+/*     this.passengerListService.getPassengerListByPortCallId(this.portCallId).subscribe(list => {
 
       this.passengerListDataSource = new LocalDataSource();
       this.portCallPassengerList = [];
@@ -171,7 +169,7 @@ export class PassengerListComponent implements OnInit {
       if (list) {
         this.passengerListService.setPassengersList(list);
       }
-    });
+    }); */
   }
 
   addPassenger() {
@@ -201,10 +199,10 @@ export class PassengerListComponent implements OnInit {
     this.detailsIdentificationDataSubscription.unsubscribe();
   } */
 
-  generateSmartTable(): any[] {
+  generateSmartTable(passengerList): any[] {
     const newList = [];
-    if (this.portCallPassengerList) {
-      this.portCallPassengerList.forEach(passenger => {
+    if (passengerList) {
+      passengerList.forEach(passenger => {
         newList.push(this.makeSmartTableEntry(passenger));
       });
     }

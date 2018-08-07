@@ -63,7 +63,6 @@ export class PortCallPassengerListService {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.personOnBoardString].join('/');
     return this.http.put(uri, cleanedPassengerList).map(res => {
-      this.setPassengersList(res.json());
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
         this.setDataIsPristine(true);
@@ -72,7 +71,7 @@ export class PortCallPassengerListService {
     });
   }
 
-  getPassengerListByPortCallId(portCallId) {
+  /* getPassengerListByPortCallId(portCallId) {
       let uri = [this.portCallUrl, portCallId].join('/');
       uri = [uri, this.personOnBoardString].join('/');
       return this.http.get(uri).map(res => {
@@ -89,7 +88,7 @@ export class PortCallPassengerListService {
       console.log(res);
       return res.json();
     });
-  }
+  } */
 
   getSimplePassengersList(portCallId) {
     const uri = this.personOnBoardUrl;
@@ -144,32 +143,15 @@ export class PortCallPassengerListService {
         });
       newPassengerList.push(passenger);
     });
-    console.log(newPassengerList);
     return newPassengerList;
-  }
-
-
-  makeTestList(list) {
-    const tempList: PersonOnBoardModel[] = [];
-    list.forEach(passenger => {
-      const tempPassenger = new PersonOnBoardModel();
-      // tempPassenger.personOnBoardId = passenger.personOnBoardId;
-      tempPassenger.sequenceNumber = passenger.sequenceNumber;
-      tempPassenger.familyName = passenger.familyName;
-      tempPassenger.givenName = passenger.givenName;
-      tempPassenger.portCallId = passenger.portCallId;
-
-      tempList.push(tempPassenger);
-    });
-    return tempList;
   }
 
   getGenderList() {
     const uri = this.genderUrl;
     return this.http.get(uri).map(res => res.json());
   }
-  // Setters
 
+  // Setters
   setPassengersList(data) {
 
     const newList = this.setSequenceNumbers(data);
