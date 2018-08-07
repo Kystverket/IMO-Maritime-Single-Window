@@ -69,6 +69,7 @@ namespace IMOMaritimeSingleWindow
 
         {
 
+
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //Configure CORS with different policies
             //services.AddCors(options =>
@@ -107,6 +108,12 @@ namespace IMOMaritimeSingleWindow
             var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
             services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
 
+            // Configure email service
+            services.ConfigureEmailSenderOptions(Configuration);
+            services.ConfigureSendGridOptions(Configuration);
+
+            services.AddEmailSender();
+
 
             //Configure identity services
             var builder = services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -129,13 +136,10 @@ namespace IMOMaritimeSingleWindow
 
             builder.AddDefaultTokenProviders();
 
-            //builder.AddEntityFrameworkStores<open_ssnContext>().AddDefaultTokenProviders();
-
             //builder.AddSignInManager<SignInManager<ApplicationUser>>()
             //builder.AddUserManager<ApplicationUserManager>()
             //.AddRoleManager<ApplicationRoleManager>();
-
-
+            
 
             var serviceProvider = services.BuildServiceProvider();
             var context = serviceProvider.GetService<open_ssnContext>();
@@ -145,8 +149,8 @@ namespace IMOMaritimeSingleWindow
             // services.AddAutoMapper();
             //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
 
-            services.TryAddScoped<UserManager>();
-            services.TryAddScoped<ApplicationRoleManager>();
+            //services.TryAddScoped<UserManager>();
+            //services.TryAddScoped<ApplicationRoleManager>();
 
             // Tip from https://stackoverflow.com/a/42298278
             var config = new MapperConfiguration(cfg =>

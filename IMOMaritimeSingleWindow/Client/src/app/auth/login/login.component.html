@@ -1,0 +1,49 @@
+<div class="container pt-5">
+  <div class="jumbotron bg-ssn-light text-ssn">
+    <div class="d-table mb-3 mx-auto">
+      <div class="d-table-row">
+        <div class="d-table-cell">
+          <img src="assets/images/flags/ag.png" height="80px">
+        </div>
+        <div class="d-table-cell px-3">
+          <h2>IMO Maritime Single Window</h2>
+        </div>
+      </div>
+    </div>
+
+    <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+      <div class="form-group row">
+        <label for="email" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Email address:</label>
+        <div class="col my-auto">
+          <input id="email" name="userName" type="email" class="form-control form-control-sm"
+            placeholder="Enter email address"
+            [(ngModel)]="credentials.userName" #email="ngModel" autocomplete="username" tmFocus required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="password" class="col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2">Password:</label>
+        <div class="col my-auto">
+          <input id="password" name="password" type="password" #pw class="form-control form-control-sm"
+          placeholder="Enter password"
+            [(ngModel)]="credentials.password" autocomplete="current-password" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" (click)="pw.select()" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
+      </div>
+
+      <nav>
+        <a class="btn btn-light" routerLink="../ForgotPassword" routerLinkActive="active">Forgot password?</a>
+      </nav>
+
+      <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <h5>Error</h5>
+        <span>{{errors}}</span>
+      </div>
+
+    </form>
+  </div>
+</div>
+<router-outlet></router-outlet>

@@ -6,19 +6,25 @@ import {
   Router
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { PasswordService } from '../password.service';
 
 @Injectable()
 export class PasswordResetGuard implements CanActivate {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private passwordService: PasswordService
   ) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-
+    // Request for reset made within app
+    if (this.passwordService.isResetRequested()) {
+      return true;
+    }
+    // Expect user to have clicked link received by email
     // Verify query params are present
     if (this.paramsNull([next.queryParams['userId'], next.queryParams['token']])) {
       this.router.navigate(['/error']);

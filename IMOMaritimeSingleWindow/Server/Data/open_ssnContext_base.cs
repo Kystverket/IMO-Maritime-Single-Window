@@ -18,17 +18,22 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Dpg> Dpg { get; set; }
         public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         public virtual DbSet<DpgType> DpgType { get; set; }
+        public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
         public virtual DbSet<LocationType> LocationType { get; set; }
         public virtual DbSet<MarpolCategory> MarpolCategory { get; set; }
+        public virtual DbSet<MeasurementType> MeasurementType { get; set; }
         public virtual DbSet<Municipality> Municipality { get; set; }
         public virtual DbSet<Organization> Organization { get; set; }
         public virtual DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         public virtual DbSet<OrganizationType> OrganizationType { get; set; }
+        public virtual DbSet<Passenger> Passenger { get; set; }
         public virtual DbSet<Password> Password { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<PersonOnBoard> PersonOnBoard { get; set; }
+        public virtual DbSet<PersonOnBoardType> PersonOnBoardType { get; set; }
         public virtual DbSet<PortCall> PortCall { get; set; }
         public virtual DbSet<PortCallDetails> PortCallDetails { get; set; }
         public virtual DbSet<PortCallHasPortCallPurpose> PortCallHasPortCallPurpose { get; set; }

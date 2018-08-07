@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DbConnectionService extends BaseService {
@@ -11,12 +12,12 @@ export class DbConnectionService extends BaseService {
   private hasDbConnectionSource = new BehaviorSubject<boolean>(true);
   hasDbConnection$ = this.hasDbConnectionSource.asObservable();
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
     this.connectionUrl = 'api/connection/state';
   }
 
-  getHasDbConnection() {
-    return this.http.get(this.connectionUrl).map(res => res.json());
+  getHasDbConnection(): Observable<any> {
+    return this.http.get(this.connectionUrl);
   }
 }

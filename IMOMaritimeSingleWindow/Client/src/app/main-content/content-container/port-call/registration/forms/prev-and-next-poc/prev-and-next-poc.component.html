@@ -1,0 +1,33 @@
+<app-ssn-card header="Previous Port of Call" icon="location.png">
+    <app-search-location *ngIf="!prevLocationFound" [restrictTypeHarbour]=true (locationResult)="onPrevLocationResult($event)"></app-search-location>
+    <div class="text-center" *ngIf="prevLocationModel">
+        <app-ssn-table [entryData]="prevLocationData"></app-ssn-table>
+        <button class="btn btn-ssn" (click)="deselectPrevLocation()">
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+    <app-date-time-picker header="ETD" [dateTimeModel]="prevEtdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+    <div class="row" *ngIf="prevEtdIsAfterCurrentEtaError">
+        <div class="col-2"></div>
+        <div class="col-8 alert alert-danger" role="alert">
+            <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>
+        </div>
+    </div>
+</app-ssn-card>
+
+<app-ssn-card header="Next Port of Call" icon="location.png">
+    <app-search-location *ngIf="!nextLocationFound" [restrictTypeHarbour]=true (locationResult)="onNextLocationResult($event)"></app-search-location>
+    <div class="text-center" *ngIf="nextLocationModel">
+        <app-ssn-table [entryData]="nextLocationData"></app-ssn-table>
+        <button class="btn btn-ssn" (click)="deselectNextLocation()">
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+    </div>
+    <app-date-time-picker header="ETA" [dateTimeModel]="nextEtaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+    <div class="row" *ngIf="nextEtaIsBeforeCurrentEtdError">
+        <div class="col-2"></div>
+        <div class="col-8 alert alert-danger" role="alert">
+            <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>
+        </div>
+    </div>
+</app-ssn-card>
+
+<app-save-prev-and-next-poc></app-save-prev-and-next-poc>

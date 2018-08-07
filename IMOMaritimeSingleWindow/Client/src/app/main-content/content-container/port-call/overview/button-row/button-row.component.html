@@ -4,63 +4,118 @@
     <div class="d-table-cell pl-1" ngbTooltip="View port call information" *ngIf="permissions.view">
       <button class="btn btn-sm btn-ssn" (click)="onViewClick()">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/eye.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/eye.png" height="20px" />
         </div>
       </button>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.edit">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" *ngIf="portCallIsCancelled" disabled>
+      <div ngbTooltip="You cannot edit a {{rowData.overviewModel.status}} port call" *ngIf="portCallIsCancelled || portCallIsCompleted">
+        <button class="btn btn-sm btn-ssn" disabled>
+          <div class="mx-auto">
+            <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
+          </div>
+        </button>
+      </div>
+
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="openModal(editModal)" *ngIf="portCallIsAwaitingClearance || portCallIsCleared">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="!portCallIsCancelled">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Edit port call" (click)="onEditClick()" *ngIf="portCallIsDraft">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/edit.png" height="20px" />
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px" />
         </div>
       </button>
     </div>
 
-    <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
-      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled" disabled>
-        <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px" />
-        </div>
-      </button>
+    <div class="d-table-cell pl-1" *ngIf="permissions.edit && !portCallIsDraft">
+      <div ngbTooltip="{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}" *ngIf="portCallIsCancelled || portCallIsAwaitingClearance">
+        <button class="btn btn-sm btn-ssn" disabled>
+          <div class="mx-auto">
+            <img src="assets/images/icons/128x128/white/time.png" height="20px" />
+          </div>
+        </button>
+      </div>
+      <app-set-actual-time [portCallModel]="rowData.overviewModel.portCall" (portCallModelChange)="onPortCallModelChange($event)" *ngIf="portCallIsCleared || portCallIsCompleted"></app-set-actual-time>
+    </div>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Review port call clearance" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled">
+    <div class="d-table-cell pl-1" *ngIf="permissions.clearance">
+      <div ngbTooltip="You cannot clear a {{rowData.overviewModel.status}} port call" *ngIf="portCallIsCancelled || portCallIsCompleted">
+        <button class="btn btn-sm btn-ssn" *ngIf="portCallIsCancelled || portCallIsCompleted" disabled>
+          <div class="mx-auto">
+            <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
+          </div>
+        </button>
+      </div>
+
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Review port call clearance" (click)="onClearanceClick()" *ngIf="!portCallIsCancelled && !portCallIsCompleted">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/stamp.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/stamp.png" height="16px" />
         </div>
       </button>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.cancel && !portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" *ngIf="portCallIsDraft || portCallIsCancelled" disabled>
-        <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px" />
-        </div>
-      </button>
+      <div ngbTooltip="{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}" *ngIf="portCallIsCancelled || portCallIsCompleted">
+        <button class="btn btn-sm btn-ssn" disabled>
+          <div class="mx-auto">
+            <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
+          </div>
+        </button>
+      </div>
 
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="onCancelClick(cancelModal)" *ngIf="!(portCallIsDraft || portCallIsCancelled)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Cancel port call" (click)="openModal(cancelModal)" *ngIf="portCallIsAwaitingClearance || portCallIsCleared">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/cancel.png" height="16px" />
         </div>
       </button>
     </div>
 
     <div class="d-table-cell pl-1" *ngIf="permissions.delete && portCallIsDraft">
-      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="onDeleteClick(deleteModal)">
+      <button class="btn btn-sm btn-ssn" ngbTooltip="Delete port call" (click)="openModal(deleteModal)">
         <div class="mx-auto">
-          <img src="assets/images/VoyageIcons/128x128/white/trash.png" height="16px" />
+          <img src="assets/images/icons/128x128/white/trash.png" height="20px" />
         </div>
       </button>
     </div>
 
   </div>
 </div>
+
+<ng-template #editModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">WARNING</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>To edit this port call, you must revert it back to a draft.</span>
+      <br>
+      <span>Any active clearances for the port call will be reset.</span>
+      <br>
+      <span>The port call must be reactivated to receive new clearances.</span>
+      <br>
+      <br>
+      <span>Are you sure you wish to edit this port call?</span>
+      <br>
+      <span>This action cannot be undone.</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="editAwaitingClearancePortCall(); close">
+      <img src="assets/images/icons/128x128/white/warning.png" height="20px">
+      <span>Reset Clearance & Edit Port Call as Draft</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
 
 <ng-template #cancelModal let-close="close()">
   <div class="modal-header">
@@ -78,7 +133,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="cancelPortCall(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="20px">
       <span>Cancel Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">
@@ -103,7 +158,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-danger" (click)="deletePortCall(); close">
-      <img src="assets/images/VoyageIcons/128x128/white/cancel.png" height="24px">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="20px">
       <span>Delete Port Call</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">

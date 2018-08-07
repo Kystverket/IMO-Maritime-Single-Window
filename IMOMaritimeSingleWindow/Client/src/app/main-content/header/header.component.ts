@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { MenuClaims } from 'app/shared/constants/menu-claims';
-import { MenuEntry } from 'app/shared/interfaces/menu-entry.interface';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { LoginService } from 'app/shared/services/login.service';
+import { CONTENT_NAMES } from '../../shared/constants/content-names';
+import { MenuClaims } from '../../shared/constants/menu-claims';
+import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
+import { AccountService } from '../../shared/services/account.service';
+import { ContentService } from '../../shared/services/content.service';
+import { LoginService } from '../../shared/services/login.service';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { mapTo } from 'rxjs/operators/mapTo';
-import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { DbConnectionService } from '../../shared/services/db-connection.service';
 
 @Component({
   selector: 'app-header',
@@ -24,17 +24,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   online$: Observable<boolean>;
 
   hasDbConnection = true;
+  hasServerConnection = true;
   dbConnectionSubscription: Subscription;
 
   menuIsCollapsed = true;
   subscription: Subscription;
   loggedIn: boolean;
+  redirected: boolean;
   roles: any = new Array();
   userMenuEntries: MenuEntry[];
   userName = 'default';
   userClaims: any;
 
-  iconPath = 'assets/images/VoyageIcons/128x128/white/';
+  iconPath = 'assets/images/icons/128x128/white/';
   menuEntries: MenuEntry[] = [
     {
       title: 'PORT CALLS',
@@ -103,7 +105,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
 
     if (this.loggedIn) {
-      this.accountService.getUserName().subscribe(result => {
+      this.accountService.getDisplayName().subscribe(result => {
         if (result) {
           this.userName = result;
         }
@@ -123,13 +125,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dbConnectionSubscription) {
       this.dbConnectionSubscription.unsubscribe();
     }
-    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection ? 30000 : 5000).subscribe(() => {
-      this.dbConnectionService.getHasDbConnection().subscribe(hasConnection => {
-        if (this.hasDbConnection !== hasConnection) {
-          this.hasDbConnection = hasConnection;
+    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection && this.hasServerConnection ? 15000 : 5000).subscribe(() => {
+      this.dbConnectionService.getHasDbConnection().subscribe(
+        hasConnection => {
+          this.hasServerConnection = true;
+          if (this.hasDbConnection !== hasConnection) {
+            this.hasDbConnection = hasConnection;
+            this.startDbConnectionCheck();
+          }
+        },
+        error => {
+          this.hasServerConnection = false;
           this.startDbConnectionCheck();
         }
-      });
+      );
     });
   }
 
@@ -154,8 +163,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    // To prevent logout button from disappearing before
+    // redirection has begun
+    this.redirected = true;
+
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   setContent(contentName: string) {

@@ -1,86 +1,47 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { ShipContactModel } from '../models/ship-contact-model';
 import { AuthRequest } from './auth.request.service';
-import { SearchService } from './search.service';
 import 'rxjs/add/observable/of';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ShipService {
-  private searchService: SearchService;
-  private shipSearchUrl: string;
-  private shipTypeUrl: string;
-  private hullTypeUrl: string;
-  private lengthTypeUrl: string;
-  private breadthTypeUrl: string;
-  private powerTypeUrl: string;
-  private shipSourceUrl: string;
-  private shipStatusListUrl: string;
-  private shipUrl: string;
-  private flagCodeSearchUrl: string;
-  private contactListShipUrl: string;
-  private shipContactListUrl: string;
+  private shipUrl = 'api/ship';
+  private shipTypeUrl = 'api/shiptype';
+  private hullTypeUrl = 'api/shiphulltype';
+  private lengthTypeUrl = 'api/shiplengthtype';
+  private breadthTypeUrl = 'api/shipbreadthtype';
+  private powerTypeUrl = 'api/shippowertype';
+  private shipSourceUrl = 'api/shipsource';
+  private shipStatusListUrl = 'api/shipstatus';
+  private contactListShipUrl = 'api/shipcontact/ship';
+  private shipContactListUrl = 'api/shipcontact/list';
 
-  private organizationDataSource = new BehaviorSubject<any>(null);
-  organizationData$ = this.organizationDataSource.asObservable();
-
-  private shipFlagCodeDataSource = new BehaviorSubject<any>(null);
-  shipFlagCodeData$ = this.shipFlagCodeDataSource.asObservable();
-
-  private shipOverviewDataSource = new BehaviorSubject<any>(null);
-  shipOverviewData$ = this.shipOverviewDataSource.asObservable();
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
 
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
-  private countryDataSource = new BehaviorSubject<any>(null);
-  countryData$ = this.countryDataSource.asObservable();
-
   constructor(
-    private http: Http,
-    private authRequest: AuthRequest
-  ) {
-    this.searchService = new SearchService(http);
-    this.shipUrl = 'api/ship';
-    this.shipSearchUrl = 'api/ship/search';
-    this.shipTypeUrl = 'api/shiptype';
-    this.hullTypeUrl = 'api/shiphulltype';
-    this.lengthTypeUrl = 'api/shiplengthtype';
-    this.breadthTypeUrl = 'api/shipbreadthtype';
-    this.powerTypeUrl = 'api/shippowertype';
-    this.shipSourceUrl = 'api/shipsource';
-    this.shipStatusListUrl = 'api/shipstatus';
-    this.flagCodeSearchUrl = 'api/shipflagcode/search';
-    this.contactListShipUrl = 'api/shipcontact/ship';
-    this.shipContactListUrl = 'api/shipcontact/list';
-  }
+    private http: HttpClient
+  ) { }
 
-  registerShip(newShip: any) {
-    const auth_header = this.authRequest.GetHeaders();
-    const options = new RequestOptions({ headers: auth_header });
+  registerShip(newShip: any): Observable<any> {
     return this.http
-      .post(this.shipUrl, newShip, options)
-      .map(res => res.json());
+      .post(this.shipUrl, newShip);
   }
 
-  getShip(id: number) {
+  getShip(id: number): Observable<any> {
     const uri = [this.shipUrl, id].join('/');
-    return this.http.get(uri)
-      .map(res => res.json());
+    return this.http.get(uri);
   }
 
-  setShipOverviewData(data) {
-    this.shipOverviewDataSource.next(data);
-  }
-
-  setOrganizationData(data) {
-    this.organizationDataSource.next(data);
-  }
-
-  setCountryData(data) {
-    this.countryDataSource.next(data);
+  setShipData(data) {
+    this.shipDataSource.next(data);
   }
 
   setShipSearchData(data) {
@@ -88,65 +49,43 @@ export class ShipService {
   }
 
   updateShip(ship: any) {
-    const auth_header = this.authRequest.GetHeaders();
-    const options = new RequestOptions({ headers: auth_header });
-    return this.http.put(this.shipUrl, ship, options)
-      .map(res => res.json());
+    return this.http.put(this.shipUrl, ship);
   }
 
   saveShipContactList(shipContactList: ShipContactModel[]) {
-    return this.http.post(this.shipContactListUrl, shipContactList)
-      .map(res => res.json());
+    return this.http.post(this.shipContactListUrl, shipContactList);
   }
 
-  setShipFlagCodeData(data) {
-    this.shipFlagCodeDataSource.next(data);
+  getShipTypes(): Observable<any> {
+    return this.http.get(this.shipTypeUrl);
   }
 
-  search(term: string, amount = 10) {
-    if (term.length < 2) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.shipSearchUrl, term, amount);
+  getHullTypes(): Observable<any> {
+    return this.http.get(this.hullTypeUrl);
   }
 
-  searchFlagCode(term: string, amount = 10) {
-    if (term.length < 1) {
-      return Observable.of([]);
-    }
-    return this.searchService.search(this.flagCodeSearchUrl, term);
+  getLengthTypes(): Observable<any> {
+    return this.http.get(this.lengthTypeUrl);
   }
 
-  getShipTypes() {
-    return this.http.get(this.shipTypeUrl).map(res => res.json());
+  getBreadthTypes(): Observable<any> {
+    return this.http.get(this.breadthTypeUrl);
   }
 
-  getHullTypes() {
-    return this.http.get(this.hullTypeUrl).map(res => res.json());
+  getPowerTypes(): Observable<any> {
+    return this.http.get(this.powerTypeUrl);
   }
 
-  getLengthTypes() {
-    return this.http.get(this.lengthTypeUrl).map(res => res.json());
+  getShipSources(): Observable<any> {
+    return this.http.get(this.shipSourceUrl);
   }
 
-  getBreadthTypes() {
-    return this.http.get(this.breadthTypeUrl).map(res => res.json());
+  getShipStatusList(): Observable<any> {
+    return this.http.get(this.shipStatusListUrl);
   }
 
-  getPowerTypes() {
-    return this.http.get(this.powerTypeUrl).map(res => res.json());
-  }
-
-  getShipSources() {
-    return this.http.get(this.shipSourceUrl).map(res => res.json());
-  }
-
-  getShipStatusList() {
-    return this.http.get(this.shipStatusListUrl).map(res => res.json());
-  }
-
-  getContactList(shipId: number) {
+  getContactList(shipId: number): Observable<any> {
     const uri: string = [this.contactListShipUrl, shipId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 }

@@ -48,6 +48,8 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             ThrowIfDisposed();
             var Id = ConvertIdFromString(await GetUserIdAsync(user));
             var _user = _unitOfWork.Users.Get(filter: usr => usr.UserId == Id, includeProperties: nameof(User.Role)).FirstOrDefault();
+            if (_user.Role == null)
+                return false;
             return String.Equals(_user.Role.NormalizedName, normalizedRoleName);
         }
 

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
 
 const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
@@ -11,30 +12,36 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
   templateUrl: './save-details.component.html',
   styleUrls: ['./save-details.component.css']
 })
-export class SaveDetailsComponent implements OnInit {
+export class SaveDetailsComponent implements OnInit, OnDestroy {
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
   reportingModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel = [];
   otherPurposeName: any;
 
-  reportingFound: boolean;
-  crewPassengersAndDimensionsFound: boolean;
-
   crewPassengersAndDimensionsMeta: FormMetaData = { valid: true };
 
   dataIsPristine = true;
   dataIsPristineText: string;
 
-  constructor(private portCallService: PortCallService) {}
+  detailsPristineSubscription: Subscription;
+  detailsIdentificationDataSubscription: Subscription;
+  reportingForThisPortCallDataSubscription: Subscription;
+  crewPassengersAndDimensionsDataSubscription: Subscription;
+  portCallPurposeDataSubscription: Subscription;
+  otherPurposeNameSubscription: Subscription;
+  crewPassengersAndDimensionsMetaSubscription: Subscription;
+
+  constructor(private portCallService: PortCallService) {
+    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
+  }
 
   ngOnInit() {
-    this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
-    this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+    this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.dataIsPristine = detailsDataIsPristine;
     });
     // Database Identification
-    this.portCallService.detailsIdentificationData$.subscribe(
+    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(
       identificationData => {
         if (identificationData) {
           this.detailsModel.portCallDetailsId =
@@ -44,7 +51,7 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
     // Reporting
-    this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
           this.detailsModel.reportingCargo = reportingData.reportingCargo;
@@ -57,7 +64,7 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
     // Crew, passengers, and dimensions
-    this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
           this.crewPassengersAndDimensionsModel = cpadData;
@@ -69,21 +76,31 @@ export class SaveDetailsComponent implements OnInit {
       }
     );
     // Purpose
-    this.portCallService.portCallPurposeData$.subscribe(purposeData => {
+    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(purposeData => {
       if (purposeData) {
         this.purposeModel = purposeData;
       }
     });
 
-    this.portCallService.otherPurposeName$.subscribe(otherNameData => {
+    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(otherNameData => {
       this.otherPurposeName = otherNameData;
     });
 
-    this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
       cpadMetaData => {
         this.crewPassengersAndDimensionsMeta = cpadMetaData;
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.detailsPristineSubscription.unsubscribe();
+    this.detailsIdentificationDataSubscription.unsubscribe();
+    this.reportingForThisPortCallDataSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
+    this.portCallPurposeDataSubscription.unsubscribe();
+    this.otherPurposeNameSubscription.unsubscribe();
+    this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
   }
 
   saveDetails() {

@@ -1,31 +1,42 @@
+<div class="row mb-3">
+  <div class="col">
+    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>
+  </div>
+</div>
+
 <!-- Port Call Details -->
 <div class="row mb-3">
-    <div class="col">
-      <app-port-call-details></app-port-call-details>
-    </div>
+  <div class="col">
+    <app-port-call-details></app-port-call-details>
   </div>
-  
-  <!-- FAL forms -->
-  <div *ngFor="let entry of falForms">
-    <div class="row mb-3" *ngIf="entry.checked">
-      <div class="col">
-        <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
-          <div [ngSwitch]="entry.name">
-            <div *ngSwitchDefault class="text-center my-3">
-              <img src="{{iconPath}}warning.png" height="24px" />
-              <span class="no-wrap">{{ entry.name }} information</span>
-              <span class="no-wrap">is marked for delivery,</span>
-              <span class="no-wrap">but no information is provided.</span>
-            </div>
+</div>
+
+
+<!-- FAL forms -->
+<div *ngFor="let entry of falForms">
+  <div class="row mb-3" *ngIf="entry.checked">
+    <div class="col">
+      <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
+        <div [ngSwitch]="entry.name">
+          <div *ngSwitchCase="'Ship Stores'" class="text-center my-3">
+            <span class="no-wrap">{{ entry.name }} information</span>
+            <span class="no-wrap">has been provided.</span>
           </div>
-        </app-table-card>
-      </div>
+          <div *ngSwitchDefault class="text-center my-3">
+            <img src="{{iconPath}}warning.png" height="24px" />
+            <span class="no-wrap">{{ entry.name }} information</span>
+            <span class="no-wrap">is marked for delivery,</span>
+            <span class="no-wrap">but no information is provided.</span>
+          </div>
+        </div>
+      </app-table-card>
     </div>
   </div>
-  
-  <!-- Clearance information -->
-  <div class="row mb-3">
-    <div class="col">
-      <app-clearances></app-clearances>
-    </div>
+</div>
+
+<!-- Clearance information -->
+<div class="row mb-3">
+  <div class="col">
+    <app-clearances></app-clearances>
   </div>
+</div>

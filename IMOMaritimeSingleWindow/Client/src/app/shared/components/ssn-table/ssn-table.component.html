@@ -2,17 +2,15 @@
   <thead>
     <tr>
       <th *ngFor="let entry of entryData" class="bg-ssn text-ssn no-wrap p-1">
-        {{ entry.description }}
+        <span>{{ entry.description }}</span>
       </th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td *ngFor="let entry of entryData" class="p-1">
-        <div *ngIf="entry.imageUrl">
-          <img src="{{ entry.imageUrl }}" height="24px" />
-        </div>
-        {{ entry.data }}
+        <img *ngIf="entry.imageUrl" src="{{ entry.imageUrl }}" height="24px" />
+        <span>{{ entry.data }}</span>
       </td>
     </tr>
   </tbody>

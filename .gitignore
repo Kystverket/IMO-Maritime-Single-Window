@@ -296,3 +296,5 @@ IMOMaritimeSingleWindow/Server/IMO-SSW\.csproj
 
 # Publish profiles
 *.pubxml
+
+IMOMaritimeSingleWindow/\.vscode/

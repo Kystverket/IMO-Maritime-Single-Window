@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ShipContactModel } from '../../models/ship-contact-model';
-import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-selected-contact-mediums',
@@ -9,15 +8,9 @@ import { ContactService } from '../../services/contact.service';
 })
 export class SelectedContactMediumsComponent implements OnInit {
 
-  selectedContactModels: ShipContactModel[];
+  @Input() selectedContactModelList: ShipContactModel[];
 
-  constructor(private contactService: ContactService) { }
+  constructor() { }
 
-  ngOnInit() {
-    this.contactService.contactData$.subscribe(data => {
-      if (data) {
-        this.selectedContactModels = data;
-      }
-    });
-  }
+  ngOnInit() { }
 }

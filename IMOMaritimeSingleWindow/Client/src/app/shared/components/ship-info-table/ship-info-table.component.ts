@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { ShipService } from 'app/shared/services/ship.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-ship-info-table',
   templateUrl: './ship-info-table.component.html',
   styleUrls: ['./ship-info-table.component.css']
 })
-export class ShipInfoTableComponent implements OnInit {
+export class ShipInfoTableComponent implements OnInit, OnDestroy {
   shipFlag: string;
   contactMediumList: any;
   shipHasContactInfo: boolean;
@@ -17,6 +18,8 @@ export class ShipInfoTableComponent implements OnInit {
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
 
+  shipDataSubscription: Subscription;
+
   constructor(
     private shipService: ShipService,
     private constantsService: ConstantsService
@@ -24,7 +27,7 @@ export class ShipInfoTableComponent implements OnInit {
 
   ngOnInit() {
     this.shipHasContactInfo = false;
-    this.shipService.shipOverviewData$.subscribe(shipResult => {
+    this.shipDataSubscription = this.shipService.shipData$.subscribe(shipResult => {
       if (shipResult) {
         if (shipResult.shipFlagCode.country) {
           this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
@@ -67,5 +70,9 @@ export class ShipInfoTableComponent implements OnInit {
       }
       this.shipInfo = Object.values(this.shipProperties);
     });
+  }
+
+  ngOnDestroy() {
+    this.shipDataSubscription.unsubscribe();
   }
 }

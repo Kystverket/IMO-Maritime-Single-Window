@@ -10,4 +10,5 @@ export class PortCallDetailsModel {
   reportingShipStores: boolean;
   reportingCrew: boolean;
   reportingPax: boolean;
+  cargoBriefDescription: string;
 }

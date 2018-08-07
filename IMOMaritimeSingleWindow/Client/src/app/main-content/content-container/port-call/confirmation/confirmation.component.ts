@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -8,7 +7,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 })
 export class ConfirmationComponent implements OnInit {
 
-  constructor(private portCallService: PortCallService) { }
+  constructor() { }
 
   ngOnInit() { }
 }

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
@@ -11,6 +11,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-overview',
@@ -18,11 +19,12 @@ import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
   styleUrls: ['./overview.component.css'],
   providers: [PortCallOverviewService, OrganizationService, DatePipe]
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   permissions = PortCallClaims.portCallPermissions;
   overviewList = [];
   draftOverviewList = [];
   cancelledOverviewList = [];
+  completedOverviewList = [];
   clearedByUserAgencyOverviewList = [];
   userOrganization: any;
   userIsGovernmentAgency = false;
@@ -31,6 +33,7 @@ export class OverviewComponent implements OnInit {
   clearedByUserAgencyOverviewSource: LocalDataSource = new LocalDataSource();
 
   showCancelledPortCalls = false;
+  showCompletedPortCalls = false;
 
   // Smart table
   tableSettings = {
@@ -83,13 +86,97 @@ export class OverviewComponent implements OnInit {
     }
   };
 
+  draftTableSettings = {
+    mode: 'external',
+    actions: false,
+    attr: {
+      class: 'table table-bordered'
+    },
+    noDataMessage: 'There are no port calls in this list.',
+
+    columns: {
+      shipName: {
+        title: 'Ship Name',
+        type: 'html'
+      },
+      callSign: {
+        title: 'Call Sign',
+        type: 'html'
+      },
+      locationName: {
+        title: 'Location Name',
+        type: 'html'
+      },
+      eta: {
+        title: 'ETA',
+        type: 'html'
+      },
+      etd: {
+        title: 'ETD',
+        type: 'html'
+      },
+      actions: {
+        title: 'Actions',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ButtonRowComponent
+      }
+    }
+  };
+
+  userClaimsDataSubscription: Subscription;
+  getOrganizationForUserSubscription: Subscription;
+
+  constructor(
+    private datePipe: DatePipe,
+    private accountService: AccountService,
+    private organizationService: OrganizationService,
+    private contentService: ContentService,
+    private portCallService: PortCallService,
+    private overviewService: PortCallOverviewService
+  ) { }
+
+  ngOnInit() {
+    this.userClaimsDataSubscription = this.accountService.userClaimsData$.subscribe(userClaims => {
+      if (userClaims) {
+        const userClaimsTypePortCall = userClaims.filter(claim => claim.type === PortCallClaims.TYPE);
+        // Find user claims where claim type is Port Call
+        const keys = Object.keys(this.permissions);
+        keys.forEach(key => {
+          this.permissions[key] = userClaimsTypePortCall.some(
+            claim => claim.value.toUpperCase() === key.toString().toUpperCase()
+          );
+        });
+      }
+    });
+    this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser().subscribe(organizationResult => {
+      if (organizationResult) {
+        this.userIsGovernmentAgency =
+          organizationResult.organizationType &&
+          organizationResult.organizationType.name ===
+          OrganizationTypes.GOVERNMENT_AGENCY_STRING;
+        if (this.userIsGovernmentAgency) {
+          this.portCallService.setClearance(organizationResult);
+        }
+      }
+      this.userOrganization = organizationResult;
+      this.loadOverview();
+    });
+  }
+
+  ngOnDestroy() {
+    this.userClaimsDataSubscription.unsubscribe();
+    this.getOrganizationForUserSubscription.unsubscribe();
+  }
+
   overviewRow(ov) {
     const row = {
       overviewModel: ov,
       shipName:
         `<div class="no-wrap"><div hidden>` +
         ov.ship.name + // ugly fix for alphabetical sorting but it works
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.ship.name +
@@ -100,7 +187,7 @@ export class OverviewComponent implements OnInit {
       locationName:
         `<div hidden>` +
         ov.location.name + // same ugly fix as ship name
-        `</div> <div> <img src='assets/images/Flags/128x128/` +
+        `</div> <div> <img src='assets/images/flags/128x128/` +
         ov.location.country.twoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
         ov.location.name +
@@ -120,7 +207,7 @@ export class OverviewComponent implements OnInit {
       status:
         ov.status === PortCallStatusTypes.CANCELLED
           ? `<div class="text-danger">` + ov.status + `</div>`
-          : ov.status,
+          : `<div class="no-wrap">` + ov.status + `</div>`,
       clearances:
         'clearances',
       actions: 'btn'
@@ -129,17 +216,13 @@ export class OverviewComponent implements OnInit {
   }
 
   loadOverview() {
-    this.overviewService.showCancelledPortCall$.subscribe(showCancelledPortCalls => {
-      if (showCancelledPortCalls !== null) {
-        this.showCancelledPortCalls = showCancelledPortCalls;
-        let portCallList = this.overviewList;
-        if (showCancelledPortCalls) {
-          portCallList = portCallList.concat(this.cancelledOverviewList);
-        }
-        this.overviewService.setOverviewData(portCallList.sort(
-          (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
-        ));
-      }
+    this.overviewService.showCancelledPortCalls$.subscribe(showCancelledPortCalls => {
+      this.showCancelledPortCalls = showCancelledPortCalls;
+      this.rerenderList();
+    });
+    this.overviewService.showCompletedPortCalls$.subscribe(showCompletedPortCalls => {
+      this.showCompletedPortCalls = showCompletedPortCalls;
+      this.rerenderList();
     });
     this.overviewService.overviewData$.subscribe(results => {
       if (results) {
@@ -187,6 +270,8 @@ export class OverviewComponent implements OnInit {
                       this.clearedByUserAgencyOverviewList.push(row);
                     } else if (ov.status === PortCallStatusTypes.CANCELLED) {
                       this.cancelledOverviewList.push(row);
+                    } else if (ov.status === PortCallStatusTypes.COMPLETED) {
+                      this.completedOverviewList.push(row);
                     } else {
                       this.overviewList.push(row);
                     }
@@ -212,47 +297,24 @@ export class OverviewComponent implements OnInit {
     );
   }
 
-  constructor(
-    private datePipe: DatePipe,
-    private accountService: AccountService,
-    private organizationService: OrganizationService,
-    private contentService: ContentService,
-    private portCallService: PortCallService,
-    private overviewService: PortCallOverviewService
-  ) { }
-
-  ngOnInit() {
-    this.accountService.userClaimsData$.subscribe(userClaims => {
-      if (userClaims) {
-        const userClaimsTypePortCall = userClaims.filter(
-          claim => claim.type === PortCallClaims.TYPE
-        ); // Find user claims where claim type is Port Call
-        const keys = Object.keys(this.permissions);
-        keys.forEach(key => {
-          this.permissions[key] = userClaimsTypePortCall.some(
-            claim => claim.value.toUpperCase() === key.toString().toUpperCase()
-          );
-        });
-      }
-    });
-    this.organizationService
-      .getOrganizationForUser()
-      .subscribe(organizationResult => {
-        if (organizationResult) {
-          this.userIsGovernmentAgency =
-            organizationResult.organizationType &&
-            organizationResult.organizationType.name ===
-            OrganizationTypes.GOVERNMENT_AGENCY_STRING;
-          if (this.userIsGovernmentAgency) {
-            this.portCallService.setClearance(organizationResult);
-          }
-        }
-        this.userOrganization = organizationResult;
-        this.loadOverview();
-      });
+  private rerenderList() {
+    let portCallList = this.overviewList;
+    if (this.showCancelledPortCalls) {
+      portCallList = portCallList.concat(this.cancelledOverviewList);
+    }
+    if (this.showCompletedPortCalls) {
+      portCallList = portCallList.concat(this.completedOverviewList);
+    }
+    this.overviewService.setOverviewData(portCallList.sort(
+      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+    ));
   }
 
   toggleCancelledPortCalls(showCancelled) {
     this.overviewService.setShowCancelledPortCalls(showCancelled);
+  }
+
+  toggleCompletedPortCalls(showCompleted) {
+    this.overviewService.setShowCompletedPortCalls(showCompleted);
   }
 }
