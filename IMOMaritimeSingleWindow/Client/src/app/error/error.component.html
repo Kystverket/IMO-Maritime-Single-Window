@@ -1,15 +1,17 @@
 <div class="container pt-5">
-  <app-ssn-bg header="ERROR PAGE">
-    <!-- <app-ssn-card> -->
-      <div class="jumbotron bg-ssn-light text-ssn">
-      <div class="row">
-          <img src="../../assets/images/icons/128x128/red/warning.png"
-        height="64px" width="64px" alt="Error" />
+  <app-ssn-bg>
+    <app-ssn-card [header]="header">
+      <!-- <app-ssn-card> -->
+        <div class="jumbotron bg-ssn-light text-ssn">
+        <div class="row">
+            <img src="../../assets/images/icons/128x128/red/warning.png"
+          height="64px" width="64px" alt="Error" />
+        </div>
+        <div class="row">
+          <p>{{message}}</p>
+        </div>
+      <!-- </app-ssn-card> -->
       </div>
-      <div class="row">
-        <p>Something went wrong...</p>
-      </div>
-    <!-- </app-ssn-card> -->
-    </div>
+    </app-ssn-card>
   </app-ssn-bg>
 </div>
