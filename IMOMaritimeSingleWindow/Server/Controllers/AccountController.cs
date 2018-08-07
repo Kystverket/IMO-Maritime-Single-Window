@@ -259,7 +259,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             message += $"<br><a href='{passwordResetLink}'>Password reset link</a>";
             message += "<br><p>If you did not request this password reset, please ignore this message.</p>";
 
-            await _emailSender.SendHtml(subject, message, recipient: user.Email);
+            var result = await _emailSender.SendHtml(subject, message, recipient: user.Email);
+            if (!result.Succeeded)
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
             // log($"Reset link sent to {userName}");
             return Ok();
