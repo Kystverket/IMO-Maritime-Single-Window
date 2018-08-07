@@ -42,7 +42,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.inTransit" readonly type="text" name="inTransit">
+        <input class="form-control form-control-sm" [(ngModel)]="formBooleanModel[inputPassengerModel.inTransit]" readonly type="text" name="inTransit">
       </div>
     </div>
     <div class="form-group row">
@@ -132,7 +132,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
       <div class="col my-auto">
-          <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.dateOfBirth)"></app-select-date>
+        <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.dateOfBirth)"></app-select-date>
       </div>
     </div>
     <div class="form-group row">
@@ -146,7 +146,7 @@
           <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
           />
           <div>
-            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="deselectCountryOfBirth()">
+            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="deselectCountryOfBirth()">
               <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
             </button>
           </div>
@@ -164,7 +164,7 @@
           <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.nationality.name"
           />
           <div>
-            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="deselectNationality()">
+            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="deselectNationality()">
               <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
             </button>
           </div>
@@ -175,7 +175,9 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.inTransit" type="text" name="inTransit">
+        <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="formBooleanModel[inputPassengerModel.inTransit]"
+          name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="selectTransit($event)">
+        </ng-select>
       </div>
     </div>
     <div class="form-group row">

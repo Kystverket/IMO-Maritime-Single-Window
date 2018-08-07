@@ -22,6 +22,16 @@ export class PassengerModalComponent implements OnInit {
 
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
 
+  booleanList: string[] = ['Yes', 'No'];
+  booleanModel = {
+    'Yes': true,
+    'No': false
+  };
+  formBooleanModel = {
+    'true': 'Yes',
+    'false': 'No'
+  };
+
   constructor(private modalService: NgbModal, private identityDocumentService: IdentityDocumentService) { }
 
   ngOnInit() {
@@ -55,6 +65,7 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
     this.passengerModel = Object.assign({}, passengerModel);
     this.passengerModel.identityDocument = [Object.assign({}, passengerModel.identityDocument[0])];
+    console.log(this.booleanModel[this.inputPassengerModel.inTransit.toString()]);
   }
 
   resetInputPassengerModel($event: any) {
@@ -102,6 +113,12 @@ export class PassengerModalComponent implements OnInit {
     } else {
       this.resetDateOfBirth();
     }
+  }
+
+  selectTransit($event) {
+    console.log($event);
+    this.inputPassengerModel.inTransit = this.booleanModel[$event];
+    console.log(this.booleanModel[$event]);
   }
 
   // Resetters
