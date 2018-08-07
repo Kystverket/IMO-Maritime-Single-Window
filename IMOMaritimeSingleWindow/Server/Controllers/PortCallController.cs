@@ -75,6 +75,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.Location.LocationType)
+            .Include(pc => pc.FalShipStores).ThenInclude(fss => fss.MeasurementType)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.PreviousLocation.Country)
