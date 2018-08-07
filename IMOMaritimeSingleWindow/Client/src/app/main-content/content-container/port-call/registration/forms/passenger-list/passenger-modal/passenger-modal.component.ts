@@ -3,6 +3,8 @@ import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { NgbModal } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
+import { GenderModel } from 'app/shared/models/gender-model';
+import { PortCallPassengerListService } from '../../../../../../../shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -21,6 +23,7 @@ export class PassengerModalComponent implements OnInit {
   @ViewChild('editModal') editModal;
 
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
+  genderList: GenderModel[] = [];
 
   booleanList: string[] = ['Yes', 'No'];
   booleanModel = {
@@ -32,13 +35,21 @@ export class PassengerModalComponent implements OnInit {
     'false': 'No'
   };
 
-  constructor(private modalService: NgbModal, private identityDocumentService: IdentityDocumentService) { }
+  constructor(
+    private modalService: NgbModal,
+    private identityDocumentService: IdentityDocumentService,
+    private passengerService: PortCallPassengerListService
+  ) { }
 
   ngOnInit() {
     this.inputPassengerModel = new PersonOnBoardModel();
 
     this.identityDocumentService.getIdentityDocumentTypes().subscribe(res => {
       this.identityDocumentTypes = res;
+    });
+
+    this.passengerService.getGenderList().subscribe(res => {
+      this.genderList = res;
     });
   }
 
@@ -139,6 +150,17 @@ export class PassengerModalComponent implements OnInit {
     console.log($event);
     this.inputPassengerModel.inTransit = this.booleanModel[$event];
     console.log(this.booleanModel[$event]);
+  }
+
+  setGender($event) {
+    console.log($event);
+    if ($event) {
+      this.inputPassengerModel.gender = $event;
+      this.inputPassengerModel.genderId = $event.genderId;
+    } else {
+      this.inputPassengerModel.gender = null;
+      this.inputPassengerModel.genderId = null;
+    }
   }
 
   // Resetters
