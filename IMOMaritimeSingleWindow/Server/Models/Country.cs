@@ -8,6 +8,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Country()
         {
             County = new HashSet<County>();
+            IdentityDocument = new HashSet<IdentityDocument>();
             Location = new HashSet<Location>();
             PersonOnBoardCountryOfBirth = new HashSet<PersonOnBoard>();
             PersonOnBoardNationality = new HashSet<PersonOnBoard>();
@@ -24,6 +25,7 @@ namespace IMOMaritimeSingleWindow.Models
         public bool IsActive { get; set; }
 
         public ICollection<County> County { get; set; }
+        public ICollection<IdentityDocument> IdentityDocument { get; set; }
         public ICollection<Location> Location { get; set; }
         public ICollection<PersonOnBoard> PersonOnBoardCountryOfBirth { get; set; }
         public ICollection<PersonOnBoard> PersonOnBoardNationality { get; set; }

@@ -14,6 +14,9 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
+import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
+import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -30,8 +33,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   prevAndNextPortCallDataIsPristine = true;
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
+  cargoDataIsPristine = true;
 
   shipStoresIsChecked = false;
+  cargoIsChecked = false;
 
   voyagesMeta: FormMetaData;
 
@@ -41,6 +46,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   otherPurposeName = '';
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
+  cargoData: ConsignmentModel[];
 
   prevLocationModel: LocationModel;
   nextLocationModel: LocationModel;
@@ -70,6 +76,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresDataSubscription: Subscription;
   shipStoresIsPristineSubscription: Subscription;
   shipStoresIsCheckedSubscription: Subscription;
+  cargoDataSubscription: Subscription;
+  cargoIsPristineSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -77,6 +85,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPocService: PrevAndNextPocService,
     private shipStoresService: PortCallShipStoresService,
+    private cargoService: FalCargoService,
     private modalService: NgbModal
   ) { }
 
@@ -155,7 +164,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
+          console.log(reportingData);
           this.reportingModel = reportingData;
+          this.cargoIsChecked = this.reportingModel.reportingCargo || false;
         }
       }
     );
@@ -195,6 +206,19 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       }
     );
     //
+    // Cargo
+    //
+    this.cargoDataSubscription = this.cargoService.consignmentListData$.subscribe(
+      cargoData => {
+        this.cargoData = cargoData;
+      }
+    );
+    this.cargoIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.cargoDataIsPristine = pristineData;
+      }
+    );
+    //
     // Status
     //
     this.portCallStatusDataSubscription = this.portCallService.portCallStatusData$.subscribe(statusData => {
@@ -226,6 +250,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.shipStoresDataSubscription.unsubscribe();
     this.shipStoresIsCheckedSubscription.unsubscribe();
     this.shipStoresIsPristineSubscription.unsubscribe();
+    this.cargoDataSubscription.unsubscribe();
+    this.cargoIsPristineSubscription.unsubscribe();
   }
 
   savePrevAndNextPortCall() {
@@ -262,6 +288,18 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   saveShipStores() {
     this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
     this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => { });
+  }
+
+  saveCargo() {
+    const formattedCargoData = this.cargoService.formatConsignment(this.cargoData);
+    this.cargoService.saveConsignmentListForPortCall(formattedCargoData, this.portCallId).subscribe(
+      res => {
+        this.cargoService.setDataIsPristine(true);
+        console.log('Cargo successfully saved.\n', res);
+      }, error => {
+        console.error(error);
+      }
+    );
   }
 
   send() {
