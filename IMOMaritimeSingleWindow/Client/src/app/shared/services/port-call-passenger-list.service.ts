@@ -72,7 +72,7 @@ export class PortCallPassengerListService {
     });
   }
 
-  getPassengerListByPortCallId(portCallId) {
+  /* getPassengerListByPortCallId(portCallId) {
       let uri = [this.portCallUrl, portCallId].join('/');
       uri = [uri, this.personOnBoardString].join('/');
       return this.http.get(uri).map(res => {
@@ -89,7 +89,7 @@ export class PortCallPassengerListService {
       console.log(res);
       return res.json();
     });
-  }
+  } */
 
   getSimplePassengersList(portCallId) {
     const uri = this.personOnBoardUrl;
@@ -146,22 +146,6 @@ export class PortCallPassengerListService {
     });
     console.log(newPassengerList);
     return newPassengerList;
-  }
-
-
-  makeTestList(list) {
-    const tempList: PersonOnBoardModel[] = [];
-    list.forEach(passenger => {
-      const tempPassenger = new PersonOnBoardModel();
-      // tempPassenger.personOnBoardId = passenger.personOnBoardId;
-      tempPassenger.sequenceNumber = passenger.sequenceNumber;
-      tempPassenger.familyName = passenger.familyName;
-      tempPassenger.givenName = passenger.givenName;
-      tempPassenger.portCallId = passenger.portCallId;
-
-      tempList.push(tempPassenger);
-    });
-    return tempList;
   }
 
   getGenderList() {
