@@ -5,6 +5,7 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 
 
 @Component({
@@ -56,6 +57,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
   constructor(
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: PortCallShipStoresService
@@ -64,7 +66,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
 
-    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           const falForms = [
@@ -120,7 +122,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
@@ -144,7 +146,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.portCallDetailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(
+    this.portCallDetailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS

@@ -1,4 +1,4 @@
-import { LocationModel } from 'app/shared/models/location-model';
+import { LocationModel } from './location-model';
 
 export class PortCallModel {
   portCallId: number;

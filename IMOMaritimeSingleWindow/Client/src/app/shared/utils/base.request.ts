@@ -1,6 +1,6 @@
 import { RequestOptions } from '@angular/http';
-import { AuthRequest } from 'app/shared/services/auth.request.service';
-import { BaseService } from 'app/shared/services/base.service';
+import { AuthRequest } from '../services/auth.request.service';
+import { BaseService } from '../services/base.service';
 import { ConfigService } from './config.service';
 
 export abstract class BaseRequest extends BaseService {

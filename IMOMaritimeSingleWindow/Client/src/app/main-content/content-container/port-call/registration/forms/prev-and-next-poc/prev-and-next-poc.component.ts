@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { LocationProperties } from 'app/shared/constants/location-properties';
@@ -14,6 +14,8 @@ import { PortCallService } from 'app/shared/services/port-call.service';
   styleUrls: ['./prev-and-next-poc.component.css']
 })
 export class PrevAndNextPocComponent implements OnInit, OnDestroy {
+
+  @Input() portCallId: number;
 
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
@@ -62,6 +64,7 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
       data => {
         this.nextLocationModel = data;
         if (data) {
+          console.log(data);
           this.nextLocationFound = true;
           LocationProperties.setLocationData(this.nextLocationData, this.nextLocationModel);
           if (this.nextLocationModel.country != null) {

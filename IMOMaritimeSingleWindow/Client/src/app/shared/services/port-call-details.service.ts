@@ -1,60 +1,148 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
+import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { LocationModel } from '../models/location-model';
-import { BaseService } from './base.service';
+import { Observable } from 'rxjs/Observable';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class PortCallDetailsService extends BaseService {
-  private prevPortOfCallSource = new BehaviorSubject<LocationModel>(null);
-  prevPortOfCallData$ = this.prevPortOfCallSource.asObservable();
 
-  private nextPortOfCallSource = new BehaviorSubject<LocationModel>(null);
-  nextPortOfCallData$ = this.nextPortOfCallSource.asObservable();
+  // Global purpose
+  private purposePortCallUrl = 'api/purpose/portcall';
+  private purposeOtherNameUrl = 'api/purpose/othername';
+  // Global details
+  private detailsUrl = 'api/portcalldetails';
+  private detailsPortCallUrl = 'api/portcalldetails/portcall';
 
-  private prevPortOfCallEtdSource = new BehaviorSubject<Date>(null);
-  prevPortOfCallEtdData$ = this.prevPortOfCallEtdSource.asObservable();
+  private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
+  crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
 
-  private nextPortOfCallEtaSource = new BehaviorSubject<Date>(null);
-  nextPortOfCallEtaData$ = this.nextPortOfCallEtaSource.asObservable();
-
-  private prevAndNextPortOfCallMeta = new BehaviorSubject<FormMetaData>({
+  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({
     valid: true
   });
-  prevAndNextPortOfCallMeta$ = this.prevAndNextPortOfCallMeta.asObservable();
+  crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
 
-  private dataIsPristine = new BehaviorSubject<boolean>(true);
-  dataIsPristine$ = this.dataIsPristine.asObservable();
+  private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
+  reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
 
-  constructor() {
+  private portCallPurposeDataSource = new BehaviorSubject<any>(null);
+  portCallPurposeData$ = this.portCallPurposeDataSource.asObservable();
+
+  private otherPurposeNameSource = new BehaviorSubject<string>('');
+  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
+
+  private otherPurposeDataSource = new BehaviorSubject<any>(null);
+  otherPurposeData$ = this.otherPurposeDataSource.asObservable();
+
+  private detailsPristine = new BehaviorSubject<boolean>(true);
+  detailsPristine$ = this.detailsPristine.asObservable();
+
+  constructor(
+    private http: Http
+  ) {
     super();
   }
 
-  setDataPristine(data: boolean) {
-    this.dataIsPristine.next(data);
+  setDetails(details: PortCallDetailsModel) {
+    // NEW
+    this.setCrewPassengersAndDimensionsData(details);
+    this.setReportingForThisPortCallData(details);
+    // this.setPortCallIdData(details);
+    this.detailsPristine.next(true);
   }
 
-  setPrevPortOfCall(prevPortOfCall: LocationModel) {
-    this.dataIsPristine.next(false);
-    this.prevPortOfCallSource.next(prevPortOfCall);
+  setCrewPassengersAndDimensionsData(data) {
+    // NEW
+    this.detailsPristine.next(false);
+    this.crewPassengersAndDimensionsSource.next(data);
   }
 
-  setNextPortOfCall(nextPortOfCall: LocationModel) {
-    this.dataIsPristine.next(false);
-    this.nextPortOfCallSource.next(nextPortOfCall);
+  setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
+    this.crewPassengersAndDimensionsMeta.next(metaData);
   }
 
-  setPrevPortOfCallEtd(prevPortOfCallEtd) {
-    this.dataIsPristine.next(false);
-    this.prevPortOfCallEtdSource.next(prevPortOfCallEtd);
+  // Reporting
+  // This is a list of checkboxes that specify which FAL forms to include in this port call registration
+
+  setReportingForThisPortCallData(data) {
+    // NEW
+    this.detailsPristine.next(false);
+    this.reportingForThisPortCallSource.next(data);
+  }
+  // Purpose
+
+  setPortCallPurposeData(data) {
+    // NEW
+    this.detailsPristine.next(false);
+    this.portCallPurposeDataSource.next(data);
+  }
+  // User-specified purpose of type "Other"
+  setOtherPurposeName(data) {
+    this.detailsPristine.next(false);
+    this.otherPurposeNameSource.next(data);
   }
 
-  setNextPortOfCallEta(nextPortOfCallEta: Date) {
-    this.dataIsPristine.next(false);
-    this.nextPortOfCallEtaSource.next(nextPortOfCallEta);
+  setOtherPurposeData(data) {
+    // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
+    this.otherPurposeDataSource.next(data);
   }
 
-  setPrevAndNextPortOfCallMeta(metaData: FormMetaData) {
-      this.prevAndNextPortOfCallMeta.next(metaData);
+  setDetailsPristine(isPristine: boolean) {
+    this.detailsPristine.next(isPristine);
   }
+
+  // Get methods
+  getDetailsByPortCallId(portCallId: number) {
+    const uri: string = [this.detailsPortCallUrl, portCallId].join('/');
+    return this.http
+      .get(uri)
+      .map(res => {
+        if (res && res.ok) {
+          return res.json();
+        } else {
+          return res.status;
+        }
+      })
+      .catch(e => {
+        return Observable.of(e);
+      });
+  }
+
+  getPurposeByPortCallId(portCallId: number) {
+    const uri: string = [this.purposePortCallUrl, portCallId].join('/');
+    return this.http
+      .get(uri)
+      .map(res => {
+        return res.json();
+      })
+      .catch(e => {
+        console.log(e);
+        return Observable.of(e);
+      });
+  }
+
+  getOtherName(portCallId: number) {
+    const uri: string = [this.purposeOtherNameUrl, portCallId].join('/');
+    return this.http
+      .get(uri)
+      .map(res => {
+        return res.json();
+      })
+      .catch(e => {
+        console.log(e);
+        return Observable.of(e);
+      });
+  }
+
+  wipeDetailsData() {
+    this.reportingForThisPortCallSource.next(null);
+    this.crewPassengersAndDimensionsSource.next(null);
+    this.portCallPurposeDataSource.next(null);
+    this.otherPurposeNameSource.next('');
+    this.detailsPristine.next(true);
+  }
+
 }

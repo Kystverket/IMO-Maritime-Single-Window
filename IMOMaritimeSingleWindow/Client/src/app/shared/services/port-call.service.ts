@@ -1,39 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { FormMetaData } from '../interfaces/form-meta-data.interface';
-import { PortCallDetailsModel } from '../models/port-call-details-model';
-import { PortCallModel } from '../models/port-call-model';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { LocationModel } from '../models/location-model';
+import { PortCallModel } from '../models/port-call-model';
 import { AuthRequest } from './auth.request.service';
+import { PortCallDetailsService } from './port-call-details.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
-
-
+import { PortCallDetailsModel } from '../models/port-call-details-model';
 
 @Injectable()
 export class PortCallService {
   // Global port call
-  private portCallUrl: string;
-  private portCallUserUrl: string;
-  private updatePortCallStatusAwaitingClearanceUrl: string;
-  private updatePortCallStatusCancelledUrl: string;
-  private updatePortCallStatusClearedUrl: string;
-  private updatePortCallStatusCompletedUrl: string;
-  private updatePortCallStatusDraftUrl: string;
-  // Global purpose
-  private purposePortCallUrl: string;
-  private purposeOtherNameUrl: string;
+  private portCallUrl = 'api/portcall';
+  private portCallUserUrl = 'api/portcall/user';
+  private updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
+  private updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
+  private updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
+  private updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
+  private updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
+
   // Global details
-  private detailsUrl: string;
-  private detailsPortCallUrl: string;
+  private detailsUrl = 'api/portcalldetails';
+  private detailsPortCallUrl = 'api/portcalldetails/portcall';
+
+  // Global purpose
+  private purposePortCallUrl = 'api/purpose/portcall';
+  private purposeOtherNameUrl = 'api/purpose/othername';
+
   // Global clearance
-  private clearanceUrl: string;
-  private clearancePortCallUrl: string;
-  // Subjects
-  private detailsPristine = new BehaviorSubject<boolean>(true);
-  detailsPristine$ = this.detailsPristine.asObservable();
+  private clearanceUrl = 'api/organizationportcall';
+  private clearancePortCallUrl = 'api/organizationportcall/portcall';
 
   // Data sources with observables
   private updateOverviewSource = new BehaviorSubject<any>(null);
@@ -51,28 +48,8 @@ export class PortCallService {
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
 
-  private detailsIdentificationSource = new BehaviorSubject<any>(null);
-  detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
-
-  private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
-  crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
-
-  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({
-    valid: true
-  });
-  crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
-
-  private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
-  reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
-
-  private portCallPurposeDataSource = new BehaviorSubject<any>(null);
-  portCallPurposeData$ = this.portCallPurposeDataSource.asObservable();
-
-  private otherPurposeNameSource = new BehaviorSubject<string>('');
-  otherPurposeName$ = this.otherPurposeNameSource.asObservable();
-
-  private otherPurposeDataSource = new BehaviorSubject<any>(null);
-  otherPurposeData$ = this.otherPurposeDataSource.asObservable();
+  private portCallIdSource = new BehaviorSubject<any>(null);
+  portCallIdData$ = this.portCallIdSource.asObservable();
 
   private clearanceDataSource = new BehaviorSubject<any>(null);
   clearanceData$ = this.clearanceDataSource.asObservable();
@@ -80,25 +57,12 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
-  constructor(private http: Http, private authRequestService: AuthRequest, private prevAndNextPocService: PrevAndNextPocService) {
-    // Port call
-    this.portCallUrl = 'api/portcall';
-    this.portCallUserUrl = 'api/portcall/user';
-    this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
-    this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
-    this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
-    this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
-    this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
-    // Purpose
-    this.purposePortCallUrl = 'api/purpose/portcall';
-    this.purposeOtherNameUrl = 'api/purpose/othername';
-    // Details
-    this.detailsUrl = 'api/portcalldetails';
-    this.detailsPortCallUrl = 'api/portcalldetails/portcall';
-    // Clearance
-    this.clearanceUrl = 'api/organizationportcall';
-    this.clearancePortCallUrl = 'api/organizationportcall/portcall';
-  }
+  constructor(
+    private http: Http,
+    private authRequestService: AuthRequest,
+    private prevAndNextPocService: PrevAndNextPocService,
+    private portCallDetailsService: PortCallDetailsService
+  ) { }
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -133,6 +97,8 @@ export class PortCallService {
    * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: any) {
+    console.log(overview);
+    this.setPortCallIdData(overview.portCall.portCallId);
     // Ship Location Time
     this.setShipData(overview.ship);
     this.setLocationData(overview.location);
@@ -166,10 +132,12 @@ export class PortCallService {
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
+  setPortCallIdData(data) {
+    this.portCallIdSource.next(data);
+  }
 
   // REGISTER NEW PORT CALL
   registerNewPortCall(portCall: PortCallModel) {
-    // NEW
     console.log('Registering new port call...');
     const authHeaders = this.authRequestService.GetHeaders();
     const options = new RequestOptions({ headers: authHeaders });
@@ -179,7 +147,10 @@ export class PortCallService {
   }
   // Set port call status to awaiting clearance
   updatePortCallStatusAwaitingClearance(portCallId: number) {
-    const uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
+    const uri = [
+      this.updatePortCallStatusAwaitingClearanceUrl,
+      portCallId
+    ].join('/');
     console.log('Updating port call status to awaiting clearance...');
     return this.http.post(uri, null).map(res => res.json());
   }
@@ -210,9 +181,7 @@ export class PortCallService {
   updatePortCallStatusDraft(portCallId: number) {
     const uri = [this.updatePortCallStatusDraftUrl, portCallId].join('/');
     console.log('Updating port call status to draft...');
-    return this.http
-      .put(uri, null)
-      .map(res => res.json());
+    return this.http.put(uri, null).map(res => res.json());
   }
 
   // Delete port call draft
@@ -239,88 +208,9 @@ export class PortCallService {
     return this.http.get(uri).map(res => res.json());
   }
 
-  /** * * * * * * * * * * * * *
-   *                           *
-   * == PORT CALL DETAILS ==   *
-   *                           *
-   * * * * * * * * * * * * * * */
-  setDetails(details: PortCallDetailsModel) {
-    // NEW
-    this.setCrewPassengersAndDimensionsData(details);
-    this.setReportingForThisPortCallData(details);
-    this.setDetailsIdentificationData(details);
-    this.detailsPristine.next(true);
-  }
-
-  setDetailsIdentificationData(data) {
-    this.detailsPristine.next(false);
-    this.detailsIdentificationSource.next(data);
-  }
-  // Crew, passengers and dimensions
-
-  setCrewPassengersAndDimensionsData(data) {
-    // NEW
-    this.detailsPristine.next(false);
-    this.crewPassengersAndDimensionsSource.next(data);
-  }
-
-  setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
-    this.crewPassengersAndDimensionsMeta.next(metaData);
-  }
-
-  // Reporting
-  // This is a list of checkboxes that specify which FAL forms to include in this port call registration
-
-  setReportingForThisPortCallData(data) {
-    // NEW
-    this.detailsPristine.next(false);
-    this.reportingForThisPortCallSource.next(data);
-  }
-  // Purpose
-
-  setPortCallPurposeData(data) {
-    // NEW
-    this.detailsPristine.next(false);
-    this.portCallPurposeDataSource.next(data);
-  }
-  // User-specified purpose of type "Other"
-  setOtherPurposeName(data) {
-    this.detailsPristine.next(false);
-    this.otherPurposeNameSource.next(data);
-  }
-
-  setOtherPurposeData(data) {
-    // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
-    this.otherPurposeDataSource.next(data);
-  }
-
-  savePrevAndNextPortCall(portCallId: number, prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
-    // const updatedPortCallData = new PortCallModel();
-    this.getPortCallById(portCallId).subscribe(data => {
-      if (data) {
-        const updatedPortCallData = data;
-        updatedPortCallData.previousLocationId = prevPortOfCall != null ? prevPortOfCall.locationId : null;
-        updatedPortCallData.nextLocationId = nextPortCall != null ? nextPortCall.locationId : null;
-        updatedPortCallData.previousLocationEtd = prevEtd;
-        updatedPortCallData.nextLocationEta = nextEta;
-        console.log(updatedPortCallData);
-        this.updatePortCall(updatedPortCallData).subscribe(
-          result => {
-            console.log(result);
-            this.prevAndNextPocService.setDataPristine(true);
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      }
-    });
-
-
-  }
-
   // SAVE DETAILS
-  saveDetails(details: any, purposes: any, otherName: string) {
+  saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string) {
+    console.log(details);
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
     this.http
@@ -331,6 +221,7 @@ export class PortCallService {
         this.savePurposesForPortCall(details.portCallId, purposes, otherName);
       });
   }
+
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
     if (purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
@@ -339,7 +230,7 @@ export class PortCallService {
         .map(res => res.json())
         .subscribe(removePurposeResponse => {
           if (removePurposeResponse) {
-            this.detailsPristine.next(true);
+            this.portCallDetailsService.setDetailsPristine(true);
           }
         });
     } else {
@@ -356,54 +247,42 @@ export class PortCallService {
         .map(res => res.json())
         .subscribe(purposeResponse => {
           if (purposeResponse) {
-            this.detailsPristine.next(true);
+            this.portCallDetailsService.setDetailsPristine(true);
           }
           console.log('Purposes successfully saved.');
         });
     }
   }
 
-  // Get methods
-  getDetailsByPortCallId(portCallId: number) {
-    const uri: string = [this.detailsPortCallUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          return res.status;
-        }
-      })
-      .catch(e => {
-        return Observable.of(e);
-      });
-  }
-
-  getPurposeByPortCallId(portCallId: number) {
-    const uri: string = [this.purposePortCallUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-        return Observable.of(e);
-      });
-  }
-
-  getOtherName(portCallId: number) {
-    const uri: string = [this.purposeOtherNameUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-        return Observable.of(e);
-      });
+  savePrevAndNextPortCall(
+    portCallId: number,
+    prevPortOfCall: LocationModel,
+    nextPortCall: LocationModel,
+    prevEtd: Date,
+    nextEta: Date
+  ) {
+    // const updatedPortCallData = new PortCallModel();
+    this.getPortCallById(portCallId).subscribe(data => {
+      if (data) {
+        const updatedPortCallData = data;
+        updatedPortCallData.previousLocationId =
+          prevPortOfCall != null ? prevPortOfCall.locationId : null;
+        updatedPortCallData.nextLocationId =
+          nextPortCall != null ? nextPortCall.locationId : null;
+        updatedPortCallData.previousLocationEtd = prevEtd;
+        updatedPortCallData.nextLocationEta = nextEta;
+        console.log(updatedPortCallData);
+        this.updatePortCall(updatedPortCallData).subscribe(
+          result => {
+            console.log(result);
+            this.prevAndNextPocService.setDataPristine(true);
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
+    });
   }
 
   /** * * * * * * * * *
@@ -464,14 +343,6 @@ export class PortCallService {
     this.etaEtdDataSource.next(null);
     this.clearanceListDataSource.next(null);
     // Details
-    this.wipeDetailsData();
-  }
-
-  wipeDetailsData() {
-    this.reportingForThisPortCallSource.next(null);
-    this.crewPassengersAndDimensionsSource.next(null);
-    this.portCallPurposeDataSource.next(null);
-    this.otherPurposeNameSource.next('');
-    this.detailsPristine.next(true);
+    this.portCallDetailsService.wipeDetailsData();
   }
 }

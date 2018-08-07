@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, SimpleChanges, OnChanges, OnDestroy, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -15,14 +15,16 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./ship-stores.component.css']
 })
 export class ShipStoresComponent implements OnInit, OnDestroy {
-  portCallShipStoresList: PortCallShipStoresModel[] = [];
+
+  @Input() portCallId: number;
+
+  portCallShipStoresList: PortCallShipStoresModel[];
 
   portCallShipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
 
-  portCallId: number;
-
   measurementTypeList: Observable<any>;
   selectedMeasurementType: MeasurementTypeModel;
+  measurementTypeSelected: boolean;
 
   listIsPristine: Boolean = true;
 
@@ -76,101 +78,93 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     }
   };
 
-  detailsIdentificationDataSubscription: Subscription;
-
   constructor(
     private shipStoresService: PortCallShipStoresService,
     private portCallService: PortCallService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.portCallShipStoresModel = new PortCallShipStoresModel();
+    this.shipStoresService.getMeasurementTypeList().subscribe(
+      results => {
+        this.measurementTypeList = results;
+      },
+      error => {
+        console.log('Failed to retrieve measurement types from database.');
+      },
+      () => {
+        // This will change when the port calls list changes in the database
+        this.shipStoresService.getShipStoresByPortCallId(this.portCallId).subscribe(
+          list => {
+            if (list && this.portCallShipStoresList == null) {
+              this.portCallShipStoresList = [];
+              this.shipStoresService.setShipStoresInformationData(list);
+            }
+          }
+        );
 
-    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(element => {
-      if (element) {
-        this.portCallShipStoresModel.portCallId = element.portCallId;
-
-        // Subscribe to shipStoresList$ og set lokal liste og dataSource
-        this.shipStoresService.shipStoresList$.subscribe(list => {
-          if (list) {
-            this.portCallShipStoresList = list;
-            this.portCallShipStoresModel.portCallId = element.portCallId;
-
-            // Get measurement types
-            if (!this.measurementTypeList) {
-              this.shipStoresService.getMeasurementTypeList().subscribe(results => {
-                this.measurementTypeList = results;
-                this.shipStoresDataSource.load(this.generateSmartTable());
-              });
-            } else {
+        this.shipStoresService.shipStoresList$.subscribe(
+          list => {
+            if (list) {
+              this.portCallShipStoresList = list;
               this.shipStoresDataSource.load(this.generateSmartTable());
             }
-
-                      /*if (!this.measurementTypeList) {
-            this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
-              this.measurementTypeList = measurementTypeList;
-            });
           }
-          console.log(this.measurementTypeList);*/
-          }
-        });
-
-        // This will change when the port calls list changes in the database
-        this.shipStoresService.getShipStoresByPortCallId(this.portCallShipStoresModel.portCallId).subscribe(list => {
-          this.shipStoresDataSource = new LocalDataSource();
-          this.portCallShipStoresList = [];
-
-          if (list) {
-            this.shipStoresService.setShipStoresInformationData(list);
-          }
-        });
+        );
       }
-    });
+    );
+
   }
 
   ngOnDestroy() {
-    this.detailsIdentificationDataSubscription.unsubscribe();
   }
 
   // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
   generateSmartTable(): any[] {
     const list = [];
     if (this.portCallShipStoresList) {
-    this.portCallShipStoresList.forEach(element => {
-      let measureMentTypeName: string;
-      this.measurementTypeList.forEach(measurementType => {
-        if (measurementType.measurementTypeId === element.measurementTypeId) {
-          measureMentTypeName = measurementType.name;
-        }
-      });
+      this.portCallShipStoresList.forEach(element => {
+        let measureMentTypeName: string;
+        this.measurementTypeList.forEach(measurementType => {
+          if (measurementType.measurementTypeId === element.measurementTypeId) {
+            measureMentTypeName = measurementType.name;
+          }
+        });
 
-      list.push(
-        {
-          sequenceNumber: element.sequenceNumber,
-          articleName: element.articleName,
-          articleCode: element.articleCode,
-          quantity: element.quantity,
-          measurementType: measureMentTypeName,
-          locationOnBoard: element.locationOnBoard,
-          locationOnBoardCode: element.locationOnBoardCode,
-        }
-      );
-    });
+        list.push(
+          {
+            sequenceNumber: element.sequenceNumber,
+            articleName: element.articleName,
+            articleCode: element.articleCode,
+            quantity: element.quantity,
+            measurementType: measureMentTypeName,
+            locationOnBoard: element.locationOnBoard,
+            locationOnBoardCode: element.locationOnBoardCode,
+          }
+        );
+      });
     }
     return list;
   }
 
   // Set measurement type and id of model
-  selectMeasurementType($event) {
-    this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
+  selectMeasurementType(measurementType) {
+    if (measurementType) {
+      this.portCallShipStoresModel.measurementTypeId = measurementType.measurementTypeId;
+      this.measurementTypeSelected = true;
+    } else {
+      this.measurementTypeSelected = false;
+    }
   }
 
   persistData() {
-      this.listIsPristine = false;
-      this.shipStoresService.setDataIsPristine(false);
+    this.listIsPristine = false;
+    this.shipStoresService.setDataIsPristine(false);
+
+    this.portCallShipStoresModel.portCallId = this.portCallId;
+
     // Add sequence number for model to be submitted
     if (this.portCallShipStoresList.length > 0) {
-    this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
+      this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
     } else {
       this.portCallShipStoresModel.sequenceNumber = 1;
     }
@@ -178,6 +172,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     // Add this ship store to local model and create new model
     this.portCallShipStoresList.push(this.portCallShipStoresModel);
     this.portCallShipStoresModel = new PortCallShipStoresModel();
+    this.selectedMeasurementType = null;
 
     // Update value in service
     this.shipStoresService.setShipStoresInformationData(

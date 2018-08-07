@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PortCallService } from '../../../../../../../shared/services/port-call.service';
-import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
+import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
 
 @Component({
   selector: 'app-crew-passengers-dimensions',
@@ -22,10 +22,10 @@ export class CrewPassengersDimensionsComponent implements OnInit, OnDestroy {
 
   crewPassengersAndDimensionsDataSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallDetailsService: PortCallDetailsService) { }
 
   ngOnInit() {
-    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(
       data => {
         if (data) {
           this.crewPassengersAndDimensionsModel = data;
@@ -39,7 +39,7 @@ export class CrewPassengersDimensionsComponent implements OnInit, OnDestroy {
   }
 
   persistData() {
-    this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
+    this.portCallDetailsService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
   }
 
   isValid(valid: boolean): boolean {
@@ -48,6 +48,6 @@ export class CrewPassengersDimensionsComponent implements OnInit, OnDestroy {
   }
 
   private sendMetaData(): void {
-    this.portCallService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
+    this.portCallDetailsService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
   }
 }

@@ -44,6 +44,7 @@ import { SearchPassengerPortComponent } from './registration/forms/passenger-lis
 import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-time.component';
 import { CargoDescriptionComponent } from './registration/forms/port-call-details/cargo-description/cargo-description.component';
+import { PortCallDetailsService } from '../../../shared/services/port-call-details.service';
 
 @NgModule({
   imports: [
@@ -98,6 +99,6 @@ import { CargoDescriptionComponent } from './registration/forms/port-call-detail
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService]
+  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService, PortCallDetailsService]
 })
 export class PortCallModule { }

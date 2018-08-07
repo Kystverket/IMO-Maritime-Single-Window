@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { BaseRequest } from 'app/shared/utils/base.request';
-import { ConfigService } from 'app/shared/utils/config.service';
+import { BaseRequest } from '../utils/base.request';
+import { ConfigService } from '../utils/config.service';
 import { Observable } from 'rxjs/Observable';
 import { AuthRequest } from './auth.request.service';
 

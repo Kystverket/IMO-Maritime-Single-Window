@@ -12,6 +12,7 @@ import { PortCallOverviewService } from 'app/shared/services/port-call-overview.
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { PortCallModel } from 'app/shared/models/port-call-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 
 @Component({
   selector: 'app-button-row',
@@ -42,6 +43,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private prevAndNextService: PrevAndNextPocService,
     private modalService: NgbModal
   ) { }
@@ -215,19 +217,19 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
   setPurpose(content) {
-    this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallDetailsService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       purposeData => {
         if (purposeData) {
           if (purposeData.find(p => p.name === 'Other')) {
-            this.portCallService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
+            this.portCallDetailsService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
               otherNameData => {
-                this.portCallService.setOtherPurposeName(otherNameData);
-                this.portCallService.setPortCallPurposeData(purposeData);
+                this.portCallDetailsService.setOtherPurposeName(otherNameData);
+                this.portCallDetailsService.setPortCallPurposeData(purposeData);
                 this.setDetails(content);
               }
             );
           } else {
-            this.portCallService.setPortCallPurposeData(purposeData);
+            this.portCallDetailsService.setPortCallPurposeData(purposeData);
             this.setDetails(content);
           }
         } else {
@@ -240,16 +242,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
   setDetails(content) {
-    this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallDetailsService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       detailsData => {
         if (detailsData) {
-          this.portCallService.setDetails(detailsData);
+          this.portCallDetailsService.setDetails(detailsData);
         } else {
           console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
           portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
           portCallDetails.portCallId = this.rowData.overviewModel.portCall.portCallId;
-          this.portCallService.setDetails(portCallDetails);
+          this.portCallDetailsService.setDetails(portCallDetails);
         }
         this.contentService.setContent(content);
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { CONTENT_NAMES } from '../constants/content-names';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { BaseService } from './base.service';
 import { LoadingScreen } from '../interfaces/loading-screen.interface';

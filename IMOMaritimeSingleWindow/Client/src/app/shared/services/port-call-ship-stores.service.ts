@@ -6,27 +6,18 @@ import { Http } from '@angular/http';
 @Injectable()
 export class PortCallShipStoresService {
 
-  private shipStoresUrl: string;
-  private shipStoresListUrl: string;
-  private portCallUrl: string;
-  private shipStoresString: string;
-  private portCallShipStoresUrl: string; // Ship stores for a given port call
-  private measurementTypeUrl: string;
+  private shipStoresUrl = 'api/falShipStores';
+  private shipStoresListUrl = 'api/falShipStores/list';
+  private portCallUrl = 'api/portCall';
+  private shipStoresString = 'falShipStores';
+  private measurementTypeUrl = 'api/measurementType';
 
-  constructor(private http: Http) {
-    this.shipStoresUrl = 'api/falShipStores';
-    this.shipStoresListUrl = 'api/falShipStores/list';
-    this.portCallUrl = 'api/portCall';
-    this.shipStoresString = 'falShipStores';
-    this.measurementTypeUrl = 'api/measurementType';
-  }
+  constructor(private http: Http) { }
 
   private shipStoresInformationSource = new BehaviorSubject<any>(null);
   shipStoresList$ = this.shipStoresInformationSource.asObservable();
 
-  private shipStoresInformationMeta = new BehaviorSubject<any>({
-    valid: true
-  });
+  private shipStoresInformationMeta = new BehaviorSubject<any>({ valid: true });
   shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
 
   private dataIsPristine = new BehaviorSubject<boolean>(true);
