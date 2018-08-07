@@ -39,9 +39,12 @@
     </div>
     <div class="row">
       <div class="col">
-        <pre>
-          Remark: {{ entry.consignmentModel.remark}}
-        </pre>
+        <p class="mb-0">Remark:</p>
+        <textarea readonly disabled rows="5" cols="40" style="resize: none" value="{{ entry.consignmentModel.remark }}"></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <button class="btn btn-ssn btn-md" (click)="openModal(consignmentModal, entry.consignmentModel)">
           <img src="assets/images/icons/128x128/white/edit.png" height="24px">
           <span> Edit Consignment</span>
@@ -57,7 +60,7 @@
     <div class="row">
       <div class="col-md-6 col-lg-6">
         <button class="btn btn-ssn btn-md" (click)="openModal(cargoItemModal, entry.consignmentModel)">
-          <span>New Cargo Item</span>
+          <span> New Cargo Item</span>
         </button>
       </div>
     </div>
@@ -95,7 +98,20 @@
     <app-cargo-item-form [cargoItemModel]="openCargoItem"></app-cargo-item-form>
   </div>
   <div class="modal-footer">
-    <button type="btn btn-success" (click)="saveCargoItem(); close">Save</button>
+    <div *ngIf="openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume
+    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages">
+      <button class="btn btn-ssn mt-2" (click)="saveCargoItem(); close">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+    <div *ngIf="!(openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume
+    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages)">
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
   </div>
 </ng-template>
 
@@ -110,6 +126,17 @@
     <app-consignment-form [consignmentModel]="consignmentCopy"></app-consignment-form>
   </div>
   <div class="modal-footer">
-    <button type="btn btn-success" (click)="saveConsignment(); close">Save</button>
+    <div *ngIf="consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId">
+      <button class="btn btn-ssn mt-2" (click)="saveConsignment(); close">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+    <div *ngIf="!(consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId)">
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
   </div>
 </ng-template>

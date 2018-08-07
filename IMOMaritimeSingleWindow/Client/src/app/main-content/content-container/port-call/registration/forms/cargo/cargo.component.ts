@@ -87,31 +87,10 @@ export class CargoComponent implements OnInit, OnDestroy {
 
   saveChanges() {
     this.saving = true;
-    const consignmentList = this.consignmentWithTableDataList.map(entry => {
-      const consignment = new ConsignmentModel();
-      consignment.portCallId = this.portCallId;
-      consignment.name = entry.consignmentModel.name;
-      consignment.portOfLoadingId = entry.consignmentModel.portOfLoadingId;
-      consignment.portOfDischargeId = entry.consignmentModel.portOfDischargeId;
-      consignment.remark = entry.consignmentModel.remark;
-      if (entry.consignmentModel.cargoItem) {
-        consignment.cargoItem = entry.consignmentModel.cargoItem.map(item => {
-          const returnItem = new CargoItemModel();
-          returnItem.shippingMarks = item.shippingMarks;
-          returnItem.containerIdentification = item.containerIdentification;
-          returnItem.description = item.description;
-          returnItem.grossVolume = item.grossVolume;
-          returnItem.grossWeight = item.grossWeight;
-          returnItem.hsCode = item.hsCode;
-          returnItem.numberOfPackages = item.numberOfPackages;
-          returnItem.packageTypeId = item.packageTypeId;
-          return returnItem;
-        });
-      }
-      return consignment;
-    });
-    this.cargoService.setConsignmentListData(this.consignmentWithTableDataList.map(entry => entry.consignmentModel));
-    this.cargoService.saveConsignmentListForPortCall(consignmentList, this.portCallId).subscribe(
+    const consignmentList = this.consignmentWithTableDataList.map(entry => entry.consignmentModel);
+    this.cargoService.setConsignmentListData(consignmentList);
+    const formattedConsignmentList = this.cargoService.formatConsignment(consignmentList);
+    this.cargoService.saveConsignmentListForPortCall(formattedConsignmentList, this.portCallId).subscribe(
       res => {
         this.cargoService.setDataIsPristine(true);
         this.saving = false;
@@ -132,6 +111,7 @@ export class CargoComponent implements OnInit, OnDestroy {
 
   saveConsignment() {
     this.openConsignment = Object.assign(this.openConsignment, this.consignmentCopy);
+    this.openConsignment.portCallId = this.portCallId;
     let loading = null;
     let discharge = null;
     if (this.openConsignment.portOfLoading) {
