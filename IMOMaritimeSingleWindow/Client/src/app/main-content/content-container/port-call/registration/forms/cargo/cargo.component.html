@@ -57,7 +57,7 @@
     <div class="row">
       <div class="col-md-6 col-lg-6">
         <button class="btn btn-ssn btn-md" (click)="openModal(cargoItemModal, entry.consignmentModel)">
-          <span>Add Cargo Item</span>
+          <span>New Cargo Item</span>
         </button>
       </div>
     </div>
@@ -66,25 +66,27 @@
 
 <app-ssn-card [header]="'Save Consignments'">
   <div class="text-center">
-    <div *ngIf="!saving">
-      <button class="btn btn-ssn" (click)="saveChanges()">
-        <img src="assets/images/icons/128x128/white/save.png" height="24px">
-        <span> Save</span>
-      </button>
-    </div>
-    <div *ngIf="saving">
-      <button *ngIf="saving" class="btn btn-ssn" [disabled]="true">
+    <span *ngIf="dataIsPristine">There are no unsaved changes on this page.</span>
+    <br>
+    <div *ngIf="!(saving || dataIsPristine)">
+      <button class="btn btn-ssn mt-2" (click)="saveChanges()">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span> Save Consignments</span>
       </button>
-      <span> Saving...</span>
+    </div>
+    <div *ngIf="saving || dataIsPristine">
+      <button class="btn btn-ssn mt-2" [disabled]="true">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save Consignments</span>
+      </button>
+      <span *ngIf="saving"> Saving...</span>
     </div>
   </div>
 </app-ssn-card>
 
 <ng-template #cargoItemModal let-close="close()">
   <div class="modal-header">
-    <h4 class="modal-title">{{ openCargoItem.name || cargoItemModalHeaderPlaceholder }}</h4>
+    <h4 class="modal-title">{{ cargoItemModalHeader }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -99,7 +101,7 @@
 
 <ng-template #consignmentModal let-close="close()">
   <div class="modal-header">
-    <h4 class="modal-title">{{ consignmentCopy.name || consignmentModalHeaderPlaceholder }}</h4>
+    <h4 class="modal-title">{{ consignmentModalHeader }}</h4>
     <button type="button" class="close" aria-label="Close" (click)="close">
       <span aria-hidden="true">&times;</span>
     </button>

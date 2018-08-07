@@ -3,6 +3,7 @@ import { ConsignmentModel } from 'app/shared/models/consignment-model';
 import { LocationModel } from 'app/shared/models/location-model';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';
 
 @Component({
   selector: 'app-consignment-form',
@@ -11,11 +12,12 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ConsignmentFormComponent implements OnInit, OnDestroy {
   @Input() consignmentModel: ConsignmentModel;
-  consignmentHeader: string;
   placeholderHeader = 'Consignment without name';
 
   portOfLoadingModel: LocationModel = null;
   portOfDischargeModel: LocationModel = null;
+
+  dataIsPristine = true;
 
   portOfLoadingFound = false;
   portOfDischargeFound = false;
@@ -27,12 +29,18 @@ export class ConsignmentFormComponent implements OnInit, OnDestroy {
   portOfDischargeSubscription: Subscription;
 
   constructor(
+    private cargoService: FalCargoService
   ) { }
 
   ngOnInit() {
-    this.consignmentHeader = this.consignmentModel.name || this.placeholderHeader;
-    console.log(this.consignmentModel);
+    this.cargoService.dataIsPristine$.subscribe(
+      data => {
+        this.dataIsPristine = data;
+      }
+    );
     if (this.consignmentModel.portOfLoading) {
+      this.portOfLoadingModel = this.consignmentModel.portOfLoading;
+      this.portOfLoadingFound = true;
       this.onPortOfLoadingResult(this.consignmentModel.portOfLoading);
     }
     if (this.consignmentModel.portOfDischarge) {
@@ -43,15 +51,19 @@ export class ConsignmentFormComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  setProperties(portData, portModel: LocationModel) {
+    LocationProperties.setLocationData(portData, portModel);
+    if (portModel.country) {
+      LocationProperties.setCountry(portData, portModel.country.name, portModel.country.twoCharCode.toLowerCase() + '.png');
+    }
+  }
+
   onPortOfLoadingResult(portOfLoading: LocationModel) {
     this.consignmentModel.portOfLoading = portOfLoading;
     this.consignmentModel.portOfLoadingId = portOfLoading.locationId;
     this.portOfLoadingModel = portOfLoading;
     this.portOfLoadingFound = true;
-    LocationProperties.setLocationData(this.portOfLoadingData, this.portOfLoadingModel);
-    if (this.portOfLoadingModel.country) {
-      LocationProperties.setCountry(this.portOfLoadingData, this.portOfLoadingModel.country.name, this.portOfLoadingModel.country.twoCharCode.toLowerCase() + '.png');
-    }
+    this.setProperties(this.portOfLoadingData, this.portOfLoadingModel);
   }
 
   onPortOfDischargeResult(portOfDischarge: LocationModel) {
@@ -59,10 +71,7 @@ export class ConsignmentFormComponent implements OnInit, OnDestroy {
     this.consignmentModel.portOfDischargeId = portOfDischarge.locationId;
     this.portOfDischargeModel = portOfDischarge;
     this.portOfDischargeFound = true;
-    LocationProperties.setLocationData(this.portOfDischargeData, this.portOfDischargeModel);
-    if (this.portOfDischargeModel.country) {
-      LocationProperties.setCountry(this.portOfDischargeData, this.portOfDischargeModel.country.name, this.portOfDischargeModel.country.twoCharCode.toLowerCase() + '.png');
-    }
+    this.setProperties(this.portOfDischargeData, this.portOfDischargeModel);
   }
 
   deselectPortOfLoading() {
@@ -80,7 +89,7 @@ export class ConsignmentFormComponent implements OnInit, OnDestroy {
   }
 
   touchData() {
-    // not implemented
+    this.cargoService.setDataIsPristine(false);
   }
 
 }

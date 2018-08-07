@@ -11,6 +11,7 @@ import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 
 @Component({
   selector: 'app-button-row',
@@ -42,6 +43,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private prevAndNextService: PrevAndNextPocService,
+    private cargoService: FalCargoService,
     private modalService: NgbModal
   ) { }
 
@@ -198,6 +200,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
           this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
           this.prevAndNextService.setDataPristine(true);
+          this.cargoService.setConsignmentListData(data.portCall.consignment);
+          this.cargoService.setDataIsPristine(true);
           this.setPurpose(content);
         }
       }

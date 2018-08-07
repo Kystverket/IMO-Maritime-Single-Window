@@ -10,18 +10,21 @@ import { CargoItemModel } from 'app/shared/models/cargo-item-model';
 @Component({
   selector: 'app-cargo',
   templateUrl: './cargo.component.html',
-  styleUrls: ['./cargo.component.css'],
-  providers: [FalCargoService]
+  styleUrls: ['./cargo.component.css']
 })
 export class CargoComponent implements OnInit, OnDestroy {
   @Input() portCallId: number;
+  @Input() cargoData: ConsignmentModel[];
 
-  getConsignmentListSubscription: Subscription;
+  consignmentListSubscription: Subscription;
+  dataIsPristineSubscription: Subscription;
 
   openConsignment: ConsignmentModel = null;
   consignmentCopy: ConsignmentModel = null;
   consignmentIsNew = false;
   saving = false;
+
+  dataIsPristine = true;
 
   openCargoItem: CargoItemModel = null;
   cargoItemIsNew = false;
@@ -30,17 +33,46 @@ export class CargoComponent implements OnInit, OnDestroy {
 
   modal: NgbModalRef;
 
-  consignmentModalHeaderPlaceholder = 'New Consignment';
-  cargoItemModalHeaderPlaceholder = 'New Cargo Item';
+  newConsignmentText = 'New Consignment';
+  editConsignmentText = 'Edit Consignmment';
+  consignmentModalHeader: string;
+  newCargoItemText = 'New Cargo Item';
+  editCargoItemText = 'Edit Cargo Item';
+  cargoItemModalHeader: string;
 
   constructor(
     private cargoService: FalCargoService,
     private modalService: NgbModal
   ) { }
 
+  ngOnInit() {
+    if (this.cargoData) {
+      this.consignmentWithTableDataList = this.cargoData.map(c => {
+        const obj = {
+          consignmentModel: c,
+          portOfLoadingData: null,
+          portOfDischargeData: null
+        };
+        return obj;
+      });
+      this.setTableData();
+    }
+    this.dataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.dataIsPristine = pristineData;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.dataIsPristineSubscription.unsubscribe();
+  }
+
   openModal(content, consignment = null, cargoItem = null) {
     this.consignmentIsNew = (consignment == null);
+    this.consignmentModalHeader = this.consignmentIsNew ? this.newConsignmentText : this.editConsignmentText;
     this.cargoItemIsNew = (cargoItem == null);
+    this.cargoItemModalHeader = this.cargoItemIsNew ? this.newCargoItemText : this.editCargoItemText;
     if (this.consignmentIsNew) {
       consignment = new ConsignmentModel();
     } else if (this.cargoItemIsNew) {
@@ -62,29 +94,40 @@ export class CargoComponent implements OnInit, OnDestroy {
       consignment.portOfLoadingId = entry.consignmentModel.portOfLoadingId;
       consignment.portOfDischargeId = entry.consignmentModel.portOfDischargeId;
       consignment.remark = entry.consignmentModel.remark;
-      consignment.cargoItem = entry.consignmentModel.cargoItem.map(item => {
-        const returnItem = new CargoItemModel();
-        returnItem.shippingMarks = item.shippingMarks;
-        returnItem.containerIdentification = item.containerIdentification;
-        returnItem.description = item.description;
-        returnItem.grossVolume = item.grossVolume;
-        returnItem.grossWeight = item.grossWeight;
-        returnItem.hsCode = item.hsCode;
-        returnItem.numberOfPackages = item.numberOfPackages;
-        returnItem.packageTypeId = item.packageTypeId;
-        return returnItem;
-      });
+      if (entry.consignmentModel.cargoItem) {
+        consignment.cargoItem = entry.consignmentModel.cargoItem.map(item => {
+          const returnItem = new CargoItemModel();
+          returnItem.shippingMarks = item.shippingMarks;
+          returnItem.containerIdentification = item.containerIdentification;
+          returnItem.description = item.description;
+          returnItem.grossVolume = item.grossVolume;
+          returnItem.grossWeight = item.grossWeight;
+          returnItem.hsCode = item.hsCode;
+          returnItem.numberOfPackages = item.numberOfPackages;
+          returnItem.packageTypeId = item.packageTypeId;
+          return returnItem;
+        });
+      }
       return consignment;
     });
+    this.cargoService.setConsignmentListData(this.consignmentWithTableDataList.map(entry => entry.consignmentModel));
     this.cargoService.saveConsignmentListForPortCall(consignmentList, this.portCallId).subscribe(
       res => {
+        this.cargoService.setDataIsPristine(true);
         this.saving = false;
         console.log(res);
       }, error => {
+        this.cargoService.setDataIsPristine(true);
         this.saving = false;
         console.error(error);
       }
     );
+  }
+
+  touchData() {
+    const consignmentList = this.consignmentWithTableDataList.map(entry => entry.consignmentModel);
+    this.cargoService.setConsignmentListData(consignmentList);
+    this.cargoService.setDataIsPristine(false);
   }
 
   saveConsignment() {
@@ -106,6 +149,7 @@ export class CargoComponent implements OnInit, OnDestroy {
       this.consignmentWithTableDataList.unshift(obj);
     }
     this.setTableData();
+    this.touchData();
   }
 
   saveCargoItem() {
@@ -115,6 +159,7 @@ export class CargoComponent implements OnInit, OnDestroy {
       }
       this.openConsignment.cargoItem = [...this.openConsignment.cargoItem, this.openCargoItem];
     }
+    this.touchData();
   }
 
   setTableData() {
@@ -141,25 +186,5 @@ export class CargoComponent implements OnInit, OnDestroy {
     return portOfLoadingData;
   }
 
-  ngOnInit() {
-    this.getConsignmentListSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId).subscribe(
-      consignmentListResult => {
-        if (consignmentListResult) {
-          this.consignmentWithTableDataList = consignmentListResult.map(c => {
-            const obj = {
-              consignmentModel: c,
-              portOfLoadingData: null,
-              portOfDischargeData: null
-            };
-            return obj;
-          });
-          this.setTableData();
-        }
-      }
-    );
-  }
-
-  ngOnDestroy() {
-  }
 
 }

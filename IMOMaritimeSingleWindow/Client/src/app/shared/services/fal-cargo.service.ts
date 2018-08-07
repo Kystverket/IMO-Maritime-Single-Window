@@ -20,6 +20,13 @@ export class FalCargoService {
     private consignmentListSource = new BehaviorSubject<ConsignmentModel[]>(null);
     consignmentListData$ = this.consignmentListSource.asObservable();
 
+    private dataIsPristineSource = new BehaviorSubject<boolean>(true);
+    dataIsPristine$ = this.dataIsPristineSource.asObservable();
+
+    setDataIsPristine(data: boolean) {
+        this.dataIsPristineSource.next(data);
+    }
+
     setConsignmentListData(data: ConsignmentModel[]) {
         this.consignmentListSource.next(data);
     }

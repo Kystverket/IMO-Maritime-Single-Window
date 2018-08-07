@@ -1,4 +1,4 @@
-<app-ssn-card [header]="consignmentHeader" icon="cargo.png">
+<app-ssn-card [header]="consignmentModel.name || placeholderHeader" icon="cargo.png">
   <form #form="ngForm">
 
     <div class="row">
@@ -41,8 +41,7 @@
       <div class="col">
         <div class="form-group">
           <label class="col-form-label-sm no-wrap mb-0" for="remark">Remark</label>
-          <textarea [(ngModel)]="consignmentModel.remark" (ngModelChange)="touchData()" name="remark" class="form-control form-control-sm"
-            rows="4" id="remark"></textarea>
+          <textarea [(ngModel)]="consignmentModel.remark" name="remark" class="form-control form-control-sm" rows="4" id="remark"></textarea>
         </div>
       </div>
     </div>
