@@ -34,6 +34,48 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpGet("{portCallId}/consignments")]
+        public IActionResult GetConsignments(int portCallId)
+        {
+            var consignments = _context.Consignment.Where(consignment => consignment.PortCallId == portCallId)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.CargoItem)
+                                                        .ThenInclude(cargoItem => cargoItem.PackageType)
+                                                    .ToList();
+            if (consignments == null)
+            {
+                return NotFound();
+            }
+            return Json(consignments);
+        }
+
+        [HttpPut("{portCallId}/consignments")]
+        public IActionResult UpdateConsignmentList([FromBody] List<Consignment> consignmentList, int portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Consignment.RemoveRange(_context.Consignment.Where(c => c.PortCallId == portCallId).Include(c => c.CargoItem));
+                _context.Consignment.AddRange(consignmentList);
+                _context.SaveChanges();
+                return Json(consignmentList);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("{portCallId}/personOnBoard")]
         public IActionResult GetAllPersonOnBoardByPortCall(int portCallId)
         {
@@ -146,8 +188,6 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
-            overview.PreviousLocation = portCall.PreviousLocation;
-            overview.NextLocation = portCall.NextLocation;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList
@@ -180,7 +220,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.PersonOnBoard).ThenInclude(pob => pob.PersonOnBoardType)
             .Include(pc => pc.PersonOnBoard).ThenInclude(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
             .Include(pc => pc.PersonOnBoard).ThenInclude(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
-            .Include(pc => pc.PortCallStatus).FirstOrDefault();
+            .Include(pc => pc.PortCallStatus)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfLoading)
+                    .ThenInclude(location => location.Country)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfLoading)
+                    .ThenInclude(location => location.LocationType)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfDischarge)
+                    .ThenInclude(location => location.Country)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfDischarge)
+                    .ThenInclude(location => location.LocationType)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.CargoItem)
+                    .ThenInclude(cargoItem => cargoItem.PackageType)
+            .FirstOrDefault();
+
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 
@@ -286,8 +343,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        [HttpPost("updatestatus/active/{portCallId}")]
-        public IActionResult SetStatusActive(int portCallId)
+        [HttpPost("updatestatus/awaitingclearance/{portCallId}")]
+        public IActionResult SetStatusAwaitingClearance(int portCallId)
         {
             try
             {
@@ -296,9 +353,62 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
                 PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
-                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_ACTIVE;
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_AWAITING_CLEARANCE;
                 _context.Update(portCall);
                 _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPost("updatestatus/cleared/{portCallId}")]
+        public IActionResult SetStatusCleared(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPost("updatestatus/completed/{portCallId}")]
+        public IActionResult SetStatusCompleted(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_COMPLETED;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
@@ -319,6 +429,33 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 PortCall portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == portCallId);
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CANCELLED;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Json(portCall);
+            }
+            catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
+            {
+                Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
+                return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+        }
+
+        [HttpPut("updateStatus/draft/{portCallId}")]
+        public IActionResult SetStatusDraft(int portCallId)
+        {
+            try
+            {
+                if (!_context.PortCall.Any(pc => pc.PortCallId == portCallId))
+                {
+                    return NotFound("Port call with id: " + portCallId + " could not be found in database.");
+                }
+                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).Include(pc => pc.OrganizationPortCall).FirstOrDefault();
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
+                foreach (OrganizationPortCall opc in portCall.OrganizationPortCall)
+                {
+                    opc.Cleared = null;
+                    opc.Remark = null;
+                }
                 _context.Update(portCall);
                 _context.SaveChanges();
                 return Json(portCall);

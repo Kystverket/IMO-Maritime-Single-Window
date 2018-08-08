@@ -1,0 +1,23 @@
+<div *ngIf="started">
+  <div *ngIf="actionSucceeded" class="alert-success" role="alert">
+    <h5>Success</h5>
+    <span>{{successMessage}}</span>
+  </div>
+  <div *ngIf="!actionSucceeded" class="alert alert-danger" role="alert">
+    <h5>Error</h5>
+    <p>{{errors}}</p>
+    <p>{{errorDescription}}</p>
+  </div>
+</div>
+
+<!-- <div *ngIf="props.started">
+  <div *ngIf="props.actionSucceeded" class="alert-success" role="alert">
+    <h5>Success</h5>
+    <span>{{props.successMessage}}</span>
+  </div>
+  <div *ngIf="!actionSucceeded" class="alert alert-danger" role="alert">
+    <h5>Error</h5>
+    <p>{{props.errors}}</p>
+    <p>{{props.errorDescription}}</p>
+  </div>
+</div> -->
