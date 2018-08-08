@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
@@ -15,8 +15,9 @@ export class SetActualTimeComponent implements OnInit {
 
   @Input() portCallModel: PortCallModel;
 
-  @Output() statusChangedToComplete = new EventEmitter();
-  @Output() statusChangedToCleared = new EventEmitter();
+  @Output() portCallModelChange = new EventEmitter<PortCallModel>();
+
+  modalRef: NgbModalRef;
 
   portCallAta: DateTime = {
     date: null,
@@ -137,16 +138,16 @@ export class SetActualTimeComponent implements OnInit {
         if (null != result.locationAtd) {
           this.portCallService.updatePortCallStatusCompleted(result.portCallId).subscribe(
             res => {
+              this.portCallModel = res;
               console.log('Status set to completed.');
-              this.statusChangedToComplete.emit();
             },
             err => console.log(err)
           );
         } else {
           this.portCallService.updatePortCallStatusCleared(result.portCallId).subscribe(
             res => {
+              this.portCallModel = res;
               console.log('Status set to cleared.');
-              this.statusChangedToCleared.emit();
             },
             err => console.log(err)
           );
@@ -162,13 +163,23 @@ export class SetActualTimeComponent implements OnInit {
     );
   }
 
-  openModal(content: any) {
-    console.log(this.portCallAta);
-    console.log(this.portCallAtd);
+  openModal(content) {
     this.saving = false;
     this.saved = false;
     this.saveError = false;
-    this.modalService.open(content, {size: 'lg'});
+    this.modalService.open(content, {size: 'lg'}).result.then(
+      (result) => {
+        this.modalClosed();
+      },
+      (reason) => {
+        this.modalClosed();
+      });
+  }
+
+  modalClosed() {
+    if (this.saved) {
+      this.portCallModelChange.emit(this.portCallModel);
+    }
   }
 
 }

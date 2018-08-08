@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SearchService } from 'app/shared/services/search.service';
 
@@ -9,7 +9,7 @@ export class SearchShipFlagCodeService {
     private searchService: SearchService;
     private searchUrl: string;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.searchService = new SearchService(http);
         this.searchUrl = 'api/shipflagcode/search';
     }

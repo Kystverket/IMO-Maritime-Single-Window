@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
@@ -7,8 +6,8 @@ import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { LocationModel } from '../models/location-model';
-import { AuthRequest } from './auth.request.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { HttpClient } from '../../../../node_modules/@angular/common/http';
 
 
 
@@ -80,7 +79,7 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
-  constructor(private http: Http, private authRequestService: AuthRequest, private prevAndNextPocService: PrevAndNextPocService) {
+  constructor(private http: HttpClient, private prevAndNextPocService: PrevAndNextPocService) {
     // Port call
     this.portCallUrl = 'api/portcall';
     this.portCallUserUrl = 'api/portcall/user';
@@ -146,13 +145,10 @@ export class PortCallService {
     this.setPortCallStatus(overview.status);
   }
 
-  updatePortCall(portCall: PortCallModel) {
+  updatePortCall(portCall: PortCallModel): Observable<any> {
     console.log('Updating port call...');
-    const authHeaders = this.authRequestService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeaders });
     return this.http
-      .put(this.portCallUrl, portCall, options)
-      .map(res => res.json());
+      .put(this.portCallUrl, portCall);
   }
   setShipData(data) {
     this.shipDataSource.next(data);
@@ -168,32 +164,30 @@ export class PortCallService {
   }
 
   // REGISTER NEW PORT CALL
-  registerNewPortCall(portCall: PortCallModel) {
+  registerNewPortCall(portCall: PortCallModel): Observable<PortCallModel> {
     // NEW
     console.log('Registering new port call...');
-    const authHeaders = this.authRequestService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeaders });
     const uri: string = this.portCallUrl;
     this.setPortCallStatus('Draft');
-    return this.http.post(uri, portCall, options).map(res => res.json());
+    return this.http.post<PortCallModel>(uri, portCall);
   }
   // Set port call status to awaiting clearance
   updatePortCallStatusAwaitingClearance(portCallId: number) {
     const uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
     console.log('Updating port call status to awaiting clearance...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to cleared
-  updatePortCallStatusCleared(portCallId: number) {
+  updatePortCallStatusCleared(portCallId: number): Observable<any> {
     const uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
     console.log('Updating port call status to cleared...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to completed
-  updatePortCallStatusCompleted(portCallId: number) {
+  updatePortCallStatusCompleted(portCallId: number): Observable<any> {
     const uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
     console.log('Updating port call status to completed...');
-    return this.http.post(uri, null).map(res => res.json());
+    return this.http.post(uri, null);
   }
   // Set port call status to cancelled
   updatePortCallStatusCancelled(portCallId: number) {
@@ -201,7 +195,6 @@ export class PortCallService {
     console.log('Updating port call status to cancelled...');
     this.http
       .post(uri, null)
-      .map(res => res.json())
       .subscribe(updateStatusResponse => {
         console.log('Port call successfully cancelled.');
       });
@@ -212,31 +205,25 @@ export class PortCallService {
     console.log('Updating port call status to draft...');
     return this.http
       .put(uri, null)
-      .map(res => res.json());
+      .map(res => res);
   }
 
   // Delete port call draft
   deletePortCallDraft(portCall: PortCallModel) {
     console.log('Deleting port call...');
-    const authHeaders = this.authRequestService.GetHeaders();
-    const options = new RequestOptions({
-      headers: authHeaders,
-      body: portCall
-    });
     const uri: string = this.portCallUrl;
-
-    return this.http.delete(uri, options).map(res => res.json());
+    return this.http.delete(uri);
   }
   // Get methods
-  getPortCallById(portCallId: number) {
+  getPortCallById(portCallId: number): Observable<PortCallModel> {
     const uri: string = [this.portCallUrl, portCallId].join('/');
 
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<PortCallModel>(uri);
   }
 
-  getPortCallsByUserId(userId: number) {
+  getPortCallsByUserId(userId: number): Observable<PortCallModel[]> {
     const uri: string = [this.portCallUserUrl, userId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<PortCallModel[]>(uri);
   }
 
   /** * * * * * * * * * * * * *
@@ -295,7 +282,6 @@ export class PortCallService {
   }
 
   savePrevAndNextPortCall(portCallId: number, prevPortOfCall: LocationModel, nextPortCall: LocationModel, prevEtd: Date, nextEta: Date) {
-    // const updatedPortCallData = new PortCallModel();
     this.getPortCallById(portCallId).subscribe(data => {
       if (data) {
         const updatedPortCallData = data;
@@ -303,7 +289,6 @@ export class PortCallService {
         updatedPortCallData.nextLocationId = nextPortCall != null ? nextPortCall.locationId : null;
         updatedPortCallData.previousLocationEtd = prevEtd;
         updatedPortCallData.nextLocationEta = nextEta;
-        console.log(updatedPortCallData);
         this.updatePortCall(updatedPortCallData).subscribe(
           result => {
             console.log(result);
@@ -325,7 +310,6 @@ export class PortCallService {
     console.log('Saving port call details...');
     this.http
       .post(this.detailsUrl, details)
-      .map(res => res.json())
       .subscribe(detailsResponse => {
         console.log('Successfully saved port call details.');
         this.savePurposesForPortCall(details.portCallId, purposes, otherName);
@@ -336,7 +320,6 @@ export class PortCallService {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http
         .delete(uri, null)
-        .map(res => res.json())
         .subscribe(removePurposeResponse => {
           if (removePurposeResponse) {
             this.detailsPristine.next(true);
@@ -353,7 +336,7 @@ export class PortCallService {
       console.log('Saving port call purposes to database...');
       this.http
         .put(this.purposePortCallUrl, pcHasPurposeList)
-        .map(res => res.json())
+
         .subscribe(purposeResponse => {
           if (purposeResponse) {
             this.detailsPristine.next(true);
@@ -364,44 +347,29 @@ export class PortCallService {
   }
 
   // Get methods
-  getDetailsByPortCallId(portCallId: number) {
+  getDetailsByPortCallId(portCallId: number): Observable<any> {
     const uri: string = [this.detailsPortCallUrl, portCallId].join('/');
     return this.http
       .get(uri)
-      .map(res => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          return res.status;
-        }
-      })
       .catch(e => {
         return Observable.of(e);
       });
   }
 
-  getPurposeByPortCallId(portCallId: number) {
+  getPurposeByPortCallId(portCallId: number): Observable<any> {
     const uri: string = [this.purposePortCallUrl, portCallId].join('/');
     return this.http
       .get(uri)
-      .map(res => {
-        return res.json();
-      })
       .catch(e => {
-        console.log(e);
         return Observable.of(e);
       });
   }
 
-  getOtherName(portCallId: number) {
+  getOtherName(portCallId: number): Observable<any> {
     const uri: string = [this.purposeOtherNameUrl, portCallId].join('/');
     return this.http
       .get(uri)
-      .map(res => {
-        return res.json();
-      })
       .catch(e => {
-        console.log(e);
         return Observable.of(e);
       });
   }
@@ -427,7 +395,6 @@ export class PortCallService {
     console.log('Saving clearance to database...');
     this.http
       .put(this.clearanceUrl, clearanceModel)
-      .map(res => res.json())
       .subscribe(
         data => {
           console.log('Clearance saved successfully.');
@@ -438,9 +405,9 @@ export class PortCallService {
       );
   }
 
-  getClearanceListForPortCall(portCallId: number) {
+  getClearanceListForPortCall(portCallId: number): Observable<any> {
     const uri: string = [this.clearancePortCallUrl, portCallId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
@@ -448,7 +415,6 @@ export class PortCallService {
     // NEW
     this.http
       .post(this.clearanceUrl, portCall)
-      .map(res => res.json())
       .subscribe(clearanceData => {
         console.log(
           'Clearance agency information successfully added to port call.'

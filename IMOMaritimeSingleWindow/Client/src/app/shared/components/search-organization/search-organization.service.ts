@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
+import { OrganizationModel } from '../../models/organization-model';
 
 @Injectable()
 export class SearchOrganizationService {
@@ -10,7 +11,7 @@ export class SearchOrganizationService {
   private searchUrl: string;
   private organizationUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/organization/search';
     this.organizationUrl = 'api/organization';
@@ -23,9 +24,8 @@ export class SearchOrganizationService {
     return this.searchService.search(this.searchUrl, term, amount);
   }
 
-  getorganization(id: number) {
+  getorganization(id: number): Observable<OrganizationModel> {
     const uri = [this.organizationUrl, id].join('/');
-    return this.http.get(uri)
-      .map(res => res.json());
+    return this.http.get<OrganizationModel>(uri);
   }
 }

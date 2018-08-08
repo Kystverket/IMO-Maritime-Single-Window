@@ -11,6 +11,7 @@ import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { PortCallModel } from 'app/shared/models/port-call-model';
 
 @Component({
   selector: 'app-button-row',
@@ -102,6 +103,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   openModal(content: any) {
     this.modalService.open(content);
+  }
+
+  onPortCallModelChange(portCallModel: PortCallModel) {
+    console.log(portCallModel);
+    const pcId = this.rowData.overviewModel.portCall.portCallId;
+    this.rowData.overviewModel.status = portCallModel.portCallStatus.name;
+    this.portCallIsCleared = (this.rowData.overviewModel.status === PortCallStatusTypes.CLEARED);
+    this.portCallIsCompleted = (this.rowData.overviewModel.status === PortCallStatusTypes.COMPLETED);
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = portCallModel.portCallStatus.name;
+    this.overviewService.setOverviewData(this.overviewData);
   }
 
   onCompletePortCall() {

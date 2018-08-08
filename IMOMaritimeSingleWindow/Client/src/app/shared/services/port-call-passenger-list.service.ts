@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Observable } from 'rxjs/Observable';
 import { CountryService } from './country.service';
 import { PassengerModel } from '../models/port-call-passenger-model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class PortCallPassengerListService {
 
   personOnBoardListUrl: string;
 
-  constructor(private http: Http, private countryService: CountryService) {
+  constructor(private http: HttpClient, private countryService: CountryService) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
   }
 
@@ -30,14 +30,14 @@ export class PortCallPassengerListService {
   passengerModel$ = this.passengerModelSource.asObservable();
 
   // Http
-  registerPassengerList(passengerList: any[]) {
+  registerPassengerList(passengerList: any[]): Observable<any> {
     const uri = this.personOnBoardListUrl;
-    return this.http.post(uri, passengerList).map(res => res.json());
+    return this.http.post(uri, passengerList);
   }
 
-  updatePassengerList(passengerList: any[]) {
+  updatePassengerList(passengerList: any[]): Observable<any> {
     const uri = this.personOnBoardListUrl;
-    return this.http.put(uri, passengerList).map(res => res.json());
+    return this.http.put(uri, passengerList);
   }
 
   setPassengersList(data) {
@@ -69,7 +69,7 @@ export class PortCallPassengerListService {
     this.passengerModelSource.next(data);
   }
 
-  searchCountry(term: string, amount = 10) {
+  searchCountry(term: string, amount = 10): Observable<any> {
     if (term.length < 1) {
       return Observable.of([]);
     }
