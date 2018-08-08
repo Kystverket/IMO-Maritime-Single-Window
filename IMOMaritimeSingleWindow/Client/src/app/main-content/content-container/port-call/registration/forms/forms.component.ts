@@ -40,10 +40,10 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.cargoData = data;
       }
     );
-    this.portCallIdSubscription = this.portCallService.detailsIdentificationData$.subscribe(
-      idResult => {
-        if (idResult) {
-          this.portCallId = idResult.portCallId;
+    this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
+      portCallIdData => {
+        if (portCallIdData) {
+          this.portCallId = portCallIdData;
         }
       }
     );

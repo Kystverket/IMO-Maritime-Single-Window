@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
+import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { PortCallShipStoresModel } from '../models/port-call-ship-stores-model';
 
 @Injectable()
-export class PortCallShipStoresService {
+export class FalShipStoresService {
 
   private shipStoresUrl = 'api/falShipStores';
   private shipStoresListUrl = 'api/falShipStores/list';
@@ -14,7 +15,7 @@ export class PortCallShipStoresService {
 
   constructor(private http: Http) { }
 
-  private shipStoresInformationSource = new BehaviorSubject<any>(null);
+  private shipStoresInformationSource = new BehaviorSubject<PortCallShipStoresModel[]>(null);
   shipStoresList$ = this.shipStoresInformationSource.asObservable();
 
   private shipStoresInformationMeta = new BehaviorSubject<any>({ valid: true });
@@ -79,6 +80,7 @@ export class PortCallShipStoresService {
 
   // Update shipStoresInformationData
   setShipStoresInformationData(data) {
+    console.log(data);
     this.shipStoresInformationSource.next(data);
   }
 
@@ -96,44 +98,29 @@ export class PortCallShipStoresService {
   }
 
   // Delete port call draft
-  deleteShipStoreEntry(data) {
-    let copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
-    data = JSON.stringify(this.createComparableObject(data));
+  deleteShipStoreEntry(sequenceNumber) {
+    let shipStoresList = this.shipStoresInformationSource.getValue();
 
-    // Find clicked item
-    copyShipStoresInformationSource.forEach((item, index) => {
-      item = JSON.stringify(this.createComparableObject(item));
-      if (item === data) {
-        copyShipStoresInformationSource.splice(index, 1);
-      }
-    });
+    const shipStoreToDeleteIndex = shipStoresList.findIndex(st => st.sequenceNumber === sequenceNumber);
 
-    // Reset all sequenceNumbers
-    copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
-    this.setShipStoresInformationData(copyShipStoresInformationSource);
+    if (shipStoreToDeleteIndex !== -1) {
+      shipStoresList.splice(shipStoreToDeleteIndex, 1);
+      // Reset all sequenceNumbers
+      shipStoresList = this.setSequenceNumbers(shipStoresList);
+      this.setShipStoresInformationData(shipStoresList);
 
-    // Set dataIsPristine to false (data is touched)
-    this.setDataIsPristine(false);
+      // Set dataIsPristine to false (data is touched)
+      this.setDataIsPristine(false);
+    } else {
+      console.log('Something went wrong when trying to delete ship store');
+    }
   }
-
 
   /******************
    *
    *  HELP METHODS
    *
    ******************/
-
-  createComparableObject(item) {
-    const object = {
-      sequenceNumber: item.sequenceNumber,
-      articleCode: item.articleCode,
-      articleName: item.articleName,
-      locationOnBoard: item.locationOnBoard,
-      locationOnBoardCode: item.locationOnBoardCode,
-      quantity: item.quantity,
-    };
-    return object;
-  }
 
   setSequenceNumbers(list) {
     let tempSequenceNumber = 1;

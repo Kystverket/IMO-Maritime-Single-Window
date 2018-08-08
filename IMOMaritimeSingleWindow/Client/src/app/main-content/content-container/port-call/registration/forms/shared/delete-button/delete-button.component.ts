@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { ViewCell } from 'ng2-smart-table';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
@@ -30,7 +30,7 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
 
   constructor(
     private modalService: NgbModal,
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private passengerService: PortCallPassengerListService,
     private contentService: ContentService
   ) { }
@@ -57,7 +57,7 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
   }
 
   deleteShipStoreEntry() {
-    this.shipStoresService.deleteShipStoreEntry(this.rowData);
+    this.shipStoresService.deleteShipStoreEntry(this.rowData.sequenceNumber);
   }
 
   deletePassengerEntry() {

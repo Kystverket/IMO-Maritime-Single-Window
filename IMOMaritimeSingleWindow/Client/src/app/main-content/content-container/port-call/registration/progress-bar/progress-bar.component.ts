@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
@@ -62,7 +62,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService
   ) { }
 

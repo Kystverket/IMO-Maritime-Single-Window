@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, SimpleChanges, OnChanges, OnDestroy, Inpu
 import { NgForm } from '@angular/forms';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 import { LocalDataSource } from 'ng2-smart-table';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Observable } from 'rxjs/Observable';
@@ -79,7 +79,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private portCallService: PortCallService
   ) { }
 

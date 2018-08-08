@@ -1,9 +1,10 @@
-import { Injectable } from '../../../../node_modules/@angular/core';
-import { HttpClient } from '../../../../node_modules/@angular/common/http';
-import { BehaviorSubject, Observable } from '../../../../node_modules/rxjs';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PackageTypeModel } from 'app/shared/models/package-type-model';
-import { CargoItemModel } from 'app/shared/models/cargo-item-model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConsignmentModel } from '../models/consignment-model';
+import { PackageTypeModel } from '../models/package-type-model';
+import { CargoItemModel } from '../models/cargo-item-model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FalCargoService {

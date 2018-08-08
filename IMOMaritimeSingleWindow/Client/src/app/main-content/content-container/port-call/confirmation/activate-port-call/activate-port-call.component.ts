@@ -13,7 +13,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
@@ -84,7 +84,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private portCallService: PortCallService,
     private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPocService: PrevAndNextPocService,
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal
   ) { }

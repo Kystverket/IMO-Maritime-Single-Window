@@ -1,5 +1,5 @@
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { LocationModel } from 'app/shared/models/location-model';
+import { PortCallModel } from './port-call-model';
+import { LocationModel } from './location-model';
 import { CargoItemModel } from './cargo-item-model';
 
 export class ConsignmentModel {

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
 
 import { PortCallService } from 'app/shared/services/port-call.service';
@@ -24,7 +24,7 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
   shipStoresListSubscription: Subscription;
 
   constructor(
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private portCallService: PortCallService
   ) { }
 
