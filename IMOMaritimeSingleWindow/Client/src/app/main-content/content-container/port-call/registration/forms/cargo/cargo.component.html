@@ -1,11 +1,14 @@
 <app-ssn-card [header]="'New Consignment'">
-  <button class="btn btn-ssn btn-lg" (click)="openModal(consignmentModal)">New Consignment</button>
+  <div class="text-center">
+    <button class="btn btn-ssn" (click)="openModal(consignmentModal)">New Consignment</button>
+  </div>
 </app-ssn-card>
-<div *ngFor="let entry of consignmentWithTableDataList">
-  <app-ssn-card [header]="entry.consignmentModel.name || 'Consignment without name'" [collapsible]="true">
+
+<div *ngFor="let entry of consignmentWithTableDataList" class="text-center">
+  <app-ssn-card [header]="'Consignment: ' + entry.consignmentModel.name" [collapsible]="true">
     <div class="row">
-      <div class="col-md-6 col-lg-6">
-        <div class="text-center" *ngIf="entry.portOfLoadingData">
+      <div class="col-md-6">
+        <div *ngIf="entry.portOfLoadingData">
           <table class="table table-bordered text-center mx-auto mb-0">
             <thead class="bg-ssn text-white">
               <tr>
@@ -20,8 +23,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 col-lg-6">
-        <div class="text-center" *ngIf="entry.portOfDischargeData">
+      <div class="col-md-6">
+        <div *ngIf="entry.portOfDischargeData">
           <table class="table table-bordered text-center mx-auto mb-0">
             <thead class="bg-ssn text-white">
               <tr>
@@ -37,29 +40,32 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row text-left">
       <div class="col">
         <p class="mb-0">Remark:</p>
-        <textarea readonly disabled rows="5" cols="40" style="resize: none" value="{{ entry.consignmentModel.remark }}"></textarea>
+        <textarea class="col-md-6" readonly disabled rows="5" style="resize: none" value="{{ entry.consignmentModel.remark }}"></textarea>
       </div>
     </div>
-    <div class="row">
+    <div class="row py-2">
       <div class="col">
-        <button class="btn btn-ssn btn-md" (click)="openModal(consignmentModal, entry.consignmentModel)">
-          <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <button class="btn btn-ssn btn-sm" (click)="openModal(consignmentModal, entry.consignmentModel)">
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px">
           <span> Edit Consignment</span>
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="openModal(deleteConsignmentModal, entry.consignmentModel)">
+          <img src="assets/images/icons/128x128/white/trash.png" height="20px">
+          <span> Delete Consignment</span>
         </button>
       </div>
     </div>
-    <br>
     <div class="row">
       <div class="col">
-        <app-cargo-table *ngIf="entry.consignmentModel.cargoItem" [cargoItemList]="entry.consignmentModel.cargoItem"></app-cargo-table>
+        <app-cargo-table *ngIf="entry.consignmentModel.cargoItem" [cargoItemList]="entry.consignmentModel.cargoItem" (delete)="onDeleteCargoItem($event)"></app-cargo-table>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-lg-6">
-        <button class="btn btn-ssn btn-md" (click)="openModal(cargoItemModal, entry.consignmentModel)">
+    <div class="row text-left">
+      <div class="col-md-6">
+        <button class="btn btn-ssn btn-sm" (click)="openModal(cargoItemModal, entry.consignmentModel)">
           <span> New Cargo Item</span>
         </button>
       </div>
@@ -69,16 +75,15 @@
 
 <app-ssn-card [header]="'Save Consignments'">
   <div class="text-center">
-    <span *ngIf="dataIsPristine">There are no unsaved changes on this page.</span>
-    <br>
+    <span class="my-2" *ngIf="dataIsPristine">There are no unsaved changes on this page.</span>
     <div *ngIf="!(saving || dataIsPristine)">
-      <button class="btn btn-ssn mt-2" (click)="saveChanges()">
+      <button class="btn btn-ssn my-1" (click)="saveChanges()">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span> Save Consignments</span>
       </button>
     </div>
     <div *ngIf="saving || dataIsPristine">
-      <button class="btn btn-ssn mt-2" [disabled]="true">
+      <button class="btn btn-ssn my-1" [disabled]="true">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span> Save Consignments</span>
       </button>
@@ -138,5 +143,31 @@
         <span> Save</span>
       </button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteConsignmentModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Deletion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>Delete the consignment "{{ consignmentCopy.name || 'Consignment without name' }}" and all cargo items belonging to
+        it?
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger mt-2" (click)="deleteConsignment(); close">
+      <img src="assets/images/icons/128x128/white/trash.png" height="24px">
+      <span> Delete</span>
+    </button>
+    <button class="btn btn-ssn mt-2" (click)="close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <span> Cancel</span>
+    </button>
   </div>
 </ng-template>
