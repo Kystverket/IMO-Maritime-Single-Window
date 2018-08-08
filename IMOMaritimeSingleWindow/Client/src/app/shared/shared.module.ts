@@ -75,7 +75,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     SsnTableComponent,
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
-    FeedbackComponent
+    ContactSelectComponent,
+    FeedbackComponent,
     CargoInfoTableComponent
   ],
   exports: [
