@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

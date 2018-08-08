@@ -43,6 +43,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        // moved to PortCallController
         [HttpPut("list")]
         public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList, long portCallId)
         {
@@ -55,7 +56,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 if (!shipStoresList.Any())
                 {
                     _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(s => s.PortCallId == portCallId));
-                } else
+                }
+                else
                 {
                     var oldList = _context.FalShipStores.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
                     var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId)).ToList();
@@ -63,10 +65,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                     foreach (FalShipStores shipStoresEntity in shipStoresList)
                     {
-                        if ( _context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                        if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
                         {
                             _context.FalShipStores.Update(shipStoresEntity);
-                        } else
+                        }
+                        else
                         {
                             _context.FalShipStores.Add(shipStoresEntity);
                         }

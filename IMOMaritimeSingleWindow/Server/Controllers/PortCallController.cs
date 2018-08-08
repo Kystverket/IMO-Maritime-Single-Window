@@ -34,6 +34,46 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpPut("{portCallId}/falShipStores")]
+        public IActionResult UpdateShipStoresList([FromBody] List<FalShipStores> shipStoresList, long portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (!shipStoresList.Any())
+                {
+                    _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(s => s.PortCallId == portCallId));
+                }
+                else
+                {
+                    var oldList = _context.FalShipStores.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
+                    var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId)).ToList();
+                    _context.FalShipStores.RemoveRange(removeList);
+
+                    foreach (FalShipStores shipStoresEntity in shipStoresList)
+                    {
+                        if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                        {
+                            _context.FalShipStores.Update(shipStoresEntity);
+                        }
+                        else
+                        {
+                            _context.FalShipStores.Add(shipStoresEntity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("{portCallId}/consignments")]
         public IActionResult GetConsignments(int portCallId)
         {
@@ -128,7 +168,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 if (!personOnBoardList.Any())
                 {
                     _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2));
-                } else
+                }
+                else
                 {
                     var oldList = _context.PersonOnBoard.AsNoTracking().Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == 2).ToList();
                     // Every entry in oldList that does not match a PersonOnBoardId of any of the entries in personOnBoardList

@@ -62,20 +62,9 @@ export class PortCallShipStoresService {
     console.log(shipStoresList);
     console.log('Updating ship stores...');
     console.log(shipStoresList);
-    const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList,
-    {
-      params: {
-        portCallId: portCallId
-      }
-    })
-    .map(res => {
-      res.json();
-      if (res.status === 200) {
-        console.log('Ship stores successfully saved.');
-        this.setDataIsPristine(true);
-      }
-    });
+    const uri = [this.portCallUrl, portCallId, this.shipStoresString].join('/');
+    this.setDataIsPristine(true);
+    return this.http.put(uri, shipStoresList);
   }
   // Get all ship stores for a given port call
   getShipStoresByPortCallId(portCallId: number): Observable<any> {

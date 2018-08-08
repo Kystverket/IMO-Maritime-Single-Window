@@ -7,7 +7,12 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class CountryService {
-  constructor(private http: HttpClient) {
+  private searchUrl: string;
+  private countryUrl: string;
+
+  constructor(
+    private http: HttpClient,
+    private searchService: SearchService) {
     this.searchService = new SearchService(http);
     this.searchUrl = 'api/country/search/';
     this.countryUrl = 'api/country';
@@ -34,11 +39,11 @@ export class CountryService {
     // return this.searchService.search(this.searchUrl, term);
     const encodedTerm: string = encodeURIComponent(term);
     const uri: string = [this.searchUrl, encodedTerm].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get(uri);
   }
 
   public getCountries() {
-    return this.http.get(this.countryUrl).map(res => res.json());
+    return this.http.get(this.countryUrl);
   }
 
 }

@@ -92,8 +92,6 @@ import { FalCargoService } from '../../../shared/services/fal-cargo.service';
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    FindPortOfEmbarkationComponent,
-    SearchPassengerPortComponent,
     SavePrevAndNextPocComponent,
     SetActualTimeComponent,
     CargoComponent,
@@ -119,8 +117,8 @@ import { FalCargoService } from '../../../shared/services/fal-cargo.service';
     PortCallPassengerListService,
     CountryService,
     PrevAndNextPocService,
-    IdentityDocumentService
-  ]
-  providers: [PortCallService, PortCallShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService, FalCargoService]
+    IdentityDocumentService,
+    FalCargoService
+  ],
 })
 export class PortCallModule { }
