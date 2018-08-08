@@ -14,7 +14,7 @@
 
 <!-- FAL forms -->
 <div *ngFor="let entry of falForms">
-  <div class="row mb-3" *ngIf="entry.checked">
+  <div class="row mb-3" *ngIf="entry.checked && entry.name != 'Cargo'">
     <div class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
         <div [ngSwitch]="entry.name">
@@ -31,6 +31,12 @@
         </div>
       </app-table-card>
     </div>
+  </div>
+</div>
+
+<div *ngIf="reportingCargo" class="row mb-3">
+  <div class="col">
+    <app-cargo-info-table></app-cargo-info-table>
   </div>
 </div>
 
