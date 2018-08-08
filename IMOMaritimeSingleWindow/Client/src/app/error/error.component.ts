@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from '../../../node_modules/rxjs';
 import { ErrorService } from '../shared/services/error.service';
 
@@ -9,8 +9,8 @@ import { ErrorService } from '../shared/services/error.service';
 })
 export class ErrorComponent implements OnInit, OnDestroy {
 
-  @Input() header = 'ERROR PAGE';
-  @Input() message: string;
+  header = 'ERROR PAGE';
+  message: string;
 
   private errorReasonSubscription: Subscription;
   private errorMessageSubscription: Subscription;

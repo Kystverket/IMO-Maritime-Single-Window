@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from '../../../../node_modules/rxjs';
+import { BehaviorSubject } from 'rxjs/Rx';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ErrorService {
@@ -23,6 +24,16 @@ export class ErrorService {
   setError(errorReason: string, errorMessage: string) {
     this.setErrorReason(errorReason);
     this.setErrorMessage(errorMessage);
+  }
+
+  setDefaultError() {
+    this.setErrorReason('Error');
+    this.setErrorMessage('Server error');
+  }
+
+  setDefaultHTTPError(error: HttpErrorResponse) {
+    this.setErrorReason(`${error.status} ${error.statusText}`);
+    this.setErrorMessage(error.statusText);
   }
 
 }

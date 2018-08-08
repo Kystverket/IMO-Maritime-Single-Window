@@ -11,13 +11,15 @@ import { LoginService } from 'app/shared/services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BaseService } from '../shared/services/base.service';
 import { BaseGuard } from '../shared/interfaces/base-guard.interface';
+import { ErrorService } from '../shared/services/error.service';
 
 @Injectable()
 export class RootGuard extends BaseService implements CanActivate, BaseGuard {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private errorService: ErrorService
   ) {
     super();
   }
@@ -26,17 +28,12 @@ export class RootGuard extends BaseService implements CanActivate, BaseGuard {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('root guard');
 
     if (!this.authService.hasToken()) {
-      console.log('does not have token');
-
       this.loginService.logout(); // Clear remaining cached data
       this.router.navigate(['/auth/login']);
       return false;
     } else {
-      console.log('validating token...');
-
       return this.authService.hasValidToken().map(
         tokenValid => true,
         error => false
@@ -49,17 +46,24 @@ export class RootGuard extends BaseService implements CanActivate, BaseGuard {
 
   navigateByError(error: HttpErrorResponse | any) {
     // Redirects user to correct page according to the error
-    console.log('redirecting...');
     if (error instanceof HttpErrorResponse) {
-      const ERROR = error as HttpErrorResponse;
-      if (ERROR.status >= 500) {
+      const httpError = error as HttpErrorResponse;
+      if (httpError.status >= 500) {
+        this.errorService.setDefaultHTTPError(httpError);
         this.router.navigate(['/error']);
-      } else if (ERROR.status === 403) {
+      } else if (httpError.status === 401 || httpError.status === 403) {
         // Unauthorized - token invalid
         this.loginService.logout();
+        this.errorService.setErrorReason(`${httpError.status} ${httpError.statusText}`);
+        this.errorService.setErrorMessage('Token was invalid');
         this.router.navigate(['/auth/login']);
+      } else {
+        this.loginService.logout();
+        this.errorService.setDefaultHTTPError(httpError);
+        this.router.navigate(['/error']);
       }
     } else {
+      this.errorService.setDefaultError();
       this.router.navigate(['/error']);
     }
   }
