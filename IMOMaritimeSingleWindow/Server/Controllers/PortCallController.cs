@@ -34,6 +34,48 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpGet("{portCallId}/consignments")]
+        public IActionResult GetConsignments(int portCallId)
+        {
+            var consignments = _context.Consignment.Where(consignment => consignment.PortCallId == portCallId)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfLoading)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.Country)
+                                                    .Include(consignment => consignment.PortOfDischarge)
+                                                        .ThenInclude(location => location.LocationType)
+                                                    .Include(consignment => consignment.CargoItem)
+                                                        .ThenInclude(cargoItem => cargoItem.PackageType)
+                                                    .ToList();
+            if (consignments == null)
+            {
+                return NotFound();
+            }
+            return Json(consignments);
+        }
+
+        [HttpPut("{portCallId}/consignments")]
+        public IActionResult UpdateConsignmentList([FromBody] List<Consignment> consignmentList, int portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                _context.Consignment.RemoveRange(_context.Consignment.Where(c => c.PortCallId == portCallId).Include(c => c.CargoItem));
+                _context.Consignment.AddRange(consignmentList);
+                _context.SaveChanges();
+                return Json(consignmentList);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("partialOverview/{portCallId}")]
         public IActionResult GetPartialOverviewJson(int portCallId)
         {
@@ -54,8 +96,6 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
-            overview.PreviousLocation = portCall.PreviousLocation;
-            overview.NextLocation = portCall.NextLocation;
             overview.Status = portCall.PortCallStatus.Name;
             overview.ClearanceList = (from opc in portCall.OrganizationPortCall
                                       join o in orgList
@@ -80,7 +120,24 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.PreviousLocation.Country)
             .Include(pc => pc.NextLocation.Country)
             .Include(pc => pc.OrganizationPortCall)
-            .Include(pc => pc.PortCallStatus).FirstOrDefault();
+            .Include(pc => pc.PortCallStatus)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfLoading)
+                    .ThenInclude(location => location.Country)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfLoading)
+                    .ThenInclude(location => location.LocationType)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfDischarge)
+                    .ThenInclude(location => location.Country)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.PortOfDischarge)
+                    .ThenInclude(location => location.LocationType)
+            .Include(pc => pc.Consignment)
+                .ThenInclude(consignment => consignment.CargoItem)
+                    .ThenInclude(cargoItem => cargoItem.PackageType)
+            .FirstOrDefault();
+
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
 

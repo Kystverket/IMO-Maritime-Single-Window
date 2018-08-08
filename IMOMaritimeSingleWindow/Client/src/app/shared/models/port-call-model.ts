@@ -1,4 +1,5 @@
 import { LocationModel } from 'app/shared/models/location-model';
+import { ConsignmentModel } from './consignment-model';
 
 export class PortCallModel {
   portCallId: number;
@@ -20,4 +21,5 @@ export class PortCallModel {
   nextLocationAta: Date;
   userId: number;
   portCallStatus: any;
+  consignment: ConsignmentModel[];
 }

@@ -5,6 +5,8 @@ import { ShipService } from 'app/shared/services/ship.service';
 
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
+import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
 @Component({
   selector: 'app-forms',
@@ -14,18 +16,37 @@ import { Subscription } from 'rxjs/Subscription';
 export class FormsComponent implements OnInit, OnDestroy {
 
   selectedComponent: string;
+  portCallId: number;
+
+  cargoData: ConsignmentModel[];
 
   formNames: any;
 
   shipDataSubscription: Subscription;
   portCallFormNameSubscription: Subscription;
+  portCallIdSubscription: Subscription;
+  cargoSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private shipService: ShipService) { }
+    private shipService: ShipService,
+    private cargoService: FalCargoService
+  ) { }
 
   ngOnInit() {
+    this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
+      data => {
+        this.cargoData = data;
+      }
+    );
+    this.portCallIdSubscription = this.portCallService.detailsIdentificationData$.subscribe(
+      idResult => {
+        if (idResult) {
+          this.portCallId = idResult.portCallId;
+        }
+      }
+    );
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(
       shipResult => {
         this.shipService.setShipData(shipResult);
@@ -36,12 +57,13 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.selectedComponent = content;
       }
     );
-
     this.formNames = FORM_NAMES;
   }
+
 
   ngOnDestroy() {
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
+    this.cargoSubscription.unsubscribe();
   }
 }
