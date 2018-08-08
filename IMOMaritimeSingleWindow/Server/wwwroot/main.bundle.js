@@ -5964,7 +5964,7 @@ module.exports = "<app-ssn-card header=\"Save Ship Stores\" icon=\"save.png\">\r
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SaveShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5983,7 +5983,7 @@ var SaveShipStoresComponent = /** @class */ (function () {
     function SaveShipStoresComponent(shipStoresService, portCallService) {
         this.shipStoresService = shipStoresService;
         this.portCallService = portCallService;
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.portCallShipStoresList = [];
         this.listIsPristine = true;
     }
@@ -6051,7 +6051,7 @@ module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
@@ -6077,7 +6077,7 @@ var ShipStoresComponent = /** @class */ (function () {
         this.shipStoresService = shipStoresService;
         this.portCallService = portCallService;
         this.portCallShipStoresList = [];
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.listIsPristine = true;
         this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__["a" /* LocalDataSource */]();
         this.tableSettings = {
@@ -6128,7 +6128,7 @@ var ShipStoresComponent = /** @class */ (function () {
     }
     ShipStoresComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (element) {
             if (element) {
                 _this.portCallShipStoresModel.portCallId = element.portCallId;
@@ -6210,7 +6210,7 @@ var ShipStoresComponent = /** @class */ (function () {
         }
         // Add this ship store to local model and create new model
         this.portCallShipStoresList.push(this.portCallShipStoresModel);
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         // Update value in service
         this.shipStoresService.setShipStoresInformationData(this.portCallShipStoresList);
     };
@@ -9938,15 +9938,15 @@ var PassengerModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/models/port-call-ship-stores-model.ts":
+/***/ "./src/app/shared/models/ship-stores-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresModel; });
-var PortCallShipStoresModel = /** @class */ (function () {
-    function PortCallShipStoresModel() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresModel; });
+var ShipStoresModel = /** @class */ (function () {
+    function ShipStoresModel() {
     }
-    return PortCallShipStoresModel;
+    return ShipStoresModel;
 }());
 
 

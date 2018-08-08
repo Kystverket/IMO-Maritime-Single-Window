@@ -14,7 +14,7 @@
 
 <div [ngSwitch]="selectedComponent">
     <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS" [portCallId]="portCallId"></app-port-call-details>
-    <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES" [portCallId]="portCallId"></app-ship-stores>
+    <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES" [portCallId]="portCallId" [shipStoresList]="shipStoresData"></app-ship-stores>
     <app-cargo *ngSwitchCase="formNames.CARGO" [portCallId]="portCallId" [cargoData]="cargoData"></app-cargo>
     <!-- <app-passenger-list *ngSwitchCase="formNames.PAX"></app-passenger-list> -->
     <app-prev-and-next-poc *ngSwitchCase="formNames.PREV_AND_NEXT_POC" [portCallId]="portCallId"></app-prev-and-next-poc>

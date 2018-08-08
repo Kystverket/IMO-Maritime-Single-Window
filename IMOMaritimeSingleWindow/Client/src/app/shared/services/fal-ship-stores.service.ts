@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { PortCallShipStoresModel } from '../models/port-call-ship-stores-model';
+import { ShipStoresModel } from '../models/ship-stores-model';
 
 @Injectable()
 export class FalShipStoresService {
 
   private shipStoresUrl = 'api/falShipStores';
-  private shipStoresListUrl = 'api/falShipStores/list';
   private portCallUrl = 'api/portCall';
+  private shipStoresListString = 'list';
   private shipStoresString = 'falShipStores';
   private measurementTypeUrl = 'api/measurementType';
 
   constructor(private http: Http) { }
 
-  private shipStoresInformationSource = new BehaviorSubject<PortCallShipStoresModel[]>(null);
+  private shipStoresInformationSource = new BehaviorSubject<ShipStoresModel[]>(null);
   shipStoresList$ = this.shipStoresInformationSource.asObservable();
 
   private shipStoresInformationMeta = new BehaviorSubject<any>({ valid: true });
@@ -36,29 +36,15 @@ export class FalShipStoresService {
     const uri = [this.shipStoresUrl, shipStoresId].join('/');
     return this.http.get(uri).map(res => res.json());
   }
-  // Add new ship stores list to database
-  addShipStores(shipStoresList: any[]) {
-    console.log('Adding Ship Stores...');
-    const uri = this.shipStoresListUrl;
-    this.http.post(uri, shipStoresList).map(res => {
-      console.log(res);
-      this.setDataIsPristine(true);
-      return res.json();
-    });
-  }
-  // Update  existing ship stores list in database
-  updateShipStores(shipStoresList: any[]) {
-    console.log('Updating ship stores...');
+
+  // Save ship stores list to database
+  saveShipStores(shipStoresList: any[], portCallId: number) {
+    console.log('Saving ship stores...');
     console.log(shipStoresList);
-    const uri = this.shipStoresListUrl;
-    return this.http.put(uri, shipStoresList).map(res => {
-      res.json();
-      if (res.status === 200) {
-        console.log('Ship stores successfully saved.');
-        this.setDataIsPristine(true);
-      }
-    });
+    const uri = [this.shipStoresUrl, portCallId, this.shipStoresListString].join('/');
+    return this.http.put(uri, shipStoresList);
   }
+
   // Get all ship stores for a given port call
   getShipStoresByPortCallId(portCallId: number) {
     let uri = [this.portCallUrl, portCallId].join('/');
@@ -97,25 +83,6 @@ export class FalShipStoresService {
     this.isCheckedInProgressBar.next(checked);
   }
 
-  // Delete port call draft
-  deleteShipStoreEntry(sequenceNumber) {
-    let shipStoresList = this.shipStoresInformationSource.getValue();
-
-    const shipStoreToDeleteIndex = shipStoresList.findIndex(st => st.sequenceNumber === sequenceNumber);
-
-    if (shipStoreToDeleteIndex !== -1) {
-      shipStoresList.splice(shipStoreToDeleteIndex, 1);
-      // Reset all sequenceNumbers
-      shipStoresList = this.setSequenceNumbers(shipStoresList);
-      this.setShipStoresInformationData(shipStoresList);
-
-      // Set dataIsPristine to false (data is touched)
-      this.setDataIsPristine(false);
-    } else {
-      console.log('Something went wrong when trying to delete ship store');
-    }
-  }
-
   /******************
    *
    *  HELP METHODS
@@ -129,7 +96,28 @@ export class FalShipStoresService {
       tempSequenceNumber++;
     });
     return list;
+  }
 
+  formatShipStores(shipStoresList: ShipStoresModel[]): ShipStoresModel[] {
+    let formattedList: ShipStoresModel[] = [];
+    if (shipStoresList && shipStoresList.length > 0) {
+      formattedList = shipStoresList.map(
+        item => {
+          const formattedShipStore = new ShipStoresModel();
+          formattedShipStore.portCallId = item.portCallId;
+          formattedShipStore.sequenceNumber = item.sequenceNumber;
+          formattedShipStore.articleName = item.articleName;
+          formattedShipStore.articleCode = item.articleCode;
+          formattedShipStore.quantity = item.quantity;
+          formattedShipStore.locationOnBoardCode = item.locationOnBoardCode;
+          formattedShipStore.locationOnBoard = item.locationOnBoard;
+          formattedShipStore.measurementTypeId = item.measurementTypeId;
+          formattedShipStore.articleName = item.articleName;
+          return formattedShipStore;
+        }
+      );
+    }
+    return formattedList;
   }
 
 }

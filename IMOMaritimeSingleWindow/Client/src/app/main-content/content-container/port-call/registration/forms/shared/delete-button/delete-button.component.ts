@@ -56,10 +56,6 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
     this.delete.emit(this.rowData);
   }
 
-  deleteShipStoreEntry() {
-    this.shipStoresService.deleteShipStoreEntry(this.rowData.sequenceNumber);
-  }
-
   deletePassengerEntry() {
     this.passengerService.deletePassengerEntry(this.rowData);
   }

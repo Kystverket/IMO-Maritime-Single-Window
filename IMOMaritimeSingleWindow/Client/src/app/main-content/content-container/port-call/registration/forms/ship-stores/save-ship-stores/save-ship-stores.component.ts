@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
+import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -14,14 +14,16 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
 
   @Input() portCallId: number;
 
-  shipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
+  shipStoresModel: ShipStoresModel = new ShipStoresModel();
   reportingModel: any;
 
-  portCallShipStoresList: PortCallShipStoresModel[] = [];
+  shipStoresList: ShipStoresModel[] = [];
 
   listIsPristine: Boolean = true;
 
   shipStoresListSubscription: Subscription;
+
+  saving = false;
 
   constructor(
     private shipStoresService: FalShipStoresService,
@@ -32,7 +34,7 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
     // Get updated list of ship stores
     this.shipStoresListSubscription = this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
       if (shipStoresList) {
-        this.portCallShipStoresList = shipStoresList;
+        this.shipStoresList = shipStoresList;
       }
 
       this.shipStoresService.dataIsPristine$.subscribe(isPristine => {
@@ -47,8 +49,19 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
   }
 
   saveShipStores() {
-      this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
-      this.shipStoresService.updateShipStores(this.portCallShipStoresList).subscribe(res => {});
+    this.saving = true;
+    const formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+    this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(
+      res => {
+        this.shipStoresService.setDataIsPristine(true);
+        this.saving = false;
+        console.log(res.json());
+      },
+      error => {
+        this.saving = false;
+        console.log(error);
+      }
+    );
   }
 
 }

@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { ContentService } from 'app/shared/services/content.service';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
-
-import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { FalShipStoresService } from '../../../../../shared/services/fal-ship-stores.service';
+
 
 @Component({
   selector: 'app-forms',
@@ -19,6 +21,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallId: number;
 
   cargoData: ConsignmentModel[];
+  shipStoresData: ShipStoresModel[];
 
   formNames: any;
 
@@ -26,25 +29,32 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallFormNameSubscription: Subscription;
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
+  shipStoresSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
     private shipService: ShipService,
-    private cargoService: FalCargoService
+    private cargoService: FalCargoService,
+    private shipStoresService: FalShipStoresService,
   ) { }
 
   ngOnInit() {
-    this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
-      data => {
-        this.cargoData = data;
-      }
-    );
     this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData;
         }
+      }
+    );
+    this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
+      data => {
+        this.cargoData = data;
+      }
+    );
+    this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
+      data => {
+        this.shipStoresData = data;
       }
     );
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(

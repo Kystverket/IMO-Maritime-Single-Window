@@ -14,7 +14,7 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
+import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
@@ -286,8 +286,16 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   saveShipStores() {
-    this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => { });
+    const formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+    this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(
+      res => {
+        this.shipStoresService.setDataIsPristine(true);
+        console.log(res);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   saveCargo() {
