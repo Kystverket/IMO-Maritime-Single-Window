@@ -35,7 +35,7 @@ export class ShipButtonRowComponent implements ViewCell, OnInit {
     this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
     this.shipService.getShip(this.rowData.shipModel.shipId).subscribe(data => {
       if (data) {
-        this.shipService.setShipOverviewData(data);
+        this.shipService.setShipData(data);
         this.contentService.setContent(content);
       }
     });

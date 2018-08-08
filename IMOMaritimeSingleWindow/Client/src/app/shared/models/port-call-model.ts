@@ -20,5 +20,6 @@ export class PortCallModel {
   nextLocationEta: Date;
   nextLocationAta: Date;
   userId: number;
+  portCallStatus: any;
   consignment: ConsignmentModel[];
 }

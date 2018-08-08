@@ -5,7 +5,7 @@ import { AuthService } from 'app/shared/services/auth-service';
 import { LoginService } from 'app/shared/services/login.service';
 
 @Injectable()
-export class LoginAuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
 
   constructor(
     private router: Router,
@@ -24,7 +24,7 @@ export class LoginAuthGuard implements CanActivate {
         .map(tokenValid => {
           console.log(tokenValid);
           if (tokenValid) {
-            this.router.navigate(['']);
+            this.router.navigateByUrl('');
             return false;
           } else {
             /* User tries to access login route with an invalid token

@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 
 @Injectable()
 export class AuthRequest {
-  constructor(private http: Http) {}
+  constructor(private http: Http) { }
 
   GetHeaders() {
     const headers = new Headers();

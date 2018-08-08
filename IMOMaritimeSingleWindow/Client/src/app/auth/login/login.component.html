@@ -34,10 +34,16 @@
         <button type="submit" (click)="pw.select()" class="btn btn-light" [disabled]="f.invalid || isRequesting">SIGN IN</button>
       </div>
 
+      <nav>
+        <a class="btn btn-light" routerLink="../ForgotPassword" routerLinkActive="active">Forgot password?</a>
+      </nav>
+
       <div *ngIf="errors" class="alert alert-danger" role="alert">
+        <h5>Error</h5>
         <span>{{errors}}</span>
       </div>
 
     </form>
   </div>
 </div>
+<router-outlet></router-outlet>

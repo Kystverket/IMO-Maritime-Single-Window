@@ -19,11 +19,11 @@
     <span class="badge badge-danger" *ngIf="!hasDbConnection">Connection to database lost.</span>
     <span class="badge badge-danger" *ngIf="!hasServerConnection">Connection to server lost.</span>
 
-    <ul class="navbar-nav ml-auto" *ngIf="loggedIn">
+    <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item">
         <form class="form-inline">
           <div class="btn-group">
-            <button class="btn btn-light btn-sm">{{userName}}</button>
+            <button routerLink="/auth/ChangePassword" routerLinkActive="active" class="btn btn-light btn-sm">{{userName}}</button>
             <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
           </div>
         </form>

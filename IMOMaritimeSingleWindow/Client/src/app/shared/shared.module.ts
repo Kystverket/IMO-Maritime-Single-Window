@@ -37,6 +37,7 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 @NgModule({
   imports: [
@@ -74,7 +75,7 @@ import { CargoInfoTableComponent } from './components/confirmation-view/cargo-in
     SsnTableComponent,
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
-    ContactSelectComponent,
+    FeedbackComponent
     CargoInfoTableComponent
   ],
   exports: [
@@ -100,7 +101,8 @@ import { CargoInfoTableComponent } from './components/confirmation-view/cargo-in
     SsnTableComponent,
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
-    ContactSelectComponent
+    ContactSelectComponent,
+    FeedbackComponent
   ],
   providers: [
     LocationService,

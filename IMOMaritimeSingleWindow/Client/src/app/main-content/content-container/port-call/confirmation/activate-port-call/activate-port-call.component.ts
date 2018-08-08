@@ -286,7 +286,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   saveShipStores() {
     this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-    this.shipStoresService.updateShipStores(this.shipStoresList).subscribe(res => { });
+    this.shipStoresService.updateShipStores(this.shipStoresList);
   }
 
   saveCargo() {

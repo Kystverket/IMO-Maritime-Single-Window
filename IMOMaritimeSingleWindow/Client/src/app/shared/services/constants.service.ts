@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ConstantsService {
@@ -8,22 +9,22 @@ export class ConstantsService {
   private portCallClaimsUrl: string;
   private getMenuClaimListUrl: string;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.contactMediumUrl = 'api/contactmedium';
     this.claimUrl = 'api/claim';
     this.portCallClaimsUrl = 'api/claim/type/portcall';
     this.getMenuClaimListUrl = 'api/claim/type/menu';
   }
 
-  getContactMediumList() {
-    return this.http.get(this.contactMediumUrl).map(res => res.json());
+  getContactMediumList(): Observable<any> {
+    return this.http.get(this.contactMediumUrl);
   }
 
-  getClaimList() {
-    return this.http.get(this.claimUrl).map(res => res.json());
+  getClaimList(): Observable<any> {
+    return this.http.get(this.claimUrl);
   }
 
-  GetPortCallClaimList() {
-    return this.http.get(this.portCallClaimsUrl).map(res => res.json());
+  GetPortCallClaimList(): Observable<any> {
+    return this.http.get(this.portCallClaimsUrl);
   }
 }

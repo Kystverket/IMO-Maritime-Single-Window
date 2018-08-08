@@ -256,6 +256,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_AWAITING_CLEARANCE;
                 _context.Update(portCall);
                 _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
@@ -278,6 +281,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED;
                 _context.Update(portCall);
                 _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
@@ -300,6 +306,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_COMPLETED;
                 _context.Update(portCall);
                 _context.SaveChanges();
+                portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId)
+                    .Include(pc => pc.PortCallStatus)
+                    .FirstOrDefault();
                 return Json(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
