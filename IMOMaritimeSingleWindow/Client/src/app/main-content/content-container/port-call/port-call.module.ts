@@ -1,7 +1,6 @@
 import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -44,6 +43,7 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -54,7 +54,7 @@ import { PassengerModalComponent } from './registration/forms/passenger-list/pas
     Ng2SmartTableModule,
     NgbModule,
     NgSelectModule,
-    SharedModule,
+    SharedModule
   ],
   entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent],
   declarations: [

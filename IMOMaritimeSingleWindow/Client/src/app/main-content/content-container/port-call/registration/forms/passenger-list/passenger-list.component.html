@@ -1,6 +1,6 @@
 <app-ssn-card header="Add New Passenger" icon="pax.png">
 
-  <form name="mainForm">
+  <form name="mainForm" #form="ngForm">
 
     <div class="col-lg-12">
       <app-ssn-card header="Personalia" icon="user.png">
@@ -9,7 +9,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name</label>
-                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
+                <input type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
                   class="form-control form-control-sm" required name="familyName">
               </div>
             </div>
@@ -25,8 +25,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name</label>
-                <input type="text" required [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  pattern="^[a-zA-Z0-9.]+$" name="givenName">
+                <input type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                  pattern="^[a-zA-Z0-9.]+$" name="givenName" required>
               </div>
             </div>
 
@@ -66,7 +66,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
-                <input type="text" pattern="^[a-zA-Z]+$" required [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
+                <input type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
                   class="form-control form-control-sm" name="placeOfBirth">
               </div>
             </div>
@@ -97,7 +97,7 @@
       <app-ssn-card header="Voyage" icon="voyage.png">
         <div class="row">
           <div class="col-lg-6">
-            <div class="form-group row" required>
+            <div class="form-group row">
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
                 <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
@@ -162,10 +162,10 @@
   <div class="col-lg-12">
 
     <div class="form-group">
-      <button *ngIf="mainForm.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+      <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
         <span>Submit</span>
       </button>
-      <button *ngIf="!mainForm.valid" type="submit" disabled class="btn btn-ssn mt-2">
+      <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
         <span>Submit</span>
       </button>
     </div>

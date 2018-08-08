@@ -22,7 +22,9 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" readonly type="text" name="dateOfBirth" [ngModel]="inputPassengerModel.dateOfBirth.split('T')[0]">
+        <input *ngIf="inputPassengerModel.dateOfBirth" class="form-control form-control-sm" readonly type="text" name="dateOfBirth"
+          [ngModel]="inputPassengerModel.dateOfBirth.split('T')[0]">
+        <input *ngIf="!inputPassengerModel.dateOfBirth" class="form-control form-control-sm" readonly type="text" name="dateOfBirth">
       </div>
     </div>
     <div class="form-group row">
@@ -30,6 +32,7 @@
       <div class="col my-auto">
         <input *ngIf="inputPassengerModel.countryOfBirth" class="form-control form-control-sm" [ngModel]="inputPassengerModel.countryOfBirth.name"
           readonly type="text" name="countryOfBirth">
+        <input *ngIf="!inputPassengerModel.countryOfBirth" class="form-control form-control-sm" readonly type="text" name="countryOfBirth">
       </div>
     </div>
     <div class="form-group row">
@@ -37,18 +40,22 @@
       <div class="col my-auto">
         <input *ngIf="inputPassengerModel.nationality" class="form-control form-control-sm" [ngModel]="inputPassengerModel.nationality.name"
           readonly type="text" name="nationality">
+        <input *ngIf="!inputPassengerModel.nationality" class="form-control form-control-sm" readonly type="text" name="nationality">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.gender.description" readonly type="text" name="gender">
+        <input *ngIf="inputPassengerModel.gender" class="form-control form-control-sm" [ngModel]="inputPassengerModel.gender.description"
+          readonly type="text" name="gender">
+        <input *ngIf="!inputPassengerModel.gender" class="form-control form-control-sm" readonly type="text" name="gender">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]" readonly type="text" name="inTransit">
+        <input class="form-control form-control-sm" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]" readonly type="text"
+          name="inTransit">
       </div>
     </div>
     <div class="form-group row">
@@ -56,6 +63,7 @@
       <div class="col my-auto">
         <input *ngIf="inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.portOfEmbarkation.name"
           readonly type="text" name="portOFEmbarkation">
+        <input *ngIf="!inputPassengerModel.portOfEmbarkation" class="form-control form-control-sm" readonly type="text" name="portOFEmbarkation">
       </div>
     </div>
     <div class="form-group row">
@@ -63,6 +71,7 @@
       <div class="col my-auto">
         <input *ngIf="inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.portOfDisembarkation.name"
           readonly type="text" name="portOfDisembarkation">
+        <input *ngIf="!inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" readonly type="text" name="portOfDisembarkation">
       </div>
     </div>
     <div class="form-group row">
@@ -75,22 +84,28 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentType.description"
+        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentType.description"
           readonly type="text" name="identityDocumentType">
+        <input *ngIf="!inputPassengerModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" readonly
+          type="text" name="identityDocumentType">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate.split('T')[0]"
+        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentIssueDate" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate.split('T')[0]"
           readonly type="text" name="identityDocumentIssueDate">
+        <input *ngIf="!inputPassengerModel.identityDocument[0].identityDocumentIssueDate" class="form-control form-control-sm" readonly
+          type="text" name="identityDocumentIssueDate">
       </div>
     </div>
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate.split('T')[0]"
+        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate.split('T')[0]"
           readonly type="text" name="identityDocumentExpiryDate">
+        <input *ngIf="!inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" class="form-control form-control-sm" readonly
+          type="text" name="identityDocumentExpiryDate">
       </div>
     </div>
     <div class="form-group row">
@@ -98,6 +113,8 @@
       <div class="col my-auto">
         <input *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].issuingNation.name"
           readonly type="text" name="issuingNation">
+        <input *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
+          name="issuingNation">
       </div>
     </div>
     <div class="form-group row">
@@ -116,188 +133,203 @@
 </ng-template>
 
 <ng-template #editModal let-close="close()">
-  <div class="modal-header">
-    <h4 class="modal-title">Edit</h4>
-    <button type="button" class="close" aria-label="Close" (click)="resetInputPassengerModel(); close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body" *ngIf="inputPassengerModel">
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
-      <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" type="text" name="givenName">
-      </div>
+  <form #editForm="ngForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Edit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="resetInputPassengerModel(); close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
-      <div class="col my-auto">
-        <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" type="text" name="familyName">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
-      <div class="col my-auto">
-        <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.dateOfBirth)"></app-select-date>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
-      <div class="col my-auto">
-        <div *ngIf="inputPassengerModel.countryOfBirth" class="input-group">
-          <div class="input-group-prepend flag">
-            <img src="assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirth.twoCharCode.toLowerCase() | lowercase}}.png"
-              height="30px">
-          </div>
-          <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
-          />
-          <div>
-            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="deselectCountryOfBirth()">
-              <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-            </button>
+    <div class="modal-body" *ngIf="inputPassengerModel">
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" type="text" name="givenName" required>
+          <div *ngIf="!inputPassengerModel.givenName" class="alert alert-danger form-control-sm" role="alert">
+            <span>Given name cannot be empty.</span>
           </div>
         </div>
-        <app-search-country *ngIf="!inputPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
-      <div class="col my-auto">
-        <div *ngIf="inputPassengerModel.nationality" class="input-group">
-          <div class="input-group-prepend flag">
-            <img src="assets/images/flags/128x128/{{ inputPassengerModel.nationality.twoCharCode.toLowerCase() | lowercase}}.png" height="30px">
-          </div>
-          <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.nationality.name"
-          />
-          <div>
-            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="deselectNationality()">
-              <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-            </button>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" type="text" name="familyName" required>
+          <div *ngIf="!inputPassengerModel.familyName" class="alert alert-danger form-control-sm" role="alert">
+            <span>Family name cannot be empty.</span>
           </div>
         </div>
-        <app-search-country *ngIf="!inputPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
-      <div class="col my-auto">
-        <ng-select class="ng-select-placeholder-size " [items]="genderList" [ngModel]="inputPassengerModel.gender"
-          name="gender" bindLabel="description" [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
+        <div class="col my-auto">
+          <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.dateOfBirth)"></app-select-date>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Country of Birth</label>
+        <div class="col my-auto">
+          <div *ngIf="inputPassengerModel.countryOfBirth" class="input-group">
+            <div class="input-group-prepend flag">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirth.twoCharCode.toLowerCase() | lowercase}}.png"
+                height="30px">
+            </div>
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
+            />
+            <div>
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="deselectCountryOfBirth()">
+                <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
+              </button>
+            </div>
+          </div>
+          <app-search-country *ngIf="!inputPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
+        <div class="col my-auto">
+          <div *ngIf="inputPassengerModel.nationality" class="input-group">
+            <div class="input-group-prepend flag">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.nationality.twoCharCode.toLowerCase() | lowercase}}.png" height="30px">
+            </div>
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.nationality.name"
+            />
+            <div>
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="deselectNationality()">
+                <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
+              </button>
+            </div>
+          </div>
+          <app-search-country *ngIf="!inputPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-size " [items]="genderList" [ngModel]="inputPassengerModel.gender" name="gender"
+            bindLabel="description" [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-size " [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
+            name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="selectTransit($event)">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
+        <div class="col my-auto">
+          <app-search-location *ngIf="!inputPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfEmbarkation($event)"
+            id="search-port-of-embarkation"></app-search-location>
+
+          <div class="input-group" *ngIf="inputPassengerModel.portOfEmbarkation">
+            <div class="input-group-prepend flag" *ngIf="inputPassengerModel.portOfEmbarkation.country">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                height="30px">
+            </div>
+            <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
+              [(ngModel)]="inputPassengerModel.portOfEmbarkation.name">
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
+                <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
+        <div class="col my-auto">
+          <app-search-location *ngIf="!inputPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfDisembarkation($event)"
+            id="search-port-of-disembarkation"></app-search-location>
+          <div class="input-group" *ngIf="inputPassengerModel.portOfDisembarkation">
+            <div class="input-group-prepend flag" *ngIf="inputPassengerModel.portOfDisembarkation.country">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                height="30px">
+            </div>
+            <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
+              [(ngModel)]="inputPassengerModel.portOfDisembarkation.name">
+            <div class="input-group-append">
+              <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
+                <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber"
+            type="text" name="identityDocumentNumber">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
+
+        <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
+          name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
+          (change)="setIdentityDocumentType($event)">
         </ng-select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
-      <div class="col my-auto">
-        <ng-select class="ng-select-placeholder-size " [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
-          name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="selectTransit($event)">
-        </ng-select>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
-      <div class="col my-auto">
-        <app-search-location *ngIf="!inputPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfEmbarkation($event)"
-          id="search-port-of-embarkation"></app-search-location>
 
-        <div class="input-group" *ngIf="inputPassengerModel.portOfEmbarkation">
-          <div class="input-group-prepend flag" *ngIf="inputPassengerModel.portOfEmbarkation.country">
-            <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
-              height="30px">
-          </div>
-          <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
-            [(ngModel)]="inputPassengerModel.portOfEmbarkation.name">
-          <div class="input-group-append">
-            <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
-              <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
-            </button>
-          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+        <div class="col my-auto">
+          <app-select-date (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)"></app-select-date>
         </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
-      <div class="col my-auto">
-        <app-search-location *ngIf="!inputPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfDisembarkation($event)"
-          id="search-port-of-disembarkation"></app-search-location>
-        <div class="input-group" *ngIf="inputPassengerModel.portOfDisembarkation">
-          <div class="input-group-prepend flag" *ngIf="inputPassengerModel.portOfDisembarkation.country">
-            <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
-              height="30px">
-          </div>
-          <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
-            [(ngModel)]="inputPassengerModel.portOfDisembarkation.name">
-          <div class="input-group-append">
-            <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
-              <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
-            </button>
-          </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+        <div class="col my-auto">
+          <app-select-date (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)"></app-select-date>
         </div>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
-      <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber"
-          type="text" name="identityDocumentNumber">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
-
-      <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
-        name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
-        (change)="setIdentityDocumentType($event)">
-      </ng-select>
-
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
-      <div class="col my-auto">
-        <app-select-date (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)"></app-select-date>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
-      <div class="col my-auto">
-        <app-select-date (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)"></app-select-date>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
-      <div class="col my-auto">
-        <div *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="input-group">
-          <div class="input-group-prepend flag">
-            <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
-              height="30px">
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+        <div class="col my-auto">
+          <div *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="input-group">
+            <div class="input-group-prepend flag">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
+                height="30px">
+            </div>
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+            />
+            <div>
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove isssuing nation" (click)="deselectIssuingNation()">
+                <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
+              </button>
+            </div>
           </div>
-          <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
-          />
-          <div>
-            <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove isssuing nation" (click)="deselectIssuingNation()">
-              <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-            </button>
-          </div>
+          <app-search-country *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
+            (deselectCountry)="deselectIssuingNation()"></app-search-country>
         </div>
-        <app-search-country *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
-          (deselectCountry)="deselectIssuingNation()"></app-search-country>
       </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
-      <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber"
-          type="text" name="visaOrResidencePermitNumber">
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
+        <div class="col my-auto">
+          <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber"
+            type="text" name="visaOrResidencePermitNumber">
+        </div>
       </div>
+
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-ssn" (click)="editPassenger(); close">
-      <img src="assets/images/icons/128x128/white/edit.png" height="24px">
-      <span>Edit Entry</span>
-    </button>
-    <button type="button" class="btn btn-ssn" (click)="resetInputPassengerModel($event); close">
-      <span>Cancel</span>
-    </button>
-  </div>
+
+    <div class="modal-footer">
+      <button *ngIf="editForm.valid" type="button" class="btn btn-ssn" (click)="editPassenger(); close">
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button *ngIf="!editForm.valid" type="button" class="btn btn-ssn" disabled>
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button type="button" class="btn btn-ssn" (click)="resetInputPassengerModel($event); close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </form>
 </ng-template>

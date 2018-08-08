@@ -38,7 +38,7 @@ export class PassengerListComponent implements OnInit {
 
   @ViewChild(PassengerModalComponent) passengerModalComponent;
 
-  @ViewChild(NgForm) mainForm: NgForm;
+  @ViewChild(NgForm) form: NgForm;
 
   booleanList: string[] = ['Yes', 'No'];
   booleanModel = {
@@ -151,7 +151,6 @@ export class PassengerListComponent implements OnInit {
 
         this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
           if (list) {
-            console.log(list);
             this.portCallPassengerList = list;
             this.portCallPassengerModel.portCallId = element.portCallId;
             this.passengerListDataSource.load(this.generateSmartTable(list));
@@ -217,7 +216,6 @@ export class PassengerListComponent implements OnInit {
     modifiedPassenger.sequenceNumber = passenger.sequenceNumber;
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.familyName;
-    console.log(passenger.dateOfBirth);
     if (passenger.dateOfBirth) {
       if (typeof passenger.dateOfBirth === 'string') {
         modifiedPassenger.dateOfBirth = passenger.dateOfBirth.split('T')[0];
@@ -252,7 +250,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   private sendMetaData(): void {
-    this.passengerListService.setPassengerListMeta({ valid: this.mainForm.valid });
+    this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
   }
 
   makePortModel($event) {
@@ -277,7 +275,6 @@ export class PassengerListComponent implements OnInit {
   // Select Methods
   setIdentityDocumentModel($event) {
     this.identityDocumentModel = $event;
-    console.log(this.identityDocumentModel);
   }
 
   setPortOfEmbarkation($event) {
@@ -296,9 +293,6 @@ export class PassengerListComponent implements OnInit {
     } else {
       this.resetDateOfBirth();
     }
-    console.log($event);
-    console.log(this.portCallPassengerModel.dateOfBirth);
-    console.log(this.portCallPassengerModel);
   }
 
   selectGender($event) {
@@ -394,7 +388,6 @@ export class PassengerListComponent implements OnInit {
     // set editPassengerId?
     this.portCallPassengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
-        console.log(passenger);
         this.passengerModalComponent.openEditModal(passenger);
         return;
       }
@@ -406,7 +399,6 @@ export class PassengerListComponent implements OnInit {
       if (passenger.sequenceNumber === $event.sequenceNumber) {
         this.portCallPassengerList[index] = $event;
         this.portCallPassengerList[index].identityDocument[0] = $event.identityDocument[0];
-        console.log(this.portCallPassengerList);
         return;
       }
     });
@@ -418,7 +410,6 @@ export class PassengerListComponent implements OnInit {
   }
 
   savePassengers() {
-    console.log(this.portCallPassengerList);
     this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
   }
 

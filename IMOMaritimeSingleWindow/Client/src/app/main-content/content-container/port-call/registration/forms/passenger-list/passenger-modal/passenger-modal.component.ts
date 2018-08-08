@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { NgbModal } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
 import { GenderModel } from 'app/shared/models/gender-model';
-import { PortCallPassengerListService } from '../../../../../../../shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-passenger-modal',

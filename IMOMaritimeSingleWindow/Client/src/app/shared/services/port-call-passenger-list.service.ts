@@ -43,7 +43,6 @@ export class PortCallPassengerListService {
   // Http
   getPassengerById(personOnBoardId: number) {
     const uri = [this.personOnBoardUrl, personOnBoardId].join('/');
-    console.log(uri);
     return this.http.get(uri).map(res => res.json());
   }
 
@@ -103,7 +102,6 @@ export class PortCallPassengerListService {
   }
 
   cleanPassengerList(passengerList: any[]) {
-    console.log(passengerList);
     const newPassengerList = [];
     passengerList.forEach(passenger => {
 
@@ -120,7 +118,6 @@ export class PortCallPassengerListService {
         passenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
       } else {
         passenger.dateOfBirth = (new Date(passenger.dateOfBirth.split('T'))).toUTCString();
-        console.log(passenger.dateOfBirth);
       }
         passenger.identityDocument.forEach(identityDocument => {
           identityDocument.identityDocumentType = null;
@@ -206,16 +203,13 @@ export class PortCallPassengerListService {
   }
 
   editPassenger(editPassenger: PersonOnBoardModel) {
-    console.log(editPassenger);
     const copyPassengerList = this.passengerListSource.getValue();
-    console.log(copyPassengerList);
     if (editPassenger.personOnBoardId) {
       copyPassengerList.forEach((passenger, index) => {
         if (passenger.personOnBoardId === editPassenger.personOnBoardId) {
           copyPassengerList[index] = editPassenger;
         }
       });
-      console.log(copyPassengerList);
     } else {
       copyPassengerList.forEach((passenger, index) => {
         if (passenger.sequenceNumber === editPassenger.sequenceNumber) {

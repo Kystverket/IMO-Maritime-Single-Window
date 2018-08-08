@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
@@ -37,6 +36,7 @@ import { ShipService } from './services/ship.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -44,7 +44,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     FormsModule,
     Ng2SmartTableModule,
     NgbModule,
-    NgSelectModule,
+    NgSelectModule
   ],
   declarations: [
     ClearancesComponent,

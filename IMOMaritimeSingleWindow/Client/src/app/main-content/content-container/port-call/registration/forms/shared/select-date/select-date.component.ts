@@ -44,7 +44,7 @@ export class SelectDateComponent implements OnInit {
   }
 
   private validateData() {
-    if (this.validDateFormat && this.dateModel) {
+    if (this.validDateFormat) {
       this.selectDate.emit(this.dateModel);
     }
   }
