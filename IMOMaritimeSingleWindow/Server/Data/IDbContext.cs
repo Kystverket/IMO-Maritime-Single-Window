@@ -7,9 +7,11 @@ namespace IMOMaritimeSingleWindow.Data
 {
     public interface IDbContext : IDisposable
     {
+        DbSet<CargoItem> CargoItem { get; set; }
         DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         DbSet<Claim> Claim { get; set; }
         DbSet<ClaimType> ClaimType { get; set; }
+        DbSet<Consignment> Consignment { get; set; }
         DbSet<ContactMedium> ContactMedium { get; set; }
         DbSet<Country> Country { get; set; }
         DbSet<County> County { get; set; }
@@ -30,6 +32,7 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<Organization> Organization { get; set; }
         DbSet<OrganizationPortCall> OrganizationPortCall { get; set; }
         DbSet<OrganizationType> OrganizationType { get; set; }
+        DbSet<PackageType> PackageType { get; set; }
         DbSet<Password> Password { get; set; }
         DbSet<Person> Person { get; set; }
         DbSet<PersonOnBoard> PersonOnBoard { get; set; }
