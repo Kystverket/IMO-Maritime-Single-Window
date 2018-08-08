@@ -49,7 +49,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
-                <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
+                <app-search-country (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
               </div>
             </div>
           </div>
@@ -59,7 +59,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
-                <app-search-country (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
+                <app-search-country (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
               </div>
             </div>
 
@@ -83,7 +83,7 @@
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
                 <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
-                  [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="selectGender($event)">
+                  [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
                 </ng-select>
               </div>
             </div>
@@ -101,7 +101,7 @@
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
                 <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
-                  bindLabel="name" placeholder="Transit" (change)="selectTransit($event)">
+                  bindLabel="name" placeholder="Transit" (change)="setTransit($event)">
                 </ng-select>
               </div>
             </div>
@@ -122,7 +122,7 @@
                   <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name">
                   <div class="input-group-append">
-                    <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
+                    <button class="btn btn-sm btn-ssn" (click)="resetPortOfEmbarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                     </button>
                   </div>
@@ -144,7 +144,7 @@
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfDisembarkation.name">
                   <div class="input-group-append">
-                    <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
+                    <button class="btn btn-sm btn-ssn" (click)="resetPortOfDisembarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                     </button>
                   </div>

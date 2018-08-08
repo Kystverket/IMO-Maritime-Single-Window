@@ -189,9 +189,9 @@ export class PassengerListComponent implements OnInit {
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
-    this.deselectIssuingNation();
-    this.deselectCountryOfBirth();
-    this.deselectNationality();
+    this.resetIssuingNation();
+    this.resetCountryOfBirth();
+    this.resetNationality();
   }
 
 /*   ngOnDestroy()  {
@@ -295,7 +295,7 @@ export class PassengerListComponent implements OnInit {
     }
   }
 
-  selectGender($event) {
+  setGender($event) {
     this.portCallPassengerModel.gender = $event;
     this.portCallPassengerModel.genderId = $event.genderId;
   }
@@ -310,7 +310,7 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.nationalityId = $event.item.countryId;
   }
 
-  selectTransit($event) {
+  setTransit($event) {
     this.inTransit = $event;
     Object.keys(this.booleanModel).forEach(key => {
       if (key === $event) {
@@ -321,27 +321,27 @@ export class PassengerListComponent implements OnInit {
   }
 
   // Deselect Methods
-  deselectPortOfDisembarkation() {
+  resetPortOfDisembarkation() {
     this.portCallPassengerModel.portOfDisembarkation = null;
     this.portCallPassengerModel.portOfDisembarkationId = null;
   }
 
-  deselectPortOfEmbarkation() {
+  resetPortOfEmbarkation() {
     this.portCallPassengerModel.portOfEmbarkation = null;
     this.portCallPassengerModel.portOfEmbarkationId = null;
   }
 
-  deselectNationality() {
+  resetNationality() {
     this.portCallPassengerModel.nationality = null;
     this.portCallPassengerModel.nationalityId = null;
   }
 
-  deselectCountryOfBirth() {
+  resetCountryOfBirth() {
     this.portCallPassengerModel.countryOfBirth = null;
     this.portCallPassengerModel.countryOfBirthId = null;
   }
 
-  deselectIssuingNation() {
+  resetIssuingNation() {
     this.identityDocumentModel.issuingNation = null;
     this.identityDocumentModel.issuingNationId = null;
   }

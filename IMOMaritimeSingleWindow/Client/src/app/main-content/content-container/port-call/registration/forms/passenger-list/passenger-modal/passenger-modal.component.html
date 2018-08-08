@@ -174,15 +174,15 @@
               <img src="assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirth.twoCharCode.toLowerCase() | lowercase}}.png"
                 height="30px">
             </div>
-            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.countryOfBirth.name"
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.countryOfBirth.name" name="countryOfBirth"
             />
             <div>
-              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="deselectCountryOfBirth()">
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="resetCountryOfBirth()">
                 <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
               </button>
             </div>
           </div>
-          <app-search-country *ngIf="!inputPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="deselectCountryOfBirth()"></app-search-country>
+          <app-search-country *ngIf="!inputPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
         </div>
       </div>
       <div class="form-group row">
@@ -192,15 +192,15 @@
             <div class="input-group-prepend flag">
               <img src="assets/images/flags/128x128/{{ inputPassengerModel.nationality.twoCharCode.toLowerCase() | lowercase}}.png" height="30px">
             </div>
-            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.nationality.name"
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.nationality.name" name="nationailty"
             />
             <div>
-              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="deselectNationality()">
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="resetNationality()">
                 <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
               </button>
             </div>
           </div>
-          <app-search-country *ngIf="!inputPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="deselectNationality()"></app-search-country>
+          <app-search-country *ngIf="!inputPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
         </div>
       </div>
       <div class="form-group row">
@@ -215,14 +215,14 @@
         <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
         <div class="col my-auto">
           <ng-select class="ng-select-placeholder-size " [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
-            name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="selectTransit($event)">
+            name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="setTransit($event)">
           </ng-select>
         </div>
       </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
         <div class="col my-auto">
-          <app-search-location *ngIf="!inputPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfEmbarkation($event)"
+          <app-search-location *ngIf="!inputPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfEmbarkation($event)"
             id="search-port-of-embarkation"></app-search-location>
 
           <div class="input-group" *ngIf="inputPassengerModel.portOfEmbarkation">
@@ -233,7 +233,7 @@
             <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
               [(ngModel)]="inputPassengerModel.portOfEmbarkation.name">
             <div class="input-group-append">
-              <button class="btn btn-sm btn-ssn" (click)="deselectPortOfEmbarkation()">
+              <button class="btn btn-sm btn-ssn" (click)="resetPortOfEmbarkation()">
                 <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
               </button>
             </div>
@@ -243,7 +243,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
         <div class="col my-auto">
-          <app-search-location *ngIf="!inputPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="selectPortOfDisembarkation($event)"
+          <app-search-location *ngIf="!inputPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"
             id="search-port-of-disembarkation"></app-search-location>
           <div class="input-group" *ngIf="inputPassengerModel.portOfDisembarkation">
             <div class="input-group-prepend flag" *ngIf="inputPassengerModel.portOfDisembarkation.country">
@@ -253,7 +253,7 @@
             <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
               [(ngModel)]="inputPassengerModel.portOfDisembarkation.name">
             <div class="input-group-append">
-              <button class="btn btn-sm btn-ssn" (click)="deselectPortOfDisembarkation()">
+              <button class="btn btn-sm btn-ssn" (click)="resetPortOfDisembarkation()">
                 <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
               </button>
             </div>
@@ -296,16 +296,16 @@
               <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
                 height="30px">
             </div>
-            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+            <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name" name="issuingNation"
             />
             <div>
-              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove isssuing nation" (click)="deselectIssuingNation()">
+              <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove isssuing nation" (click)="resetIssuingNation()">
                 <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
               </button>
             </div>
           </div>
           <app-search-country *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
-            (deselectCountry)="deselectIssuingNation()"></app-search-country>
+            (deselectCountry)="resetIssuingNation()"></app-search-country>
         </div>
       </div>
       <div class="form-group row">

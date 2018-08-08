@@ -82,11 +82,6 @@ export class PassengerModalComponent implements OnInit {
     console.log(typeof this.passengerModel.identityDocument[0].identityDocumentExpiryDate);
   }
 
-  resetInputPassengerModel($event: any) {
-    this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
-    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel.identityDocument[0], this.passengerModel.identityDocument[0]);
-  }
-
   setNationality($event) {
     this.inputPassengerModel.nationality = $event.item;
     this.inputPassengerModel.nationalityId = $event.item.countryId;
@@ -111,12 +106,12 @@ export class PassengerModalComponent implements OnInit {
     }
   }
 
-  selectPortOfEmbarkation($event) {
+  setPortOfEmbarkation($event) {
     this.inputPassengerModel.portOfEmbarkation = $event;
     this.inputPassengerModel.portOfEmbarkationId = $event.locationId;
   }
 
-  selectPortOfDisembarkation($event) {
+  setPortOfDisembarkation($event) {
     this.inputPassengerModel.portOfDisembarkation = $event;
     this.inputPassengerModel.portOfDisembarkationId = $event.locationId;
   }
@@ -147,7 +142,7 @@ export class PassengerModalComponent implements OnInit {
     }
   }
 
-  selectTransit($event) {
+  setTransit($event) {
     console.log($event);
     this.inputPassengerModel.inTransit = this.booleanModel[$event];
     console.log(this.booleanModel[$event]);
@@ -165,17 +160,22 @@ export class PassengerModalComponent implements OnInit {
   }
 
   // Resetters
-  deselectNationality() {
+  resetInputPassengerModel($event: any) {
+    this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
+    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel.identityDocument[0], this.passengerModel.identityDocument[0]);
+  }
+
+  resetNationality() {
     this.inputPassengerModel.nationality = null;
     this.inputPassengerModel.nationalityId = null;
   }
 
-  deselectCountryOfBirth() {
+  resetCountryOfBirth() {
     this.inputPassengerModel.countryOfBirth = null;
     this.inputPassengerModel.countryOfBirthId = null;
   }
 
-  deselectIssuingNation() {
+  resetIssuingNation() {
     this.inputPassengerModel.identityDocument[0].issuingNation = null;
     this.inputPassengerModel.identityDocument[0].issuingNationId = null;
   }
@@ -185,12 +185,12 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = null;
   }
 
-  deselectPortOfEmbarkation() {
+  resetPortOfEmbarkation() {
     this.inputPassengerModel.portOfEmbarkation = null;
     this.inputPassengerModel.portOfEmbarkationId = null;
   }
 
-  deselectPortOfDisembarkation() {
+  resetPortOfDisembarkation() {
     this.inputPassengerModel.portOfDisembarkation = null;
     this.inputPassengerModel.portOfDisembarkationId = null;
   }
@@ -199,6 +199,8 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.dateOfBirth = null;
   }
 
+
+  // Helper methods
   getNgbDateFormat(date) {
     const newDate = new Date(date);
     return {
