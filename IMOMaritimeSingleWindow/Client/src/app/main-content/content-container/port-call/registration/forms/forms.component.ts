@@ -7,6 +7,7 @@ import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-forms',
@@ -26,12 +27,14 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallFormNameSubscription: Subscription;
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
+  personOnBoardListSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
     private shipService: ShipService,
-    private cargoService: FalCargoService
+    private cargoService: FalCargoService,
+    private passengerListService: PortCallPassengerListService
   ) { }
 
   ngOnInit() {
@@ -44,6 +47,15 @@ export class FormsComponent implements OnInit, OnDestroy {
       idResult => {
         if (idResult) {
           this.portCallId = idResult.portCallId;
+          this.personOnBoardListSubscription = this.getPersonOnBoardListForPortCall(this.portCallId).subscribe(
+            personOnBoardListResult => {
+              if (personOnBoardListResult) {
+                console.log(personOnBoardListResult);
+                const passengerList = personOnBoardListResult.filter(p => p.personOnBoardType.name === 'Passenger');
+                this.passengerListService.setPassengersList(passengerList);
+              }
+            }
+          );
         }
       }
     );
@@ -60,10 +72,15 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.formNames = FORM_NAMES;
   }
 
+  getPersonOnBoardListForPortCall(portCallId) {
+    return this.passengerListService.getPersonOnBoardListByPortCallId(portCallId);
+  }
+
 
   ngOnDestroy() {
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
+    this.personOnBoardListSubscription.unsubscribe();
   }
 }

@@ -72,6 +72,11 @@ export class PortCallPassengerListService {
     });
   }
 
+  getPersonOnBoardListByPortCallId(portCallId) {
+    const uri = [this.personOnBoardListUrl, 'portCall', portCallId].join('/');
+    return this.http.get(uri).map(res => res.json());
+  }
+
   /* getPassengerListByPortCallId(portCallId) {
       let uri = [this.portCallUrl, portCallId].join('/');
       uri = [uri, this.personOnBoardString].join('/');
@@ -122,26 +127,26 @@ export class PortCallPassengerListService {
         passenger.dateOfBirth = (new Date(passenger.dateOfBirth.split('T'))).toUTCString();
         console.log(passenger.dateOfBirth);
       }
-        passenger.identityDocument.forEach(identityDocument => {
-          identityDocument.identityDocumentType = null;
-          identityDocument.issuingNation = null;
+      passenger.identityDocument.forEach(identityDocument => {
+        identityDocument.identityDocumentType = null;
+        identityDocument.issuingNation = null;
 
-          // Handle date formats
-          if (identityDocument.identityDocumentIssueDate) {
-            if (typeof identityDocument.identityDocumentIssueDate !== 'string') {
-              identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate.toUTCString();
-            } else {
-              identityDocument.identityDocumentIssueDate = (new Date(identityDocument.identityDocumentIssueDate.split('T'))).toUTCString();
-            }
+        // Handle date formats
+        if (identityDocument.identityDocumentIssueDate) {
+          if (typeof identityDocument.identityDocumentIssueDate !== 'string') {
+            identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate.toUTCString();
+          } else {
+            identityDocument.identityDocumentIssueDate = (new Date(identityDocument.identityDocumentIssueDate.split('T'))).toUTCString();
           }
-          if (identityDocument.identityDocumentExpiryDate) {
-            if (typeof identityDocument.identityDocumentExpiryDate !== 'string') {
-              identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate.toUTCString();
-            } else {
-              identityDocument.identityDocumentExpiryDate = (new Date(identityDocument.identityDocumentExpiryDate.split('T'))).toUTCString();
-            }
+        }
+        if (identityDocument.identityDocumentExpiryDate) {
+          if (typeof identityDocument.identityDocumentExpiryDate !== 'string') {
+            identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate.toUTCString();
+          } else {
+            identityDocument.identityDocumentExpiryDate = (new Date(identityDocument.identityDocumentExpiryDate.split('T'))).toUTCString();
           }
-        });
+        }
+      });
       newPassengerList.push(passenger);
     });
     return newPassengerList;

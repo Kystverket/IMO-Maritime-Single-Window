@@ -208,11 +208,13 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         if (data) {
           console.log(data);
           this.portCallService.setPortCall(data);
+          // Moved to forms.component:
           if (data.portCall.personOnBoard) {
             const passengerList = data.portCall.personOnBoard.filter(p => p.personOnBoardType.name === 'Passenger');
             this.passengerListService.setPassengersList(passengerList);
             console.log(passengerList);
           }
+          // ^^
           this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
           this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
           this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);

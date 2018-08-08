@@ -11,9 +11,8 @@ export class CountryService {
   private countryUrl: string;
 
   constructor(
-    private http: HttpClient,
-    private searchService: SearchService) {
-    this.searchService = new SearchService(http);
+    private http: HttpClient
+  ) {
     this.searchUrl = 'api/country/search/';
     this.countryUrl = 'api/country';
   }
@@ -36,7 +35,6 @@ export class CountryService {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    // return this.searchService.search(this.searchUrl, term);
     const encodedTerm: string = encodeURIComponent(term);
     const uri: string = [this.searchUrl, encodedTerm].join('/');
     return this.http.get(uri);
