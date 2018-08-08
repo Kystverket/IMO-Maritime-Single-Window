@@ -319,7 +319,7 @@ export class PortCallService {
     if (purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http
-        .delete(uri, null)
+        .delete(uri)
         .subscribe(removePurposeResponse => {
           if (removePurposeResponse) {
             this.detailsPristine.next(true);
