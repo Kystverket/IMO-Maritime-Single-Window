@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
 import { AuthRequest } from './auth.request.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class PortCallOverviewService extends BaseRequest {
+
     private portCallUrl: string;
     private portCallUserUrl: string;
     private overviewUrl: string;
@@ -34,11 +36,10 @@ export class PortCallOverviewService extends BaseRequest {
     loadingPortCall$ = this.loadingPortCallSource.asObservable();
 
     constructor(
-        private http: Http,
-        authRequestService: AuthRequest,
+        private http: HttpClient,
         configService: ConfigService
     ) {
-        super(configService, authRequestService);
+        super(configService);
         this.portCallUrl = 'api/portcall';
         this.partialOverviewUrl = this.portCallUrl + '/partialOverview';
         this.overviewUrl = this.portCallUrl + '/overview';
@@ -69,28 +70,27 @@ export class PortCallOverviewService extends BaseRequest {
         this.clearedByUserAgencyDataSource.next(data);
     }
 
-    getPartialOverview(portCallId: number) {
+    getPartialOverview(portCallId: number): Observable<any> {
         const uri: string = [this.partialOverviewUrl, portCallId].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get(uri);
     }
 
-    getOverview(portCallId: number) {
+    getOverview(portCallId: number): Observable<any> {
         const uri: string = [this.overviewUrl, portCallId].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get(uri);
     }
 
     setPortCallData(data) {
         this.portCallDataSource.next(data);
     }
 
-    getPortCalls() {
-        const options = this.getRequestOptions();
+    getPortCalls(): Observable<any> {
         const uri = this.portCallUserUrl;
-        return this.http.get(uri, options).map(res => res.json());
+        return this.http.get(uri);
     }
 
-    getOverviews() {
+    getOverviews(): Observable<any> {
         const uri = this.overviewUrl;
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get(uri);
     }
 }

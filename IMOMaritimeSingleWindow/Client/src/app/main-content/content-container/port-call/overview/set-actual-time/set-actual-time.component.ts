@@ -163,7 +163,7 @@ export class SetActualTimeComponent implements OnInit {
     );
   }
 
-  openModal(content: NgbModalRef) {
+  openModal(content) {
     this.saving = false;
     this.saved = false;
     this.saveError = false;

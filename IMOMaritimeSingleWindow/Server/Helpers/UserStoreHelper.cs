@@ -15,15 +15,12 @@ namespace IMOMaritimeSingleWindow.Identity.Helpers
 
         public ApplicationUser ConvertToApplicationUser(User user)
         {
-            if (!HasPassword(user))
-                return _mapper.Map<User, ApplicationUser>(user);
-
             ApplicationUser userMap = _mapper.Map<User, ApplicationUser>(user);
             ApplicationUser pwMap = _mapper.Map<Password, ApplicationUser>(user.Password);
             ApplicationUser persMap = _mapper.Map<Person, ApplicationUser>(user.Person);
 
-            ApplicationUser appUser = _mapper.Map(userMap, pwMap);  // Merge
-            _mapper.Map(source: appUser, destination: persMap);     // Merge
+            ApplicationUser appUser = _mapper.Map(userMap, pwMap);              // Merge
+            appUser = _mapper.Map(source: appUser, destination: persMap);       // Merge
 
             return appUser;
         }

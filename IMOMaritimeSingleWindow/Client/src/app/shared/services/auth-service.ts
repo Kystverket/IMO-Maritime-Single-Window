@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
-import { BaseRequest } from '../utils/base.request';
-import { ConfigService } from '../utils/config.service';
+import { BaseRequest } from 'app/shared/utils/base.request';
+import { ConfigService } from 'app/shared/utils/config.service';
 import { Observable } from 'rxjs/Observable';
-import { AuthRequest } from './auth.request.service';
+import { HttpClient } from '@angular/common/http';
+import { MenuClaims } from '../constants/menu-claims';
 
 @Injectable()
 export class AuthService extends BaseRequest {
@@ -11,31 +11,21 @@ export class AuthService extends BaseRequest {
   private actionUrl;
 
   constructor(
-    private http: Http,
-    private authService: AuthRequest,
+    private http: HttpClient,
     configService: ConfigService
   ) {
-    super(configService, authService);
+    super(configService);
     this.actionUrl = this.baseUrl + this.authBaseUrl;
   }
 
   isAdmin(): Observable<boolean> {
-    const authHeader = this.authService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeader });
     return this.http
-      .get(this.actionUrl + '/isAdmin', options)
-      .map(res => res.json());
+      .get<boolean>(this.actionUrl + '/isAdmin');
   }
 
   canSetClearance(): Observable<any> {
-    const authHeader = this.authService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeader });
-    return (
-      this.http
-        // .get(this.actionUrl + "/canSetPortCallClearance", options);
-        .get('api/test/canSetPortCallClearance', options)
-        .map(res => res.json())
-    );
+    return this.http
+      .get('api/test/canSetPortCallClearance');
   }
 
   hasToken(): boolean {
@@ -43,10 +33,13 @@ export class AuthService extends BaseRequest {
   }
 
   hasValidToken(): Observable<boolean> {
-    const authHeader = this.authService.GetHeaders();
-    const options = new RequestOptions({ headers: authHeader });
     return this.http
-      .get(this.actionUrl + '/hasValidToken', options)
-      .map(res => res.json());
+      .get<boolean>(this.actionUrl + '/hasValidToken');
   }
+
+  hasPortCallMenuClaim(claims: any[]): boolean {
+    return claims.filter(claim => claim.type === MenuClaims.TYPE)
+    .some(claim => claim.value === MenuClaims.PORT_CALL);
+  }
+
 }

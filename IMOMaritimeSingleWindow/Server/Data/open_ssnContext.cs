@@ -143,8 +143,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("claim");
 
                 entity.Property(e => e.ClaimId)
-                    .HasColumnName("claim_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("claim_id");
 
                 entity.Property(e => e.ClaimTypeId).HasColumnName("claim_type_id");
 
@@ -163,8 +162,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("claim_type");
 
                 entity.Property(e => e.ClaimTypeId)
-                    .HasColumnName("claim_type_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("claim_type_id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -800,8 +798,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("password");
 
                 entity.Property(e => e.PasswordId)
-                    .HasColumnName("password_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("password_id");
 
                 entity.Property(e => e.Hash).HasColumnName("hash");
             });
@@ -811,8 +808,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("person");
 
                 entity.Property(e => e.PersonId)
-                    .HasColumnName("person_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("person_id");
 
                 entity.Property(e => e.CompanyEmail).HasColumnName("company_email");
 
@@ -1106,8 +1102,7 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.ToTable("role");
 
                 entity.Property(e => e.RoleId)
-                    .HasColumnName("role_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("role_id");
 
                 entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
@@ -1133,8 +1128,7 @@ namespace IMOMaritimeSingleWindow.Data
                     .IsUnique();
 
                 entity.Property(e => e.RoleClaimId)
-                    .HasColumnName("role_claim_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("role_claim_id");
 
                 entity.Property(e => e.ClaimId).HasColumnName("claim_id");
 
@@ -1658,8 +1652,7 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_role_id");
 
                 entity.Property(e => e.UserId)
-                    .HasColumnName("user_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("user_id");
 
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
 
@@ -1699,12 +1692,14 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasOne(d => d.Password)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.PasswordId)
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_user_password_password_id");
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.User)
                     .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.SetNull);
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_user_person_person_id");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.User)
@@ -1720,8 +1715,7 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_login_user_id1");
 
                 entity.Property(e => e.UserLoginId)
-                    .HasColumnName("user_login_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("user_login_id");
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 
@@ -1748,8 +1742,7 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasName("fki_FK_user_token_user_id1");
 
                 entity.Property(e => e.UserTokenId)
-                    .HasColumnName("user_token_id")
-                    .ValueGeneratedNever();
+                    .HasColumnName("user_token_id");
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 

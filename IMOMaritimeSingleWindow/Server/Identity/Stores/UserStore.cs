@@ -236,17 +236,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         protected User GetUserById(Guid userId)
         {
             User _user = null;
-            try { _user = _unitOfWork.Users.Get(userId); }
+            try
+            {
+                _user = _unitOfWork.Users.Get(usr => usr.UserId.Equals(userId), includeProperties: nameof(User.Person) + "," + nameof(User.Password)).FirstOrDefault();
+            }
             catch (NullReferenceException) { }
             return _user;
         }
         protected User GetUserById(string userId)
         {
-            User _user = null;
             var id = ConvertIdFromString(userId);
-            try { _user = _unitOfWork.Users.Get(id); }
-            catch (NullReferenceException) { }
-            return _user;
+            return GetUserById(id);
         }
         #endregion
     }

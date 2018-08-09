@@ -5,3 +5,4 @@ call npm install
 call ng build --bundle-dependencies all --output-path ./../Server/wwwroot
 rem move wwwroot ./../Server/wwwroot
 cd ./../..
+@pause

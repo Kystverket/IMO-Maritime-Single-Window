@@ -59,7 +59,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     );
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(
       shipResult => {
-        this.shipService.setShipOverviewData(shipResult);
+        this.shipService.setShipData(shipResult);
       }
     );
     this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(

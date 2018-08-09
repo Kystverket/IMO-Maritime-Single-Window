@@ -78,7 +78,12 @@ namespace IMOMaritimeSingleWindow.Helpers
                 public const string AdminRole = "AdminRole", SuperAdminRole = "SuperAdminRole";
             }
 
-
+            public static class ClientURIs
+            {
+                public const string AUTH                =   "auth";
+                public const string RESETPASSWORD       =   AUTH + "/" + "ResetPassword";
+                public const string EMAILCONFIRMATION   =   AUTH + "/" + "ConfirmEmail";
+        }
 
 
         }
