@@ -68,6 +68,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   detailsPristineSubscription: Subscription;
   portCallIdDataSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
+  cargoDescriptionSubscription: Subscription;
   reportingForThisPortCallDataSubscription: Subscription;
   portCallPurposeDataSubscription: Subscription;
   otherPurposeNameSubscription: Subscription;
@@ -161,6 +162,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(
+      cargoDescriptionData => {
+        this.detailsModel.cargoBriefDescription = cargoDescriptionData;
+      }
+    );
     this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
@@ -242,6 +248,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.detailsPristineSubscription.unsubscribe();
     this.portCallIdDataSubscription.unsubscribe();
     this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
+    this.cargoDescriptionSubscription.unsubscribe();
     this.reportingForThisPortCallDataSubscription.unsubscribe();
     this.portCallPurposeDataSubscription.unsubscribe();
     this.otherPurposeNameSubscription.unsubscribe();
@@ -276,12 +283,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       this.detailsModel,
       this.purposeModel,
       this.otherPurposeName
-    );
-    console.log(
-      'META: ',
-      this.detailsMeta.valid,
-      '\nPRISTINE: ',
-      this.detailsDataIsPristine
     );
   }
 

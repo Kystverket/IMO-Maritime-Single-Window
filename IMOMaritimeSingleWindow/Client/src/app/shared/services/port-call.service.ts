@@ -1,14 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { LocationModel } from '../models/location-model';
+import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
-import { AuthRequest } from './auth.request.service';
 import { PortCallDetailsService } from './port-call-details.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
-import { HttpClient } from '../../../../node_modules/@angular/common/http';
-import { PortCallDetailsModel } from '../models/port-call-details-model';
 
 @Injectable()
 export class PortCallService {
@@ -59,11 +58,10 @@ export class PortCallService {
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
   constructor(
-    private authRequestService: AuthRequest,
+    private http: HttpClient,
     private prevAndNextPocService: PrevAndNextPocService,
     private portCallDetailsService: PortCallDetailsService
   ) { }
-    private http: Http,
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -204,12 +202,10 @@ export class PortCallService {
     console.log(details);
     details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
-    this.http
-      .post(this.detailsUrl, details)
-      .subscribe(detailsResponse => {
-        console.log('Successfully saved port call details.');
-        this.savePurposesForPortCall(details.portCallId, purposes, otherName);
-      });
+    this.http.post(this.detailsUrl, details).subscribe(detailsResponse => {
+      console.log('Successfully saved port call details.');
+      this.savePurposesForPortCall(details.portCallId, purposes, otherName);
+    });
   }
 
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {

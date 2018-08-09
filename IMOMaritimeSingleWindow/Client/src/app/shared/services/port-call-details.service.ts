@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -42,7 +42,7 @@ export class PortCallDetailsService extends BaseService {
   detailsPristine$ = this.detailsPristine.asObservable();
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
     super();
   }
@@ -51,7 +51,6 @@ export class PortCallDetailsService extends BaseService {
     this.setCrewPassengersAndDimensionsData(details);
     this.setReportingForThisPortCallData(details);
     this.setCargoBriefDescriptionData(details.cargoBriefDescription);
-    // this.setPortCallIdData(details);
     this.detailsPristine.next(true);
   }
 
@@ -99,46 +98,19 @@ export class PortCallDetailsService extends BaseService {
   }
 
   // Get methods
-  getDetailsByPortCallId(portCallId: number) {
+  getDetailsByPortCallId(portCallId: number): Observable<PortCallDetailsModel> {
     const uri: string = [this.detailsPortCallUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        if (res && res.ok) {
-          return res.json();
-        } else {
-          return res.status;
-        }
-      })
-      .catch(e => {
-        return Observable.of(e);
-      });
+    return this.http.get<PortCallDetailsModel>(uri);
   }
 
-  getPurposeByPortCallId(portCallId: number) {
+  getPurposeByPortCallId(portCallId: number): Observable<any> {
     const uri: string = [this.purposePortCallUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-        return Observable.of(e);
-      });
+    return this.http.get<any>(uri);
   }
 
   getOtherName(portCallId: number) {
     const uri: string = [this.purposeOtherNameUrl, portCallId].join('/');
-    return this.http
-      .get(uri)
-      .map(res => {
-        return res.json();
-      })
-      .catch(e => {
-        console.log(e);
-        return Observable.of(e);
-      });
+    return this.http.get(uri);
   }
 
   wipeDetailsData() {

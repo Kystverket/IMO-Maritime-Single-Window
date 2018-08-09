@@ -126,7 +126,7 @@ export class ConfirmDataComponent implements OnInit, OnDestroy {
         // Set details
         const portCallDetails = new PortCallDetailsModel();
         portCallDetails.portCallId = result.portCallId;
-        portCallDetails.portCallDetailsId = result.portCallId;
+        this.portCallService.setPortCallIdData(result.portCallId);
         this.portCallDetailsService.setDetails(portCallDetails);
         this.openConfirmationModal(
           ConfirmationModalComponent.TYPE_SUCCESS,
