@@ -147,7 +147,7 @@
         <div class="col my-auto">
           <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" type="text" name="givenName" required>
           <div *ngIf="!inputPassengerModel.givenName" class="alert alert-danger form-control-sm" role="alert">
-            <span>Given name cannot be empty.</span>
+            <span>This field is required.</span>
           </div>
         </div>
       </div>
@@ -156,7 +156,7 @@
         <div class="col my-auto">
           <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" type="text" name="familyName" required>
           <div *ngIf="!inputPassengerModel.familyName" class="alert alert-danger form-control-sm" role="alert">
-            <span>Family name cannot be empty.</span>
+            <span>This field is required.</span>
           </div>
         </div>
       </div>

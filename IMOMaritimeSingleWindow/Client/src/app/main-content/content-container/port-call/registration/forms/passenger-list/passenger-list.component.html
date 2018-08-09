@@ -8,34 +8,34 @@
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name</label>
-                <input type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
-                  class="form-control form-control-sm" required name="familyName">
+                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
+                <input #familyName="ngModel" type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
+                  class="form-control form-control-sm" alphaNumericValidator required name="familyName">
               </div>
             </div>
-            <div class="alert alert-danger" *ngIf="formValid">
-              <li>
-                <small>Only letters allowed.</small>
+            <div class="alert alert-danger" *ngIf="!isValid(familyName.valid) && familyName.touched">
+              <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
+                <small>Only alphanumeric letters allowed.</small>
               </li>
-              <li>
-                <small>More than one letter required.</small>
+              <li *ngIf="familyName.hasError('required')">
+                <small>This field is required.</small>
               </li>
             </div>
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name</label>
-                <input type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  pattern="^[a-zA-Z0-9.]+$" name="givenName" required>
+                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
+                <input #givenName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                  name="givenName" alphaNumericValidator required>
               </div>
             </div>
 
-            <div class="alert alert-danger" *ngIf="formValid">
-              <li>
-                <small>Only letters, numbers and "." allowed.</small>
+            <div class="alert alert-danger" *ngIf="!isValid(givenName.valid) && givenName.touched">
+              <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
+                <small>Only alphanumeric letters allowed.</small>
               </li>
-              <li>
-                <small>More than one letter required.</small>
+              <li *ngIf="givenName.hasError('required')">
+                <small>This field is required.</small>
               </li>
             </div>
 
@@ -66,16 +66,13 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
-                <input type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
-                  class="form-control form-control-sm" name="placeOfBirth">
+                <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth" class="form-control form-control-sm"
+                  name="placeOfBirth" alphaNumericValidator>
               </div>
             </div>
-            <div class="alert alert-danger" *ngIf="formValid">
-              <li>
-                <small>Only letters allowed.</small>
-              </li>
-              <li>
-                <small>More than one letter required.</small>
+            <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
+              <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
+                <small>Only alphanumeric letters allowed.</small>
               </li>
             </div>
 

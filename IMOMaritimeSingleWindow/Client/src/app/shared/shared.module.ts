@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
-import { OrganizationSmartTableComponent } from 'app/shared/components/organization-smart-table/organization-smart-table.component';
-import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component';
-import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { OrganizationButtonRowComponent } from './components/organization-smart-table/organization-button-row/organization-button-row.component';
+import { OrganizationSmartTableComponent } from './components/organization-smart-table/organization-smart-table.component';
+import { ShipButtonRowComponent } from './components/ship-smart-table/ship-button-row/ship-button-row.component';
+import { DbConnectionService } from './services/db-connection.service';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { ClearancesComponent } from './components/confirmation-view/clearances/clearances.component';
@@ -36,6 +36,7 @@ import { ShipService } from './services/ship.service';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
+import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -47,9 +48,12 @@ import { FormsModule } from '@angular/forms';
     NgSelectModule
   ],
   declarations: [
+    AlphaNumericValidator,
     ClearancesComponent,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
+    ContactSelectComponent,
+    DateTimePickerComponent,
     IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
@@ -58,10 +62,12 @@ import { FormsModule } from '@angular/forms';
     OrganizationSmartTableComponent,
     PortCallDetailsComponent,
     PositiveNumberValidator,
+    PrevAndNextPocTableComponent,
     SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectedPurposesComponent,
     SelectShipContactComponent,
@@ -70,38 +76,35 @@ import { FormsModule } from '@angular/forms';
     ShipSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
-    TableCardComponent,
-    DateTimePickerComponent,
     SsnTableComponent,
-    PrevAndNextPocTableComponent,
-    SearchShipFlagCodeComponent,
-    ContactSelectComponent
+    TableCardComponent,
   ],
   exports: [
+    AlphaNumericValidator,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
+    ContactSelectComponent,
+    DateTimePickerComponent,
     IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
     NumberValidator,
     OrganizationSmartTableComponent,
     PositiveNumberValidator,
+    PrevAndNextPocTableComponent,
     SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectShipContactComponent,
     ShipInfoTableComponent,
     ShipSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
-    TableCardComponent,
-    DateTimePickerComponent,
     SsnTableComponent,
-    PrevAndNextPocTableComponent,
-    SearchShipFlagCodeComponent,
-    ContactSelectComponent
+    TableCardComponent,
   ],
   providers: [
     LocationService,

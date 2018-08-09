@@ -47,7 +47,7 @@ export class PassengerListComponent implements OnInit {
   };
   inTransit: boolean = null;
 
-  formValid = false;
+  formValid = true;
   validDocumentDates = true;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
