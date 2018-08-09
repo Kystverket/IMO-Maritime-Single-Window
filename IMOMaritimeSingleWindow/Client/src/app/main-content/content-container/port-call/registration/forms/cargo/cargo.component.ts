@@ -106,7 +106,6 @@ export class CargoComponent implements OnInit, OnDestroy {
         this.saving = false;
         console.log(res);
       }, error => {
-        this.cargoService.setDataIsPristine(true);
         this.saving = false;
         console.error(error);
       }

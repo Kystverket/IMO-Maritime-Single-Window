@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
-import { PortCallShipStoresModel } from 'app/shared/models/port-call-ship-stores-model';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,37 +12,29 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class SaveShipStoresComponent implements OnInit, OnDestroy {
 
-  shipStoresModel: PortCallShipStoresModel = new PortCallShipStoresModel();
-  reportingModel: any;
-  portCallId: number;
+  @Input() portCallId: number;
 
-  portCallShipStoresList: PortCallShipStoresModel[] = [];
+  shipStoresModel: ShipStoresModel = new ShipStoresModel();
+  reportingModel: any;
+
+  shipStoresList: ShipStoresModel[] = [];
 
   listIsPristine: Boolean = true;
 
-  detailsIdentificationDataSubscription: Subscription;
   shipStoresListSubscription: Subscription;
 
+  saving = false;
+
   constructor(
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private portCallService: PortCallService
   ) { }
 
   ngOnInit() {
-
-    // Database Identification
-    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(results => {
-      if (results) {
-        this.portCallId = results.portCallId;
-      }
-    });
-
-    // Get original ship stores list belonging to this port call
-
     // Get updated list of ship stores
     this.shipStoresListSubscription = this.shipStoresService.shipStoresList$.subscribe(shipStoresList => {
       if (shipStoresList) {
-        this.portCallShipStoresList = shipStoresList;
+        this.shipStoresList = shipStoresList;
       }
 
       this.shipStoresService.dataIsPristine$.subscribe(isPristine => {
@@ -53,13 +45,23 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.detailsIdentificationDataSubscription.unsubscribe();
     this.shipStoresListSubscription.unsubscribe();
   }
 
   saveShipStores() {
-      this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
-      this.shipStoresService.updateShipStores(this.portCallShipStoresList).subscribe(res => {});
+    this.saving = true;
+    const formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+    this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(
+      res => {
+        this.shipStoresService.setDataIsPristine(true);
+        this.saving = false;
+        console.log(res.json());
+      },
+      error => {
+        this.saving = false;
+        console.log(error);
+      }
+    );
   }
 
 }

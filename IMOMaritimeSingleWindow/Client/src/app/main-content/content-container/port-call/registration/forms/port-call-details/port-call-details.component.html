@@ -12,12 +12,18 @@
 
 <div class="row">
   <div class="col">
+    <app-cargo-description></app-cargo-description>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
     <app-purpose></app-purpose>
   </div>
 </div>
 
 <div class="row">
   <div class="col">
-    <app-save-details></app-save-details>
+    <app-save-details [portCallId]="portCallId"></app-save-details>
   </div>
 </div>

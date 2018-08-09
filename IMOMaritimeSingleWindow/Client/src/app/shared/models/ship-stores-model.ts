@@ -1,7 +1,7 @@
 import { MeasurementTypeModel } from 'app/shared/models/measurement-type-model';
 import { PortCallModel } from './port-call-model';
 
-export class PortCallShipStoresModel {
+export class ShipStoresModel {
     falShipStoresId: number;
     sequenceNumber: number;
     articleName: string;

@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ContentService } from 'app/shared/services/content.service';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
-import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 
 
 @Component({
@@ -45,6 +46,9 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
   menuEntries: any[];
 
+  cargoIsPrisitne = true;
+  shipStoresIsPristine = true;
+
   selectedPortCallForm: string;
 
   reportingForThisPortCallDataSubscription: Subscription;
@@ -58,16 +62,17 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
   constructor(
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService
   ) { }
 
   ngOnInit() {
     this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
 
-    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
           const falForms = [
@@ -83,14 +88,14 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
               hasError: false,
-              hasUnsavedData: false
+              hasUnsavedData: !this.cargoIsPrisitne
             },
             {
               name: this.formNames.SHIP_STORES,
               icon: 'alcohol.png',
               checked: reportingData.reportingShipStores || false,
               hasError: false,
-              hasUnsavedData: false
+              hasUnsavedData: !this.shipStoresIsPristine
             },
             {
               name: this.formNames.CREW,
@@ -123,7 +128,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
@@ -147,7 +152,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.portCallDetailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(
+    this.portCallDetailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.menuEntries.find(
           p => p.name === this.formNames.PORT_CALL_DETAILS
@@ -156,6 +161,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     );
 
     this.shipStoresDataIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
+      this.shipStoresIsPristine = shipStoresDataIsPristine;
       const shipStores = this.menuEntries.find(
         p => p.name === this.formNames.SHIP_STORES
       );
@@ -166,6 +172,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
     this.cargoDataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(
       cargoDataIsPristine => {
+        this.cargoIsPrisitne = cargoDataIsPristine;
         const cargo = this.menuEntries.find(
           p => p.name === this.formNames.CARGO
         );

@@ -21,8 +21,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpPost("list")]
-        public IActionResult AddList([FromBody] List<FalShipStores> shipStoresList)
+        [HttpPut("{portCallId}/list")]
+        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList, int portCallId)
         {
             if (!ModelState.IsValid)
             {
@@ -30,44 +30,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
-                _context.FalShipStores.RemoveRange(removeList);
+                _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(st => st.PortCallId == portCallId));
                 _context.FalShipStores.AddRange(shipStoresList);
                 _context.SaveChanges();
-                return Ok(true);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
-
-        [HttpPut("list")]
-        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
-                _context.FalShipStores.RemoveRange(removeList);
-                foreach (FalShipStores shipStoresEntity in shipStoresList)
-                {
-                    if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
-                    {
-                        _context.Update(shipStoresEntity);
-                    }
-                    else
-                    {
-                        _context.Add(shipStoresEntity);
-                    }
-                }
-                _context.SaveChanges();
-                return Ok(true);
+                return Json(shipStoresList);
             }
             catch (Exception e)
             {
