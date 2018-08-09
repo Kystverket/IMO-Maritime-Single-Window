@@ -43,10 +43,22 @@
       </div>
     </div>
 
+    <div *ngIf="!cargoDataIsPristine && cargoIsChecked" class="row">
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: Cargo data is unsaved.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="saveCargo()">
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Cargo
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="!shipStoresDataIsPristine && shipStoresIsChecked" class="row">
       <div class="col">
         <div class="alert alert-warning">
-          <span>Warning: Ship Stores List is unsaved.</span>
+          <span>Warning: Ship Stores data is unsaved.</span>
           <br>
           <button class="btn btn-ssn mt-2" (click)="saveShipStores()">
             <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Ship Stores

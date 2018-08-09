@@ -5,6 +5,7 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { PortCallShipStoresService } from 'app/shared/services/port-call-ship-stores.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 
 
 @Component({
@@ -53,12 +54,14 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   voyagesMetaSubscription: Subscription;
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
+  cargoDataIsPristineSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
-    private shipStoresService: PortCallShipStoresService
+    private shipStoresService: PortCallShipStoresService,
+    private cargoService: FalCargoService
   ) { }
 
   ngOnInit() {
@@ -160,6 +163,17 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
         shipStores.hasUnsavedData = !shipStoresDataIsPristine;
       }
     });
+
+    this.cargoDataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(
+      cargoDataIsPristine => {
+        const cargo = this.menuEntries.find(
+          p => p.name === this.formNames.CARGO
+        );
+        if (cargo) {
+          cargo.hasUnsavedData = !cargoDataIsPristine;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -169,6 +183,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     this.voyagesDataIsPristineSubscription.unsubscribe();
     this.portCallDetailsPristineSubscription.unsubscribe();
     this.shipStoresDataIsPristineSubscription.unsubscribe();
+    this.cargoDataIsPristineSubscription.unsubscribe();
   }
 
   setPortCallForm(contentName: string) {

@@ -11,8 +11,6 @@ namespace IMOMaritimeSingleWindow.Helpers
         public PortCall PortCall { get; set; }
         public Ship Ship { get; set; }
         public Location Location { get; set; }
-        public Location PreviousLocation { get; set; }
-        public Location NextLocation { get; set; }
         public List<OrganizationPortCall> ClearanceList { get; set; }
         public string Status { get; set; }
     }

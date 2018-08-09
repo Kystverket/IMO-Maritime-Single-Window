@@ -298,3 +298,5 @@ IMOMaritimeSingleWindow/Server/IMO-SSW\.csproj
 *.pubxml
 
 IMOMaritimeSingleWindow/\.vscode/
+IMOMaritimeSingleWindow/Server/.vscode/launch.json
+IMOMaritimeSingleWindow/Server/.vscode/tasks.json
