@@ -406,6 +406,10 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.deletePassengerEntry(row);
   }
 
+  deleteAllPassengers() {
+    this.passengerListService.setPassengersList([]);
+  }
+
   savePassengers() {
     this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
   }
