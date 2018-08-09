@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="modal-footer" [ngSwitch]="selectedForm">
-    <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteShipStoreEntry(); close">
+    <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteItem(); close">
       <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Delete Ship Store</span>
     </button>

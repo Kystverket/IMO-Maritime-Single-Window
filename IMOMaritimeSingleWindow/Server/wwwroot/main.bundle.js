@@ -4165,7 +4165,7 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__registration_forms_shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
@@ -6206,7 +6206,7 @@ module.exports = "<div [ngSwitch]=\"selectedForm\">\r\n  <button *ngSwitchCase=\
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
@@ -6277,7 +6277,7 @@ var DeleteButtonComponent = /** @class */ (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_constants_service__["a" /* ConstantsService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_passenger_list_service__["a" /* PortCallPassengerListService */],
             __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__["a" /* ContentService */]])
     ], DeleteButtonComponent);
@@ -6308,8 +6308,8 @@ module.exports = "<app-ssn-card header=\"Save Ship Stores\" icon=\"save.png\">\r
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SaveShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -6328,7 +6328,7 @@ var SaveShipStoresComponent = /** @class */ (function () {
     function SaveShipStoresComponent(shipStoresService, portCallService) {
         this.shipStoresService = shipStoresService;
         this.portCallService = portCallService;
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.portCallShipStoresList = [];
         this.listIsPristine = true;
     }
@@ -6365,7 +6365,7 @@ var SaveShipStoresComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__["a" /* PortCallService */]])
     ], SaveShipStoresComponent);
     return SaveShipStoresComponent;
@@ -6396,9 +6396,9 @@ module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -6422,7 +6422,7 @@ var ShipStoresComponent = /** @class */ (function () {
         this.shipStoresService = shipStoresService;
         this.portCallService = portCallService;
         this.portCallShipStoresList = [];
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.listIsPristine = true;
         this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__["a" /* LocalDataSource */]();
         this.tableSettings = {
@@ -6473,7 +6473,7 @@ var ShipStoresComponent = /** @class */ (function () {
     }
     ShipStoresComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (element) {
             if (element) {
                 _this.portCallShipStoresModel.portCallId = element.portCallId;
@@ -6555,7 +6555,7 @@ var ShipStoresComponent = /** @class */ (function () {
         }
         // Add this ship store to local model and create new model
         this.portCallShipStoresList.push(this.portCallShipStoresModel);
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* ShipStoresModel */]();
         // Update value in service
         this.shipStoresService.setShipStoresInformationData(this.portCallShipStoresList);
     };
@@ -6576,7 +6576,7 @@ var ShipStoresComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */]])
     ], ShipStoresComponent);
     return ShipStoresComponent;
@@ -6609,7 +6609,7 @@ module.exports = "<div class=\"card card-ssn bg-ssn text-ssn\">\r\n  <div class=
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10528,15 +10528,15 @@ var PassengerModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/models/port-call-ship-stores-model.ts":
+/***/ "./src/app/shared/models/ship-stores-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresModel; });
-var PortCallShipStoresModel = /** @class */ (function () {
-    function PortCallShipStoresModel() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresModel; });
+var ShipStoresModel = /** @class */ (function () {
+    function ShipStoresModel() {
     }
-    return PortCallShipStoresModel;
+    return ShipStoresModel;
 }());
 
 
@@ -11773,11 +11773,11 @@ var PortCallPassengerListService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/services/port-call-ship-stores.service.ts":
+/***/ "./src/app/shared/services/fal-ship-stores.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FalShipStoresService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
@@ -11793,8 +11793,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var PortCallShipStoresService = /** @class */ (function () {
-    function PortCallShipStoresService(http) {
+var FalShipStoresService = /** @class */ (function () {
+    function FalShipStoresService(http) {
         this.http = http;
         this.shipStoresInformationSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipStoresList$ = this.shipStoresInformationSource.asObservable();
@@ -11816,12 +11816,12 @@ var PortCallShipStoresService = /** @class */ (function () {
     }
     // API calls
     // Get ship stores object by its primary key ID
-    PortCallShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
+    FalShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
         var uri = [this.shipStoresUrl, shipStoresId].join('/');
         return this.http.get(uri);
     };
     // Add new ship stores list to database
-    PortCallShipStoresService.prototype.addShipStores = function (shipStoresList) {
+    FalShipStoresService.prototype.addShipStores = function (shipStoresList) {
         var _this = this;
         console.log('Adding Ship Stores...');
         var uri = this.shipStoresListUrl;
@@ -11832,7 +11832,7 @@ var PortCallShipStoresService = /** @class */ (function () {
         });
     };
     // Update  existing ship stores list in database
-    PortCallShipStoresService.prototype.updateShipStores = function (shipStoresList) {
+    FalShipStoresService.prototype.updateShipStores = function (shipStoresList) {
         var _this = this;
         console.log('Updating ship stores...');
         console.log(shipStoresList);
@@ -11845,13 +11845,13 @@ var PortCallShipStoresService = /** @class */ (function () {
         });
     };
     // Get all ship stores for a given port call
-    PortCallShipStoresService.prototype.getShipStoresByPortCallId = function (portCallId) {
+    FalShipStoresService.prototype.getShipStoresByPortCallId = function (portCallId) {
         var uri = [this.portCallUrl, portCallId].join('/');
         uri = [uri, this.shipStoresString].join('/');
         return this.http.get(uri);
     };
     // Get list of all measurement types
-    PortCallShipStoresService.prototype.getMeasurementTypeList = function () {
+    FalShipStoresService.prototype.getMeasurementTypeList = function () {
         var uri = this.measurementTypeUrl;
         return this.http.get(uri);
     };
@@ -11861,21 +11861,21 @@ var PortCallShipStoresService = /** @class */ (function () {
      *
      ************************/
     // Update shipStoresInformationData
-    PortCallShipStoresService.prototype.setShipStoresInformationData = function (data) {
+    FalShipStoresService.prototype.setShipStoresInformationData = function (data) {
         this.shipStoresInformationSource.next(data);
     };
     // Update setShipStoresInformationMeta
-    PortCallShipStoresService.prototype.setShipStoresInformationMeta = function (metaData) {
+    FalShipStoresService.prototype.setShipStoresInformationMeta = function (metaData) {
         this.shipStoresInformationMeta.next(metaData);
     };
-    PortCallShipStoresService.prototype.setDataIsPristine = function (isPristine) {
+    FalShipStoresService.prototype.setDataIsPristine = function (isPristine) {
         this.dataIsPristine.next(isPristine);
     };
-    PortCallShipStoresService.prototype.setCheckedInProgressBar = function (checked) {
+    FalShipStoresService.prototype.setCheckedInProgressBar = function (checked) {
         this.isCheckedInProgressBar.next(checked);
     };
     // Delete port call draft
-    PortCallShipStoresService.prototype.deleteShipStoreEntry = function (data) {
+    FalShipStoresService.prototype.deleteShipStoreEntry = function (data) {
         var _this = this;
         var copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
         data = JSON.stringify(this.createComparableObject(data));
@@ -11897,7 +11897,7 @@ var PortCallShipStoresService = /** @class */ (function () {
      *  HELP METHODS
      *
      ******************/
-    PortCallShipStoresService.prototype.createComparableObject = function (item) {
+    FalShipStoresService.prototype.createComparableObject = function (item) {
         var object = {
             sequenceNumber: item.sequenceNumber,
             articleCode: item.articleCode,
@@ -11908,7 +11908,7 @@ var PortCallShipStoresService = /** @class */ (function () {
         };
         return object;
     };
-    PortCallShipStoresService.prototype.setSequenceNumbers = function (list) {
+    FalShipStoresService.prototype.setSequenceNumbers = function (list) {
         var tempSequenceNumber = 1;
         list.forEach(function (item) {
             item.sequenceNumber = tempSequenceNumber;
@@ -11916,7 +11916,7 @@ var PortCallShipStoresService = /** @class */ (function () {
         });
         return list;
     };
-    PortCallShipStoresService = __decorate([
+    FalShipStoresService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClient */]])
     ], PortCallShipStoresService);

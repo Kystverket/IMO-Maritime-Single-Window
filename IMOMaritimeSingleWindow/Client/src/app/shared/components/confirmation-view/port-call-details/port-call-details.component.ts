@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
 
 const NO_OF_CREW = 'No. of Crew';
@@ -22,10 +22,10 @@ export class PortCallDetailsComponent implements OnInit, OnDestroy {
 
   crewPassengersAndDimensionsDataSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) {}
+  constructor(private portCallDetailsService: PortCallDetailsService) {}
 
   ngOnInit() {
-    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(data => {
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(data => {
       if (data != null) {
         this.portCallDetailsInfo.find(p => p.description === NO_OF_CREW).data =
           data.numberOfCrew;

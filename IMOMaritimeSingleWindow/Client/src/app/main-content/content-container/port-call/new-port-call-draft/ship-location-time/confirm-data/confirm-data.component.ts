@@ -11,6 +11,7 @@ import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interfac
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 
 const RESULT_SUCCESS =
   'The port call draft was successfully created. You will now be taken to the wizard for ' +
@@ -39,6 +40,7 @@ export class ConfirmDataComponent implements OnInit, OnDestroy {
 
   constructor(
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private contentService: ContentService,
     private modalService: NgbModal
   ) { }
@@ -124,8 +126,8 @@ export class ConfirmDataComponent implements OnInit, OnDestroy {
         // Set details
         const portCallDetails = new PortCallDetailsModel();
         portCallDetails.portCallId = result.portCallId;
-        portCallDetails.portCallDetailsId = result.portCallId;
-        this.portCallService.setDetails(portCallDetails);
+        this.portCallService.setPortCallIdData(result.portCallId);
+        this.portCallDetailsService.setDetails(portCallDetails);
         this.openConfirmationModal(
           ConfirmationModalComponent.TYPE_SUCCESS,
           RESULT_SUCCESS

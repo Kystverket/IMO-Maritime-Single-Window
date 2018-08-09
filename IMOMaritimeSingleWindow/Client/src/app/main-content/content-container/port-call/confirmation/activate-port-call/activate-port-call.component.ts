@@ -1,19 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
+import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { LocationModel } from 'app/shared/models/location-model';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallShipStoresService } from '../../../../../shared/services/port-call-ship-stores.service';
-import { PortCallShipStoresModel } from '../../../../../shared/models/port-call-ship-stores-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
@@ -27,17 +28,18 @@ const RESULT_FAILURE = 'There was a problem when trying to activate this port ca
 })
 export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
+  portCallId: number;
+
   prevAndNextPortCallDataIsPristine = true;
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
 
-  shipStoresIsChecked = false;
+  reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
 
   voyagesMeta: FormMetaData;
 
-  detailsIdentificationModel: any;
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
   reportingModel: any;
@@ -50,7 +52,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   nextLocationModel: LocationModel;
   etdModel: DateTime = null;
   etaModel: DateTime = null;
-  portCallId: number;
 
   shipStoresList: any[];
 
@@ -65,8 +66,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   nextPortOfCallEtaSubscription: Subscription;
   voyagesMetaSubscription: Subscription;
   detailsPristineSubscription: Subscription;
-  detailsIdentificationSubscription: Subscription;
+  portCallIdDataSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
+  cargoDescriptionSubscription: Subscription;
   reportingForThisPortCallDataSubscription: Subscription;
   portCallPurposeDataSubscription: Subscription;
   otherPurposeNameSubscription: Subscription;
@@ -81,8 +83,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   constructor(
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private prevAndNextPocService: PrevAndNextPocService,
-    private shipStoresService: PortCallShipStoresService,
+    private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal
   ) { }
@@ -142,25 +145,29 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     //
     // Details
     //
-    this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(detailsDataIsPristine => {
+    this.detailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.detailsDataIsPristine = detailsDataIsPristine;
     });
-    this.detailsIdentificationSubscription = this.portCallService.detailsIdentificationData$.subscribe(
-      detailsIdentificationData => {
-        if (detailsIdentificationData) {
-          this.detailsIdentificationModel = detailsIdentificationData;
-          this.portCallId = detailsIdentificationData.portCallId;
+    this.portCallIdDataSubscription = this.portCallService.portCallIdData$.subscribe(
+      portCallIdData => {
+        if (portCallIdData) {
+          this.portCallId = portCallIdData;
         }
       }
     );
-    this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(
+    this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
     );
-    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(
+      cargoDescriptionData => {
+        this.detailsModel.cargoBriefDescription = cargoDescriptionData;
+      }
+    );
+    this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
           console.log(reportingData);
@@ -169,17 +176,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(purposeData => {
+    this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(purposeData => {
       if (purposeData) {
         this.purposeModel = purposeData;
       }
     });
-    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(otherPurposeNameData => {
+    this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(otherPurposeNameData => {
       if (otherPurposeNameData) {
         this.otherPurposeName = otherPurposeNameData;
       }
     });
-    this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(
+    this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.detailsMeta = metaData;
       }
@@ -199,9 +206,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.shipStoresDataIsPristine = pristineData;
       }
     );
-    this.shipStoresIsCheckedSubscription = this.shipStoresService.isCheckedInProgressBar$.subscribe(
+    this.shipStoresIsCheckedSubscription = this.shipStoresService.reportingShipStoresIsChecked$.subscribe(
       isCheckedData => {
-        this.shipStoresIsChecked = isCheckedData;
+        this.reportingShipStoresIsChecked = isCheckedData;
       }
     );
     //
@@ -239,8 +246,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.prevPortOfCallEtdSubscription.unsubscribe();
     this.nextPortOfCallEtaSubscription.unsubscribe();
     this.detailsPristineSubscription.unsubscribe();
-    this.detailsIdentificationSubscription.unsubscribe();
+    this.portCallIdDataSubscription.unsubscribe();
     this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
+    this.cargoDescriptionSubscription.unsubscribe();
     this.reportingForThisPortCallDataSubscription.unsubscribe();
     this.portCallPurposeDataSubscription.unsubscribe();
     this.otherPurposeNameSubscription.unsubscribe();
@@ -260,8 +268,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   saveDetails() {
-    this.detailsModel.portCallDetailsId = this.detailsIdentificationModel.portCallDetailsId;
-    this.detailsModel.portCallId = this.detailsIdentificationModel.portCallId;
+    this.detailsModel.portCallDetailsId = this.portCallId;
+    this.detailsModel.portCallId = this.portCallId;
     this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
     this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
@@ -276,17 +284,19 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       this.purposeModel,
       this.otherPurposeName
     );
-    console.log(
-      'META: ',
-      this.detailsMeta.valid,
-      '\nPRISTINE: ',
-      this.detailsDataIsPristine
-    );
   }
 
   saveShipStores() {
-    this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-    this.shipStoresService.updateShipStores(this.shipStoresList);
+    const formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+    this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(
+      res => {
+        this.shipStoresService.setDataIsPristine(true);
+        console.log(res);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   saveCargo() {
@@ -303,7 +313,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   send() {
     this.portCallService
-      .updatePortCallStatusAwaitingClearance(this.detailsIdentificationModel.portCallId)
+      .updatePortCallStatusAwaitingClearance(this.portCallId)
       .subscribe(
         updateStatusResponse => {
           console.log('Status successfully updated.');
