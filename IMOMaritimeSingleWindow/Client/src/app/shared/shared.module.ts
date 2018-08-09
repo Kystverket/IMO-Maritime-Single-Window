@@ -37,6 +37,8 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { ErrorService } from './services/error.service';
+import { HeaderHomeComponent } from './components/header-home/header-home.component';
 
 @NgModule({
   imports: [
@@ -75,7 +77,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    HeaderHomeComponent
   ],
   exports: [
     ConfirmationModalComponent,
