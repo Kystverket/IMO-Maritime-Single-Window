@@ -13,6 +13,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
+import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 
 @Component({
   selector: 'app-passenger-list',
@@ -37,6 +38,7 @@ export class PassengerListComponent implements OnInit {
   listIsPristine: Boolean = true;
 
   @ViewChild(PassengerModalComponent) passengerModalComponent;
+  @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -164,16 +166,6 @@ export class PassengerListComponent implements OnInit {
       }
 
     });
-    // On start
-/*     this.passengerListService.getPassengerListByPortCallId(this.portCallId).subscribe(list => {
-
-      this.passengerListDataSource = new LocalDataSource();
-      this.portCallPassengerList = [];
-
-      if (list) {
-        this.passengerListService.setPassengersList(list);
-      }
-    }); */
   }
 
   addPassenger() {
@@ -194,9 +186,7 @@ export class PassengerListComponent implements OnInit {
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
-    this.resetIssuingNation();
-    this.resetCountryOfBirth();
-    this.resetNationality();
+    this.identityDocumentComponent.resetForm();
   }
 
 /*   ngOnDestroy()  {
@@ -420,25 +410,15 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
   }
 
+
+
+
   addMockData() {
     const mockportCallPassengerModel = new PersonOnBoardModel();
-    // const mockIdentityDocumentModel = new IdentityDocumentModel();
     mockportCallPassengerModel.familyName = 'Karlsen';
     mockportCallPassengerModel.givenName = 'Unni';
-    // mockIdentityDocumentModel.issuingNation = 'Norway';
-
-    mockportCallPassengerModel.genderId = 3;
-
     mockportCallPassengerModel.dateOfBirth = this.getDateFormat({year: 1994, month: 7, day: 13});
-
-    const mockPortOfEmbakrationModel = new PortModel();
-    mockPortOfEmbakrationModel.name = 'Porsgrunn';
-
-    const mockPortOfDisembakrationModel = new PortModel();
-    mockPortOfDisembakrationModel.name = 'Kiel';
-
     this.portCallPassengerModel = mockportCallPassengerModel;
-    // this.identityDocumentModel = mockIdentityDocumentModel;
     this.addPassenger();
   }
 

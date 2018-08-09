@@ -17,7 +17,6 @@ export class AlphaNumericValidator implements Validator {
   constructor() {}
 
   validate(control: AbstractControl): { [key: string]: any } {
-    console.log(control);
     if (control.value && !/^[a-z0-9]+$/i.test(control.value)) {
         return { invalidAlphaNumeric: true };
     }
