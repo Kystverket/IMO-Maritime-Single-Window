@@ -35,7 +35,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
 
-  shipStoresIsChecked = false;
+  reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
 
   voyagesMeta: FormMetaData;
@@ -200,9 +200,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.shipStoresDataIsPristine = pristineData;
       }
     );
-    this.shipStoresIsCheckedSubscription = this.shipStoresService.isCheckedInProgressBar$.subscribe(
+    this.shipStoresIsCheckedSubscription = this.shipStoresService.reportingShipStoresIsChecked$.subscribe(
       isCheckedData => {
-        this.shipStoresIsChecked = isCheckedData;
+        this.reportingShipStoresIsChecked = isCheckedData;
       }
     );
     //

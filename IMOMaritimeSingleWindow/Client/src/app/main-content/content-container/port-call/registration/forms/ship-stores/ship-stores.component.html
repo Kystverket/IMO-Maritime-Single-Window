@@ -6,51 +6,26 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel"
                             placeholder="Article Name" class="form-control form-control-sm" required name="articleName">
                     </div>
-                </div>
-                <div *ngIf="articleName.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
-                    </li>
-                    <li>
-                        <small>More than one letter required.</small>
-                    </li>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="shipStoresModel.articleCode" #articleCode="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.articleCode" #articleCode="ngModel"
                             placeholder="Article Code" class="form-control form-control-sm" name="articleCode">
                     </div>
-                </div>
-                <div *ngIf="articleCode.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
-                    </li>
-                    <li>
-                        <small>More than one letter required.</small>
-                    </li>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
                             placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard">
                     </div>
                 </div>
-                <div *ngIf="locationOnBoard.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
-                    </li>
-                    <li>
-                        <small>More than one letter required.</small>
-                    </li>
-                </div>
-
             </div>
             <div class="col-md-6 col-lg-6">
                 <div class="form-group row">
@@ -63,10 +38,10 @@
 
                 <div *ngIf="quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')" class="alert alert-danger">
                     <li *ngIf="quantity.hasError('notIntegerError')">
-                        <small>Number of passengers must be an integer.</small>
+                        <small>Quantity must be an integer.</small>
                     </li>
                     <li *ngIf="quantity.hasError('notPositiveNumberError')">
-                        <small>Number of passengers must be a positive number.</small>
+                        <small>Quantity must be a positive number.</small>
                     </li>
                 </div>
 
@@ -88,10 +63,10 @@
                 </div>
                 <div *ngIf="locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')" class="alert alert-danger">
                     <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
-                        <small>Number of passengers must be an integer.</small>
+                        <small>Location on board code must be an integer.</small>
                     </li>
                     <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
-                        <small>Number of passengers must be a positive number.</small>
+                        <small>Location on board code must be a positive number.</small>
                     </li>
                 </div>
             </div>

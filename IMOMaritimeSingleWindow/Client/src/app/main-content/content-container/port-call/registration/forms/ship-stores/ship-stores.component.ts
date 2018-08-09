@@ -143,7 +143,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   persistData() {
     this.updateSequenceNumbers();
-    this.shipStoresService.setShipStoresInformationData(this.shipStoresList);
+    this.shipStoresService.setShipStoresList(this.shipStoresList);
     this.touchData();
     this.reloadTable();
   }
@@ -162,15 +162,6 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   reloadTable() {
     const rows = this.generateRows();
     this.shipStoresDataSource.load(rows);
-  }
-
-  isValid(valid: boolean): boolean {
-    this.sendMetaData();
-    return valid;
-  }
-
-  private sendMetaData(): void {
-    this.shipStoresService.setShipStoresInformationMeta({ valid: this.form.valid });
   }
 
   private updateSequenceNumbers() {

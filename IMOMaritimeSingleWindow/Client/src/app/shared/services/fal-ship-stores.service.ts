@@ -15,11 +15,8 @@ export class FalShipStoresService {
 
   constructor(private http: Http) { }
 
-  private shipStoresInformationSource = new BehaviorSubject<ShipStoresModel[]>(null);
-  shipStoresList$ = this.shipStoresInformationSource.asObservable();
-
-  private shipStoresInformationMeta = new BehaviorSubject<any>({ valid: true });
-  shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
+  private shipStoresListSource = new BehaviorSubject<ShipStoresModel[]>(null);
+  shipStoresList$ = this.shipStoresListSource.asObservable();
 
   private dataIsPristine = new BehaviorSubject<boolean>(true);
   dataIsPristine$ = this.dataIsPristine.asObservable();
@@ -27,10 +24,9 @@ export class FalShipStoresService {
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
 
-  private isCheckedInProgressBar = new BehaviorSubject<boolean>(false);
-  isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
+  private reportingShipStoresIsChecked = new BehaviorSubject<boolean>(false);
+  reportingShipStoresIsChecked$ = this.reportingShipStoresIsChecked.asObservable();
 
-  // API calls
   // Get ship stores object by its primary key ID
   getShipStoresById(shipStoresId: number) {
     const uri = [this.shipStoresUrl, shipStoresId].join('/');
@@ -58,21 +54,9 @@ export class FalShipStoresService {
     return this.http.get(uri).map(res => res.json());
   }
 
-  /************************
-   *
-   *  SETTERS AND DELETE
-   *
-   ************************/
-
   // Update shipStoresInformationData
-  setShipStoresInformationData(data) {
-    console.log(data);
-    this.shipStoresInformationSource.next(data);
-  }
-
-  // Update setShipStoresInformationMeta
-  setShipStoresInformationMeta(metaData: FormMetaData) {
-    this.shipStoresInformationMeta.next(metaData);
+  setShipStoresList(data) {
+    this.shipStoresListSource.next(data);
   }
 
   setDataIsPristine(isPristine: boolean) {
@@ -80,14 +64,8 @@ export class FalShipStoresService {
   }
 
   setCheckedInProgressBar(checked: boolean) {
-    this.isCheckedInProgressBar.next(checked);
+    this.reportingShipStoresIsChecked.next(checked);
   }
-
-  /******************
-   *
-   *  HELP METHODS
-   *
-   ******************/
 
   setSequenceNumbers(list) {
     let tempSequenceNumber = 1;
