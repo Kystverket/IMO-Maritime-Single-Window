@@ -34,6 +34,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
   portCallPurposeDataSubscription: Subscription;
   otherPurposeNameSubscription: Subscription;
   crewPassengersAndDimensionsMetaSubscription: Subscription;
+  cargoDescriptionSubscription: Subscription;
 
   constructor(private portCallService: PortCallService, private portCallDetailsService: PortCallDetailsService) {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
@@ -51,8 +52,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
           this.detailsModel.reportingCrew = reportingData.reportingCrew;
           this.detailsModel.reportingDpg = reportingData.reportingDpg;
           this.detailsModel.reportingPax = reportingData.reportingPax;
-          this.detailsModel.reportingShipStores =
-            reportingData.reportingShipStores;
+          this.detailsModel.reportingShipStores = reportingData.reportingShipStores;
         }
       }
     );
@@ -65,6 +65,14 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
           this.detailsModel.numberOfPassengers = cpadData.numberOfPassengers;
           this.detailsModel.airDraught = cpadData.airDraught;
           this.detailsModel.actualDraught = cpadData.actualDraught;
+        }
+      }
+    );
+    // Cargo Brief Description
+    this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(
+      cargoDescriptionData => {
+        if (cargoDescriptionData) {
+          this.detailsModel.cargoBriefDescription = cargoDescriptionData;
         }
       }
     );
@@ -93,6 +101,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
     this.portCallPurposeDataSubscription.unsubscribe();
     this.otherPurposeNameSubscription.unsubscribe();
     this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
+    this.cargoDescriptionSubscription.unsubscribe();
   }
 
   saveDetails() {

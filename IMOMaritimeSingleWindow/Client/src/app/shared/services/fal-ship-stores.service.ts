@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ShipStoresModel } from '../models/ship-stores-model';
 

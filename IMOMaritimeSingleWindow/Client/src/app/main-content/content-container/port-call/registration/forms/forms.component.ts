@@ -7,7 +7,7 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalShipStoresService } from '../../../../../shared/services/fal-ship-stores.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 
 
 @Component({

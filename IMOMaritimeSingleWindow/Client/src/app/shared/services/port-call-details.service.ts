@@ -20,10 +20,11 @@ export class PortCallDetailsService extends BaseService {
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
 
-  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({
-    valid: true
-  });
+  private crewPassengersAndDimensionsMeta = new BehaviorSubject<FormMetaData>({ valid: true });
   crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
+
+  private cargoBriefDescriptionSource = new BehaviorSubject<string>('');
+  cargoBriefDescriptionData$ = this.cargoBriefDescriptionSource.asObservable();
 
   private reportingForThisPortCallSource = new BehaviorSubject<any>(null);
   reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
@@ -47,21 +48,24 @@ export class PortCallDetailsService extends BaseService {
   }
 
   setDetails(details: PortCallDetailsModel) {
-    // NEW
     this.setCrewPassengersAndDimensionsData(details);
     this.setReportingForThisPortCallData(details);
+    this.setCargoBriefDescriptionData(details.cargoBriefDescription);
     // this.setPortCallIdData(details);
     this.detailsPristine.next(true);
   }
 
   setCrewPassengersAndDimensionsData(data) {
-    // NEW
     this.detailsPristine.next(false);
     this.crewPassengersAndDimensionsSource.next(data);
   }
 
   setCrewPassengersAndDimensionsMeta(metaData: FormMetaData) {
     this.crewPassengersAndDimensionsMeta.next(metaData);
+  }
+
+  setCargoBriefDescriptionData(data) {
+    this.cargoBriefDescriptionSource.next(data);
   }
 
   // Reporting
