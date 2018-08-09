@@ -71,9 +71,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
     // Cargo Brief Description
     this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(
       cargoDescriptionData => {
-        if (cargoDescriptionData) {
-          this.detailsModel.cargoBriefDescription = cargoDescriptionData;
-        }
+        this.detailsModel.cargoBriefDescription = cargoDescriptionData;
       }
     );
     // Purpose

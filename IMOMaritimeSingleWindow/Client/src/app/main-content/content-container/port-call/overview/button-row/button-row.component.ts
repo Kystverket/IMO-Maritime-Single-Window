@@ -197,11 +197,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
 
-  private setContent(content: string) {  // NEW CLEANUP
+  private setContent(content: string) {
     this.setPortCall(content);
   }
 
-  // NEW CLEANUP - Set methods
   setPortCall(content) {
     this.overviewService.setLoadingPortCall(true);
     this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
