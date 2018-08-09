@@ -21,18 +21,18 @@ import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { AuthHomeGuard } from './guards/auth-home.guard';
 import { PasswordForgottenComponent } from './password-forgotten/password-forgotten.component';
-import { HeaderHomeModule } from '../shared/components/header-home/header-home.module';
+import { HeaderModule } from '../main-content/header/header.module';
 
 @NgModule({
   imports: [
     AuthRoutingModule,
-    HeaderHomeModule,
     CommonModule,
     FormsModule,
     NgbModule,
     NgSelectModule,
     RouterModule,
     SharedModule,
+    HeaderModule
   ],
   exports: [
     PasswordComponent,

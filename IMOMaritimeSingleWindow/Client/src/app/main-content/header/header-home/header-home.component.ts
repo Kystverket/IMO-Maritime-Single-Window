@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-header-home',
@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderHomeComponent implements OnInit {
 
+  @Input() standAlone = true;
   iconPath = 'assets/images/icons/128x128/white/';
   
   constructor() { }
