@@ -5,7 +5,6 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -35,6 +34,8 @@ export class PassengerModalComponent implements OnInit {
     'true': 'Yes',
     'false': 'No'
   };
+
+  validDocumentDates: Boolean = true;
 
   constructor(
     private modalService: NgbModal,
@@ -117,28 +118,31 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
+    console.log($event);
     if ($event) {
       this.inputPassengerModel.dateOfBirth = this.getDateFormat($event);
     } else {
-      this.resetDateOfBirth();
+      this.inputPassengerModel.dateOfBirth = this.getDateFormat(null);
     }
   }
 
   setIdentityDocumentIssueDate($event) {
+    this.validDocumentDates = this.checkDocumentDates($event, this.getNgbDateFormat(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate));
     if ($event) {
       this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = this.getDateFormat($event);
     } else {
-      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = null;
+      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = this.getDateFormat(null);
     }
   }
 
   setIdentityDocumentExpiryDate($event) {
+    this.validDocumentDates = this.checkDocumentDates(this.getNgbDateFormat(this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate), $event);
     console.log($event);
     if ($event) {
-      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
-      console.log(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate);
+        this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
+        console.log(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate);
     } else {
-      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = null;
+      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat(null);
     }
   }
 
@@ -195,11 +199,6 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.portOfDisembarkationId = null;
   }
 
-  resetDateOfBirth() {
-    this.inputPassengerModel.dateOfBirth = null;
-  }
-
-
   // Helper methods
   getNgbDateFormat(date) {
     const newDate = new Date(date);
@@ -211,15 +210,44 @@ export class PassengerModalComponent implements OnInit {
   }
 
   getDateFormat(date) {
-    if (date.year && date.month && date.day) {
-      const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
-      return dateString;
+    if (date) {
+      if (date.year && date.month && date.day) {
+        const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+        return dateString;
+      } else {
+        return '';
+      }
     } else {
-      return null;
+      return '';
     }
   }
 
   getDisplayDateFormat(date) {
     return date.split('T')[0];
+  }
+
+  checkDocumentDates(issueDate, expiryDate) {
+    // The dates are in the format {year: number, month: number, day: number}
+
+    console.log(issueDate);
+    console.log(expiryDate);
+    // If any of the dates are null, return true
+    if (!issueDate || !expiryDate || isNaN(issueDate.year) || isNaN(expiryDate.year)) {
+      return true;
+    }
+
+    // Will check if issueDate is before (smaller than) expiryDate
+    if (issueDate.year < expiryDate.year) {
+      return true;
+    } else if (issueDate.year === expiryDate.year) {
+      if (issueDate.month < expiryDate.month) {
+        return true;
+      } else if (issueDate.month === expiryDate.month) {
+        if (issueDate.day < expiryDate.day) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 }

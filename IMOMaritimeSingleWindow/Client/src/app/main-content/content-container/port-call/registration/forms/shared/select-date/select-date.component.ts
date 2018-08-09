@@ -31,15 +31,11 @@ export class SelectDateComponent implements OnInit {
 
   private updateModel($event): void {
     this.validDateFormat = this.hasValidDateFormat($event);
-    if ($event != null) {
-      if (this.validDateFormat) {
-        this.validateData();
-      }
-      this.validateData();
-    }
+    this.validateData();
   }
 
   private hasValidDateFormat($event) {
+    console.log(typeof $event);
     return typeof $event !== 'string';
   }
 

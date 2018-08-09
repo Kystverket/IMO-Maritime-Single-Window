@@ -48,6 +48,7 @@ export class PassengerListComponent implements OnInit {
   inTransit: boolean = null;
 
   formValid = false;
+  validDocumentDates = true;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
   smartTableList = [];
@@ -132,6 +133,10 @@ export class PassengerListComponent implements OnInit {
       if (element) {
         this.portCallPassengerModel.portCallId = element.portCallId;
         this.portCallId = element.portCallId;
+
+        this.passengerListService.passengerListMeta$.subscribe(valid => {
+          this.formValid = valid;
+        });
 
         this.identityDocumentService.identityDocumentList$.subscribe(list => {
           if (list) {
@@ -274,7 +279,9 @@ export class PassengerListComponent implements OnInit {
 
   // Select Methods
   setIdentityDocumentModel($event) {
-    this.identityDocumentModel = $event;
+    console.log($event);
+    this.identityDocumentModel = $event.identityDocumentModel;
+    this.validDocumentDates = $event.validDocumentDates;
   }
 
   setPortOfEmbarkation($event) {

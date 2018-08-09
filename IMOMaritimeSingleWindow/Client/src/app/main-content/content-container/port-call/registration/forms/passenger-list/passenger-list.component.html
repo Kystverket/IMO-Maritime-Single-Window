@@ -162,10 +162,10 @@
   <div class="col-lg-12">
 
     <div class="form-group">
-      <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+      <button *ngIf="form.valid && validDocumentDates" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
         <span>Submit</span>
       </button>
-      <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
+      <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">
         <span>Submit</span>
       </button>
     </div>

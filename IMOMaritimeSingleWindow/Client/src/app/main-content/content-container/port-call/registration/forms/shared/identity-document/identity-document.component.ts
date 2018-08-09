@@ -20,6 +20,8 @@ export class IdentityDocumentComponent implements OnInit {
   @ViewChild(NgForm) form: NgForm;
   formValid = false;
 
+  validDocumentDates: Boolean = true;
+
   constructor(
     private identityDocumentService: IdentityDocumentService
   ) { }
@@ -34,7 +36,11 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   identityDocumentModelChanged() {
-    this.changeIdentityDocumentModel.emit(this.identityDocumentModel);
+    this.changeIdentityDocumentModel.emit(
+      {
+        identityDocumentModel: this.identityDocumentModel,
+        validDocumentDates: this.validDocumentDates
+      });
   }
 
   setNumberOfIdentityDoc($event) {
@@ -53,25 +59,37 @@ export class IdentityDocumentComponent implements OnInit {
     this.identityDocumentModelChanged();
   }
 
-  deselectIssuingNation($event) {
-    this.identityDocumentModel.issuingNation = null;
-    this.identityDocumentModel.issuingNationId = null;
-    this.identityDocumentModelChanged();
-  }
-
-  selectIdentityDocumentType($event) {
+  setIdentityDocumentType($event) {
     this.identityDocumentModel.identityDocumentType = $event;
     this.identityDocumentModel.identityDocumentTypeId = $event.id;
     this.identityDocumentModelChanged();
   }
 
-  setIdentityDocIssueDate($event) {
-    this.identityDocumentModel.identityDocumentIssueDate = this.getDateFormat($event);
+  setIdentityDocumentIssueDate($event) {
+    if ($event) {
+      this.validDocumentDates = this.checkDocumentDates($event, this.getNgbDateFormat(this.identityDocumentModel.identityDocumentExpiryDate));
+      this.identityDocumentModel.identityDocumentIssueDate = this.getDateFormat($event);
+    } else {
+      this.validDocumentDates = true;
+      this.identityDocumentModel.identityDocumentIssueDate = '';
+    }
     this.identityDocumentModelChanged();
   }
 
-  setIdentityDocExpiryDate($event) {
-    this.identityDocumentModel.identityDocumentExpiryDate = this.getDateFormat($event);
+  setIdentityDocumentExpiryDate($event) {
+    if ($event) {
+      this.validDocumentDates = this.checkDocumentDates(this.getNgbDateFormat(this.identityDocumentModel.identityDocumentIssueDate), $event);
+      this.identityDocumentModel.identityDocumentExpiryDate = this.getDateFormat($event);
+    } else {
+      this.validDocumentDates = true;
+      this.identityDocumentModel.identityDocumentExpiryDate = '';
+    }
+    this.identityDocumentModelChanged();
+  }
+
+  resetIssuingNation() {
+    this.identityDocumentModel.issuingNation = null;
+    this.identityDocumentModel.issuingNationId = null;
     this.identityDocumentModelChanged();
   }
 
@@ -95,6 +113,29 @@ export class IdentityDocumentComponent implements OnInit {
       month: newDate.getMonth() + 1,
       day: newDate.getDate()
     };
+  }
+
+  checkDocumentDates(issueDate, expiryDate) {
+    // The dates are in the format {year: number, month: number, day: number}
+
+    // If any of the dates are null og Nan, return true
+    if (!issueDate || !expiryDate || isNaN(issueDate.year) || isNaN(expiryDate.year)) {
+      return true;
+    }
+
+    // Will check if issueDate is before (smaller than) expiryDate
+    if (issueDate.year < expiryDate.year) {
+      return true;
+    } else if (issueDate.year === expiryDate.year) {
+      if (issueDate.month < expiryDate.month) {
+        return true;
+      } else if (issueDate.month === expiryDate.month) {
+        if (issueDate.day < expiryDate.day) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }
