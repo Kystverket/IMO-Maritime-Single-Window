@@ -183,9 +183,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     break;
                 // Agent
                 case Constants.Strings.UserRoles.Agent:
-                    portCallList = _context.OrganizationPortCall.Where(opc => opc.OrganizationId == dbUser.OrganizationId)
-                                                                .Select(opc => opc.PortCall)
-                                                                .Union(_context.PortCall.Where(pc => pc.UserId != null && pc.UserId.ToString().Equals(userId))).ToList();
+                    portCallList = _context.PortCall.Where(pc => pc.User.OrganizationId == dbUser.OrganizationId).ToList();
                     break;
                 // Customs
                 case Constants.Strings.UserRoles.Customs:
@@ -216,7 +214,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     break;
 
             }
-            return Json(portCallList.OrderBy(pc => pc.PortCallStatusId));
+            return Json(portCallList);
         }
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.EDIT)]
         [HttpPut()]
