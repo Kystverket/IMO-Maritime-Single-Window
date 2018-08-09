@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { LocationModel } from '../models/location-model';
 import { BaseService } from './base.service';
-import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
+import { FormMetaData } from '../interfaces/form-meta-data.interface';
 
 @Injectable()
 export class PrevAndNextPocService extends BaseService {

@@ -1,0 +1,173 @@
+<app-ssn-card [header]="'New Consignment'">
+  <div class="text-center">
+    <button class="btn btn-ssn" (click)="openModal(consignmentModal)">New Consignment</button>
+  </div>
+</app-ssn-card>
+
+<div *ngFor="let entry of consignmentWithTableDataList" class="text-center">
+  <app-ssn-card [header]="'Consignment: ' + entry.consignmentModel.name" [collapsible]="true">
+    <div class="row">
+      <div class="col-md-6">
+        <div *ngIf="entry.portOfLoadingData">
+          <table class="table table-bordered text-center mx-auto mb-0">
+            <thead class="bg-ssn text-white">
+              <tr>
+                <th class="py-1">
+                  <h5 class="mb-0">Port Of Loading</h5>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <div class="table-responsive">
+            <app-ssn-table [entryData]="entry.portOfLoadingData"></app-ssn-table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div *ngIf="entry.portOfDischargeData">
+          <table class="table table-bordered text-center mx-auto mb-0">
+            <thead class="bg-ssn text-white">
+              <tr>
+                <th class="py-1">
+                  <h5 class="mb-0">Port Of Discharge</h5>
+                </th>
+              </tr>
+            </thead>
+          </table>
+          <div class="table-responsive">
+            <app-ssn-table [entryData]="entry.portOfDischargeData"></app-ssn-table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row text-left">
+      <div class="col">
+        <p class="mb-0">Remark:</p>
+        <textarea class="col-md-6" readonly disabled rows="5" style="resize: none" value="{{ entry.consignmentModel.remark }}"></textarea>
+      </div>
+    </div>
+    <div class="row py-2">
+      <div class="col">
+        <button class="btn btn-ssn btn-sm" (click)="openModal(consignmentModal, entry.consignmentModel)">
+          <img src="assets/images/icons/128x128/white/edit.png" height="20px">
+          <span> Edit Consignment</span>
+        </button>
+        <button class="btn btn-danger btn-sm" (click)="openModal(deleteConsignmentModal, entry.consignmentModel)">
+          <img src="assets/images/icons/128x128/white/trash.png" height="20px">
+          <span> Delete Consignment</span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <app-cargo-table *ngIf="entry.consignmentModel.cargoItem" [cargoItemList]="entry.consignmentModel.cargoItem" (delete)="onDeleteCargoItem($event)"></app-cargo-table>
+      </div>
+    </div>
+    <div class="row text-left">
+      <div class="col-md-6">
+        <button class="btn btn-ssn btn-sm" (click)="openModal(cargoItemModal, entry.consignmentModel)">
+          <span> New Cargo Item</span>
+        </button>
+      </div>
+    </div>
+  </app-ssn-card>
+</div>
+
+<app-ssn-card [header]="'Save Consignments'">
+  <div class="text-center">
+    <span class="my-2" *ngIf="dataIsPristine">There are no unsaved changes on this page.</span>
+    <div *ngIf="!(saving || dataIsPristine)">
+      <button class="btn btn-ssn my-1" (click)="saveChanges()">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save Consignments</span>
+      </button>
+    </div>
+    <div *ngIf="saving || dataIsPristine">
+      <button class="btn btn-ssn my-1" [disabled]="true">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save Consignments</span>
+      </button>
+      <span *ngIf="saving"> Saving...</span>
+    </div>
+  </div>
+</app-ssn-card>
+
+<ng-template #cargoItemModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ cargoItemModalHeader }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-cargo-item-form [cargoItemModel]="openCargoItem"></app-cargo-item-form>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume
+    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages">
+      <button class="btn btn-ssn mt-2" (click)="saveCargoItem(); close">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+    <div *ngIf="!(openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume
+    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages)">
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #consignmentModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ consignmentModalHeader }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-consignment-form [consignmentModel]="consignmentCopy"></app-consignment-form>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId">
+      <button class="btn btn-ssn mt-2" (click)="saveConsignment(); close">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+    <div *ngIf="!(consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId)">
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteConsignmentModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Confirm Deletion</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <span>Delete the consignment "{{ consignmentCopy.name || 'Consignment without name' }}" and all cargo items belonging to
+        it?
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger mt-2" (click)="deleteConsignment(); close">
+      <img src="assets/images/icons/128x128/white/trash.png" height="24px">
+      <span> Delete</span>
+    </button>
+    <button class="btn btn-ssn mt-2" (click)="close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
+      <span> Cancel</span>
+    </button>
+  </div>
+</ng-template>

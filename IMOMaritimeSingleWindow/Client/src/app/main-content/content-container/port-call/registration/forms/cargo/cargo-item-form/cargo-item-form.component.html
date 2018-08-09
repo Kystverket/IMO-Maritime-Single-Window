@@ -1,0 +1,59 @@
+<form #form="ngForm">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label class="col-form-label-sm no-wrap mb-0" for="shipping_marks">Shipping Marks</label>
+        <input type="text" [(ngModel)]="cargoItemModel.shippingMarks" placeholder="Enter shipping marks" name="shipping_marks" class="form-control form-control-sm"
+        />
+
+        <label class="col-form-label-sm no-wrap mb-0" for="container_identification">Container ID Number</label>
+        <input type="text" [(ngModel)]="cargoItemModel.containerIdentification" placeholder="Enter container ID number" name="container_identification"
+          class="form-control form-control-sm" />
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label class="col-form-label-sm no-wrap mb-0" for="select_package_type">Package Type</label>
+        <ng-select name="select_package_type" [items]="packageTypeList" [(ngModel)]="selectedPackageType" placeholder="Select package type"
+          bindLabel="name" (change)="onPackageTypeSelect($event)" [multiple]="false" [closeOnSelect]="true"></ng-select>
+
+        <label class="col-form-label-sm no-wrap mb-0" for="hs_code">HS Code</label>
+        <input type="text" [(ngModel)]="cargoItemModel.hsCode" placeholder="Enter HS code" name="hs_code" class="form-control form-control-sm"
+        />
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+        <label class="col-form-label-sm no-wrap mb-0" for="gross_volume">Gross Volume</label>
+        <input type="number" [(ngModel)]="cargoItemModel.grossVolume" placeholder="Enter gross volume" name="gross_volume" class="form-control form-control-sm"
+        />
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="form-group">
+
+        <label class="col-form-label-sm no-wrap mb-0" for="gross_weight">Gross Weight</label>
+        <input type="number" [(ngModel)]="cargoItemModel.grossWeight" placeholder="Enter gross weight" name="gross_weight" class="form-control form-control-sm"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <label class="col-form-label-sm no-wrap mb-0" for="number_of_packages">Number of Packages</label>
+      <input type="number" [(ngModel)]="cargoItemModel.numberOfPackages" placeholder="Enter number of packages" name="number_of_packages"
+        class="form-control form-control-sm" />
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <label class="col-form-label-sm no-wrap mb-0" for="description">Description</label>
+      <textarea [(ngModel)]="cargoItemModel.description" (ngModelChange)="touchData()" name="description" class="form-control form-control-sm"
+        rows="4" id="description"></textarea>
+    </div>
+  </div>
+</form>

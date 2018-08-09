@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -21,10 +21,10 @@ export class ReportingComponent implements OnInit, OnDestroy {
 
   reportingForThisPortCallDataSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallDetailsService: PortCallDetailsService) { }
 
   ngOnInit() {
-    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       data => {
         if (data != null) {
           this.reportingModel = data;
@@ -74,6 +74,6 @@ export class ReportingComponent implements OnInit, OnDestroy {
       default:
         console.log('Oops. Something went wrong with the checkboxes.');
     }
-    this.portCallService.setReportingForThisPortCallData(this.reportingModel);
+    this.portCallDetailsService.setReportingForThisPortCallData(this.reportingModel);
   }
 }

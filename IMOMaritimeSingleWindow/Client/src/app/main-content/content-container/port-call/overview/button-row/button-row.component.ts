@@ -11,7 +11,10 @@ import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { PortCallModel } from 'app/shared/models/port-call-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 
 @Component({
   selector: 'app-button-row',
@@ -42,7 +45,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
     private prevAndNextService: PrevAndNextPocService,
+    private cargoService: FalCargoService,
+    private shipStoresService: FalShipStoresService,
     private modalService: NgbModal
   ) { }
 
@@ -191,11 +197,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
 
-  private setContent(content: string) {  // NEW CLEANUP
+  private setContent(content: string) {
     this.setPortCall(content);
   }
 
-  // NEW CLEANUP - Set methods
   setPortCall(content) {
     this.overviewService.setLoadingPortCall(true);
     this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
@@ -209,25 +214,29 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
           this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
           this.prevAndNextService.setDataPristine(true);
+          this.cargoService.setConsignmentListData(data.portCall.consignment);
+          this.cargoService.setDataIsPristine(true);
+          this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
+          this.shipStoresService.setDataIsPristine(true);
           this.setPurpose(content);
         }
       }
     );
   }
   setPurpose(content) {
-    this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallDetailsService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       purposeData => {
         if (purposeData) {
           if (purposeData.find(p => p.name === 'Other')) {
-            this.portCallService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
+            this.portCallDetailsService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
               otherNameData => {
-                this.portCallService.setOtherPurposeName(otherNameData);
-                this.portCallService.setPortCallPurposeData(purposeData);
+                this.portCallDetailsService.setOtherPurposeName(otherNameData);
+                this.portCallDetailsService.setPortCallPurposeData(purposeData);
                 this.setDetails(content);
               }
             );
           } else {
-            this.portCallService.setPortCallPurposeData(purposeData);
+            this.portCallDetailsService.setPortCallPurposeData(purposeData);
             this.setDetails(content);
           }
         } else {
@@ -240,16 +249,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
   setDetails(content) {
-    this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallDetailsService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
       detailsData => {
         if (detailsData) {
-          this.portCallService.setDetails(detailsData);
+          this.portCallDetailsService.setDetails(detailsData);
         } else {
           console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
           portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
           portCallDetails.portCallId = this.rowData.overviewModel.portCall.portCallId;
-          this.portCallService.setDetails(portCallDetails);
+          this.portCallDetailsService.setDetails(portCallDetails);
         }
         this.contentService.setContent(content);
 

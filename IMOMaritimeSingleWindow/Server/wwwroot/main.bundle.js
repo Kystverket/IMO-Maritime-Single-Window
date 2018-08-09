@@ -1799,7 +1799,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser(template)\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Confirm User Registration\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">Register User</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
 
 /***/ }),
 
@@ -1882,21 +1882,15 @@ var RegisterUserComponent = /** @class */ (function () {
             });
         }
     };
-    RegisterUserComponent.prototype.registerUser = function (template) {
+    RegisterUserComponent.prototype.registerUser = function () {
         var _this = this;
         this.accountService.registerUser(this.user)
             .subscribe(function (result) {
-            if (result) {
-                console.log(result);
-                console.log('Link to password set form:', result.text());
-                _this.emailConfirmationLink = result.text();
-                _this.openCustomModal(template, true); // SUCCESS
-                // this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-            }
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
+            // this.openCustomModal(template, true);  // SUCCESS
         }, function (error) {
-            console.log(error);
-            _this.openCustomModal(template, false); // FAILURE
-            // this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+            // this.openCustomModal(template, false);  // FAILURE
         });
     };
     RegisterUserComponent.prototype.onOrganizationResult = function (organizationResult) {
@@ -2144,6 +2138,7 @@ var ClearanceComponent = /** @class */ (function () {
     };
     ClearanceComponent.prototype.saveClearance = function () {
         var _this = this;
+        console.log(this.clearanceModel);
         this.clearanceModel.remark = this.clearanceText;
         this.clearanceModel.cleared = this.givingClearance;
         this.portCallService.saveClearance(this.clearanceModel);
@@ -2156,12 +2151,17 @@ var ClearanceComponent = /** @class */ (function () {
                         allCleared = false;
                     }
                 });
+                console.log('All cleared: ', allCleared);
                 if (allCleared) {
-                    _this.portCallService.updatePortCallStatusCleared(_this.clearanceModel.portCallId).subscribe(function (res) { return console.log('Status set to cleared.'); }, function (err) { return console.log(err); });
+                    _this.portCallService.updatePortCallStatusCleared(_this.clearanceModel.portCallId).subscribe(function (res) {
+                        console.log(res);
+                        console.log('Status set to cleared.');
+                    }, function (err) { return console.log(err); });
                 }
             });
         }
         else {
+            console.log('Setting status to AC...');
             this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(function (res) {
                 console.log(res);
                 console.log('Status set to awaiting clearance');
@@ -2199,7 +2199,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"!prevAndNextPortCallDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePrevAndNextPortCall()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && shipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores List is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine\" class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)\" class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"!prevAndNextPortCallDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePrevAndNextPortCall()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!voyagesMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!cargoDataIsPristine && cargoIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Cargo data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveCargo()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Cargo\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && reportingShipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine\" class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && prevAndNextPortCallDataIsPristine)\" class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -2210,15 +2210,17 @@ module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" 
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ActivatePortCallComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_models_port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2239,21 +2241,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 var RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
 var ActivatePortCallComponent = /** @class */ (function () {
-    function ActivatePortCallComponent(contentService, portCallService, prevAndNextPocService, shipStoresService, modalService) {
+    function ActivatePortCallComponent(contentService, portCallService, portCallDetailsService, prevAndNextPocService, shipStoresService, cargoService, modalService) {
         this.contentService = contentService;
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.prevAndNextPocService = prevAndNextPocService;
         this.shipStoresService = shipStoresService;
+        this.cargoService = cargoService;
         this.modalService = modalService;
         this.prevAndNextPortCallDataIsPristine = true;
         this.detailsDataIsPristine = true;
         this.shipStoresDataIsPristine = true;
-        this.shipStoresIsChecked = false;
+        this.cargoDataIsPristine = true;
+        this.reportingShipStoresIsChecked = false;
+        this.cargoIsChecked = false;
         this.otherPurposeName = '';
-        this.detailsModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
+        this.detailsModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
         this.etdModel = null;
         this.etaModel = null;
         this.portCallIsDraft = false;
@@ -2277,8 +2285,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
             if (etdData) {
                 var dateTime = new Date(etdData);
                 _this.etdModel = {
-                    date: new __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
-                    time: new __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](dateTime.getHours(), dateTime.getMinutes(), 0)
+                    date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+                    time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](dateTime.getHours(), dateTime.getMinutes(), 0)
                 };
             }
             else {
@@ -2289,8 +2297,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
             if (etaData) {
                 var dateTime = new Date(etaData);
                 _this.etaModel = {
-                    date: new __WEBPACK_IMPORTED_MODULE_8__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
-                    time: new __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](dateTime.getHours(), dateTime.getMinutes(), 0)
+                    date: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
+                    time: new __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](dateTime.getHours(), dateTime.getMinutes(), 0)
                 };
             }
             else {
@@ -2305,36 +2313,40 @@ var ActivatePortCallComponent = /** @class */ (function () {
         //
         // Details
         //
-        this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
+        this.detailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
             _this.detailsDataIsPristine = detailsDataIsPristine;
         });
-        this.detailsIdentificationSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (detailsIdentificationData) {
-            if (detailsIdentificationData) {
-                _this.detailsIdentificationModel = detailsIdentificationData;
-                _this.portCallId = detailsIdentificationData.portCallId;
+        this.portCallIdDataSubscription = this.portCallService.portCallIdData$.subscribe(function (portCallIdData) {
+            if (portCallIdData) {
+                _this.portCallId = portCallIdData;
             }
         });
-        this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(function (cpadData) {
+        this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(function (cpadData) {
             if (cpadData) {
                 _this.crewPassengersAndDimensionsModel = cpadData;
             }
         });
-        this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(function (reportingData) {
+        this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(function (cargoDescriptionData) {
+            _this.detailsModel.cargoBriefDescription = cargoDescriptionData;
+        });
+        this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
             if (reportingData) {
+                console.log(reportingData);
                 _this.reportingModel = reportingData;
+                _this.cargoIsChecked = _this.reportingModel.reportingCargo || false;
             }
         });
-        this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(function (purposeData) {
+        this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(function (purposeData) {
             if (purposeData) {
                 _this.purposeModel = purposeData;
             }
         });
-        this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(function (otherPurposeNameData) {
+        this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(function (otherPurposeNameData) {
             if (otherPurposeNameData) {
                 _this.otherPurposeName = otherPurposeNameData;
             }
         });
-        this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(function (metaData) {
+        this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(function (metaData) {
             _this.detailsMeta = metaData;
         });
         //
@@ -2348,8 +2360,17 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.shipStoresIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(function (pristineData) {
             _this.shipStoresDataIsPristine = pristineData;
         });
-        this.shipStoresIsCheckedSubscription = this.shipStoresService.isCheckedInProgressBar$.subscribe(function (isCheckedData) {
-            _this.shipStoresIsChecked = isCheckedData;
+        this.shipStoresIsCheckedSubscription = this.shipStoresService.reportingShipStoresIsChecked$.subscribe(function (isCheckedData) {
+            _this.reportingShipStoresIsChecked = isCheckedData;
+        });
+        //
+        // Cargo
+        //
+        this.cargoDataSubscription = this.cargoService.consignmentListData$.subscribe(function (cargoData) {
+            _this.cargoData = cargoData;
+        });
+        this.cargoIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(function (pristineData) {
+            _this.cargoDataIsPristine = pristineData;
         });
         //
         // Status
@@ -2373,8 +2394,9 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.prevPortOfCallEtdSubscription.unsubscribe();
         this.nextPortOfCallEtaSubscription.unsubscribe();
         this.detailsPristineSubscription.unsubscribe();
-        this.detailsIdentificationSubscription.unsubscribe();
+        this.portCallIdDataSubscription.unsubscribe();
         this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
+        this.cargoDescriptionSubscription.unsubscribe();
         this.reportingForThisPortCallDataSubscription.unsubscribe();
         this.portCallPurposeDataSubscription.unsubscribe();
         this.otherPurposeNameSubscription.unsubscribe();
@@ -2383,6 +2405,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.shipStoresDataSubscription.unsubscribe();
         this.shipStoresIsCheckedSubscription.unsubscribe();
         this.shipStoresIsPristineSubscription.unsubscribe();
+        this.cargoDataSubscription.unsubscribe();
+        this.cargoIsPristineSubscription.unsubscribe();
     };
     ActivatePortCallComponent.prototype.savePrevAndNextPortCall = function () {
         var prevDate = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
@@ -2390,8 +2414,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
     };
     ActivatePortCallComponent.prototype.saveDetails = function () {
-        this.detailsModel.portCallDetailsId = this.detailsIdentificationModel.portCallDetailsId;
-        this.detailsModel.portCallId = this.detailsIdentificationModel.portCallId;
+        this.detailsModel.portCallDetailsId = this.portCallId;
+        this.detailsModel.portCallId = this.portCallId;
         this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
         this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
         this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
@@ -2402,38 +2426,53 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.detailsModel.reportingPax = this.reportingModel.reportingPax;
         this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
         this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
-        console.log('META: ', this.detailsMeta.valid, '\nPRISTINE: ', this.detailsDataIsPristine);
     };
     ActivatePortCallComponent.prototype.saveShipStores = function () {
-        this.shipStoresList = this.shipStoresService.setSequenceNumbers(this.shipStoresList);
-        this.shipStoresService.updateShipStores(this.shipStoresList);
+        var _this = this;
+        var formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+        this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(function (res) {
+            _this.shipStoresService.setDataIsPristine(true);
+            console.log(res);
+        }, function (error) {
+            console.log(error);
+        });
+    };
+    ActivatePortCallComponent.prototype.saveCargo = function () {
+        var _this = this;
+        var formattedCargoData = this.cargoService.formatConsignment(this.cargoData);
+        this.cargoService.saveConsignmentListForPortCall(formattedCargoData, this.portCallId).subscribe(function (res) {
+            _this.cargoService.setDataIsPristine(true);
+            console.log('Cargo successfully saved.\n', res);
+        }, function (error) {
+            console.error(error);
+        });
     };
     ActivatePortCallComponent.prototype.send = function () {
         var _this = this;
         this.portCallService
-            .updatePortCallStatusAwaitingClearance(this.detailsIdentificationModel.portCallId)
+            .updatePortCallStatusAwaitingClearance(this.portCallId)
             .subscribe(function (updateStatusResponse) {
             console.log('Status successfully updated.');
-            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCES);
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCES);
         }, function (error) {
             console.log(error);
-            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
         });
     };
     ActivatePortCallComponent.prototype.goBack = function () {
-        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
+        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
     };
     ActivatePortCallComponent.prototype.openConfirmationModal = function (modalType, bodyText) {
         var _this = this;
-        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
         modalRef.componentInstance.modalType = modalType;
         modalRef.componentInstance.bodyText = bodyText;
         modalRef.result.then(function (result) {
-            if (modalType !== __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
+            if (modalType !== __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
                 _this.goBack();
             }
         }, function (reason) {
-            if (modalType !== __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
+            if (modalType !== __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
                 _this.goBack();
             }
         });
@@ -2444,10 +2483,12 @@ var ActivatePortCallComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
-            __WEBPACK_IMPORTED_MODULE_10__shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_app_shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+            __WEBPACK_IMPORTED_MODULE_9_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
+            __WEBPACK_IMPORTED_MODULE_11_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_12__shared_services_fal_cargo_service__["a" /* FalCargoService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], ActivatePortCallComponent);
     return ActivatePortCallComponent;
@@ -2641,6 +2682,7 @@ module.exports = "<app-ssn-card header=\"Confirm Port Call Draft\" icon=\"checkm
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2661,12 +2703,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var RESULT_SUCCESS = 'The port call draft was successfully created. You will now be taken to the wizard for ' +
     'registering the rest of the information and activating the port call.';
 var RESULT_FAILURE = 'There was a problem when trying to create the new port call draft. Please try again later.';
 var ConfirmDataComponent = /** @class */ (function () {
-    function ConfirmDataComponent(portCallService, contentService, modalService) {
+    function ConfirmDataComponent(portCallService, portCallDetailsService, contentService, modalService) {
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.contentService = contentService;
         this.modalService = modalService;
         this.portCallModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models_port_call_model__["a" /* PortCallModel */]();
@@ -2743,8 +2787,8 @@ var ConfirmDataComponent = /** @class */ (function () {
             // Set details
             var portCallDetails = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
             portCallDetails.portCallId = result.portCallId;
-            portCallDetails.portCallDetailsId = result.portCallId;
-            _this.portCallService.setDetails(portCallDetails);
+            _this.portCallService.setPortCallIdData(result.portCallId);
+            _this.portCallDetailsService.setDetails(portCallDetails);
             _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
         }, function (error) {
             console.log(error);
@@ -2777,6 +2821,7 @@ var ConfirmDataComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/confirm-data/confirm-data.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
             __WEBPACK_IMPORTED_MODULE_7_app_shared_services_content_service__["a" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], ConfirmDataComponent);
@@ -3151,6 +3196,9 @@ module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3172,13 +3220,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
 var ButtonRowComponent = /** @class */ (function () {
-    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, prevAndNextService, modalService) {
+    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, portCallDetailsService, prevAndNextService, cargoService, shipStoresService, modalService) {
         this.accountService = accountService;
         this.overviewService = overviewService;
         this.contentService = contentService;
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.prevAndNextService = prevAndNextService;
+        this.cargoService = cargoService;
+        this.shipStoresService = shipStoresService;
         this.modalService = modalService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.permissions = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__["a" /* PortCallClaims */].buttonRowPermissions;
@@ -3314,7 +3368,6 @@ var ButtonRowComponent = /** @class */ (function () {
     ButtonRowComponent.prototype.setContent = function (content) {
         this.setPortCall(content);
     };
-    // NEW CLEANUP - Set methods
     ButtonRowComponent.prototype.setPortCall = function (content) {
         var _this = this;
         this.overviewService.setLoadingPortCall(true);
@@ -3328,23 +3381,27 @@ var ButtonRowComponent = /** @class */ (function () {
                 _this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
                 _this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
                 _this.prevAndNextService.setDataPristine(true);
+                _this.cargoService.setConsignmentListData(data.portCall.consignment);
+                _this.cargoService.setDataIsPristine(true);
+                _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
+                _this.shipStoresService.setDataIsPristine(true);
                 _this.setPurpose(content);
             }
         });
     };
     ButtonRowComponent.prototype.setPurpose = function (content) {
         var _this = this;
-        this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (purposeData) {
+        this.portCallDetailsService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (purposeData) {
             if (purposeData) {
                 if (purposeData.find(function (p) { return p.name === 'Other'; })) {
-                    _this.portCallService.getOtherName(_this.rowData.overviewModel.portCall.portCallId).subscribe(function (otherNameData) {
-                        _this.portCallService.setOtherPurposeName(otherNameData);
-                        _this.portCallService.setPortCallPurposeData(purposeData);
+                    _this.portCallDetailsService.getOtherName(_this.rowData.overviewModel.portCall.portCallId).subscribe(function (otherNameData) {
+                        _this.portCallDetailsService.setOtherPurposeName(otherNameData);
+                        _this.portCallDetailsService.setPortCallPurposeData(purposeData);
                         _this.setDetails(content);
                     });
                 }
                 else {
-                    _this.portCallService.setPortCallPurposeData(purposeData);
+                    _this.portCallDetailsService.setPortCallPurposeData(purposeData);
                     _this.setDetails(content);
                 }
             }
@@ -3357,16 +3414,16 @@ var ButtonRowComponent = /** @class */ (function () {
     };
     ButtonRowComponent.prototype.setDetails = function (content) {
         var _this = this;
-        this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (detailsData) {
+        this.portCallDetailsService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (detailsData) {
             if (detailsData) {
-                _this.portCallService.setDetails(detailsData);
+                _this.portCallDetailsService.setDetails(detailsData);
             }
             else {
                 console.log('No details information has been registered for this port call.');
                 var portCallDetails = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
                 portCallDetails.portCallDetailsId = _this.rowData.overviewModel.portCall.portCallId;
                 portCallDetails.portCallId = _this.rowData.overviewModel.portCall.portCallId;
-                _this.portCallService.setDetails(portCallDetails);
+                _this.portCallDetailsService.setDetails(portCallDetails);
             }
             _this.contentService.setContent(content);
         }, function (error) {
@@ -3396,7 +3453,10 @@ var ButtonRowComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
             __WEBPACK_IMPORTED_MODULE_8_app_shared_services_content_service__["a" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_10_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_13_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
             __WEBPACK_IMPORTED_MODULE_11_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
+            __WEBPACK_IMPORTED_MODULE_12_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], ButtonRowComponent);
     return ButtonRowComponent;
@@ -3819,7 +3879,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Set actual time of arrival and departure\" (click)=\"openModal(actualTimeModal)\">\r\n  <div class=\"mx-auto\">\r\n    <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n  </div>\r\n</button>\r\n\r\n<ng-template #actualTimeModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Set actual time of arrival and departure</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <app-date-time-picker [header]=\"'ATA'\" [dateTimeModel]=\"portCallAta\" (dateTimeResult)=\"onAtaResult($event)\" (dateFormatError)=\"onAtaDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"ataAfterTodayError\">Actual arrival time cannot be set to the future.</div>\r\n    <app-date-time-picker [header]=\"'ATD'\" [dateTimeModel]=\"portCallAtd\" (dateTimeResult)=\"onAtdResult($event)\" (dateFormatError)=\"onAtdDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"atdAfterTodayError\">Actual departure time cannot be set to the future.</div>\r\n    <div class=\"alert alert-danger\" *ngIf=\"dateSequenceError\">Departure time must be after arrival time.</div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-success\" disabled *ngIf=\"ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <span *ngIf=\"saving\">Saving...</span>\r\n    <span class=\"badge badge-success\" *ngIf=\"saved\">Your changes has been saved.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"saveError\">An error occured when trying to save.</span>\r\n    <button class=\"btn btn-success\" (click)=\"save()\" [disabled]=\"saving\" *ngIf=\"!(ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError)\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"20px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Set actual time of arrival and departure\" (click)=\"openModal(actualTimeModal)\">\r\n  <div class=\"mx-auto\">\r\n    <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n  </div>\r\n</button>\r\n\r\n<ng-template #actualTimeModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Set actual time of arrival and departure</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <app-date-time-picker [header]=\"'ATA'\" [dateTimeModel]=\"portCallAta\" (dateTimeResult)=\"onAtaResult($event)\" (dateFormatError)=\"onAtaDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"ataAfterTodayError\">Actual arrival time cannot be set to the future.</div>\r\n    <app-date-time-picker [header]=\"'ATD'\" [dateTimeModel]=\"portCallAtd\" (dateTimeResult)=\"onAtdResult($event)\" (dateFormatError)=\"onAtdDateFormatError($event)\"></app-date-time-picker>\r\n    <div class=\"alert alert-danger\" *ngIf=\"atdAfterTodayError\">Actual departure time cannot be set to the future.</div>\r\n    <div class=\"alert alert-danger\" *ngIf=\"dateSequenceError\">Departure time must be after arrival time.</div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-success\" disabled *ngIf=\"ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <span *ngIf=\"saving\">Saving...</span>\r\n    <span class=\"badge badge-success\" *ngIf=\"saved\">Your changes have been saved.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"saveError\">An error occured when trying to save.</span>\r\n    <button class=\"btn btn-success\" (click)=\"save()\" [disabled]=\"saving\" *ngIf=\"!(ataAfterTodayError || atdAfterTodayError || dateSequenceError || ataDateFormatError || atdDateFormatError)\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"20px\">\r\n      <span>Save</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -4102,43 +4162,50 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__ = __webpack_require__("./node_modules/@ng-select/ng-select/esm5/ng-select.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__confirmation_confirmation_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_new_port_call_draft_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/new-port-call-draft.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/confirm-data/confirm-data.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/eta-etd/eta-etd.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__new_port_call_draft_ship_location_time_find_location_find_location_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-location/find-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__new_port_call_draft_ship_location_time_find_ship_find_ship_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-ship/find-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__new_port_call_draft_ship_location_time_ship_location_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/ship-location-time.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__registration_forms_prev_and_next_poc_prev_and_next_poc_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/prev-and-next-poc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__registration_forms_shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/search-passenger-port/search-passenger-port.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_main_content_content_container_port_call_registration_forms_cargo_cargo_item_form_cargo_item_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_main_content_content_container_port_call_registration_forms_cargo_cargo_table_cargo_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__confirmation_confirmation_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__new_port_call_draft_new_port_call_draft_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/new-port-call-draft.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/confirm-data/confirm-data.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/eta-etd/eta-etd.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__new_port_call_draft_ship_location_time_find_location_find_location_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-location/find-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__new_port_call_draft_ship_location_time_find_ship_find_ship_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/find-ship/find-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__new_port_call_draft_ship_location_time_ship_location_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/new-port-call-draft/ship-location-time/ship-location-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/search-passenger-port/search-passenger-port.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_prev_and_next_poc_prev_and_next_poc_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/prev-and-next-poc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4177,7 +4244,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-// tslint:disable-next-line:max-line-length
 
 
 
@@ -4185,7 +4251,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-// tslint:disable-next-line:max-line-length
+
+
+
+
+
+
+
 
 
 
@@ -4197,59 +4269,614 @@ var PortCallModule = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["J" /* NgModule */])({
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_11__confirmation_confirmation_module__["a" /* ConfirmationModule */],
+                __WEBPACK_IMPORTED_MODULE_19__confirmation_confirmation_module__["a" /* ConfirmationModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_17_ng2_smart_table__["b" /* Ng2SmartTableModule */],
                 __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
                 __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_8_app_shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_shared_module__["a" /* SharedModule */],
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_18__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_19__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_33__registration_forms_shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_26__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_27__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_45__registration_forms_shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */]],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_18__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__["a" /* ConfirmDataComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__["a" /* EtaEtdComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__new_port_call_draft_ship_location_time_find_location_find_location_component__["a" /* FindLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__new_port_call_draft_ship_location_time_find_ship_find_ship_component__["a" /* FindShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_22__registration_forms_forms_component__["a" /* FormsComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__overview_overview_component__["a" /* OverviewComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_32_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__["a" /* ShipStoresComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__registration_forms_shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__new_port_call_draft_ship_location_time_ship_location_time_component__["a" /* ShipLocationTimeComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__registration_forms_prev_and_next_poc_prev_and_next_poc_component__["a" /* PrevAndNextPocComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__["a" /* FindPortOfEmbarkationComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__["a" /* SearchPassengerPortComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__["a" /* SavePrevAndNextPocComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */]
+                __WEBPACK_IMPORTED_MODULE_26__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__new_port_call_draft_ship_location_time_confirm_data_confirm_data_component__["a" /* ConfirmDataComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__new_port_call_draft_ship_location_time_eta_etd_eta_etd_component__["a" /* EtaEtdComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__new_port_call_draft_ship_location_time_find_location_find_location_component__["a" /* FindLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__new_port_call_draft_ship_location_time_find_ship_find_ship_component__["a" /* FindShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__registration_forms_forms_component__["a" /* FormsComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__overview_overview_component__["a" /* OverviewComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_8_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__["a" /* ShipStoresComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__registration_forms_shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__new_port_call_draft_ship_location_time_ship_location_time_component__["a" /* ShipLocationTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__registration_forms_prev_and_next_poc_prev_and_next_poc_component__["a" /* PrevAndNextPocComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__registration_forms_passenger_list_find_port_of_embarkation_find_port_of_embarkation_component__["a" /* FindPortOfEmbarkationComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__registration_forms_passenger_list_search_passenger_port_search_passenger_port_component__["a" /* SearchPassengerPortComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__registration_forms_prev_and_next_poc_save_prev_and_next_poc_save_prev_and_next_poc_component__["a" /* SavePrevAndNextPocComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
+                __WEBPACK_IMPORTED_MODULE_7_app_main_content_content_container_port_call_registration_forms_cargo_cargo_table_cargo_table_component__["a" /* CargoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_6_app_main_content_content_container_port_call_registration_forms_cargo_cargo_item_form_cargo_item_form_component__["a" /* CargoItemFormComponent */],
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_10__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__new_port_call_draft_new_port_call_draft_component__["a" /* NewPortCallDraftComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
             ],
-            providers: [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_34__shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */], __WEBPACK_IMPORTED_MODULE_37__shared_services_port_call_passenger_list_service__["a" /* PortCallPassengerListService */], __WEBPACK_IMPORTED_MODULE_38__shared_services_country_service__["a" /* CountryService */], __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_14_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_13_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */], __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_passenger_list_service__["a" /* PortCallPassengerListService */], __WEBPACK_IMPORTED_MODULE_9_app_shared_services_country_service__["a" /* CountryService */], __WEBPACK_IMPORTED_MODULE_15_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */], __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */], __WEBPACK_IMPORTED_MODULE_10_app_shared_services_fal_cargo_service__["a" /* FalCargoService */]]
         })
     ], PortCallModule);
     return PortCallModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<form #form=\"ngForm\">\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <div class=\"form-group\">\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"shipping_marks\">Shipping Marks</label>\r\n        <input type=\"text\" [(ngModel)]=\"cargoItemModel.shippingMarks\" placeholder=\"Enter shipping marks\" name=\"shipping_marks\" class=\"form-control form-control-sm\"\r\n        />\r\n\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"container_identification\">Container ID Number</label>\r\n        <input type=\"text\" [(ngModel)]=\"cargoItemModel.containerIdentification\" placeholder=\"Enter container ID number\" name=\"container_identification\"\r\n          class=\"form-control form-control-sm\" />\r\n      </div>\r\n    </div>\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <div class=\"form-group\">\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"select_package_type\">Package Type</label>\r\n        <ng-select name=\"select_package_type\" [items]=\"packageTypeList\" [(ngModel)]=\"selectedPackageType\" placeholder=\"Select package type\"\r\n          bindLabel=\"name\" (change)=\"onPackageTypeSelect($event)\" [multiple]=\"false\" [closeOnSelect]=\"true\"></ng-select>\r\n\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"hs_code\">HS Code</label>\r\n        <input type=\"text\" [(ngModel)]=\"cargoItemModel.hsCode\" placeholder=\"Enter HS code\" name=\"hs_code\" class=\"form-control form-control-sm\"\r\n        />\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <div class=\"form-group\">\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"gross_volume\">Gross Volume</label>\r\n        <input type=\"number\" [(ngModel)]=\"cargoItemModel.grossVolume\" placeholder=\"Enter gross volume\" name=\"gross_volume\" class=\"form-control form-control-sm\"\r\n        />\r\n\r\n      </div>\r\n    </div>\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <div class=\"form-group\">\r\n\r\n        <label class=\"col-form-label-sm no-wrap mb-0\" for=\"gross_weight\">Gross Weight</label>\r\n        <input type=\"number\" [(ngModel)]=\"cargoItemModel.grossWeight\" placeholder=\"Enter gross weight\" name=\"gross_weight\" class=\"form-control form-control-sm\"\r\n        />\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <label class=\"col-form-label-sm no-wrap mb-0\" for=\"number_of_packages\">Number of Packages</label>\r\n      <input type=\"number\" [(ngModel)]=\"cargoItemModel.numberOfPackages\" placeholder=\"Enter number of packages\" name=\"number_of_packages\"\r\n        class=\"form-control form-control-sm\" />\r\n    </div>\r\n    <div class=\"col-md-6 col-lg-6\">\r\n      <label class=\"col-form-label-sm no-wrap mb-0\" for=\"description\">Description</label>\r\n      <textarea [(ngModel)]=\"cargoItemModel.description\" (ngModelChange)=\"touchData()\" name=\"description\" class=\"form-control form-control-sm\"\r\n        rows=\"4\" id=\"description\"></textarea>\r\n    </div>\r\n  </div>\r\n</form>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoItemFormComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_cargo_item_model__ = __webpack_require__("./src/app/shared/models/cargo-item-model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var CargoItemFormComponent = /** @class */ (function () {
+    function CargoItemFormComponent(cargoService) {
+        this.cargoService = cargoService;
+        this.packageTypeList = [];
+    }
+    CargoItemFormComponent.prototype.onPackageTypeSelect = function ($event) {
+        this.cargoItemModel.packageType = $event;
+        this.cargoItemModel.packageTypeId = $event.packageTypeId;
+    };
+    CargoItemFormComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.packageTypeListSubscription = this.cargoService.getPackageTypeList().subscribe(function (result) {
+            _this.packageTypeList = result;
+        });
+    };
+    CargoItemFormComponent.prototype.touchData = function () {
+        // not implemented
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2_app_shared_models_cargo_item_model__["a" /* CargoItemModel */])
+    ], CargoItemFormComponent.prototype, "cargoItemModel", void 0);
+    CargoItemFormComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-cargo-item-form',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_cargo_service__["a" /* FalCargoService */]])
+    ], CargoItemFormComponent);
+    return CargoItemFormComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<table class=\"table table-bordered text-center mx-auto mb-0\">\r\n  <thead class=\"bg-ssn text-white\">\r\n    <tr>\r\n      <th class=\"py-1\">\r\n        <h5 class=\"mb-0\">Cargo</h5>\r\n      </th>\r\n    </tr>\r\n  </thead>\r\n</table>\r\n<div class=\"table-responsive\">\r\n  <ng2-smart-table [settings]=\"cargoTableSettings\" [source]=\"cargoDataSource\"></ng2-smart-table>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoTableComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var CargoTableComponent = /** @class */ (function () {
+    function CargoTableComponent(cargoService) {
+        var _this = this;
+        this.cargoService = cargoService;
+        this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.cargoDataSource = new __WEBPACK_IMPORTED_MODULE_1_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.cargoTableSettings = {
+            mode: 'external',
+            actions: false,
+            attr: {
+                class: 'table table-bordered'
+            },
+            columns: {
+                shippingMarks: {
+                    title: 'Shipping Marks',
+                    type: 'html'
+                },
+                containerIdentification: {
+                    title: 'Container ID Number',
+                    type: 'html'
+                },
+                numberOfPackages: {
+                    title: 'Number of Packages',
+                    type: 'html'
+                },
+                packageType: {
+                    title: 'Package Type',
+                    type: 'html'
+                },
+                descriptionOfGoods: {
+                    title: 'Description of Goods',
+                    type: 'html'
+                },
+                hsCode: {
+                    title: 'HS Code',
+                    type: 'html'
+                },
+                grossVolume: {
+                    title: 'Gross Volume (M3)',
+                    type: 'html'
+                },
+                grossWeight: {
+                    title: 'Gross Weight (KGM)',
+                    type: 'html'
+                },
+                delete: {
+                    title: 'Delete',
+                    type: 'custom',
+                    filter: false,
+                    sort: false,
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_2__shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
+                    onComponentInitFunction: function (instance) {
+                        instance.delete.subscribe(function (row) {
+                            _this.deleteCargoItem(row);
+                        });
+                    }
+                }
+            }
+        };
+    }
+    CargoTableComponent.prototype.ngOnInit = function () {
+        var rows = this.generateRows();
+        this.cargoDataSource.load(rows);
+    };
+    CargoTableComponent.prototype.ngOnChanges = function (changes) {
+        var rows = this.generateRows();
+        this.cargoDataSource.load(rows);
+    };
+    CargoTableComponent.prototype.deleteCargoItem = function (row) {
+        /*     this.cargoItemList = this.cargoItemList.filter(entry => entry !== row.cargoItemModel);
+            const rows = this.generateRows();
+            this.cargoDataSource.load(rows); */
+        this.delete.emit(row);
+        // this.cargoService.setDataIsPristine(false);
+    };
+    CargoTableComponent.prototype.generateRows = function () {
+        var rowData = this.cargoItemList.map(function (item) {
+            var row = {
+                cargoItemModel: item,
+                shippingMarks: item.shippingMarks,
+                containerIdentification: item.containerIdentification,
+                numberOfPackages: item.numberOfPackages,
+                packageType: item.packageType.name,
+                descriptionOfGoods: item.description,
+                hsCode: item.hsCode,
+                grossVolume: item.grossVolume,
+                grossWeight: item.grossWeight
+            };
+            return row;
+        });
+        return rowData;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Array)
+    ], CargoTableComponent.prototype, "cargoItemList", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], CargoTableComponent.prototype, "delete", void 0);
+    CargoTableComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-cargo-table',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__shared_services_fal_cargo_service__["a" /* FalCargoService */]])
+    ], CargoTableComponent);
+    return CargoTableComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-ssn-card [header]=\"'New Consignment'\">\r\n  <div class=\"text-center\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openModal(consignmentModal)\">New Consignment</button>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<div *ngFor=\"let entry of consignmentWithTableDataList\" class=\"text-center\">\r\n  <app-ssn-card [header]=\"'Consignment: ' + entry.consignmentModel.name\" [collapsible]=\"true\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6\">\r\n        <div *ngIf=\"entry.portOfLoadingData\">\r\n          <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n            <thead class=\"bg-ssn text-white\">\r\n              <tr>\r\n                <th class=\"py-1\">\r\n                  <h5 class=\"mb-0\">Port Of Loading</h5>\r\n                </th>\r\n              </tr>\r\n            </thead>\r\n          </table>\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=\"entry.portOfLoadingData\"></app-ssn-table>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"col-md-6\">\r\n        <div *ngIf=\"entry.portOfDischargeData\">\r\n          <table class=\"table table-bordered text-center mx-auto mb-0\">\r\n            <thead class=\"bg-ssn text-white\">\r\n              <tr>\r\n                <th class=\"py-1\">\r\n                  <h5 class=\"mb-0\">Port Of Discharge</h5>\r\n                </th>\r\n              </tr>\r\n            </thead>\r\n          </table>\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=\"entry.portOfDischargeData\"></app-ssn-table>\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n    <div class=\"row text-left\">\r\n      <div class=\"col\">\r\n        <p class=\"mb-0\">Remark:</p>\r\n        <textarea class=\"col-md-6\" readonly disabled rows=\"5\" style=\"resize: none\" value=\"{{ entry.consignmentModel.remark }}\"></textarea>\r\n      </div>\r\n    </div>\r\n    <div class=\"row py-2\">\r\n      <div class=\"col\">\r\n        <button class=\"btn btn-ssn btn-sm\" (click)=\"openModal(consignmentModal, entry.consignmentModel)\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\">\r\n          <span> Edit Consignment</span>\r\n        </button>\r\n        <button class=\"btn btn-danger btn-sm\" (click)=\"openModal(deleteConsignmentModal, entry.consignmentModel)\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\">\r\n          <span> Delete Consignment</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n    <div class=\"row\">\r\n      <div class=\"col\">\r\n        <app-cargo-table *ngIf=\"entry.consignmentModel.cargoItem\" [cargoItemList]=\"entry.consignmentModel.cargoItem\" (delete)=\"onDeleteCargoItem($event)\"></app-cargo-table>\r\n      </div>\r\n    </div>\r\n    <div class=\"row text-left\">\r\n      <div class=\"col-md-6\">\r\n        <button class=\"btn btn-ssn btn-sm\" (click)=\"openModal(cargoItemModal, entry.consignmentModel)\">\r\n          <span> New Cargo Item</span>\r\n        </button>\r\n      </div>\r\n    </div>\r\n  </app-ssn-card>\r\n</div>\r\n\r\n<app-ssn-card [header]=\"'Save Consignments'\">\r\n  <div class=\"text-center\">\r\n    <span class=\"my-2\" *ngIf=\"dataIsPristine\">There are no unsaved changes on this page.</span>\r\n    <div *ngIf=\"!(saving || dataIsPristine)\">\r\n      <button class=\"btn btn-ssn my-1\" (click)=\"saveChanges()\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save Consignments</span>\r\n      </button>\r\n    </div>\r\n    <div *ngIf=\"saving || dataIsPristine\">\r\n      <button class=\"btn btn-ssn my-1\" [disabled]=\"true\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save Consignments</span>\r\n      </button>\r\n      <span *ngIf=\"saving\"> Saving...</span>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<ng-template #cargoItemModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">{{ cargoItemModalHeader }}</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <app-cargo-item-form [cargoItemModel]=\"openCargoItem\"></app-cargo-item-form>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <div *ngIf=\"openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume\r\n    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages\">\r\n      <button class=\"btn btn-ssn mt-2\" (click)=\"saveCargoItem(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save</span>\r\n      </button>\r\n    </div>\r\n    <div *ngIf=\"!(openCargoItem.shippingMarks && openCargoItem.containerIdentification && openCargoItem.packageType && openCargoItem.packageTypeId && openCargoItem.grossVolume\r\n    && openCargoItem.grossWeight && openCargoItem.hsCode && openCargoItem.numberOfPackages)\">\r\n      <button class=\"btn btn-ssn mt-2\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #consignmentModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">{{ consignmentModalHeader }}</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <app-consignment-form [consignmentModel]=\"consignmentCopy\"></app-consignment-form>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <div *ngIf=\"consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId\">\r\n      <button class=\"btn btn-ssn mt-2\" (click)=\"saveConsignment(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save</span>\r\n      </button>\r\n    </div>\r\n    <div *ngIf=\"!(consignmentCopy.name && consignmentCopy.portOfLoadingId && consignmentCopy.portOfDischargeId)\">\r\n      <button class=\"btn btn-ssn mt-2\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span> Save</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteConsignmentModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Confirm Deletion</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div class=\"text-center\">\r\n      <span>Delete the consignment \"{{ consignmentCopy.name || 'Consignment without name' }}\" and all cargo items belonging to\r\n        it?\r\n      </span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger mt-2\" (click)=\"deleteConsignment(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"24px\">\r\n      <span> Delete</span>\r\n    </button>\r\n    <button class=\"btn btn-ssn mt-2\" (click)=\"close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span> Cancel</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_consignment_model__ = __webpack_require__("./src/app/shared/models/consignment-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__node_modules_ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_constants_location_properties__ = __webpack_require__("./src/app/shared/constants/location-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models_cargo_item_model__ = __webpack_require__("./src/app/shared/models/cargo-item-model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+var CargoComponent = /** @class */ (function () {
+    function CargoComponent(cargoService, modalService) {
+        this.cargoService = cargoService;
+        this.modalService = modalService;
+        this.openConsignment = null;
+        this.consignmentCopy = null;
+        this.consignmentIsNew = false;
+        this.saving = false;
+        this.dataIsPristine = true;
+        this.openCargoItem = null;
+        this.cargoItemIsNew = false;
+        this.consignmentWithTableDataList = [];
+        this.newConsignmentText = 'New Consignment';
+        this.editConsignmentText = 'Edit Consignmment';
+        this.newCargoItemText = 'New Cargo Item';
+        this.editCargoItemText = 'Edit Cargo Item';
+    }
+    CargoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.cargoData) {
+            this.consignmentWithTableDataList = this.cargoData.map(function (c) {
+                var obj = {
+                    consignmentModel: c,
+                    portOfLoadingData: null,
+                    portOfDischargeData: null
+                };
+                return obj;
+            });
+            this.setTableData();
+        }
+        this.dataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(function (pristineData) {
+            _this.dataIsPristine = pristineData;
+        });
+    };
+    CargoComponent.prototype.ngOnDestroy = function () {
+        this.dataIsPristineSubscription.unsubscribe();
+    };
+    CargoComponent.prototype.openModal = function (content, consignment, cargoItem) {
+        if (consignment === void 0) { consignment = null; }
+        if (cargoItem === void 0) { cargoItem = null; }
+        this.consignmentIsNew = (consignment == null);
+        this.consignmentModalHeader = this.consignmentIsNew ? this.newConsignmentText : this.editConsignmentText;
+        this.cargoItemIsNew = (cargoItem == null);
+        this.cargoItemModalHeader = this.cargoItemIsNew ? this.newCargoItemText : this.editCargoItemText;
+        if (this.consignmentIsNew) {
+            consignment = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models_consignment_model__["a" /* ConsignmentModel */]();
+        }
+        else if (this.cargoItemIsNew) {
+            cargoItem = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models_cargo_item_model__["a" /* CargoItemModel */]();
+            cargoItem.consignmentId = consignment.consignmentId;
+        }
+        this.openConsignment = consignment;
+        this.consignmentCopy = JSON.parse(JSON.stringify(this.openConsignment));
+        this.openCargoItem = cargoItem;
+        this.modal = this.modalService.open(content, { size: 'lg' });
+    };
+    CargoComponent.prototype.onDeleteCargoItem = function ($event) {
+        this.consignmentWithTableDataList = this.consignmentWithTableDataList.map(function (entry) {
+            if (entry.consignmentModel.cargoItem && entry.consignmentModel.cargoItem.length > 0) {
+                entry.consignmentModel.cargoItem = entry.consignmentModel.cargoItem.filter(function (item) { return item !== $event.cargoItemModel; });
+            }
+            return entry;
+        });
+        this.touchData();
+    };
+    CargoComponent.prototype.saveChanges = function () {
+        var _this = this;
+        this.saving = true;
+        var consignmentList = this.consignmentWithTableDataList.map(function (entry) { return entry.consignmentModel; });
+        this.cargoService.setConsignmentListData(consignmentList);
+        var formattedConsignmentList = this.cargoService.formatConsignment(consignmentList);
+        this.cargoService.saveConsignmentListForPortCall(formattedConsignmentList, this.portCallId).subscribe(function (res) {
+            _this.cargoService.setDataIsPristine(true);
+            _this.saving = false;
+            console.log(res);
+        }, function (error) {
+            _this.saving = false;
+            console.error(error);
+        });
+    };
+    CargoComponent.prototype.saveConsignment = function () {
+        this.openConsignment = Object.assign(this.openConsignment, this.consignmentCopy);
+        this.openConsignment.portCallId = this.portCallId;
+        var loading = null;
+        var discharge = null;
+        if (this.openConsignment.portOfLoading) {
+            loading = this.portToTable(this.openConsignment.portOfLoading);
+        }
+        if (this.openConsignment.portOfDischarge) {
+            discharge = this.portToTable(this.openConsignment.portOfDischarge);
+        }
+        var obj = {
+            consignmentModel: this.openConsignment,
+            portOfLoadingData: loading,
+            portOfDischargeData: discharge
+        };
+        if (this.consignmentIsNew) {
+            this.consignmentWithTableDataList.unshift(obj);
+        }
+        this.setTableData();
+        this.touchData();
+    };
+    CargoComponent.prototype.deleteConsignment = function () {
+        var _this = this;
+        this.consignmentWithTableDataList = this.consignmentWithTableDataList.filter(function (entry) { return entry.consignmentModel !== _this.openConsignment; });
+        this.touchData();
+    };
+    CargoComponent.prototype.saveCargoItem = function () {
+        if (this.cargoItemIsNew) {
+            if (this.openConsignment.cargoItem == null) {
+                this.openConsignment.cargoItem = [];
+            }
+            this.openConsignment.cargoItem = this.openConsignment.cargoItem.concat([this.openCargoItem]);
+        }
+        this.touchData();
+    };
+    CargoComponent.prototype.setTableData = function () {
+        var _this = this;
+        this.consignmentWithTableDataList.forEach(function (entry) {
+            if (entry.consignmentModel.portOfLoading) {
+                entry.portOfLoadingData = _this.portToTable(entry.consignmentModel.portOfLoading);
+            }
+            else {
+                entry.portOfLoadingData = null;
+            }
+            if (entry.consignmentModel.portOfDischarge) {
+                entry.portOfDischargeData = _this.portToTable(entry.consignmentModel.portOfDischarge);
+            }
+            else {
+                entry.portOfDischargeData = null;
+            }
+        });
+    };
+    CargoComponent.prototype.portToTable = function (port) {
+        var portOfLoadingData = new __WEBPACK_IMPORTED_MODULE_4__shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+        __WEBPACK_IMPORTED_MODULE_4__shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(portOfLoadingData, port);
+        if (port.country) {
+            __WEBPACK_IMPORTED_MODULE_4__shared_constants_location_properties__["a" /* LocationProperties */].setCountry(portOfLoadingData, port.country.name, port.country.twoCharCode.toLowerCase() + '.png');
+        }
+        return portOfLoadingData;
+    };
+    CargoComponent.prototype.touchData = function () {
+        var consignmentList = this.consignmentWithTableDataList.map(function (entry) { return entry.consignmentModel; });
+        this.cargoService.setConsignmentListData(consignmentList);
+        this.cargoService.setDataIsPristine(false);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], CargoComponent.prototype, "portCallId", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Array)
+    ], CargoComponent.prototype, "cargoData", void 0);
+    CargoComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-cargo',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__shared_services_fal_cargo_service__["a" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_3__node_modules_ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], CargoComponent);
+    return CargoComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".normal {\r\n    font-style: normal;\r\n}\r\n\r\n.italic {\r\n    font-style: italic;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-ssn-card [header]=\"consignmentModel.name || placeholderHeader\" icon=\"cargo.png\">\r\n  <form #form=\"ngForm\">\r\n\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6 col-lg-6\">\r\n        <div class=\"form-group\">\r\n          <label class=\"col-form-label-xl no-wrap mb-0\" for=\"consignmentName\">Consignment name</label>\r\n          <input type=\"text\" [(ngModel)]=\"consignmentModel.name\" placeholder=\"Enter a name for this consignment\" name=\"consignmentName\"\r\n            class=\"form-control form-control-sm\" />\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n      <div class=\"col\">\r\n        <app-ssn-card header=\"Port of Loading\" icon=\"location.png\">\r\n          <app-search-location *ngIf=\"!portOfLoadingFound\" [restrictTypeHarbour]=true (locationResult)=\"onPortOfLoadingResult($event)\">\r\n          </app-search-location>\r\n          <div class=\"text-center\" *ngIf=\"portOfLoadingFound\">\r\n            <app-ssn-table [entryData]=\"portOfLoadingData\"></app-ssn-table>\r\n            <button class=\"btn btn-ssn\" (click)=\"deselectPortOfLoading()\">\r\n              <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n          </div>\r\n        </app-ssn-card>\r\n      </div>\r\n\r\n      <div class=\"col\">\r\n        <app-ssn-card header=\"Port of Discharge\" icon=\"location.png\">\r\n          <app-search-location *ngIf=\"!portOfDischargeFound\" [restrictTypeHarbour]=true (locationResult)=\"onPortOfDischargeResult($event)\">\r\n          </app-search-location>\r\n          <div class=\"text-center\" *ngIf=\"portOfDischargeFound\">\r\n            <app-ssn-table [entryData]=\"portOfDischargeData\"></app-ssn-table>\r\n            <button class=\"btn btn-ssn\" (click)=\"deselectPortOfDischarge()\">\r\n              <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n          </div>\r\n        </app-ssn-card>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"form-group\">\r\n          <label class=\"col-form-label-sm no-wrap mb-0\" for=\"remark\">Remark</label>\r\n          <textarea [(ngModel)]=\"consignmentModel.remark\" name=\"remark\" class=\"form-control form-control-sm\" rows=\"4\" id=\"remark\"></textarea>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </form>\r\n</app-ssn-card>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConsignmentFormComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_consignment_model__ = __webpack_require__("./src/app/shared/models/consignment-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__ = __webpack_require__("./src/app/shared/constants/location-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ConsignmentFormComponent = /** @class */ (function () {
+    function ConsignmentFormComponent(cargoService) {
+        this.cargoService = cargoService;
+        this.placeholderHeader = 'Consignment without name';
+        this.portOfLoadingModel = null;
+        this.portOfDischargeModel = null;
+        this.dataIsPristine = true;
+        this.portOfLoadingFound = false;
+        this.portOfDischargeFound = false;
+        this.portOfLoadingData = new __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+        this.portOfDischargeData = new __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+    }
+    ConsignmentFormComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.cargoService.dataIsPristine$.subscribe(function (data) {
+            _this.dataIsPristine = data;
+        });
+        if (this.consignmentModel.portOfLoading) {
+            this.portOfLoadingModel = this.consignmentModel.portOfLoading;
+            this.portOfLoadingFound = true;
+            this.onPortOfLoadingResult(this.consignmentModel.portOfLoading);
+        }
+        if (this.consignmentModel.portOfDischarge) {
+            this.onPortOfDischargeResult(this.consignmentModel.portOfDischarge);
+        }
+    };
+    ConsignmentFormComponent.prototype.ngOnDestroy = function () {
+    };
+    ConsignmentFormComponent.prototype.setProperties = function (portData, portModel) {
+        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(portData, portModel);
+        if (portModel.country) {
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(portData, portModel.country.name, portModel.country.twoCharCode.toLowerCase() + '.png');
+        }
+    };
+    ConsignmentFormComponent.prototype.onPortOfLoadingResult = function (portOfLoading) {
+        this.consignmentModel.portOfLoading = portOfLoading;
+        this.consignmentModel.portOfLoadingId = portOfLoading.locationId;
+        this.portOfLoadingModel = portOfLoading;
+        this.portOfLoadingFound = true;
+        this.setProperties(this.portOfLoadingData, this.portOfLoadingModel);
+    };
+    ConsignmentFormComponent.prototype.onPortOfDischargeResult = function (portOfDischarge) {
+        this.consignmentModel.portOfDischarge = portOfDischarge;
+        this.consignmentModel.portOfDischargeId = portOfDischarge.locationId;
+        this.portOfDischargeModel = portOfDischarge;
+        this.portOfDischargeFound = true;
+        this.setProperties(this.portOfDischargeData, this.portOfDischargeModel);
+    };
+    ConsignmentFormComponent.prototype.deselectPortOfLoading = function () {
+        this.consignmentModel.portOfLoading = null;
+        this.consignmentModel.portOfLoadingId = null;
+        this.portOfLoadingModel = null;
+        this.portOfLoadingFound = false;
+    };
+    ConsignmentFormComponent.prototype.deselectPortOfDischarge = function () {
+        this.consignmentModel.portOfDischarge = null;
+        this.consignmentModel.portOfDischargeId = null;
+        this.portOfDischargeModel = null;
+        this.portOfDischargeFound = false;
+    };
+    ConsignmentFormComponent.prototype.touchData = function () {
+        this.cargoService.setDataIsPristine(false);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models_consignment_model__["a" /* ConsignmentModel */])
+    ], ConsignmentFormComponent.prototype, "consignmentModel", void 0);
+    ConsignmentFormComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-consignment-form',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__shared_services_fal_cargo_service__["a" /* FalCargoService */]])
+    ], ConsignmentFormComponent);
+    return ConsignmentFormComponent;
 }());
 
 
@@ -4266,7 +4893,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/forms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-progress-bar></app-progress-bar>\r\n\r\n<div class=\"row mb-3\">\r\n    <div class=\"col\">\r\n        <app-ship-info-table></app-ship-info-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n    <div class=\"col\">\r\n        <app-location-time-info-table></app-location-time-info-table>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\"></app-ship-stores>\r\n    <!-- <app-passenger-list *ngSwitchCase=\"formNames.PAX\"></app-passenger-list> -->\r\n    <app-prev-and-next-poc *ngSwitchCase=\"formNames.PREV_AND_NEXT_POC\"></app-prev-and-next-poc>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
+module.exports = "<app-progress-bar></app-progress-bar>\r\n\r\n<div class=\"row mb-3\">\r\n    <div class=\"col\">\r\n        <app-ship-info-table></app-ship-info-table>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n    <div class=\"col\">\r\n        <app-location-time-info-table></app-location-time-info-table>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\" [portCallId]=\"portCallId\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\" [portCallId]=\"portCallId\" [shipStoresList]=\"shipStoresData\"></app-ship-stores>\r\n    <app-cargo *ngSwitchCase=\"formNames.CARGO\" [portCallId]=\"portCallId\" [cargoData]=\"cargoData\"></app-cargo>\r\n    <!-- <app-passenger-list *ngSwitchCase=\"formNames.PAX\"></app-passenger-list> -->\r\n    <app-prev-and-next-poc *ngSwitchCase=\"formNames.PREV_AND_NEXT_POC\" [portCallId]=\"portCallId\"></app-prev-and-next-poc>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -4276,10 +4903,12 @@ module.exports = "<app-progress-bar></app-progress-bar>\r\n\r\n<div class=\"row 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4294,25 +4923,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var FormsComponent = /** @class */ (function () {
-    function FormsComponent(contentService, portCallService, shipService) {
+    function FormsComponent(contentService, portCallService, shipService, cargoService, shipStoresService) {
         this.contentService = contentService;
         this.portCallService = portCallService;
         this.shipService = shipService;
+        this.cargoService = cargoService;
+        this.shipStoresService = shipStoresService;
     }
     FormsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(function (portCallIdData) {
+            if (portCallIdData) {
+                _this.portCallId = portCallIdData;
+            }
+        });
+        this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(function (data) {
+            _this.cargoData = data;
+        });
+        this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(function (data) {
+            _this.shipStoresData = data;
+        });
         this.shipDataSubscription = this.portCallService.shipData$.subscribe(function (shipResult) {
             _this.shipService.setShipData(shipResult);
         });
         this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(function (content) {
             _this.selectedComponent = content;
         });
-        this.formNames = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_form_names__["a" /* FORM_NAMES */];
+        this.formNames = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */];
     };
     FormsComponent.prototype.ngOnDestroy = function () {
         this.shipDataSubscription.unsubscribe();
         this.portCallFormNameSubscription.unsubscribe();
+        this.cargoSubscription.unsubscribe();
     };
     FormsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -4320,9 +4965,11 @@ var FormsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_ship_service__["a" /* ShipService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_ship_service__["a" /* ShipService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */]])
     ], FormsComponent);
     return FormsComponent;
 }());
@@ -4742,6 +5389,73 @@ var SearchPassengerPortComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-ssn-card [header]=\"'Cargo Brief Description'\" [icon]=\"'cargo.png'\">\r\n  <div class=\"form-group\">\r\n    <label for=\"cargoDescription\">Brief description of cargo:</label>\r\n    <textarea class=\"form-control\" id=\"cargoDescription\" rows=\"5\" [(ngModel)]=\"cargoDescription\" (ngModelChange)=\"onCargoDescriptionChange()\"></textarea>\r\n  </div>\r\n</app-ssn-card>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoDescriptionComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CargoDescriptionComponent = /** @class */ (function () {
+    function CargoDescriptionComponent(detailsService) {
+        this.detailsService = detailsService;
+    }
+    CargoDescriptionComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.cargoBriefDescriptionSubscription = this.detailsService.cargoBriefDescriptionData$.subscribe(function (cargoDescriptionData) {
+            _this.cargoDescription = cargoDescriptionData;
+        });
+    };
+    CargoDescriptionComponent.prototype.ngOnDestroy = function () {
+        this.cargoBriefDescriptionSubscription.unsubscribe();
+    };
+    CargoDescriptionComponent.prototype.onCargoDescriptionChange = function () {
+        this.detailsService.setCargoBriefDescriptionData(this.cargoDescription);
+        this.touchData();
+    };
+    CargoDescriptionComponent.prototype.touchData = function () {
+        this.detailsService.setDetailsPristine(false);
+    };
+    CargoDescriptionComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-cargo-description',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
+    ], CargoDescriptionComponent);
+    return CargoDescriptionComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.css":
 /***/ (function(module, exports) {
 
@@ -4763,7 +5477,7 @@ module.exports = "<app-ssn-card header=\"Crew, Passengers and Dimensions\" icon=
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CrewPassengersDimensionsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4777,8 +5491,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var CrewPassengersDimensionsComponent = /** @class */ (function () {
-    function CrewPassengersDimensionsComponent(portCallService) {
-        this.portCallService = portCallService;
+    function CrewPassengersDimensionsComponent(portCallDetailsService) {
+        this.portCallDetailsService = portCallDetailsService;
         this.crewPassengersAndDimensionsModel = {
             numberOfCrew: null,
             numberOfPassengers: null,
@@ -4788,7 +5502,7 @@ var CrewPassengersDimensionsComponent = /** @class */ (function () {
     }
     CrewPassengersDimensionsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(function (data) {
+        this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(function (data) {
             if (data) {
                 _this.crewPassengersAndDimensionsModel = data;
             }
@@ -4798,14 +5512,14 @@ var CrewPassengersDimensionsComponent = /** @class */ (function () {
         this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
     };
     CrewPassengersDimensionsComponent.prototype.persistData = function () {
-        this.portCallService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
+        this.portCallDetailsService.setCrewPassengersAndDimensionsData(this.crewPassengersAndDimensionsModel);
     };
     CrewPassengersDimensionsComponent.prototype.isValid = function (valid) {
         this.sendMetaData();
         return valid;
     };
     CrewPassengersDimensionsComponent.prototype.sendMetaData = function () {
-        this.portCallService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
+        this.portCallDetailsService.setCrewPassengersAndDimensionsMeta({ valid: this.form.valid });
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* NgForm */]),
@@ -4817,7 +5531,7 @@ var CrewPassengersDimensionsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], CrewPassengersDimensionsComponent);
     return CrewPassengersDimensionsComponent;
 }());
@@ -4836,7 +5550,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-reporting></app-reporting>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-crew-passengers-dimensions></app-crew-passengers-dimensions>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-purpose></app-purpose>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-save-details></app-save-details>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-reporting></app-reporting>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-crew-passengers-dimensions></app-crew-passengers-dimensions>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-cargo-description></app-cargo-description>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-purpose></app-purpose>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-save-details [portCallId]=\"portCallId\"></app-save-details>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -4860,6 +5574,10 @@ var PortCallDetailsComponent = /** @class */ (function () {
     function PortCallDetailsComponent() {
     }
     PortCallDetailsComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], PortCallDetailsComponent.prototype, "portCallId", void 0);
     PortCallDetailsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-port-call-details',
@@ -4895,7 +5613,7 @@ module.exports = "<app-ssn-card header=\"Port Call Purpose\" icon=\"target.png\"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PurposeComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__ = __webpack_require__("./src/app/shared/services/purpose.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -4911,9 +5629,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var OTHER_PURPOSE_ID = 100249;
 var PurposeComponent = /** @class */ (function () {
-    function PurposeComponent(purposeService, portCallService) {
+    function PurposeComponent(purposeService, portCallDetailsService) {
         this.purposeService = purposeService;
-        this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.selectedPurposes = [];
         this.purposeList = [];
         this.amountOfPurposes = 0;
@@ -4926,13 +5644,13 @@ var PurposeComponent = /** @class */ (function () {
             _this.purposeList = data;
             _this.amountOfPurposes = Object.keys(_this.purposeList).length;
         });
-        this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(function (data) {
+        this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(function (data) {
             if (data) {
                 _this.selectedPurposes = data;
                 _this.otherPurposeSelected = (_this.selectedPurposes.find(function (p) { return p.portCallPurposeId === OTHER_PURPOSE_ID; }) != null);
             }
         });
-        this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(function (data) {
+        this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(function (data) {
             _this.otherPurposeName = data;
         });
     };
@@ -4942,14 +5660,14 @@ var PurposeComponent = /** @class */ (function () {
         this.otherPurposeNameSubscription.unsubscribe();
     };
     PurposeComponent.prototype.purposeSelected = function () {
-        this.portCallService.setPortCallPurposeData(this.selectedPurposes);
+        this.portCallDetailsService.setPortCallPurposeData(this.selectedPurposes);
         console.log('SELECTED: ', this.selectedPurposes);
         if (this.otherPurposeSelected) {
             this.setOtherPurposeName();
         }
     };
     PurposeComponent.prototype.setOtherPurposeName = function () {
-        this.portCallService.setOtherPurposeName(this.otherPurposeName);
+        this.portCallDetailsService.setOtherPurposeName(this.otherPurposeName);
     };
     PurposeComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -4958,7 +5676,7 @@ var PurposeComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__["a" /* PurposeService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__["a" /* PurposeService */], __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__["a" /* PurposeService */], __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], PurposeComponent);
     return PurposeComponent;
 }());
@@ -4987,7 +5705,7 @@ module.exports = "<app-ssn-card header=\"Reporting for this Port Call\" icon=\"v
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportingComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5000,14 +5718,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ReportingComponent = /** @class */ (function () {
-    function ReportingComponent(portCallService) {
-        this.portCallService = portCallService;
+    function ReportingComponent(portCallDetailsService) {
+        this.portCallDetailsService = portCallDetailsService;
         this.baseIconUrl = 'assets/images/icons/128x128/';
         this.checkboxes = [];
     }
     ReportingComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(function (data) {
+        this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (data) {
             if (data != null) {
                 _this.reportingModel = data;
             }
@@ -5053,7 +5771,7 @@ var ReportingComponent = /** @class */ (function () {
             default:
                 console.log('Oops. Something went wrong with the checkboxes.');
         }
-        this.portCallService.setReportingForThisPortCallData(this.reportingModel);
+        this.portCallDetailsService.setReportingForThisPortCallData(this.reportingModel);
     };
     ReportingComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -5061,7 +5779,7 @@ var ReportingComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], ReportingComponent);
     return ReportingComponent;
 }());
@@ -5092,6 +5810,7 @@ module.exports = "<app-ssn-card header=\"Save Port Call Details\" icon=\"save.pn
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5104,11 +5823,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 var UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 var SaveDetailsComponent = /** @class */ (function () {
-    function SaveDetailsComponent(portCallService) {
+    function SaveDetailsComponent(portCallService, portCallDetailsService) {
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.detailsModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
         this.purposeModel = [];
         this.crewPassengersAndDimensionsMeta = { valid: true };
@@ -5117,30 +5838,21 @@ var SaveDetailsComponent = /** @class */ (function () {
     }
     SaveDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.detailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
+        this.detailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
             _this.dataIsPristine = detailsDataIsPristine;
         });
-        // Database Identification
-        this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (identificationData) {
-            if (identificationData) {
-                _this.detailsModel.portCallDetailsId =
-                    identificationData.portCallDetailsId;
-                _this.detailsModel.portCallId = identificationData.portCallId;
-            }
-        });
         // Reporting
-        this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(function (reportingData) {
+        this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
             if (reportingData) {
                 _this.detailsModel.reportingCargo = reportingData.reportingCargo;
                 _this.detailsModel.reportingCrew = reportingData.reportingCrew;
                 _this.detailsModel.reportingDpg = reportingData.reportingDpg;
                 _this.detailsModel.reportingPax = reportingData.reportingPax;
-                _this.detailsModel.reportingShipStores =
-                    reportingData.reportingShipStores;
+                _this.detailsModel.reportingShipStores = reportingData.reportingShipStores;
             }
         });
         // Crew, passengers, and dimensions
-        this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(function (cpadData) {
+        this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(function (cpadData) {
             if (cpadData) {
                 _this.crewPassengersAndDimensionsModel = cpadData;
                 _this.detailsModel.numberOfCrew = cpadData.numberOfCrew;
@@ -5149,30 +5861,36 @@ var SaveDetailsComponent = /** @class */ (function () {
                 _this.detailsModel.actualDraught = cpadData.actualDraught;
             }
         });
+        // Cargo Brief Description
+        this.cargoDescriptionSubscription = this.portCallDetailsService.cargoBriefDescriptionData$.subscribe(function (cargoDescriptionData) {
+            _this.detailsModel.cargoBriefDescription = cargoDescriptionData;
+        });
         // Purpose
-        this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(function (purposeData) {
+        this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(function (purposeData) {
             if (purposeData) {
                 _this.purposeModel = purposeData;
             }
         });
-        this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(function (otherNameData) {
+        this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(function (otherNameData) {
             _this.otherPurposeName = otherNameData;
         });
-        this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(function (cpadMetaData) {
+        this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(function (cpadMetaData) {
             _this.crewPassengersAndDimensionsMeta = cpadMetaData;
         });
     };
     SaveDetailsComponent.prototype.ngOnDestroy = function () {
         this.detailsPristineSubscription.unsubscribe();
-        this.detailsIdentificationDataSubscription.unsubscribe();
         this.reportingForThisPortCallDataSubscription.unsubscribe();
         this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
         this.portCallPurposeDataSubscription.unsubscribe();
         this.otherPurposeNameSubscription.unsubscribe();
         this.crewPassengersAndDimensionsMetaSubscription.unsubscribe();
+        this.cargoDescriptionSubscription.unsubscribe();
     };
     SaveDetailsComponent.prototype.saveDetails = function () {
         if (this.crewPassengersAndDimensionsMeta.valid) {
+            this.detailsModel.portCallId = this.portCallId;
+            this.detailsModel.portCallDetailsId = this.portCallId;
             this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
             this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
             this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
@@ -5181,13 +5899,17 @@ var SaveDetailsComponent = /** @class */ (function () {
             this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
         }
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SaveDetailsComponent.prototype, "portCallId", void 0);
     SaveDetailsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-save-details',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], SaveDetailsComponent);
     return SaveDetailsComponent;
 }());
@@ -5206,7 +5928,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/prev-and-next-poc/prev-and-next-poc.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Previous Port of Call\" icon=\"location.png\">\r\n    <app-search-location *ngIf=\"!prevLocationFound\" [restrictTypeHarbour]=true (locationResult)=\"onPrevLocationResult($event)\"></app-search-location>\r\n    <div class=\"text-center\" *ngIf=\"prevLocationModel\">\r\n        <app-ssn-table [entryData]=\"prevLocationData\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectPrevLocation()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n    </div>\r\n    <app-date-time-picker header=\"ETD\" [dateTimeModel]=\"prevEtdModel\" (dateTimeResult)=\"onEtdResult($event)\"></app-date-time-picker>\r\n    <div class=\"row\" *ngIf=\"prevEtdIsAfterCurrentEtaError\">\r\n        <div class=\"col-2\"></div>\r\n        <div class=\"col-8 alert alert-danger\" role=\"alert\">\r\n            <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Next Port of Call\" icon=\"location.png\">\r\n    <app-search-location *ngIf=\"!nextLocationFound\" [restrictTypeHarbour]=true (locationResult)=\"onNextLocationResult($event)\"></app-search-location>\r\n    <div class=\"text-center\" *ngIf=\"nextLocationModel\">\r\n        <app-ssn-table [entryData]=\"nextLocationData\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectNextLocation()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n    </div>\r\n    <app-date-time-picker header=\"ETA\" [dateTimeModel]=\"nextEtaModel\" (dateTimeResult)=\"onEtaResult($event)\"></app-date-time-picker>\r\n    <div class=\"row\" *ngIf=\"nextEtaIsBeforeCurrentEtdError\">\r\n        <div class=\"col-2\"></div>\r\n        <div class=\"col-8 alert alert-danger\" role=\"alert\">\r\n            <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-prev-and-next-poc></app-save-prev-and-next-poc>"
+module.exports = "<app-ssn-card header=\"Previous Port of Call\" icon=\"location.png\">\r\n    <app-search-location *ngIf=\"!prevLocationFound\" [restrictTypeHarbour]=true (locationResult)=\"onPrevLocationResult($event)\"></app-search-location>\r\n    <div class=\"text-center\" *ngIf=\"prevLocationModel\">\r\n        <app-ssn-table [entryData]=\"prevLocationData\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectPrevLocation()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n    </div>\r\n    <app-date-time-picker header=\"ETD\" [dateTimeModel]=\"prevEtdModel\" (dateTimeResult)=\"onEtdResult($event)\"></app-date-time-picker>\r\n    <div class=\"row\" *ngIf=\"prevEtdIsAfterCurrentEtaError\">\r\n        <div class=\"col-2\"></div>\r\n        <div class=\"col-8 alert alert-danger\" role=\"alert\">\r\n            <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Next Port of Call\" icon=\"location.png\">\r\n    <app-search-location *ngIf=\"!nextLocationFound\" [restrictTypeHarbour]=true (locationResult)=\"onNextLocationResult($event)\"></app-search-location>\r\n    <div class=\"text-center\" *ngIf=\"nextLocationModel\">\r\n        <app-ssn-table [entryData]=\"nextLocationData\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectNextLocation()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n    </div>\r\n    <app-date-time-picker header=\"ETA\" [dateTimeModel]=\"nextEtaModel\" (dateTimeResult)=\"onEtaResult($event)\"></app-date-time-picker>\r\n    <div class=\"row\" *ngIf=\"nextEtaIsBeforeCurrentEtdError\">\r\n        <div class=\"col-2\"></div>\r\n        <div class=\"col-8 alert alert-danger\" role=\"alert\">\r\n            <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-prev-and-next-poc [portCallId]=\"portCallId\"></app-save-prev-and-next-poc>"
 
 /***/ }),
 
@@ -5267,6 +5989,7 @@ var PrevAndNextPocComponent = /** @class */ (function () {
         this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(function (data) {
             _this.nextLocationModel = data;
             if (data) {
+                console.log(data);
                 _this.nextLocationFound = true;
                 __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(_this.nextLocationData, _this.nextLocationModel);
                 if (_this.nextLocationModel.country != null) {
@@ -5422,6 +6145,10 @@ var PrevAndNextPocComponent = /** @class */ (function () {
             }
         }
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], PrevAndNextPocComponent.prototype, "portCallId", void 0);
     PrevAndNextPocComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-prev-and-next-poc',
@@ -5530,11 +6257,6 @@ var SavePrevAndNextPocComponent = /** @class */ (function () {
                 _this.etaModel = null;
             }
         });
-        this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (portCallIdData) {
-            if (portCallIdData) {
-                _this.portCallId = portCallIdData.portCallId;
-            }
-        });
         this.prevAndNextPortOfCallMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(function (metaData) {
             if (metaData) {
                 _this.dateSequenceError = !metaData.valid;
@@ -5547,7 +6269,6 @@ var SavePrevAndNextPocComponent = /** @class */ (function () {
         this.nextPortOfCallDataSubscription.unsubscribe();
         this.prevPortOfCallEtdDataSubscription.unsubscribe();
         this.nextPortOfCallEtaDataSubscription.unsubscribe();
-        this.detailsIdentificationDataSubscription.unsubscribe();
     };
     SavePrevAndNextPocComponent.prototype.savePrevAndNextPoc = function () {
         var prevDate = this.etdModel != null ? new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute) : null;
@@ -5555,6 +6276,10 @@ var SavePrevAndNextPocComponent = /** @class */ (function () {
         this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
         this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SavePrevAndNextPocComponent.prototype, "portCallId", void 0);
     SavePrevAndNextPocComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-save-prev-and-next-poc',
@@ -5581,7 +6306,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete Ship Store\" (click)=\"onDeleteClick(deleteModal)\">\r\n  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n</button>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Ship Stores</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this ship store?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div [ngSwitch]=\"selectedForm\" class=\"modal-footer\">\r\n    <button *ngSwitchCase=\"formNames.SHIP_STORES\" class=\"btn btn-danger\" (click)=\"deleteShipStoreEntry(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Delete Ship Store</span>\r\n    </button>\r\n    <button *ngSwitchCase=\"formNames.PAX\" class=\"btn btn-danger\" (click)=\"deletePassengerEntry(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Passenger Entry</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<div [ngSwitch]=\"selectedForm\">\r\n  <button *ngSwitchCase=\"formNames.SHIP_STORES\" class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete Ship Store\" (click)=\"onDeleteClick(deleteModal)\">\r\n    <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n  </button>\r\n\r\n  <button *ngSwitchCase=\"formNames.CARGO\" class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete Cargo Item\" (click)=\"onDeleteClick(deleteModal)\">\r\n    <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n  </button>\r\n</div>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Confirm Deletion</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div [ngSwitch]=\"selectedForm\">\r\n      <span *ngSwitchCase=\"formNames.SHIP_STORES\">Delete ship store?</span>\r\n      <span *ngSwitchCase=\"formNames.CARGO\">Delete cargo item?</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\" [ngSwitch]=\"selectedForm\">\r\n    <button *ngSwitchCase=\"formNames.SHIP_STORES\" class=\"btn btn-danger\" (click)=\"deleteItem(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Delete Ship Store</span>\r\n    </button>\r\n    <button *ngSwitchCase=\"formNames.PAX\" class=\"btn btn-danger\" (click)=\"deletePassengerEntry(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Passenger Entry</span>\r\n    </button>\r\n    <button *ngSwitchCase=\"formNames.CARGO\" class=\"btn btn-danger\" (click)=\"deleteItem(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\">\r\n      <span>Delete</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -5593,7 +6318,7 @@ module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete Ship 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
@@ -5619,6 +6344,7 @@ var DeleteButtonComponent = /** @class */ (function () {
         this.shipStoresService = shipStoresService;
         this.passengerService = passengerService;
         this.contentService = contentService;
+        this.delete = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     DeleteButtonComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -5633,8 +6359,9 @@ var DeleteButtonComponent = /** @class */ (function () {
     DeleteButtonComponent.prototype.onDeleteClick = function (content) {
         this.modalService.open(content);
     };
-    DeleteButtonComponent.prototype.deleteShipStoreEntry = function () {
-        this.shipStoresService.deleteShipStoreEntry(this.rowData);
+    DeleteButtonComponent.prototype.deleteItem = function () {
+        console.log(this.rowData);
+        this.delete.emit(this.rowData);
     };
     DeleteButtonComponent.prototype.deletePassengerEntry = function () {
         this.passengerService.deletePassengerEntry(this.rowData);
@@ -5647,6 +6374,10 @@ var DeleteButtonComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Object)
     ], DeleteButtonComponent.prototype, "rowData", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], DeleteButtonComponent.prototype, "delete", void 0);
     DeleteButtonComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-delete-button',
@@ -5655,7 +6386,7 @@ var DeleteButtonComponent = /** @class */ (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_constants_service__["a" /* ConstantsService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_passenger_list_service__["a" /* PortCallPassengerListService */],
             __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__["a" /* ContentService */]])
     ], DeleteButtonComponent);
@@ -5686,8 +6417,8 @@ module.exports = "<app-ssn-card header=\"Save Ship Stores\" icon=\"save.png\">\r
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SaveShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5706,23 +6437,17 @@ var SaveShipStoresComponent = /** @class */ (function () {
     function SaveShipStoresComponent(shipStoresService, portCallService) {
         this.shipStoresService = shipStoresService;
         this.portCallService = portCallService;
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
-        this.portCallShipStoresList = [];
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_ship_stores_model__["a" /* ShipStoresModel */]();
+        this.shipStoresList = [];
         this.listIsPristine = true;
+        this.saving = false;
     }
     SaveShipStoresComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // Database Identification
-        this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (results) {
-            if (results) {
-                _this.portCallId = results.portCallId;
-            }
-        });
-        // Get original ship stores list belonging to this port call
         // Get updated list of ship stores
         this.shipStoresListSubscription = this.shipStoresService.shipStoresList$.subscribe(function (shipStoresList) {
             if (shipStoresList) {
-                _this.portCallShipStoresList = shipStoresList;
+                _this.shipStoresList = shipStoresList;
             }
             _this.shipStoresService.dataIsPristine$.subscribe(function (isPristine) {
                 _this.listIsPristine = isPristine;
@@ -5730,20 +6455,32 @@ var SaveShipStoresComponent = /** @class */ (function () {
         });
     };
     SaveShipStoresComponent.prototype.ngOnDestroy = function () {
-        this.detailsIdentificationDataSubscription.unsubscribe();
         this.shipStoresListSubscription.unsubscribe();
     };
     SaveShipStoresComponent.prototype.saveShipStores = function () {
-        this.portCallShipStoresList = this.shipStoresService.setSequenceNumbers(this.portCallShipStoresList);
-        this.shipStoresService.updateShipStores(this.portCallShipStoresList).subscribe(function (res) { });
+        var _this = this;
+        this.saving = true;
+        var formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
+        this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(function (res) {
+            _this.shipStoresService.setDataIsPristine(true);
+            _this.saving = false;
+            console.log(res.json());
+        }, function (error) {
+            _this.saving = false;
+            console.log(error);
+        });
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SaveShipStoresComponent.prototype, "portCallId", void 0);
     SaveShipStoresComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-save-ship-stores',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__["a" /* PortCallService */]])
     ], SaveShipStoresComponent);
     return SaveShipStoresComponent;
@@ -5763,7 +6500,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n  --color-primary: #002d50;\r\
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\">\r\n\r\n    <form>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleName\" class=\"col-form-label-sm no-wrap mb-0\">Article Name</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleName\" #articleName=\"ngModel\"\r\n                            placeholder=\"Article Name\" class=\"form-control form-control-sm\" required name=\"articleName\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleName.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleCode\" class=\"col-form-label-sm no-wrap mb-0\">Article Code</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.articleCode\" #articleCode=\"ngModel\"\r\n                            placeholder=\"Article Code\" class=\"form-control form-control-sm\" name=\"articleCode\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"articleCode.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoard\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n                        <input type=\"text\" pattern=\"^[a-zA-Z0-9.]+$\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\"\r\n                            placeholder=\"Location on Board\" class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoard.hasError('pattern')\" class=\"alert alert-danger\">\r\n                    <li>\r\n                        <small>Only letters, numbers and \".\" allowed.</small>\r\n                    </li>\r\n                    <li>\r\n                        <small>More than one letter required.</small>\r\n                    </li>\r\n                </div>\r\n\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"quantity\" class=\"col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n                            integerValidator positiveNumberValidator name=\"quantity\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div *ngIf=\"quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\" required>\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"measurementType\" class=\"col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n                        <ng-select id=\"measurementTypes\" [items]=\"measurementTypeList\" [(ngModel)]=\"selectedMeasurementType\" name=\"measurementType\"\r\n                            [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Measurement Type\" (change)=\"selectMeasurementType($event)\">\r\n                        </ng-select>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoardCode\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"portCallShipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n                            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\" integerValidator positiveNumberValidator>\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notIntegerError')\">\r\n                        <small>Number of passengers must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notPositiveNumberError')\">\r\n                        <small>Number of passengers must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </form>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"form-group\">\r\n                <button *ngIf=\"form.valid\" type=\"submit\" class=\"btn btn-sm btn-ssn mt-2\" (click)=\"persistData()\">\r\n                    <span>Submit</span>\r\n                </button>\r\n                <button *ngIf=\"!form.valid\" type=\"submit\" disabled class=\"btn btn-sm btn-ssn mt-2\">\r\n                    <span>Submit</span>\r\n                </button>\r\n            </div>\r\n        \r\n            <div class=\"mb-3\">\r\n                <div class=\"table-responsive\">\r\n                    <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n                    </div>\r\n                    <ng2-smart-table [settings]=\"tableSettings\" [source]=\"shipStoresDataSource\"></ng2-smart-table>\r\n        \r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-ship-stores></app-save-ship-stores>"
+module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\">\r\n\r\n    <form>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleName\" class=\"col-form-label-sm no-wrap mb-0\">Article Name</label>\r\n                        <input type=\"text\" required [(ngModel)]=\"shipStoresModel.articleName\" #articleName=\"ngModel\"\r\n                            placeholder=\"Article Name\" class=\"form-control form-control-sm\" required name=\"articleName\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"articleCode\" class=\"col-form-label-sm no-wrap mb-0\">Article Code</label>\r\n                        <input type=\"text\" required [(ngModel)]=\"shipStoresModel.articleCode\" #articleCode=\"ngModel\"\r\n                            placeholder=\"Article Code\" class=\"form-control form-control-sm\" name=\"articleCode\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoard\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n                        <input type=\"text\" required [(ngModel)]=\"shipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\"\r\n                            placeholder=\"Location on Board\" class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"quantity\" class=\"col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"shipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n                            integerValidator positiveNumberValidator name=\"quantity\">\r\n                    </div>\r\n                </div>\r\n\r\n                <div *ngIf=\"quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n                        <small>Quantity must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n                        <small>Quantity must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n\r\n                <div class=\"form-group row\" required>\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"measurementType\" class=\"col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n                        <ng-select id=\"measurementTypes\" [items]=\"measurementTypeList\" [(ngModel)]=\"selectedMeasurementType\" name=\"measurementType\"\r\n                            [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Measurement Type\" (change)=\"selectMeasurementType($event)\">\r\n                        </ng-select>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form-group row\">\r\n                    <div class=\"col my-auto\">\r\n                        <label for=\"locationOnBoardCode\" class=\"col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n                        <input type=\"number\" required [(ngModel)]=\"shipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n                            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\" integerValidator positiveNumberValidator>\r\n                    </div>\r\n                </div>\r\n                <div *ngIf=\"locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')\" class=\"alert alert-danger\">\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notIntegerError')\">\r\n                        <small>Location on board code must be an integer.</small>\r\n                    </li>\r\n                    <li *ngIf=\"locationOnBoardCode.hasError('notPositiveNumberError')\">\r\n                        <small>Location on board code must be a positive number.</small>\r\n                    </li>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </form>\r\n\r\n    <div class=\"row\">\r\n        <div class=\"col\">\r\n            <div class=\"form-group\">\r\n                <button *ngIf=\"form.valid && measurementTypeSelected\" type=\"submit\" class=\"btn btn-sm btn-ssn mt-2\" (click)=\"addShipStoreItem()\">\r\n                    <span>Submit</span>\r\n                </button>\r\n                <button *ngIf=\"!(form.valid && measurementTypeSelected)\" type=\"submit\" disabled class=\"btn btn-sm btn-ssn mt-2\">\r\n                    <span>Submit</span>\r\n                </button>\r\n            </div>\r\n        \r\n            <div class=\"mb-3\">\r\n                <div class=\"table-responsive\">\r\n                    <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n                    </div>\r\n                    <ng2-smart-table [settings]=\"tableSettings\" [source]=\"shipStoresDataSource\"></ng2-smart-table>\r\n        \r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</app-ssn-card>\r\n\r\n<app-save-ship-stores [portCallId]=\"portCallId\"></app-save-ship-stores>"
 
 /***/ }),
 
@@ -5774,11 +6511,10 @@ module.exports = "<app-ssn-card header=\"Ship Stores List\" icon=\"alcohol.png\"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__ = __webpack_require__("./src/app/shared/models/port-call-ship-stores-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_delete_button_delete_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5794,15 +6530,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
 var ShipStoresComponent = /** @class */ (function () {
-    function ShipStoresComponent(shipStoresService, portCallService) {
+    function ShipStoresComponent(shipStoresService) {
+        var _this = this;
         this.shipStoresService = shipStoresService;
-        this.portCallService = portCallService;
-        this.portCallShipStoresList = [];
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_ship_stores_model__["a" /* ShipStoresModel */]();
         this.listIsPristine = true;
-        this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_4_ng2_smart_table__["a" /* LocalDataSource */]();
         this.tableSettings = {
             actions: false,
             attr: {
@@ -5840,110 +6574,102 @@ var ShipStoresComponent = /** @class */ (function () {
                 },
                 delete: {
                     title: 'Delete',
-                    // deleteButtonContent: 'Delete',
                     type: 'custom',
                     filter: false,
                     sort: false,
                     renderComponent: __WEBPACK_IMPORTED_MODULE_5__shared_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
+                    onComponentInitFunction: function (instance) {
+                        instance.delete.subscribe(function (row) {
+                            _this.deleteShipStoreItem(row);
+                        });
+                    }
                 },
             }
         };
     }
     ShipStoresComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
-        this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(function (element) {
-            if (element) {
-                _this.portCallShipStoresModel.portCallId = element.portCallId;
-                // Subscribe to shipStoresList$ og set lokal liste og dataSource
-                _this.shipStoresService.shipStoresList$.subscribe(function (list) {
-                    if (list) {
-                        _this.portCallShipStoresList = list;
-                        _this.portCallShipStoresModel.portCallId = element.portCallId;
-                        // Get measurement types
-                        if (!_this.measurementTypeList) {
-                            _this.shipStoresService.getMeasurementTypeList().subscribe(function (results) {
-                                _this.measurementTypeList = results;
-                                _this.shipStoresDataSource.load(_this.generateSmartTable());
-                            });
-                        }
-                        else {
-                            _this.shipStoresDataSource.load(_this.generateSmartTable());
-                        }
-                        /*if (!this.measurementTypeList) {
-              this.shipStoresService.getMeasurementTypeList().toPromise().then(measurementTypeList => {
-                this.measurementTypeList = measurementTypeList;
-              });
-            }
-            console.log(this.measurementTypeList);*/
-                    }
-                });
-                // This will change when the port calls list changes in the database
-                _this.shipStoresService.getShipStoresByPortCallId(_this.portCallShipStoresModel.portCallId).subscribe(function (list) {
-                    _this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_3_ng2_smart_table__["a" /* LocalDataSource */]();
-                    _this.portCallShipStoresList = [];
-                    if (list) {
-                        _this.shipStoresService.setShipStoresInformationData(list);
-                    }
-                });
-            }
+        this.getMeasurementTypeSubscription = this.shipStoresService.getMeasurementTypeList().subscribe(function (results) {
+            _this.measurementTypeList = results;
         });
+        this.reloadTable();
     };
     ShipStoresComponent.prototype.ngOnDestroy = function () {
-        this.detailsIdentificationDataSubscription.unsubscribe();
+        this.getMeasurementTypeSubscription.unsubscribe();
     };
     // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
-    ShipStoresComponent.prototype.generateSmartTable = function () {
-        var _this = this;
-        var list = [];
-        if (this.portCallShipStoresList) {
-            this.portCallShipStoresList.forEach(function (element) {
-                var measureMentTypeName;
-                _this.measurementTypeList.forEach(function (measurementType) {
-                    if (measurementType.measurementTypeId === element.measurementTypeId) {
-                        measureMentTypeName = measurementType.name;
-                    }
-                });
-                list.push({
-                    sequenceNumber: element.sequenceNumber,
-                    articleName: element.articleName,
-                    articleCode: element.articleCode,
-                    quantity: element.quantity,
-                    measurementType: measureMentTypeName,
-                    locationOnBoard: element.locationOnBoard,
-                    locationOnBoardCode: element.locationOnBoardCode,
-                });
+    ShipStoresComponent.prototype.generateRows = function () {
+        var rowData = [];
+        if (this.shipStoresList) {
+            rowData = this.shipStoresList.map(function (shipStore) {
+                var row = {
+                    shipStoresModel: shipStore,
+                    sequenceNumber: shipStore.sequenceNumber,
+                    articleName: shipStore.articleName,
+                    articleCode: shipStore.articleCode,
+                    quantity: shipStore.quantity,
+                    measurementType: shipStore.measurementType.name,
+                    locationOnBoard: shipStore.locationOnBoard,
+                    locationOnBoardCode: shipStore.locationOnBoardCode,
+                };
+                return row;
             });
         }
-        return list;
+        return rowData;
     };
     // Set measurement type and id of model
-    ShipStoresComponent.prototype.selectMeasurementType = function ($event) {
-        this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
-    };
-    ShipStoresComponent.prototype.persistData = function () {
-        this.listIsPristine = false;
-        this.shipStoresService.setDataIsPristine(false);
-        // Add sequence number for model to be submitted
-        if (this.portCallShipStoresList.length > 0) {
-            this.portCallShipStoresModel.sequenceNumber = this.portCallShipStoresList[this.portCallShipStoresList.length - 1].sequenceNumber + 1;
+    ShipStoresComponent.prototype.selectMeasurementType = function (measurementType) {
+        if (measurementType) {
+            this.shipStoresModel.measurementType = measurementType;
+            this.shipStoresModel.measurementTypeId = measurementType.measurementTypeId;
+            this.measurementTypeSelected = true;
         }
         else {
-            this.portCallShipStoresModel.sequenceNumber = 1;
+            this.measurementTypeSelected = false;
         }
-        // Add this ship store to local model and create new model
-        this.portCallShipStoresList.push(this.portCallShipStoresModel);
-        this.portCallShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_ship_stores_model__["a" /* PortCallShipStoresModel */]();
-        // Update value in service
-        this.shipStoresService.setShipStoresInformationData(this.portCallShipStoresList);
     };
-    ShipStoresComponent.prototype.isValid = function (valid) {
-        this.sendMetaData();
-        return valid;
+    ShipStoresComponent.prototype.deleteShipStoreItem = function ($event) {
+        this.shipStoresList = this.shipStoresList.filter(function (item) { return item !== $event.shipStoresModel; });
+        this.persistData();
     };
-    ShipStoresComponent.prototype.sendMetaData = function () {
-        this.shipStoresService.setShipStoresInformationMeta({ valid: this.form.valid });
+    ShipStoresComponent.prototype.addShipStoreItem = function () {
+        this.shipStoresModel.portCallId = this.portCallId;
+        this.shipStoresList.push(this.shipStoresModel);
+        this.persistData();
+        this.clearForm();
     };
+    ShipStoresComponent.prototype.persistData = function () {
+        this.updateSequenceNumbers();
+        this.shipStoresService.setShipStoresList(this.shipStoresList);
+        this.touchData();
+        this.reloadTable();
+    };
+    ShipStoresComponent.prototype.touchData = function () {
+        this.listIsPristine = false;
+        this.shipStoresService.setDataIsPristine(false);
+    };
+    ShipStoresComponent.prototype.clearForm = function () {
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_ship_stores_model__["a" /* ShipStoresModel */]();
+        this.selectedMeasurementType = null;
+        this.measurementTypeSelected = false;
+    };
+    ShipStoresComponent.prototype.reloadTable = function () {
+        var rows = this.generateRows();
+        this.shipStoresDataSource.load(rows);
+    };
+    ShipStoresComponent.prototype.updateSequenceNumbers = function () {
+        this.shipStoresList.forEach(function (shipStore, index) {
+            shipStore.sequenceNumber = index + 1;
+        });
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], ShipStoresComponent.prototype, "portCallId", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Array)
+    ], ShipStoresComponent.prototype, "shipStoresList", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* NgForm */]),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* NgForm */])
@@ -5954,8 +6680,7 @@ var ShipStoresComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */]])
     ], ShipStoresComponent);
     return ShipStoresComponent;
 }());
@@ -5984,11 +6709,13 @@ module.exports = "<div class=\"card card-ssn bg-ssn text-ssn\">\r\n  <div class=
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProgressBarComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__ = __webpack_require__("./src/app/shared/services/port-call-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__ = __webpack_require__("./src/app/shared/constants/form-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6004,13 +6731,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var ProgressBarComponent = /** @class */ (function () {
-    function ProgressBarComponent(portCallService, prevAndNextPortCallService, contentService, shipStoresService) {
+    function ProgressBarComponent(portCallService, portCallDetailsService, prevAndNextPortCallService, contentService, shipStoresService, cargoService) {
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.prevAndNextPortCallService = prevAndNextPortCallService;
         this.contentService = contentService;
         this.shipStoresService = shipStoresService;
-        this.formNames = __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_form_names__["a" /* FORM_NAMES */];
+        this.cargoService = cargoService;
+        this.formNames = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */];
         this.iconPath = 'assets/images/icons/128x128/white/';
         this.baseMenuEntries = [
             {
@@ -6037,11 +6768,13 @@ var ProgressBarComponent = /** @class */ (function () {
                 hasUnsavedData: false
             }
         ];
+        this.cargoIsPrisitne = true;
+        this.shipStoresIsPristine = true;
     }
     ProgressBarComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.menuEntries = this.baseMenuEntries.concat(this.finalMenuEntries);
-        this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(function (reportingData) {
+        this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
             if (reportingData != null) {
                 var falForms = [
                     {
@@ -6056,14 +6789,14 @@ var ProgressBarComponent = /** @class */ (function () {
                         icon: 'cargo.png',
                         checked: reportingData.reportingCargo || false,
                         hasError: false,
-                        hasUnsavedData: false
+                        hasUnsavedData: !_this.cargoIsPrisitne
                     },
                     {
                         name: _this.formNames.SHIP_STORES,
                         icon: 'alcohol.png',
                         checked: reportingData.reportingShipStores || false,
                         hasError: false,
-                        hasUnsavedData: false
+                        hasUnsavedData: !_this.shipStoresIsPristine
                     },
                     {
                         name: _this.formNames.CREW,
@@ -6090,7 +6823,7 @@ var ProgressBarComponent = /** @class */ (function () {
         this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(function (portCallFormName) {
             _this.selectedPortCallForm = portCallFormName;
         });
-        this.crewPassengersAndDimensionsMetaSubscription = this.portCallService.crewPassengersAndDimensionsMeta$.subscribe(function (metaData) {
+        this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(function (metaData) {
             _this.menuEntries.find(function (p) { return p.name === _this.formNames.PORT_CALL_DETAILS; }).hasError = !metaData.valid;
         });
         this.voyagesDataIsPristineSubscription = this.prevAndNextPortCallService.dataIsPristine$.subscribe(function (pristineData) {
@@ -6099,13 +6832,21 @@ var ProgressBarComponent = /** @class */ (function () {
         this.voyagesMetaSubscription = this.prevAndNextPortCallService.prevAndNextPortOfCallMeta$.subscribe(function (metaData) {
             _this.menuEntries.find(function (p) { return p.name === _this.formNames.PREV_AND_NEXT_POC; }).hasError = !metaData.valid;
         });
-        this.portCallDetailsPristineSubscription = this.portCallService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
+        this.portCallDetailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
             _this.menuEntries.find(function (p) { return p.name === _this.formNames.PORT_CALL_DETAILS; }).hasUnsavedData = !detailsDataIsPristine;
         });
         this.shipStoresDataIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(function (shipStoresDataIsPristine) {
+            _this.shipStoresIsPristine = shipStoresDataIsPristine;
             var shipStores = _this.menuEntries.find(function (p) { return p.name === _this.formNames.SHIP_STORES; });
             if (shipStores) {
                 shipStores.hasUnsavedData = !shipStoresDataIsPristine;
+            }
+        });
+        this.cargoDataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(function (cargoDataIsPristine) {
+            _this.cargoIsPrisitne = cargoDataIsPristine;
+            var cargo = _this.menuEntries.find(function (p) { return p.name === _this.formNames.CARGO; });
+            if (cargo) {
+                cargo.hasUnsavedData = !cargoDataIsPristine;
             }
         });
     };
@@ -6116,6 +6857,7 @@ var ProgressBarComponent = /** @class */ (function () {
         this.voyagesDataIsPristineSubscription.unsubscribe();
         this.portCallDetailsPristineSubscription.unsubscribe();
         this.shipStoresDataIsPristineSubscription.unsubscribe();
+        this.cargoDataIsPristineSubscription.unsubscribe();
     };
     ProgressBarComponent.prototype.setPortCallForm = function (contentName) {
         this.contentService.setPortCallForm(contentName);
@@ -6126,10 +6868,12 @@ var ProgressBarComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
-            __WEBPACK_IMPORTED_MODULE_1_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_ship_stores_service__["a" /* PortCallShipStoresService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+            __WEBPACK_IMPORTED_MODULE_7_app_shared_services_prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__["a" /* FalCargoService */]])
     ], ProgressBarComponent);
     return ProgressBarComponent;
 }());
@@ -6331,7 +7075,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" *ngIf=\"userMenuEntries.length > 1\">\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"setContent(userMenuEntries[0].menuName)\" *ngIf=\"userMenuEntries.length === 1\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn\">\r\n      <li class=\"nav-item\">\r\n        <form class=\"form-inline\">\r\n          <div class=\"btn-group\">\r\n            <button routerLink=\"/auth/ChangePassword\" routerLinkActive=\"active\" class=\"btn btn-light btn-sm\">{{userName}}</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n        </form>\r\n      </li>\r\n    </ul>\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" *ngIf=\"userMenuEntries.length > 1\">\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"setContent(userMenuEntries[0].menuName)\" *ngIf=\"userMenuEntries.length === 1\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\">\r\n        <form class=\"form-inline\">\r\n          <div class=\"btn-group\">\r\n            <button routerLink=\"/auth/ChangePassword\" routerLinkActive=\"active\" class=\"btn btn-light btn-sm\">{{userName}}</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n        </form>\r\n      </li>\r\n    </ul>\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -6483,6 +7227,9 @@ var HeaderComponent = /** @class */ (function () {
         }
     };
     HeaderComponent.prototype.logout = function () {
+        // To prevent logout button from disappearing before
+        // redirection has begun
+        this.redirected = true;
         this.loginService.logout();
         this.router.navigate(['/auth/login']);
     };
@@ -6635,6 +7382,78 @@ var ConfirmationModalComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Cargo\" icon=\"cargo.png\" collapsible=true>\r\n      <tbody>\r\n        <tr>\r\n          <td class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>No. of Consignments</small>\r\n            </tr>\r\n            <tr>\r\n              {{ numberOfConsignments }}\r\n            </tr>\r\n          </td>\r\n          <td class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>Total no. of Cargo Items</small>\r\n            </tr>\r\n            <tr>\r\n              {{ numberOfCargoItems }}\r\n            </tr>\r\n          </td>\r\n          <td>\r\n            <tr>\r\n              <small>Total no. of Packages</small>\r\n            </tr>\r\n            <tr>\r\n              {{ numberOfPackages }}\r\n            </tr>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </app-table-card>\r\n  </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoInfoTableComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var CargoInfoTableComponent = /** @class */ (function () {
+    function CargoInfoTableComponent(cargoService) {
+        this.cargoService = cargoService;
+        this.numberOfConsignments = 0;
+        this.numberOfCargoItems = 0;
+        this.numberOfPackages = 0;
+    }
+    CargoInfoTableComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.cargoDataSubscription = this.cargoService.consignmentListData$.subscribe(function (cargoData) {
+            if (cargoData) {
+                _this.numberOfConsignments += cargoData.length;
+                cargoData.forEach(function (consignment) {
+                    if (consignment.cargoItem && consignment.cargoItem.length > 0) {
+                        _this.numberOfCargoItems += consignment.cargoItem.length;
+                        consignment.cargoItem.forEach(function (cargoItem) {
+                            if (cargoItem.numberOfPackages != null) {
+                                _this.numberOfPackages += cargoItem.numberOfPackages;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    };
+    CargoInfoTableComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-cargo-info-table',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__services_fal_cargo_service__["a" /* FalCargoService */]])
+    ], CargoInfoTableComponent);
+    return CargoInfoTableComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/components/confirmation-view/clearances/clearances.component.css":
 /***/ (function(module, exports) {
 
@@ -6708,7 +7527,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div class=\"row mb-3\" *ngIf=\"entry.checked\">\r\n    <div class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div [ngSwitch]=\"entry.name\">\r\n          <div *ngSwitchCase=\"'Ship Stores'\" class=\"text-center my-3\">\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">has been provided.</span>\r\n          </div>\r\n          <div *ngSwitchDefault class=\"text-center my-3\">\r\n            <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">is marked for delivery,</span>\r\n            <span class=\"no-wrap\">but no information is provided.</span>\r\n          </div>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div class=\"row mb-3\" *ngIf=\"entry.checked && entry.name != 'Cargo'\">\r\n    <div class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div [ngSwitch]=\"entry.name\">\r\n          <div *ngSwitchCase=\"'Ship Stores'\" class=\"text-center my-3\">\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">has been provided.</span>\r\n          </div>\r\n          <div *ngSwitchDefault class=\"text-center my-3\">\r\n            <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">is marked for delivery,</span>\r\n            <span class=\"no-wrap\">but no information is provided.</span>\r\n          </div>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"reportingCargo\" class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-cargo-info-table></app-cargo-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -6718,7 +7537,7 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmationViewComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6731,14 +7550,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ConfirmationViewComponent = /** @class */ (function () {
-    function ConfirmationViewComponent(portCallService) {
-        this.portCallService = portCallService;
+    function ConfirmationViewComponent(portCallDetailsService) {
+        this.portCallDetailsService = portCallDetailsService;
         this.iconPath = 'assets/images/icons/128x128/white/';
+        this.reportingCargo = false;
     }
     ConfirmationViewComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.reportingForThisPortCallDataSubcription = this.portCallService.reportingForThisPortCallData$.subscribe(function (reportingData) {
+        this.reportingForThisPortCallDataSubcription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
             if (reportingData != null) {
+                _this.reportingCargo = reportingData.reportingCargo || false;
                 _this.falForms = [
                     {
                         name: 'DPG',
@@ -6778,7 +7599,7 @@ var ConfirmationViewComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], ConfirmationViewComponent);
     return ConfirmationViewComponent;
 }());
@@ -6807,7 +7628,7 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallDetailsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6824,8 +7645,8 @@ var NO_OF_PASSENGERS = 'No. of Passengers';
 var ACTUAL_DRAUGHT = 'Actual Draught';
 var AIR_DRAUGHT = 'Air Draught';
 var PortCallDetailsComponent = /** @class */ (function () {
-    function PortCallDetailsComponent(portCallService) {
-        this.portCallService = portCallService;
+    function PortCallDetailsComponent(portCallDetailsService) {
+        this.portCallDetailsService = portCallDetailsService;
         this.portCallDetailsInfo = [
             { description: NO_OF_CREW, data: null },
             { description: NO_OF_PASSENGERS, data: null },
@@ -6835,7 +7656,7 @@ var PortCallDetailsComponent = /** @class */ (function () {
     }
     PortCallDetailsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.crewPassengersAndDimensionsDataSubscription = this.portCallService.crewPassengersAndDimensionsData$.subscribe(function (data) {
+        this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(function (data) {
             if (data != null) {
                 _this.portCallDetailsInfo.find(function (p) { return p.description === NO_OF_CREW; }).data =
                     data.numberOfCrew;
@@ -6857,7 +7678,7 @@ var PortCallDetailsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], PortCallDetailsComponent);
     return PortCallDetailsComponent;
 }());
@@ -6886,7 +7707,7 @@ module.exports = "<app-table-card header=\"Selected Purposes\" icon=\"target.png
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SelectedPurposesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__ = __webpack_require__("./src/app/shared/services/purpose.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -6902,9 +7723,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var OTHER_PURPOSE_ID = '100249';
 var SelectedPurposesComponent = /** @class */ (function () {
-    function SelectedPurposesComponent(purposeService, portCallService) {
+    function SelectedPurposesComponent(purposeService, portCallDetailsService) {
         this.purposeService = purposeService;
-        this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.otherPurposeName = '';
     }
     SelectedPurposesComponent.prototype.ngOnInit = function () {
@@ -6912,12 +7733,12 @@ var SelectedPurposesComponent = /** @class */ (function () {
         this.getPurposesSubscription = this.purposeService.getPurposes().subscribe(function (data) {
             _this.purposeList = data;
         });
-        this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(function (data) {
+        this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(function (data) {
             if (data != null) {
                 _this.selectedPurposes = data;
             }
         });
-        this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(function (data) {
+        this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(function (data) {
             _this.otherPurposeName = data;
         });
     };
@@ -6947,7 +7768,7 @@ var SelectedPurposesComponent = /** @class */ (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__["a" /* PurposeService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_purpose_service__["a" /* PurposeService */],
-            __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_service__["a" /* PortCallService */]])
+            __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], SelectedPurposesComponent);
     return SelectedPurposesComponent;
 }());
@@ -9668,6 +10489,21 @@ var FeedbackProps = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/models/cargo-item-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoItemModel; });
+var CargoItemModel = /** @class */ (function () {
+    function CargoItemModel() {
+    }
+    return CargoItemModel;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/models/certificate-of-registry-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9692,6 +10528,21 @@ var ClearanceModel = /** @class */ (function () {
     function ClearanceModel() {
     }
     return ClearanceModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/consignment-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConsignmentModel; });
+var ConsignmentModel = /** @class */ (function () {
+    function ConsignmentModel() {
+    }
+    return ConsignmentModel;
 }());
 
 
@@ -9788,21 +10639,6 @@ var PassengerModel = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/models/port-call-ship-stores-model.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresModel; });
-var PortCallShipStoresModel = /** @class */ (function () {
-    function PortCallShipStoresModel() {
-    }
-    return PortCallShipStoresModel;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/shared/models/ship-contact-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -9827,6 +10663,21 @@ var ShipModel = /** @class */ (function () {
     function ShipModel() {
     }
     return ShipModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/ship-stores-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresModel; });
+var ShipStoresModel = /** @class */ (function () {
+    function ShipStoresModel() {
+    }
+    return ShipStoresModel;
 }());
 
 
@@ -9868,7 +10719,7 @@ var TokenQueryModel = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AccountService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_app_shared_utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__utils_base_request__ = __webpack_require__("./src/app/shared/utils/base.request.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__ = __webpack_require__("./src/app/shared/utils/config.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
@@ -9966,11 +10817,13 @@ var AccountService = /** @class */ (function (_super) {
             params: {
                 userId: queryModel.userId,
                 token: queryModel.token
-            }
+            },
+            responseType: 'text'
         })
             .map(function (token) {
             return new __WEBPACK_IMPORTED_MODULE_5__models_token_query_model__["a" /* TokenQueryModel */](queryModel.userId, token);
-        });
+        })
+            .catch(this.handleError);
     };
     // Allow anonymous
     AccountService.prototype.requestPasswordReset = function (userName) {
@@ -9999,7 +10852,7 @@ var AccountService = /** @class */ (function (_super) {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_2_app_shared_utils_config_service__["a" /* ConfigService */]])
     ], AccountService);
     return AccountService;
-}(__WEBPACK_IMPORTED_MODULE_0_app_shared_utils_base_request__["a" /* BaseRequest */]));
+}(__WEBPACK_IMPORTED_MODULE_0__utils_base_request__["a" /* BaseRequest */]));
 
 
 
@@ -10227,7 +11080,7 @@ var ConstantsService = /** @class */ (function () {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContentService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
 var __extends = (this && this.__extends) || (function () {
@@ -10257,7 +11110,7 @@ var ContentService = /** @class */ (function (_super) {
     __extends(ContentService, _super);
     function ContentService() {
         var _this = _super.call(this) || this;
-        _this.contentSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
+        _this.contentSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](__WEBPACK_IMPORTED_MODULE_1__constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
         _this.contentName$ = _this.contentSource.asObservable();
         _this.portCallFormSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]('Voyages');
         _this.portCallFormName$ = _this.portCallFormSource.asObservable();
@@ -10382,6 +11235,210 @@ var DbConnectionService = /** @class */ (function (_super) {
     ], DbConnectionService);
     return DbConnectionService;
 }(__WEBPACK_IMPORTED_MODULE_2__base_service__["a" /* BaseService */]));
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/fal-cargo.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FalCargoService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_consignment_model__ = __webpack_require__("./src/app/shared/models/consignment-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_cargo_item_model__ = __webpack_require__("./src/app/shared/models/cargo-item-model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var FalCargoService = /** @class */ (function () {
+    function FalCargoService(http) {
+        this.http = http;
+        this.consignmentListSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.consignmentListData$ = this.consignmentListSource.asObservable();
+        this.dataIsPristineSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.dataIsPristine$ = this.dataIsPristineSource.asObservable();
+        this.portCallUrl = 'api/portCall';
+        this.consignmentsString = 'consignments';
+        this.packageTypeUrl = 'api/packageType';
+    }
+    FalCargoService.prototype.setDataIsPristine = function (data) {
+        this.dataIsPristineSource.next(data);
+    };
+    FalCargoService.prototype.setConsignmentListData = function (data) {
+        this.consignmentListSource.next(data);
+    };
+    FalCargoService.prototype.getConsignmentListForPortCall = function (portCallId) {
+        var uri = [this.portCallUrl, portCallId, this.consignmentsString].join('/');
+        return this.http.get(uri);
+    };
+    FalCargoService.prototype.saveConsignmentListForPortCall = function (consignmentList, portCallId) {
+        console.log(consignmentList);
+        var uri = [this.portCallUrl, portCallId, this.consignmentsString].join('/');
+        return this.http.put(uri, consignmentList);
+    };
+    FalCargoService.prototype.getPackageTypeList = function () {
+        var uri = this.packageTypeUrl;
+        return this.http.get(uri);
+    };
+    FalCargoService.prototype.formatConsignment = function (consignmentList) {
+        var formattedList = [];
+        if (consignmentList && consignmentList.length > 0) {
+            formattedList = consignmentList.map(function (entry) {
+                var formattedConsignment = new __WEBPACK_IMPORTED_MODULE_3__models_consignment_model__["a" /* ConsignmentModel */]();
+                formattedConsignment.portCallId = entry.portCallId;
+                formattedConsignment.name = entry.name;
+                formattedConsignment.portOfLoadingId = entry.portOfLoadingId;
+                formattedConsignment.portOfDischargeId = entry.portOfDischargeId;
+                formattedConsignment.remark = entry.remark;
+                if (entry.cargoItem && entry.cargoItem.length > 0) {
+                    formattedConsignment.cargoItem = entry.cargoItem.map(function (item) {
+                        var formattedCargoItem = new __WEBPACK_IMPORTED_MODULE_4__models_cargo_item_model__["a" /* CargoItemModel */]();
+                        formattedCargoItem.shippingMarks = item.shippingMarks;
+                        formattedCargoItem.containerIdentification = item.containerIdentification;
+                        formattedCargoItem.description = item.description;
+                        formattedCargoItem.grossVolume = item.grossVolume;
+                        formattedCargoItem.grossWeight = item.grossWeight;
+                        formattedCargoItem.hsCode = item.hsCode;
+                        formattedCargoItem.numberOfPackages = item.numberOfPackages;
+                        formattedCargoItem.packageTypeId = item.packageTypeId;
+                        return formattedCargoItem;
+                    });
+                }
+                return formattedConsignment;
+            });
+        }
+        return formattedList;
+    };
+    FalCargoService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */]])
+    ], FalCargoService);
+    return FalCargoService;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/fal-ship-stores.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FalShipStoresService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var FalShipStoresService = /** @class */ (function () {
+    function FalShipStoresService(http) {
+        this.http = http;
+        this.shipStoresUrl = 'api/falShipStores';
+        this.portCallUrl = 'api/portCall';
+        this.shipStoresListString = 'list';
+        this.shipStoresString = 'falShipStores';
+        this.measurementTypeUrl = 'api/measurementType';
+        this.shipStoresListSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipStoresList$ = this.shipStoresListSource.asObservable();
+        this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.dataIsPristine$ = this.dataIsPristine.asObservable();
+        this.sequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
+        this.sequenceNumber$ = this.sequenceNumberSource.asObservable();
+        this.reportingShipStoresIsChecked = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.reportingShipStoresIsChecked$ = this.reportingShipStoresIsChecked.asObservable();
+    }
+    // Get ship stores object by its primary key ID
+    FalShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
+        var uri = [this.shipStoresUrl, shipStoresId].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    // Save ship stores list to database
+    FalShipStoresService.prototype.saveShipStores = function (shipStoresList, portCallId) {
+        console.log('Saving ship stores...');
+        console.log(shipStoresList);
+        var uri = [this.shipStoresUrl, portCallId, this.shipStoresListString].join('/');
+        return this.http.put(uri, shipStoresList);
+    };
+    // Get all ship stores for a given port call
+    FalShipStoresService.prototype.getShipStoresByPortCallId = function (portCallId) {
+        var uri = [this.portCallUrl, portCallId].join('/');
+        uri = [uri, this.shipStoresString].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    // Get list of all measurement types
+    FalShipStoresService.prototype.getMeasurementTypeList = function () {
+        var uri = this.measurementTypeUrl;
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    // Update shipStoresInformationData
+    FalShipStoresService.prototype.setShipStoresList = function (data) {
+        this.shipStoresListSource.next(data);
+    };
+    FalShipStoresService.prototype.setDataIsPristine = function (isPristine) {
+        this.dataIsPristine.next(isPristine);
+    };
+    FalShipStoresService.prototype.setCheckedInProgressBar = function (checked) {
+        this.reportingShipStoresIsChecked.next(checked);
+    };
+    FalShipStoresService.prototype.setSequenceNumbers = function (list) {
+        var tempSequenceNumber = 1;
+        list.forEach(function (item) {
+            item.sequenceNumber = tempSequenceNumber;
+            tempSequenceNumber++;
+        });
+        return list;
+    };
+    FalShipStoresService.prototype.formatShipStores = function (shipStoresList) {
+        var formattedList = [];
+        if (shipStoresList && shipStoresList.length > 0) {
+            formattedList = shipStoresList.map(function (item) {
+                var formattedShipStore = new __WEBPACK_IMPORTED_MODULE_3__models_ship_stores_model__["a" /* ShipStoresModel */]();
+                formattedShipStore.portCallId = item.portCallId;
+                formattedShipStore.sequenceNumber = item.sequenceNumber;
+                formattedShipStore.articleName = item.articleName;
+                formattedShipStore.articleCode = item.articleCode;
+                formattedShipStore.quantity = item.quantity;
+                formattedShipStore.locationOnBoardCode = item.locationOnBoardCode;
+                formattedShipStore.locationOnBoard = item.locationOnBoard;
+                formattedShipStore.measurementTypeId = item.measurementTypeId;
+                formattedShipStore.articleName = item.articleName;
+                return formattedShipStore;
+            });
+        }
+        return formattedList;
+    };
+    FalShipStoresService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+    ], FalShipStoresService);
+    return FalShipStoresService;
+}());
 
 
 
@@ -10694,6 +11751,141 @@ var OrganizationService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/services/port-call-details.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallDetailsService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var PortCallDetailsService = /** @class */ (function (_super) {
+    __extends(PortCallDetailsService, _super);
+    function PortCallDetailsService(http) {
+        var _this = _super.call(this) || this;
+        _this.http = http;
+        // Global purpose
+        _this.purposePortCallUrl = 'api/purpose/portcall';
+        _this.purposeOtherNameUrl = 'api/purpose/othername';
+        // Global details
+        _this.detailsUrl = 'api/portcalldetails';
+        _this.detailsPortCallUrl = 'api/portcalldetails/portcall';
+        _this.crewPassengersAndDimensionsSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.crewPassengersAndDimensionsData$ = _this.crewPassengersAndDimensionsSource.asObservable();
+        _this.crewPassengersAndDimensionsMeta = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({ valid: true });
+        _this.crewPassengersAndDimensionsMeta$ = _this.crewPassengersAndDimensionsMeta.asObservable();
+        _this.cargoBriefDescriptionSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]('');
+        _this.cargoBriefDescriptionData$ = _this.cargoBriefDescriptionSource.asObservable();
+        _this.reportingForThisPortCallSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.reportingForThisPortCallData$ = _this.reportingForThisPortCallSource.asObservable();
+        _this.portCallPurposeDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.portCallPurposeData$ = _this.portCallPurposeDataSource.asObservable();
+        _this.otherPurposeNameSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]('');
+        _this.otherPurposeName$ = _this.otherPurposeNameSource.asObservable();
+        _this.otherPurposeDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.otherPurposeData$ = _this.otherPurposeDataSource.asObservable();
+        _this.detailsPristine = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        _this.detailsPristine$ = _this.detailsPristine.asObservable();
+        return _this;
+    }
+    PortCallDetailsService.prototype.setDetails = function (details) {
+        this.setCrewPassengersAndDimensionsData(details);
+        this.setReportingForThisPortCallData(details);
+        this.setCargoBriefDescriptionData(details.cargoBriefDescription);
+        this.detailsPristine.next(true);
+    };
+    PortCallDetailsService.prototype.setCrewPassengersAndDimensionsData = function (data) {
+        this.detailsPristine.next(false);
+        this.crewPassengersAndDimensionsSource.next(data);
+    };
+    PortCallDetailsService.prototype.setCrewPassengersAndDimensionsMeta = function (metaData) {
+        this.crewPassengersAndDimensionsMeta.next(metaData);
+    };
+    PortCallDetailsService.prototype.setCargoBriefDescriptionData = function (data) {
+        this.cargoBriefDescriptionSource.next(data);
+    };
+    // Reporting
+    // This is a list of checkboxes that specify which FAL forms to include in this port call registration
+    PortCallDetailsService.prototype.setReportingForThisPortCallData = function (data) {
+        // NEW
+        this.detailsPristine.next(false);
+        this.reportingForThisPortCallSource.next(data);
+    };
+    // Purpose
+    PortCallDetailsService.prototype.setPortCallPurposeData = function (data) {
+        // NEW
+        this.detailsPristine.next(false);
+        this.portCallPurposeDataSource.next(data);
+    };
+    // User-specified purpose of type "Other"
+    PortCallDetailsService.prototype.setOtherPurposeName = function (data) {
+        this.detailsPristine.next(false);
+        this.otherPurposeNameSource.next(data);
+    };
+    PortCallDetailsService.prototype.setOtherPurposeData = function (data) {
+        // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
+        this.otherPurposeDataSource.next(data);
+    };
+    PortCallDetailsService.prototype.setDetailsPristine = function (isPristine) {
+        this.detailsPristine.next(isPristine);
+    };
+    // Get methods
+    PortCallDetailsService.prototype.getDetailsByPortCallId = function (portCallId) {
+        var uri = [this.detailsPortCallUrl, portCallId].join('/');
+        return this.http.get(uri);
+    };
+    PortCallDetailsService.prototype.getPurposeByPortCallId = function (portCallId) {
+        var uri = [this.purposePortCallUrl, portCallId].join('/');
+        return this.http.get(uri);
+    };
+    PortCallDetailsService.prototype.getOtherName = function (portCallId) {
+        var uri = [this.purposeOtherNameUrl, portCallId].join('/');
+        return this.http.get(uri);
+    };
+    PortCallDetailsService.prototype.wipeDetailsData = function () {
+        this.reportingForThisPortCallSource.next(null);
+        this.crewPassengersAndDimensionsSource.next(null);
+        this.portCallPurposeDataSource.next(null);
+        this.otherPurposeNameSource.next('');
+        this.detailsPristine.next(true);
+    };
+    PortCallDetailsService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */]])
+    ], PortCallDetailsService);
+    return PortCallDetailsService;
+}(__WEBPACK_IMPORTED_MODULE_4__base_service__["a" /* BaseService */]));
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/services/port-call-overview.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -10936,171 +12128,17 @@ var PortCallPassengerListService = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/services/port-call-ship-stores.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallShipStoresService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var PortCallShipStoresService = /** @class */ (function () {
-    function PortCallShipStoresService(http) {
-        this.http = http;
-        this.shipStoresInformationSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.shipStoresList$ = this.shipStoresInformationSource.asObservable();
-        this.shipStoresInformationMeta = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({
-            valid: true
-        });
-        this.shipStoresInformationMeta$ = this.shipStoresInformationMeta.asObservable();
-        this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
-        this.dataIsPristine$ = this.dataIsPristine.asObservable();
-        this.sequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
-        this.sequenceNumber$ = this.sequenceNumberSource.asObservable();
-        this.isCheckedInProgressBar = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
-        this.isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
-        this.shipStoresUrl = 'api/falShipStores';
-        this.shipStoresListUrl = 'api/falShipStores/list';
-        this.portCallUrl = 'api/portCall';
-        this.shipStoresString = 'falShipStores';
-        this.measurementTypeUrl = 'api/measurementType';
-    }
-    // API calls
-    // Get ship stores object by its primary key ID
-    PortCallShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
-        var uri = [this.shipStoresUrl, shipStoresId].join('/');
-        return this.http.get(uri);
-    };
-    // Add new ship stores list to database
-    PortCallShipStoresService.prototype.addShipStores = function (shipStoresList) {
-        var _this = this;
-        console.log('Adding Ship Stores...');
-        var uri = this.shipStoresListUrl;
-        this.http.post(uri, shipStoresList).map(function (res) {
-            if (res) {
-                _this.setDataIsPristine(true);
-            }
-        });
-    };
-    // Update  existing ship stores list in database
-    PortCallShipStoresService.prototype.updateShipStores = function (shipStoresList) {
-        var _this = this;
-        console.log('Updating ship stores...');
-        console.log(shipStoresList);
-        var uri = this.shipStoresListUrl;
-        return this.http.put(uri, shipStoresList).map(function (res) {
-            if (res) {
-                console.log('Ship stores successfully saved.');
-                _this.setDataIsPristine(true);
-            }
-        });
-    };
-    // Get all ship stores for a given port call
-    PortCallShipStoresService.prototype.getShipStoresByPortCallId = function (portCallId) {
-        var uri = [this.portCallUrl, portCallId].join('/');
-        uri = [uri, this.shipStoresString].join('/');
-        return this.http.get(uri);
-    };
-    // Get list of all measurement types
-    PortCallShipStoresService.prototype.getMeasurementTypeList = function () {
-        var uri = this.measurementTypeUrl;
-        return this.http.get(uri);
-    };
-    /************************
-     *
-     *  SETTERS AND DELETE
-     *
-     ************************/
-    // Update shipStoresInformationData
-    PortCallShipStoresService.prototype.setShipStoresInformationData = function (data) {
-        this.shipStoresInformationSource.next(data);
-    };
-    // Update setShipStoresInformationMeta
-    PortCallShipStoresService.prototype.setShipStoresInformationMeta = function (metaData) {
-        this.shipStoresInformationMeta.next(metaData);
-    };
-    PortCallShipStoresService.prototype.setDataIsPristine = function (isPristine) {
-        this.dataIsPristine.next(isPristine);
-    };
-    PortCallShipStoresService.prototype.setCheckedInProgressBar = function (checked) {
-        this.isCheckedInProgressBar.next(checked);
-    };
-    // Delete port call draft
-    PortCallShipStoresService.prototype.deleteShipStoreEntry = function (data) {
-        var _this = this;
-        var copyShipStoresInformationSource = this.shipStoresInformationSource.getValue();
-        data = JSON.stringify(this.createComparableObject(data));
-        // Find clicked item
-        copyShipStoresInformationSource.forEach(function (item, index) {
-            item = JSON.stringify(_this.createComparableObject(item));
-            if (item === data) {
-                copyShipStoresInformationSource.splice(index, 1);
-            }
-        });
-        // Reset all sequenceNumbers
-        copyShipStoresInformationSource = this.setSequenceNumbers(copyShipStoresInformationSource);
-        this.setShipStoresInformationData(copyShipStoresInformationSource);
-        // Set dataIsPristine to false (data is touched)
-        this.setDataIsPristine(false);
-    };
-    /******************
-     *
-     *  HELP METHODS
-     *
-     ******************/
-    PortCallShipStoresService.prototype.createComparableObject = function (item) {
-        var object = {
-            sequenceNumber: item.sequenceNumber,
-            articleCode: item.articleCode,
-            articleName: item.articleName,
-            locationOnBoard: item.locationOnBoard,
-            locationOnBoardCode: item.locationOnBoardCode,
-            quantity: item.quantity,
-        };
-        return object;
-    };
-    PortCallShipStoresService.prototype.setSequenceNumbers = function (list) {
-        var tempSequenceNumber = 1;
-        list.forEach(function (item) {
-            item.sequenceNumber = tempSequenceNumber;
-            tempSequenceNumber++;
-        });
-        return list;
-    };
-    PortCallShipStoresService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_common_http__["b" /* HttpClient */]])
-    ], PortCallShipStoresService);
-    return PortCallShipStoresService;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/shared/services/port-call.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__node_modules_angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/add/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__prev_and_next_poc_service__ = __webpack_require__("./src/app/shared/services/prev-and-next-poc.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11117,60 +12155,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var PortCallService = /** @class */ (function () {
-    function PortCallService(http, prevAndNextPocService) {
+    function PortCallService(http, prevAndNextPocService, portCallDetailsService) {
         this.http = http;
         this.prevAndNextPocService = prevAndNextPocService;
-        // Subjects
-        this.detailsPristine = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
-        this.detailsPristine$ = this.detailsPristine.asObservable();
-        // Data sources with observables
-        this.updateOverviewSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.updateOverview$ = this.updateOverviewSource.asObservable();
-        this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.shipData$ = this.shipDataSource.asObservable();
-        this.locationDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.locationData$ = this.locationDataSource.asObservable();
-        this.etaEtdDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.etaEtdData$ = this.etaEtdDataSource.asObservable();
-        this.portCallStatusSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.portCallStatusData$ = this.portCallStatusSource.asObservable();
-        this.detailsIdentificationSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.detailsIdentificationData$ = this.detailsIdentificationSource.asObservable();
-        this.crewPassengersAndDimensionsSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
-        this.crewPassengersAndDimensionsMeta = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({
-            valid: true
-        });
-        this.crewPassengersAndDimensionsMeta$ = this.crewPassengersAndDimensionsMeta.asObservable();
-        this.reportingForThisPortCallSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.reportingForThisPortCallData$ = this.reportingForThisPortCallSource.asObservable();
-        this.portCallPurposeDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.portCallPurposeData$ = this.portCallPurposeDataSource.asObservable();
-        this.otherPurposeNameSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]('');
-        this.otherPurposeName$ = this.otherPurposeNameSource.asObservable();
-        this.otherPurposeDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.otherPurposeData$ = this.otherPurposeDataSource.asObservable();
-        this.clearanceDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.clearanceData$ = this.clearanceDataSource.asObservable();
-        this.clearanceListDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
-        this.clearanceListData$ = this.clearanceListDataSource.asObservable();
-        // Port call
+        this.portCallDetailsService = portCallDetailsService;
+        // Global port call
         this.portCallUrl = 'api/portcall';
         this.portCallUserUrl = 'api/portcall/user';
         this.updatePortCallStatusAwaitingClearanceUrl = 'api/portcall/updatestatus/awaitingclearance';
         this.updatePortCallStatusCancelledUrl = 'api/portcall/updatestatus/cancelled';
-        this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
         this.updatePortCallStatusClearedUrl = 'api/portcall/updatestatus/cleared';
+        this.updatePortCallStatusCompletedUrl = 'api/portcall/updatestatus/completed';
         this.updatePortCallStatusDraftUrl = 'api/portCall/updateStatus/draft';
-        // Purpose
-        this.purposePortCallUrl = 'api/purpose/portcall';
-        this.purposeOtherNameUrl = 'api/purpose/othername';
-        // Details
+        // Global details
         this.detailsUrl = 'api/portcalldetails';
         this.detailsPortCallUrl = 'api/portcalldetails/portcall';
-        // Clearance
+        // Global purpose
+        this.purposePortCallUrl = 'api/purpose/portcall';
+        this.purposeOtherNameUrl = 'api/purpose/othername';
+        // Global clearance
         this.clearanceUrl = 'api/organizationportcall';
         this.clearancePortCallUrl = 'api/organizationportcall/portcall';
+        // Data sources with observables
+        this.updateOverviewSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.updateOverview$ = this.updateOverviewSource.asObservable();
+        this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.shipData$ = this.shipDataSource.asObservable();
+        this.locationDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.locationData$ = this.locationDataSource.asObservable();
+        this.etaEtdDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.etaEtdData$ = this.etaEtdDataSource.asObservable();
+        this.portCallStatusSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.portCallStatusData$ = this.portCallStatusSource.asObservable();
+        this.portCallIdSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.portCallIdData$ = this.portCallIdSource.asObservable();
+        this.clearanceDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.clearanceData$ = this.clearanceDataSource.asObservable();
+        this.clearanceListDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.clearanceListData$ = this.clearanceListDataSource.asObservable();
     }
     // Helper method for ETA/ETD formatting
     PortCallService.prototype.etaEtdDataFormat = function (arrival, departure) {
@@ -11203,6 +12225,8 @@ var PortCallService = /** @class */ (function () {
      * * * * * * * * * * * * */
     // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
     PortCallService.prototype.setPortCall = function (overview) {
+        console.log(overview);
+        this.setPortCallIdData(overview.portCall.portCallId);
         // Ship Location Time
         this.setShipData(overview.ship);
         this.setLocationData(overview.location);
@@ -11229,9 +12253,11 @@ var PortCallService = /** @class */ (function () {
     PortCallService.prototype.setPortCallStatus = function (data) {
         this.portCallStatusSource.next(data);
     };
+    PortCallService.prototype.setPortCallIdData = function (data) {
+        this.portCallIdSource.next(data);
+    };
     // REGISTER NEW PORT CALL
     PortCallService.prototype.registerNewPortCall = function (portCall) {
-        // NEW
         console.log('Registering new port call...');
         var uri = this.portCallUrl;
         this.setPortCallStatus('Draft');
@@ -11239,7 +12265,10 @@ var PortCallService = /** @class */ (function () {
     };
     // Set port call status to awaiting clearance
     PortCallService.prototype.updatePortCallStatusAwaitingClearance = function (portCallId) {
-        var uri = [this.updatePortCallStatusAwaitingClearanceUrl, portCallId].join('/');
+        var uri = [
+            this.updatePortCallStatusAwaitingClearanceUrl,
+            portCallId
+        ].join('/');
         console.log('Updating port call status to awaiting clearance...');
         return this.http.post(uri, null);
     };
@@ -11288,79 +12317,13 @@ var PortCallService = /** @class */ (function () {
         var uri = [this.portCallUserUrl, userId].join('/');
         return this.http.get(uri);
     };
-    /** * * * * * * * * * * * * *
-     *                           *
-     * == PORT CALL DETAILS ==   *
-     *                           *
-     * * * * * * * * * * * * * * */
-    PortCallService.prototype.setDetails = function (details) {
-        // NEW
-        this.setCrewPassengersAndDimensionsData(details);
-        this.setReportingForThisPortCallData(details);
-        this.setDetailsIdentificationData(details);
-        this.detailsPristine.next(true);
-    };
-    PortCallService.prototype.setDetailsIdentificationData = function (data) {
-        this.detailsPristine.next(false);
-        this.detailsIdentificationSource.next(data);
-    };
-    // Crew, passengers and dimensions
-    PortCallService.prototype.setCrewPassengersAndDimensionsData = function (data) {
-        // NEW
-        this.detailsPristine.next(false);
-        this.crewPassengersAndDimensionsSource.next(data);
-    };
-    PortCallService.prototype.setCrewPassengersAndDimensionsMeta = function (metaData) {
-        this.crewPassengersAndDimensionsMeta.next(metaData);
-    };
-    // Reporting
-    // This is a list of checkboxes that specify which FAL forms to include in this port call registration
-    PortCallService.prototype.setReportingForThisPortCallData = function (data) {
-        // NEW
-        this.detailsPristine.next(false);
-        this.reportingForThisPortCallSource.next(data);
-    };
-    // Purpose
-    PortCallService.prototype.setPortCallPurposeData = function (data) {
-        // NEW
-        this.detailsPristine.next(false);
-        this.portCallPurposeDataSource.next(data);
-    };
-    // User-specified purpose of type "Other"
-    PortCallService.prototype.setOtherPurposeName = function (data) {
-        this.detailsPristine.next(false);
-        this.otherPurposeNameSource.next(data);
-    };
-    PortCallService.prototype.setOtherPurposeData = function (data) {
-        // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
-        this.otherPurposeDataSource.next(data);
-    };
-    PortCallService.prototype.savePrevAndNextPortCall = function (portCallId, prevPortOfCall, nextPortCall, prevEtd, nextEta) {
-        var _this = this;
-        this.getPortCallById(portCallId).subscribe(function (data) {
-            if (data) {
-                var updatedPortCallData = data;
-                updatedPortCallData.previousLocationId = prevPortOfCall != null ? prevPortOfCall.locationId : null;
-                updatedPortCallData.nextLocationId = nextPortCall != null ? nextPortCall.locationId : null;
-                updatedPortCallData.previousLocationEtd = prevEtd;
-                updatedPortCallData.nextLocationEta = nextEta;
-                _this.updatePortCall(updatedPortCallData).subscribe(function (result) {
-                    console.log(result);
-                    _this.prevAndNextPocService.setDataPristine(true);
-                }, function (error) {
-                    console.log(error);
-                });
-            }
-        });
-    };
     // SAVE DETAILS
     PortCallService.prototype.saveDetails = function (details, purposes, otherName) {
         var _this = this;
+        console.log(details);
         details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
         console.log('Saving port call details...');
-        this.http
-            .post(this.detailsUrl, details)
-            .subscribe(function (detailsResponse) {
+        this.http.post(this.detailsUrl, details).subscribe(function (detailsResponse) {
             console.log('Successfully saved port call details.');
             _this.savePurposesForPortCall(details.portCallId, purposes, otherName);
         });
@@ -11370,10 +12333,10 @@ var PortCallService = /** @class */ (function () {
         if (purposes.length === 0) {
             var uri = [this.purposePortCallUrl, pcId.toString()].join('/');
             this.http
-                .delete(uri, null)
+                .delete(uri)
                 .subscribe(function (removePurposeResponse) {
                 if (removePurposeResponse) {
-                    _this.detailsPristine.next(true);
+                    _this.portCallDetailsService.setDetailsPristine(true);
                 }
             });
         }
@@ -11390,35 +12353,32 @@ var PortCallService = /** @class */ (function () {
                 .put(this.purposePortCallUrl, pcHasPurposeList)
                 .subscribe(function (purposeResponse) {
                 if (purposeResponse) {
-                    _this.detailsPristine.next(true);
+                    _this.portCallDetailsService.setDetailsPristine(true);
                 }
                 console.log('Purposes successfully saved.');
             });
         }
     };
-    // Get methods
-    PortCallService.prototype.getDetailsByPortCallId = function (portCallId) {
-        var uri = [this.detailsPortCallUrl, portCallId].join('/');
-        return this.http
-            .get(uri)
-            .catch(function (e) {
-            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
-        });
-    };
-    PortCallService.prototype.getPurposeByPortCallId = function (portCallId) {
-        var uri = [this.purposePortCallUrl, portCallId].join('/');
-        return this.http
-            .get(uri)
-            .catch(function (e) {
-            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
-        });
-    };
-    PortCallService.prototype.getOtherName = function (portCallId) {
-        var uri = [this.purposeOtherNameUrl, portCallId].join('/');
-        return this.http
-            .get(uri)
-            .catch(function (e) {
-            return __WEBPACK_IMPORTED_MODULE_3_rxjs_Observable__["a" /* Observable */].of(e);
+    PortCallService.prototype.savePrevAndNextPortCall = function (portCallId, prevPortOfCall, nextPortCall, prevEtd, nextEta) {
+        var _this = this;
+        // const updatedPortCallData = new PortCallModel();
+        this.getPortCallById(portCallId).subscribe(function (data) {
+            if (data) {
+                var updatedPortCallData = data;
+                updatedPortCallData.previousLocationId =
+                    prevPortOfCall != null ? prevPortOfCall.locationId : null;
+                updatedPortCallData.nextLocationId =
+                    nextPortCall != null ? nextPortCall.locationId : null;
+                updatedPortCallData.previousLocationEtd = prevEtd;
+                updatedPortCallData.nextLocationEta = nextEta;
+                console.log(updatedPortCallData);
+                _this.updatePortCall(updatedPortCallData).subscribe(function (result) {
+                    console.log(result);
+                    _this.prevAndNextPocService.setDataPristine(true);
+                }, function (error) {
+                    console.log(error);
+                });
+            }
         });
     };
     /** * * * * * * * * *
@@ -11466,18 +12426,13 @@ var PortCallService = /** @class */ (function () {
         this.etaEtdDataSource.next(null);
         this.clearanceListDataSource.next(null);
         // Details
-        this.wipeDetailsData();
-    };
-    PortCallService.prototype.wipeDetailsData = function () {
-        this.reportingForThisPortCallSource.next(null);
-        this.crewPassengersAndDimensionsSource.next(null);
-        this.portCallPurposeDataSource.next(null);
-        this.otherPurposeNameSource.next('');
-        this.detailsPristine.next(true);
+        this.portCallDetailsService.wipeDetailsData();
     };
     PortCallService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__node_modules_angular_common_http__["b" /* HttpClient */], __WEBPACK_IMPORTED_MODULE_4__prev_and_next_poc_service__["a" /* PrevAndNextPocService */]])
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_5__prev_and_next_poc_service__["a" /* PrevAndNextPocService */],
+            __WEBPACK_IMPORTED_MODULE_4__port_call_details_service__["a" /* PortCallDetailsService */]])
     ], PortCallService);
     return PortCallService;
 }());
@@ -11784,13 +12739,15 @@ var ShipService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_confirmation_view_cargo_info_table_cargo_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -11871,7 +12828,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_19__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_22__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__["a" /* FeedbackComponent */]
+                __WEBPACK_IMPORTED_MODULE_39__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
@@ -11897,7 +12855,7 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_19__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_22__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_feedback_feedback_component__["a" /* FeedbackComponent */]
+                __WEBPACK_IMPORTED_MODULE_39__components_feedback_feedback_component__["a" /* FeedbackComponent */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_32__services_location_service__["a" /* LocationService */],
