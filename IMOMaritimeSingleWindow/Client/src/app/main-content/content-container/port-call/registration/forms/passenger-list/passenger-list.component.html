@@ -15,7 +15,7 @@
             </div>
             <div class="alert alert-danger" *ngIf="!isValid(familyName.valid) && familyName.touched">
               <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric letters allowed.</small>
+                <small>Only alphanumeric characters allowed.</small>
               </li>
               <li *ngIf="familyName.hasError('required')">
                 <small>This field is required.</small>
@@ -32,7 +32,7 @@
 
             <div class="alert alert-danger" *ngIf="!isValid(givenName.valid) && givenName.touched">
               <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric letters allowed.</small>
+                <small>Only alphanumeric characters allowed.</small>
               </li>
               <li *ngIf="givenName.hasError('required')">
                 <small>This field is required.</small>
@@ -57,7 +57,7 @@
                   <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
                     name="nationality" />
                   <div>
-                    <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove port" (click)="resetNationality()">
+                    <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="resetNationality()">
                       <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
                     </button>
                   </div>
@@ -96,7 +96,7 @@
             </div>
             <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
               <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric letters allowed.</small>
+                <small>Only alphanumeric characters allowed.</small>
               </li>
             </div>
 
@@ -143,7 +143,7 @@
                   <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name">
                   <div class="input-group-append">
-                    <button class="btn btn-sm btn-ssn" (click)="resetPortOfEmbarkation()">
+                    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove port of embarkation" (click)="resetPortOfEmbarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                     </button>
                   </div>
@@ -165,7 +165,7 @@
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfDisembarkation.name">
                   <div class="input-group-append">
-                    <button class="btn btn-sm btn-ssn" (click)="resetPortOfDisembarkation()">
+                    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove port of disembarkation" (click)="resetPortOfDisembarkation()">
                       <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
                     </button>
                   </div>
