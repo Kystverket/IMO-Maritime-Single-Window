@@ -2,7 +2,7 @@
 
     <form>
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name</label>
@@ -52,7 +52,7 @@
                 </div>
 
             </div>
-            <div class="col-lg-6">
+            <div class="col-md-6 col-lg-6">
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="quantity" class="col-form-label-sm no-wrap mb-0">Quantity</label>
@@ -98,24 +98,24 @@
         </div>
     </form>
 
-    <div class="col-lg-12">
-
-        <div class="form-group">
-            <button *ngIf="form.valid" type="submit" class="btn btn-ssn mt-2" (click)="persistData()">
-                <span>Submit</span>
-            </button>
-            <button *ngIf="!form.valid" type="submit" disabled class="btn btn-ssn mt-2">
-                <span>Submit</span>
-            </button>
-        </div>
-
-        <div class="mb-3">
-
-            <div class="table-responsive">
-                <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <button *ngIf="form.valid" type="submit" class="btn btn-sm btn-ssn mt-2" (click)="persistData()">
+                    <span>Submit</span>
+                </button>
+                <button *ngIf="!form.valid" type="submit" disabled class="btn btn-sm btn-ssn mt-2">
+                    <span>Submit</span>
+                </button>
+            </div>
+        
+            <div class="mb-3">
+                <div class="table-responsive">
+                    <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
+                    </div>
+                    <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
+        
                 </div>
-                <ng2-smart-table [settings]="tableSettings" [source]="shipStoresDataSource"></ng2-smart-table>
-
             </div>
         </div>
     </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentService } from 'app/shared/services/content.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallPassengerListService } from '../../../../shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-registration',
@@ -12,7 +13,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   portCallFormNameSubscription: Subscription;
 
-  constructor(private contentService: ContentService) {}
+  constructor(
+    private contentService: ContentService
+  ) { }
 
   ngOnInit() {
     this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(content => {

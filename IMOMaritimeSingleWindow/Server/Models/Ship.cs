@@ -27,7 +27,6 @@ namespace IMOMaritimeSingleWindow.Models
         public string Name { get; set; }
         public string CallSign { get; set; }
         public int? DeadweightTonnage { get; set; }
-        public int? NetTonnage { get; set; }
         public int? GrossTonnage { get; set; }
         public float? Length { get; set; }
         public float? Breadth { get; set; }
@@ -42,6 +41,7 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? DateOfKeelLaying { get; set; }
         public int? ImoNo { get; set; }
         public int? MmsiNo { get; set; }
+        public int? NetTonnage { get; set; }
 
         public CertificateOfRegistry CertificateOfRegistry { get; set; }
         public Organization Organization { get; set; }

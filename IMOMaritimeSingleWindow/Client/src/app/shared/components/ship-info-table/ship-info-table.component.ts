@@ -18,7 +18,7 @@ export class ShipInfoTableComponent implements OnInit, OnDestroy {
   shipProperties: any = ShipProperties.PROPERTIES;
   shipInfo: any[];
 
-  shipOverviewDataSubscription: Subscription;
+  shipDataSubscription: Subscription;
 
   constructor(
     private shipService: ShipService,
@@ -27,7 +27,7 @@ export class ShipInfoTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.shipHasContactInfo = false;
-    this.shipOverviewDataSubscription = this.shipService.shipOverviewData$.subscribe(shipResult => {
+    this.shipDataSubscription = this.shipService.shipData$.subscribe(shipResult => {
       if (shipResult) {
         if (shipResult.shipFlagCode.country) {
           this.shipFlag = shipResult.shipFlagCode.country.twoCharCode.toLowerCase();
@@ -73,6 +73,6 @@ export class ShipInfoTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.shipOverviewDataSubscription.unsubscribe();
+    this.shipDataSubscription.unsubscribe();
   }
 }

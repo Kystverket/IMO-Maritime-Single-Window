@@ -48,7 +48,7 @@ export class ClearanceComponent implements OnInit, OnDestroy {
     });
 
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipResult => {
-      this.shipService.setShipOverviewData(shipResult);
+      this.shipService.setShipData(shipResult);
     });
   }
 
@@ -63,9 +63,43 @@ export class ClearanceComponent implements OnInit, OnDestroy {
   }
 
   saveClearance() {
+    console.log(this.clearanceModel);
     this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
+
+    if (this.clearanceModel.cleared) {
+      this.portCallService.getClearanceListForPortCall(this.clearanceModel.portCallId).subscribe(
+        result => {
+          const clearances = result;
+          let allCleared = true;
+          clearances.forEach(clearance => {
+            if (!clearance.cleared && clearance.organizationPortCallId !== this.clearanceModel.organizationPortCallId) {
+              allCleared = false;
+            }
+          });
+          console.log('All cleared: ', allCleared);
+          if (allCleared) {
+            this.portCallService.updatePortCallStatusCleared(this.clearanceModel.portCallId).subscribe(
+              res => {
+                console.log(res);
+                console.log('Status set to cleared.');
+              },
+              err => console.log(err)
+            );
+          }
+        }
+      );
+    } else {
+      console.log('Setting status to AC...');
+      this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(
+        res => {
+          console.log(res);
+          console.log('Status set to awaiting clearance');
+        },
+        err => console.log(err)
+      );
+    }
   }
 
   goBack() {

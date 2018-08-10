@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,6 +7,9 @@ import { ContentService } from 'app/shared/services/content.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';
+import { CargoItemModel } from 'app/shared/models/cargo-item-model';
+import { forEach } from '../../../../../../../../../node_modules/@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-delete-button',
@@ -18,6 +21,7 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
 
   @Input() value: string | number;
   @Input() rowData: any;
+  @Output() delete = new EventEmitter<any>();
 
   selectedForm: string;
   formNames: any;
@@ -45,6 +49,11 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
 
   onDeleteClick(content: any) {
     this.modalService.open(content);
+  }
+
+  deleteItem() {
+    console.log(this.rowData);
+    this.delete.emit(this.rowData);
   }
 
   deleteShipStoreEntry() {

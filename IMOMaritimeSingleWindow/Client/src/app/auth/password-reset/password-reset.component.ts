@@ -6,29 +6,10 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./password-reset.component.css']
 })
 export class PasswordResetComponent implements OnInit {
-  @Input() header: string;
 
-  inputOne = '';
-  inputTwo = '';
-  passwordMatch = false;
-  fieldsFilled = false;
+  constructor(
+  ) {}
 
-  constructor() {}
-
-  checkFill() {
-    this.fieldsFilled = this.inputOne !== '' && this.inputTwo !== '';
+  ngOnInit() {
   }
-
-  checkPasswords() {
-    this.checkFill();
-    this.passwordMatch =
-      !(this.inputOne === '' || this.inputTwo === '') &&
-      this.inputOne === this.inputTwo;
-  }
-
-  resetPassword() {
-    return false;
-  }
-
-  ngOnInit() {}
 }

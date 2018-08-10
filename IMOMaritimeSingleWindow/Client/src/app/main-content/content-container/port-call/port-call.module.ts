@@ -43,7 +43,12 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
-import { FormsModule } from '@angular/forms';
+import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-time.component';
+import { CargoComponent } from './registration/forms/cargo/cargo.component';
+import { ConsignmentFormComponent } from './registration/forms/cargo/consignment-form/consignment-form.component';
+import { CargoTableComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component';
+import { CargoItemFormComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component';
+import { FalCargoService } from '../../../shared/services/fal-cargo.service';
 
 @NgModule({
   imports: [
@@ -86,6 +91,12 @@ import { FormsModule } from '@angular/forms';
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
+    SavePrevAndNextPocComponent,
+    SetActualTimeComponent,
+    CargoComponent,
+    CargoTableComponent,
+    ConsignmentFormComponent,
+    CargoItemFormComponent,
     SelectDateComponent,
     SavePassengerListComponent,
     SavePrevAndNextPocComponent,
@@ -105,7 +116,8 @@ import { FormsModule } from '@angular/forms';
     PortCallPassengerListService,
     CountryService,
     PrevAndNextPocService,
-    IdentityDocumentService
-  ]
+    IdentityDocumentService,
+    FalCargoService
+  ],
 })
 export class PortCallModule { }
