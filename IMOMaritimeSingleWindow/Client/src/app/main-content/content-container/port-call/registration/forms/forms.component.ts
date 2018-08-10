@@ -4,13 +4,12 @@ import { ConsignmentModel } from 'app/shared/models/consignment-model';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 
 
 @Component({
@@ -25,6 +24,7 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
+  passengerData: PersonOnBoardModel[];
 
   formNames: any;
 
@@ -57,40 +57,43 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.cargoData = data;
       }
     );
-    this.portCallIdSubscription = this.portCallService.detailsIdentificationData$.subscribe(
+    this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
       idResult => {
         if (idResult) {
-          this.portCallId = idResult.portCallId;
-          this.personOnBoardListSubscription = this.getPersonOnBoardListForPortCall(this.portCallId).subscribe(
+          this.portCallId = idResult;
+          // Get all personOnBoard entities that have personOnBoardType === 2, which is passengers.
+          this.personOnBoardListSubscription = this.getPersonOnBoardListForPortCall(this.portCallId, 2).subscribe(
             personOnBoardListResult => {
               if (personOnBoardListResult) {
                 console.log(personOnBoardListResult);
-                const passengerList = personOnBoardListResult.filter(p => p.personOnBoardType.name === 'Passenger');
-                this.passengerListService.setPassengersList(passengerList);
+                this.passengerData = personOnBoardListResult;
+                this.passengerListService.setPassengersList(this.passengerData);
               }
             }
           );
         }
-    this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
-      data => {
-        this.shipStoresData = data;
+        this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
+          data => {
+            this.shipStoresData = data;
+          }
+        );
+        this.shipDataSubscription = this.portCallService.shipData$.subscribe(
+          shipResult => {
+            this.shipService.setShipData(shipResult);
+          }
+        );
+        this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
+          content => {
+            this.selectedComponent = content;
+          }
+        );
+        this.formNames = FORM_NAMES;
       }
     );
-    this.shipDataSubscription = this.portCallService.shipData$.subscribe(
-      shipResult => {
-        this.shipService.setShipData(shipResult);
-      }
-    );
-    this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
-      content => {
-        this.selectedComponent = content;
-      }
-    );
-    this.formNames = FORM_NAMES;
   }
 
-  getPersonOnBoardListForPortCall(portCallId) {
-    return this.passengerListService.getPersonOnBoardListByPortCallId(portCallId);
+  getPersonOnBoardListForPortCall(portCallId, personOnBoardTypeId) {
+    return this.passengerListService.getPersonOnBoardListByPortCallId(portCallId, personOnBoardTypeId);
   }
 
 

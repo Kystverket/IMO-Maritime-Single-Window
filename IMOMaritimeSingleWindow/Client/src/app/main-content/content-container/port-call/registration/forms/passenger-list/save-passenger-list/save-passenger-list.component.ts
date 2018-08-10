@@ -28,9 +28,9 @@ export class SavePassengerListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.portCallService.detailsIdentificationData$.subscribe(results => {
-      if (results) {
-        this.portCallId = results.portCallId;
+    this.portCallService.portCallIdData$.subscribe(portCallIdData => {
+      if (portCallIdData) {
+        this.portCallId = portCallIdData;
         console.log('Port Call ID: ' + this.portCallId);
       }
       this.passengerService.passengerList$.subscribe(list => {

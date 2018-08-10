@@ -6,11 +6,11 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name</label>
-                        <input type="text" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel"
                             placeholder="Article Name" class="form-control form-control-sm" name="articleName" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="!isValid(articleName.valid) && articleName.touched" class="alert alert-danger">
+                <div *ngIf="!articleName.valid && articleName.touched" class="alert alert-danger">
                     <li *ngIf="articleName.hasError('invalidAlphaNumeric')">
                         <small>Only alphanumeric characters allowed.</small>
                     </li>
@@ -22,11 +22,11 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code</label>
-                        <input type="text" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.articleCode" #articleCode="ngModel"
                             placeholder="Article Code" class="form-control form-control-sm" name="articleCode" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="!isValid(articleCode.valid) && articleCode.touched" class="alert alert-danger">
+                <div *ngIf="!articleCode.valid && articleCode.touched" class="alert alert-danger">
                     <li *ngIf="articleCode.hasError('invalidAlphaNumeric')">
                         <small>Only alphanumeric characters allowed.</small>
                     </li>
@@ -38,11 +38,11 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
-                        <input type="text" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                        <input type="text" required [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
                             placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="!isValid(locationOnBoard.valid) && locationOnBoard.touched" class="alert alert-danger">
+                <div *ngIf="!locationOnBoard.valid && locationOnBoard.touched" class="alert alert-danger">
                     <li *ngIf="locationOnBoard.hasError('invalidAlphaNumeric')">
                         <small>Only alphanumeric characters allowed.</small>
                     </li>
@@ -56,12 +56,12 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="quantity" class="col-form-label-sm no-wrap mb-0">Quantity</label>
-                        <input type="number" required [(ngModel)]="portCallShipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
+                        <input type="number" required [(ngModel)]="shipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
                             integerValidator positiveNumberValidator name="quantity">
                     </div>
                 </div>
 
-                <div *ngIf="!isValid(quantity.valid) && quantity.touched" class="alert alert-danger">
+                <div *ngIf="!quantity.valid && quantity.touched" class="alert alert-danger">
                     <li *ngIf="quantity.hasError('notIntegerError')">
                         <small>The quantity specified must be an integer.</small>
                     </li>
@@ -81,7 +81,7 @@
                         </ng-select>
                     </div>
                 </div>
-                <div *ngIf="!isValid(measurementType.valid) && measurementType.touched" class="alert alert-danger">
+                <div *ngIf="!measurementType.valid && measurementType.touched" class="alert alert-danger">
                     <li *ngIf="measurementType.hasError('required')">
                         <small>This field is required.</small>
                     </li>
@@ -90,11 +90,11 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code</label>
-                        <input type="number" required [(ngModel)]="portCallShipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
+                        <input type="number" required [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
                             class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
                     </div>
                 </div>
-                <div *ngIf="!isValid(locationOnBoardCode.valid) && locationOnBoardCode.touched" class="alert alert-danger">
+                <div *ngIf="!locationOnBoardCode.valid && locationOnBoardCode.touched" class="alert alert-danger">
                     <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
                         <small>The quantity specified must be an integer.</small>
                     </li>

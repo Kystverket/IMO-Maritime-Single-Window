@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -16,6 +16,7 @@ import { PassengerModalComponent } from './passenger-modal/passenger-modal.compo
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SelectDateComponent } from '../shared/select-date/select-date.component';
+import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -23,17 +24,18 @@ import { SelectDateComponent } from '../shared/select-date/select-date.component
   styleUrls: ['./passenger-list.component.css']
 })
 export class PassengerListComponent implements OnInit {
-  portCallPassengerList: PersonOnBoardModel[] = [];
+  @Input() portCallId: number;
+  @Input() passengerList: PersonOnBoardModel[] = [];
+
   identityDocumentList: IdentityDocumentModel[] = [];
 
   portCallPassengerModel: PersonOnBoardModel = new PersonOnBoardModel();
-
-  portCallId: number;
 
   genderList: Observable<any>;
   selectedGender: GenderModel;
   identityDocTypeList: Observable<any>;
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
+  personOnBoardType: PersonOnBoardTypeModel;
   // selectedIdentityDocType: IdentityDocumentModel;
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
@@ -130,15 +132,16 @@ export class PassengerListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     // Generate smart table list from existing data
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
 
     // Subscribe to port call
-    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(element => {
-      if (element) {
-        this.portCallPassengerModel.portCallId = element.portCallId;
-        this.portCallId = element.portCallId;
+    this.detailsIdentificationDataSubscription = this.portCallService.portCallIdData$.subscribe(portCallIdData => {
+      if (portCallIdData) {
+        this.portCallPassengerModel.portCallId = portCallIdData;
+        this.portCallId = portCallIdData;
 
         this.passengerListService.passengerListMeta$.subscribe(valid => {
           this.formValid = valid;
@@ -160,38 +163,50 @@ export class PassengerListComponent implements OnInit {
           });
         }
 
-        this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
+/*         this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
           if (list) {
-            this.portCallPassengerList = list;
-            this.portCallPassengerModel.portCallId = element.portCallId;
+            console.log(list);
+            this.passengerList = list;
+            this.portCallPassengerModel.portCallId = portCallIdData;
             this.passengerListDataSource.load(this.generateSmartTable(list));
           }
-        });
+        }); */
       }
 
+    });
+
+    this.passengerListService.getPersonOnBoardType(2).subscribe(personOnBoardType => {
+      this.personOnBoardType = personOnBoardType;
+      console.log(this.personOnBoardType);
     });
   }
 
   addPassenger() {
     // Modify
-    this.portCallPassengerModel.personOnBoardTypeId = 2;
+    this.portCallPassengerModel.portCallId = this.portCallId;
+    this.portCallPassengerModel.personOnBoardType = this.personOnBoardType;
+    this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
+
     this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
     // Add
-    this.portCallPassengerList.push(this.portCallPassengerModel);
+    this.passengerList.push(this.portCallPassengerModel);
     // this.identityDocumentList.push(this.identityDocumentModel);
 
     // Update values in service
     this.passengerListService.setPassengersList(
-      this.portCallPassengerList
+      this.passengerList
     );
-    // this.identityDocumentService.setIdentityDocumentList(this.identityDocumentList);
+
+    console.log(this.portCallPassengerModel);
 
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
     this.identityDocumentComponent.resetForm();
     // this.dateOfBirthComponent.set
+    console.log(this.passengerList);
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
   }
 
 /*   ngOnDestroy()  {
@@ -377,7 +392,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   openViewPassengerModal(row) {
-      this.portCallPassengerList.forEach(passenger => {
+      this.passengerList.forEach(passenger => {
         if (passenger.sequenceNumber === row.sequenceNumber) {
           this.passengerModalComponent.openViewModal(passenger);
           return;
@@ -386,9 +401,9 @@ export class PassengerListComponent implements OnInit {
   }
 
   openEditPassengerModal(row) {
-    console.log(this.portCallPassengerList);
+    console.log(this.passengerList);
     // set editPassengerId?
-    this.portCallPassengerList.forEach(passenger => {
+    this.passengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
         this.passengerModalComponent.openEditModal(passenger);
         return;
@@ -397,18 +412,38 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    this.portCallPassengerList.forEach((passenger, index) => {
+    this.passengerList.forEach((passenger, index) => {
       if (passenger.sequenceNumber === $event.sequenceNumber) {
-        this.portCallPassengerList[index] = $event;
-        this.portCallPassengerList[index].identityDocument[0] = $event.identityDocument[0];
+        this.passengerList[index] = $event;
+        this.passengerList[index].identityDocument[0] = $event.identityDocument[0];
         return;
       }
     });
-    this.passengerListService.setPassengersList(this.portCallPassengerList);
+    this.passengerListService.setPassengersList(this.passengerList);
   }
 
   deletePassenger(row) {
-    this.passengerListService.deletePassengerEntry(row);
+    if (this.passengerList.length <= 1) {
+      this.passengerList = [];
+    } else {
+      this.passengerList.forEach((item, index) => {
+        if (item.sequenceNumber === row.sequenceNumber) {
+          this.passengerList.splice(index, 1);
+        }
+      });
+    }
+    console.log(this.passengerList);
+    this.setSequenceNumbers();
+    this.passengerListService.setPassengersList(this.passengerList);
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+  }
+
+  setSequenceNumbers() {
+    let tempSequenceNumber = 1;
+    this.passengerList.forEach(passenger => {
+      passenger.sequenceNumber = tempSequenceNumber;
+      tempSequenceNumber++;
+    });
   }
 
   deleteAllPassengers() {
@@ -416,7 +451,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   savePassengers() {
-    this.passengerListService.updatePassengerList(this.portCallPassengerList, this.portCallId).subscribe(res => console.log(res));
+    this.passengerListService.updatePassengerList(this.passengerList, this.portCallId, this.personOnBoardType.personOnBoardTypeId).subscribe(res => console.log(res));
   }
 
 

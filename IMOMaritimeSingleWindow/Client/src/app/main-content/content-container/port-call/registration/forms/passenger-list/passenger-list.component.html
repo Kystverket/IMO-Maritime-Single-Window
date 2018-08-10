@@ -199,10 +199,10 @@
       </button>
     </div>
     <div class="form-group">
-      <button *ngIf="portCallPassengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
+      <button *ngIf="passengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
         <span>Delete all passengers</span>
       </button>
-      <button *ngIf="portCallPassengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+      <button *ngIf="passengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
         <span>Delete all passengers</span>
       </button>
     </div>
