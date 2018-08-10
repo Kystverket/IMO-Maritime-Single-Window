@@ -42,7 +42,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Date of Birth</label>
-                <app-select-date (selectDate)="setDateOfBirth($event)"></app-select-date>
+                <app-select-date (selectDate)="setDateOfBirth($event)" [inputDate]="portCallPassengerModel.dateOfBirth" #dateOfBirth></app-select-date>
               </div>
             </div>
 
@@ -50,17 +50,18 @@
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
                 <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
-                <div *ngIf="portCallPassengerModel.nationality" class="input-group">
-                  <div class="input-group-prepend flag">
-                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png" height="30px">
+                <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png"
+                        height="20px">
+                    </span>
                   </div>
-                  <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
+                  <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
                     name="nationality" />
-                  <div>
-                    <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="resetNationality()">
-                      <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-                    </button>
-                  </div>
+                  <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="resetNationality()">
+                    <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
+                  </button>
                 </div>
               </div>
             </div>
@@ -180,32 +181,32 @@
     <!-- /.col-lg-6 -->
   </form>
 
-    <div class="col-lg-12">
-      <div class="form-group">
-        <button *ngIf="form.valid && validDocumentDates" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
-          <span>Submit</span>
-        </button>
-        <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">
-          <span>Submit</span>
-        </button>
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-ssn mt-2" (click)=addMockData()>
-          <span>Add mockdata</span>
-        </button>
-        <button type="submit" class="btn btn-ssn mt-2" (click)=mockFillForm()>
-          <span>Fill form with mockdata</span>
-        </button>
-      </div>
-      <div class="form-group">
-        <button *ngIf="portCallPassengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
-          <span>Delete all passengers</span>
-        </button>
-        <button *ngIf="portCallPassengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
-            <span>Delete all passengers</span>
-          </button>
-      </div>
-    
+  <div class="col-lg-12">
+    <div class="form-group">
+      <button *ngIf="form.valid && validDocumentDates" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+        <span>Submit</span>
+      </button>
+      <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">
+        <span>Submit</span>
+      </button>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-ssn mt-2" (click)=addMockData()>
+        <span>Add mockdata</span>
+      </button>
+      <button type="submit" class="btn btn-ssn mt-2" (click)=mockFillForm()>
+        <span>Fill form with mockdata</span>
+      </button>
+    </div>
+    <div class="form-group">
+      <button *ngIf="portCallPassengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
+        <span>Delete all passengers</span>
+      </button>
+      <button *ngIf="portCallPassengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+        <span>Delete all passengers</span>
+      </button>
+    </div>
+
     <div class="mb-3">
       <div class="table-responsive">
         <div ng2-st-add-button="" ng-reflect-grid="[object Object]" class="ng2-smart-actions-title ng2-smart-actions-title-add">
@@ -233,9 +234,9 @@
     Do you want to delete all passengers in the list?
   </div>
   <div class="modal-footer">
-      <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllPassengers(); close">
-          <span>Delete all passengers</span>
-        </button>
+    <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllPassengers(); close">
+      <span>Delete all passengers</span>
+    </button>
     <button type="button" class="btn btn-ssn" (click)="close">
       <span>Cancel</span>
     </button>

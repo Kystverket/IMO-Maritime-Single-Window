@@ -15,6 +15,7 @@ import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SelectDateComponent } from '../shared/select-date/select-date.component';
 
 @Component({
   selector: 'app-passenger-list',
@@ -40,6 +41,7 @@ export class PassengerListComponent implements OnInit {
 
   @ViewChild(PassengerModalComponent) passengerModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
+  @ViewChild('dateOfBirth') dateOfBirthComponent;
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -189,6 +191,7 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
     this.identityDocumentComponent.resetForm();
+    // this.dateOfBirthComponent.set
   }
 
 /*   ngOnDestroy()  {

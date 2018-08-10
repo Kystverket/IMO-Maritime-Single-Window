@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { DateModel } from './dateModel';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
   selector: 'app-select-date',
@@ -13,13 +12,8 @@ export class SelectDateComponent implements OnInit {
 
   @Output() selectDate: EventEmitter<any> = new EventEmitter();
 
-  dateModel: DateModel = {
-    year: null,
-    month: null,
-    day: null
-  };
+  dateModel: NgbDate = new NgbDate(null, null, null);
 
-  ngbDateModel: NgbDateStruct;
   validDateFormat = true;
 
   constructor() { }
