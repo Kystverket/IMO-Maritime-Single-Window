@@ -7,11 +7,13 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <button class="btn btn-sm btn-ssn" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length === 1">
+        <app-header-home [standAlone]="false" *ngIf="userMenuEntries.length === 1"></app-header-home>
+
+        <!-- <button class="btn btn-sm btn-ssn" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length === 1">
           <img src="{{iconPath}}home.png" height="16px">
         </button>
         <img src="/assets/images/logos/logo.png" height="32px" />
-        <span class="text-center text-ssn">IMO Maritime Single Window</span>
+        <span class="text-center text-ssn">IMO Maritime Single Window</span> -->
       </li>
     </ul>
 
