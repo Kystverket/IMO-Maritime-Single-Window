@@ -381,31 +381,28 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private Uri GetCallBackUri()
         {
-            int PORT = _env.IsDevelopment() ? 4200 : 80;
-
             UriBuilder uriBuilder = new UriBuilder
             {
                 Scheme = Request.Scheme,
-                Host = Request.Host.Host,
-                Port = PORT
+                Host = Request.Host.Host
             };
+            if(_env.IsDevelopment())
+                uriBuilder.Port = 4200;
             return uriBuilder.Uri;
         }
         // Returns an URI pointing to the route in the web application
         private Uri GetCallBackUri(string route)
         {
-            int PORT = _env.IsDevelopment() ? 4200 : 80;
-
             UriBuilder uriBuilder = new UriBuilder
             {
                 Scheme = Request.Scheme,
                 Host = Request.Host.Host,
-                Path = route,
-                Port = PORT
+                Path = route
             };
+            if(_env.IsDevelopment())
+                uriBuilder.Port = 4200;
             return uriBuilder.Uri;
         }
-
 
         private Uri GetRequestUri()
         {
