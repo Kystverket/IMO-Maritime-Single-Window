@@ -1,0 +1,23 @@
+<app-ssn-card [header]="'Select Ship'" [icon]="'ship.png'">
+
+</app-ssn-card>
+
+<app-ssn-card [header]="'Select Port of Call'" [icon]="'location.png'">
+
+</app-ssn-card>
+
+<app-ssn-card [header]="'Select Previous Port of Call'" [icon]="'location.png'">
+
+</app-ssn-card>
+
+<app-ssn-card [header]="'Select Next Port of Call'" [icon]="'location.png'">
+
+</app-ssn-card>
+
+<app-ssn-card [header]="'Create Port Call Draft'" [icon]="'save.png'" *ngIf="portCallId == null">
+
+</app-ssn-card>
+
+<app-ssn-card [header]="'Save Voyages'" [icon]="'save.png'" *ngIf="portCallId != null">
+
+</app-ssn-card>

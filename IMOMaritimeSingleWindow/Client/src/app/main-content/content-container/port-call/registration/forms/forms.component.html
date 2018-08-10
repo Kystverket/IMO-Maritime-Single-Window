@@ -1,18 +1,21 @@
-<app-progress-bar></app-progress-bar>
+<app-progress-bar *ngIf="portCallId != null"></app-progress-bar>
 
-<div class="row mb-3">
-    <div class="col">
-        <app-ship-info-table></app-ship-info-table>
+<div *ngIf="selectedComponent !== formNames.VOYAGES">
+    <div class="row mb-3">
+        <div class="col">
+            <app-ship-info-table></app-ship-info-table>
+        </div>
     </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col">
-        <app-location-time-info-table></app-location-time-info-table>
+    
+    <div class="row mb-3">
+        <div class="col">
+            <app-location-time-info-table></app-location-time-info-table>
+        </div>
     </div>
 </div>
 
 <div [ngSwitch]="selectedComponent">
+    <app-voyages *ngSwitchCase="formNames.VOYAGES" [portCallId]="portCallId"></app-voyages>
     <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS" [portCallId]="portCallId"></app-port-call-details>
     <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES" [portCallId]="portCallId" [shipStoresList]="shipStoresData"></app-ship-stores>
     <app-cargo *ngSwitchCase="formNames.CARGO" [portCallId]="portCallId" [cargoData]="cargoData"></app-cargo>
