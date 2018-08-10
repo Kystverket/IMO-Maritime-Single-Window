@@ -24,7 +24,7 @@
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name</label>
+                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name </label>
                 <input #givenName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
                   name="givenName" alphaNumericValidator required>
               </div>
@@ -198,9 +198,12 @@
         </button>
       </div>
       <div class="form-group">
-        <button *ngIf="portCallPassengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=deleteAllPassengers()>
+        <button *ngIf="portCallPassengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
           <span>Delete all passengers</span>
         </button>
+        <button *ngIf="portCallPassengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+            <span>Delete all passengers</span>
+          </button>
       </div>
     
     <div class="mb-3">
@@ -218,3 +221,23 @@
 <app-save-passenger-list (save)="savePassengers()"></app-save-passenger-list>
 
 <app-passenger-modal (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
+
+<ng-template #warningModal let-close="close()" class="modal fade">
+  <div class="modal-header">
+    <h4 class="modal-title">Warning</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Do you want to delete all passengers in the list?
+  </div>
+  <div class="modal-footer">
+      <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllPassengers(); close">
+          <span>Delete all passengers</span>
+        </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Cancel</span>
+    </button>
+  </div>
+</ng-template>

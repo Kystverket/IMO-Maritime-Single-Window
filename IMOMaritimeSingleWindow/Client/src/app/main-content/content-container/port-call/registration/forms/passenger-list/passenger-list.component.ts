@@ -14,6 +14,7 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-passenger-list',
@@ -121,7 +122,8 @@ export class PassengerListComponent implements OnInit {
   constructor(
     private passengerListService: PortCallPassengerListService,
     private portCallService: PortCallService,
-    private identityDocumentService: IdentityDocumentService
+    private identityDocumentService: IdentityDocumentService,
+    private modalService: NgbModal
   ) {}
 
 
@@ -433,5 +435,9 @@ export class PassengerListComponent implements OnInit {
       this.portCallPassengerModel.placeOfBirth = 'Oslo';
       this.identityDocumentModel.identityDocumentNumber = 4232;
       this.identityDocumentModel.visaOrResidencePermitNumber = 421;
+    }
+
+    openWarningModal(content: any) {
+      this.modalService.open(content);
     }
 }
