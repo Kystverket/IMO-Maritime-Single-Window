@@ -181,6 +181,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ConsignmentId).HasColumnName("consignment_id");
 
+                entity.Property(e => e.Name).HasColumnName("name");
+
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
                 entity.Property(e => e.PortOfDischargeId).HasColumnName("port_of_discharge_id");
@@ -188,8 +190,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PortOfLoadingId).HasColumnName("port_of_loading_id");
 
                 entity.Property(e => e.Remark).HasColumnName("remark");
-
-                entity.Property(e => e.Name).HasColumnName("name");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.Consignment)
@@ -547,9 +547,7 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("identity_document_type");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
             });
@@ -1015,6 +1013,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.AirDraught).HasColumnName("air_draught");
 
+                entity.Property(e => e.CargoBriefDescription).HasColumnName("cargo_brief_description");
+
                 entity.Property(e => e.NumberOfCrew).HasColumnName("number_of_crew");
 
                 entity.Property(e => e.NumberOfPassengers).HasColumnName("number_of_passengers");
@@ -1034,8 +1034,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
                 entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
-
-                entity.Property(e => e.CargoBriefDescription).HasColumnName("cargo_brief_description");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
@@ -1768,6 +1766,8 @@ namespace IMOMaritimeSingleWindow.Data
                 .HasMax(2147483647);
 
             modelBuilder.HasSequence("identity_document_id_seq");
+
+            modelBuilder.HasSequence("identity_document_type_id_seq");
 
             modelBuilder.HasSequence("password_password_id_seq").HasMax(2147483647);
 
