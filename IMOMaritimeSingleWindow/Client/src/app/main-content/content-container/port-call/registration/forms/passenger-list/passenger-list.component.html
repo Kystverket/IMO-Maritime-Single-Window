@@ -8,7 +8,7 @@
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name</label>
+                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
                 <input #familyName="ngModel" type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
                   class="form-control form-control-sm" alphaNumericValidator required name="familyName">
               </div>
@@ -24,7 +24,7 @@
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name </label>
+                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
                 <input #givenName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
                   name="givenName" alphaNumericValidator required>
               </div>

@@ -5,7 +5,7 @@
             <div class="col-md-6 col-lg-6">
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name</label>
+                    <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name *</label>
                         <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel"
                             placeholder="Article Name" class="form-control form-control-sm" name="articleName" alphaNumericValidator>
                     </div>
@@ -21,7 +21,7 @@
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code</label>
+                    <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code *</label>
                         <input type="text" required [(ngModel)]="shipStoresModel.articleCode" #articleCode="ngModel"
                             placeholder="Article Code" class="form-control form-control-sm" name="articleCode" alphaNumericValidator>
                     </div>
@@ -37,7 +37,7 @@
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
+                    <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board *</label>
                         <input type="text" required [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
                             placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard" alphaNumericValidator>
                     </div>
@@ -55,7 +55,7 @@
             <div class="col-md-6 col-lg-6">
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="quantity" class="col-form-label-sm no-wrap mb-0">Quantity</label>
+                    <label for="quantity" class="col-form-label-sm no-wrap mb-0">Quantity *</label>
                         <input type="number" required [(ngModel)]="shipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
                             integerValidator positiveNumberValidator name="quantity">
                     </div>
@@ -75,7 +75,7 @@
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type</label>
+                    <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type *</label>
                         <ng-select #measurementType="ngModel" id="measurementTypes" required [items]="measurementTypeList" [(ngModel)]="selectedMeasurementType" name="measurementType"
                             [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
                         </ng-select>
@@ -89,7 +89,7 @@
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                    <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+                    <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code *</label>
                         <input type="number" required [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
                             class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
                     </div>
