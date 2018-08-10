@@ -185,6 +185,10 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   // Set measurement type and id of model
   selectMeasurementType($event) {
-    this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
+    if ($event) {
+      this.portCallShipStoresModel.measurementTypeId = $event.measurementTypeId;
+    } else {
+      this.portCallShipStoresModel.measurementTypeId = null;
+    }
   }
 }

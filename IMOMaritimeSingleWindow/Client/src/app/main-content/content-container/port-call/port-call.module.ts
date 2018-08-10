@@ -49,6 +49,7 @@ import { ConsignmentFormComponent } from './registration/forms/cargo/consignment
 import { CargoTableComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-table/cargo-table.component';
 import { CargoItemFormComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component';
 import { FalCargoService } from '../../../shared/services/fal-cargo.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [

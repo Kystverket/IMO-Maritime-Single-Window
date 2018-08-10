@@ -6,48 +6,48 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
-                            placeholder="Article Name" class="form-control form-control-sm" required name="articleName">
+                        <input type="text" required [(ngModel)]="portCallShipStoresModel.articleName" #articleName="ngModel"
+                            placeholder="Article Name" class="form-control form-control-sm" name="articleName" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="articleName.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
+                <div *ngIf="!isValid(articleName.valid) && articleName.touched" class="alert alert-danger">
+                    <li *ngIf="articleName.hasError('invalidAlphaNumeric')">
+                        <small>Only alphanumeric characters allowed.</small>
                     </li>
-                    <li>
-                        <small>More than one letter required.</small>
+                    <li *ngIf="articleName.hasError('required')">
+                        <small>This field is required.</small>
                     </li>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
-                            placeholder="Article Code" class="form-control form-control-sm" name="articleCode">
+                        <input type="text" required [(ngModel)]="portCallShipStoresModel.articleCode" #articleCode="ngModel"
+                            placeholder="Article Code" class="form-control form-control-sm" name="articleCode" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="articleCode.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
+                <div *ngIf="!isValid(articleCode.valid) && articleCode.touched" class="alert alert-danger">
+                    <li *ngIf="articleCode.hasError('invalidAlphaNumeric')">
+                        <small>Only alphanumeric characters allowed.</small>
                     </li>
-                    <li>
-                        <small>More than one letter required.</small>
+                    <li *ngIf="articleCode.hasError('required')">
+                        <small>This field is required.</small>
                     </li>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
                     <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
-                        <input type="text" pattern="^[a-zA-Z0-9.]+$" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
-                            placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard">
+                        <input type="text" required [(ngModel)]="portCallShipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                            placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard" alphaNumericValidator>
                     </div>
                 </div>
-                <div *ngIf="locationOnBoard.hasError('pattern')" class="alert alert-danger">
-                    <li>
-                        <small>Only letters, numbers and "." allowed.</small>
+                <div *ngIf="!isValid(locationOnBoard.valid) && locationOnBoard.touched" class="alert alert-danger">
+                    <li *ngIf="locationOnBoard.hasError('invalidAlphaNumeric')">
+                        <small>Only alphanumeric characters allowed.</small>
                     </li>
-                    <li>
-                        <small>More than one letter required.</small>
+                    <li *ngIf="locationOnBoard.hasError('required')">
+                        <small>This field is required.</small>
                     </li>
                 </div>
 
@@ -61,22 +61,30 @@
                     </div>
                 </div>
 
-                <div *ngIf="quantity.hasError('notIntegerError') || quantity.hasError('notPositiveNumberError')" class="alert alert-danger">
+                <div *ngIf="!isValid(quantity.valid) && quantity.touched" class="alert alert-danger">
                     <li *ngIf="quantity.hasError('notIntegerError')">
                         <small>The quantity specified must be an integer.</small>
                     </li>
                     <li *ngIf="quantity.hasError('notPositiveNumberError')">
                         <small>The quantity specified must be a positive number.</small>
                     </li>
+                    <li *ngIf="quantity.hasError('required')">
+                        <small>This field is required.</small>
+                    </li>
                 </div>
 
-                <div class="form-group row" required>
+                <div class="form-group row">
                     <div class="col my-auto">
                     <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type</label>
-                        <ng-select id="measurementTypes" [items]="measurementTypeList" [(ngModel)]="selectedMeasurementType" name="measurementType"
+                        <ng-select #measurementType="ngModel" id="measurementTypes" required [items]="measurementTypeList" [(ngModel)]="selectedMeasurementType" name="measurementType"
                             [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
                         </ng-select>
                     </div>
+                </div>
+                <div *ngIf="!isValid(measurementType.valid) && measurementType.touched" class="alert alert-danger">
+                    <li *ngIf="measurementType.hasError('required')">
+                        <small>This field is required.</small>
+                    </li>
                 </div>
 
                 <div class="form-group row">
@@ -86,12 +94,15 @@
                             class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
                     </div>
                 </div>
-                <div *ngIf="locationOnBoardCode.hasError('notIntegerError') || locationOnBoardCode.hasError('notPositiveNumberError')" class="alert alert-danger">
+                <div *ngIf="!isValid(locationOnBoardCode.valid) && locationOnBoardCode.touched" class="alert alert-danger">
                     <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
-                        <small>The location on board code must be an integer.</small>
+                        <small>The quantity specified must be an integer.</small>
                     </li>
                     <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
-                        <small>The location on board code must be a positive number.</small>
+                        <small>The quantity specified must be a positive number.</small>
+                    </li>
+                    <li *ngIf="locationOnBoardCode.hasError('required')">
+                        <small>This field is required.</small>
                     </li>
                 </div>
             </div>
