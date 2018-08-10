@@ -1,5 +1,5 @@
 import { AuthRequest } from './auth.request.service';
-import { BaseRequest } from 'app/shared/utils/base.request';
+import { BaseRequest } from '../utils/base.request';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from 'app/shared/utils/config.service';
 import {

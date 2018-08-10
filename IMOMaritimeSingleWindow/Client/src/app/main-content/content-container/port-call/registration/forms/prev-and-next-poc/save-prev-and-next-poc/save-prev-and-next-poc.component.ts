@@ -17,6 +17,8 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 })
 export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
 
+  @Input() portCallId: number;
+
   dateSequenceError = false;
 
   prevLocationModel: LocationModel = null;
@@ -24,8 +26,6 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
 
   etdModel: DateTime = null;
   etaModel: DateTime = null;
-
-  portCallId: number;
 
   dataIsPristine = true;
   dataIsPristineText: string;
@@ -40,7 +40,6 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
   nextPortOfCallDataSubscription: Subscription;
   prevPortOfCallEtdDataSubscription: Subscription;
   nextPortOfCallEtaDataSubscription: Subscription;
-  detailsIdentificationDataSubscription: Subscription;
   prevAndNextPortOfCallMetaSubscription: Subscription;
 
   constructor(
@@ -103,14 +102,6 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.detailsIdentificationDataSubscription = this.portCallService.detailsIdentificationData$.subscribe(
-      portCallIdData => {
-        if (portCallIdData) {
-          this.portCallId = portCallIdData.portCallId;
-        }
-      }
-    );
-
     this.prevAndNextPortOfCallMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(
       metaData => {
         if (metaData) {
@@ -126,7 +117,6 @@ export class SavePrevAndNextPocComponent implements OnInit, OnDestroy {
     this.nextPortOfCallDataSubscription.unsubscribe();
     this.prevPortOfCallEtdDataSubscription.unsubscribe();
     this.nextPortOfCallEtaDataSubscription.unsubscribe();
-    this.detailsIdentificationDataSubscription.unsubscribe();
   }
 
   savePrevAndNextPoc() {
