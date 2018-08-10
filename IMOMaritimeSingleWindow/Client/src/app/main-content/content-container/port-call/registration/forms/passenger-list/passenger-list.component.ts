@@ -9,13 +9,11 @@ import { Observable } from 'rxjs/Observable';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallService } from 'app/shared/services/port-call.service';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SelectDateComponent } from '../shared/select-date/select-date.component';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 
 @Component({
@@ -125,55 +123,43 @@ export class PassengerListComponent implements OnInit {
 
   constructor(
     private passengerListService: PortCallPassengerListService,
-    private portCallService: PortCallService,
     private identityDocumentService: IdentityDocumentService,
     private modalService: NgbModal
   ) {}
 
 
   ngOnInit() {
+    // Load in passenger list in smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
-    // Generate smart table list from existing data
+
+    // Initiate models
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
 
     // Subscribe to port call
-    this.detailsIdentificationDataSubscription = this.portCallService.portCallIdData$.subscribe(portCallIdData => {
+/*     this.detailsIdentificationDataSubscription = this.portCallService.portCallIdData$.subscribe(portCallIdData => {
       if (portCallIdData) {
         this.portCallPassengerModel.portCallId = portCallIdData;
         this.portCallId = portCallIdData;
-
-        this.passengerListService.passengerListMeta$.subscribe(valid => {
+ */
+/*         this.passengerListService.passengerListMeta$.subscribe(valid => {
           this.formValid = valid;
         });
-
-        this.identityDocumentService.identityDocumentList$.subscribe(list => {
-          if (list) {
-            this.identityDocumentList = list;
-          }
-        });
-
-        this.passengerListService.dataIsPristine$.subscribe(isPristine => {
-          this.listIsPristine = isPristine;
-        });
-        // Get gender list
-        if (!this.genderList) {
-          this.passengerListService.getGenderList().subscribe(results => {
-            this.genderList = results;
-          });
-        }
-
-/*         this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
-          if (list) {
-            console.log(list);
-            this.passengerList = list;
-            this.portCallPassengerModel.portCallId = portCallIdData;
-            this.passengerListDataSource.load(this.generateSmartTable(list));
-          }
-        }); */
       }
+    }); */
 
+    this.identityDocumentService.identityDocumentList$.subscribe(list => {
+      if (list) {
+        this.identityDocumentList = list;
+      }
     });
+
+    // Get gender list
+    if (!this.genderList) {
+      this.passengerListService.getGenderList().subscribe(results => {
+        this.genderList = results;
+      });
+    }
 
     this.passengerListService.getPersonOnBoardType(2).subscribe(personOnBoardType => {
       this.personOnBoardType = personOnBoardType;
@@ -191,13 +177,11 @@ export class PassengerListComponent implements OnInit {
 
     // Add
     this.passengerList.push(this.portCallPassengerModel);
-    // this.identityDocumentList.push(this.identityDocumentModel);
 
     // Update values in service
     this.passengerListService.setPassengersList(
       this.passengerList
     );
-
     console.log(this.portCallPassengerModel);
 
     // Reset
@@ -207,6 +191,7 @@ export class PassengerListComponent implements OnInit {
     // this.dateOfBirthComponent.set
     console.log(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
   }
 
 /*   ngOnDestroy()  {
@@ -287,7 +272,7 @@ export class PassengerListComponent implements OnInit {
     return portModel;
   }
 
-  // Select Methods
+  // Setters
   setIdentityDocumentModel($event) {
     console.log($event);
     this.identityDocumentModel = $event.identityDocumentModel;
@@ -337,7 +322,7 @@ export class PassengerListComponent implements OnInit {
     });
   }
 
-  // Deselect Methods
+  // Resetters
   resetPortOfDisembarkation() {
     this.portCallPassengerModel.portOfDisembarkation = null;
     this.portCallPassengerModel.portOfDisembarkationId = null;
@@ -367,42 +352,16 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.dateOfBirth = null;
   }
 
-  // Helper methods
-
-  getDateFormat(date) {
-    if (date.year && date.month && date.day) {
-      const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
-      return dateString;
-    } else {
-      return null;
-    }
-  }
-
-  getDisplayDateFormat(date) {
-    return date.split('T')[0];
-  }
-
-  getNgbDateFormat(date) {
-    const newDate = new Date(date);
-    return {
-      year: newDate.getFullYear(),
-      month: newDate.getMonth() + 1,
-      day: newDate.getDate()
-    };
-  }
-
   openViewPassengerModal(row) {
-      this.passengerList.forEach(passenger => {
-        if (passenger.sequenceNumber === row.sequenceNumber) {
-          this.passengerModalComponent.openViewModal(passenger);
-          return;
-        }
-      });
+    this.passengerList.forEach(passenger => {
+      if (passenger.sequenceNumber === row.sequenceNumber) {
+        this.passengerModalComponent.openViewModal(passenger);
+        return;
+      }
+    });
   }
 
   openEditPassengerModal(row) {
-    console.log(this.passengerList);
-    // set editPassengerId?
     this.passengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
         this.passengerModalComponent.openEditModal(passenger);
@@ -420,6 +379,8 @@ export class PassengerListComponent implements OnInit {
       }
     });
     this.passengerListService.setPassengersList(this.passengerList);
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
   }
 
   deletePassenger(row) {
@@ -436,6 +397,21 @@ export class PassengerListComponent implements OnInit {
     this.setSequenceNumbers();
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
+  }
+
+  deleteAllPassengers() {
+    this.passengerList = [];
+    this.listIsPristine = false;
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+  }
+
+  savePassengers() {
+    this.passengerListService.updatePassengerList(this.passengerList, this.portCallId, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
+      if (res === 200) {
+        this.listIsPristine = true;
+      }
+    });
   }
 
   setSequenceNumbers() {
@@ -446,13 +422,29 @@ export class PassengerListComponent implements OnInit {
     });
   }
 
-  deleteAllPassengers() {
-    this.passengerListService.setPassengersList([]);
-  }
+    // Helper methods
 
-  savePassengers() {
-    this.passengerListService.updatePassengerList(this.passengerList, this.portCallId, this.personOnBoardType.personOnBoardTypeId).subscribe(res => console.log(res));
-  }
+    getDateFormat(date) {
+      if (date.year && date.month && date.day) {
+        const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+        return dateString;
+      } else {
+        return null;
+      }
+    }
+
+    getDisplayDateFormat(date) {
+      return date.split('T')[0];
+    }
+
+    getNgbDateFormat(date) {
+      const newDate = new Date(date);
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth() + 1,
+        day: newDate.getDate()
+      };
+    }
 
 
 
@@ -462,6 +454,11 @@ export class PassengerListComponent implements OnInit {
     mockportCallPassengerModel.familyName = 'Karlsen';
     mockportCallPassengerModel.givenName = 'Unni';
     mockportCallPassengerModel.dateOfBirth = this.getDateFormat({year: 1994, month: 7, day: 13});
+    if (this.passengerList.length < 1) {
+      mockportCallPassengerModel.sequenceNumber = 1;
+    } else {
+      mockportCallPassengerModel.sequenceNumber = this.passengerList[this.passengerList.length - 1].sequenceNumber + 1;
+    }
     this.portCallPassengerModel = mockportCallPassengerModel;
     this.addPassenger();
   }

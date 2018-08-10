@@ -219,7 +219,7 @@
   </div>
 </app-ssn-card>
 
-<app-save-passenger-list (save)="savePassengers()"></app-save-passenger-list>
+<app-save-passenger-list (save)="savePassengers()" [listIsPristine]="listIsPristine"></app-save-passenger-list>
 
 <app-passenger-modal (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
 

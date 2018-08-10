@@ -16,7 +16,7 @@ export class SavePassengerListComponent implements OnInit {
 
   portCallId: number;
 
-  listIsPristine: Boolean = true;
+  @Input() listIsPristine: Boolean = true;
 
   // @Input() passengerList: PersonOnBoardModel[];
 
@@ -38,21 +38,12 @@ export class SavePassengerListComponent implements OnInit {
           this.portCallPassengerList = list;
         }
       });
-      this.passengerService.dataIsPristine$.subscribe(isPristine => {
-        this.listIsPristine = isPristine;
-      });
+
     });
   }
 
   savePassengerList() {
     this.save.emit();
-/*     console.log(this.passengerList);
-    this.passengerList.forEach(p => {
-      // save personOnBoardId in smart table?
-      p.portCallId = this.portCallId;
-    });
-    console.log(this.passengerList);
-    this.passengerService.updatePassengerList(this.passengerList, this.portCallId).subscribe(res => console.log(res));
-   */}
+  }
 
 }
