@@ -192,6 +192,7 @@ export class PassengerListComponent implements OnInit {
     console.log(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
+    this.passengerListService.setDataIsPristine(false);
   }
 
 /*   ngOnDestroy()  {
@@ -381,6 +382,7 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
+    this.passengerListService.setDataIsPristine(false);
   }
 
   deletePassenger(row) {
@@ -398,11 +400,13 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
+    this.passengerListService.setDataIsPristine(false);
   }
 
   deleteAllPassengers() {
     this.passengerList = [];
     this.listIsPristine = false;
+    this.passengerListService.setDataIsPristine(false);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
   }
 
@@ -410,6 +414,7 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.updatePassengerList(this.passengerList, this.portCallId, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
       if (res === 200) {
         this.listIsPristine = true;
+        this.passengerListService.setDataIsPristine(true);
       }
     });
   }

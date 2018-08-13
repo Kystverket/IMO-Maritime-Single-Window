@@ -53,15 +53,16 @@
                 <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png"
-                        height="20px">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png" height="20px">
                     </span>
                   </div>
                   <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
                     name="nationality" />
-                  <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove nationality" (click)="resetNationality()">
-                    <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-                  </button>
+                  <div class="input-group-append">
+                    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove nationality" (click)="resetNationality()">
+                      <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -73,16 +74,20 @@
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
                 <app-search-country *ngIf="!portCallPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
-                <div *ngIf="portCallPassengerModel.countryOfBirth" class="input-group">
-                  <div class="input-group-prepend flag">
-                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.countryOfBirth.twoCharCode | lowercase}}.png" height="30px">
+                <div *ngIf="portCallPassengerModel.countryOfBirth" class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.countryOfBirth.twoCharCode | lowercase}}.png" height="20px">
+                    </span>
                   </div>
-                  <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [ngModel]="portCallPassengerModel.countryOfBirth.name"
+                  <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.countryOfBirth.name"
                     name="countryOfBirth" />
                   <div>
-                    <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove country of birth" (click)="resetCountryOfBirth()">
-                      <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-                    </button>
+                    <div class="input-group-append">
+                      <button class="btn btn-sm btn-ssn" ngbTooltip="Remove country of birth" (click)="resetCountryOfBirth()">
+                        <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -136,10 +141,12 @@
                 <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfEmbarkation($event)"
                   id="search-port-of-embarkation"></app-search-location>
 
-                <div class="input-group" *ngIf="portCallPassengerModel.portOfEmbarkation">
-                  <div class="input-group-prepend flag" *ngIf="portCallPassengerModel.portOfEmbarkation.country">
-                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfEmbarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
-                      height="30px">
+                <div class="input-group input-group-sm" *ngIf="portCallPassengerModel.portOfEmbarkation">
+                  <div class="input-group-prepend" *ngIf="portCallPassengerModel.portOfEmbarkation.country">
+                    <span class="input-group-text">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfEmbarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                        height="20px">
+                    </span>
                   </div>
                   <input readonly type="text" name="port-of-embarkation" id="app-find-port-of-embarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfEmbarkation.name">
@@ -158,10 +165,12 @@
                 <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
                 <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"
                   id="app-find-port-of-disembarkation"></app-search-location>
-                <div class="input-group" *ngIf="portCallPassengerModel.portOfDisembarkation">
-                  <div class="input-group-prepend flag" *ngIf="portCallPassengerModel.portOfDisembarkation.country">
-                    <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfDisembarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
-                      height="30px">
+                <div class="input-group input-group-sm" *ngIf="portCallPassengerModel.portOfDisembarkation">
+                  <div class="input-group-prepend" *ngIf="portCallPassengerModel.portOfDisembarkation.country">
+                    <span class="input-group-text">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.portOfDisembarkation.country.twoCharCode.toLowerCase() | lowercase}}.png"
+                        height="20px">
+                    </span>
                   </div>
                   <input readonly type="text" name="port-of-disembarkation" id="app-find-port-of-disembarkation" class="form-control form-control-sm"
                     [(ngModel)]="portCallPassengerModel.portOfDisembarkation.name">

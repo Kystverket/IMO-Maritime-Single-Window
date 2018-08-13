@@ -6,16 +6,20 @@
           <div class="col my-auto">
             <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Issuing Nation</label>
             <app-search-country *ngIf="!identityDocumentModel.issuingNation" (selectCountry)="setIssuingNation($event)" (deselectCountry)="resetIssuingNation()"></app-search-country>
-            <div *ngIf="identityDocumentModel.issuingNation" class="input-group">
-              <div class="input-group-prepend flag">
-                <img src="assets/images/flags/128x128/{{ identityDocumentModel.issuingNation.twoCharCode | lowercase}}.png" height="30px">
+            <div *ngIf="identityDocumentModel.issuingNation" class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <img src="assets/images/flags/128x128/{{ identityDocumentModel.issuingNation.twoCharCode | lowercase}}.png" height="20px">
+                </span>
               </div>
-              <input id="search-country" type="text" class="form-control form-control-sm" readonly="readonly" [ngModel]="identityDocumentModel.issuingNation.name"
+              <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="identityDocumentModel.issuingNation.name"
                 name="issuingNation" />
               <div>
-                <button class="btn btn-sm btn-ssn input-group-append" ngbTooltip="Remove issuing nation" (click)="resetIssuingNation()">
-                  <img height="20px" src="assets/images/icons/128x128/white/cancel.png">
-                </button>
+                <div class="input-group-append">
+                  <button class="btn btn-sm btn-ssn" ngbTooltip="Remove issuing nation" (click)="resetIssuingNation()">
+                    <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -53,8 +57,9 @@
         <div class="form-group row">
           <div class="col my-auto">
             <label for="visaOrResidenceNumber" class="col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
-            <input #visaOrResidencePermitNumber="ngModel" type="number" [(ngModel)]="identityDocumentModel.visaOrResidencePermitNumber" placeholder="Visa or Residence Permit Number"
-              class="form-control form-control-sm" name="visaOrResidenceNumber" integerValidator positiveNumberValidator (ngModelChange)="setVisaOrPermitNumber($event)">
+            <input #visaOrResidencePermitNumber="ngModel" type="number" [(ngModel)]="identityDocumentModel.visaOrResidencePermitNumber"
+              placeholder="Visa or Residence Permit Number" class="form-control form-control-sm" name="visaOrResidenceNumber"
+              integerValidator positiveNumberValidator (ngModelChange)="setVisaOrPermitNumber($event)">
           </div>
         </div>
         <div class="alert alert-danger" *ngIf="!visaOrResidencePermitNumber.valid && visaOrResidencePermitNumber.touched">

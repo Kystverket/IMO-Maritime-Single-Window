@@ -17,6 +17,7 @@ import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.servic
 import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -79,6 +80,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresIsCheckedSubscription: Subscription;
   cargoDataSubscription: Subscription;
   cargoIsPristineSubscription: Subscription;
+  passengerListIsPristineSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -87,7 +89,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private prevAndNextPocService: PrevAndNextPocService,
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private passengerService: PortCallPassengerListService
   ) { }
 
   ngOnInit() {

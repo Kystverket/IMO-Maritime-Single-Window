@@ -7,9 +7,6 @@ import { ContentService } from 'app/shared/services/content.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';
-import { CargoItemModel } from 'app/shared/models/cargo-item-model';
-import { forEach } from '../../../../../../../../../node_modules/@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-delete-button',
@@ -54,10 +51,6 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
   deleteItem() {
     console.log(this.rowData);
     this.delete.emit(this.rowData);
-  }
-
-  deletePassengerEntry() {
-    this.passengerService.deletePassengerEntry(this.rowData);
   }
 
 }
