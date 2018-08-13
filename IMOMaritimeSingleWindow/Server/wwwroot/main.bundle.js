@@ -3799,6 +3799,9 @@ var OverviewComponent = /** @class */ (function () {
                     pcData.forEach(function (pc) {
                         _this.overviewService.getPartialOverview(pc.portCallId).subscribe(function (ov) {
                             if (ov) {
+                                if (ov.ship.name === 'MAHA AARTI') {
+                                    console.log(ov.portCall.portCallStatus.name);
+                                }
                                 var row = _this.overviewRow(ov);
                                 // Case: port call is incomplete (status: draft)
                                 if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].DRAFT) {
@@ -12302,11 +12305,11 @@ var PortCallService = /** @class */ (function () {
             .put(uri, null)
             .map(function (res) { return res; });
     };
-    // Delete port call draft
+    // Sets port call status to deleted
     PortCallService.prototype.deletePortCallDraft = function (portCall) {
         console.log('Deleting port call...');
-        var uri = this.portCallUrl;
-        return this.http.delete(uri);
+        var uri = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
+        return this.http.put(uri, null);
     };
     // Get methods
     PortCallService.prototype.getPortCallById = function (portCallId) {
