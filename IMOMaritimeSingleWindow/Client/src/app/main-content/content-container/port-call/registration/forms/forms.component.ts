@@ -74,7 +74,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   }
 
   setCargoForPortCall(portCallId) {
-    this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
+    this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
       data => {
         if (data) {
           this.cargoService.setConsignmentListData(data);

@@ -120,8 +120,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.PreviousLocation.Country)
             .Include(pc => pc.NextLocation.Country)
-            .Include(pc => pc.OrganizationPortCall)
+            .Include(pc => pc.OrganizationPortCall).ThenInclude(opc => opc.ClearedByUser)
             .Include(pc => pc.PortCallStatus)
+            .Include(pc => pc.User).ThenInclude(u => u.Person)
+            .Include(pc => pc.User).ThenInclude(u => u.Organization)
             .FirstOrDefault();
 
             PortCallOverview overview = new PortCallOverview();

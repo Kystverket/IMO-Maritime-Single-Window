@@ -754,6 +754,9 @@ namespace IMOMaritimeSingleWindow.Data
             {
                 entity.ToTable("organization_port_call");
 
+                entity.HasIndex(e => e.ClearedByUserId)
+                    .HasName("fki_FK_organization_port_call_cleared_by_user_id");
+
                 entity.HasIndex(e => e.OrganizationId)
                     .HasName("fki_organization_port_call_organization_id_fkey");
 
@@ -764,11 +767,19 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.Cleared).HasColumnName("cleared");
 
+                entity.Property(e => e.ClearedByUserId).HasColumnName("cleared_by_user_id");
+
                 entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
                 entity.Property(e => e.Remark).HasColumnName("remark");
+
+                entity.HasOne(d => d.ClearedByUser)
+                    .WithMany(p => p.OrganizationPortCall)
+                    .HasForeignKey(d => d.ClearedByUserId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_organization_port_call_cleared_by_user_id");
 
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.OrganizationPortCall)
