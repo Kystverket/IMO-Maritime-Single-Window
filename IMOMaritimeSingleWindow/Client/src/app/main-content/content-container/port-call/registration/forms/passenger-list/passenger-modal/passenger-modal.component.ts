@@ -63,14 +63,14 @@ export class PassengerModalComponent implements OnInit {
 
   openEditModal(passengerModel: PersonOnBoardModel) {
     this.setInputPassengerModel(passengerModel);
-    console.log(this.passengerModel);
     this.modalService.open(this.editModal);
   }
 
   // Output
   editPassenger() {
-    console.log(this.inputPassengerModel);
-    this.outputPassengerModel.emit(this.inputPassengerModel);
+    this.passengerModel = Object.assign({}, this.inputPassengerModel);
+    this.passengerModel.identityDocument[0] = Object.assign({}, this.inputPassengerModel.identityDocument[0]);
+    this.outputPassengerModel.emit(this.passengerModel);
   }
 
   // Setters
@@ -79,8 +79,6 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
     this.passengerModel = Object.assign({}, passengerModel);
     this.passengerModel.identityDocument[0] = Object.assign({}, passengerModel.identityDocument[0]);
-    console.log(this.passengerModel.identityDocument[0]);
-    console.log(typeof this.passengerModel.identityDocument[0].identityDocumentExpiryDate);
   }
 
   setNationality($event) {
@@ -118,7 +116,6 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    console.log($event);
     if ($event) {
       this.inputPassengerModel.dateOfBirth = this.getDateFormat($event);
     } else {
@@ -137,23 +134,19 @@ export class PassengerModalComponent implements OnInit {
 
   setIdentityDocumentExpiryDate($event) {
     this.validDocumentDates = this.checkDocumentDates(this.getNgbDateFormat(this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate), $event);
-    console.log($event);
+
     if ($event) {
         this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
-        console.log(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate);
     } else {
       this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat(null);
     }
   }
 
   setTransit($event) {
-    console.log($event);
     this.inputPassengerModel.inTransit = this.booleanModel[$event];
-    console.log(this.booleanModel[$event]);
   }
 
   setGender($event) {
-    console.log($event);
     if ($event) {
       this.inputPassengerModel.gender = $event;
       this.inputPassengerModel.genderId = $event.genderId;
@@ -228,9 +221,6 @@ export class PassengerModalComponent implements OnInit {
 
   checkDocumentDates(issueDate, expiryDate) {
     // The dates are in the format {year: number, month: number, day: number}
-
-    console.log(issueDate);
-    console.log(expiryDate);
     // If any of the dates are null, return true
     if (!issueDate || !expiryDate || isNaN(issueDate.year) || isNaN(expiryDate.year)) {
       return true;

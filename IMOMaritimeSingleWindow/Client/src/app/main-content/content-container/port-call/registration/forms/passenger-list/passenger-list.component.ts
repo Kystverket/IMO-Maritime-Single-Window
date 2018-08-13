@@ -182,14 +182,11 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(
       this.passengerList
     );
-    console.log(this.portCallPassengerModel);
 
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
     this.identityDocumentComponent.resetForm();
-    // this.dateOfBirthComponent.set
-    console.log(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
     this.passengerListService.setDataIsPristine(false);
@@ -275,7 +272,6 @@ export class PassengerListComponent implements OnInit {
 
   // Setters
   setIdentityDocumentModel($event) {
-    console.log($event);
     this.identityDocumentModel = $event.identityDocumentModel;
     this.validDocumentDates = $event.validDocumentDates;
   }
@@ -372,13 +368,15 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    this.passengerList.forEach((passenger, index) => {
+    // Passengerlist gets updated automatically
+/*     this.passengerList.forEach((passenger, index) => {
       if (passenger.sequenceNumber === $event.sequenceNumber) {
         this.passengerList[index] = $event;
         this.passengerList[index].identityDocument[0] = $event.identityDocument[0];
         return;
       }
     });
+    console.log(this.passengerList); */
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
@@ -395,7 +393,6 @@ export class PassengerListComponent implements OnInit {
         }
       });
     }
-    console.log(this.passengerList);
     this.setSequenceNumbers();
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));

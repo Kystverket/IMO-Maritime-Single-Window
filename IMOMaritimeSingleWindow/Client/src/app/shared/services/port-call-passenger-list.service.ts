@@ -118,46 +118,52 @@ export class PortCallPassengerListService {
   }
 
   cleanPassengerList(passengerList: any[]) {
-    const newPassengerList = [];
-    passengerList.forEach(passenger => {
+    const cleanedPassengerList = [];
+    passengerList.map(passenger => {
+      const cleanPassenger = Object.assign({}, passenger);
+      cleanPassenger.identityDocument[0] = Object.assign({}, passenger.identityDocument[0]);
 
-      passenger.countryOfBirth = null;
-      passenger.personOnBoardType = null;
-      passenger.gender = null;
-      passenger.portCall = null;
-      passenger.portOfEmbarkation = null;
-      passenger.portOfDisembarkation = null;
-      passenger.nationality = null;
+      cleanPassenger.countryOfBirth = null;
+      cleanPassenger.personOnBoardType = null;
+      cleanPassenger.gender = null;
+      cleanPassenger.portCall = null;
+      cleanPassenger.portOfEmbarkation = null;
+      cleanPassenger.portOfDisembarkation = null;
+      cleanPassenger.nationality = null;
 
       // Handle date formats
       if (typeof passenger.dateOfBirth !== 'string') {
-        passenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
+        cleanPassenger.dateOfBirth = passenger.dateOfBirth.toUTCString();
       } else {
-        passenger.dateOfBirth = (new Date(passenger.dateOfBirth.split('T'))).toUTCString();
+        cleanPassenger.dateOfBirth = (new Date(passenger.dateOfBirth.split('T'))).toUTCString();
       }
+      cleanPassenger.identityDocument = [];
       passenger.identityDocument.forEach(identityDocument => {
-        identityDocument.identityDocumentType = null;
-        identityDocument.issuingNation = null;
+        const cleanIdentityDocument = Object.assign({}, identityDocument);
+        cleanIdentityDocument.identityDocumentType = null;
+        cleanIdentityDocument.issuingNation = null;
 
         // Handle date formats
         if (identityDocument.identityDocumentIssueDate) {
           if (typeof identityDocument.identityDocumentIssueDate !== 'string') {
-            identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate.toUTCString();
+            cleanIdentityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate.toUTCString();
           } else {
-            identityDocument.identityDocumentIssueDate = (new Date(identityDocument.identityDocumentIssueDate.split('T'))).toUTCString();
+            cleanIdentityDocument.identityDocumentIssueDate = (new Date(identityDocument.identityDocumentIssueDate.split('T'))).toUTCString();
           }
         }
         if (identityDocument.identityDocumentExpiryDate) {
           if (typeof identityDocument.identityDocumentExpiryDate !== 'string') {
-            identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate.toUTCString();
+            cleanIdentityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate.toUTCString();
           } else {
-            identityDocument.identityDocumentExpiryDate = (new Date(identityDocument.identityDocumentExpiryDate.split('T'))).toUTCString();
+            cleanIdentityDocument.identityDocumentExpiryDate = (new Date(identityDocument.identityDocumentExpiryDate.split('T'))).toUTCString();
           }
         }
+        cleanPassenger.identityDocument.push(cleanIdentityDocument);
       });
-      newPassengerList.push(passenger);
+
+      cleanedPassengerList.push(cleanPassenger);
     });
-    return newPassengerList;
+    return cleanedPassengerList;
   }
 
   /* deletePassengerEntry(data) {
