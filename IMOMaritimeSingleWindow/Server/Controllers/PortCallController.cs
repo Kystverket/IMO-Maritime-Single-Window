@@ -122,21 +122,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.NextLocation.Country)
             .Include(pc => pc.OrganizationPortCall)
             .Include(pc => pc.PortCallStatus)
-            .Include(pc => pc.Consignment)
-                .ThenInclude(consignment => consignment.PortOfLoading)
-                    .ThenInclude(location => location.Country)
-            .Include(pc => pc.Consignment)
-                .ThenInclude(consignment => consignment.PortOfLoading)
-                    .ThenInclude(location => location.LocationType)
-            .Include(pc => pc.Consignment)
-                .ThenInclude(consignment => consignment.PortOfDischarge)
-                    .ThenInclude(location => location.Country)
-            .Include(pc => pc.Consignment)
-                .ThenInclude(consignment => consignment.PortOfDischarge)
-                    .ThenInclude(location => location.LocationType)
-            .Include(pc => pc.Consignment)
-                .ThenInclude(consignment => consignment.CargoItem)
-                    .ThenInclude(cargoItem => cargoItem.PackageType)
             .FirstOrDefault();
 
             PortCallOverview overview = new PortCallOverview();

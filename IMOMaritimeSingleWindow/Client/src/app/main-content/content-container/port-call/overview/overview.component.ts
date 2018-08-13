@@ -250,15 +250,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
           if (pcData.length === 0) {
             this.contentService.setLoadingScreen(false, null, null);
           } else {
+            const timeStart = Date.now();
             let index = 0;
             const finalIndex = pcData.length - 1;
             pcData.forEach(pc => {
               this.overviewService.getPartialOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
-                    if (ov.ship.name === 'MAHA AARTI') {
-                      console.log(ov.portCall.portCallStatus.name);
-                    }
                     const row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
                     if (ov.status === PortCallStatusTypes.DRAFT) {
@@ -288,6 +286,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
                 error => console.log(error),
                 () => {
                   if (index++ >= finalIndex) {
+                    const time = Date.now() - timeStart;
+                    console.log('Time: ', time);
                     this.contentService.setLoadingScreen(false, null, null);
                   }
                 }
