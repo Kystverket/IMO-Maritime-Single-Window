@@ -378,7 +378,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 var userId = this.GetUserId();
                 var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId))
-                                        .Include(u => u.PortCallUser)
+                                        .Include(u => u.PortCall)
                                         .Include(u => u.Organization.OrganizationPortCall)
                                         .Include(u => u.Role)
                                         .FirstOrDefault();

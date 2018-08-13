@@ -574,7 +574,7 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.PortCall);
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.PortCallUser);
+                    .WithMany(p => p.PortCall);
             });
 
             modelBuilder.Entity<PortCallDetails>(entity =>

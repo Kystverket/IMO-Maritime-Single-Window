@@ -250,7 +250,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
           if (pcData.length === 0) {
             this.contentService.setLoadingScreen(false, null, null);
           } else {
-            const timeStart = Date.now();
             let index = 0;
             const finalIndex = pcData.length - 1;
             pcData.forEach(pc => {
@@ -286,8 +285,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
                 error => console.log(error),
                 () => {
                   if (index++ >= finalIndex) {
-                    const time = Date.now() - timeStart;
-                    console.log('Time: ', time);
                     this.contentService.setLoadingScreen(false, null, null);
                   }
                 }

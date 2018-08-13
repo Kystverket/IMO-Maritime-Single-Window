@@ -34,9 +34,7 @@ namespace IMOMaritimeSingleWindow.Models
         public DateTimeOffset? NextLocationAta { get; set; }
         public Guid? UserId { get; set; }
         public string VoyageNumber { get; set; }
-        public Guid? EditedByUserId { get; set; }
 
-        public User EditedByUser { get; set; }
         public Location Location { get; set; }
         public Location NextLocation { get; set; }
         public PortCallStatus PortCallStatus { get; set; }

@@ -8,11 +8,11 @@ namespace IMOMaritimeSingleWindow.Models
         public User()
         {
             OrganizationPortCall = new HashSet<OrganizationPortCall>();
-            PortCallEditedByUser = new HashSet<PortCall>();
-            PortCallUser = new HashSet<PortCall>();
+            PortCall = new HashSet<PortCall>();
             UserLogin = new HashSet<UserLogin>();
             UserToken = new HashSet<UserToken>();
         }
+
         public Guid UserId { get; set; }
         public Guid? PasswordId { get; set; }
         public int? OrganizationId { get; set; }
@@ -35,8 +35,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Person Person { get; set; }
         public Role Role { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
-        public ICollection<PortCall> PortCallEditedByUser { get; set; }
-        public ICollection<PortCall> PortCallUser { get; set; }
+        public ICollection<PortCall> PortCall { get; set; }
         public ICollection<UserLogin> UserLogin { get; set; }
         public ICollection<UserToken> UserToken { get; set; }
     }
