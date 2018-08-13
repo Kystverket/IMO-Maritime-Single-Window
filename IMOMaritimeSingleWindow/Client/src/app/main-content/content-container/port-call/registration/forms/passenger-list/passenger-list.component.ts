@@ -136,18 +136,6 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
 
-    // Subscribe to port call
-/*     this.detailsIdentificationDataSubscription = this.portCallService.portCallIdData$.subscribe(portCallIdData => {
-      if (portCallIdData) {
-        this.portCallPassengerModel.portCallId = portCallIdData;
-        this.portCallId = portCallIdData;
- */
-/*         this.passengerListService.passengerListMeta$.subscribe(valid => {
-          this.formValid = valid;
-        });
-      }
-    }); */
-
     this.identityDocumentService.identityDocumentList$.subscribe(list => {
       if (list) {
         this.identityDocumentList = list;
@@ -163,7 +151,12 @@ export class PassengerListComponent implements OnInit {
 
     this.passengerListService.getPersonOnBoardType(2).subscribe(personOnBoardType => {
       this.personOnBoardType = personOnBoardType;
-      console.log(this.personOnBoardType);
+    });
+
+    this.passengerList.forEach(passenger => {
+      passenger.dateOfBirth = passenger.dateOfBirth ? new Date(passenger.dateOfBirth) : null;
+      passenger.identityDocument[0].identityDocumentIssueDate = passenger.identityDocument[0].identityDocumentIssueDate ? new Date(passenger.identityDocument[0].identityDocumentIssueDate) : null;
+      passenger.identityDocument[0].identityDocumentExpiryDate = passenger.identityDocument[0].identityDocumentExpiryDate ? new Date(passenger.identityDocument[0].identityDocumentExpiryDate) : null;
     });
   }
 
@@ -288,7 +281,10 @@ export class PassengerListComponent implements OnInit {
 
   setDateOfBirth($event) {
     if ($event) {
-      this.portCallPassengerModel.dateOfBirth = this.getDateFormat($event);
+      console.log($event);
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+      console.log(date);
+      this.portCallPassengerModel.dateOfBirth = date;
     } else {
       this.resetDateOfBirth();
     }

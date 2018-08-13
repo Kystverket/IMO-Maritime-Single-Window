@@ -5,6 +5,7 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { ValidateDateTimeService } from '../../../../../../../shared/services/validate-date-time.service';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -36,11 +37,14 @@ export class PassengerModalComponent implements OnInit {
   };
 
   validDocumentDates: Boolean = true;
+  issueDateAfterExpiryDateError: Boolean = false;
+  expiryDateBeforeExpiryDateError: Boolean = false;
 
   constructor(
     private modalService: NgbModal,
     private identityDocumentService: IdentityDocumentService,
-    private passengerService: PortCallPassengerListService
+    private passengerService: PortCallPassengerListService,
+    private validateDateTimeService: ValidateDateTimeService
   ) { }
 
   ngOnInit() {
@@ -124,22 +128,42 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setIdentityDocumentIssueDate($event) {
-    this.validDocumentDates = this.checkDocumentDates($event, this.getNgbDateFormat(this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate));
+    let date: Date = new Date();
+    console.log(date);
     if ($event) {
-      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = this.getDateFormat($event);
+      date = new Date($event.year, $event.month - 1, $event.day);
     } else {
-      this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = this.getDateFormat(null);
+      date = null;
+    }
+    this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = date;
+    const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
+    const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
+    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+      this.issueDateAfterExpiryDateError = true;
+    } else {
+      this.issueDateAfterExpiryDateError = false;
+      this.expiryDateBeforeExpiryDateError = false;
     }
   }
 
   setIdentityDocumentExpiryDate($event) {
-    this.validDocumentDates = this.checkDocumentDates(this.getNgbDateFormat(this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate), $event);
-
+    let date: Date = new Date();
+    console.log(date);
     if ($event) {
-        this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat($event);
+      date = new Date($event.year, $event.month - 1, $event.day);
     } else {
-      this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = this.getDateFormat(null);
+      date = null;
     }
+    this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = date;
+    const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
+    const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
+    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+      this.expiryDateBeforeExpiryDateError = true;
+    } else {
+      this.issueDateAfterExpiryDateError = false;
+      this.expiryDateBeforeExpiryDateError = false;
+    }
+
   }
 
   setTransit($event) {

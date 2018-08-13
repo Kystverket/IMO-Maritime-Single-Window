@@ -52,6 +52,7 @@ import { ProgressBarComponent } from './registration/progress-bar/progress-bar.c
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 
 @NgModule({
   imports: [
@@ -114,6 +115,6 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, IdentityDocumentService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService]
+  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, IdentityDocumentService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService, ValidateDateTimeService]
 })
 export class PortCallModule { }
