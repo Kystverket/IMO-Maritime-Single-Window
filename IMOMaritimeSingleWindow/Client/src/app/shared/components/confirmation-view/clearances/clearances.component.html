@@ -10,9 +10,15 @@
     <tr *ngFor="let clearance of clearanceList">
       <td>{{ clearance.organization.name }}</td>
       <td>
-        <div *ngIf="clearance.cleared" class="badge badge-success mb-0"><span>Cleared.</span></div>
-        <div *ngIf="clearance.cleared == null" class="badge badge-warning mb-0"><span>Not reviewed.</span></div>
-        <div *ngIf="clearance.cleared == false" class="badge badge-danger mb-0"><span>Rejected.</span></div>
+        <div *ngIf="clearance.cleared" class="badge badge-success mb-0">
+          <span>{{ clearance.organization.clearanceIsTrueString }}.</span>
+        </div>
+        <div *ngIf="clearance.cleared == null" class="badge badge-warning mb-0">
+          <span>{{ clearance.organization.clearanceIsNullString }}</span>
+        </div>
+        <div *ngIf="clearance.cleared == false" class="badge badge-danger mb-0">
+          <span>{{ clearance.organization.clearanceIsFalseString }}</span>
+        </div>
       </td>
       <td>{{ clearance.remark }}</td>
     </tr>

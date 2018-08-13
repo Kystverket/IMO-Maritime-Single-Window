@@ -21,6 +21,9 @@ namespace IMOMaritimeSingleWindow.Models
         public bool IsActive { get; set; }
         public int? OrganizationTypeId { get; set; }
         public string ImoCompanyNumber { get; set; }
+        public string ClearanceIsNullString { get; set; }
+        public string ClearanceIsTrueString { get; set; }
+        public string ClearanceIsFalseString { get; set; }
 
         public OrganizationType OrganizationType { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
