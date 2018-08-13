@@ -3,6 +3,7 @@
     <tr>
       <th>Type</th>
       <th>Status</th>
+      <th>Given by</th>
       <th>Remark</th>
     </tr>
   </thead>
@@ -19,6 +20,9 @@
         <div *ngIf="clearance.cleared == false" class="badge badge-danger mb-0">
           <span>{{ clearance.organization.clearanceIsFalseString }}</span>
         </div>
+      </td>
+      <td>
+        <div *ngIf="clearance.clearedByUser">{{ clearance.clearedByUser.email }}</div>
       </td>
       <td>{{ clearance.remark }}</td>
     </tr>
