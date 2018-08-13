@@ -57,6 +57,9 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
+  private createdByUserDataSource = new BehaviorSubject<any>(null);
+  createdByUserData$ = this.createdByUserDataSource.asObservable();
+
   constructor(
     private http: HttpClient,
     private prevAndNextPocService: PrevAndNextPocService,
@@ -109,6 +112,8 @@ export class PortCallService {
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setPortCallStatus(overview.status);
+    // User info
+    this.setCreatedByUserData(overview.portCall.user);
   }
 
   updatePortCall(portCall: PortCallModel): Observable<any> {
@@ -130,6 +135,9 @@ export class PortCallService {
   }
   setPortCallIdData(data) {
     this.portCallIdSource.next(data);
+  }
+  setCreatedByUserData(data) {
+    this.createdByUserDataSource.next(data);
   }
 
   // REGISTER NEW PORT CALL
@@ -325,6 +333,7 @@ export class PortCallService {
     this.locationDataSource.next(null);
     this.etaEtdDataSource.next(null);
     this.clearanceListDataSource.next(null);
+    this.createdByUserDataSource.next(null);
     // Details
     this.portCallDetailsService.wipeDetailsData();
   }
