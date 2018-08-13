@@ -176,15 +176,21 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 // Super Admin
                 case Constants.Strings.UserRoles.SuperAdmin:
-                    portCallList = _context.PortCall.ToList();
+                    portCallList = _context.PortCall.Where(pc =>
+                                                    pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                    .ToList();
                     break;
                 // Admin
                 case Constants.Strings.UserRoles.Admin:
-                    portCallList = _context.PortCall.ToList();
+                    portCallList = _context.PortCall.Where(
+                                                    pc => pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                    .ToList();
                     break;
                 // Agent
                 case Constants.Strings.UserRoles.Agent:
-                    portCallList = _context.PortCall.Where(pc => pc.User.OrganizationId == dbUser.OrganizationId).ToList();
+                    portCallList = _context.PortCall.Where(
+                                                    pc => pc.User.OrganizationId == dbUser.OrganizationId && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                    .ToList();
                     break;
                 // Customs
                 case Constants.Strings.UserRoles.Customs:
@@ -192,7 +198,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
                                             && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
-                                            ).Select(opc => opc.PortCall).ToList();
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED
+                                            ).Select(opc => opc.PortCall)
+                                            .ToList();
                     break;
                 // Health agency
                 case Constants.Strings.UserRoles.HealthAgency:
@@ -200,6 +208,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
                                             && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED
                                             ).Select(opc => opc.PortCall).ToList();
                     break;
                 // Other authorities not listed in Constants.Strings.UserRoles
@@ -210,6 +219,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                             .Where(opc =>
                                             opc.OrganizationId == dbUser.OrganizationId
                                             && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            && opc.PortCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED
                                             ).Select(opc => opc.PortCall).ToList();
                     }
                     break;
@@ -367,40 +377,51 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.DELETE)]
-        [HttpDelete()]
-        public IActionResult DeletePortCall([FromBody] PortCall portCall)
+        [HttpPut("delete/{portCallId}")]
+        public IActionResult SetAsDeleted(int portCallId)
         {
-            Console.WriteLine(portCall.PortCallId + "\n" + portCall.UserId.ToString());
             try
             {
-                var userId = this.GetUserId();
-                var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId)).Include(u => u.Role).FirstOrDefault();
-                var userIsAdmin = user.Role.Name.Equals(Constants.Strings.UserRoles.SuperAdmin);
-                var pcIsByUserOrg = (user.OrganizationId != null && _context.OrganizationPortCall.Any(opc => opc.PortCallId == portCall.PortCallId && opc.OrganizationId == user.OrganizationId));
-                if (userIsAdmin || (portCall.UserId != null && portCall.UserId.ToString().Equals(userId)) || pcIsByUserOrg)
-                {
-                    PortCall removePortCall = _context.PortCall.Where(pc => pc.PortCallId == portCall.PortCallId)
-                                                        .Include(pc => pc.PortCallDetails)
-                                                        .Include(pc => pc.OrganizationPortCall)
-                                                        .Include(pc => pc.PortCallHasPortCallPurpose)
-                                                        .Include(pc => pc.CustomsCargo)
-                                                        .Include(pc => pc.DpgOnBoard).FirstOrDefault();
-                    _context.PortCallDetails.RemoveRange(removePortCall.PortCallDetails.AsEnumerable());
-                    _context.OrganizationPortCall.RemoveRange(removePortCall.OrganizationPortCall.AsEnumerable());
-                    _context.PortCallHasPortCallPurpose.RemoveRange(removePortCall.PortCallHasPortCallPurpose.AsEnumerable());
-                    _context.CustomsCargo.RemoveRange(removePortCall.CustomsCargo.AsEnumerable());
-                    _context.DpgOnBoard.RemoveRange(removePortCall.DpgOnBoard.AsEnumerable());
-                    _context.PortCall.Remove(removePortCall);
+                var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).Include(pc => pc.User).FirstOrDefault();
 
-                    _context.SaveChanges();
-                    return Json("Port call deleted.");
+                if (portCall == null)
+                {
+                    return BadRequest("Port Call not found.");
                 }
-                return BadRequest("Delete request denied: you must either be an administrator or the be an user at the same organization as the user who created the port call in order to delete it.");
+
+                var userId = this.GetUserId();
+                var user = _context.User.Where(usr => usr.UserId.ToString().Equals(userId))
+                                        .Include(u => u.PortCall)
+                                        .Include(u => u.Organization.OrganizationPortCall)
+                                        .Include(u => u.Role)
+                                        .FirstOrDefault();
+                if (user == null)
+                {
+                    return BadRequest("User not found.");
+                }
+
+                bool portCallIsByUser = portCall.UserId.ToString().Equals(userId);
+                bool portCallIsByUserOrganization = portCall.User.OrganizationId == user.OrganizationId;
+                bool userIsAdmin = user.Role.Name.Equals(Constants.Strings.UserRoles.SuperAdmin) || user.Role.Name.Equals(Constants.Strings.UserRoles.Admin);
+
+                if (!(portCallIsByUser || portCallIsByUserOrganization || userIsAdmin))
+                {
+                    return BadRequest("Deletion request denied: port call does not belong to the user, nor any user from their organization.");
+                }
+
+                portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED;
+                _context.Update(portCall);
+                _context.SaveChanges();
+                return Ok(portCall);
             }
             catch (DbUpdateException ex) when (ex.InnerException is Npgsql.PostgresException)
             {
                 Npgsql.PostgresException innerEx = (Npgsql.PostgresException)ex.InnerException;
                 return BadRequest("PostgreSQL Error Code: " + innerEx.SqlState);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
             }
         }
 

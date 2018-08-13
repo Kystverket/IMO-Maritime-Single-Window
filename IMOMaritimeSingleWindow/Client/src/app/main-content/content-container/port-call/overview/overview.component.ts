@@ -256,6 +256,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
               this.overviewService.getPartialOverview(pc.portCallId).subscribe(
                 ov => {
                   if (ov) {
+                    if (ov.ship.name === 'MAHA AARTI') {
+                      console.log(ov.portCall.portCallStatus.name);
+                    }
                     const row = this.overviewRow(ov);
                     // Case: port call is incomplete (status: draft)
                     if (ov.status === PortCallStatusTypes.DRAFT) {

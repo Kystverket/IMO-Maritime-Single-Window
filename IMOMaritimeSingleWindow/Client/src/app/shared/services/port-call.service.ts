@@ -179,11 +179,11 @@ export class PortCallService {
       .map(res => res);
   }
 
-  // Delete port call draft
-  deletePortCallDraft(portCall: PortCallModel) {
+  // Sets port call status to deleted
+  deletePortCallDraft(portCall: PortCallModel): Observable<PortCallModel> {
     console.log('Deleting port call...');
-    const uri: string = this.portCallUrl;
-    return this.http.delete(uri);
+    const uri: string = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
+    return this.http.put<PortCallModel>(uri, null);
   }
   // Get methods
   getPortCallById(portCallId: number): Observable<PortCallModel> {
