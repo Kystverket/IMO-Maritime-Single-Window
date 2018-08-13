@@ -11,7 +11,7 @@
       <td>{{ clearance.organization.name }}</td>
       <td>
         <div *ngIf="clearance.cleared" class="badge badge-success mb-0">
-          <span>{{ clearance.organization.clearanceIsTrueString }}.</span>
+          <span>{{ clearance.organization.clearanceIsTrueString }}</span>
         </div>
         <div *ngIf="clearance.cleared == null" class="badge badge-warning mb-0">
           <span>{{ clearance.organization.clearanceIsNullString }}</span>
