@@ -217,7 +217,7 @@ export class PortCallService {
   }
 
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
-    if (purposes.length === 0) {
+    if (purposes == null || purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http
         .delete(uri)
