@@ -156,8 +156,8 @@ export class PassengerListComponent implements OnInit {
 
     this.passengerList.forEach(passenger => {
       passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-      passenger.identityDocument[0].identityDocumentIssueDate = passenger.identityDocument[0].identityDocumentIssueDate ? new Date(passenger.identityDocument[0].identityDocumentIssueDate) : null;
-      passenger.identityDocument[0].identityDocumentExpiryDate = passenger.identityDocument[0].identityDocumentExpiryDate ? new Date(passenger.identityDocument[0].identityDocumentExpiryDate) : null;
+      passenger.identityDocument[0].identityDocumentIssueDate = passenger.identityDocument[0].identityDocumentIssueDate != null ? new Date(passenger.identityDocument[0].identityDocumentIssueDate) : null;
+      passenger.identityDocument[0].identityDocumentExpiryDate = passenger.identityDocument[0].identityDocumentExpiryDate != null ? new Date(passenger.identityDocument[0].identityDocumentExpiryDate) : null;
     });
   }
 

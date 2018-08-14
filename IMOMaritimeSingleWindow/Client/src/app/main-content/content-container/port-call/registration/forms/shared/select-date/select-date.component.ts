@@ -19,7 +19,6 @@ export class SelectDateComponent implements OnInit {
   constructor() { }
 
   dateChanged($event): void {
-    console.log($event);
     this.dateModel = $event;
     this.updateModel($event);
   }
@@ -30,13 +29,11 @@ export class SelectDateComponent implements OnInit {
   }
 
   private hasValidDateFormat($event) {
-    console.log(typeof $event);
     return typeof $event !== 'string';
   }
 
   private validateData() {
     if (this.validDateFormat) {
-      console.log(this.dateModel);
       this.selectDate.emit(this.dateModel);
     }
   }

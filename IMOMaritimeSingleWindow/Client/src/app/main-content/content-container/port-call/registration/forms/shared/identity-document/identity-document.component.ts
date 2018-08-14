@@ -3,9 +3,7 @@ import { IdentityDocumentModel } from 'app/shared/models/identity-document-model
 import { Observable } from 'rxjs/Observable';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { NgForm } from '@angular/forms';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
-import { SelectDateComponent } from '../select-date/select-date.component';
 
 @Component({
   selector: 'app-identity-document',
@@ -77,11 +75,8 @@ export class IdentityDocumentComponent implements OnInit {
 
   setIdentityDocumentIssueDate($event) {
     let date: Date = new Date();
-    console.log(date);
     if ($event) {
-      console.log($event);
       date = new Date($event.year, $event.month - 1, $event.day);
-     /* this.identityDocumentModel.identityDocumentIssueDate = this.getDateFormat($event); */
     } else {
       date = null;
     }
@@ -98,13 +93,10 @@ export class IdentityDocumentComponent implements OnInit {
   setIdentityDocumentExpiryDate($event) {
     let date: Date = new Date();
     if ($event) {
-      console.log($event);
       date = new Date($event.year, $event.month - 1, $event.day);
-      /* this.identityDocumentModel.identityDocumentExpiryDate = this.getDateFormat($event); */
     } else {
       date = null;
     }
-    console.log(date);
     this.identityDocumentModel.identityDocumentExpiryDate = date;
     this.identityDocumentModelChanged();
     if ($event && this.validateDateTimeService.checkDocumentDates(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
@@ -122,9 +114,7 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   resetForm() {
-    console.log('Identity doc component resetting form!');
     this.identityDocumentModel = new IdentityDocumentModel();
-    console.log(this.identityDocumentModel);
     this.resetIdentityDocumentIssueDate();
     this.resetIdentityDocumentExpiryDate();
   }
@@ -150,6 +140,19 @@ export class IdentityDocumentComponent implements OnInit {
 
   getDisplayDateFormat(date) {
     return date.split('T')[0];
+  }
+
+  getNgbDateFormat(date) {
+    if (date != null) {
+      const newDate = new Date(date);
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth() + 1,
+        day: newDate.getDate()
+      };
+    } else {
+      return null;
+    }
   }
 
 }

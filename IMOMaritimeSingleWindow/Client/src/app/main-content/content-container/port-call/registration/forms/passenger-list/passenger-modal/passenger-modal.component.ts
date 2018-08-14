@@ -5,7 +5,7 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { ValidateDateTimeService } from '../../../../../../../shared/services/validate-date-time.service';
+import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -67,7 +67,6 @@ export class PassengerModalComponent implements OnInit {
 
   openEditModal(passengerModel: PersonOnBoardModel) {
     this.setInputPassengerModel(passengerModel);
-    console.log(this.inputPassengerModel);
     this.modalService.open(this.editModal);
   }
 
@@ -130,7 +129,6 @@ export class PassengerModalComponent implements OnInit {
 
   setIdentityDocumentIssueDate($event) {
     let date: Date = new Date();
-    console.log(date);
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
     } else {
@@ -149,7 +147,6 @@ export class PassengerModalComponent implements OnInit {
 
   setIdentityDocumentExpiryDate($event) {
     let date: Date = new Date();
-    console.log(date);
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
     } else {
@@ -219,12 +216,16 @@ export class PassengerModalComponent implements OnInit {
 
   // Helper methods
   getNgbDateFormat(date) {
-    const newDate = new Date(date);
-    return {
-      year: newDate.getFullYear(),
-      month: newDate.getMonth() + 1,
-      day: newDate.getDate()
-    };
+    if (date != null) {
+      const newDate = new Date(date);
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth() + 1,
+        day: newDate.getDate()
+      };
+    } else {
+      return null;
+    }
   }
 
   getDateFormat(date) {

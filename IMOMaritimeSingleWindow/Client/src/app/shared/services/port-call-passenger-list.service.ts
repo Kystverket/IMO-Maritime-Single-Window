@@ -1,10 +1,10 @@
-import { Injectable, ViewChild } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
-import { HttpClient, HttpParams, HttpRequest, HttpInterceptor, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from '../../../../node_modules/rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
@@ -70,7 +70,6 @@ export class PortCallPassengerListService {
     const cleanedPassengerList = this.cleanPassengerList(passengerList);
     console.log('Updating passengers...');
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
-    console.log(uri);
     return this.http.put(uri, cleanedPassengerList).map(res => {
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
@@ -105,7 +104,6 @@ export class PortCallPassengerListService {
 
   getPersonOnBoardType(personOnBoardTypeId: number) {
     const uri = [this.personOnBoardTypeUrl, personOnBoardTypeId].join('/');
-    console.log(uri);
     return this.http.get(uri).map(res => res.json());
   }
 
@@ -171,52 +169,6 @@ export class PortCallPassengerListService {
     });
     return cleanedPassengerList;
   }
-
-  /* deletePassengerEntry(data) {
-    let copyPassengerList = this.passengerListSource.getValue();
-    if (copyPassengerList.length === 1) {
-      this.setPassengersList([]);
-    } else {
-      // Find clicked item
-      if (data.personOnBoardId) {
-        copyPassengerList.forEach((item, index) => {
-          if (item.personOnBoardId === data.personOnBoardId) {
-            copyPassengerList.splice(index, 1);
-          }
-        });
-      } else {
-        copyPassengerList.forEach((item, index) => {
-          if (item.sequenceNumber === data.sequenceNumber) {
-            copyPassengerList.splice(index, 1);
-          }
-        });
-      }
-      copyPassengerList = this.setSequenceNumbers(copyPassengerList);
-      this.setPassengersList(copyPassengerList);
-    }
-
-    this.setDataIsPristine(false);
-  } */
-
-  // Helper methods
-
-/*   editPassenger(editPassenger: PersonOnBoardModel) {
-    const copyPassengerList = this.passengerListSource.getValue();
-    if (editPassenger.personOnBoardId) {
-      copyPassengerList.forEach((passenger, index) => {
-        if (passenger.personOnBoardId === editPassenger.personOnBoardId) {
-          copyPassengerList[index] = editPassenger;
-        }
-      });
-    } else {
-      copyPassengerList.forEach((passenger, index) => {
-        if (passenger.sequenceNumber === editPassenger.sequenceNumber) {
-          copyPassengerList[index] = editPassenger;
-        }
-      });
-    }
-    this.setPassengersList(copyPassengerList);
-  } */
 
 }
 
