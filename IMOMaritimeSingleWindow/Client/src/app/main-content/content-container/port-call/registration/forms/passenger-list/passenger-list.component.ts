@@ -160,6 +160,8 @@ export class PassengerListComponent implements OnInit {
 
     // Load in passenger list in smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.passengerListService.setPassengersList(this.passengerList);
+    this.passengerListService.setDataIsPristine(true);
   }
 
   addPassenger() {
@@ -205,7 +207,6 @@ export class PassengerListComponent implements OnInit {
   }
 
   makeSmartTableEntry(passenger) {
-    console.log(passenger);
     const modifiedPassenger = new SmartTableModel();
     if (passenger.personOnBoardId) {
       modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
@@ -367,15 +368,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    // Passengerlist gets updated automatically
-/*     this.passengerList.forEach((passenger, index) => {
-      if (passenger.sequenceNumber === $event.sequenceNumber) {
-        this.passengerList[index] = $event;
-        this.passengerList[index].identityDocument[0] = $event.identityDocument[0];
-        return;
-      }
-    });
-    console.log(this.passengerList); */
+    // It gets updated automatically
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;

@@ -46,8 +46,8 @@ export class PortCallPassengerListService {
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
 
-  private isCheckedInProgressBar = new BehaviorSubject<Boolean>(false);
-  isCheckedInProgressBar$ = this.isCheckedInProgressBar.asObservable();
+  private passengerListIsChecked = new BehaviorSubject<boolean>(false);
+  passengerListIsChecked$ = this.passengerListIsChecked.asObservable();
 
   // Http
   getPassengerById(personOnBoardId: number) {
@@ -119,6 +119,11 @@ export class PortCallPassengerListService {
 
   setDataIsPristine(isPristine: Boolean) {
     this.dataIsPristine.next(isPristine);
+  }
+
+  setCheckedInProgressBar(checked: boolean) {
+    this.passengerListIsChecked.next(checked);
+    console.log(checked);
   }
 
   cleanPassengerList(passengerList: any[]) {

@@ -14,10 +14,10 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -35,9 +35,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
+  passengerDataIsPristine: Boolean = true;
 
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
+  passengerListIsChecked = false;
 
   voyagesMeta: FormMetaData;
 
@@ -55,6 +57,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   etaModel: DateTime = null;
 
   shipStoresList: any[];
+  passengerList: PersonOnBoardModel[];
 
   portCallStatus: string;
   portCallIsDraft = false;
@@ -80,7 +83,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresIsCheckedSubscription: Subscription;
   cargoDataSubscription: Subscription;
   cargoIsPristineSubscription: Subscription;
+  passengerDataSubscription: Subscription;
   passengerListIsPristineSubscription: Subscription;
+  passengerListIsCheckedSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -227,6 +232,27 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.cargoDataIsPristine = pristineData;
       }
     );
+    this.passengerListIsCheckedSubscription = this.passengerService.passengerListIsChecked$.subscribe(
+      isChecked => {
+        this.passengerListIsChecked = isChecked;
+      }
+    );
+
+    //
+    // Passenger List
+    //
+    this.passengerDataSubscription = this.passengerService.passengerList$.subscribe(
+      passengerData => {
+        this.passengerList = passengerData;
+      }
+    );
+
+    this.passengerListIsPristineSubscription = this.passengerService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.passengerDataIsPristine = pristineData;
+      }
+    );
+
     //
     // Status
     //
@@ -310,6 +336,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         console.log('Cargo successfully saved.\n', res);
       }, error => {
         console.error(error);
+      }
+    );
+  }
+
+  savePassengerList() {
+    this.passengerService.updatePassengerList(this.passengerList, this.portCallId, 2).subscribe(
+      res => {
+        this.passengerService.setDataIsPristine(true);
+        console.log('Passengers successfully saved.\n', res);
+      }, error => {
+        console.log(error);
       }
     );
   }
