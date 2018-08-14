@@ -8,7 +8,6 @@ import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.servic
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 
 
@@ -49,6 +48,7 @@ export class FormsComponent implements OnInit, OnDestroy {
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData;
+          this.setCargoForPortCall(this.portCallId);
         }
       }
     );
@@ -94,6 +94,15 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   getPersonOnBoardListForPortCall(portCallId, personOnBoardTypeId) {
     return this.passengerListService.getPersonOnBoardListByPortCallId(portCallId, personOnBoardTypeId);
+  }
+  setCargoForPortCall(portCallId) {
+    this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
+      data => {
+        if (data) {
+          this.cargoService.setConsignmentListData(data);
+        }
+      }
+    );
   }
 
 

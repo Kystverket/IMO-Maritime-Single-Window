@@ -40,6 +40,7 @@ import { CargoInfoTableComponent } from './components/confirmation-view/cargo-in
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
+import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
 
 @NgModule({
   imports: [
@@ -86,7 +87,8 @@ import { FormsModule } from '@angular/forms';
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
     FeedbackComponent,
-    CargoInfoTableComponent
+    CargoInfoTableComponent,
+    UserInfoTableComponent,
   ],
   exports: [
     AlphaNumericValidator,

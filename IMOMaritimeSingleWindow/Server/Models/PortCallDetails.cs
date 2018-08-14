@@ -19,6 +19,7 @@ namespace IMOMaritimeSingleWindow.Models
         public bool? ReportingPax { get; set; }
         public bool? ReportingWaste { get; set; }
         public string CargoBriefDescription { get; set; }
+
         public PortCall PortCall { get; set; }
     }
 }
