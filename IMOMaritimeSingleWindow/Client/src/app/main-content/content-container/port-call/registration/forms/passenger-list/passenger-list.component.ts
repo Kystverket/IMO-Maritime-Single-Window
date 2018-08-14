@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -15,6 +15,7 @@ import { PassengerModalComponent } from './passenger-modal/passenger-modal.compo
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '../../../../../../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-passenger-list',
@@ -154,7 +155,7 @@ export class PassengerListComponent implements OnInit {
     });
 
     this.passengerList.forEach(passenger => {
-      passenger.dateOfBirth = passenger.dateOfBirth ? new Date(passenger.dateOfBirth) : null;
+      passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
       passenger.identityDocument[0].identityDocumentIssueDate = passenger.identityDocument[0].identityDocumentIssueDate ? new Date(passenger.identityDocument[0].identityDocumentIssueDate) : null;
       passenger.identityDocument[0].identityDocumentExpiryDate = passenger.identityDocument[0].identityDocumentExpiryDate ? new Date(passenger.identityDocument[0].identityDocumentExpiryDate) : null;
     });
@@ -179,6 +180,7 @@ export class PassengerListComponent implements OnInit {
     // Reset
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
+    this.resetDateOfBirth();
     this.identityDocumentComponent.resetForm();
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
@@ -286,7 +288,7 @@ export class PassengerListComponent implements OnInit {
       console.log(date);
       this.portCallPassengerModel.dateOfBirth = date;
     } else {
-      this.resetDateOfBirth();
+      this.portCallPassengerModel.dateOfBirth = null;
     }
   }
 
@@ -343,6 +345,7 @@ export class PassengerListComponent implements OnInit {
 
   resetDateOfBirth() {
     this.portCallPassengerModel.dateOfBirth = null;
+    this.dateOfBirthComponent.dateChanged(null);
   }
 
   openViewPassengerModal(row) {
@@ -474,3 +477,4 @@ export class PassengerListComponent implements OnInit {
       this.modalService.open(content);
     }
 }
+

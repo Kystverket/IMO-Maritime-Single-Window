@@ -20,6 +20,7 @@ export class SelectDateComponent implements OnInit {
 
   dateChanged($event): void {
     console.log($event);
+    this.dateModel = $event;
     this.updateModel($event);
   }
 
@@ -41,8 +42,16 @@ export class SelectDateComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.inputDate) {
+    if (this.inputDate != null) {
       this.dateModel = this.inputDate;
+    }
+  }
+
+  getNgbDateFormat(date) {
+    if (date) {
+      return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+    } else {
+      return '';
     }
   }
 

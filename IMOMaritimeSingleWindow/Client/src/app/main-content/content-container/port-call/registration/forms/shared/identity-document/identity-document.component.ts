@@ -5,6 +5,7 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { NgForm } from '@angular/forms';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
+import { SelectDateComponent } from '../select-date/select-date.component';
 
 @Component({
   selector: 'app-identity-document',
@@ -20,6 +21,8 @@ export class IdentityDocumentComponent implements OnInit {
   identityDocTypeList: Observable<any>;
 
   @ViewChild(NgForm) form: NgForm;
+  @ViewChild('selectIssueDate') selectIssueDateComponent;
+  @ViewChild('selectExpiryDate') selectExpiryDateComponent;
   formValid = false;
 
   issueDateAfterExpiryDateError: Boolean = false;
@@ -122,8 +125,18 @@ export class IdentityDocumentComponent implements OnInit {
     console.log('Identity doc component resetting form!');
     this.identityDocumentModel = new IdentityDocumentModel();
     console.log(this.identityDocumentModel);
-    this.setIdentityDocumentIssueDate(null);
-    this.setIdentityDocumentExpiryDate(null);
+    this.resetIdentityDocumentIssueDate();
+    this.resetIdentityDocumentExpiryDate();
+  }
+
+  resetIdentityDocumentIssueDate() {
+    this.identityDocumentModel.identityDocumentIssueDate = null;
+    this.selectIssueDateComponent.dateChanged(null);
+  }
+
+  resetIdentityDocumentExpiryDate() {
+    this.identityDocumentModel.identityDocumentExpiryDate = null;
+    this.selectExpiryDateComponent.dateChanged(null);
   }
 
   getDateFormat(date) {

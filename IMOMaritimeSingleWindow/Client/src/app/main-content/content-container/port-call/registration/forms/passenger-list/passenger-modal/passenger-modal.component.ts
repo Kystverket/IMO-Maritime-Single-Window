@@ -67,6 +67,7 @@ export class PassengerModalComponent implements OnInit {
 
   openEditModal(passengerModel: PersonOnBoardModel) {
     this.setInputPassengerModel(passengerModel);
+    console.log(this.inputPassengerModel);
     this.modalService.open(this.editModal);
   }
 

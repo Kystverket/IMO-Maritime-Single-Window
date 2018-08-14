@@ -3,6 +3,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
+import { HttpClient, HttpParams, HttpRequest, HttpInterceptor, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from '../../../../node_modules/rxjs';
+
 
 @Injectable()
 export class PortCallPassengerListService {
@@ -16,7 +19,9 @@ export class PortCallPassengerListService {
   private personOnBoardTypeUrl: string;
   private personOnBoardTypeId: number;
 
-  constructor(private http: Http) {
+  response: Observable<any>;
+
+  constructor(private http: Http, private httpClient: HttpClient) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
     this.genderUrl = 'api/gender';
     this.personOnBoardString = 'persononboard';
@@ -69,6 +74,7 @@ export class PortCallPassengerListService {
     return this.http.put(uri, cleanedPassengerList).map(res => {
       if (res.status === 200) {
         console.log('Successfully updated passengers.');
+        console.log(res.json());
         // this.setPassengersList(res.json());
       }
       return res.status;
@@ -78,7 +84,7 @@ export class PortCallPassengerListService {
   getPersonOnBoardListByPortCallId(portCallId: number, personOnBoardTypeId: number) {
     // uri = api/portCall/{portCallId}/personOnBoard
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getSimplePassengersList(portCallId) {
@@ -213,3 +219,4 @@ export class PortCallPassengerListService {
   } */
 
 }
+
