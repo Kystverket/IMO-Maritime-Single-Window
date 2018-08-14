@@ -120,10 +120,11 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
+    console.log($event);
     if ($event) {
-      this.inputPassengerModel.dateOfBirth = this.getDateFormat($event);
+      this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate($event);
     } else {
-      this.inputPassengerModel.dateOfBirth = this.getDateFormat(null);
+      this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate(null);
     }
   }
 
@@ -228,42 +229,20 @@ export class PassengerModalComponent implements OnInit {
     }
   }
 
-  getDateFormat(date) {
+  getDateFormatFromNgbDate(date) {
     if (date) {
-      if (date.year && date.month && date.day) {
-        const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
-        return dateString;
-      } else {
-        return '';
-      }
-    } else {
-      return '';
+      const newDate = new Date(date.year + '-' + date.month + '-' + date.day);
+      return newDate;
     }
+    return null;
   }
 
   getDisplayDateFormat(date) {
-    return date.split('T')[0];
-  }
-
-  checkDocumentDates(issueDate, expiryDate) {
-    // The dates are in the format {year: number, month: number, day: number}
-    // If any of the dates are null, return true
-    if (!issueDate || !expiryDate || isNaN(issueDate.year) || isNaN(expiryDate.year)) {
-      return true;
+    if (date) {
+      const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+      return dateString;
+    } else {
+      return null;
     }
-
-    // Will check if issueDate is before (smaller than) expiryDate
-    if (issueDate.year < expiryDate.year) {
-      return true;
-    } else if (issueDate.year === expiryDate.year) {
-      if (issueDate.month < expiryDate.month) {
-        return true;
-      } else if (issueDate.month === expiryDate.month) {
-        if (issueDate.day < expiryDate.day) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 }

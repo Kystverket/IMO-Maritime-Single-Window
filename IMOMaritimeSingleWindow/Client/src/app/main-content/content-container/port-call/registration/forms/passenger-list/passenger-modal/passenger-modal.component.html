@@ -22,9 +22,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.dateOfBirth" class="form-control form-control-sm" readonly type="text" name="dateOfBirth"
-          [ngModel]="inputPassengerModel.dateOfBirth.split('T')[0]">
-        <input *ngIf="!inputPassengerModel.dateOfBirth" class="form-control form-control-sm" readonly type="text" name="dateOfBirth">
+        <input class="form-control form-control-sm" readonly type="text" name="dateOfBirth" [ngModel]="getDisplayDateFormat(inputPassengerModel.dateOfBirth)">
       </div>
     </div>
     <div class="form-group row">
@@ -75,8 +73,8 @@
       <div class="col my-auto">
         <div class="input-group input-group-sm" *ngIf="inputPassengerModel.portOfEmbarkation">
           <div class="input-group-prepend">
-            <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkation.twoCharCode | lowercase}}.png" height="20px">
+            <span class="input-group-text" *ngIf="inputPassengerModel.portOfEmbarkation.country">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkation.country.twoCharCode | lowercase}}.png" height="20px">
             </span>
           </div>
           <input class="form-control" [ngModel]="inputPassengerModel.portOfEmbarkation.name" readonly type="text" name="portOFEmbarkation">
@@ -89,11 +87,11 @@
       <div class="col my-auto">
         <div class="input-group input-group-sm" *ngIf="inputPassengerModel.portOfDisembarkation">
           <div class="input-group-prepend">
-            <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkation.twoCharCode | lowercase}}.png" height="20px">
+            <span class="input-group-text" *ngIf="inputPassengerModel.portOfDisembarkation.country">
+              <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkation.country.twoCharCode | lowercase}}.png" height="20px">
             </span>
           </div>
-          <input class="form-contro" [ngModel]="inputPassengerModel.portOfDisembarkation.name" readonly type="text" name="portOfDisembarkation">
+          <input class="form-control" [ngModel]="inputPassengerModel.portOfDisembarkation.name" readonly type="text" name="portOfDisembarkation">
         </div>
         <input *ngIf="!inputPassengerModel.portOfDisembarkation" class="form-control form-control-sm" readonly type="text" name="portOfDisembarkation">
       </div>
@@ -117,7 +115,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentIssueDate" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentIssueDate.split('T')[0]"
+        <input class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)"
           readonly type="text" name="identityDocumentIssueDate">
         <input *ngIf="!inputPassengerModel.identityDocument[0].identityDocumentIssueDate" class="form-control form-control-sm" readonly
           type="text" name="identityDocumentIssueDate">
@@ -126,7 +124,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
       <div class="col my-auto">
-        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" class="form-control form-control-sm" [ngModel]="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate.split('T')[0]"
+        <input *ngIf="inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)"
           readonly type="text" name="identityDocumentExpiryDate">
         <input *ngIf="!inputPassengerModel.identityDocument[0].identityDocumentExpiryDate" class="form-control form-control-sm" readonly
           type="text" name="identityDocumentExpiryDate">

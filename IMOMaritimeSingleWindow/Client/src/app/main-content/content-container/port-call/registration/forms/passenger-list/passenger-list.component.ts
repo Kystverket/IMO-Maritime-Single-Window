@@ -15,7 +15,6 @@ import { PassengerModalComponent } from './passenger-modal/passenger-modal.compo
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HttpErrorResponse } from '../../../../../../../../node_modules/@angular/common/http';
 
 @Component({
   selector: 'app-passenger-list',
@@ -130,9 +129,6 @@ export class PassengerListComponent implements OnInit {
 
 
   ngOnInit() {
-    // Load in passenger list in smart table
-    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
-
     // Initiate models
     this.portCallPassengerModel = new PersonOnBoardModel();
     this.identityDocumentModel = new IdentityDocumentModel();
@@ -156,9 +152,14 @@ export class PassengerListComponent implements OnInit {
 
     this.passengerList.forEach(passenger => {
       passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-      passenger.identityDocument[0].identityDocumentIssueDate = passenger.identityDocument[0].identityDocumentIssueDate != null ? new Date(passenger.identityDocument[0].identityDocumentIssueDate) : null;
-      passenger.identityDocument[0].identityDocumentExpiryDate = passenger.identityDocument[0].identityDocumentExpiryDate != null ? new Date(passenger.identityDocument[0].identityDocumentExpiryDate) : null;
+      passenger.identityDocument.forEach(identityDocument => {
+        identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+        identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+      });
     });
+
+    // Load in passenger list in smart table
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
   }
 
   addPassenger() {
@@ -166,6 +167,7 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.portCallId = this.portCallId;
     this.portCallPassengerModel.personOnBoardType = this.personOnBoardType;
     this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
+    this.portCallPassengerModel.sequenceNumber = this.passengerList[this.passengerList.length - 1].sequenceNumber + 1;
 
     this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
@@ -191,6 +193,7 @@ export class PassengerListComponent implements OnInit {
     this.detailsIdentificationDataSubscription.unsubscribe();
   } */
 
+
   generateSmartTable(passengerList): any[] {
     const newList = [];
     if (passengerList) {
@@ -202,6 +205,7 @@ export class PassengerListComponent implements OnInit {
   }
 
   makeSmartTableEntry(passenger) {
+    console.log(passenger);
     const modifiedPassenger = new SmartTableModel();
     if (passenger.personOnBoardId) {
       modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
@@ -210,11 +214,7 @@ export class PassengerListComponent implements OnInit {
     modifiedPassenger.givenName = passenger.givenName;
     modifiedPassenger.familyName = passenger.familyName;
     if (passenger.dateOfBirth) {
-      if (typeof passenger.dateOfBirth === 'string') {
-        modifiedPassenger.dateOfBirth = passenger.dateOfBirth.split('T')[0];
-      } else {
-        modifiedPassenger.dateOfBirth = passenger.dateOfBirth.getFullYear() + '-' + passenger.dateOfBirth.getMonth() + '-' + passenger.dateOfBirth.getDate();
-      }
+        modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(passenger.dateOfBirth);
     }
     if (passenger.portOfEmbarkation) {
       modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
@@ -425,17 +425,17 @@ export class PassengerListComponent implements OnInit {
 
     // Helper methods
 
-    getDateFormat(date) {
-      if (date.year && date.month && date.day) {
-        const dateString = date.year + '-' + ('0' + date.month).slice(-2) + '-' + ('0' + date.day).slice(-2) + 'T00:00:00';
+    getDateFormatFromNgb(date) {
+      return new Date(date.year, date.moth, date.day);
+    }
+
+    getDisplayDateFormat(date) {
+      if (date) {
+        const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
         return dateString;
       } else {
         return null;
       }
-    }
-
-    getDisplayDateFormat(date) {
-      return date.split('T')[0];
     }
 
     getNgbDateFormat(date) {
@@ -451,7 +451,7 @@ export class PassengerListComponent implements OnInit {
 
 
   addMockData() {
-    const mockportCallPassengerModel = new PersonOnBoardModel();
+/*     const mockportCallPassengerModel = new PersonOnBoardModel();
     mockportCallPassengerModel.familyName = 'Karlsen';
     mockportCallPassengerModel.givenName = 'Unni';
     mockportCallPassengerModel.dateOfBirth = this.getDateFormat({year: 1994, month: 7, day: 13});
@@ -461,7 +461,7 @@ export class PassengerListComponent implements OnInit {
       mockportCallPassengerModel.sequenceNumber = this.passengerList[this.passengerList.length - 1].sequenceNumber + 1;
     }
     this.portCallPassengerModel = mockportCallPassengerModel;
-    this.addPassenger();
+    this.addPassenger(); */
   }
 
     mockFillForm() {
