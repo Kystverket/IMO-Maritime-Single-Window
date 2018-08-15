@@ -11,7 +11,7 @@ import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { SharedModule } from 'app/shared/shared.module';
@@ -46,7 +46,7 @@ import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-
 import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
-import { SelectDateComponent } from './registration/forms/shared/select-date/select-date.component';
+import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
@@ -102,7 +102,7 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
     CargoTableComponent,
     ConsignmentFormComponent,
     CargoItemFormComponent,
-    SelectDateComponent,
+    DatePickerComponent,
     SavePassengerListComponent,
     SavePrevAndNextPocComponent,
     IdentityDocumentComponent,

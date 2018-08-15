@@ -2,11 +2,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
-  selector: 'app-select-date',
-  templateUrl: './select-date.component.html',
-  styleUrls: ['./select-date.component.css']
+  selector: 'app-date-picker',
+  templateUrl: './date-picker.component.html',
+  styleUrls: ['./date-picker.component.css']
 })
-export class SelectDateComponent implements OnInit {
+export class DatePickerComponent implements OnInit {
 
   @Input() inputDate: any;
 

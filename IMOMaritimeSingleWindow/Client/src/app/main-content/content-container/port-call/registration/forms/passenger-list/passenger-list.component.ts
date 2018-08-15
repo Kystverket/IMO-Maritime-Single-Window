@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, Input, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { SmartTableModel } from './smartTableModel';

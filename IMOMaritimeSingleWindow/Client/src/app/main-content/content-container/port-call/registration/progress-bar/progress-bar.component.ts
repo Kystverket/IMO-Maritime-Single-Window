@@ -7,7 +7,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 
 
 @Component({

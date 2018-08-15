@@ -16,7 +16,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';

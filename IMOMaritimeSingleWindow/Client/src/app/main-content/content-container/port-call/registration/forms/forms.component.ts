@@ -9,7 +9,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 
 
 @Component({

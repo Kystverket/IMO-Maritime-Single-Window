@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ContentService } from 'app/shared/services/content.service';
+import { ContentService } from '../../../../shared/services/content.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallPassengerListService } from '../../../../shared/services/port-call-passenger-list.service';
 
 @Component({
   selector: 'app-registration',
