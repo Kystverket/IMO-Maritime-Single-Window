@@ -1,7 +1,8 @@
 <app-ssn-card [header]="'Security/ISPS'">
+  <pre>{{ securityModel | json }}</pre>
   <div class="row">
-    <div class="col-md-6">
-      <app-security-details></app-security-details>
+    <div class="col">
+      <app-security-details [securityModel]="securityModel"></app-security-details>
     </div>
   </div>
 </app-ssn-card>

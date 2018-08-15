@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FalSecurityModel } from '../../../../../../shared/models/fal-security-model';
 
 @Component({
   selector: 'app-security',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./security.component.css']
 })
 export class SecurityComponent implements OnInit {
+  securityModel: FalSecurityModel = new FalSecurityModel();
 
   constructor() { }
 
