@@ -4,7 +4,6 @@ import { PortCallPassengerListService } from 'app/shared/services/port-call-pass
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { SmartTableModel } from './smartTableModel';
-import { PortModel } from './portModel';
 import { Observable } from 'rxjs/Observable';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
@@ -15,6 +14,7 @@ import { PassengerModalComponent } from './passenger-modal/passenger-modal.compo
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
+import { LocationModel } from '../../../../../../shared/models/location-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -230,11 +230,6 @@ export class PassengerListComponent implements OnInit {
       modifiedPassenger.gender = passenger.gender.description;
     }
 
-    /*Object.keys(this.booleanModel).forEach(key => {
-      if (this.booleanModel[key] === passenger.inTransit) {
-        modifiedPassenger.inTransit = key;
-      }
-    });*/
     return modifiedPassenger;
   }
 
@@ -247,23 +242,11 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
   }
 
-  makePortModel($event) {
-    const tempPortModel = new PortModel();
-    tempPortModel.locationId = $event.locationId;
-    tempPortModel.country = $event.country;
-    tempPortModel.countryId = $event.countryId;
-    tempPortModel.name = $event.name;
+  makeLocationModel($event) {
+    const tempLocationModel = Object.assign(new LocationModel(), $event);
+    console.log(tempLocationModel);
 
-    return tempPortModel;
-  }
-
-  setPortData(portdata) {
-    const portModel = new PortModel();
-    portModel.locationId = portdata.locationId;
-    portModel.countryId = portdata.countryId;
-    portModel.name = portdata.name;
-
-    return portModel;
+    return tempLocationModel;
   }
 
   // Setters
@@ -273,20 +256,19 @@ export class PassengerListComponent implements OnInit {
   }
 
   setPortOfEmbarkation($event) {
-    this.portCallPassengerModel.portOfEmbarkation = this.makePortModel($event);
+    console.log($event);
+    this.portCallPassengerModel.portOfEmbarkation = this.makeLocationModel($event);
     this.portCallPassengerModel.portOfEmbarkationId = $event.locationId;
   }
 
   setPortOfDisembarkation($event) {
-    this.portCallPassengerModel.portOfDisembarkation = this.makePortModel($event);
+    this.portCallPassengerModel.portOfDisembarkation = this.makeLocationModel($event);
     this.portCallPassengerModel.portOfDisembarkationId = $event.locationId;
   }
 
   setDateOfBirth($event) {
     if ($event) {
-      console.log($event);
       const date: Date = new Date($event.year, $event.month -  1, $event.day);
-      console.log(date);
       this.portCallPassengerModel.dateOfBirth = date;
     } else {
       this.portCallPassengerModel.dateOfBirth = null;
