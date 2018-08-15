@@ -390,15 +390,16 @@ export class PassengerListComponent implements OnInit {
     });
   }
 
-  setSequenceNumbers() {
-    let tempSequenceNumber = 1;
-    this.passengerList.forEach(passenger => {
-      passenger.sequenceNumber = tempSequenceNumber;
-      tempSequenceNumber++;
-    });
-  }
 
     // Helper methods
+
+    setSequenceNumbers() {
+      let tempSequenceNumber = 1;
+      this.passengerList.forEach(passenger => {
+        passenger.sequenceNumber = tempSequenceNumber;
+        tempSequenceNumber++;
+      });
+    }
 
     getDateFormatFromNgb(date) {
       return new Date(date.year, date.moth, date.day);
@@ -420,32 +421,6 @@ export class PassengerListComponent implements OnInit {
         month: newDate.getMonth() + 1,
         day: newDate.getDate()
       };
-    }
-
-
-
-
-  addMockData() {
-/*     const mockportCallPassengerModel = new PersonOnBoardModel();
-    mockportCallPassengerModel.familyName = 'Karlsen';
-    mockportCallPassengerModel.givenName = 'Unni';
-    mockportCallPassengerModel.dateOfBirth = this.getDateFormat({year: 1994, month: 7, day: 13});
-    if (this.passengerList.length < 1) {
-      mockportCallPassengerModel.sequenceNumber = 1;
-    } else {
-      mockportCallPassengerModel.sequenceNumber = this.passengerList[this.passengerList.length - 1].sequenceNumber + 1;
-    }
-    this.portCallPassengerModel = mockportCallPassengerModel;
-    this.addPassenger(); */
-  }
-
-    mockFillForm() {
-      this.portCallPassengerModel.familyName = 'Dalan';
-      this.portCallPassengerModel.givenName = 'Camilla';
-      this.portCallPassengerModel.dateOfBirth = new Date();
-      this.portCallPassengerModel.placeOfBirth = 'Oslo';
-      this.identityDocumentModel.identityDocumentNumber = 4232;
-      this.identityDocumentModel.visaOrResidencePermitNumber = 421;
     }
 
     openWarningModal(content: any) {
