@@ -16,6 +16,8 @@ namespace IMOMaritimeSingleWindow.Models
             PortCallLocation = new HashSet<PortCall>();
             PortCallNextLocation = new HashSet<PortCall>();
             PortCallPreviousLocation = new HashSet<PortCall>();
+            SecurityPreviousPortOfCall = new HashSet<SecurityPreviousPortOfCall>();
+            ShipToShipActivity = new HashSet<ShipToShipActivity>();
         }
 
         public int LocationId { get; set; }
@@ -41,5 +43,7 @@ namespace IMOMaritimeSingleWindow.Models
         public ICollection<PortCall> PortCallLocation { get; set; }
         public ICollection<PortCall> PortCallNextLocation { get; set; }
         public ICollection<PortCall> PortCallPreviousLocation { get; set; }
+        public ICollection<SecurityPreviousPortOfCall> SecurityPreviousPortOfCall { get; set; }
+        public ICollection<ShipToShipActivity> ShipToShipActivity { get; set; }
     }
 }
