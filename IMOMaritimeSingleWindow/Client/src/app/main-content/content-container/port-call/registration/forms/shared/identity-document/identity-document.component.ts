@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Observable } from 'rxjs/Observable';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
@@ -11,6 +11,8 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
   styleUrls: ['./identity-document.component.css']
 })
 export class IdentityDocumentComponent implements OnInit {
+
+  @Input() showVisaOrResidenceNumber = true;
 
   @Output() changeIdentityDocumentModel: EventEmitter<any> = new EventEmitter();
 
@@ -32,6 +34,8 @@ export class IdentityDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.showVisaOrResidenceNumber);
+
     this.identityDocumentModel = new IdentityDocumentModel();
 
     // Get identity document types list

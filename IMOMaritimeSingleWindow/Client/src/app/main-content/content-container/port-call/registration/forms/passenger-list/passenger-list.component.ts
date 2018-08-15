@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, Input, Injectable } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { SmartTableModel } from './smartTableModel';
@@ -14,7 +14,7 @@ import { PassengerModalComponent } from './passenger-modal/passenger-modal.compo
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
-import { LocationModel } from '../../../../../../shared/models/location-model';
+import { LocationModel } from 'app/shared/models/location-model';
 
 @Component({
   selector: 'app-passenger-list',
@@ -122,7 +122,7 @@ export class PassengerListComponent implements OnInit {
   detailsIdentificationDataSubscription: Subscription;
 
   constructor(
-    private passengerListService: PortCallPassengerListService,
+    private passengerListService: PortCallFalPassengerListService,
     private identityDocumentService: IdentityDocumentService,
     private modalService: NgbModal
   ) {}
@@ -150,18 +150,20 @@ export class PassengerListComponent implements OnInit {
       this.personOnBoardType = personOnBoardType;
     });
 
-    this.passengerList.forEach(passenger => {
-      passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-      passenger.identityDocument.forEach(identityDocument => {
-        identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-        identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+    if (this.passengerList) {
+      this.passengerList.forEach(passenger => {
+        passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
+        passenger.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
       });
-    });
+    }
 
     // Load in passenger list in smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.passengerListService.setPassengersList(this.passengerList);
-    this.passengerListService.setDataIsPristine(true);
+    this.passengerListService.setPassengerDataIsPristine(true);
   }
 
   addPassenger() {
@@ -188,7 +190,7 @@ export class PassengerListComponent implements OnInit {
     this.identityDocumentComponent.resetForm();
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
-    this.passengerListService.setDataIsPristine(false);
+    this.passengerListService.setPassengerDataIsPristine(false);
   }
 
 /*   ngOnDestroy()  {
@@ -351,7 +353,7 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
-    this.passengerListService.setDataIsPristine(false);
+    this.passengerListService.setPassengerDataIsPristine(false);
   }
 
   deletePassenger(row) {
@@ -368,21 +370,21 @@ export class PassengerListComponent implements OnInit {
     this.passengerListService.setPassengersList(this.passengerList);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
-    this.passengerListService.setDataIsPristine(false);
+    this.passengerListService.setPassengerDataIsPristine(false);
   }
 
   deleteAllPassengers() {
     this.passengerList = [];
     this.listIsPristine = false;
-    this.passengerListService.setDataIsPristine(false);
+    this.passengerListService.setPassengerDataIsPristine(false);
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
   }
 
   savePassengers() {
-    this.passengerListService.updatePassengerList(this.passengerList, this.portCallId, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
+    this.passengerListService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
       if (res === 200) {
         this.listIsPristine = true;
-        this.passengerListService.setDataIsPristine(true);
+        this.passengerListService.setPassengerDataIsPristine(true);
       }
     });
   }

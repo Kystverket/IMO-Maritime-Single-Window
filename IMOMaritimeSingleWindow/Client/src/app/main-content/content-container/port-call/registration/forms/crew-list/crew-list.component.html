@@ -1,0 +1,129 @@
+<app-ssn-card header="Add New Crew Member" icon="crew.png">
+
+  <form name="crewForm" #form="ngForm">
+
+    <div class="col-lg-12">
+      <app-ssn-card header="Personalia" icon="user.png">
+          <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
+                    <input #familyName="ngModel" type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name"
+                      class="form-control form-control-sm" alphaNumericValidator required name="familyName">
+                  </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="familyName.valid && familyName.touched">
+                  <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
+                    <small>Only alphanumeric characters allowed.</small>
+                  </li>
+                  <li *ngIf="familyName.hasError('required')">
+                    <small>This field is required.</small>
+                  </li>
+                </div>
+    
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
+                    <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                      name="givenName" alphaNumericValidator required>
+                  </div>
+                </div>
+    
+                <div class="alert alert-danger" *ngIf="givenName.valid && givenName.touched">
+                  <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
+                    <small>Only alphanumeric characters allowed.</small>
+                  </li>
+                  <li *ngIf="givenName.hasError('required')">
+                    <small>This field is required.</small>
+                  </li>
+                </div>
+    
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Date of Birth</label>
+                    <app-date-picker (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
+                  </div>
+                </div>
+    
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
+                    <app-search-country *ngIf="!portCallCrewModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+                    <div *ngIf="portCallCrewModel.nationality" class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <img src="assets/images/flags/128x128/{{ portCallCrewModel.nationality.twoCharCode | lowercase}}.png" height="20px">
+                        </span>
+                      </div>
+                      <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallCrewModel.nationality.name"
+                        name="nationality" />
+                      <div class="input-group-append">
+                        <button class="btn btn-sm btn-ssn" ngbTooltip="Remove nationality" (click)="resetNationality()">
+                          <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.col-lg-6 -->
+    
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
+                    <app-search-country *ngIf="!portCallCrewModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
+                    <div *ngIf="portCallCrewModel.countryOfBirth" class="input-group input-group-sm">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <img src="assets/images/flags/128x128/{{ portCallCrewModel.countryOfBirth.twoCharCode | lowercase}}.png" height="20px">
+                        </span>
+                      </div>
+                      <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallCrewModel.countryOfBirth.name"
+                        name="countryOfBirth" />
+                      <div>
+                        <div class="input-group-append">
+                          <button class="btn btn-sm btn-ssn" ngbTooltip="Remove country of birth" (click)="resetCountryOfBirth()">
+                            <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
+                    <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallCrewModel.placeOfBirth" placeholder="Place of Birth"
+                      class="form-control form-control-sm" name="placeOfBirth" alphaNumericValidator>
+                  </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
+                  <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
+                    <small>Only alphanumeric characters allowed.</small>
+                  </li>
+                </div>
+    
+                <div class="form-group row">
+                  <div class="col my-auto">
+                    <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
+                    <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallCrewModel.gender" name="gender"
+                      [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <!-- /.col-lg-6 -->
+            </div>
+      </app-ssn-card>
+
+      <app-identity-document (changeIdentityDocumentModel)="setIdentityDocumentModel($event)" [showVisaOrResidenceNumber]="false"></app-identity-document>
+
+
+    </div>
+
+  </form>
+
+</app-ssn-card>

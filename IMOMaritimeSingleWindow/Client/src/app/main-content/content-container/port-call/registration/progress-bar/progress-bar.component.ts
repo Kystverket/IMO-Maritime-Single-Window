@@ -7,7 +7,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 
 
 @Component({
@@ -68,7 +68,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
-    private passengerService: PortCallPassengerListService
+    private passengerService: PortCallFalPassengerListService
   ) { }
 
   ngOnInit() {

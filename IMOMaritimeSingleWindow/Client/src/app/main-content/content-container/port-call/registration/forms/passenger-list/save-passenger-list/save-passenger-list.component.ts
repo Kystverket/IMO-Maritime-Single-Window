@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
@@ -23,7 +23,7 @@ export class SavePassengerListComponent implements OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private passengerService: PortCallPassengerListService,
+    private passengerService: PortCallFalPassengerListService,
     private portCallService: PortCallService
   ) { }
 

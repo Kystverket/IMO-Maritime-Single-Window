@@ -16,7 +16,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
@@ -95,7 +95,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal,
-    private passengerService: PortCallPassengerListService
+    private passengerService: PortCallFalPassengerListService
   ) { }
 
   ngOnInit() {
@@ -247,7 +247,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.passengerListIsPristineSubscription = this.passengerService.dataIsPristine$.subscribe(
+    this.passengerListIsPristineSubscription = this.passengerService.passengerDataIsPristine$.subscribe(
       pristineData => {
         this.passengerDataIsPristine = pristineData;
       }
@@ -341,9 +341,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   savePassengerList() {
-    this.passengerService.updatePassengerList(this.passengerList, this.portCallId, 2).subscribe(
+    this.passengerService.updatePersonOnBoardList(this.portCallId, this.passengerList, 2).subscribe(
       res => {
-        this.passengerService.setDataIsPristine(true);
+        this.passengerService.setPassengerDataIsPristine(true);
         console.log('Passengers successfully saved.\n', res);
       }, error => {
         console.log(error);

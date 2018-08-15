@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -28,7 +28,7 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
   constructor(
     private modalService: NgbModal,
     private shipStoresService: FalShipStoresService,
-    private passengerService: PortCallPassengerListService,
+    private passengerService: PortCallFalPassengerListService,
     private contentService: ContentService
   ) { }
 

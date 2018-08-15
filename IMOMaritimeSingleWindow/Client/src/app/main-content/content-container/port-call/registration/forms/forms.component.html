@@ -18,6 +18,7 @@
     <app-cargo *ngSwitchCase="formNames.CARGO" [portCallId]="portCallId" [cargoData]="cargoData"></app-cargo>
     <app-prev-and-next-poc *ngSwitchCase="formNames.PREV_AND_NEXT_POC" [portCallId]="portCallId"></app-prev-and-next-poc>
     <app-passenger-list *ngSwitchCase="formNames.PAX" [portCallId]="portCallId" [passengerList]="passengerData"></app-passenger-list>
+    <app-crew-list *ngSwitchCase="formNames.CREW" [portCallId]="portCallId"></app-crew-list>
     <app-confirmation *ngSwitchCase="'Confirm and Activate'"></app-confirmation>
     <div *ngSwitchDefault class="alert alert-danger" role="alert">
         This page is not implemented yet.

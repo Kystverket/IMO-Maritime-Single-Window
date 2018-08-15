@@ -11,7 +11,7 @@ import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { SharedModule } from 'app/shared/shared.module';
@@ -53,6 +53,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
+import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 @NgModule({
   imports: [
@@ -106,7 +108,8 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
     SavePassengerListComponent,
     SavePrevAndNextPocComponent,
     IdentityDocumentComponent,
-    PassengerModalComponent
+    PassengerModalComponent,
+    CrewListComponent
   ],
   exports: [
     ClearanceComponent,
@@ -115,6 +118,17 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, IdentityDocumentService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService, ValidateDateTimeService]
+  providers: [
+    PortCallService,
+    FalShipStoresService,
+    PortCallFalPassengerListService,
+    IdentityDocumentService,
+    CountryService,
+    PrevAndNextPocService,
+    PortCallDetailsService,
+    FalCargoService,
+    ValidateDateTimeService,
+    PortCallFalPersonOnBoardService
+  ]
 })
 export class PortCallModule { }

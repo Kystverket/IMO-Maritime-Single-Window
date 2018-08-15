@@ -116,8 +116,29 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        [HttpGet("{portCallId}/personOnBoard")]
+        public IActionResult GetAllPersonOnBoardByPortCall(int portCallId)
+        {
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
+            .Include(pob => pob.PortCall)
+            .Include(pob => pob.Nationality)
+            .Include(pob => pob.CountryOfBirth)
+            .Include(pob => pob.PersonOnBoardType)
+            .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+            .ToList();
+            if (personOnBoardList == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoardList);
+        }
+
         [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}")]
-        public IActionResult GetAllPersonOnBoardByPortCall(int portCallId, int personOnBoardTypeId)
+        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, int personOnBoardTypeId)
         {
             var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId)
             .Include(pob => pob.PortCall)

@@ -12,7 +12,7 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { ViewCell } from 'ng2-smart-table';
@@ -46,7 +46,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private passengerListService: PortCallPassengerListService,
+    private passengerListService: PortCallFalPassengerListService,
     private portCallDetailsService: PortCallDetailsService,
     private prevAndNextService: PrevAndNextPocService,
     private cargoService: FalCargoService,

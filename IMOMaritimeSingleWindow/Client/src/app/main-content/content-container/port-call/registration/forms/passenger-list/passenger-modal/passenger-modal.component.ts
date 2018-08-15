@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
 import { GenderModel } from 'app/shared/models/gender-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 
 @Component({
@@ -43,7 +43,7 @@ export class PassengerModalComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private identityDocumentService: IdentityDocumentService,
-    private passengerService: PortCallPassengerListService,
+    private passengerService: PortCallFalPassengerListService,
     private validateDateTimeService: ValidateDateTimeService
   ) { }
 

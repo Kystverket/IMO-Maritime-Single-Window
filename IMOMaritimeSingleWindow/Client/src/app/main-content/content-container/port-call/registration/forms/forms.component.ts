@@ -9,7 +9,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 
 
 @Component({
@@ -25,6 +25,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
   passengerData: PersonOnBoardModel[];
+  crewData: PersonOnBoardModel[];
 
   formNames: any;
 
@@ -41,7 +42,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private passengerListService: PortCallPassengerListService
+    private passengerListService: PortCallFalPassengerListService
   ) { }
 
   ngOnInit() {

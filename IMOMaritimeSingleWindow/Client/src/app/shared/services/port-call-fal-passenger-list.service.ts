@@ -5,10 +5,11 @@ import { Http } from '@angular/http';
 import { PersonOnBoardModel } from '../models/person-on-board-model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { PortCallFalPersonOnBoardService } from './port-call-fal-person-on-board.service';
 
 
 @Injectable()
-export class PortCallPassengerListService {
+export class PortCallFalPassengerListService {
 
   private personOnBoardListUrl: string;
   private genderUrl: string;
@@ -21,7 +22,7 @@ export class PortCallPassengerListService {
 
   response: Observable<any>;
 
-  constructor(private http: Http, private httpClient: HttpClient) {
+  constructor(private http: Http, private httpClient: HttpClient, private personOnBoardService: PortCallFalPersonOnBoardService) {
     this.personOnBoardListUrl = 'api/personOnBoard/list';
     this.genderUrl = 'api/gender';
     this.personOnBoardString = 'persononboard';
@@ -40,8 +41,8 @@ export class PortCallPassengerListService {
   });
   passengerListMeta$ = this.passengerListMeta.asObservable();
 
-  private dataIsPristine = new BehaviorSubject<Boolean>(true);
-  dataIsPristine$ = this.dataIsPristine.asObservable();
+  private passengerDataIsPristine = new BehaviorSubject<Boolean>(true);
+  passengerDataIsPristine$ = this.passengerDataIsPristine.asObservable();
 
   private sequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.sequenceNumberSource.asObservable();
@@ -59,12 +60,13 @@ export class PortCallPassengerListService {
     console.log('Adding passenger...');
     const uri = this.personOnBoardListUrl;
     return this.http.post(uri, passengerList).map(res => {
-      this.setDataIsPristine(true);
+      this.setPassengerDataIsPristine(true);
       return res.json();
     });
+    // this.personOnBoardService.addPassengerList(passengerList);
   }
 
-  updatePassengerList(passengerList: any[], portCallId: number, personOnBoardTypeId: number) {
+  updatePersonOnBoardList(portCallId: number, passengerList: any[], personOnBoardTypeId: number) {
     // uri = api/portCall/{portCallId}/persoOnBoard/personOnBoardType/{personOnBoardTypeId}
     const cleanedPassengerList = this.cleanPassengerList(passengerList);
     console.log('Updating passengers...');
@@ -108,15 +110,15 @@ export class PortCallPassengerListService {
   // Setters
   setPassengersList(data) {
     this.passengerListSource.next(data);
-    this.setDataIsPristine(false);
+    this.setPassengerDataIsPristine(false);
   }
 
   setPassengerListMeta(metaData: FormMetaData) {
     this.passengerListMeta.next(metaData);
   }
 
-  setDataIsPristine(isPristine: Boolean) {
-    this.dataIsPristine.next(isPristine);
+  setPassengerDataIsPristine(isPristine: Boolean) {
+    this.passengerDataIsPristine.next(isPristine);
   }
 
   setCheckedInProgressBar(checked: boolean) {
