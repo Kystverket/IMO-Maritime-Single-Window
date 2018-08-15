@@ -244,8 +244,6 @@ export class PassengerListComponent implements OnInit {
 
   makeLocationModel($event) {
     const tempLocationModel = Object.assign(new LocationModel(), $event);
-    console.log(tempLocationModel);
-
     return tempLocationModel;
   }
 
@@ -256,7 +254,6 @@ export class PassengerListComponent implements OnInit {
   }
 
   setPortOfEmbarkation($event) {
-    console.log($event);
     this.portCallPassengerModel.portOfEmbarkation = this.makeLocationModel($event);
     this.portCallPassengerModel.portOfEmbarkationId = $event.locationId;
   }
@@ -402,11 +399,12 @@ export class PassengerListComponent implements OnInit {
     }
 
     getDateFormatFromNgb(date) {
-      return new Date(date.year, date.moth, date.day);
+      return new Date(date.year, date.month, date.day);
     }
 
     getDisplayDateFormat(date) {
       if (date) {
+        console.log(date);
         const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
         return dateString;
       } else {

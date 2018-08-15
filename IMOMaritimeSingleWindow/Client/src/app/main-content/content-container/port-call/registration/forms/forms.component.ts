@@ -66,7 +66,6 @@ export class FormsComponent implements OnInit, OnDestroy {
           this.personOnBoardListSubscription = this.getPersonOnBoardListForPortCall(this.portCallId, 2).subscribe(
             personOnBoardListResult => {
               if (personOnBoardListResult) {
-                console.log(personOnBoardListResult);
                 this.passengerData = personOnBoardListResult;
                 this.passengerListService.setPassengersList(this.passengerData);
               }

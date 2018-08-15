@@ -120,7 +120,6 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    console.log($event);
     if ($event) {
       this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate($event);
     } else {
