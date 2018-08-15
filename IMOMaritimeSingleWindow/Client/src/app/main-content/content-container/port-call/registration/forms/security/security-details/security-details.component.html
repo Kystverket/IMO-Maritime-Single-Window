@@ -1,0 +1,13 @@
+<app-ssn-card [header]="'Security Details'">
+  <form #form="ngForm">
+
+    <div class="row">
+      <div class="col-md-6">
+        <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Security Level at which the ship is currently operating</label>
+        <ng-select id="security_level_select" name="security_level_select" [items]="securityLevelList" bindLabel="name" placeholder="Select security level"
+          [(ngModel)]="securityModel.securityLevel"></ng-select>
+      </div>
+    </div>
+
+  </form>
+</app-ssn-card>

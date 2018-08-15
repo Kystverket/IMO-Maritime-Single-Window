@@ -14,7 +14,6 @@ import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.ser
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
 import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
 
@@ -278,6 +277,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.detailsModel.reportingCrew = this.reportingModel.reportingCrew;
     this.detailsModel.reportingDpg = this.reportingModel.reportingDpg;
     this.detailsModel.reportingPax = this.reportingModel.reportingPax;
+    this.detailsModel.reportingSecurity = this.reportingModel.reportingSecurity;
     this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
     this.portCallService.saveDetails(
       this.detailsModel,

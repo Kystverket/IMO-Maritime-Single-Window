@@ -1,6 +1,7 @@
 import { OrganizationModel } from './organization-model';
 import { ShipFlagCodeModel } from './ship-flag-code-model';
 import { CertificateOfRegistryModel } from './certificate-of-registry-model';
+import { InternationalShipSecurityCertificateModel } from './international-ship-security-certificate-model';
 
 export class ShipModel {
     shipId: number;
@@ -44,4 +45,5 @@ export class ShipModel {
     shipFlagCode: ShipFlagCodeModel;
     shipType: any;
     shipContact: any[];
+    internationalShipSecurityCertificate: InternationalShipSecurityCertificateModel;
 }

@@ -48,6 +48,8 @@ import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-s
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { SecurityComponent } from './registration/forms/security/security.component';
+import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
 
 @NgModule({
   imports: [
@@ -98,6 +100,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     CargoTableComponent,
     ConsignmentFormComponent,
     CargoItemFormComponent,
+    SecurityComponent,
+    SecurityDetailsComponent,
   ],
   exports: [
     ClearanceComponent,

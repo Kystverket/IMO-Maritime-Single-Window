@@ -1165,6 +1165,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
 
+                entity.Property(e => e.ReportingSecurity).HasColumnName("reporting_security");
+
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)
                     .HasForeignKey(d => d.PortCallId)

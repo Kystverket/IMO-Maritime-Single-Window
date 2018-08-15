@@ -110,6 +110,13 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
               checked: reportingData.reportingPax || false,
               hasError: false,
               hasUnsavedData: false
+            },
+            {
+              name: this.formNames.SECURITY,
+              icon: 'security.png',
+              checked: reportingData.reportingSecurity || false,
+              hasError: false,
+              hasUnsavedData: false
             }
           ];
           this.menuEntries = this.baseMenuEntries
