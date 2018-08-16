@@ -54,15 +54,13 @@ export class PortCallFalPersonOnBoardService {
    // Http
   getPersonOnBoardById(personOnBoardId: number) {
     const uri = [this.personOnBoardUrl, personOnBoardId].join('/');
-    return this.httpClient.get<PersonOnBoardModel>(uri, {observe: 'body'}).subscribe(res => console.log(res)
-    );
+    return this.httpClient.get<PersonOnBoardModel>(uri, {observe: 'body'});
   }
 
   // Get all person on board entities of a port call
   getPersonOnBoardListByPortCallId(portCallId: number) {
     // uri = api/portCall/{portCallId}/personOnBoard
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString].join('/');
-    console.log(uri);
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
@@ -108,7 +106,7 @@ export class PortCallFalPersonOnBoardService {
 
   setCrewList(data) {
     this.crewListSource.next(data);
-    this.setPassengerDataIsPristine(false);
+    this.setCrewDataIsPristine(false);
   }
 
   setPassengerDataIsPristine(isPristine: boolean) {

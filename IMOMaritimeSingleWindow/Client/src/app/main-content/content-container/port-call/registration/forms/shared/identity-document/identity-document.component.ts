@@ -34,8 +34,6 @@ export class IdentityDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.showVisaOrResidenceNumber);
-
     this.identityDocumentModel = new IdentityDocumentModel();
 
     // Get identity document types list

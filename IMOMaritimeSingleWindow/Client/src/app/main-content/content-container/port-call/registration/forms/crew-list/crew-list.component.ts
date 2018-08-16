@@ -31,13 +31,12 @@ export class CrewListComponent implements OnInit {
 
   genderList: GenderModel[];
   selectedGender: GenderModel;
-  identityDocTypeList: Observable<any>;
+  identityDocTypeList: IdentityDocumentModel[];
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
-  // selectedIdentityDocType: IdentityDocumentModel;
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
-  listIsPristine: Boolean = true;
+  listIsPristine = true;
 
   @ViewChild(CrewMemberModalComponent) crewMemberModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;

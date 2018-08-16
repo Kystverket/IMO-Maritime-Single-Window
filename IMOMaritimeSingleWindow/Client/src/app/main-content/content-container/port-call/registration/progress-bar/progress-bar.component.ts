@@ -197,7 +197,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           p => p.name === this.formNames.PAX
         );
         if (pax) {
-          console.log(passengerDataIsPristine);
           pax.hasUnsavedData = !passengerDataIsPristine;
         }
       }

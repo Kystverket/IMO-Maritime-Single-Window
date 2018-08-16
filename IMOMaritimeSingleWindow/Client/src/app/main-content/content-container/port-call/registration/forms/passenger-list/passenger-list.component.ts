@@ -33,10 +33,9 @@ export class PassengerListComponent implements OnInit {
   identityDocTypeList: IdentityDocumentModel[];
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
-  // selectedIdentityDocType: IdentityDocumentModel;
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
-  listIsPristine: Boolean = true;
+  listIsPristine = true;
 
   @ViewChild(PassengerModalComponent) passengerModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
@@ -138,7 +137,6 @@ export class PassengerListComponent implements OnInit {
         });
       });
     }
-
     // Load in passenger list in smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
 
@@ -374,10 +372,9 @@ export class PassengerListComponent implements OnInit {
 
   savePassengers() {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
-      if (res === 200) {
         this.listIsPristine = true;
         this.personOnBoardService.setPassengerDataIsPristine(true);
-      }
+        console.log('Saved passengers.');
     });
   }
 

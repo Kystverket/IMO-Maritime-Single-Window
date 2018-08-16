@@ -70,6 +70,7 @@ export class FormsComponent implements OnInit, OnDestroy {
               if (passengerList) {
                 this.passengerData = passengerList;
                 this.personOnBoardService.setPassengersList(passengerList);
+                this.personOnBoardService.setPassengerDataIsPristine(true);
               }
             }
           );
@@ -79,6 +80,7 @@ export class FormsComponent implements OnInit, OnDestroy {
               if (crewList) {
                 this.crewData = crewList;
                 this.personOnBoardService.setCrewList(crewList);
+                this.personOnBoardService.setCrewDataIsPristine(true);
               }
             }
           );
