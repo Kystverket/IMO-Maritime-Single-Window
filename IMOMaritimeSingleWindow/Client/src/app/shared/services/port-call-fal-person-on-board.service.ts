@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { IdentityDocumentModel } from '../models/identity-document-model';
+import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()
 export class PortCallFalPersonOnBoardService {
@@ -77,15 +78,6 @@ export class PortCallFalPersonOnBoardService {
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
-  updatePersonOnBoardList(portCallId: number, personOnBoardList: any[], personOnBoardTypeId: number) {
-    console.log('Saving person on board list...');
-    let cleanedPersonOnBoardList;
-    cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
-    return this.httpClient.put<PersonOnBoardModel[]>(uri, cleanedPersonOnBoardList, {observe: 'body'});
-  }
-
   getGenderList() {
     const uri = this.genderUrl;
     return this.httpClient.get<GenderModel[]>(uri, {observe: 'body'});
@@ -94,6 +86,18 @@ export class PortCallFalPersonOnBoardService {
   getPersonOnBoardType(personOnBoardTypeId: number) {
     const uri = [this.personOnBoardTypeUrl, personOnBoardTypeId].join('/');
     return this.httpClient.get<PersonOnBoardTypeModel>(uri, {observe: 'body'});
+  }
+
+  updatePersonOnBoardList(portCallId: number, personOnBoardList: any[], personOnBoardTypeId: number) {
+    console.log('Saving person on board list...');
+    let cleanedPersonOnBoardList;
+    cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
+    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
+    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
+    return this.httpClient.put<PersonOnBoardModel[]>(uri, cleanedPersonOnBoardList).pipe(
+      retry(3), // retry a failed request up to 3 times
+      catchError(this.handleError)
+    );
   }
 
   // Setters
@@ -161,6 +165,22 @@ export class PortCallFalPersonOnBoardService {
     }
 
     return cleanedPersonOnBoardList;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // return an observable with a user-facing error message
+    return Observable.throw(
+      'Something bad happened; please try again later.');
   }
 
 }
