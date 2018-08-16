@@ -39,6 +39,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
+import { IsscComponent } from './components/issc/issc.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { CountrySelectComponent } from './components/country-select/country-select.component';
 
 @NgModule({
   imports: [
@@ -80,6 +83,9 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     FeedbackComponent,
     CargoInfoTableComponent,
     UserInfoTableComponent,
+    IsscComponent,
+    DatePickerComponent,
+    CountrySelectComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -105,7 +111,8 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    IsscComponent
   ],
   providers: [
     LocationService,

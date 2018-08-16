@@ -659,6 +659,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.ToTable("international_ship_security_certificate");
 
+                entity.HasIndex(e => e.GovernmentIssuerId)
+                    .HasName("fki_FK_issc_government_issuer_id");
+
                 entity.Property(e => e.IsscId)
                     .HasColumnName("issc_id")
                     .HasDefaultValueSql("nextval('issc_id_seq'::regclass)");
@@ -669,13 +672,25 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("expiry_date")
                     .HasColumnType("date");
 
-                entity.Property(e => e.IssuerId).HasColumnName("issuer_id");
+                entity.Property(e => e.GovernmentIssuerId).HasColumnName("government_issuer_id");
 
-                entity.HasOne(d => d.Issuer)
+                entity.Property(e => e.IssuedByGovernment)
+                    .HasColumnName("issued_by_government")
+                    .HasDefaultValueSql("true");
+
+                entity.Property(e => e.RsoIssuerId).HasColumnName("rso_issuer_id");
+
+                entity.HasOne(d => d.GovernmentIssuer)
                     .WithMany(p => p.InternationalShipSecurityCertificate)
-                    .HasForeignKey(d => d.IssuerId)
+                    .HasForeignKey(d => d.GovernmentIssuerId)
                     .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK_issc_issuer_id");
+                    .HasConstraintName("FK_issc_government_issuer_id");
+
+                entity.HasOne(d => d.RsoIssuer)
+                    .WithMany(p => p.InternationalShipSecurityCertificate)
+                    .HasForeignKey(d => d.RsoIssuerId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_issc_rso_issuer_id");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -838,6 +853,10 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.InvoiceReceiverNo).HasColumnName("invoice_receiver_no");
 
                 entity.Property(e => e.IsActive).HasColumnName("is_active");
+
+                entity.Property(e => e.IsRecognizedSecurityOrganization)
+                    .HasColumnName("is_recognized_security_organization")
+                    .HasDefaultValueSql("false");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -1161,11 +1180,11 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
+                entity.Property(e => e.ReportingSecurity).HasColumnName("reporting_security");
+
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
                 entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
-
-                entity.Property(e => e.ReportingSecurity).HasColumnName("reporting_security");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.PortCallDetails)

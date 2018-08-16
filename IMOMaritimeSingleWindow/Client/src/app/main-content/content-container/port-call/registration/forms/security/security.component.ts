@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FalSecurityModel } from '../../../../../../shared/models/fal-security-model';
+import { InternationalShipSecurityCertificateModel } from '../../../../../../shared/models/international-ship-security-certificate-model';
 
 @Component({
   selector: 'app-security',
@@ -8,6 +9,7 @@ import { FalSecurityModel } from '../../../../../../shared/models/fal-security-m
 })
 export class SecurityComponent implements OnInit {
   securityModel: FalSecurityModel = new FalSecurityModel();
+  isscModel: InternationalShipSecurityCertificateModel = new InternationalShipSecurityCertificateModel();
 
   constructor() { }
 

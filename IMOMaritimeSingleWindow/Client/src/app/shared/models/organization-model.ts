@@ -8,4 +8,8 @@ export class OrganizationModel {
   isActive: boolean;
   organizationTypeId: number;
   imoCompanyNumber: string;
+  clearanceIsNullString: string;
+  clearanceIsTrueString: string;
+  clearanceIsFalseString: string;
+  isRecognizedSecurityOrganization: boolean;
 }

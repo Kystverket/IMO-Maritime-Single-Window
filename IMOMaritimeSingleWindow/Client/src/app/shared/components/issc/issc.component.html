@@ -1,0 +1,49 @@
+<app-ssn-card [header]="'ISSC'">
+  <pre>{{ isscModel | json }}</pre>
+  <form #form="ngForm">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="no-wrap mb-0 mt-2" for="certificate_number">Certificate Number</label>
+        <input [(ngModel)]="isscModel.certificateNumber" class="form-control form-control-sm" id="certificate_number" name="certificate_number"
+          placeholder="Enter certificate number...">
+      </div>
+      <div class="col-md-6">
+        <app-date-picker header="Expiry Date" (dateResult)="onExpiryDateSelection($event)"></app-date-picker>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label class="no-wrap mb-0" for="issuer_type_select">Issuer Type</label>
+        <ng-select [(ngModel)]="isscModel.issuedByGovernment" name="issuer_type_select" [items]="issuerTypeList" bindLabel="name"
+          bindValue="isGovernmentType" placeholder="Select issuer type..." [searchable]="false"></ng-select>
+      </div>
+      <div class="col-md-6">
+        <label class="no-wrap mb-0" for="issc_issuer">Issued By</label>
+        <div *ngIf="isscModel.issuedByGovernment == null">
+          <select></select>
+        </div>
+        <div *ngIf="isscModel.issuedByGovernment">
+          <app-country-select (countryResult)="onCountrySelection($event)"></app-country-select>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</app-ssn-card>
+
+<!-- <div class="col-md-6">
+        <label class="col-form-label-sm no-wrap mb-0" for="other_related_info">(Optional) Additional information</label>
+        <textarea [(ngModel)]="securityModel.otherRelatedInfo" class="form-control form-control-sm" id="other_related_info" name="other_related_info"
+          rows="6" placeholder="If there are any other security-related matters you wish to report, you can provide them here."></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label class="col-form-label-sm no-wrap mb-0" for="ship_has_valid_ssp_checkbox">
+          <input [(ngModel)]="securityModel.shipHasValidSspOnBoard" class="col-form-label-sm no-wrap mb-0" type="checkbox" id="ship_has_valid_ssp_checkbox"
+            name="ship_has_valid_ssp_checkbox"> The ship has a valid Ship Security Plan (SSP) on board
+        </label>
+      </div> -->

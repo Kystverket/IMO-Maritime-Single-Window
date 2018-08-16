@@ -26,6 +26,7 @@ namespace IMOMaritimeSingleWindow.Models
         public string ClearanceIsNullString { get; set; }
         public string ClearanceIsTrueString { get; set; }
         public string ClearanceIsFalseString { get; set; }
+        public bool? IsRecognizedSecurityOrganization { get; set; }
 
         public OrganizationType OrganizationType { get; set; }
         public ICollection<CompanySecurityOfficer> CompanySecurityOfficer { get; set; }

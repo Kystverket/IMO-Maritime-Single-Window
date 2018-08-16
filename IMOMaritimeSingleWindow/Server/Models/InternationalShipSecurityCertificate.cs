@@ -12,10 +12,13 @@ namespace IMOMaritimeSingleWindow.Models
 
         public DateTime? ExpiryDate { get; set; }
         public long IsscId { get; set; }
-        public int? IssuerId { get; set; }
+        public int? RsoIssuerId { get; set; }
         public string CertificateNumber { get; set; }
+        public int? GovernmentIssuerId { get; set; }
+        public bool? IssuedByGovernment { get; set; }
 
-        public Organization Issuer { get; set; }
+        public Country GovernmentIssuer { get; set; }
+        public Organization RsoIssuer { get; set; }
         public ICollection<Ship> Ship { get; set; }
     }
 }
