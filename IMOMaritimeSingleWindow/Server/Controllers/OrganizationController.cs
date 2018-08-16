@@ -2,6 +2,7 @@ using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,17 @@ namespace IMOMaritimeSingleWindow.Controllers
                 Console.WriteLine(e);
                 return BadRequest(e);
             }
+        }
+
+        [HttpGet("~/api/organizationType/recognizedSecurityOrganization/organization")]
+        public IActionResult GetRecognizedSecurityOrganizations()
+        {
+            List<Organization> rsoList = _context.Organization.Where(org => org.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_RECOGNIZED_SECURITY_ORGANIZATION).ToList();
+            if (rsoList == null || rsoList.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(rsoList);
         }
 
         public List<Organization> SearchOrganization(string searchTerm, int amount = 10)

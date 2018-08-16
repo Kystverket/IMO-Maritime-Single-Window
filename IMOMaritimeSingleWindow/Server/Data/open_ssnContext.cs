@@ -854,10 +854,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.IsActive).HasColumnName("is_active");
 
-                entity.Property(e => e.IsRecognizedSecurityOrganization)
-                    .HasColumnName("is_recognized_security_organization")
-                    .HasDefaultValueSql("false");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");

@@ -42,6 +42,7 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
 import { IsscComponent } from './components/issc/issc.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { CountrySelectComponent } from './components/country-select/country-select.component';
+import { RsoSelectComponent } from './components/issc/rso-select/rso-select.component';
 
 @NgModule({
   imports: [
@@ -86,6 +87,7 @@ import { CountrySelectComponent } from './components/country-select/country-sele
     IsscComponent,
     DatePickerComponent,
     CountrySelectComponent,
+    RsoSelectComponent,
   ],
   exports: [
     ConfirmationModalComponent,

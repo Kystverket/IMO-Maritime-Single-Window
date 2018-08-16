@@ -60,4 +60,9 @@ export class OrganizationService {
     const uri: string = this.organizationUserUrl;
     return this.http.get(uri);
   }
+
+  getRecognizedSecurityOrganizations(): Observable<OrganizationModel[]> {
+    const uri = [this.organizationTypeUrl, 'recognizedSecurityOrganization', 'organization'].join('/');
+    return this.http.get<OrganizationModel[]>(uri);
+  }
 }

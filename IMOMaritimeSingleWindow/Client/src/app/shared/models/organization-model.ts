@@ -11,5 +11,4 @@ export class OrganizationModel {
   clearanceIsNullString: string;
   clearanceIsTrueString: string;
   clearanceIsFalseString: string;
-  isRecognizedSecurityOrganization: boolean;
 }
