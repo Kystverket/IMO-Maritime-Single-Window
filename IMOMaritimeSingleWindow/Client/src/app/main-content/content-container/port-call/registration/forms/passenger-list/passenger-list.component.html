@@ -9,11 +9,11 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
-                <input #familyName="ngModel" type="text" pattern="^[a-zA-Z]+$" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
+                <input #familyName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
                   class="form-control form-control-sm" alphaNumericValidator required name="familyName">
               </div>
             </div>
-            <div class="alert alert-danger" *ngIf="!isValid(familyName.valid) && familyName.touched">
+            <div class="alert alert-danger" *ngIf="!familyName.valid && familyName.touched">
               <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
                 <small>Only alphanumeric characters allowed.</small>
               </li>
@@ -192,7 +192,7 @@
 
   <div class="col-lg-12">
     <div class="form-group">
-      <button *ngIf="form.valid && validDocumentDates" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger()">
+      <button *ngIf="form.valid && validDocumentDates" type="submit" class="btn btn-ssn mt-2" (click)="addPassenger(); form.reset()">
         <span>Submit</span>
       </button>
       <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">

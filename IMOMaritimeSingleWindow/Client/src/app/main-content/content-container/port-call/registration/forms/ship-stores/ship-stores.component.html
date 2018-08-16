@@ -112,7 +112,7 @@
     <div class="row">
         <div class="col">
             <div class="form-group">
-                <button *ngIf="form.valid && measurementTypeSelected" type="submit" class="btn btn-sm btn-ssn mt-2" (click)="addShipStoreItem()">
+                <button *ngIf="form.valid && measurementTypeSelected" type="submit" class="btn btn-sm btn-ssn mt-2" (click)="addShipStoreItem(); form.reset()">
                     <span>Submit</span>
                 </button>
                 <button *ngIf="!(form.valid && measurementTypeSelected)" type="submit" disabled class="btn btn-sm btn-ssn mt-2">
