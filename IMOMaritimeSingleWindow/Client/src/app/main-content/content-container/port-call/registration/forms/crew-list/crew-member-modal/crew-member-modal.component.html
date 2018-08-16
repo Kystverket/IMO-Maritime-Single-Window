@@ -77,13 +77,6 @@
     </div>
 
     <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
-      <div class="col my-auto">
-        <input *ngIf="inputCrewModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentNumber"
-          readonly type="text" name="identityDocumentNumber">
-      </div>
-    </div>
-    <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
         <input *ngIf="inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
@@ -93,17 +86,10 @@
       </div>
     </div>
     <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+      <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"
-          readonly type="text" name="identityDocumentIssueDate">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
-      <div class="col my-auto">
-        <input class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"
-          readonly type="text" name="identityDocumentExpiryDate">
+        <input *ngIf="inputCrewModel.identityDocument[0]" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentNumber"
+          readonly type="text" name="identityDocumentNumber">
       </div>
     </div>
     <div class="form-group row">
@@ -120,6 +106,20 @@
         </div>
         <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
           name="issuingNation">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"
+          readonly type="text" name="identityDocumentIssueDate">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" [ngModel]="getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"
+          readonly type="text" name="identityDocumentExpiryDate">
       </div>
     </div>
 
@@ -226,44 +226,24 @@
       </div>
 
       <div class="form-group row">
-          <label class="col col-form-label-sm no-wrap mb-0">Rank/rating code</label>
-          <div class="col my-auto">
-            <input class="form-control form-control-sm" [(ngModel)]="inputCrewModel.rankCode" type="text" name="rankCode">
-          </div>
+        <label class="col col-form-label-sm no-wrap mb-0">Rank/rating code</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputCrewModel.rankCode" type="text" name="rankCode">
         </div>
+      </div>
 
+      <div class="form-group row">
+        <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
+        <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputCrewModel.identityDocument[0].identityDocumentType"
+          name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
+          (change)="setIdentityDocumentType($event)">
+        </ng-select>
+      </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
         <div class="col my-auto">
           <input *ngIf="inputCrewModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputCrewModel.identityDocument[0].identityDocumentNumber"
             type="text" name="identityDocumentNumber">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
-
-        <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputCrewModel.identityDocument[0].identityDocumentType"
-          name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
-          (change)="setIdentityDocumentType($event)">
-        </ng-select>
-
-      </div>
-      <div class="form-group row">
-        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
-        <div class="col my-auto">
-          <app-date-picker (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"></app-date-picker>
-          <div *ngIf="issueDateAfterExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
-            <span>Identity document issue date must be before the expiry date.</span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
-        <div class="col my-auto">
-          <app-date-picker (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"></app-date-picker>
-          <div *ngIf="expiryDateBeforeExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
-            <span>Identity document expiry date must be after the issue date.</span>
-          </div>
         </div>
       </div>
       <div class="form-group row">
@@ -288,6 +268,24 @@
           </div>
           <app-search-country *ngIf="!inputCrewModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
             (deselectCountry)="resetIssuingNation()"></app-search-country>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
+        <div class="col my-auto">
+          <app-date-picker (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"></app-date-picker>
+          <div *ngIf="issueDateAfterExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
+            <span>Identity document issue date must be before the expiry date.</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
+        <div class="col my-auto">
+          <app-date-picker (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"></app-date-picker>
+          <div *ngIf="expiryDateBeforeExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
+            <span>Identity document expiry date must be after the issue date.</span>
+          </div>
         </div>
       </div>
 

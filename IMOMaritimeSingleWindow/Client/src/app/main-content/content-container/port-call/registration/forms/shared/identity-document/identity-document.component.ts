@@ -25,8 +25,8 @@ export class IdentityDocumentComponent implements OnInit {
   @ViewChild('selectExpiryDate') selectExpiryDateComponent;
   formValid = false;
 
-  issueDateAfterExpiryDateError: Boolean = false;
-  expiryDateBeforeIssueDateError: Boolean = false;
+  issueDateAfterExpiryDateError = false;
+  expiryDateBeforeIssueDateError = false;
 
   constructor(
     private identityDocumentService: IdentityDocumentService,
@@ -70,8 +70,8 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   setIdentityDocumentType($event) {
-    this.identityDocumentModel.identityDocumentType = $event;
-    this.identityDocumentModel.identityDocumentTypeId = $event.id;
+    $event ? this.identityDocumentModel.identityDocumentType = $event : this.identityDocumentModel.identityDocumentType = null;
+    $event ? this.identityDocumentModel.identityDocumentTypeId = $event.id : this.identityDocumentModel.identityDocumentTypeId = null;
     this.identityDocumentModelChanged();
   }
 
