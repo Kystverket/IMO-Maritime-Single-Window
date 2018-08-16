@@ -11,7 +11,6 @@ import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { SharedModule } from 'app/shared/shared.module';
@@ -125,7 +124,6 @@ import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-
   providers: [
     PortCallService,
     FalShipStoresService,
-    PortCallFalPassengerListService,
     IdentityDocumentService,
     CountryService,
     PrevAndNextPocService,

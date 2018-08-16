@@ -41,7 +41,7 @@ export class PortCallFalPassengerListService {
   });
   passengerListMeta$ = this.passengerListMeta.asObservable();
 
-  private passengerDataIsPristine = new BehaviorSubject<Boolean>(true);
+  private passengerDataIsPristine = new BehaviorSubject<boolean>(true);
   passengerDataIsPristine$ = this.passengerDataIsPristine.asObservable();
 
   private sequenceNumberSource = new BehaviorSubject<number>(1);
@@ -117,7 +117,7 @@ export class PortCallFalPassengerListService {
     this.passengerListMeta.next(metaData);
   }
 
-  setPassengerDataIsPristine(isPristine: Boolean) {
+  setPassengerDataIsPristine(isPristine: boolean) {
     this.passengerDataIsPristine.next(isPristine);
   }
 

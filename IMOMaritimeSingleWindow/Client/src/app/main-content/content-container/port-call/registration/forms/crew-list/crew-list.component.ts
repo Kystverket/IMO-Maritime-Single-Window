@@ -127,8 +127,7 @@ export class CrewListComponent implements OnInit {
 
   ngOnInit() {
 
-    this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe((res: PersonOnBoardModel[]) => {
-      this.crewList = res;
+    if (this.crewList) {
       this.crewList.forEach(crewMember => {
         crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
         crewMember.identityDocument.forEach(identityDocument => {
@@ -136,9 +135,10 @@ export class CrewListComponent implements OnInit {
           identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
         });
       });
-       // Load in crew list in smart table
-      this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-    });
+    }
+    // Load in crew list in smart table
+    this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+
 
   // Initiate models
   this.portCallCrewModel = new PersonOnBoardModel();
@@ -156,225 +156,229 @@ export class CrewListComponent implements OnInit {
     this.personOnBoardType = personOnBoardType;
   });
 
-  // Set in service
-  this.personOnBoardService.setCrewList(this.crewList);
-  this.personOnBoardService.setCrewDataIsPristine(true);
-}
+    // Set in service
+    this.personOnBoardService.setCrewList(this.crewList);
+    this.personOnBoardService.setCrewDataIsPristine(true);
 
-addCrewMember() {
-  // Modify
-  this.portCallCrewModel.portCallId = this.portCallId;
-  this.portCallCrewModel.personOnBoardType = this.personOnBoardType;
-  this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
-  // If there are any crew members in the list, set sequence number to one more than last crew member. If not, set sequencenumber to 1.
-  this.portCallCrewModel.sequenceNumber = this.crewList.length > 0 ? this.crewList[this.crewList.length - 1].sequenceNumber + 1 : 1;
-
-  this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
-
-  // Add
-  this.crewList.push(this.portCallCrewModel);
-
-  // Update values in service
-  this.personOnBoardService.setCrewList(
-    this.crewList
-  );
-
-  // Reset
-  this.portCallCrewModel = new PersonOnBoardModel();
-  this.identityDocumentModel = new IdentityDocumentModel();
-  this.resetDateOfBirth();
-  this.identityDocumentComponent.resetForm();
-  this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-  this.listIsPristine = false;
-  this.personOnBoardService.setCrewDataIsPristine(false);
-}
-
-/*   ngOnDestroy()  {
-  this.detailsIdentificationDataSubscription.unsubscribe();
-} */
-
-
-generateSmartTable(crewList): any[] {
-  const newList = [];
-  if (crewList) {
-    crewList.forEach(crewMember => {
-      newList.push(this.makeSmartTableEntry(crewMember));
+    this.personOnBoardService.crewDataIsPristine$.subscribe(isPristine => {
+      this.listIsPristine = isPristine;
     });
   }
-  return newList;
-}
 
-makeSmartTableEntry(crewMember) {
-  const modifiedPassenger = new SmartTableModel();
-  if (crewMember.personOnBoardId) {
-    modifiedPassenger.personOnBoardId = crewMember.personOnBoardId;
+  addCrewMember() {
+    // Modify
+    this.portCallCrewModel.portCallId = this.portCallId;
+    this.portCallCrewModel.personOnBoardType = this.personOnBoardType;
+    this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
+    // If there are any crew members in the list, set sequence number to one more than last crew member. If not, set sequencenumber to 1.
+    this.portCallCrewModel.sequenceNumber = this.crewList.length > 0 ? this.crewList[this.crewList.length - 1].sequenceNumber + 1 : 1;
+
+    this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
+
+    // Add
+    this.crewList.push(this.portCallCrewModel);
+
+    // Update values in service
+    this.personOnBoardService.setCrewList(
+      this.crewList
+    );
+
+    // Reset
+    this.portCallCrewModel = new PersonOnBoardModel();
+    this.identityDocumentModel = new IdentityDocumentModel();
+    this.resetDateOfBirth();
+    this.identityDocumentComponent.resetForm();
+    this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setCrewDataIsPristine(false);
   }
-  modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
-  modifiedPassenger.givenName = crewMember.givenName;
-  modifiedPassenger.familyName = crewMember.familyName;
-  modifiedPassenger.rankName = crewMember.rankName;
-  if (crewMember.dateOfBirth) {
-      modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth);
-  }
-  if (crewMember.portOfEmbarkation) {
-    modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation.name;
-  }
-  if (crewMember.portOfDisembarkation) {
-    modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation.name;
-  }
-  if (crewMember.nationality) {
-    modifiedPassenger.nationality = crewMember.nationality.name;
-  }
-  if (crewMember.gender) {
-    modifiedPassenger.gender = crewMember.gender.description;
-  }
 
-  return modifiedPassenger;
-}
+  /*   ngOnDestroy()  {
+    this.detailsIdentificationDataSubscription.unsubscribe();
+  } */
 
-makeLocationModel($event) {
-  const tempLocationModel = Object.assign(new LocationModel(), $event);
-  return tempLocationModel;
-}
 
-// Setters
-setIdentityDocumentModel($event) {
-  this.identityDocumentModel = $event.identityDocumentModel;
-  this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
-}
-
-setPortOfEmbarkation($event) {
-  this.portCallCrewModel.portOfEmbarkation = this.makeLocationModel($event);
-  this.portCallCrewModel.portOfEmbarkationId = $event.locationId;
-}
-
-setPortOfDisembarkation($event) {
-  this.portCallCrewModel.portOfDisembarkation = this.makeLocationModel($event);
-  this.portCallCrewModel.portOfDisembarkationId = $event.locationId;
-}
-
-setDateOfBirth($event) {
-  if ($event) {
-    const date: Date = new Date($event.year, $event.month -  1, $event.day);
-    this.portCallCrewModel.dateOfBirth = date;
-  } else {
-    this.portCallCrewModel.dateOfBirth = null;
-  }
-}
-
-setGender($event) {
-  this.portCallCrewModel.gender = $event;
-  this.portCallCrewModel.genderId = $event.genderId;
-}
-
-setCountryOfBirth($event) {
-  this.portCallCrewModel.countryOfBirth = $event.item;
-  this.portCallCrewModel.countryOfBirthId = $event.item.countryId;
-}
-
-setNationality($event) {
-  this.portCallCrewModel.nationality = $event.item;
-  this.portCallCrewModel.nationalityId = $event.item.countryId;
-}
-
-setTransit($event) {
-  this.inTransit = $event;
-  Object.keys(this.booleanModel).forEach(key => {
-    if (key === $event) {
-      this.portCallCrewModel.inTransit = this.booleanModel[key];
-      return;
+  generateSmartTable(crewList): any[] {
+    const newList = [];
+    if (crewList) {
+      crewList.forEach(crewMember => {
+        newList.push(this.makeSmartTableEntry(crewMember));
+      });
     }
-  });
-}
+    return newList;
+  }
 
-// Resetters
-resetPortOfDisembarkation() {
-  this.portCallCrewModel.portOfDisembarkation = null;
-  this.portCallCrewModel.portOfDisembarkationId = null;
-}
-
-resetPortOfEmbarkation() {
-  this.portCallCrewModel.portOfEmbarkation = null;
-  this.portCallCrewModel.portOfEmbarkationId = null;
-}
-
-resetNationality() {
-  this.portCallCrewModel.nationality = null;
-  this.portCallCrewModel.nationalityId = null;
-}
-
-resetCountryOfBirth() {
-  this.portCallCrewModel.countryOfBirth = null;
-  this.portCallCrewModel.countryOfBirthId = null;
-}
-
-resetIssuingNation() {
-  this.identityDocumentModel.issuingNation = null;
-  this.identityDocumentModel.issuingNationId = null;
-}
-
-resetDateOfBirth() {
-  this.portCallCrewModel.dateOfBirth = null;
-  this.dateOfBirthComponent.dateChanged(null);
-}
-
-openViewCrewMemberModal(row) {
-  this.crewList.forEach(crewMember => {
-    if (crewMember.sequenceNumber === row.sequenceNumber) {
-      this.crewMemberModalComponent.openViewModal(crewMember);
-      return;
+  makeSmartTableEntry(crewMember) {
+    const modifiedPassenger = new SmartTableModel();
+    if (crewMember.personOnBoardId) {
+      modifiedPassenger.personOnBoardId = crewMember.personOnBoardId;
     }
-  });
-}
-
-openEditCrewMemberModal(row) {
-  this.crewList.forEach(crewMember => {
-    if (crewMember.sequenceNumber === row.sequenceNumber) {
-      this.crewMemberModalComponent.openEditModal(crewMember);
-      return;
+    modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
+    modifiedPassenger.givenName = crewMember.givenName;
+    modifiedPassenger.familyName = crewMember.familyName;
+    modifiedPassenger.rankName = crewMember.rankName;
+    if (crewMember.dateOfBirth) {
+        modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth);
     }
-  });
-}
+    if (crewMember.portOfEmbarkation) {
+      modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation.name;
+    }
+    if (crewMember.portOfDisembarkation) {
+      modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation.name;
+    }
+    if (crewMember.nationality) {
+      modifiedPassenger.nationality = crewMember.nationality.name;
+    }
+    if (crewMember.gender) {
+      modifiedPassenger.gender = crewMember.gender.description;
+    }
 
-editCrewMember($event) {
-  // It gets updated automatically
-  this.personOnBoardService.setCrewList(this.crewList);
-  this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-  this.listIsPristine = false;
-  this.personOnBoardService.setCrewDataIsPristine(false);
-}
+    return modifiedPassenger;
+  }
 
-deleteCrewMember(row) {
-  if (this.crewList.length <= 1) {
-    this.crewList = [];
-  } else {
-    this.crewList.forEach((item, index) => {
-      if (item.sequenceNumber === row.sequenceNumber) {
-        this.crewList.splice(index, 1);
+  makeLocationModel($event) {
+    const tempLocationModel = Object.assign(new LocationModel(), $event);
+    return tempLocationModel;
+  }
+
+  // Setters
+  setIdentityDocumentModel($event) {
+    this.identityDocumentModel = $event.identityDocumentModel;
+    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+  }
+
+  setPortOfEmbarkation($event) {
+    this.portCallCrewModel.portOfEmbarkation = this.makeLocationModel($event);
+    this.portCallCrewModel.portOfEmbarkationId = $event.locationId;
+  }
+
+  setPortOfDisembarkation($event) {
+    this.portCallCrewModel.portOfDisembarkation = this.makeLocationModel($event);
+    this.portCallCrewModel.portOfDisembarkationId = $event.locationId;
+  }
+
+  setDateOfBirth($event) {
+    if ($event) {
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+      this.portCallCrewModel.dateOfBirth = date;
+    } else {
+      this.portCallCrewModel.dateOfBirth = null;
+    }
+  }
+
+  setGender($event) {
+    this.portCallCrewModel.gender = $event;
+    this.portCallCrewModel.genderId = $event.genderId;
+  }
+
+  setCountryOfBirth($event) {
+    this.portCallCrewModel.countryOfBirth = $event.item;
+    this.portCallCrewModel.countryOfBirthId = $event.item.countryId;
+  }
+
+  setNationality($event) {
+    this.portCallCrewModel.nationality = $event.item;
+    this.portCallCrewModel.nationalityId = $event.item.countryId;
+  }
+
+  setTransit($event) {
+    this.inTransit = $event;
+    Object.keys(this.booleanModel).forEach(key => {
+      if (key === $event) {
+        this.portCallCrewModel.inTransit = this.booleanModel[key];
+        return;
       }
     });
   }
-  this.setSequenceNumbers();
-  this.personOnBoardService.setCrewList(this.crewList);
-  this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-  this.listIsPristine = false;
-  this.personOnBoardService.setCrewDataIsPristine(false);
-}
 
-deleteAllCrewMembers() {
-  this.crewList = [];
-  this.listIsPristine = false;
-  this.personOnBoardService.setCrewDataIsPristine(false);
-  this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-}
+  // Resetters
+  resetPortOfDisembarkation() {
+    this.portCallCrewModel.portOfDisembarkation = null;
+    this.portCallCrewModel.portOfDisembarkationId = null;
+  }
 
-saveCrewList() {
-  this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
-    this.listIsPristine = true;
-    this.personOnBoardService.setCrewDataIsPristine(true);
-    console.log('Saved crew members.');
-  });
-}
+  resetPortOfEmbarkation() {
+    this.portCallCrewModel.portOfEmbarkation = null;
+    this.portCallCrewModel.portOfEmbarkationId = null;
+  }
+
+  resetNationality() {
+    this.portCallCrewModel.nationality = null;
+    this.portCallCrewModel.nationalityId = null;
+  }
+
+  resetCountryOfBirth() {
+    this.portCallCrewModel.countryOfBirth = null;
+    this.portCallCrewModel.countryOfBirthId = null;
+  }
+
+  resetIssuingNation() {
+    this.identityDocumentModel.issuingNation = null;
+    this.identityDocumentModel.issuingNationId = null;
+  }
+
+  resetDateOfBirth() {
+    this.portCallCrewModel.dateOfBirth = null;
+    this.dateOfBirthComponent.dateChanged(null);
+  }
+
+  openViewCrewMemberModal(row) {
+    this.crewList.forEach(crewMember => {
+      if (crewMember.sequenceNumber === row.sequenceNumber) {
+        this.crewMemberModalComponent.openViewModal(crewMember);
+        return;
+      }
+    });
+  }
+
+  openEditCrewMemberModal(row) {
+    this.crewList.forEach(crewMember => {
+      if (crewMember.sequenceNumber === row.sequenceNumber) {
+        this.crewMemberModalComponent.openEditModal(crewMember);
+        return;
+      }
+    });
+  }
+
+  editCrewMember($event) {
+    // It gets updated automatically
+    this.personOnBoardService.setCrewList(this.crewList);
+    this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setCrewDataIsPristine(false);
+  }
+
+  deleteCrewMember(row) {
+    if (this.crewList.length <= 1) {
+      this.crewList = [];
+    } else {
+      this.crewList.forEach((item, index) => {
+        if (item.sequenceNumber === row.sequenceNumber) {
+          this.crewList.splice(index, 1);
+        }
+      });
+    }
+    this.setSequenceNumbers();
+    this.personOnBoardService.setCrewList(this.crewList);
+    this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setCrewDataIsPristine(false);
+  }
+
+  deleteAllCrewMembers() {
+    this.crewList = [];
+    this.listIsPristine = false;
+    this.personOnBoardService.setCrewDataIsPristine(false);
+    this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+  }
+
+  saveCrewList() {
+    this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
+      this.listIsPristine = true;
+      this.personOnBoardService.setCrewDataIsPristine(true);
+      console.log('Saved crew members.');
+    });
+  }
 
 
   // Helper methods

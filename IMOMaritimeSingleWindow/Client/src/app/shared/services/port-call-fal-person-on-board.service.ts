@@ -30,8 +30,8 @@ export class PortCallFalPersonOnBoardService {
   private passengerListSource = new BehaviorSubject<any>(null);
   passengerList$ = this.passengerListSource.asObservable();
 
-  private passengerDataIsPristine = new BehaviorSubject<Boolean>(true);
-  dataIsPristine$ = this.passengerDataIsPristine.asObservable();
+  private passengerDataIsPristine = new BehaviorSubject<boolean>(true);
+  passengerDataIsPristine$ = this.passengerDataIsPristine.asObservable();
 
   private passengerSequenceNumberSource = new BehaviorSubject<number>(1);
   sequenceNumber$ = this.passengerSequenceNumberSource.asObservable();
@@ -42,7 +42,7 @@ export class PortCallFalPersonOnBoardService {
   private crewListSource = new BehaviorSubject<any>(null);
   crewList$ = this.crewListSource.asObservable();
 
-  private crewDataIsPristine = new BehaviorSubject<Boolean>(true);
+  private crewDataIsPristine = new BehaviorSubject<boolean>(true);
   crewDataIsPristine$ = this.crewDataIsPristine.asObservable();
 
   private crewSequenceNumberSource = new BehaviorSubject<number>(1);

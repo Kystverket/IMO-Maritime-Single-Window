@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 @Component({
   selector: 'app-save-passenger-list',
@@ -23,8 +23,8 @@ export class SavePassengerListComponent implements OnInit {
   @Output() save: EventEmitter<any> = new EventEmitter();
 
   constructor(
-    private passengerService: PortCallFalPassengerListService,
-    private portCallService: PortCallService
+    private portCallService: PortCallService,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -32,7 +32,7 @@ export class SavePassengerListComponent implements OnInit {
       if (portCallIdData) {
         this.portCallId = portCallIdData;
       }
-      this.passengerService.passengerList$.subscribe(list => {
+      this.personOnBoardService.passengerList$.subscribe(list => {
         if (list) {
           this.portCallPassengerList = list;
         }

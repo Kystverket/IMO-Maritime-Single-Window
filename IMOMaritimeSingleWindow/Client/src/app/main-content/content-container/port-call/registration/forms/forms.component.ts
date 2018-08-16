@@ -9,7 +9,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 
 @Component({
@@ -34,7 +34,8 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
   shipStoresSubscription: Subscription;
-  personOnBoardListSubscription: Subscription;
+  passengerListSubscription: Subscription;
+  crewListSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -42,7 +43,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private passengerListService: PortCallFalPassengerListService
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -63,12 +64,21 @@ export class FormsComponent implements OnInit, OnDestroy {
       idResult => {
         if (idResult) {
           this.portCallId = idResult;
-          // Get all personOnBoard entities that have personOnBoardType === 2, which is passengers.
-          this.personOnBoardListSubscription = this.getPersonOnBoardListForPortCall(this.portCallId, 2).subscribe(
-            personOnBoardListResult => {
-              if (personOnBoardListResult) {
-                this.passengerData = personOnBoardListResult;
-                this.passengerListService.setPassengersList(this.passengerData);
+
+          this.passengerListSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+            passengerList => {
+              if (passengerList) {
+                this.passengerData = passengerList;
+                this.personOnBoardService.setPassengersList(passengerList);
+              }
+            }
+          );
+
+          this.crewListSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+            crewList => {
+              if (crewList) {
+                this.crewData = crewList;
+                this.personOnBoardService.setCrewList(crewList);
               }
             }
           );
@@ -93,9 +103,6 @@ export class FormsComponent implements OnInit, OnDestroy {
     );
   }
 
-  getPersonOnBoardListForPortCall(portCallId, personOnBoardTypeId) {
-    return this.passengerListService.getPersonOnBoardListByPortCallId(portCallId, personOnBoardTypeId);
-  }
   setCargoForPortCall(portCallId) {
     this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
       data => {
@@ -111,6 +118,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
-    this.personOnBoardListSubscription.unsubscribe();
+    this.passengerListSubscription.unsubscribe();
+    this.crewListSubscription.unsubscribe();
   }
 }

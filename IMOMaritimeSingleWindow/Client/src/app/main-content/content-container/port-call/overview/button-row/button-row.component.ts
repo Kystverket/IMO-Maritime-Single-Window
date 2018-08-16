@@ -12,10 +12,10 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
-import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { ViewCell } from 'ng2-smart-table';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 @Component({
   selector: 'app-button-row',
@@ -46,12 +46,12 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private passengerListService: PortCallFalPassengerListService,
     private portCallDetailsService: PortCallDetailsService,
     private prevAndNextService: PrevAndNextPocService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -214,7 +214,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           // Moved to forms.component:
           if (data.portCall.personOnBoard) {
             const passengerList = data.portCall.personOnBoard.filter(p => p.personOnBoardType.name === 'Passenger');
-            this.passengerListService.setPassengersList(passengerList);
+            this.personOnBoardService.setPassengersList(passengerList);
             console.log(passengerList);
           }
           // ^^

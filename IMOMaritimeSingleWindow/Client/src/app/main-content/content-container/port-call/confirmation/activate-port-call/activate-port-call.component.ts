@@ -16,8 +16,8 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PortCallFalPassengerListService } from 'app/shared/services/port-call-fal-passenger-list.service';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -36,10 +36,12 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
   passengerDataIsPristine: Boolean = true;
+  crewDataIsPristine: Boolean = true;
 
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
   passengerListIsChecked = false;
+  crewListIsChecked = false;
 
   voyagesMeta: FormMetaData;
 
@@ -58,6 +60,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   shipStoresList: any[];
   passengerList: PersonOnBoardModel[];
+  crewList: PersonOnBoardModel[];
 
   portCallStatus: string;
   portCallIsDraft = false;
@@ -86,6 +89,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   passengerDataSubscription: Subscription;
   passengerListIsPristineSubscription: Subscription;
   passengerListIsCheckedSubscription: Subscription;
+  crewDataSubscription: Subscription;
+  crewListIsPristineSubscription: Subscription;
+  crewListIsCheckedSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -95,7 +101,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal,
-    private passengerService: PortCallFalPassengerListService
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -232,24 +238,44 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.cargoDataIsPristine = pristineData;
       }
     );
-    this.passengerListIsCheckedSubscription = this.passengerService.passengerListIsChecked$.subscribe(
+
+
+    //
+    // Passenger List
+    //
+    this.passengerDataSubscription = this.personOnBoardService.passengerList$.subscribe(
+      passengerData => {
+        this.passengerList = passengerData;
+      }
+    );
+    this.passengerListIsPristineSubscription = this.personOnBoardService.passengerDataIsPristine$.subscribe(
+      pristineData => {
+        this.passengerDataIsPristine = pristineData;
+      }
+    );
+    this.passengerListIsCheckedSubscription = this.personOnBoardService.passengerListIsChecked$.subscribe(
       isChecked => {
         this.passengerListIsChecked = isChecked;
       }
     );
 
     //
-    // Passenger List
+    // Crew List
     //
-    this.passengerDataSubscription = this.passengerService.passengerList$.subscribe(
-      passengerData => {
-        this.passengerList = passengerData;
+    this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(
+      crewData => {
+        this.crewList = crewData;
       }
     );
-
-    this.passengerListIsPristineSubscription = this.passengerService.passengerDataIsPristine$.subscribe(
+    this.crewListIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
       pristineData => {
-        this.passengerDataIsPristine = pristineData;
+        this.crewDataIsPristine = pristineData;
+      }
+    );
+    this.crewListIsCheckedSubscription = this.personOnBoardService.crewListIsChecked$.subscribe(
+      isChecked => {
+        this.crewListIsChecked = isChecked;
+        console.log(isChecked);
       }
     );
 
@@ -288,6 +314,12 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.shipStoresIsPristineSubscription.unsubscribe();
     this.cargoDataSubscription.unsubscribe();
     this.cargoIsPristineSubscription.unsubscribe();
+    this.passengerDataSubscription.unsubscribe();
+    this.passengerListIsCheckedSubscription.unsubscribe();
+    this.passengerListIsPristineSubscription.unsubscribe();
+    this.crewDataSubscription.unsubscribe();
+    this.crewListIsCheckedSubscription.unsubscribe();
+    this.crewListIsPristineSubscription.unsubscribe();
   }
 
   savePrevAndNextPortCall() {
@@ -341,10 +373,21 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   savePassengerList() {
-    this.passengerService.updatePersonOnBoardList(this.portCallId, this.passengerList, 2).subscribe(
+    this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, 2).subscribe(
       res => {
-        this.passengerService.setPassengerDataIsPristine(true);
+        this.personOnBoardService.setPassengerDataIsPristine(true);
         console.log('Passengers successfully saved.\n', res);
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  saveCrewList() {
+    this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, 1).subscribe(
+      res => {
+        this.personOnBoardService.setCrewDataIsPristine(true);
+        console.log('Crew list successfully saved.\n', res);
       }, error => {
         console.log(error);
       }

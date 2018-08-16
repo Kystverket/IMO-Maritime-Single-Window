@@ -30,7 +30,7 @@
               </div>
             </div>
 
-            <div class="alert alert-danger" *ngIf="!isValid(givenName.valid) && givenName.touched">
+            <div class="alert alert-danger" *ngIf="!givenName.valid && givenName.touched">
               <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
                 <small>Only alphanumeric characters allowed.</small>
               </li>
