@@ -1,20 +1,21 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { PortCallFalPersonOnBoardService } from '../../../../../../shared/services/port-call-fal-person-on-board.service';
-import { NgForm } from '../../../../../../../../node_modules/@angular/forms';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { NgForm } from '@angular/forms';
 import { PassengerModalComponent } from '../passenger-list/passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
-import { PersonOnBoardModel } from '../../../../../../shared/models/person-on-board-model';
-import { PersonOnBoardTypeModel } from '../../../../../../shared/models/person-on-board-type-model';
-import { IdentityDocumentModel } from '../../../../../../shared/models/identity-document-model';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
+import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Observable } from 'rxjs/Observable';
-import { GenderModel } from '../../../../../../shared/models/gender-model';
-import { LocalDataSource } from '../../../../../../../../node_modules/ng2-smart-table';
+import { GenderModel } from 'app/shared/models/gender-model';
+import { LocalDataSource } from 'ng2-smart-table';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
-import { Subscription } from '../../../../../../../../node_modules/rxjs';
-import { IdentityDocumentService } from '../../../../../../shared/services/identtity-document.service';
-import { LocationModel } from '../../../../../../shared/models/location-model';
+import { Subscription } from 'rxjs/Subscription';
+import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { LocationModel } from 'app/shared/models/location-model';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
-import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.component';
 
 @Component({
   selector: 'app-crew-list',
@@ -23,10 +24,8 @@ import { NgbModal } from '../../../../../../../../node_modules/@ng-bootstrap/ng-
 })
 export class CrewListComponent implements OnInit {
 
-  @Input() portCallId;
-  @Input() crewList;
-
-  identityDocumentList: IdentityDocumentModel[] = [];
+  @Input() portCallId: number;
+  @Input() crewList: PersonOnBoardModel[] = [];
 
   portCallCrewModel: PersonOnBoardModel = new PersonOnBoardModel();
 
@@ -40,7 +39,7 @@ export class CrewListComponent implements OnInit {
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine: Boolean = true;
 
-  @ViewChild(PassengerModalComponent) passengerModalComponent;
+  @ViewChild(CrewMemberModalComponent) crewMemberModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
   @ViewChild('dateOfBirth') dateOfBirthComponent;
 
@@ -91,11 +90,8 @@ export class CrewListComponent implements OnInit {
       dateOfBirth: {
         title: 'Date of Birth'
       },
-      portOfEmbarkation: {
-        title: 'Port of Embarkation'
-      },
-      portOfDisembarkation: {
-        title: 'Port of Disembarkation'
+      rankName: {
+        title: 'Rank/rating'
       },
       delete: {
         title: 'Actions',
@@ -106,13 +102,13 @@ export class CrewListComponent implements OnInit {
         renderComponent: ActionButtonsComponent,
         onComponentInitFunction: (instance) => {
           instance.view.subscribe(row => {
-            this.openViewPassengerModal(row);
+            this.openViewCrewMemberModal(row);
           });
           instance.edit.subscribe(row => {
-            this.openEditPassengerModal(row);
+            this.openEditCrewMemberModal(row);
           });
           instance.delete.subscribe(row => {
-            this.deletePassenger(row);
+            this.deleteCrewMember(row);
           });
         }
       },
@@ -130,31 +126,23 @@ export class CrewListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let personOnBoardList;
-    this.personOnBoardService.getPersonOnBoardListByPortCallId(this.portCallId).subscribe((res: PersonOnBoardModel[]) => {
-      console.log(res);
-      personOnBoardList = res ;
-      console.log(personOnBoardList);
 
-      personOnBoardList.forEach(personOnBoard => {
-        personOnBoard.dateOfBirth = personOnBoard.dateOfBirth != null ? new Date(personOnBoard.dateOfBirth) : null;
-        personOnBoard.identityDocument[0].identityDocumentIssueDate = personOnBoard.identityDocument[0].identityDocumentIssueDate != null ? new Date(personOnBoard.identityDocument[0].identityDocumentIssueDate) : null;
-        personOnBoard.identityDocument[0].identityDocumentExpiryDate = personOnBoard.identityDocument[0].identityDocumentExpiryDate != null ? new Date(personOnBoard.identityDocument[0].identityDocumentExpiryDate) : null;
+    this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe((res: PersonOnBoardModel[]) => {
+      this.crewList = res;
+      this.crewList.forEach(crewMember => {
+        crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
+        crewMember.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
       });
-
-      console.log(this.personOnBoardService.cleanPersonOnBoardList(personOnBoardList));
+       // Load in crew list in smart table
+      this.crewListDataSource.load(this.generateSmartTable(this.crewList));
     });
-    this.personOnBoardService.getPersonOnBoardById(45);
-    this.personOnBoardService.getCrewListByPortCallId(this.portCallId);
+
   // Initiate models
   this.portCallCrewModel = new PersonOnBoardModel();
   this.identityDocumentModel = new IdentityDocumentModel();
-
-  this.identityDocumentService.identityDocumentList$.subscribe(list => {
-    if (list) {
-      this.identityDocumentList = list;
-    }
-  });
 
   // Get gender list
   if (!this.genderList) {
@@ -163,33 +151,23 @@ export class CrewListComponent implements OnInit {
     });
   }
 
-  this.personOnBoardService.getPersonOnBoardType(2).subscribe(personOnBoardType => {
+  // Get crew person on board type (id 1)
+  this.personOnBoardService.getPersonOnBoardType(1).subscribe(personOnBoardType => {
     this.personOnBoardType = personOnBoardType;
   });
 
-  if (this.crewList) {
-    this.crewList.forEach(crewMember => {
-      crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
-      crewMember.identityDocument.forEach(identityDocument => {
-        identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-        identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
-      });
-    });
-  }
-
-  // Load in crewMember list in smart table
-
-  this.crewListDataSource.load(this.generateSmartTable(this.crewList));
+  // Set in service
   this.personOnBoardService.setCrewList(this.crewList);
   this.personOnBoardService.setCrewDataIsPristine(true);
 }
 
-addPassenger() {
+addCrewMember() {
   // Modify
   this.portCallCrewModel.portCallId = this.portCallId;
   this.portCallCrewModel.personOnBoardType = this.personOnBoardType;
   this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
-  this.portCallCrewModel.sequenceNumber = this.crewList[this.crewList.length - 1].sequenceNumber + 1;
+  // If there are any crew members in the list, set sequence number to one more than last crew member. If not, set sequencenumber to 1.
+  this.portCallCrewModel.sequenceNumber = this.crewList.length > 0 ? this.crewList[this.crewList.length - 1].sequenceNumber + 1 : 1;
 
   this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
 
@@ -234,6 +212,7 @@ makeSmartTableEntry(crewMember) {
   modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
   modifiedPassenger.givenName = crewMember.givenName;
   modifiedPassenger.familyName = crewMember.familyName;
+  modifiedPassenger.rankName = crewMember.rankName;
   if (crewMember.dateOfBirth) {
       modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth);
   }
@@ -261,7 +240,7 @@ makeLocationModel($event) {
 // Setters
 setIdentityDocumentModel($event) {
   this.identityDocumentModel = $event.identityDocumentModel;
-  this.validDocumentDates = $event.validDocumentDates;
+  this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
 }
 
 setPortOfEmbarkation($event) {
@@ -339,25 +318,25 @@ resetDateOfBirth() {
   this.dateOfBirthComponent.dateChanged(null);
 }
 
-openViewPassengerModal(row) {
+openViewCrewMemberModal(row) {
   this.crewList.forEach(crewMember => {
     if (crewMember.sequenceNumber === row.sequenceNumber) {
-      this.passengerModalComponent.openViewModal(crewMember);
+      this.crewMemberModalComponent.openViewModal(crewMember);
       return;
     }
   });
 }
 
-openEditPassengerModal(row) {
+openEditCrewMemberModal(row) {
   this.crewList.forEach(crewMember => {
     if (crewMember.sequenceNumber === row.sequenceNumber) {
-      this.passengerModalComponent.openEditModal(crewMember);
+      this.crewMemberModalComponent.openEditModal(crewMember);
       return;
     }
   });
 }
 
-editPassenger($event) {
+editCrewMember($event) {
   // It gets updated automatically
   this.personOnBoardService.setCrewList(this.crewList);
   this.crewListDataSource.load(this.generateSmartTable(this.crewList));
@@ -365,7 +344,7 @@ editPassenger($event) {
   this.personOnBoardService.setCrewDataIsPristine(false);
 }
 
-deletePassenger(row) {
+deleteCrewMember(row) {
   if (this.crewList.length <= 1) {
     this.crewList = [];
   } else {
@@ -382,17 +361,18 @@ deletePassenger(row) {
   this.personOnBoardService.setCrewDataIsPristine(false);
 }
 
-deleteAllPassengers() {
+deleteAllCrewMembers() {
   this.crewList = [];
   this.listIsPristine = false;
   this.personOnBoardService.setCrewDataIsPristine(false);
   this.crewListDataSource.load(this.generateSmartTable(this.crewList));
 }
 
-savePassengers() {
+saveCrewList() {
   this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
     this.listIsPristine = true;
     this.personOnBoardService.setCrewDataIsPristine(true);
+    console.log('Saved crew members.');
   });
 }
 

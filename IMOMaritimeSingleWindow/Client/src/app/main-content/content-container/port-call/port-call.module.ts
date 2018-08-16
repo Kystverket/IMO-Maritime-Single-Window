@@ -55,6 +55,8 @@ import { IdentityDocumentService } from 'app/shared/services/identtity-document.
 import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
+import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 
 @NgModule({
   imports: [
@@ -109,7 +111,9 @@ import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-f
     SavePrevAndNextPocComponent,
     IdentityDocumentComponent,
     PassengerModalComponent,
-    CrewListComponent
+    CrewListComponent,
+    CrewMemberModalComponent,
+    SaveCrewListComponent
   ],
   exports: [
     ClearanceComponent,

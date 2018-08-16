@@ -171,7 +171,8 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.portCallId = this.portCallId;
     this.portCallPassengerModel.personOnBoardType = this.personOnBoardType;
     this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
-    this.portCallPassengerModel.sequenceNumber = this.passengerList[this.passengerList.length - 1].sequenceNumber + 1;
+    // If there are any passengers in the list, set sequence number to one more than last passenger. If not, set sequencenumber to 1.
+    this.portCallPassengerModel.sequenceNumber = this.passengerList.length > 0 ? this.passengerList[this.passengerList.length - 1].sequenceNumber + 1 : 1;
 
     this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
@@ -252,7 +253,7 @@ export class PassengerListComponent implements OnInit {
   // Setters
   setIdentityDocumentModel($event) {
     this.identityDocumentModel = $event.identityDocumentModel;
-    this.validDocumentDates = $event.validDocumentDates;
+    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
   }
 
   setPortOfEmbarkation($event) {

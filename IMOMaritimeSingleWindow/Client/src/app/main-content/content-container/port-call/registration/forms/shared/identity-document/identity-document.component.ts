@@ -85,13 +85,13 @@ export class IdentityDocumentComponent implements OnInit {
       date = null;
     }
     this.identityDocumentModel.identityDocumentIssueDate = date;
-    this.identityDocumentModelChanged();
     if ($event && this.validateDateTimeService.checkDocumentDates(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
       this.issueDateAfterExpiryDateError = true;
     } else {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
+    this.identityDocumentModelChanged();
   }
 
   setIdentityDocumentExpiryDate($event) {
@@ -102,13 +102,13 @@ export class IdentityDocumentComponent implements OnInit {
       date = null;
     }
     this.identityDocumentModel.identityDocumentExpiryDate = date;
-    this.identityDocumentModelChanged();
     if ($event && this.validateDateTimeService.checkDocumentDates(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
       this.expiryDateBeforeIssueDateError = true;
     } else {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
+    this.identityDocumentModelChanged();
   }
 
   resetIssuingNation() {
