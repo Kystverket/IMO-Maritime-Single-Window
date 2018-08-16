@@ -78,8 +78,10 @@ export class PortCallFalPersonOnBoardService {
   }
 
   updatePersonOnBoardList(portCallId: number, personOnBoardList: any[], personOnBoardTypeId: number) {
+    console.log('Saving person on board list...');
     let cleanedPersonOnBoardList;
     cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
+    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
     return this.httpClient.put<PersonOnBoardModel[]>(uri, cleanedPersonOnBoardList, {observe: 'body'});
   }

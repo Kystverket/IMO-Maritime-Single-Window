@@ -25,8 +25,6 @@ export class PersonOnBoardModel {
     portCallId: number; // port call id
     portOfEmbarkationId: number;
     portOfDisembarkationId: number;
-    // identityDocumentId: number;
-
     // models
     countryOfBirth: any;
     nationality: any;
@@ -37,8 +35,4 @@ export class PersonOnBoardModel {
     portOfDisembarkation: any;
     identityDocument: IdentityDocumentModel[] = [];
 
-    /*natureOfIdentityDoc: any;
-    permitNumber: number;
-    identityDocIssueDate: Date;
-    identityDocExpiryDate: Date;*/
 }

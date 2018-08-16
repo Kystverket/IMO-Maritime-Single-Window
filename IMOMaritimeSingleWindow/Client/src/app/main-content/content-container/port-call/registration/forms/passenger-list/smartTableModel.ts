@@ -8,4 +8,5 @@ export class SmartTableModel {
     dateOfBirth: any;
     portOfEmbarkation: string;
     portOfDisembarkation: string;
+    rankName: string;
 }
