@@ -371,11 +371,11 @@
     </div>
 
     <div class="modal-footer">
-      <button *ngIf="editForm.valid && validDocumentDates" type="button" class="btn btn-ssn" (click)="editPassenger(); close">
+      <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn" (click)="editPassenger(); resetForm(); close">
         <img src="assets/images/icons/128x128/white/edit.png" height="24px">
         <span>Edit Entry</span>
       </button>
-      <button *ngIf="!editForm.valid || !validDocumentDates" type="button" class="btn btn-ssn" disabled>
+      <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn" disabled>
         <img src="assets/images/icons/128x128/white/edit.png" height="24px">
         <span>Edit Entry</span>
       </button>

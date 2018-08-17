@@ -22,6 +22,7 @@ export class PassengerModalComponent implements OnInit {
 
   @ViewChild('viewModal') viewModal;
   @ViewChild('editModal') editModal;
+  dirtyForm = false;
 
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
   genderList: GenderModel[] = [];
@@ -36,9 +37,9 @@ export class PassengerModalComponent implements OnInit {
     'false': 'No'
   };
 
-  validDocumentDates: Boolean = true;
-  issueDateAfterExpiryDateError: Boolean = false;
-  expiryDateBeforeExpiryDateError: Boolean = false;
+  validDocumentDates = true;
+  issueDateAfterExpiryDateError = false;
+  expiryDateBeforeExpiryDateError = false;
 
   constructor(
     private modalService: NgbModal,
@@ -86,16 +87,19 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setNationality($event) {
+    this.dirtyForm = true;
     this.inputPassengerModel.nationality = $event.item;
     this.inputPassengerModel.nationalityId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
+    this.dirtyForm = true;
     this.inputPassengerModel.countryOfBirth = $event.item;
     this.inputPassengerModel.countryOfBirthId = $event.item.countryId;
   }
 
   setIssuingNation($event) {
+    this.dirtyForm = true;
     this.inputPassengerModel.identityDocument[0].issuingNation = $event.item;
     this.inputPassengerModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
@@ -110,16 +114,19 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setPortOfEmbarkation($event) {
+    this.dirtyForm = true;
     this.inputPassengerModel.portOfEmbarkation = $event;
     this.inputPassengerModel.portOfEmbarkationId = $event.locationId;
   }
 
   setPortOfDisembarkation($event) {
+    this.dirtyForm = true;
     this.inputPassengerModel.portOfDisembarkation = $event;
     this.inputPassengerModel.portOfDisembarkationId = $event.locationId;
   }
 
   setDateOfBirth($event) {
+    this.dirtyForm = true;
     if ($event) {
       this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate($event);
     } else {
@@ -128,6 +135,7 @@ export class PassengerModalComponent implements OnInit {
   }
 
   setIdentityDocumentIssueDate($event) {
+    this.dirtyForm = true;
     let date: Date = new Date();
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
@@ -139,13 +147,16 @@ export class PassengerModalComponent implements OnInit {
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
     if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
       this.issueDateAfterExpiryDateError = true;
+      this.validDocumentDates = false;
     } else {
       this.issueDateAfterExpiryDateError = false;
       this.expiryDateBeforeExpiryDateError = false;
+      this.validDocumentDates = true;
     }
   }
 
   setIdentityDocumentExpiryDate($event) {
+    this.dirtyForm = true;
     let date: Date = new Date();
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
@@ -157,9 +168,11 @@ export class PassengerModalComponent implements OnInit {
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
     if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
       this.expiryDateBeforeExpiryDateError = true;
+      this.validDocumentDates = false;
     } else {
       this.issueDateAfterExpiryDateError = false;
       this.expiryDateBeforeExpiryDateError = false;
+      this.validDocumentDates = true;
     }
 
   }
@@ -180,21 +193,25 @@ export class PassengerModalComponent implements OnInit {
 
   // Resetters
   resetInputPassengerModel($event: any) {
+    this.resetForm();
     this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
     this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel.identityDocument[0], this.passengerModel.identityDocument[0]);
   }
 
   resetNationality() {
+    this.dirtyForm = true;
     this.inputPassengerModel.nationality = null;
     this.inputPassengerModel.nationalityId = null;
   }
 
   resetCountryOfBirth() {
+    this.dirtyForm = true;
     this.inputPassengerModel.countryOfBirth = null;
     this.inputPassengerModel.countryOfBirthId = null;
   }
 
   resetIssuingNation() {
+    this.dirtyForm = true;
     this.inputPassengerModel.identityDocument[0].issuingNation = null;
     this.inputPassengerModel.identityDocument[0].issuingNationId = null;
   }
@@ -205,13 +222,19 @@ export class PassengerModalComponent implements OnInit {
   }
 
   resetPortOfEmbarkation() {
+    this.dirtyForm = true;
     this.inputPassengerModel.portOfEmbarkation = null;
     this.inputPassengerModel.portOfEmbarkationId = null;
   }
 
   resetPortOfDisembarkation() {
+    this.dirtyForm = true;
     this.inputPassengerModel.portOfDisembarkation = null;
     this.inputPassengerModel.portOfDisembarkationId = null;
+  }
+
+  resetForm() {
+    this.dirtyForm = false;
   }
 
   // Helper methods
