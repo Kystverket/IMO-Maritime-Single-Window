@@ -39,14 +39,11 @@
                     <div class="col my-auto">
                         <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board *</label>
                         <textarea type="text" required [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel" placeholder="Location on Board"
-                            class="form-control form-control-sm" name="locationOnBoard" alphaNumericValidator>
+                            class="form-control form-control-sm" name="locationOnBoard">
                             </textarea>
                     </div>
                 </div>
                 <div *ngIf="!locationOnBoard.valid && locationOnBoard.touched" class="alert alert-danger">
-                    <li *ngIf="locationOnBoard.hasError('invalidAlphaNumeric')">
-                        <small>Only alphanumeric characters allowed.</small>
-                    </li>
                     <li *ngIf="locationOnBoard.hasError('required')">
                         <small>This field is required.</small>
                     </li>
