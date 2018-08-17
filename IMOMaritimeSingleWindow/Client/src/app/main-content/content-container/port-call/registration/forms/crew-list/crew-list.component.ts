@@ -128,11 +128,7 @@ export class CrewListComponent implements OnInit {
 
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
-        crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
-        crewMember.identityDocument.forEach(identityDocument => {
-          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
-        });
+        crewMember = this.makeDates(crewMember);
       });
     }
     // Load in crew list in smart table
@@ -169,8 +165,14 @@ export class CrewListComponent implements OnInit {
     this.portCallCrewModel.portCallId = this.portCallId;
     this.portCallCrewModel.personOnBoardType = this.personOnBoardType;
     this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
-    // If there are any crew members in the list, set sequence number to one more than last crew member. If not, set sequencenumber to 1.
-    this.portCallCrewModel.sequenceNumber = this.crewList.length > 0 ? this.crewList[this.crewList.length - 1].sequenceNumber + 1 : 1;
+    // If there are any crew members in the list, set sequence number to one more than max value of sequence number in crew list.
+    if (this.crewList.length > 0) {
+      this.portCallCrewModel.sequenceNumber = Math.max.apply(Math, this.crewList.map(crewMember => {
+        return crewMember.sequenceNumber + 1;
+      }));
+    } else {
+      this.portCallCrewModel.sequenceNumber = 1;
+    }
 
     this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
 
@@ -321,6 +323,15 @@ export class CrewListComponent implements OnInit {
     this.dateOfBirthComponent.dateChanged(null);
   }
 
+  makeDates(crewMember: PersonOnBoardModel) {
+    crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
+        crewMember.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
+    return crewMember;
+  }
+
   openViewCrewMemberModal(row) {
     this.crewList.forEach(crewMember => {
       if (crewMember.sequenceNumber === row.sequenceNumber) {
@@ -340,8 +351,12 @@ export class CrewListComponent implements OnInit {
   }
 
   editCrewMember($event) {
-    // It gets updated automatically
+    // Set corresponding crewMember to the edited instance
+    this.crewList[this.crewList.findIndex(c => c.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
     this.personOnBoardService.setCrewList(this.crewList);
+    // Make all dates Date objects again
+    this.crewList.forEach(crewMember => { crewMember = this.makeDates(crewMember); });
+    // Load to smart table
     this.crewListDataSource.load(this.generateSmartTable(this.crewList));
     this.listIsPristine = false;
     this.personOnBoardService.setCrewDataIsPristine(false);

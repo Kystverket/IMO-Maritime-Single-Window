@@ -22,6 +22,7 @@ export class CrewMemberModalComponent implements OnInit {
 
   @ViewChild('viewModal') viewModal;
   @ViewChild('editModal') editModal;
+  dirtyForm = false;
 
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
   genderList: GenderModel[] = [];
@@ -61,41 +62,41 @@ export class CrewMemberModalComponent implements OnInit {
 
   // Open modals
   openViewModal(crewModel: PersonOnBoardModel) {
-    this.setInputCrewModel(crewModel);
+    this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
     this.modalService.open(this.viewModal);
   }
 
   openEditModal(crewModel: PersonOnBoardModel) {
-    this.setInputCrewModel(crewModel);
-    this.modalService.open(this.editModal);
+    // Set model to modify
+    this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
+    // Set model to fall back to
+    this.crewModel = JSON.parse(JSON.stringify(crewModel));
+    console.log(this.crewModel);
+
+    this.modalService.open(this.editModal, {
+      backdrop: 'static'
+    });
   }
 
   // Output
   editCrewMember() {
-    this.crewModel = Object.assign({}, this.inputCrewModel);
-    this.crewModel.identityDocument[0] = Object.assign({}, this.inputCrewModel.identityDocument[0]);
-    this.outputCrewModel.emit(this.crewModel);
-  }
-
-  // Setters
-  setInputCrewModel(crewModel: PersonOnBoardModel) {
-    this.inputCrewModel = crewModel;
-    this.inputCrewModel.identityDocument[0] = crewModel.identityDocument[0];
-    this.crewModel = Object.assign({}, crewModel);
-    this.crewModel.identityDocument[0] = Object.assign({}, crewModel.identityDocument[0]);
+    this.outputCrewModel.emit(this.inputCrewModel);
   }
 
   setNationality($event) {
+    this.dirtyForm = true;
     this.inputCrewModel.nationality = $event.item;
     this.inputCrewModel.nationalityId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
+    this.dirtyForm = true;
     this.inputCrewModel.countryOfBirth = $event.item;
     this.inputCrewModel.countryOfBirthId = $event.item.countryId;
   }
 
   setIssuingNation($event) {
+    this.dirtyForm = true;
     this.inputCrewModel.identityDocument[0].issuingNation = $event.item;
     this.inputCrewModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
@@ -110,24 +111,29 @@ export class CrewMemberModalComponent implements OnInit {
   }
 
   setPortOfEmbarkation($event) {
+    this.dirtyForm = true;
     this.inputCrewModel.portOfEmbarkation = $event;
     this.inputCrewModel.portOfEmbarkationId = $event.locationId;
   }
 
   setPortOfDisembarkation($event) {
+    this.dirtyForm = true;
     this.inputCrewModel.portOfDisembarkation = $event;
     this.inputCrewModel.portOfDisembarkationId = $event.locationId;
   }
 
   setDateOfBirth($event) {
+    this.dirtyForm = true;
     if ($event) {
-      this.inputCrewModel.dateOfBirth = this.getDateFormatFromNgbDate($event);
+      const date: Date = new Date($event.year, $event.month - 1, $event.day);
+      this.inputCrewModel.dateOfBirth = date;
     } else {
-      this.inputCrewModel.dateOfBirth = this.getDateFormatFromNgbDate(null);
+      this.inputCrewModel.dateOfBirth = null;
     }
   }
 
   setIdentityDocumentIssueDate($event) {
+    this.dirtyForm = true;
     let date: Date = new Date();
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
@@ -146,6 +152,7 @@ export class CrewMemberModalComponent implements OnInit {
   }
 
   setIdentityDocumentExpiryDate($event) {
+    this.dirtyForm = true;
     let date: Date = new Date();
     if ($event) {
       date = new Date($event.year, $event.month - 1, $event.day);
@@ -161,7 +168,6 @@ export class CrewMemberModalComponent implements OnInit {
       this.issueDateAfterExpiryDateError = false;
       this.expiryDateBeforeExpiryDateError = false;
     }
-
   }
 
   setTransit($event) {
@@ -180,21 +186,24 @@ export class CrewMemberModalComponent implements OnInit {
 
   // Resetters
   resetInputCrewModel($event: any) {
-    this.inputCrewModel = Object.assign(this.inputCrewModel, this.crewModel);
-    this.inputCrewModel.identityDocument[0] = Object.assign(this.inputCrewModel.identityDocument[0], this.crewModel.identityDocument[0]);
+    this.resetForm();
+    this.inputCrewModel = JSON.parse(JSON.stringify(this.crewModel));
   }
 
   resetNationality() {
+    this.dirtyForm = true;
     this.inputCrewModel.nationality = null;
     this.inputCrewModel.nationalityId = null;
   }
 
   resetCountryOfBirth() {
+    this.dirtyForm = true;
     this.inputCrewModel.countryOfBirth = null;
     this.inputCrewModel.countryOfBirthId = null;
   }
 
   resetIssuingNation() {
+    this.dirtyForm = true;
     this.inputCrewModel.identityDocument[0].issuingNation = null;
     this.inputCrewModel.identityDocument[0].issuingNationId = null;
   }
@@ -205,13 +214,19 @@ export class CrewMemberModalComponent implements OnInit {
   }
 
   resetPortOfEmbarkation() {
+    this.dirtyForm = true;
     this.inputCrewModel.portOfEmbarkation = null;
     this.inputCrewModel.portOfEmbarkationId = null;
   }
 
   resetPortOfDisembarkation() {
+    this.dirtyForm = true;
     this.inputCrewModel.portOfDisembarkation = null;
     this.inputCrewModel.portOfDisembarkationId = null;
+  }
+
+  resetForm() {
+    this.dirtyForm = false;
   }
 
   // Helper methods

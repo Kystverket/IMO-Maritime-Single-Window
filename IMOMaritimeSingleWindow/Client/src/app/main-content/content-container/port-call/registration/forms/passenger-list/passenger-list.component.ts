@@ -130,11 +130,7 @@ export class PassengerListComponent implements OnInit {
 
     if (this.passengerList) {
       this.passengerList.forEach(passenger => {
-        passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-        passenger.identityDocument.forEach(identityDocument => {
-          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
-        });
+        passenger = this.makeDates(passenger);
       });
     }
     // Load in passenger list in smart table
@@ -169,9 +165,15 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.portCallId = this.portCallId;
     this.portCallPassengerModel.personOnBoardType = this.personOnBoardType;
     this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
-    // If there are any passengers in the list, set sequence number to one more than last passenger. If not, set sequencenumber to 1.
-    this.portCallPassengerModel.sequenceNumber = this.passengerList.length > 0 ? this.passengerList[this.passengerList.length - 1].sequenceNumber + 1 : 1;
-
+    // If there are any passengers in the list, set sequence number to one more than max value of sequence number in the passenger list.
+    if (this.passengerList.length > 0) {
+      this.portCallPassengerModel.sequenceNumber = Math.max.apply(Math, this.passengerList.map(crewMember => {
+        return crewMember.sequenceNumber + 1;
+      }));
+    } else {
+      this.portCallPassengerModel.sequenceNumber = 1;
+    }
+// Add the identityDocumentModel to passengerModel
     this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
     // Add
@@ -320,6 +322,15 @@ export class PassengerListComponent implements OnInit {
     this.dateOfBirthComponent.dateChanged(null);
   }
 
+  makeDates(passenger: PersonOnBoardModel) {
+    passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
+    passenger.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
+    return passenger;
+  }
+
   openViewPassengerModal(row) {
     this.passengerList.forEach(passenger => {
       if (passenger.sequenceNumber === row.sequenceNumber) {
@@ -339,11 +350,15 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    // It gets updated automatically
-    this.personOnBoardService.setPassengersList(this.passengerList);
+    // Set corresponding crewMember to the edited instance
+    this.passengerList[this.passengerList.findIndex(p => p.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
+    this.personOnBoardService.setCrewList(this.passengerList);
+    // Make all dates Date objects again
+    this.passengerList.forEach(passenger => { passenger = this.makeDates(passenger); });
+    // Load to smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
-    this.personOnBoardService.setPassengerDataIsPristine(false);
+    this.personOnBoardService.setCrewDataIsPristine(false);
   }
 
   deletePassenger(row) {

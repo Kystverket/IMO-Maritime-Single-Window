@@ -62,12 +62,15 @@ export class PassengerModalComponent implements OnInit {
 
   // Open modals
   openViewModal(passengerModel: PersonOnBoardModel) {
-    this.setInputPassengerModel(passengerModel);
+    this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
     this.modalService.open(this.viewModal);
   }
 
   openEditModal(passengerModel: PersonOnBoardModel) {
-    this.setInputPassengerModel(passengerModel);
+    // Set model to modify
+    this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
+    // Set model to fall back to
+    this.passengerModel = JSON.parse(JSON.stringify(passengerModel));
     this.modalService.open(this.editModal, {
       backdrop: 'static'
     });
@@ -75,17 +78,7 @@ export class PassengerModalComponent implements OnInit {
 
   // Output
   editPassenger() {
-    this.passengerModel = Object.assign({}, this.inputPassengerModel);
-    this.passengerModel.identityDocument[0] = Object.assign({}, this.inputPassengerModel.identityDocument[0]);
-    this.outputPassengerModel.emit(this.passengerModel);
-  }
-
-  // Setters
-  setInputPassengerModel(passengerModel: PersonOnBoardModel) {
-    this.inputPassengerModel = passengerModel;
-    this.inputPassengerModel.identityDocument[0] = passengerModel.identityDocument[0];
-    this.passengerModel = Object.assign({}, passengerModel);
-    this.passengerModel.identityDocument[0] = Object.assign({}, passengerModel.identityDocument[0]);
+    this.outputPassengerModel.emit(this.inputPassengerModel);
   }
 
   setNationality($event) {
@@ -130,9 +123,10 @@ export class PassengerModalComponent implements OnInit {
   setDateOfBirth($event) {
     this.dirtyForm = true;
     if ($event) {
-      this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate($event);
+      const date: Date = new Date($event.year, $event.month - 1, $event.day);
+      this.inputPassengerModel.dateOfBirth = date;
     } else {
-      this.inputPassengerModel.dateOfBirth = this.getDateFormatFromNgbDate(null);
+      this.inputPassengerModel.dateOfBirth = null;
     }
   }
 
@@ -196,8 +190,7 @@ export class PassengerModalComponent implements OnInit {
   // Resetters
   resetInputPassengerModel($event: any) {
     this.resetForm();
-    this.inputPassengerModel = Object.assign(this.inputPassengerModel, this.passengerModel);
-    this.inputPassengerModel.identityDocument[0] = Object.assign(this.inputPassengerModel.identityDocument[0], this.passengerModel.identityDocument[0]);
+    this.inputPassengerModel = JSON.parse(JSON.stringify(this.passengerModel));
   }
 
   resetNationality() {
