@@ -245,15 +245,15 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
         <div class="col my-auto">
-          <ng-select class="ng-select-placeholder-size " [items]="genderList" [ngModel]="inputPassengerModel.gender" name="gender"
-            bindLabel="description" [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
+          <ng-select class="ng-select-placeholder-sm" [items]="genderList" [ngModel]="inputPassengerModel.gender" name="gender" bindLabel="description"
+            [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
           </ng-select>
         </div>
       </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
         <div class="col my-auto">
-          <ng-select class="ng-select-placeholder-size " [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
+          <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [ngModel]="formBooleanModel[inputPassengerModel.inTransit]"
             name="transit" [closeOnSelect]="true" placeholder="Transit" (change)="setTransit($event)">
           </ng-select>
         </div>
@@ -303,14 +303,14 @@
       </div>
 
       <div class="form-group row">
-          <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
-  
-          <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
+        <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-sm" [items]="identityDocumentTypes" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentType"
             name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
             (change)="setIdentityDocumentType($event)">
           </ng-select>
-  
         </div>
+      </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
         <div class="col my-auto">
@@ -319,29 +319,29 @@
         </div>
       </div>
       <div class="form-group row">
-          <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
-          <div class="col my-auto">
-            <div *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
-                    height="20px">
-                </span>
-              </div>
-              <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
-                name="issuingNation" />
-              <div>
-                <div class="input-group-append">
-                  <button class="btn btn-sm btn-ssn" ngbTooltip="Remove isssuing nation" (click)="resetIssuingNation()">
-                    <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
-                  </button>
-                </div>
+        <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
+        <div class="col my-auto">
+          <div *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
+                  height="20px">
+              </span>
+            </div>
+            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputPassengerModel.identityDocument[0].issuingNation.name"
+              name="issuingNation" />
+            <div>
+              <div class="input-group-append">
+                <button class="btn btn-sm btn-ssn" ngbTooltip="Remove isssuing nation" (click)="resetIssuingNation()">
+                  <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                </button>
               </div>
             </div>
-            <app-search-country *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
-              (deselectCountry)="resetIssuingNation()"></app-search-country>
           </div>
+          <app-search-country *ngIf="!inputPassengerModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
+            (deselectCountry)="resetIssuingNation()"></app-search-country>
         </div>
+      </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
         <div class="col my-auto">

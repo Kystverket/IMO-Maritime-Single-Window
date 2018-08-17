@@ -106,10 +106,10 @@
               </li>
             </div>
 
-            <div class="form-group row">
+            <div class="form-group form-group-sm row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-size" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
+                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
                   [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
                 </ng-select>
               </div>
@@ -124,10 +124,10 @@
       <app-ssn-card header="Voyage" icon="voyage.png">
         <div class="row">
           <div class="col-lg-6">
-            <div class="form-group row">
+            <div class="form-group form-group-sm row">
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
-                <ng-select class="ng-select-placeholder-size " [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
+                <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
                   bindLabel="name" placeholder="Transit" (change)="setTransit($event)">
                 </ng-select>
               </div>

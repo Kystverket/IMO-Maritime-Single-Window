@@ -212,7 +212,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
         <div class="col my-auto">
-          <ng-select class="ng-select-placeholder-size " [items]="genderList" [ngModel]="inputCrewModel.gender" name="gender" bindLabel="description"
+          <ng-select class="ng-select-placeholder-sm" [items]="genderList" [ngModel]="inputCrewModel.gender" name="gender" bindLabel="description"
             [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
           </ng-select>
         </div>
@@ -234,10 +234,11 @@
 
       <div class="form-group row">
         <label for="natureOfIdentityDoc" class="col col-form-label-sm no-wrap mb-0">Nature of Identity Document</label>
-        <ng-select class="col my-auto ng-select-placeholder-size" [items]="identityDocumentTypes" [(ngModel)]="inputCrewModel.identityDocument[0].identityDocumentType"
-          name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document"
-          (change)="setIdentityDocumentType($event)">
-        </ng-select>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-sm" [items]="identityDocumentTypes" [(ngModel)]="inputCrewModel.identityDocument[0].identityDocumentType"
+            name="natureOfIdentityDoc" [closeOnSelect]="true" bindLabel="description" placeholder="Nature of Identity Document" (change)="setIdentityDocumentType($event)">
+          </ng-select>
+        </div>
       </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
