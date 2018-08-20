@@ -63,15 +63,16 @@ export class CrewMemberModalComponent implements OnInit {
   // Open modals
   openViewModal(crewModel: PersonOnBoardModel) {
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
+    this.makeDates(this.inputCrewModel);
     this.modalService.open(this.viewModal);
   }
 
   openEditModal(crewModel: PersonOnBoardModel) {
     // Set model to modify
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
+    this.makeDates(this.inputCrewModel);
     // Set model to fall back to
     this.crewModel = JSON.parse(JSON.stringify(crewModel));
-    console.log(this.crewModel);
 
     this.modalService.open(this.editModal, {
       backdrop: 'static'
@@ -258,6 +259,15 @@ export class CrewMemberModalComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  makeDates(crewMember: PersonOnBoardModel) {
+    crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
+        crewMember.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
+    return crewMember;
   }
 
 }

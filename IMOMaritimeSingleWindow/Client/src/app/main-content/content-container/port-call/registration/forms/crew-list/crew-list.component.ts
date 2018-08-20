@@ -126,7 +126,9 @@ export class CrewListComponent implements OnInit {
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
         crewMember = this.makeDates(crewMember);
+        console.log(crewMember);
       });
+      console.log(this.crewList);
     }
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable(this.crewList));

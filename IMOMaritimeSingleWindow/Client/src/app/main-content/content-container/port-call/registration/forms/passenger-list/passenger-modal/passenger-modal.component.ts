@@ -63,14 +63,17 @@ export class PassengerModalComponent implements OnInit {
   // Open modals
   openViewModal(passengerModel: PersonOnBoardModel) {
     this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
+    this.makeDates(this.inputPassengerModel);
     this.modalService.open(this.viewModal);
   }
 
   openEditModal(passengerModel: PersonOnBoardModel) {
     // Set model to modify
     this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
+    this.makeDates(this.inputPassengerModel);
     // Set model to fall back to
     this.passengerModel = JSON.parse(JSON.stringify(passengerModel));
+
     this.modalService.open(this.editModal, {
       backdrop: 'static'
     });
@@ -261,5 +264,14 @@ export class PassengerModalComponent implements OnInit {
     } else {
       return null;
     }
+  }
+
+  makeDates(passenger: PersonOnBoardModel) {
+    passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
+        passenger.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
+    return passenger;
   }
 }
