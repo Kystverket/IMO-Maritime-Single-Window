@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FalCargoService } from '../../services/fal-cargo.service';
+import { PortCallService } from '../../services/port-call.service';
 
 @Component({
   selector: 'app-confirmation-view',
@@ -15,7 +16,9 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
 
   reportingForThisPortCallDataSubcription: Subscription;
 
-  constructor(private portCallDetailsService: PortCallDetailsService) {}
+  constructor(
+    private portCallDetailsService: PortCallDetailsService
+  ) { }
 
   ngOnInit() {
     this.reportingForThisPortCallDataSubcription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(

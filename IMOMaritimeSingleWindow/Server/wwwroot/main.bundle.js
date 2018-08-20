@@ -3381,7 +3381,6 @@ var ButtonRowComponent = /** @class */ (function () {
                 _this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
                 _this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
                 _this.prevAndNextService.setDataPristine(true);
-                _this.cargoService.setConsignmentListData(data.portCall.consignment);
                 _this.cargoService.setDataIsPristine(true);
                 _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
                 _this.shipStoresService.setDataIsPristine(true);
@@ -3476,7 +3475,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"no-wrap\">\r\n  <span *ngFor=\"let clearance of clearanceList\">\r\n    <span class=\"badge badge-warning\" ngbTooltip=\"Not reviewed by {{ clearance.organization.name }}\" *ngIf=\"clearance.cleared === null\">\r\n      <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-success\" ngbTooltip=\"Cleared by {{ clearance.organization.name }}\" *ngIf=\"clearance.cleared === true\">\r\n      <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-danger\" ngbTooltip=\"Rejected by {{ clearance.organization.name }}\" *ngIf=\"clearance.cleared === false\">\r\n      <img src=\"assets/images/icons/128x128/white/rejected.png\" height=\"16px\">\r\n    </span>\r\n  </span>\r\n</div>"
+module.exports = "<div class=\"no-wrap\">\r\n  <span *ngFor=\"let clearance of clearanceList\">\r\n    <span class=\"badge badge-warning\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsNullString }}\"\r\n      *ngIf=\"clearance.cleared === null\">\r\n      <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-success\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsTrueString }}\"\r\n      *ngIf=\"clearance.cleared === true\">\r\n      <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-danger\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsFalseString }}\"\r\n      *ngIf=\"clearance.cleared === false\">\r\n      <img src=\"assets/images/icons/128x128/white/rejected.png\" height=\"16px\">\r\n    </span>\r\n  </span>\r\n</div>"
 
 /***/ }),
 
@@ -4909,6 +4908,7 @@ module.exports = "<app-progress-bar></app-progress-bar>\r\n\r\n<div class=\"row 
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_services_port_call_passenger_list_service__ = __webpack_require__("./src/app/shared/services/port-call-passenger-list.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4925,19 +4925,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var FormsComponent = /** @class */ (function () {
-    function FormsComponent(contentService, portCallService, shipService, cargoService, shipStoresService) {
+    function FormsComponent(contentService, portCallService, shipService, cargoService, shipStoresService, passengerListService) {
         this.contentService = contentService;
         this.portCallService = portCallService;
         this.shipService = shipService;
         this.cargoService = cargoService;
         this.shipStoresService = shipStoresService;
+        this.passengerListService = passengerListService;
     }
     FormsComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(function (portCallIdData) {
             if (portCallIdData) {
                 _this.portCallId = portCallIdData;
+                _this.setCargoForPortCall(_this.portCallId);
             }
         });
         this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(function (data) {
@@ -4954,6 +4957,14 @@ var FormsComponent = /** @class */ (function () {
         });
         this.formNames = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */];
     };
+    FormsComponent.prototype.setCargoForPortCall = function (portCallId) {
+        var _this = this;
+        this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(function (data) {
+            if (data) {
+                _this.cargoService.setConsignmentListData(data);
+            }
+        });
+    };
     FormsComponent.prototype.ngOnDestroy = function () {
         this.shipDataSubscription.unsubscribe();
         this.portCallFormNameSubscription.unsubscribe();
@@ -4969,7 +4980,8 @@ var FormsComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__["a" /* PortCallService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services_ship_service__["a" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */]])
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_7__shared_services_port_call_passenger_list_service__["a" /* PortCallPassengerListService */]])
     ], FormsComponent);
     return FormsComponent;
 }());
@@ -7464,7 +7476,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-view/clearances/clearances.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-table-card header=\"Clearances\" icon=\"stamp.png\">\r\n  <thead>\r\n    <tr>\r\n      <th>Type</th>\r\n      <th>Status</th>\r\n      <th>Remark</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr *ngFor=\"let clearance of clearanceList\">\r\n      <td>{{ clearance.organization.name }}</td>\r\n      <td>\r\n        <div *ngIf=\"clearance.cleared\" class=\"badge badge-success mb-0\"><span>Cleared.</span></div>\r\n        <div *ngIf=\"clearance.cleared == null\" class=\"badge badge-warning mb-0\"><span>Not reviewed.</span></div>\r\n        <div *ngIf=\"clearance.cleared == false\" class=\"badge badge-danger mb-0\"><span>Rejected.</span></div>\r\n      </td>\r\n      <td>{{ clearance.remark }}</td>\r\n    </tr>\r\n  </tbody>\r\n</app-table-card>"
+module.exports = "<app-table-card header=\"Clearances\" icon=\"stamp.png\">\r\n  <thead>\r\n    <tr>\r\n      <th>Type</th>\r\n      <th>Status</th>\r\n      <th>Given by</th>\r\n      <th>Remark</th>\r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n    <tr *ngFor=\"let clearance of clearanceList\">\r\n      <td>{{ clearance.organization.name }}</td>\r\n      <td>\r\n        <div *ngIf=\"clearance.cleared\" class=\"badge badge-success mb-0\">\r\n          <span>{{ clearance.organization.clearanceIsTrueString }}</span>\r\n        </div>\r\n        <div *ngIf=\"clearance.cleared == null\" class=\"badge badge-warning mb-0\">\r\n          <span>{{ clearance.organization.clearanceIsNullString }}</span>\r\n        </div>\r\n        <div *ngIf=\"clearance.cleared == false\" class=\"badge badge-danger mb-0\">\r\n          <span>{{ clearance.organization.clearanceIsFalseString }}</span>\r\n        </div>\r\n      </td>\r\n      <td>\r\n        <div *ngIf=\"clearance.clearedByUser\">{{ clearance.clearedByUser.email }}</div>\r\n      </td>\r\n      <td>{{ clearance.remark }}</td>\r\n    </tr>\r\n  </tbody>\r\n</app-table-card>"
 
 /***/ }),
 
@@ -7527,7 +7539,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div class=\"row mb-3\" *ngIf=\"entry.checked && entry.name != 'Cargo'\">\r\n    <div class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div [ngSwitch]=\"entry.name\">\r\n          <div *ngSwitchCase=\"'Ship Stores'\" class=\"text-center my-3\">\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">has been provided.</span>\r\n          </div>\r\n          <div *ngSwitchDefault class=\"text-center my-3\">\r\n            <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">is marked for delivery,</span>\r\n            <span class=\"no-wrap\">but no information is provided.</span>\r\n          </div>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"reportingCargo\" class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-cargo-info-table></app-cargo-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div class=\"row mb-3\" *ngIf=\"entry.checked && entry.name != 'Cargo'\">\r\n    <div class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div [ngSwitch]=\"entry.name\">\r\n          <div *ngSwitchCase=\"'Ship Stores'\" class=\"text-center my-3\">\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">has been provided.</span>\r\n          </div>\r\n          <div *ngSwitchDefault class=\"text-center my-3\">\r\n            <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n            <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n            <span class=\"no-wrap\">is marked for delivery,</span>\r\n            <span class=\"no-wrap\">but no information is provided.</span>\r\n          </div>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div *ngIf=\"reportingCargo\" class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-cargo-info-table></app-cargo-info-table>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -7771,6 +7783,72 @@ var SelectedPurposesComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], SelectedPurposesComponent);
     return SelectedPurposesComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-table-card header=\"User Information\" collapsible=true icon=\"user-info.png\">\r\n  <tbody>\r\n    <tr>\r\n      <td *ngFor=\"let entry of createdByUserProperties\" class=\"no-wrap px-1 mx-1\">\r\n        <tr>\r\n          <small>{{ entry.description }}:</small>\r\n        </tr>\r\n        <tr>\r\n          <div *ngIf=\"entry.data\">{{ entry.data }}</div>\r\n          <div *ngIf=\"!entry.data\" class=\"font-italic\">Not provided.</div>\r\n        </tr>\r\n      </td>\r\n    </tr>\r\n  </tbody>\r\n</app-table-card>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserInfoTableComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants_user_properties__ = __webpack_require__("./src/app/shared/constants/user-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var UserInfoTableComponent = /** @class */ (function () {
+    function UserInfoTableComponent(portCallService) {
+        this.portCallService = portCallService;
+        this.createdByUserProperties = new __WEBPACK_IMPORTED_MODULE_1__constants_user_properties__["a" /* UserProperties */]().getPropertyList();
+    }
+    UserInfoTableComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.createdByUserDataSubscription = this.portCallService.createdByUserData$.subscribe(function (data) {
+            if (data) {
+                _this.createdByUserData = data;
+                __WEBPACK_IMPORTED_MODULE_1__constants_user_properties__["a" /* UserProperties */].setUserData(_this.createdByUserProperties, _this.createdByUserData);
+            }
+        });
+    };
+    UserInfoTableComponent.prototype.ngOnDestroy = function () {
+        this.createdByUserDataSubscription.unsubscribe();
+    };
+    UserInfoTableComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-user-info-table',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__services_port_call_service__["a" /* PortCallService */]])
+    ], UserInfoTableComponent);
+    return UserInfoTableComponent;
 }());
 
 
@@ -10474,6 +10552,62 @@ var ShipProperties = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/constants/user-properties.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserProperties; });
+var UserProperties = /** @class */ (function () {
+    function UserProperties() {
+        this.propertyList = [
+            { description: UserProperties.GIVEN_NAME, data: null, imageUrl: null },
+            { description: UserProperties.SURNAME, data: null, imageUrl: null },
+            { description: UserProperties.EMAIL, data: null, imageUrl: null },
+            { description: UserProperties.PHONE_NUMBER, data: null, imageUrl: null },
+            { description: UserProperties.ORGANIZATION, data: null, imageUrl: null }
+        ];
+    }
+    UserProperties.setUserData = function (propertyList, user) {
+        UserProperties.setEmail(propertyList, user.email);
+        UserProperties.setPhoneNumber(propertyList, user.phoneNumber);
+        if (user.person) {
+            UserProperties.setGivenName(propertyList, user.person.givenName);
+            UserProperties.setSurname(propertyList, user.person.surname);
+        }
+        if (user.organization) {
+            UserProperties.setOrganization(propertyList, user.organization.name);
+        }
+    };
+    UserProperties.setGivenName = function (propertyList, data) {
+        propertyList.find(function (e) { return e.description === UserProperties.GIVEN_NAME; }).data = data;
+    };
+    UserProperties.setSurname = function (propertyList, data) {
+        propertyList.find(function (e) { return e.description === UserProperties.SURNAME; }).data = data;
+    };
+    UserProperties.setEmail = function (propertyList, data) {
+        propertyList.find(function (e) { return e.description === UserProperties.EMAIL; }).data = data;
+    };
+    UserProperties.setPhoneNumber = function (propertyList, data) {
+        propertyList.find(function (e) { return e.description === UserProperties.PHONE_NUMBER; }).data = data;
+    };
+    UserProperties.setOrganization = function (propertyList, data) {
+        propertyList.find(function (e) { return e.description === UserProperties.ORGANIZATION; }).data = data;
+    };
+    UserProperties.prototype.getPropertyList = function () {
+        return this.propertyList;
+    };
+    UserProperties.GIVEN_NAME = 'Given Name';
+    UserProperties.SURNAME = 'Surname';
+    UserProperties.EMAIL = 'Email';
+    UserProperties.PHONE_NUMBER = 'Phone Number';
+    UserProperties.ORGANIZATION = 'Organization';
+    return UserProperties;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/interfaces/feedback-props.interface.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -12193,6 +12327,8 @@ var PortCallService = /** @class */ (function () {
         this.clearanceData$ = this.clearanceDataSource.asObservable();
         this.clearanceListDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.clearanceListData$ = this.clearanceListDataSource.asObservable();
+        this.createdByUserDataSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.createdByUserData$ = this.createdByUserDataSource.asObservable();
     }
     // Helper method for ETA/ETD formatting
     PortCallService.prototype.etaEtdDataFormat = function (arrival, departure) {
@@ -12235,6 +12371,8 @@ var PortCallService = /** @class */ (function () {
         // Clearance list
         this.setClearanceListData(overview.clearanceList);
         this.setPortCallStatus(overview.status);
+        // User info
+        this.setCreatedByUserData(overview.portCall.user);
     };
     PortCallService.prototype.updatePortCall = function (portCall) {
         console.log('Updating port call...');
@@ -12255,6 +12393,9 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService.prototype.setPortCallIdData = function (data) {
         this.portCallIdSource.next(data);
+    };
+    PortCallService.prototype.setCreatedByUserData = function (data) {
+        this.createdByUserDataSource.next(data);
     };
     // REGISTER NEW PORT CALL
     PortCallService.prototype.registerNewPortCall = function (portCall) {
@@ -12302,11 +12443,11 @@ var PortCallService = /** @class */ (function () {
             .put(uri, null)
             .map(function (res) { return res; });
     };
-    // Delete port call draft
+    // Sets port call status to deleted
     PortCallService.prototype.deletePortCallDraft = function (portCall) {
         console.log('Deleting port call...');
-        var uri = this.portCallUrl;
-        return this.http.delete(uri);
+        var uri = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
+        return this.http.put(uri, null);
     };
     // Get methods
     PortCallService.prototype.getPortCallById = function (portCallId) {
@@ -12330,7 +12471,7 @@ var PortCallService = /** @class */ (function () {
     };
     PortCallService.prototype.savePurposesForPortCall = function (pcId, purposes, otherName) {
         var _this = this;
-        if (purposes.length === 0) {
+        if (purposes == null || purposes.length === 0) {
             var uri = [this.purposePortCallUrl, pcId.toString()].join('/');
             this.http
                 .delete(uri)
@@ -12425,6 +12566,7 @@ var PortCallService = /** @class */ (function () {
         this.locationDataSource.next(null);
         this.etaEtdDataSource.next(null);
         this.clearanceListDataSource.next(null);
+        this.createdByUserDataSource.next(null);
         // Details
         this.portCallDetailsService.wipeDetailsData();
     };
@@ -12741,12 +12883,14 @@ var ShipService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_confirmation_view_cargo_info_table_cargo_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -12829,7 +12973,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_22__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
                 __WEBPACK_IMPORTED_MODULE_39__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_38__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],

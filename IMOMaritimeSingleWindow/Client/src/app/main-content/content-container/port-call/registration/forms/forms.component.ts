@@ -8,6 +8,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
+    private passengerListService: PortCallPassengerListService
   ) { }
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class FormsComponent implements OnInit, OnDestroy {
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData;
+          this.setCargoForPortCall(this.portCallId);
         }
       }
     );
@@ -68,6 +71,16 @@ export class FormsComponent implements OnInit, OnDestroy {
       }
     );
     this.formNames = FORM_NAMES;
+  }
+
+  setCargoForPortCall(portCallId) {
+    this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
+      data => {
+        if (data) {
+          this.cargoService.setConsignmentListData(data);
+        }
+      }
+    );
   }
 
 

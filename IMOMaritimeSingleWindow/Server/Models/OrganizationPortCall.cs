@@ -10,7 +10,9 @@ namespace IMOMaritimeSingleWindow.Models
         public int PortCallId { get; set; }
         public string Remark { get; set; }
         public bool? Cleared { get; set; }
+        public Guid? ClearedByUserId { get; set; }
 
+        public User ClearedByUser { get; set; }
         public Organization Organization { get; set; }
         public PortCall PortCall { get; set; }
     }

@@ -57,6 +57,9 @@ export class PortCallService {
   private clearanceListDataSource = new BehaviorSubject<any>(null);
   clearanceListData$ = this.clearanceListDataSource.asObservable();
 
+  private createdByUserDataSource = new BehaviorSubject<any>(null);
+  createdByUserData$ = this.createdByUserDataSource.asObservable();
+
   constructor(
     private http: HttpClient,
     private prevAndNextPocService: PrevAndNextPocService,
@@ -109,6 +112,8 @@ export class PortCallService {
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setPortCallStatus(overview.status);
+    // User info
+    this.setCreatedByUserData(overview.portCall.user);
   }
 
   updatePortCall(portCall: PortCallModel): Observable<any> {
@@ -130,6 +135,9 @@ export class PortCallService {
   }
   setPortCallIdData(data) {
     this.portCallIdSource.next(data);
+  }
+  setCreatedByUserData(data) {
+    this.createdByUserDataSource.next(data);
   }
 
   // REGISTER NEW PORT CALL
@@ -179,11 +187,11 @@ export class PortCallService {
       .map(res => res);
   }
 
-  // Delete port call draft
-  deletePortCallDraft(portCall: PortCallModel) {
+  // Sets port call status to deleted
+  deletePortCallDraft(portCall: PortCallModel): Observable<PortCallModel> {
     console.log('Deleting port call...');
-    const uri: string = this.portCallUrl;
-    return this.http.delete(uri);
+    const uri: string = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
+    return this.http.put<PortCallModel>(uri, null);
   }
   // Get methods
   getPortCallById(portCallId: number): Observable<PortCallModel> {
@@ -209,7 +217,7 @@ export class PortCallService {
   }
 
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
-    if (purposes.length === 0) {
+    if (purposes == null || purposes.length === 0) {
       const uri = [this.purposePortCallUrl, pcId.toString()].join('/');
       this.http
         .delete(uri)
@@ -325,6 +333,7 @@ export class PortCallService {
     this.locationDataSource.next(null);
     this.etaEtdDataSource.next(null);
     this.clearanceListDataSource.next(null);
+    this.createdByUserDataSource.next(null);
     // Details
     this.portCallDetailsService.wipeDetailsData();
   }
