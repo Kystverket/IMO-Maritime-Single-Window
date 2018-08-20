@@ -45,6 +45,6 @@ export class PortCallComponent implements OnInit, OnDestroy {
 
   selectRegister() {
     this.portCallService.wipeServiceData();
-    this.contentService.setContent(CONTENT_NAMES.REGISTER_PORT_CALL_DRAFT);
+    this.contentService.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 }

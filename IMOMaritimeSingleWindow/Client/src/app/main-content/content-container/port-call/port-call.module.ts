@@ -18,12 +18,6 @@ import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
-import { NewPortCallDraftComponent } from './new-port-call-draft/new-port-call-draft.component';
-import { ConfirmDataComponent } from './new-port-call-draft/ship-location-time/confirm-data/confirm-data.component';
-import { EtaEtdComponent } from './new-port-call-draft/ship-location-time/eta-etd/eta-etd.component';
-import { FindLocationComponent } from './new-port-call-draft/ship-location-time/find-location/find-location.component';
-import { FindShipComponent } from './new-port-call-draft/ship-location-time/find-ship/find-ship.component';
-import { ShipLocationTimeComponent } from './new-port-call-draft/ship-location-time/ship-location-time.component';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -68,13 +62,8 @@ import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-
     ButtonRowComponent,
     ClearanceComponent,
     ClearanceRowComponent,
-    ConfirmDataComponent,
     CrewPassengersDimensionsComponent,
-    EtaEtdComponent,
-    FindLocationComponent,
-    FindShipComponent,
     FormsComponent,
-    NewPortCallDraftComponent,
     OverviewComponent,
     PortCallComponent,
     PortCallDetailsComponent,
@@ -83,11 +72,9 @@ import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-
     RegistrationComponent,
     ReportingComponent,
     SaveDetailsComponent,
-    NewPortCallDraftComponent,
     ClearanceRowComponent,
     ShipStoresComponent,
     DeleteButtonComponent,
-    ShipLocationTimeComponent,
     PrevAndNextPocComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
@@ -107,7 +94,6 @@ import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-
   ],
   exports: [
     ClearanceComponent,
-    NewPortCallDraftComponent,
     PortCallComponent,
     RegistrationComponent,
     ViewPortCallComponent,
