@@ -43,6 +43,7 @@ import { IsscComponent } from './components/issc/issc.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { CountrySelectComponent } from './components/country-select/country-select.component';
 import { RsoSelectComponent } from './components/issc/rso-select/rso-select.component';
+import { OrganizationInfoTableComponent } from './components/organization-info-table/organization-info-table.component';
 
 @NgModule({
   imports: [
@@ -88,6 +89,7 @@ import { RsoSelectComponent } from './components/issc/rso-select/rso-select.comp
     DatePickerComponent,
     CountrySelectComponent,
     RsoSelectComponent,
+    OrganizationInfoTableComponent,
   ],
   exports: [
     ConfirmationModalComponent,
@@ -114,7 +116,8 @@ import { RsoSelectComponent } from './components/issc/rso-select/rso-select.comp
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
     FeedbackComponent,
-    IsscComponent
+    IsscComponent,
+    OrganizationInfoTableComponent
   ],
   providers: [
     LocationService,

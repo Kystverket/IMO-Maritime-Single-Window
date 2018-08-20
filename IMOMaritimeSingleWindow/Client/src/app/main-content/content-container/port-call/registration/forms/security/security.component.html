@@ -9,3 +9,8 @@
     <app-issc [isscModel]="isscModel"></app-issc>
   </div>
 </div>
+<div class="row">
+  <div class="col">
+    <app-company-security-officer *ngIf="securityModel && securityModel.companySecurityOfficer" [csoModel]="securityModel.companySecurityOfficer"></app-company-security-officer>
+  </div>
+</div>

@@ -3,6 +3,8 @@ import { FalSecurityModel } from 'app/shared/models/fal-security-model';
 import { Observable } from 'rxjs/Observable';
 import { SecurityLevelModel } from '../models/security-level-model';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from '../../../../node_modules/rxjs';
+import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 
 @Injectable()
 export class FalSecurityService {
@@ -11,10 +13,23 @@ export class FalSecurityService {
   private falSecurityUrl = 'falSecurity';
   private portCallUrl = 'portCall';
   private securityLevelUrl = 'securityLevel';
+  private companySecurityOfficerUrl = 'companySecurityOfficer';
 
   constructor(
     private http: HttpClient
   ) { }
+
+  private securityDataSource = new BehaviorSubject<FalSecurityModel>(null);
+  securityData$ = this.securityDataSource.asObservable();
+
+  setSecurityData(data) {
+    this.securityDataSource.next(data);
+  }
+
+  getCompanySecurityOfficerBySecurityId(securityId: number): Observable<CompanySecurityOfficerModel> {
+    const uri = [this.apiUrl, this.falSecurityUrl, securityId, this.companySecurityOfficerUrl].join('/');
+    return this.http.get<CompanySecurityOfficerModel>(uri);
+  }
 
   getFalSecurityByPortCallId(portCallId: number): Observable<FalSecurityModel> {
     const uri = [this.apiUrl, this.portCallUrl, portCallId, this.falSecurityUrl].join('/');

@@ -1,0 +1,75 @@
+<app-ssn-card [header]="'Company Security Officer and 24 hour contact details'">
+  <form #form="ngForm">
+    <div class="row">
+      <div class="col">
+        <div *ngIf="!csoModel.organization">
+          <app-search-organization [header]="'CSO Organization. Search by name or organization number.'" (organizationResult)="onOrganizationResult($event)"></app-search-organization>
+        </div>
+        <div *ngIf="csoModel.organization">
+          <app-organization-info-table [organizationModel]="csoModel.organization"></app-organization-info-table>
+          <button class="btn btn-ssn" (click)="deselectOrganization()">
+            <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label-sm no-wrap mb-0" for="given_name">Given name</label>
+          <input type="text" [(ngModel)]="csoModel.givenName" placeholder="Enter given name" name="given_name" class="form-control form-control-sm"
+          />
+
+          <label class="col-form-label-sm no-wrap mb-0" for="surname">Surname</label>
+          <input type="text" [(ngModel)]="csoModel.surname" placeholder="Enter surname" name="surname" class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+          <label class="col-form-label-sm no-wrap mb-0" for="phone_number">Phone number</label>
+          <input type="text" [(ngModel)]="csoModel.phoneNumber" placeholder="Enter phone number" name="phone_number" class="form-control form-control-sm"
+          />
+
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="form-group">
+
+          <label class="col-form-label-sm no-wrap mb-0" for="email_address">Email</label>
+          <input type="text" [(ngModel)]="csoModel.email" placeholder="Enter email address" name="email_address" class="form-control form-control-sm"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+</app-ssn-card>
+
+<!-- <ng-template #csoModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">{{ csoModalHeader }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-cso-form [csoModel]="openCso"></app-cso-form>
+  </div>
+  <div class="modal-footer">
+    <div *ngIf="openCso.givenName && openCso.surname && openCso.phoneNumber && openCso.email && openCso.organizationId && openCso.organization">
+      <button class="btn btn-ssn mt-2" (click)="saveCso(); close">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+    <div *ngIf="!(openCso.givenName && openCso.surname && openCso.phoneNumber && openCso.email && openCso.organizationId && openCso.organization)">
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span> Save</span>
+      </button>
+    </div>
+  </div>
+</ng-template> -->

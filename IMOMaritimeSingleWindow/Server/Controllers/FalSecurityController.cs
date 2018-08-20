@@ -21,7 +21,30 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpGet("~/api/portCall/{portCallId:int}/falSecurity")]
+        [HttpGet("{securityId}/companySecurityOfficer")]
+        public IActionResult GetCompanySecurityOfficerBySecurityId(int securityId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CompanySecurityOfficer companySecurityOfficer = _context.FalSecurity.Where(fs => fs.FalSecurityId == securityId)
+                                                            .Include(fs => fs.CompanySecurityOfficer.Organization).Select(fs => fs.CompanySecurityOfficer).FirstOrDefault();
+                if (companySecurityOfficer == null)
+                {
+                    return NotFound();
+                }
+                return Ok(companySecurityOfficer);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpGet("~/api/portCall/{portCallId}/falSecurity")]
         public IActionResult GetByPortCallId(int portCallId)
         {
             if (!ModelState.IsValid)

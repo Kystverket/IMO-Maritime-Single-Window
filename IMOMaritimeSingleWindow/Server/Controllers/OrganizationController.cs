@@ -42,6 +42,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        [HttpGet("{organizationId}")]
+        public IActionResult GetOrganizationById(int organizationId)
+        {
+            Organization organization = _context.Organization.Where(org => org.OrganizationId == organizationId).FirstOrDefault();
+            if (organization == null)
+            {
+                return NotFound();
+            }
+            return Ok(organization);
+        }
+
         [HttpGet("~/api/organizationType/recognizedSecurityOrganization/organization")]
         public IActionResult GetRecognizedSecurityOrganizations()
         {
@@ -51,6 +62,17 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return NotFound();
             }
             return Ok(rsoList);
+        }
+
+        [HttpGet("organization/{organizationId}/companySecurityOfficer")]
+        public IActionResult GetCompanySecurityOfficerByOrganizationId(int organizationId)
+        {
+            List<CompanySecurityOfficer> csoList = _context.CompanySecurityOfficer.Where(cso => cso.OrganizationId == organizationId).Include(cso => cso.Organization).ToList();
+            if (csoList == null || csoList.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(csoList);
         }
 
         public List<Organization> SearchOrganization(string searchTerm, int amount = 10)

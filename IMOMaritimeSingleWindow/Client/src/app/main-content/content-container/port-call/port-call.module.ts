@@ -50,6 +50,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 import { SecurityComponent } from './registration/forms/security/security.component';
 import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
+import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
+import { FalSecurityService } from '../../../shared/services/fal-security.service';
 
 @NgModule({
   imports: [
@@ -102,6 +104,7 @@ import { SecurityDetailsComponent } from './registration/forms/security/security
     CargoItemFormComponent,
     SecurityComponent,
     SecurityDetailsComponent,
+    CompanySecurityOfficerComponent
   ],
   exports: [
     ClearanceComponent,
@@ -110,6 +113,6 @@ import { SecurityDetailsComponent } from './registration/forms/security/security
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService]
+  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService, FalSecurityService]
 })
 export class PortCallModule { }

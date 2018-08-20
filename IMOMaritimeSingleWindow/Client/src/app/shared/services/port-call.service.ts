@@ -66,6 +66,18 @@ export class PortCallService {
     private portCallDetailsService: PortCallDetailsService
   ) { }
 
+  //
+  // READ IMPORTANT 17.08.2018
+  // Trying a new pattern for port call registration forms
+  // See: security-component for usage
+  //
+  private portCallDataSource = new BehaviorSubject<PortCallModel>(null);
+  portCallData$ = this.portCallDataSource.asObservable();
+
+  setPortCallData(data) {
+    this.portCallDataSource.next(data);
+  }
+
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
     const etaData = new Date(arrival);
