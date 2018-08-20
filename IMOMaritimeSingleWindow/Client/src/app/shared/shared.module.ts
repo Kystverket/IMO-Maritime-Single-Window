@@ -121,7 +121,7 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
-    FeedbackComponent
+    FeedbackComponent,
   ],
   providers: [
     LocationService,
