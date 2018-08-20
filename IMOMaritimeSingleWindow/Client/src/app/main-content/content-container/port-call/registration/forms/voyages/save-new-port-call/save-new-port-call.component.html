@@ -1,3 +1,42 @@
-<p>
-  save-new-port-call works!
-</p>
+<div *ngIf="!(shipFound && locationFound && etaFound && etdFound)" class="text-center">
+  <div class="mb-3">
+    <p *ngIf="!shipFound" class="no-wrap mb-0">Ship is required.</p>
+    <p *ngIf="!locationFound" class="no-wrap mb-0">Location is required.</p>
+    <p *ngIf="!etaFound" class="no-wrap mb-0">ETA is required.</p>
+    <p *ngIf="!etdFound" class="no-wrap mb-0">ETD is required.</p>
+  </div>
+  <button class="btn btn-ssn" disabled>
+    <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
+</div>
+<div *ngIf="shipFound && locationFound && etaFound && etdFound" class="text-center">
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr class="bg-ssn text-ssn">
+          <th>Ship flag</th>
+          <th>Ship name</th>
+          <th>Location Name</th>
+          <th>Location Code</th>
+          <th>ETA</th>
+          <th>ETD</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <img src="assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png" height="20px" />
+          </td>
+          <td>{{ shipModel.name }}</td>
+          <td>{{ locationModel.name }}</td>
+          <td>{{ locationModel.locationCode }}</td>
+          <td>{{ formatDateTime(etaModel) | date:'dd-MM-yyyy hh:mm' }}</td>
+          <td>{{ formatDateTime(etdModel) | date:'dd-MM-yyyy hh:mm' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="btn btn-ssn" (click)="registerPortCallDraft()">
+    <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />
+    <span> Create Port Call Draft</span>
+  </button>
+</div>

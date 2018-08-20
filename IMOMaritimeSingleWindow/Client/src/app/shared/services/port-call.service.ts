@@ -8,6 +8,7 @@ import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallDetailsService } from './port-call-details.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 
 @Injectable()
 export class PortCallService {
@@ -44,6 +45,12 @@ export class PortCallService {
 
   private etaEtdDataSource = new BehaviorSubject<any>(null);
   etaEtdData$ = this.etaEtdDataSource.asObservable();
+
+  private etaSource = new BehaviorSubject<DateTime>(null);
+  etaData$ = this.etaSource.asObservable();
+
+  private etdSource = new BehaviorSubject<DateTime>(null);
+  etdData$ = this.etdSource.asObservable();
 
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
@@ -130,6 +137,12 @@ export class PortCallService {
   setEtaEtdData(data) {
     this.etaEtdDataSource.next(data);
   }
+  setEtaData(data) {
+    this.etaSource.next(data);
+  }
+  setEtdData(data) {
+    this.etdSource.next(data);
+  }
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
@@ -208,7 +221,6 @@ export class PortCallService {
   // SAVE DETAILS
   saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string) {
     console.log(details);
-    details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
     this.http.post(this.detailsUrl, details).subscribe(detailsResponse => {
       console.log('Successfully saved port call details.');

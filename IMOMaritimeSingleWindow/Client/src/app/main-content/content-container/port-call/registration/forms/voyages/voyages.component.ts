@@ -28,8 +28,7 @@ export class VoyagesComponent implements OnInit {
 
   constructor(private portCallService: PortCallService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onShipResult(shipResult) {
     const twoCharCode = shipResult.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
@@ -64,11 +63,15 @@ export class VoyagesComponent implements OnInit {
   onEtaResult(etaResult) {
     this.etaModel = etaResult;
     this.validateData();
+    this.persistEta();
+    this.persistEtd();
   }
 
   onEtdResult(etdResult) {
     this.etdModel = etdResult;
     this.validateData();
+    this.persistEta();
+    this.persistEtd();
   }
 
   private validateData() {
@@ -89,21 +92,21 @@ export class VoyagesComponent implements OnInit {
       this.dateSequenceError = false;
       this.timeSequenceError = false;
     }
-    this.persistData();
   }
 
-  private persistData() {
-
-    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel && this.etdModel) {
-      const etaEtdData = {
-        eta: Object.assign(this.etaModel.date, this.etaModel.time),
-        etd: Object.assign(this.etdModel.date, this.etdModel.time)
-      };
-
-      // const formattedDate = this.portCallService.etaEtdDataFormat()
-      this.portCallService.setEtaEtdData(etaEtdData);
+  private persistEta() {
+    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel) {
+      this.portCallService.setEtaData(this.etaModel);
     } else {
-      this.portCallService.setEtaEtdData(null);
+      this.portCallService.setEtaData(null);
+    }
+  }
+
+  private persistEtd() {
+    if (!this.dateSequenceError && !this.timeSequenceError && this.etdModel) {
+      this.portCallService.setEtdData(this.etdModel);
+    } else {
+      this.portCallService.setEtdData(null);
     }
   }
 }
