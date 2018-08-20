@@ -4,6 +4,8 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { ShipModel } from 'app/shared/models/ship-model';
+import { LocationModel } from 'app/shared/models/location-model';
 
 @Component({
   selector: 'app-voyages',
@@ -13,6 +15,10 @@ import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 export class VoyagesComponent implements OnInit {
 
   @Input() portCallId: number;
+  @Input() shipModel: ShipModel;
+  @Input() locationModel: LocationModel;
+  @Input() etaModel: DateTime;
+  @Input() etdModel: DateTime;
 
   shipFound = false;
   shipProperties = new ShipProperties().getPropertyList();
@@ -20,24 +26,34 @@ export class VoyagesComponent implements OnInit {
   locationFound = false;
   locationProperties = new LocationProperties().getPropertyList();
 
-  etaModel: DateTime;
-  etdModel: DateTime;
-
   dateSequenceError = false;
   timeSequenceError = false;
 
   constructor(private portCallService: PortCallService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.shipFound = !!this.shipModel;
+    if (this.shipFound) {
+      this.setShipData(this.shipModel);
+    }
+
+    this.locationFound = !!this.locationModel;
+    if (this.locationFound) {
+      this.setLocationData(this.locationModel);
+    }
+  }
 
   onShipResult(shipResult) {
-    const twoCharCode = shipResult.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
-    const countryFlag = twoCharCode + '.png';
-    ShipProperties.setShipData(this.shipProperties, shipResult);
-    ShipProperties.setCountry(this.shipProperties, null, countryFlag);
-
+    this.setShipData(shipResult);
     this.portCallService.setShipData(shipResult);
     this.shipFound = true;
+  }
+
+  private setShipData(shipData: ShipModel) {
+    const twoCharCode = shipData.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
+    const countryFlag = twoCharCode + '.png';
+    ShipProperties.setShipData(this.shipProperties, shipData);
+    ShipProperties.setCountry(this.shipProperties, null, countryFlag);
   }
 
   deselectShip() {
@@ -46,13 +62,16 @@ export class VoyagesComponent implements OnInit {
   }
 
   onLocationResult(locationResult) {
-    const twoCharCode = locationResult.country.twoCharCode.toLowerCase() || 'xx';
-    const countryFlag = twoCharCode + '.png';
-    LocationProperties.setLocationData(this.locationProperties, locationResult);
-    LocationProperties.setCountry(this.locationProperties, locationResult.country.name, countryFlag);
-
+    this.setLocationData(locationResult);
     this.portCallService.setLocationData(locationResult);
     this.locationFound = true;
+  }
+
+  private setLocationData(locationData: LocationModel) {
+    const twoCharCode = locationData.country.twoCharCode.toLowerCase() || 'xx';
+    const countryFlag = twoCharCode + '.png';
+    LocationProperties.setLocationData(this.locationProperties, locationData);
+    LocationProperties.setCountry(this.locationProperties, locationData.country.name, countryFlag);
   }
 
   deselectLocation() {
@@ -84,7 +103,7 @@ export class VoyagesComponent implements OnInit {
       if (etdDate.equals(etaDate)) {
         this.timeSequenceError = this.etaModel.time.hour > this.etdModel.time.hour
           || (this.etaModel.time.hour === this.etdModel.time.hour
-          && this.etaModel.time.minute >= this.etdModel.time.minute);
+            && this.etaModel.time.minute >= this.etdModel.time.minute);
       } else {
         this.timeSequenceError = false;
       }

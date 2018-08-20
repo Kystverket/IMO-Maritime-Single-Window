@@ -5,7 +5,7 @@
         <button class="btn btn-ssn" (click)="deselectPrevLocation()">
             <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-    <app-date-time-picker header="ETD" [dateTimeModel]="prevEtdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+    <app-date-time-picker header="ETD" [dateTimeInput]="prevEtdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
     <div class="row" *ngIf="prevEtdIsAfterCurrentEtaError">
         <div class="col-2"></div>
         <div class="col-8 alert alert-danger" role="alert">
@@ -21,7 +21,7 @@
         <button class="btn btn-ssn" (click)="deselectNextLocation()">
             <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
     </div>
-    <app-date-time-picker header="ETA" [dateTimeModel]="nextEtaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+    <app-date-time-picker header="ETA" [dateTimeInput]="nextEtaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
     <div class="row" *ngIf="nextEtaIsBeforeCurrentEtdError">
         <div class="col-2"></div>
         <div class="col-8 alert alert-danger" role="alert">

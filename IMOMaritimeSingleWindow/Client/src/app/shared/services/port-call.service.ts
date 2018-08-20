@@ -9,6 +9,8 @@ import { PortCallModel } from '../models/port-call-model';
 import { PortCallDetailsService } from './port-call-details.service';
 import { PrevAndNextPocService } from './prev-and-next-poc.service';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 @Injectable()
 export class PortCallService {
@@ -73,37 +75,19 @@ export class PortCallService {
     private portCallDetailsService: PortCallDetailsService
   ) { }
 
-  // Helper method for ETA/ETD formatting
-  etaEtdDataFormat(arrival, departure) {
-    const etaData = new Date(arrival);
-    const etdData = new Date(departure);
-    return {
-      eta: {
-        year: etaData.getFullYear(),
-        month: etaData.getMonth() + 1,
-        day: etaData.getDate(),
-        hour: etaData.getHours(),
-        minute: etaData.getMinutes()
-      },
-      etd: {
-        year: etdData.getFullYear(),
-        month: etdData.getMonth() + 1,
-        day: etdData.getDate(),
-        hour: etdData.getHours(),
-        minute: etdData.getMinutes()
-      }
+  private dateStringToDateTime(dateString: string): DateTime {
+    const dateObject = new Date(dateString);
+    const dateTime: DateTime = {
+      date: new NgbDate(dateObject.getFullYear(), dateObject.getMonth() + 1, dateObject.getDate()),
+      time: new NgbTime(dateObject.getHours(), dateObject.getMinutes(), 0)
     };
+    return dateTime;
   }
 
   setUpdateOverview(data) {
     this.updateOverviewSource.next(data);
   }
 
-  /** * * * * * * * * * * *
-   *                       *
-   *  == NEW PORT CALL ==  *
-   *                       *
-   * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: any) {
     console.log(overview);
@@ -111,11 +95,8 @@ export class PortCallService {
     // Ship Location Time
     this.setShipData(overview.ship);
     this.setLocationData(overview.location);
-    const etaEtd = this.etaEtdDataFormat(
-      overview.portCall.locationEta,
-      overview.portCall.locationEtd
-    );
-    this.setEtaEtdData(etaEtd);
+    this.setEtaData(this.dateStringToDateTime(overview.portCall.locationEta));
+    this.setEtdData(this.dateStringToDateTime(overview.portCall.locationEtd));
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setPortCallStatus(overview.status);

@@ -31,10 +31,10 @@
 
   <div class="row">
     <div class="col-md-6">
-      <app-date-time-picker [header]="'ETA'" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'ETA'" [dateTimeInput]="etaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
-      <app-date-time-picker [header]="'ETD'" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'ETD'" [dateTimeInput]="etdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
     </div>
   </div>
   <div class="row" *ngIf="dateSequenceError">

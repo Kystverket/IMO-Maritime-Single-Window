@@ -15,7 +15,13 @@
 </div>
 
 <div [ngSwitch]="selectedComponent">
-    <app-voyages *ngSwitchCase="formNames.VOYAGES" [portCallId]="portCallId"></app-voyages>
+    <app-voyages *ngSwitchCase="formNames.VOYAGES"
+        [portCallId]="portCallId"
+        [shipModel]="shipModel"
+        [locationModel]="locationModel"
+        [etaModel]="etaModel"
+        [etdModel]="etdModel"
+    ></app-voyages>
     <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS" [portCallId]="portCallId"></app-port-call-details>
     <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES" [portCallId]="portCallId" [shipStoresList]="shipStoresData"></app-ship-stores>
     <app-cargo *ngSwitchCase="formNames.CARGO" [portCallId]="portCallId" [cargoData]="cargoData"></app-cargo>

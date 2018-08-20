@@ -8,7 +8,11 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallPassengerListService } from '../../../../../shared/services/port-call-passenger-list.service';
+import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { ShipModel } from 'app/shared/models/ship-model';
+import { LocationModel } from 'app/shared/models/location-model';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 
 @Component({
@@ -21,6 +25,12 @@ export class FormsComponent implements OnInit, OnDestroy {
   selectedComponent: string;
   portCallId: number;
 
+  // Voyages
+  shipModel: ShipModel;
+  locationModel: LocationModel;
+  etaModel: DateTime;
+  etdModel: DateTime;
+
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
 
@@ -31,6 +41,12 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
   shipStoresSubscription: Subscription;
+
+  // Voyages
+  shipSubscription: Subscription;
+  locationSubscription: Subscription;
+  etaSubscription: Subscription;
+  etdSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -50,6 +66,29 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    // Voyages
+    this.shipSubscription = this.portCallService.shipData$.subscribe(
+      data => {
+        this.shipModel = data;
+      }
+    );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.etaSubscription = this.portCallService.etaData$.subscribe(
+      data => {
+        this.etaModel = data;
+      }
+    );
+    this.etdSubscription = this.portCallService.etdData$.subscribe(
+      data => {
+        this.etdModel = data;
+      }
+    );
+
     this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
       data => {
         this.cargoData = data;
