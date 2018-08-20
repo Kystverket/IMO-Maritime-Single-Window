@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { SecurityPreviousPortOfCallModel } from '../../../../../../../../shared/models/security-previous-port-of-call-model';
 import { DatePipe } from '@angular/common';
 import { LocalDataSource } from '../../../../../../../../../../node_modules/ng2-smart-table';
+import { DeleteButtonComponent } from '../../../shared/delete-button/delete-button.component';
 
 @Component({
   selector: 'app-last-10-port-calls-table',
@@ -11,6 +12,8 @@ import { LocalDataSource } from '../../../../../../../../../../node_modules/ng2-
 })
 export class Last10PortCallsTableComponent implements OnInit, OnChanges {
   @Input() portCallList: SecurityPreviousPortOfCallModel[] = [];
+  @Output() delete = new EventEmitter<any>();
+
   portCallDataSource: LocalDataSource = new LocalDataSource();
 
   portCallTableSettings = {
@@ -37,6 +40,18 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
       shipSecurityLevel: {
         title: 'Ship Security Level',
         type: 'html'
+      },
+      delete: {
+        title: 'Delete',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: DeleteButtonComponent,
+        onComponentInitFunction: (instance) => {
+          instance.delete.subscribe(row => {
+            this.deletePortCall(row);
+          });
+        }
       }
     }
   };
@@ -55,6 +70,10 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     const rows = this.generateRows();
     this.portCallDataSource.load(rows);
+  }
+
+  deletePortCall(row) {
+    this.delete.emit(row);
   }
 
   generateRows() {

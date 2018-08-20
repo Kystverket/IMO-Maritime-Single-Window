@@ -96,6 +96,10 @@ export class Last10PortCallsComponent implements OnInit {
     this.portCallModel.securityLevelId = securityLevelResult.securityLevelId;
   }
 
+  onDeletePortCall(row) {
+    this.portCallList = this.portCallList.filter(entry => entry !== row.portCall);
+  }
+
   private validateDateTime() {
     if (this.arrivalModel && this.arrivalModel.date && this.departureModel && this.departureModel.date) {
       this.arrivalIsAfterDepartureError = this.isAfter(this.arrivalModel, this.departureModel);

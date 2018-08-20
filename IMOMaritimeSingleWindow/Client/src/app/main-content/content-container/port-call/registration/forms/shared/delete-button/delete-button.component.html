@@ -6,6 +6,10 @@
   <button *ngSwitchCase="formNames.CARGO" class="btn btn-sm btn-ssn" ngbTooltip="Delete Cargo Item" (click)="onDeleteClick(deleteModal)">
     <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
   </button>
+
+  <button *ngSwitchCase="formNames.SECURITY" class="btn btn-sm btn-ssn" ngbTooltip="Delete Port Call" (click)="onDeleteClick(deleteModal)">
+    <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+  </button>
 </div>
 
 <ng-template #deleteModal let-close="close()">
@@ -19,6 +23,7 @@
     <div [ngSwitch]="selectedForm">
       <span *ngSwitchCase="formNames.SHIP_STORES">Delete ship store?</span>
       <span *ngSwitchCase="formNames.CARGO">Delete cargo item?</span>
+      <span *ngSwitchCase="formNames.SECURITY">Delete port call?</span>
     </div>
   </div>
   <div class="modal-footer" [ngSwitch]="selectedForm">
@@ -31,8 +36,12 @@
       <span>Passenger Entry</span>
     </button>
     <button *ngSwitchCase="formNames.CARGO" class="btn btn-danger" (click)="deleteItem(); close">
-      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
-      <span>Delete</span>
+      <img src="assets/images/icons/128x128/white/trash.png" height="24px">
+      <span> Delete</span>
+    </button>
+    <button *ngSwitchCase="formNames.SECURITY" class="btn btn-danger" (click)="deleteItem(); close">
+      <img src="assets/images/icons/128x128/white/trash.png" height="24px">
+      <span> Delete</span>
     </button>
     <button type="button" class="btn btn-ssn" (click)="close">
       <span>Exit</span>
