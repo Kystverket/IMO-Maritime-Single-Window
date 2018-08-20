@@ -31,7 +31,8 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
       },
       arrival: {
         title: 'Arrival',
-        type: 'html'
+        type: 'html',
+        sortDirection: 'desc'
       },
       departure: {
         title: 'Departure',
