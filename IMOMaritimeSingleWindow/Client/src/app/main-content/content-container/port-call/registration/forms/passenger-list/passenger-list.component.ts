@@ -167,8 +167,8 @@ export class PassengerListComponent implements OnInit {
     this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
     // If there are any passengers in the list, set sequence number to one more than max value of sequence number in the passenger list.
     if (this.passengerList.length > 0) {
-      this.portCallPassengerModel.sequenceNumber = Math.max.apply(Math, this.passengerList.map(crewMember => {
-        return crewMember.sequenceNumber + 1;
+      this.portCallPassengerModel.sequenceNumber = Math.max.apply(Math, this.passengerList.map(passenger => {
+        return passenger.sequenceNumber + 1;
       }));
     } else {
       this.portCallPassengerModel.sequenceNumber = 1;
@@ -350,15 +350,15 @@ export class PassengerListComponent implements OnInit {
   }
 
   editPassenger($event) {
-    // Set corresponding crewMember to the edited instance
+    // Set corresponding passenger to the edited instance
     this.passengerList[this.passengerList.findIndex(p => p.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
-    this.personOnBoardService.setCrewList(this.passengerList);
+    this.personOnBoardService.setPassengersList(this.passengerList);
     // Make all dates Date objects again
     this.passengerList.forEach(passenger => { passenger = this.makeDates(passenger); });
     // Load to smart table
     this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
     this.listIsPristine = false;
-    this.personOnBoardService.setCrewDataIsPristine(false);
+    this.personOnBoardService.setPassengerDataIsPristine(false);
   }
 
   deletePassenger(row) {
