@@ -153,7 +153,6 @@ export class PassengerListComponent implements OnInit {
     });
 
     this.personOnBoardService.setPassengersList(this.passengerList);
-    this.personOnBoardService.setPassengerDataIsPristine(true);
 
     this.personOnBoardService.passengerDataIsPristine$.subscribe(isPristine => {
       this.listIsPristine = isPristine;

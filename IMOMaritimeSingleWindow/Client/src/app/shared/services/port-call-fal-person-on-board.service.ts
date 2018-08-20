@@ -101,12 +101,10 @@ export class PortCallFalPersonOnBoardService {
   // Setters
   setPassengersList(data) {
     this.passengerListSource.next(data);
-    this.setPassengerDataIsPristine(false);
   }
 
   setCrewList(data) {
     this.crewListSource.next(data);
-    this.setCrewDataIsPristine(false);
   }
 
   setPassengerDataIsPristine(isPristine: boolean) {

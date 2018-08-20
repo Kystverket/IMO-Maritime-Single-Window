@@ -37,6 +37,9 @@ export class SaveCrewListComponent implements OnInit {
           this.crewList = list;
         }
       });
+/*       this.personOnBoardService.crewDataIsPristine$.subscribe(isPristine => {
+        this.listIsPristine = isPristine;
+      }); */
 
     });
   }

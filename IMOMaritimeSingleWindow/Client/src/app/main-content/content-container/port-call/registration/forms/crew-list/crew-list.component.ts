@@ -1,12 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { NgForm } from '@angular/forms';
-import { PassengerModalComponent } from '../passenger-list/passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
-import { Observable } from 'rxjs/Observable';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
@@ -120,7 +118,6 @@ export class CrewListComponent implements OnInit {
 
   constructor(
     private personOnBoardService: PortCallFalPersonOnBoardService,
-    private identityDocumentService: IdentityDocumentService,
     private modalService: NgbModal
   ) { }
 
@@ -133,7 +130,6 @@ export class CrewListComponent implements OnInit {
     }
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable(this.crewList));
-
 
   // Initiate models
   this.portCallCrewModel = new PersonOnBoardModel();
@@ -153,7 +149,6 @@ export class CrewListComponent implements OnInit {
 
     // Set in service
     this.personOnBoardService.setCrewList(this.crewList);
-    this.personOnBoardService.setCrewDataIsPristine(true);
 
     this.personOnBoardService.crewDataIsPristine$.subscribe(isPristine => {
       this.listIsPristine = isPristine;
@@ -174,6 +169,7 @@ export class CrewListComponent implements OnInit {
       this.portCallCrewModel.sequenceNumber = 1;
     }
 
+    // Add the identityDocumentModel to crewModel
     this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
 
     // Add
