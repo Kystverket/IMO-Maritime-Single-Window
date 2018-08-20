@@ -23,12 +23,11 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item">
-        <form class="form-inline">
           <div class="btn-group">
-            <button routerLink="/auth/ChangePassword" routerLinkActive="active" class="btn btn-light btn-sm">{{userName}}</button>
+            <button routerLink="/auth/ChangePassword"  class="btn btn-light btn-sm">{{userName}}</button>
+            <button class="btn btn-light btn-sm" (click)="navigateToMyPage()">My page</button>
             <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
           </div>
-        </form>
       </li>
     </ul>
 
