@@ -38,7 +38,7 @@ import { NumberValidator } from './utils/custom-validators/number-validator.dire
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
-// import { ErrorService } from './services/error.service';
+import { ErrorService } from './services/error.service';
 
 @NgModule({
   imports: [
@@ -110,7 +110,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     LocationService,
     OrganizationService,
     ShipService,
-    DbConnectionService
+    DbConnectionService,
+    ErrorService
   ],
   entryComponents: [
     ConfirmationModalComponent,
