@@ -20,7 +20,9 @@ const CONTENT_NAMES = {
   CARGO: 'Cargo',
   SHIP_STORES: 'Ship Stores',
   CREW: 'Crew',
-  PASSENGER_LIST: 'Passenger List'
+  PASSENGER_LIST: 'Passenger List',
+  // Account
+  ACCOUNT_HOME: 'ACCOUNT_HOME',
 };
 
 export { CONTENT_NAMES };

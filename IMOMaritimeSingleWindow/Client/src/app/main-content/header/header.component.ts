@@ -171,6 +171,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/auth/login']);
   }
 
+  navigateToMyPage() {
+    this.contentService.setContent(CONTENT_NAMES.ACCOUNT_HOME);
+  }
+
   setContent(contentName: string) {
     this.contentService.setContent(contentName);
   }
