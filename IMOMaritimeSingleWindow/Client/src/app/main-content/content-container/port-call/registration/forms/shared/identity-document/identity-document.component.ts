@@ -28,6 +28,9 @@ export class IdentityDocumentComponent implements OnInit {
   issueDateAfterExpiryDateError = false;
   expiryDateBeforeIssueDateError = false;
 
+  issueDateValid = true;
+  expiryDateValid = true;
+
   constructor(
     private identityDocumentService: IdentityDocumentService,
     private validateDateTimeService: ValidateDateTimeService
@@ -76,9 +79,10 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   setIdentityDocumentIssueDate($event) {
+    console.log($event);
     let date: Date = new Date();
-    if ($event) {
-      date = new Date($event.year, $event.month - 1, $event.day);
+    if ($event.date) {
+      date = new Date($event.date.year, $event.date.month - 1, $event.date.day);
     } else {
       date = null;
     }
@@ -89,13 +93,14 @@ export class IdentityDocumentComponent implements OnInit {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
+    this.issueDateValid = $event.validDate;
     this.identityDocumentModelChanged();
   }
 
   setIdentityDocumentExpiryDate($event) {
     let date: Date = new Date();
-    if ($event) {
-      date = new Date($event.year, $event.month - 1, $event.day);
+    if ($event.date) {
+      date = new Date($event.date.year, $event.date.month - 1, $event.date.day);
     } else {
       date = null;
     }
@@ -106,6 +111,7 @@ export class IdentityDocumentComponent implements OnInit {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
+    this.expiryDateValid = $event.validDate;
     this.identityDocumentModelChanged();
   }
 
