@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocationProperties } from 'app/shared/constants/location-properties';
-import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
-import { NgbDate } from '../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 
 @Component({
   selector: 'app-voyages',
@@ -20,10 +20,8 @@ export class VoyagesComponent implements OnInit {
   locationFound = false;
   locationProperties = new LocationProperties().getPropertyList();
 
-  etaEtdModel: EtaEtdDateTime = {
-    eta: null,
-    etd: null
-  };
+  etaModel: DateTime;
+  etdModel: DateTime;
 
   dateSequenceError = false;
   timeSequenceError = false;
@@ -64,26 +62,26 @@ export class VoyagesComponent implements OnInit {
   }
 
   onEtaResult(etaResult) {
-    this.etaEtdModel.eta = etaResult;
+    this.etaModel = etaResult;
     this.validateData();
   }
 
   onEtdResult(etdResult) {
-    this.etaEtdModel.etd = etdResult;
+    this.etdModel = etdResult;
     this.validateData();
   }
 
   private validateData() {
-    if (this.etaEtdModel.eta && this.etaEtdModel.etd) {
-      const etaDate = new NgbDate(this.etaEtdModel.eta.date.year, this.etaEtdModel.eta.date.month, this.etaEtdModel.eta.date.day);
-      const etdDate = new NgbDate(this.etaEtdModel.etd.date.year, this.etaEtdModel.etd.date.month, this.etaEtdModel.etd.date.day);
+    if (this.etaModel && this.etdModel) {
+      const etaDate = new NgbDate(this.etaModel.date.year, this.etaModel.date.month, this.etaModel.date.day);
+      const etdDate = new NgbDate(this.etdModel.date.year, this.etdModel.date.month, this.etdModel.date.day);
 
       this.dateSequenceError = etdDate.before(etaDate);
 
       if (etdDate.equals(etaDate)) {
-        this.timeSequenceError = this.etaEtdModel.eta.time.hour > this.etaEtdModel.etd.time.hour
-          || (this.etaEtdModel.eta.time.hour === this.etaEtdModel.etd.time.hour
-          && this.etaEtdModel.eta.time.minute >= this.etaEtdModel.etd.time.minute);
+        this.timeSequenceError = this.etaModel.time.hour > this.etdModel.time.hour
+          || (this.etaModel.time.hour === this.etdModel.time.hour
+          && this.etaModel.time.minute >= this.etdModel.time.minute);
       } else {
         this.timeSequenceError = false;
       }
@@ -96,10 +94,10 @@ export class VoyagesComponent implements OnInit {
 
   private persistData() {
 
-    if (!this.dateSequenceError && !this.timeSequenceError && this.etaEtdModel && this.etaEtdModel.eta && this.etaEtdModel.etd) {
+    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel && this.etdModel) {
       const etaEtdData = {
-        eta: Object.assign(this.etaEtdModel.eta.date, this.etaEtdModel.eta.time),
-        etd: Object.assign(this.etaEtdModel.etd.date, this.etaEtdModel.etd.time)
+        eta: Object.assign(this.etaModel.date, this.etaModel.time),
+        etd: Object.assign(this.etdModel.date, this.etdModel.time)
       };
 
       // const formattedDate = this.portCallService.etaEtdDataFormat()

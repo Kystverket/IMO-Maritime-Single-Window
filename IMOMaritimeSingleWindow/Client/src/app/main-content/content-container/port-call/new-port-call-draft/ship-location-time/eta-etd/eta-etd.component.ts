@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -12,7 +11,7 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class EtaEtdComponent implements OnInit, OnDestroy {
 
-  etaEtdModel: EtaEtdDateTime = {
+  etaEtdModel = {
     eta: null,
     etd: null
   };

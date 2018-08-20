@@ -17,6 +17,9 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
 
   @Input() portCallId: number;
 
+  @Input() currentEtaModel: DateTime;
+  @Input() currentEtdModel: DateTime;
+
   prevLocationModel: LocationModel = null;
   nextLocationModel: LocationModel = null;
 
@@ -25,9 +28,6 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
 
   prevEtdModel: DateTime;
   nextEtaModel: DateTime;
-
-  currentEtaModel: DateTime;
-  currentEtdModel: DateTime;
 
   prevEtdIsAfterCurrentEtaError = false;
   nextEtaIsBeforeCurrentEtdError = false;
@@ -39,7 +39,6 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
   nextPortOfCallDataSubscription: Subscription;
   prevPortOfCallEtdDataSubscription: Subscription;
   nextPortOfCallEtaDataSubscription: Subscription;
-  currentPortOfCallEtaEtdSubscription: Subscription;
 
   constructor(private prevAndNextPocService: PrevAndNextPocService, private portCallService: PortCallService) { }
 
@@ -111,22 +110,6 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
         this.validateDateTime();
       }
     );
-
-    this.currentPortOfCallEtaEtdSubscription = this.portCallService.etaEtdData$.subscribe(
-      etaEtdData => {
-        if (etaEtdData) {
-          this.currentEtaModel = {
-            date: new NgbDate(etaEtdData.eta.year, etaEtdData.eta.month, etaEtdData.eta.day),
-            time: new NgbTime(etaEtdData.eta.hour, etaEtdData.eta.minute, 0)
-          };
-          this.currentEtdModel = {
-            date: new NgbDate(etaEtdData.etd.year, etaEtdData.etd.month, etaEtdData.etd.day),
-            time: new NgbTime(etaEtdData.etd.hour, etaEtdData.etd.minute, 0)
-          };
-        }
-        this.validateDateTime();
-      }
-    );
   }
 
   ngOnDestroy() {
@@ -134,7 +117,6 @@ export class PrevAndNextPocComponent implements OnInit, OnDestroy {
     this.nextPortOfCallDataSubscription.unsubscribe();
     this.prevPortOfCallEtdDataSubscription.unsubscribe();
     this.nextPortOfCallEtaDataSubscription.unsubscribe();
-    this.currentPortOfCallEtaEtdSubscription.unsubscribe();
   }
 
   onPrevLocationResult(prevLocationResult) {

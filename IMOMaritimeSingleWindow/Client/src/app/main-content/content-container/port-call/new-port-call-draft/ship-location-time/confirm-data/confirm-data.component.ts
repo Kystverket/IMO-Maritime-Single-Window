@@ -7,7 +7,6 @@ import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model'
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { EtaEtdDateTime } from 'app/shared/interfaces/eta-etd-date-time.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { Subscription } from 'rxjs/Subscription';
@@ -27,7 +26,7 @@ const RESULT_FAILURE =
 export class ConfirmDataComponent implements OnInit, OnDestroy {
   shipModel: any;
   locationModel: any;
-  etaEtdModel: EtaEtdDateTime;
+  etaEtdModel;
   portCallModel: PortCallModel = new PortCallModel();
 
   shipFound: boolean;

@@ -41,14 +41,16 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/prev-and-next-poc.component';
-import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
 import { VoyagesComponent } from './registration/forms/voyages/voyages.component';
+import { PrevAndNextPocComponent } from './registration/forms/voyages/prev-and-next-poc/prev-and-next-poc.component';
+import { SavePrevAndNextPocComponent } from './registration/forms/voyages/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
+import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
+import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 
 @NgModule({
   imports: [
@@ -100,6 +102,8 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
     ConsignmentFormComponent,
     CargoItemFormComponent,
     VoyagesComponent,
+    SaveVoyagesComponent,
+    SaveNewPortCallComponent,
   ],
   exports: [
     ClearanceComponent,
