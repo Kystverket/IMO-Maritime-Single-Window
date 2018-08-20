@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { OrganizationButtonRowComponent } from 'app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component';
-import { OrganizationSmartTableComponent } from 'app/shared/components/organization-smart-table/organization-smart-table.component';
-import { ShipButtonRowComponent } from 'app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component';
-import { DbConnectionService } from 'app/shared/services/db-connection.service';
+import { OrganizationButtonRowComponent } from './components/organization-smart-table/organization-button-row/organization-button-row.component';
+import { OrganizationSmartTableComponent } from './components/organization-smart-table/organization-smart-table.component';
+import { ShipButtonRowComponent } from './components/ship-smart-table/ship-button-row/ship-button-row.component';
+import { DbConnectionService } from './services/db-connection.service';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { ClearancesComponent } from './components/confirmation-view/clearances/clearances.component';
@@ -18,6 +17,7 @@ import { DateTimePickerComponent } from './components/date-time-picker/date-time
 import { LocationInfoTableComponent } from './components/location-info-table/location-info-table.component';
 import { LocationTimeInfoTableComponent } from './components/location-time-info-table/location-time-info-table.component';
 import { PrevAndNextPocTableComponent } from './components/prev-and-next-poc-table/prev-and-next-poc-table.component';
+import { SearchCountryComponent } from './components/search-country/search-country.component';
 import { SearchLocationComponent } from './components/search-location/search-location.component';
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/search-ship-flag-code.component';
@@ -38,6 +38,8 @@ import { NumberValidator } from './utils/custom-validators/number-validator.dire
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
+import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
 
 @NgModule({
@@ -46,12 +48,15 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     FormsModule,
     Ng2SmartTableModule,
     NgbModule,
-    NgSelectModule,
+    NgSelectModule
   ],
   declarations: [
+    AlphaNumericValidator,
     ClearancesComponent,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
+    ContactSelectComponent,
+    DateTimePickerComponent,
     IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
@@ -60,9 +65,12 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     OrganizationSmartTableComponent,
     PortCallDetailsComponent,
     PositiveNumberValidator,
+    PrevAndNextPocTableComponent,
+    SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectedPurposesComponent,
     SelectShipContactComponent,
@@ -71,6 +79,7 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     ShipSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
+    SsnTableComponent,
     TableCardComponent,
     DateTimePickerComponent,
     SsnTableComponent,
@@ -82,23 +91,30 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     UserInfoTableComponent,
   ],
   exports: [
+    AlphaNumericValidator,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
+    ContactSelectComponent,
+    DateTimePickerComponent,
     IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
     NumberValidator,
     OrganizationSmartTableComponent,
     PositiveNumberValidator,
+    PrevAndNextPocTableComponent,
+    SearchCountryComponent,
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectShipContactComponent,
     ShipInfoTableComponent,
     ShipSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
+    SsnTableComponent,
     TableCardComponent,
     DateTimePickerComponent,
     SsnTableComponent,

@@ -1,0 +1,12 @@
+<div class="input-group">
+  <div class="input-group-prepend">
+    <button class="btn btn-sm btn-ssn" (click)="doB.toggle()" type="button">
+      <img src="assets/images/icons/128x128/white/calendar.png" height="20px" />
+    </button>
+  </div>
+  <input id="doB" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="doB" [showWeekNumbers]="true"
+    [(ngModel)]="dateModel" ngbDatepicker #doB="ngbDatepicker" (ngModelChange)="dateChanged($event)">
+</div>
+<div *ngIf="!validDateFormat" class="alert alert-danger" role="alert">
+  <span>Invalid date format.</span>
+</div>

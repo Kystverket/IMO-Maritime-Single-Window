@@ -21,64 +21,18 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpPost("list")]
-        public IActionResult AddList([FromBody] List<PersonOnBoard> personOnBoardList)
+        [HttpGet("list/portCall/{portCallId}")]
+        public IActionResult GetPersonOnBoardList(int portCallId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId));
-                _context.PersonOnBoard.RemoveRange(removeList);
-                _context.PersonOnBoard.AddRange(personOnBoardList);
-                _context.SaveChanges();
-                return Ok(true);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
-
-        [HttpPut("list")]
-        public IActionResult UpdateList([FromBody] List<PersonOnBoard> personOnBoardList)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                var oldList = _context.PersonOnBoard.Where(s => personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId));
-                _context.PersonOnBoard.RemoveRange(removeList);
-                foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
-                {
-                    if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
-                    {
-                        _context.Update(personOnBoardEntity);
-                    }
-                    else
-                    {
-                        _context.Add(personOnBoardEntity);
-                    }
-                }
-                _context.SaveChanges();
-                return Ok(true);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
-        {
-            PersonOnBoard personOnBoard = _context.PersonOnBoard.FirstOrDefault(s => s.PersonOnBoardId == id);
+            var personOnBoard = _context.PersonOnBoard.Where(pob => pob.PortCallId == portCallId)
+                                        .Include(pob => pob.CountryOfBirth)
+                                        .Include(pob => pob.Gender)
+                                        .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+                                        .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+                                        .Include(pob => pob.Nationality)
+                                        .Include(pob => pob.PersonOnBoardType)
+                                        .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+                                        .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country).ToList();
             if (personOnBoard == null)
             {
                 return NotFound();
@@ -86,13 +40,43 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(personOnBoard);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetPersonOnBoard(int id)
+        {
+            var personOnBoard = _context.PersonOnBoard.Where(pob => pob.PersonOnBoardId == id)
+                                        .Include(pob => pob.CountryOfBirth)
+                                        .Include(pob => pob.Gender)
+                                        .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+                                        .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+                                        .Include(pob => pob.Nationality)
+                                        .Include(pob => pob.PersonOnBoardType)
+                                        .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+                                        .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country).ToList();
+            if (personOnBoard == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoard);
+        }
+
+        [HttpGet("{id}/identitydocument")]
+        public IActionResult GetIdentityDocument(int id)
+        {
+            IdentityDocument identitydocument = _context.IdentityDocument.FirstOrDefault(s => s.PersonOnBoardId == id);
+            if (identitydocument == null)
+            {
+                return NotFound();
+            }
+            return Json(identitydocument);
+        }
+
         [HttpGet("")]
         public IActionResult GetAll()
         {
-            List<PersonOnBoard> resultList = _context.PersonOnBoard.OrderBy(s => s.PersonOnBoardId).ToList();
+            List<PersonOnBoard> resultList = _context.PersonOnBoard.Where(s => s.PersonOnBoardTypeId == 2).OrderBy(s => s.PersonOnBoardId).ToList();
+            // List<PersonOnBoard> resultList = _context.PersonOnBoard.OrderBy(s => s.PersonOnBoardId).ToList();
             return Json(resultList);
         }
-
 
         [HttpPost()]
         public IActionResult Add([FromBody] PersonOnBoard personOnBoard)

@@ -169,5 +169,4 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
       shipStore.sequenceNumber = index + 1;
     });
   }
-
 }

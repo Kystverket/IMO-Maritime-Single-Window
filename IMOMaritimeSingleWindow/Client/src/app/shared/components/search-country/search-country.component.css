@@ -1,0 +1,14 @@
+p {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    line-height: 0px;
+}
+
+img {
+    margin: 0 5px !important;
+}
+
+.input-group-append {
+    display: flex;
+    align-items: center;
+}

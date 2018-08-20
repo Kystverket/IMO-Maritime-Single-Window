@@ -51,6 +51,13 @@ export class LocationService {
     this.locationDataSource.next(data);
   }
 
+  getLocationById(locationId: number) {
+    const uri = [this.locationUrl, locationId].join('/');
+    console.log(uri);
+    return this.http.get(uri);
+  }
+
+
   public updateLocation(location: LocationModel): Observable<any> {
     location.country = null;
     location.locationType = null;

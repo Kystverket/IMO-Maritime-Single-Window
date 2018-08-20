@@ -1,19 +1,26 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { LocationService } from 'app/shared/services/location.service';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { CountryService } from 'app/shared/services/country.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 
 @Component({
-  selector: 'app-search-passenger-port',
-  templateUrl: './search-passenger-port.component.html',
-  styleUrls: ['./search-passenger-port.component.css']
+  selector: 'app-search-country',
+  templateUrl: './search-country.component.html',
+  styleUrls: ['./search-country.component.css']
 })
-export class SearchPassengerPortComponent implements OnInit {
+export class SearchCountryComponent implements OnInit {
 
-  @Input() showDropdown = true;
-  @Input() restrictTypeHarbour = false;
+  @Input() showDropDown = true;
+
+  @Output() selectCountry: EventEmitter<any> = new EventEmitter();
+  @Output() deselectCountry: EventEmitter<any> = new EventEmitter();
+
+  locationFlag: string;
+  locationProperties = LocationProperties.PROPERTIES;
+  locationInfo: any[];
 
   resultsDropdown = SEARCH_AMOUNTS.DROPDOWN;
   resultsWithoutDropdown = SEARCH_AMOUNTS.WITHOUT_DROPDOWN_2;
@@ -26,11 +33,9 @@ export class SearchPassengerPortComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private locationService: LocationService) { }
-
-  ngOnInit() {
-    this.locationService.setLocationData(null);
-  }
+  constructor(
+    private countryService: CountryService
+  ) { }
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -40,8 +45,8 @@ export class SearchPassengerPortComponent implements OnInit {
         this.searchFailed = false;
         this.searching = (term.length >= 2);
       }),
-      switchMap(term => (this.showDropdown) ?
-        this.locationService.search(term, this.restrictTypeHarbour, this.resultsDropdown).pipe(
+      switchMap(term => (this.showDropDown) ?
+        this.countryService.search(term).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -52,14 +57,15 @@ export class SearchPassengerPortComponent implements OnInit {
         ) : of([])
       ),
       tap(res => {
-        if (this.showDropdown) {
+        if (this.showDropDown) {
           this.searching = false;
           this.searchFailed = this.locationModel.length >= 2 && res.length === 0;
         } else {
-          this.locationService.search(this.locationModel, this.restrictTypeHarbour, this.resultsWithoutDropdown).subscribe(
+          this.countryService.search(this.locationModel).subscribe(
             data => {
+              console.log(data);
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
-              this.locationService.setLocationSearchData(data);
+              // this.countryService.setCountrySearchData(data);
               this.searching = false;
             });
         }
@@ -67,16 +73,24 @@ export class SearchPassengerPortComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-  formatter = (x: { locationId: string }) => x.locationId;
+    formatter = (x: { locationId: string }) => x.locationId;
 
   selectLocation($event) {
     this.locationSelected = true;
     this.locationModel = $event.item;
-    this.locationService.setLocationData(this.locationModel);
+    this.locationFlag = ($event.item.twoCharCode) ? $event.item.twoCharCode.toLowerCase() : null;
+    this.selectCountry.emit($event);
+    // this.countryService.setCountryData(this.locationModel);
   }
 
   deselectLocation() {
     this.locationSelected = false;
-    this.locationService.setLocationData(null);
+    this.locationModel = null;
+    this.locationFlag = null;
+    this.deselectCountry.emit();
   }
+
+  ngOnInit() {
+  }
+
 }

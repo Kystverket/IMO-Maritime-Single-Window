@@ -7,6 +7,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 
 @Component({
@@ -48,6 +49,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
   cargoIsPrisitne = true;
   shipStoresIsPristine = true;
+  passengerListIsPristine = true;
+  crewListIsPristine = true;
 
   selectedPortCallForm: string;
 
@@ -59,6 +62,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
   cargoDataIsPristineSubscription: Subscription;
+  passengerDataIsPristineSubscription: Subscription;
+  crewDataIsPristineSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
@@ -66,7 +71,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: FalShipStoresService,
-    private cargoService: FalCargoService
+    private cargoService: FalCargoService,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -118,6 +124,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
           // Set checked in services for FAL forms
           this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
+          this.personOnBoardService.setPassengerCheckedInProgressBar(reportingData.reportingPax);
+          this.personOnBoardService.setCrewCheckedInProgressBar(reportingData.reportingCrew);
         }
       }
     );
@@ -181,6 +189,31 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.passengerDataIsPristineSubscription = this.personOnBoardService.passengerDataIsPristine$.subscribe(
+      passengerDataIsPristine => {
+        this.passengerListIsPristine = passengerDataIsPristine;
+        const pax = this.menuEntries.find(
+          p => p.name === this.formNames.PAX
+        );
+        if (pax) {
+          pax.hasUnsavedData = !passengerDataIsPristine;
+        }
+      }
+    );
+
+    this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
+      crewDataIsPristine => {
+        this.crewListIsPristine = crewDataIsPristine;
+        const crew = this.menuEntries.find(
+          p => p.name === this.formNames.CREW
+        );
+        if (crew) {
+          crew.hasUnsavedData = !crewDataIsPristine;
+        }
+      }
+    );
+
   }
 
   ngOnDestroy() {

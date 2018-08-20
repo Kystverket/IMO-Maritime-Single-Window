@@ -5,7 +5,7 @@ namespace IMOMaritimeSingleWindow.Models
 {
     public partial class PersonOnBoard
     {
-        public PersonOnBoard()
+         public PersonOnBoard()
         {
             IdentityDocument = new HashSet<IdentityDocument>();
         }
@@ -38,5 +38,14 @@ namespace IMOMaritimeSingleWindow.Models
         public Location PortOfDisembarkation { get; set; }
         public Location PortOfEmbarkation { get; set; }
         public ICollection<IdentityDocument> IdentityDocument { get; set; }
+
+        public override String ToString()
+        {
+            return PersonOnBoardId + "\n"
+            + FamilyName + "\n"
+            + GivenName + "\n"
+            + DateOfBirth + "\n"
+            + OccupationName;
+        }
     }
 }
