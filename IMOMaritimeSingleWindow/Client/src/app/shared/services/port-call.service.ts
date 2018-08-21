@@ -39,9 +39,6 @@ export class PortCallService {
   private portCallIdSource = new BehaviorSubject<any>(null);
   portCallIdData$ = this.portCallIdSource.asObservable();
 
-  private updateOverviewSource = new BehaviorSubject<any>(null);
-  updateOverview$ = this.updateOverviewSource.asObservable();
-
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
 
@@ -82,6 +79,9 @@ export class PortCallService {
   private voyagesErrorsSource = new BehaviorSubject<boolean>(null);
   voyagesErrors$ = this.voyagesErrorsSource.asObservable();
 
+  private voyagesIsPristineSource = new BehaviorSubject<boolean>(true);
+  voyagesIsPristine$ = this.voyagesIsPristineSource.asObservable();
+
   constructor(
     private http: HttpClient,
     private prevAndNextPocService: PrevAndNextPocService,
@@ -95,10 +95,6 @@ export class PortCallService {
       time: new NgbTime(dateObject.getHours(), dateObject.getMinutes(), 0)
     };
     return dateTime;
-  }
-
-  setUpdateOverview(data) {
-    this.updateOverviewSource.next(data);
   }
 
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
@@ -127,8 +123,7 @@ export class PortCallService {
 
   updatePortCall(portCall: PortCallModel): Observable<any> {
     console.log('Updating port call...');
-    return this.http
-      .put(this.portCallUrl, portCall);
+    return this.http.put(this.portCallUrl, portCall);
   }
 
   setPortCallIdData(data) {
@@ -136,37 +131,49 @@ export class PortCallService {
   }
 
   setShipData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.shipDataSource.next(data);
   }
   setLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.locationDataSource.next(data);
   }
   setEtaData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.etaSource.next(data);
   }
   setEtdData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.etdSource.next(data);
   }
   setPrevLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.prevLocationDataSource.next(data);
   }
   setPrevEtdData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.prevEtdSource.next(data);
   }
   setNextLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.nextLocationDataSource.next(data);
   }
   setNextEtaData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.nextEtaSource.next(data);
   }
+  setVoyagesErrors(hasError: boolean) {
+    this.voyagesErrorsSource.next(hasError);
+  }
+  setVoyagesIsPristine(isPristine: boolean) {
+    this.voyagesIsPristineSource.next(isPristine);
+  }
+
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
   setCreatedByUserData(data) {
     this.createdByUserDataSource.next(data);
-  }
-  setVoyagesErrors(hasError: boolean) {
-    this.voyagesErrorsSource.next(hasError);
   }
 
   // REGISTER NEW PORT CALL

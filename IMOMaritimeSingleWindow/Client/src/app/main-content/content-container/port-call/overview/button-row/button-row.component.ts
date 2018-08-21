@@ -209,7 +209,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         if (data) {
           console.log(data);
           this.portCallService.setPortCall(data);
-          // this.portCallService.setDataPristine(true);
+          this.portCallService.setVoyagesIsPristine(true);
           this.cargoService.setDataIsPristine(true);
           this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
           this.shipStoresService.setDataIsPristine(true);
