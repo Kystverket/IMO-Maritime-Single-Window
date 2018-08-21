@@ -5,7 +5,6 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -19,13 +18,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   baseMenuEntries: any[] = [
     {
       name: FORM_NAMES.VOYAGES,
-      icon: 'voyage.png',
-      checked: true,
-      hasError: false,
-      hasUnsavedData: false
-    },
-    {
-      name: FORM_NAMES.PREV_AND_NEXT_POC,
       icon: 'voyage.png',
       checked: true,
       hasError: false,
@@ -60,7 +52,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   portCallFormNameSubscription: Subscription;
   crewPassengersAndDimensionsMetaSubscription: Subscription;
   voyagesDataIsPristineSubscription: Subscription;
-  voyagesMetaSubscription: Subscription;
+  voyagesErrorSubscription: Subscription;
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
   cargoDataIsPristineSubscription: Subscription;
@@ -68,7 +60,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   constructor(
     private portCallService: PortCallService,
     private portCallDetailsService: PortCallDetailsService,
-    private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService
@@ -141,19 +132,19 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.voyagesDataIsPristineSubscription = this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+    this.voyagesDataIsPristineSubscription = this.portCallService.voyagesIsPristine$.subscribe(
       pristineData => {
         this.menuEntries.find(
-          p => p.name === FORM_NAMES.PREV_AND_NEXT_POC
+          p => p.name === FORM_NAMES.VOYAGES
         ).hasUnsavedData = !pristineData;
       }
     );
 
-    this.voyagesMetaSubscription = this.prevAndNextPortCallService.prevAndNextPortOfCallMeta$.subscribe(
-      metaData => {
+    this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
+      hasError => {
         this.menuEntries.find(
-          p => p.name === FORM_NAMES.PREV_AND_NEXT_POC
-        ).hasError = !metaData.valid;
+          p => p.name === FORM_NAMES.VOYAGES
+        ).hasError = hasError;
       }
     );
 

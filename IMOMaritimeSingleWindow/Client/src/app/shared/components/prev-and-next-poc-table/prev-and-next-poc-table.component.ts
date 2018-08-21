@@ -3,6 +3,7 @@ import { NextLocationTimeProperties } from 'app/shared/constants/next-location-t
 import { PrevLocationTimeProperties } from 'app/shared/constants/prev-location-time-properties';
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallService } from '../../services/port-call.service';
+import { DateTime } from '../../interfaces/dateTime.interface';
 
 @Component({
   selector: 'app-prev-and-next-poc-table',
@@ -50,6 +51,7 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
         this.nextLocationTimeProperties.LOCATION_CODE.data = nextPocResult.locationCode;
         this.portCallService.nextEtaData$.subscribe(dateTimeResult => {
           if (dateTimeResult) {
+            console.log(dateTimeResult);
             this.nextLocationTimeProperties.ETA.data = this.dateTimeFormat(dateTimeResult);
           }
         });
@@ -65,18 +67,17 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
     this.nextPortOfCallDataSubscription.unsubscribe();
   }
 
-  private dateTimeFormat(dateTime) {
-    dateTime = new Date(dateTime);
+  private dateTimeFormat(dateTime: DateTime) {
     return (
-      dateTime.getFullYear() +
+      dateTime.date.year +
       '-' +
-      this.twoDigitFormat(dateTime.getMonth() + 1) +
+      this.twoDigitFormat(dateTime.date.month) +
       '-' +
-      this.twoDigitFormat(dateTime.getDate()) +
+      this.twoDigitFormat(dateTime.date.day) +
       ' ' +
-      this.twoDigitFormat(dateTime.getHours()) +
+      this.twoDigitFormat(dateTime.time.hour) +
       ':' +
-      this.twoDigitFormat(dateTime.getMinutes())
+      this.twoDigitFormat(dateTime.time.minute)
     );
   }
 
