@@ -26,8 +26,7 @@ export class VoyagesComponent implements OnInit {
   locationFound = false;
   locationProperties = new LocationProperties().getPropertyList();
 
-  dateSequenceError = false;
-  timeSequenceError = false;
+  etaIsAfterEtdError = false;
 
   constructor(private portCallService: PortCallService) { }
 
@@ -83,13 +82,11 @@ export class VoyagesComponent implements OnInit {
     this.etaModel = etaResult;
     this.validateData();
     this.persistEta();
-    this.persistEtd();
   }
 
   onEtdResult(etdResult) {
     this.etdModel = etdResult;
     this.validateData();
-    this.persistEta();
     this.persistEtd();
   }
 
@@ -98,34 +95,27 @@ export class VoyagesComponent implements OnInit {
       const etaDate = new NgbDate(this.etaModel.date.year, this.etaModel.date.month, this.etaModel.date.day);
       const etdDate = new NgbDate(this.etdModel.date.year, this.etdModel.date.month, this.etdModel.date.day);
 
-      this.dateSequenceError = etdDate.before(etaDate);
+      this.etaIsAfterEtdError = etdDate.before(etaDate);
 
       if (etdDate.equals(etaDate)) {
-        this.timeSequenceError = this.etaModel.time.hour > this.etdModel.time.hour
+        this.etaIsAfterEtdError = this.etaModel.time.hour > this.etdModel.time.hour
           || (this.etaModel.time.hour === this.etdModel.time.hour
             && this.etaModel.time.minute >= this.etdModel.time.minute);
-      } else {
-        this.timeSequenceError = false;
       }
     } else {
-      this.dateSequenceError = false;
-      this.timeSequenceError = false;
+      this.etaIsAfterEtdError = false;
     }
   }
 
   private persistEta() {
-    if (!this.dateSequenceError && !this.timeSequenceError && this.etaModel) {
+    if (this.etaModel) {
       this.portCallService.setEtaData(this.etaModel);
-    } else {
-      this.portCallService.setEtaData(null);
     }
   }
 
   private persistEtd() {
-    if (!this.dateSequenceError && !this.timeSequenceError && this.etdModel) {
+    if (this.etdModel) {
       this.portCallService.setEtdData(this.etdModel);
-    } else {
-      this.portCallService.setEtdData(null);
     }
   }
 }

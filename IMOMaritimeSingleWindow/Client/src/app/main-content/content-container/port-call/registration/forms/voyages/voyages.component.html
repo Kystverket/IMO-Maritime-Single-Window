@@ -32,21 +32,16 @@
   <div class="row">
     <div class="col-md-6">
       <app-date-time-picker [header]="'ETA'" [dateTimeInput]="etaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+      <pre>{{ etaModel | json }}</pre>
     </div>
     <div class="col-md-6">
       <app-date-time-picker [header]="'ETD'" [dateTimeInput]="etdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+      <pre>{{ etdModel | json }}</pre>
     </div>
   </div>
-  <div class="row" *ngIf="dateSequenceError">
-    <div class="col-2"></div>
-    <div class="col-8 alert alert-danger" role="alert">
-      <span>Departure date can not be before arrival date.</span>
-    </div>
-  </div>
-  <div class="row" *ngIf="timeSequenceError">
-    <div class="col-2"></div>
-    <div class="col-8 alert alert-danger" role="alert">
-      <span>Departure time must be after arrival time.</span>
+  <div class="row justify-content-center" *ngIf="etaIsAfterEtdError">
+    <div class="col-6 alert alert-danger" role="alert">
+      <span>Departure must be after arrival.</span>
     </div>
   </div>
 </app-ssn-card>
