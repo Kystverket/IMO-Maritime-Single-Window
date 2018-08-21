@@ -56,6 +56,7 @@ export class VoyagesComponent implements OnInit {
       this.setPrevLocationData(this.prevLocationModel);
     }
 
+    console.log(this.nextLocationModel);
     this.nextLocationFound = !!this.nextLocationModel;
     if (this.nextLocationFound) {
       this.setNextLocationData(this.nextLocationModel);
@@ -201,7 +202,7 @@ export class VoyagesComponent implements OnInit {
 
   private persistNextEta() {
     if (this.nextEtaModel) {
-      this.portCallService.setNextEtdData(this.nextEtaModel);
+      this.portCallService.setNextEtaData(this.nextEtaModel);
     }
   }
 

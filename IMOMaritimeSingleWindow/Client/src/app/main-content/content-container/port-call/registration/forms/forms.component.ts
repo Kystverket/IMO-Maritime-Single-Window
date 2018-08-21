@@ -30,6 +30,10 @@ export class FormsComponent implements OnInit, OnDestroy {
   locationModel: LocationModel;
   etaModel: DateTime;
   etdModel: DateTime;
+  prevLocationModel: LocationModel;
+  prevEtdModel: DateTime;
+  nextLocationModel: LocationModel;
+  nextEtaModel: DateTime;
 
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
@@ -47,6 +51,10 @@ export class FormsComponent implements OnInit, OnDestroy {
   locationSubscription: Subscription;
   etaSubscription: Subscription;
   etdSubscription: Subscription;
+  prevLocationSubscription: Subscription;
+  prevEtdSubscription: Subscription;
+  nextLocationSubscription: Subscription;
+  nextEtaSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -88,6 +96,31 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.etdModel = data;
       }
     );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.prevLocationSubscription = this.portCallService.prevLocationData$.subscribe(
+      data => {
+        this.prevLocationModel = data;
+      }
+    );
+    this.prevEtdSubscription = this.portCallService.prevEtdData$.subscribe(
+      data => {
+        this.prevEtdModel = data;
+      }
+    );
+    this.nextLocationSubscription = this.portCallService.nextLocationData$.subscribe(
+      data => {
+        this.nextLocationModel = data;
+      }
+    );
+    this.nextEtaSubscription = this.portCallService.nextEtaData$.subscribe(
+      data => {
+        this.nextEtaModel = data;
+      }
+    );
 
     this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
       data => {
@@ -127,5 +160,9 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
+    this.prevLocationSubscription.unsubscribe();
+    this.prevEtdSubscription.unsubscribe();
+    this.nextLocationSubscription.unsubscribe();
+    this.nextEtaSubscription.unsubscribe();
   }
 }

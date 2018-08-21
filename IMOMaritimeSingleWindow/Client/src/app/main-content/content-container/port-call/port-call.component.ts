@@ -5,6 +5,7 @@ import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
+import { FORM_NAMES } from '../../../shared/constants/form-names';
 
 @Component({
   selector: 'app-port-call',
@@ -45,6 +46,7 @@ export class PortCallComponent implements OnInit, OnDestroy {
 
   selectRegister() {
     this.portCallService.wipeServiceData();
+    this.contentService.setPortCallForm(FORM_NAMES.VOYAGES);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 }

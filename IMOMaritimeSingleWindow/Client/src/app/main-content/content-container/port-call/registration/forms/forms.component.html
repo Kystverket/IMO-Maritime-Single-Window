@@ -21,6 +21,10 @@
         [locationModel]="locationModel"
         [etaModel]="etaModel"
         [etdModel]="etdModel"
+        [prevLocationModel]="prevLocationModel"
+        [prevEtdModel]="prevEtdModel"
+        [nextLocationModel]="nextLocationModel"
+        [nextEtaModel]="nextEtaModel"
     ></app-voyages>
     <app-port-call-details *ngSwitchCase="formNames.PORT_CALL_DETAILS" [portCallId]="portCallId"></app-port-call-details>
     <app-ship-stores *ngSwitchCase="formNames.SHIP_STORES" [portCallId]="portCallId" [shipStoresList]="shipStoresData"></app-ship-stores>

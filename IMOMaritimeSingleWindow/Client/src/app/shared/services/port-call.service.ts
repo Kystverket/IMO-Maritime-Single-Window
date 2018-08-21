@@ -110,6 +110,14 @@ export class PortCallService {
     this.setLocationData(overview.location);
     this.setEtaData(this.dateStringToDateTime(overview.portCall.locationEta));
     this.setEtdData(this.dateStringToDateTime(overview.portCall.locationEtd));
+    this.setPrevLocationData(overview.portCall.previousLocation);
+    if (overview.portCall.previousLocationEtd) {
+      this.setPrevEtdData(this.dateStringToDateTime(overview.portCall.previousLocationEtd));
+    }
+    this.setNextLocationData(overview.portCall.nextLocation);
+    if (overview.portCall.nextLocationEta) {
+      this.setNextEtaData(this.dateStringToDateTime(overview.portCall.nextLocationEta));
+    }
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setPortCallStatus(overview.status);
@@ -148,7 +156,7 @@ export class PortCallService {
   setNextLocationData(data) {
     this.nextLocationDataSource.next(data);
   }
-  setNextEtdData(data) {
+  setNextEtaData(data) {
     this.nextEtaSource.next(data);
   }
   setPortCallStatus(data) {
@@ -345,6 +353,7 @@ export class PortCallService {
 
   // Wipe methods
   wipeServiceData() {
+    this.portCallIdSource.next(null);
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
     this.etaSource.next(null);

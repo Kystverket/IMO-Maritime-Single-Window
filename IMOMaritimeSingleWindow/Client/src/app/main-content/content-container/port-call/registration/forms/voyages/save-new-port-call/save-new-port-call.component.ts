@@ -17,11 +17,19 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   locationModel: LocationModel;
   etaModel: DateTime;
   etdModel: DateTime;
+  prevLocationModel: LocationModel;
+  nextLocationModel: LocationModel;
+  prevEtdModel: DateTime;
+  nextEtaModel: DateTime;
 
   shipFound = false;
   locationFound = false;
   etaFound = false;
   etdFound = false;
+  prevLocationFound = false;
+  prevEtdFound = false;
+  nextLocationFound = false;
+  nextEtaFound = false;
 
   voyagesErrors = false;
 
@@ -30,44 +38,54 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   etaDataSubscription: Subscription;
   etdDataSubscription: Subscription;
   voyagesErrorSubscription: Subscription;
+  prevLocationSubscription: Subscription;
+  prevEtdSubscription: Subscription;
+  nextLocationSubscription: Subscription;
+  nextEtaSubscription: Subscription;
 
-  constructor(
-    private portCallService: PortCallService
-  ) { }
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipData => {
-      if (shipData) {
-        this.shipFound = true;
-        this.shipModel = shipData;
-      } else {
-        this.shipFound = false;
-      }
+      this.shipFound = !!shipData;
+      this.shipModel = shipData;
     });
     this.locationDataSubscription = this.portCallService.locationData$.subscribe(locationData => {
-      if (locationData) {
-        this.locationFound = true;
-        this.locationModel = locationData;
-      } else {
-        this.locationFound = false;
-      }
+      this.locationFound = !!locationData;
+      this.locationModel = locationData;
     });
     this.etaDataSubscription = this.portCallService.etaData$.subscribe(etaData => {
-      if (etaData) {
-        this.etaModel = etaData;
-        this.etaFound = true;
-      } else {
-        this.etaFound = false;
-      }
+      this.etaFound = !!etaData;
+      this.etaModel = etaData;
     });
     this.etdDataSubscription = this.portCallService.etdData$.subscribe(etdData => {
-      if (etdData) {
-        this.etdModel = etdData;
-        this.etdFound = true;
-      } else {
-        this.etdFound = false;
-      }
+      this.etdFound = !!etdData;
+      this.etdModel = etdData;
     });
+    this.prevLocationSubscription = this.portCallService.prevLocationData$.subscribe(
+      data => {
+        this.prevLocationFound = !!data;
+        this.prevLocationModel = data;
+      }
+    );
+    this.prevEtdSubscription = this.portCallService.prevEtdData$.subscribe(
+      data => {
+        this.prevEtdFound = !!data;
+        this.prevEtdModel = data;
+      }
+    );
+    this.nextLocationSubscription = this.portCallService.nextLocationData$.subscribe(
+      data => {
+        this.nextLocationFound = !!data;
+        this.nextLocationModel = data;
+      }
+    );
+    this.nextEtaSubscription = this.portCallService.nextEtaData$.subscribe(
+      data => {
+        this.nextEtaFound = !!data;
+        this.nextEtaModel = data;
+      }
+    );
 
     this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
       hasError => {
@@ -82,6 +100,10 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     this.etaDataSubscription.unsubscribe();
     this.etdDataSubscription.unsubscribe();
     this.voyagesErrorSubscription.unsubscribe();
+    this.prevLocationSubscription.unsubscribe();
+    this.prevEtdSubscription.unsubscribe();
+    this.nextLocationSubscription.unsubscribe();
+    this.nextEtaSubscription.unsubscribe();
   }
 
   formatDateTime(dateTime: DateTime): Date {
@@ -94,6 +116,22 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     portCallModel.locationId = this.locationModel.locationId;
     portCallModel.locationEta = this.formatDateTime(this.etaModel);
     portCallModel.locationEtd = this.formatDateTime(this.etdModel);
+
+    if (this.prevLocationFound) {
+      portCallModel.previousLocationId = this.prevLocationModel.locationId;
+    }
+
+    if (this.prevEtdFound) {
+      portCallModel.previousLocationEtd = this.formatDateTime(this.prevEtdModel);
+    }
+
+    if (this.nextLocationFound) {
+      portCallModel.nextLocationId = this.nextLocationModel.locationId;
+    }
+
+    if (this.nextEtaFound) {
+      portCallModel.nextLocationEta = this.formatDateTime(this.nextEtaModel);
+    }
 
     this.portCallService.registerNewPortCall(portCallModel).subscribe(
       result => {
