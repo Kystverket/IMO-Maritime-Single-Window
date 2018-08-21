@@ -11,11 +11,10 @@ import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { ViewCell } from 'ng2-smart-table';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 @Component({
   selector: 'app-button-row',
@@ -47,7 +46,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private portCallDetailsService: PortCallDetailsService,
-    private prevAndNextService: PrevAndNextPocService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
     private modalService: NgbModal,
@@ -211,12 +209,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         if (data) {
           console.log(data);
           this.portCallService.setPortCall(data);
-          // ^^
-          this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
-          this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
-          this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
-          this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
-          this.prevAndNextService.setDataPristine(true);
+          this.portCallService.setVoyagesIsPristine(true);
           this.cargoService.setDataIsPristine(true);
           this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
           this.shipStoresService.setDataIsPristine(true);

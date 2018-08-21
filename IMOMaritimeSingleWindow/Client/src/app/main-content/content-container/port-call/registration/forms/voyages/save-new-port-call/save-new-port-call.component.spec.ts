@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SavePrevAndNextPocComponent } from './save-prev-and-next-poc.component';
+import { SaveNewPortCallComponent } from './save-new-port-call.component';
 
-describe('SavePrevAndNextPocComponent', () => {
-  let component: SavePrevAndNextPocComponent;
-  let fixture: ComponentFixture<SavePrevAndNextPocComponent>;
+describe('SaveNewPortCallComponent', () => {
+  let component: SaveNewPortCallComponent;
+  let fixture: ComponentFixture<SaveNewPortCallComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SavePrevAndNextPocComponent ]
+      declarations: [ SaveNewPortCallComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SavePrevAndNextPocComponent);
+    fixture = TestBed.createComponent(SaveNewPortCallComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

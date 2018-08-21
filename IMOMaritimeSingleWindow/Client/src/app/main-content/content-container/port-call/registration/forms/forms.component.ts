@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { LocationModel } from 'app/shared/models/location-model';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { ShipModel } from 'app/shared/models/ship-model';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 
 @Component({
@@ -21,6 +24,16 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   selectedComponent: string;
   portCallId: number;
+
+  // Voyages
+  shipModel: ShipModel;
+  locationModel: LocationModel;
+  etaModel: DateTime;
+  etdModel: DateTime;
+  prevLocationModel: LocationModel;
+  prevEtdModel: DateTime;
+  nextLocationModel: LocationModel;
+  nextEtaModel: DateTime;
 
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
@@ -36,6 +49,16 @@ export class FormsComponent implements OnInit, OnDestroy {
   shipStoresSubscription: Subscription;
   passengerListSubscription: Subscription;
   crewListSubscription: Subscription;
+
+  // Voyages
+  shipSubscription: Subscription;
+  locationSubscription: Subscription;
+  etaSubscription: Subscription;
+  etdSubscription: Subscription;
+  prevLocationSubscription: Subscription;
+  prevEtdSubscription: Subscription;
+  nextLocationSubscription: Subscription;
+  nextEtaSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -55,6 +78,54 @@ export class FormsComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    // Voyages
+    this.shipSubscription = this.portCallService.shipData$.subscribe(
+      data => {
+        this.shipModel = data;
+      }
+    );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.etaSubscription = this.portCallService.etaData$.subscribe(
+      data => {
+        this.etaModel = data;
+      }
+    );
+    this.etdSubscription = this.portCallService.etdData$.subscribe(
+      data => {
+        this.etdModel = data;
+      }
+    );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.prevLocationSubscription = this.portCallService.prevLocationData$.subscribe(
+      data => {
+        this.prevLocationModel = data;
+      }
+    );
+    this.prevEtdSubscription = this.portCallService.prevEtdData$.subscribe(
+      data => {
+        this.prevEtdModel = data;
+      }
+    );
+    this.nextLocationSubscription = this.portCallService.nextLocationData$.subscribe(
+      data => {
+        this.nextLocationModel = data;
+      }
+    );
+    this.nextEtaSubscription = this.portCallService.nextEtaData$.subscribe(
+      data => {
+        this.nextEtaModel = data;
+      }
+    );
+
     this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
       data => {
         this.cargoData = data;
@@ -122,5 +193,9 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.cargoSubscription.unsubscribe();
     this.passengerListSubscription.unsubscribe();
     this.crewListSubscription.unsubscribe();
+    this.prevLocationSubscription.unsubscribe();
+    this.prevEtdSubscription.unsubscribe();
+    this.nextLocationSubscription.unsubscribe();
+    this.nextEtaSubscription.unsubscribe();
   }
 }
