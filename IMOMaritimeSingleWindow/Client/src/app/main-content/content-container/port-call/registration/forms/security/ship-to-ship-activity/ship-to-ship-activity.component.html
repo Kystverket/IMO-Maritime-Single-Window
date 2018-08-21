@@ -1,2 +1,46 @@
 <app-ssn-card [header]="'Ship To Ship Activities'">
+  <div class="row">
+    <div class="col-md-6">
+      <app-search-location *ngIf="!locationFound" [restrictTypeHarbour]=true (locationResult)="onLocationResult($event)"></app-search-location>
+      <div class="text-center" *ngIf="locationFound">
+        <app-ssn-table [entryData]="locationData"></app-ssn-table>
+        <button class="btn btn-ssn" (click)="deselectLocation()">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <label for="latitude" class="col-form-label-sm no-wrap mb-0"> Latitude:</label>
+      <input id="latitude" [(ngModel)]="shipToShipActivityModel.latitude" type="number" max="90" min="-90" step="0.0001" class="form-control form-control-sm"
+      />
+    </div>
+    <div class="col-md-3">
+      <label for="longitude" class="col-form-label-sm no-wrap mb-0">Longitude:</label>
+      <input id="longitude" [(ngModel)]="shipToShipActivityModel.longitude" type="number" max="180" min="-180" step="0.00001" class="form-control form-control-sm"
+      />
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-date-time-picker [header]="'From Date'" [dateTimeModel]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Ship Security Level</label>
+      <ng-select id="activity_type_select" [items]="activityTypeList" bindLabel="name" [ngModel]="shipToShipActivityModel.activityType"
+        placeholder="Select security level..." (change)="onActivityTypeResult($event)"></ng-select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-date-time-picker [header]="'To Date'" [dateTimeModel]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <textarea [(ngModel)]="shipToShipActivityModel.securityMeasuresAppliedInLieu" class="form-control form-control-sm" id="security_measures_applied_in_lieu"
+        name="additional_security_measures" rows="6" placeholder="Please describe any security measures applied in lieu of procedures specified in the SSP."></textarea>
+    </div>
+  </div>
+
 </app-ssn-card>
