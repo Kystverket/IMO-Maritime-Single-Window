@@ -9,11 +9,10 @@ import { CargoTableComponent } from 'app/main-content/content-container/port-cal
 import { ShipStoresComponent } from 'app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores.component';
 import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
@@ -37,14 +36,12 @@ import { ReportingComponent } from './registration/forms/port-call-details/repor
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
+import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
+import { VoyagesComponent } from './registration/forms/voyages/voyages.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-import { VoyagesComponent } from './registration/forms/voyages/voyages.component';
-import { PrevAndNextPocComponent } from './registration/forms/voyages/prev-and-next-poc/prev-and-next-poc.component';
-import { SavePrevAndNextPocComponent } from './registration/forms/voyages/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
-import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
-import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 
 @NgModule({
   imports: [
@@ -75,13 +72,11 @@ import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-
     ClearanceRowComponent,
     ShipStoresComponent,
     DeleteButtonComponent,
-    PrevAndNextPocComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
     FindPortOfEmbarkationComponent,
     SearchPassengerPortComponent,
-    SavePrevAndNextPocComponent,
     CargoDescriptionComponent,
     SetActualTimeComponent,
     CargoComponent,
@@ -98,6 +93,6 @@ import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, CountryService, PrevAndNextPocService, PortCallDetailsService, FalCargoService]
+  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, CountryService, PortCallDetailsService, FalCargoService]
 })
 export class PortCallModule { }

@@ -7,7 +7,6 @@ import { LocationModel } from '../models/location-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallDetailsService } from './port-call-details.service';
-import { PrevAndNextPocService } from './prev-and-next-poc.service';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
@@ -84,7 +83,6 @@ export class PortCallService {
 
   constructor(
     private http: HttpClient,
-    private prevAndNextPocService: PrevAndNextPocService,
     private portCallDetailsService: PortCallDetailsService
   ) { }
 
@@ -280,37 +278,6 @@ export class PortCallService {
           console.log('Purposes successfully saved.');
         });
     }
-  }
-
-  savePrevAndNextPortCall(
-    portCallId: number,
-    prevPortOfCall: LocationModel,
-    nextPortCall: LocationModel,
-    prevEtd: Date,
-    nextEta: Date
-  ) {
-    // const updatedPortCallData = new PortCallModel();
-    this.getPortCallById(portCallId).subscribe(data => {
-      if (data) {
-        const updatedPortCallData = data;
-        updatedPortCallData.previousLocationId =
-          prevPortOfCall != null ? prevPortOfCall.locationId : null;
-        updatedPortCallData.nextLocationId =
-          nextPortCall != null ? nextPortCall.locationId : null;
-        updatedPortCallData.previousLocationEtd = prevEtd;
-        updatedPortCallData.nextLocationEta = nextEta;
-        console.log(updatedPortCallData);
-        this.updatePortCall(updatedPortCallData).subscribe(
-          result => {
-            console.log(result);
-            this.prevAndNextPocService.setDataPristine(true);
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      }
-    });
   }
 
   /* * * * * * * * * * *

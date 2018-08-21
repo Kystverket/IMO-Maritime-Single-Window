@@ -6,17 +6,15 @@ import { ConfirmationModalComponent } from 'app/shared/components/confirmation-m
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
+import { ConsignmentModel } from 'app/shared/models/consignment-model';
 import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService } from 'app/shared/services/content.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { Subscription } from 'rxjs/Subscription';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { ShipStoresModel } from '../../../../../shared/models/ship-stores-model';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
+import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -30,7 +28,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   portCallId: number;
 
-  prevAndNextPortCallDataIsPristine = true;
+  voyagesIsPristine = true;
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
@@ -38,7 +36,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
 
-  voyagesMeta: FormMetaData;
+  voyagesErrors = false;
 
   crewPassengersAndDimensionsModel: any;
   purposeModel: any;
@@ -60,11 +58,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   STATUS_DRAFT = 'Draft';
 
   voyagesIsPristineSubscription: Subscription;
-  prevPortOfCallDataSubscription: Subscription;
-  nextPortOfCallDataSubscription: Subscription;
-  prevPortOfCallEtdSubscription: Subscription;
-  nextPortOfCallEtaSubscription: Subscription;
-  voyagesMetaSubscription: Subscription;
+  voyagesErrorSubscription: Subscription;
   detailsPristineSubscription: Subscription;
   portCallIdDataSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
@@ -84,7 +78,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private portCallDetailsService: PortCallDetailsService,
-    private prevAndNextPocService: PrevAndNextPocService,
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal
@@ -94,52 +87,14 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     //
     // Voyages
     //
-    this.voyagesIsPristineSubscription = this.prevAndNextPocService.dataIsPristine$.subscribe(
+    this.voyagesIsPristineSubscription = this.portCallService.voyagesIsPristine$.subscribe(
       pristineData => {
-        this.prevAndNextPortCallDataIsPristine = pristineData;
+        this.voyagesIsPristine = pristineData;
       }
     );
-    this.prevPortOfCallDataSubscription = this.prevAndNextPocService.prevPortOfCallData$.subscribe(
-      prevLocationData => {
-        this.prevLocationModel = prevLocationData;
-      }
-    );
-    this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(
-      nextLocationData => {
-        this.nextLocationModel = nextLocationData;
-      }
-    );
-    this.prevPortOfCallEtdSubscription = this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(
-      etdData => {
-        if (etdData) {
-          const dateTime = new Date(etdData);
-          this.etdModel = {
-            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
-            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
-          };
-        } else {
-          this.etdModel = null;
-        }
-      }
-    );
-    this.nextPortOfCallEtaSubscription = this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(
-      etaData => {
-        if (etaData) {
-          const dateTime = new Date(etaData);
-          this.etaModel = {
-            date: new NgbDate(dateTime.getFullYear(), dateTime.getMonth() + 1, dateTime.getDate()),
-            time: new NgbTime(dateTime.getHours(), dateTime.getMinutes(), 0)
-          };
-        } else {
-          this.etaModel = null;
-        }
-      }
-    );
-    this.voyagesMetaSubscription = this.prevAndNextPocService.prevAndNextPortOfCallMeta$.subscribe(
-      metaData => {
-        if (metaData) {
-          this.voyagesMeta = metaData;
-        }
+    this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
+      hasError => {
+          this.voyagesErrors = hasError;
       }
     );
     //
@@ -241,10 +196,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.voyagesIsPristineSubscription.unsubscribe();
-    this.prevPortOfCallDataSubscription.unsubscribe();
-    this.nextPortOfCallDataSubscription.unsubscribe();
-    this.prevPortOfCallEtdSubscription.unsubscribe();
-    this.nextPortOfCallEtaSubscription.unsubscribe();
+    this.voyagesErrorSubscription.unsubscribe();
     this.detailsPristineSubscription.unsubscribe();
     this.portCallIdDataSubscription.unsubscribe();
     this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
@@ -259,12 +211,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.shipStoresIsPristineSubscription.unsubscribe();
     this.cargoDataSubscription.unsubscribe();
     this.cargoIsPristineSubscription.unsubscribe();
-  }
-
-  savePrevAndNextPortCall() {
-    const prevDate = new Date(this.etdModel.date.year, this.etdModel.date.month - 1, this.etdModel.date.day, this.etdModel.time.hour, this.etdModel.time.minute);
-    const nextDate = new Date(this.etaModel.date.year, this.etaModel.date.month - 1, this.etaModel.date.day, this.etaModel.time.hour, this.etaModel.time.minute);
-    this.portCallService.savePrevAndNextPortCall(this.portCallId, this.prevLocationModel, this.nextLocationModel, prevDate, nextDate);
   }
 
   saveDetails() {

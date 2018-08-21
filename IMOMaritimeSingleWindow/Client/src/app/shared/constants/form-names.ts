@@ -7,7 +7,6 @@ const FORM_NAMES = {
     SHIP_STORES: 'Ship Stores',
     CREW: 'Crew',
     PAX: 'Passenger List',
-    PREV_AND_NEXT_POC: 'Prev and Next PoC'
 };
 
 export { FORM_NAMES };
