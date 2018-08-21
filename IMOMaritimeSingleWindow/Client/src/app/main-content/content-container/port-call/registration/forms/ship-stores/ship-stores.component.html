@@ -30,8 +30,8 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type</label>
-                        <ng-select id="measurementTypes" [items]="measurementTypeList" [ngModel]="shipStoresModel.measurementType"
-                            name="measurementType" [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
+                        <ng-select id="measurementTypes" [items]="measurementTypeList" [ngModel]="shipStoresModel.measurementType" name="measurementType"
+                            [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
                         </ng-select>
                     </div>
                 </div>
@@ -61,24 +61,16 @@
                         <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
                         <textarea type="text" [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel" placeholder="Location on Board"
                             class="form-control form-control-sm" name="locationOnBoard">
-                                </textarea>
+                        </textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code</label>
-                        <input type="number" [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
-                            class="form-control form-control-sm" name="locationOnBoardCode" integerValidator positiveNumberValidator>
+                        <input type="text" [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
+                            class="form-control form-control-sm" name="locationOnBoardCode">
                     </div>
-                </div>
-                <div *ngIf="!locationOnBoardCode.valid && locationOnBoardCode.touched" class="alert alert-danger">
-                    <li *ngIf="locationOnBoardCode.hasError('notIntegerError')">
-                        <small>The quantity specified must be an integer.</small>
-                    </li>
-                    <li *ngIf="locationOnBoardCode.hasError('notPositiveNumberError')">
-                        <small>The quantity specified must be a positive number.</small>
-                    </li>
                 </div>
             </div>
         </div>
