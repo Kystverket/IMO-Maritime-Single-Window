@@ -3,7 +3,7 @@
   <form name="crewForm" #form="ngForm">
 
     <div class="col-lg-12">
-      <app-ssn-card header="Personalia" icon="user.png">
+      <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
@@ -114,13 +114,8 @@
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
                 <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallCrewModel.placeOfBirth" placeholder="Place of Birth" class="form-control form-control-sm"
-                  name="placeOfBirth" alphaNumericValidator>
+                  name="placeOfBirth">
               </div>
-            </div>
-            <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
-              <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
             </div>
 
             <div class="form-group row">

@@ -3,7 +3,7 @@
   <form name="mainForm" #form="ngForm">
 
     <div class="col-lg-12">
-      <app-ssn-card header="Personalia" icon="user.png">
+      <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
@@ -46,27 +46,6 @@
               </div>
             </div>
 
-            <div class="form-group row">
-              <div class="col my-auto">
-                <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
-                <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
-
-                <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png" height="20px">
-                    </span>
-                  </div>
-                  <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
-                    name="nationality" />
-                  <div class="input-group-append">
-                    <button class="btn btn-sm btn-ssn" ngbTooltip="Remove nationality" (click)="resetNationality()">
-                      <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
           <!-- /.col-lg-6 -->
 
@@ -95,26 +74,44 @@
             </div>
 
             <div class="form-group row">
+                <div class="col my-auto">
+                  <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
+                  <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+  
+                  <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png" height="20px">
+                      </span>
+                    </div>
+                    <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
+                      name="nationality" />
+                    <div class="input-group-append">
+                      <button class="btn btn-sm btn-ssn" ngbTooltip="Remove nationality" (click)="resetNationality()">
+                        <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
                 <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
-                  class="form-control form-control-sm" name="placeOfBirth" alphaNumericValidator>
+                  class="form-control form-control-sm" name="placeOfBirth">
               </div>
-            </div>
-            <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
-              <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
             </div>
 
             <div class="form-group form-group-sm row">
-              <div class="col my-auto">
-                <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
-                  [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
-                </ng-select>
+                <div class="col my-auto">
+                  <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
+                  <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
+                    [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
+                  </ng-select>
+                </div>
               </div>
-            </div>
+
           </div>
           <!-- /.col-lg-6 -->
         </div>
@@ -122,7 +119,7 @@
 
       <app-identity-document (changeIdentityDocumentModel)="setIdentityDocumentModel($event)"></app-identity-document>
 
-      <app-ssn-card header="Voyage" icon="voyage.png">
+      <app-ssn-card header="Voyage" icon="voyage.png" >
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
