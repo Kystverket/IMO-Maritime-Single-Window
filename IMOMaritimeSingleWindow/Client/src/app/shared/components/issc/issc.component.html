@@ -21,7 +21,7 @@
       <div class="col-md-6">
         <label class="no-wrap mb-0" for="issc_issuer">Issued By</label>
         <div *ngIf="isscModel.issuedByGovernment == null">
-          <select></select>
+          <select class="custom-select" placeholder="Select issuer type first" disabled></select>
         </div>
         <div *ngIf="isscModel.issuedByGovernment">
           <app-country-select (countryResult)="onCountrySelection($event)"></app-country-select>
