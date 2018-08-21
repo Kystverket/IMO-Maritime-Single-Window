@@ -1,0 +1,141 @@
+<ng-template #viewModal let-close="close()" class="modal fade">
+  <div class="modal-header">
+    <h4 class="modal-title">View</h4>
+    <button type="button" class="close" aria-label="Close" (click)="resetInputShipStoresModel(); close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="inputShipStoresModel">
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Article Name *</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.articleName" readonly name="articleName">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.articleCode" readonly name="articleCode">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>
+      <div class="col my-auto">
+        <input *ngIf="inputShipStoresModel.measurementType" class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.measurementType.name"
+          readonly name="measurementType">
+        <input *ngIf="!inputShipStoresModel.measurementType" class="form-control form-control-sm" type="text" readonly name="measurementType">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Quantity</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.quantity" readonly name="quantity">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Location on Board</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.locationOnBoard" readonly name="locationOnBoard">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.locationOnBoardCode" readonly name="locationOnBoardCode">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ssn" (click)="resetInputShipStoresModel(); close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editModal let-close="close()" class="modal fade">
+  <form #editForm="ngForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Edit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="resetInputShipStoresModel(); close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="inputShipStoresModel">
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Article Name *</label>
+        <div class="col my-auto">
+          <input #articleName="ngModel" class="form-control form-control-sm" type="text" [(ngModel)]="inputShipStoresModel.articleName"
+            name="articleName" required />
+          <div *ngIf="!articleName.valid && articleName.touched" class="alert alert-danger form-control-sm" role="alert">
+            <li *ngIf="articleName.hasError('required')">
+              This field is required.
+            </li>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="inputShipStoresModel.articleCode" name="articleCode">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-sm" [items]="measurementTypeList" [ngModel]="inputShipStoresModel.measurementType"
+            name="measurementType" bindLabel="name" [closeOnSelect]="true" placeholder="Measurement Type" (change)="setMeasurementType($event)">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Quantity</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="inputShipStoresModel.quantity" name="quantity">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Location on Board</label>
+        <div class="col my-auto">
+          <textarea class="form-control form-control-sm" type="text" [(ngModel)]="inputShipStoresModel.locationOnBoard" name="locationOnBoard"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="inputShipStoresModel.locationOnBoardCode" name="locationOnBoardCode">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button *ngIf="editForm.valid && editForm.form.dirty" type="button" class="btn btn-ssn" (click)="editShipStoresItem(); editForm.reset(); close">
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button *ngIf="!editForm.valid || !editForm.form.dirty" type="button" class="btn btn-ssn" disabled>
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button type="button" class="btn btn-ssn" (click)="resetInputShipStoresModel($event); close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </form>
+</ng-template>
