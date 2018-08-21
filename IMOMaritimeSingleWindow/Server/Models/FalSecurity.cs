@@ -8,6 +8,7 @@ namespace IMOMaritimeSingleWindow.Models
         public FalSecurity()
         {
             ShipToShipActivity = new HashSet<ShipToShipActivity>();
+            SecurityPreviousPortOfCall = new HashSet<SecurityPreviousPortOfCall>();
         }
 
         public long FalSecurityId { get; set; }
@@ -21,5 +22,7 @@ namespace IMOMaritimeSingleWindow.Models
         public PortCall PortCall { get; set; }
         public SecurityLevel SecurityLevel { get; set; }
         public ICollection<ShipToShipActivity> ShipToShipActivity { get; set; }
+        public ICollection<SecurityPreviousPortOfCall> SecurityPreviousPortOfCall { get; set; }
+
     }
 }

@@ -1331,6 +1331,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
 
+                entity.Property(e => e.FalSecurityId).HasColumnName("fal_security_id");
+
+
                 entity.HasOne(d => d.Location)
                     .WithMany(p => p.SecurityPreviousPortOfCall)
                     .HasForeignKey(d => d.LocationId)
@@ -1342,6 +1345,12 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.SecurityLevelId)
                     .OnDelete(DeleteBehavior.SetNull)
                     .HasConstraintName("FK_security_previous_port_of_call_security_level_id");
+
+                entity.HasOne(d => d.FalSecurity)
+                    .WithMany(p => p.SecurityPreviousPortOfCall)
+                    .HasForeignKey(d => d.FalSecurityId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_security_previous_port_of_call_fal_security_id");
             });
 
             modelBuilder.Entity<Ship>(entity =>
