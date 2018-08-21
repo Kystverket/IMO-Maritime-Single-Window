@@ -3,10 +3,11 @@
 
     <div class="row">
       <div class="col-md-6">
-        <label class="col-form-label-sm no-wrap mb-0" for="ship_has_valid_ssp_checkbox">
-          <input [(ngModel)]="securityModel.shipHasValidSspOnBoard" class="col-form-label-sm no-wrap mb-0" type="checkbox" id="ship_has_valid_ssp_checkbox"
-            name="ship_has_valid_ssp_checkbox"> The ship has a valid Ship Security Plan (SSP) on board
-        </label>
+        <div class="checkbox">
+          <label class="col-form-label-sm no-wrap mb-0" for="ship_has_valid_ssp_checkbox">
+            <input [(ngModel)]="securityModel.shipHasValidSspOnBoard" type="checkbox" id="ship_has_valid_ssp_checkbox"> The ship has a valid Ship Security Plan (SSP) on board
+          </label>
+        </div>
       </div>
       <div class="col-md-6">
         <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Security Level at which the ship is currently operating</label>

@@ -22,24 +22,20 @@
   </div>
 
 
-  <div class="row">
+  <div class="row mb-1">
     <div class="col-md-6">
       <app-date-time-picker [header]="'From Date'" [dateTimeModel]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
-    </div>
-    <div class="col-md-6">
-      <label class="col-form-label-sm no-wrap mb-0" for="activity_type_select">Activity</label>
-      <ng-select id="activity_type_select" [items]="activityTypeList" bindLabel="name" [ngModel]="shipToShipActivityModel.activityType"
-        placeholder="Select activity..." (change)="onActivityTypeResult($event)"></ng-select>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6">
       <app-date-time-picker [header]="'To Date'" [dateTimeModel]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
+      <div class="mb-2">
+        <label class="col-form-label-sm no-wrap mb-0" for="activity_type_select">Activity</label>
+        <ng-select id="activity_type_select" [items]="activityTypeList" bindLabel="name" [ngModel]="shipToShipActivityModel.activityType"
+          placeholder="Select activity..." (change)="onActivityTypeResult($event)"></ng-select>
+      </div>
+      <label class="col-form-label-sm no-wrap mb-0" for="security_measures_applied_in_lieu">(Optional) Security measures applied in lieu</label>
       <textarea [(ngModel)]="shipToShipActivityModel.securityMeasuresAppliedInLieu" class="form-control form-control-sm" id="security_measures_applied_in_lieu"
-        name="additional_security_measures" rows="6" placeholder="Please describe any security measures applied in lieu of procedures specified in the SSP."></textarea>
+        rows="6" placeholder="Please describe any security measures applied in lieu of procedures specified in the SSP."></textarea>
     </div>
   </div>
 
@@ -47,8 +43,8 @@
     <div *ngIf="fromDateIsAfterToDateError">Error: 'to date' must be after 'from date'.</div>
   </div>
 
-  <div class="row text-right">
-    <div class="col-md-6">
+  <div class="row text-center mb-1">
+    <div class="col">
       <div *ngIf="!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
         <button class="btn btn-ssn" (click)="addShipToShipActivity()">
           <span> Add Entry</span>

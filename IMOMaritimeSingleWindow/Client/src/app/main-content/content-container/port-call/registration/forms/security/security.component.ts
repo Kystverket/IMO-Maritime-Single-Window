@@ -21,7 +21,6 @@ export class SecurityComponent implements OnInit, OnDestroy {
   @Input() securityModel: FalSecurityModel = new FalSecurityModel();
 
   isscModel: InternationalShipSecurityCertificateModel = new InternationalShipSecurityCertificateModel();
-  testOrganizationId = 100083;
   organizationModel: OrganizationModel;
   organizationSubscription: Subscription;
   csoSubscription: Subscription;
