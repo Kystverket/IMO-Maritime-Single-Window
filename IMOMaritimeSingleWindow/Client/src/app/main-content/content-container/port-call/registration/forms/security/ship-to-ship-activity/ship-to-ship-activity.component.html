@@ -27,9 +27,9 @@
       <app-date-time-picker [header]="'From Date'" [dateTimeModel]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
-      <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Ship Security Level</label>
+      <label class="col-form-label-sm no-wrap mb-0" for="activity_type_select">Activity</label>
       <ng-select id="activity_type_select" [items]="activityTypeList" bindLabel="name" [ngModel]="shipToShipActivityModel.activityType"
-        placeholder="Select security level..." (change)="onActivityTypeResult($event)"></ng-select>
+        placeholder="Select activity..." (change)="onActivityTypeResult($event)"></ng-select>
     </div>
   </div>
 
@@ -40,6 +40,27 @@
     <div class="col-md-6">
       <textarea [(ngModel)]="shipToShipActivityModel.securityMeasuresAppliedInLieu" class="form-control form-control-sm" id="security_measures_applied_in_lieu"
         name="additional_security_measures" rows="6" placeholder="Please describe any security measures applied in lieu of procedures specified in the SSP."></textarea>
+    </div>
+  </div>
+
+  <div class="row text-right">
+    <div class="col-md-6">
+      <div *ngIf="locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
+        <button class="btn btn-ssn" (click)="addShipToShipActivity()">
+          <span> Add Entry</span>
+        </button>
+      </div>
+      <div *ngIf="!(locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
+        <button class="btn btn-ssn" disabled>
+          <span> Add Entry</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <app-ship-to-ship-activity-table [shipToShipActivityList]="shipToShipActivityList" (delete)="onDeleteShipToShipActivity($event)"></app-ship-to-ship-activity-table>
     </div>
   </div>
 

@@ -32,6 +32,7 @@ export class ShipToShipActivityComponent implements OnInit {
   };
   activityTypeList: PortCallPurposeModel[] = [];
   activityTypeListSubscription: Subscription;
+  shipToShipActivityList: ShipToShipActivityModel[] = [];
 
   constructor(
     private purposeService: PurposeService
@@ -45,6 +46,25 @@ export class ShipToShipActivityComponent implements OnInit {
         console.log(error);
       }
     );
+  }
+
+  addShipToShipActivity() {
+    const shipToShipActivityCopy = JSON.parse(JSON.stringify(this.shipToShipActivityModel));
+    this.shipToShipActivityList = [...this.shipToShipActivityList, shipToShipActivityCopy];
+    this.resetModel();
+  }
+
+  private resetModel() {
+    this.locationFound = false;
+    this.fromDateModel = {
+      date: null,
+      time: new NgbTime(0, 0, 0)
+    };
+    this.toDateModel = {
+      date: null,
+      time: new NgbTime(0, 0, 0)
+    };
+    this.shipToShipActivityModel = new ShipToShipActivityModel();
   }
 
   onFromDateResult(fromDateResult) {
@@ -94,6 +114,8 @@ export class ShipToShipActivityComponent implements OnInit {
     this.shipToShipActivityModel.activityTypeId = activityType.portCallPurposeId;
   }
 
-
+  onDeleteShipToShipActivity(row) {
+    this.shipToShipActivityList = this.shipToShipActivityList.filter(entry => entry !== row.shipToShipActivity);
+  }
 
 }
