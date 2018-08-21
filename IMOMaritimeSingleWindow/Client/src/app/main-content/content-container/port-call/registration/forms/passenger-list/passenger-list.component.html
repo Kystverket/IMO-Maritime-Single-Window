@@ -50,6 +50,7 @@
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
                 <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+
                 <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
@@ -124,7 +125,7 @@
       <app-ssn-card header="Voyage" icon="voyage.png">
         <div class="row">
           <div class="col-lg-6">
-            <div class="form-group form-group-sm row">
+            <div class="form-group row">
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
                 <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
@@ -135,7 +136,7 @@
           </div>
           <div class="col-lg-6">
 
-            <div class="form-group">
+            <div class="form-group row">
               <div class="col my-auto">
                 <label for="search-port-of-embarkation" class="col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
                 <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfEmbarkation($event)"
@@ -160,7 +161,7 @@
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
                 <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"

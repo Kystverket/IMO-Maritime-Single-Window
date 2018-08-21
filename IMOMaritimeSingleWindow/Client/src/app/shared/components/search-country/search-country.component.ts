@@ -90,6 +90,14 @@ export class SearchCountryComponent implements OnInit {
     this.deselectCountry.emit();
   }
 
+  onFocus(e: Event): void {
+    e.stopPropagation();
+    setTimeout(() => {
+      const inputEvent: Event = new Event('input');
+      e.target.dispatchEvent(inputEvent);
+    }, 0);
+  }
+
   ngOnInit() {
   }
 
