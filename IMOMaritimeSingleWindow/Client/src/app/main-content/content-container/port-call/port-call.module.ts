@@ -56,6 +56,7 @@ import { CrewListComponent } from './registration/forms/crew-list/crew-list.comp
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
 import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
+import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
 
 @NgModule({
   imports: [
@@ -112,7 +113,8 @@ import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-
     PassengerModalComponent,
     CrewListComponent,
     CrewMemberModalComponent,
-    SaveCrewListComponent
+    SaveCrewListComponent,
+    ShipStoresModalComponent
   ],
   exports: [
     ClearanceComponent,

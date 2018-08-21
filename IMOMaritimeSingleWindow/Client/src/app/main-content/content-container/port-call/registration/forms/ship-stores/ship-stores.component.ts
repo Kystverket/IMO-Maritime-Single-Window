@@ -5,8 +5,9 @@ import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs/Observable';
-import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
 import { Subscription } from 'rxjs/Subscription';
+import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
 
 @Component({
   selector: 'app-ship-stores',
@@ -19,12 +20,11 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   @Input() shipStoresList: ShipStoresModel[];
 
   @ViewChild(NgForm) form: NgForm;
+  @ViewChild(ShipStoresModalComponent) shipStoresModalComponent;
 
   shipStoresModel: ShipStoresModel = new ShipStoresModel();
 
   measurementTypeList: Observable<any>;
-  selectedMeasurementType: MeasurementTypeModel;
-  measurementTypeSelected: boolean;
 
   listIsPristine: Boolean = true;
 
@@ -70,10 +70,16 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: DeleteButtonComponent,
+        renderComponent: ActionButtonsComponent,
         onComponentInitFunction: (instance) => {
+          instance.view.subscribe(row => {
+            this.openViewShipStoreModal(row);
+          });
+          instance.edit.subscribe(row => {
+            this.openEditShipStoreModal(row);
+          });
           instance.delete.subscribe(row => {
-            this.deleteShipStoreItem(row);
+            this.deleteShipStore(row);
           });
         }
       },
@@ -108,7 +114,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
           articleName: shipStore.articleName,
           articleCode: shipStore.articleCode,
           quantity: shipStore.quantity,
-          measurementType: shipStore.measurementType.name,
+          measurementType: shipStore.measurementType ? shipStore.measurementType.name : null,
           locationOnBoard: shipStore.locationOnBoard,
           locationOnBoardCode: shipStore.locationOnBoardCode,
         };
@@ -123,9 +129,9 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     if (measurementType) {
       this.shipStoresModel.measurementType = measurementType;
       this.shipStoresModel.measurementTypeId = measurementType.measurementTypeId;
-      this.measurementTypeSelected = true;
     } else {
-      this.measurementTypeSelected = false;
+      this.shipStoresModel.measurementType = null;
+      this.shipStoresModel.measurementTypeId = null;
     }
   }
 
@@ -155,8 +161,6 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   clearForm() {
     this.shipStoresModel = new ShipStoresModel();
-    this.selectedMeasurementType = null;
-    this.measurementTypeSelected = false;
   }
 
   reloadTable() {
@@ -167,6 +171,42 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   private updateSequenceNumbers() {
     this.shipStoresList.forEach((shipStore, index) => {
       shipStore.sequenceNumber = index + 1;
+    });
+  }
+
+  deleteShipStore(row) {
+    if (this.shipStoresList.length <= 1) {
+      this.shipStoresList = [];
+    } else {
+      this.shipStoresList.forEach((item, index) => {
+        if (item.sequenceNumber === row.sequenceNumber) {
+          this.shipStoresList.splice(index, 1);
+        }
+      });
+    }
+    this.persistData();
+  }
+
+  editShipStoresItem($event) {
+    this.shipStoresList[this.shipStoresList.findIndex(p => p.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
+    this.persistData();
+  }
+
+  openViewShipStoreModal(row) {
+    this.shipStoresList.forEach(item => {
+      if (item.sequenceNumber === row.sequenceNumber) {
+        this.shipStoresModalComponent.openViewModal(item);
+        return;
+      }
+    });
+  }
+
+  openEditShipStoreModal(row) {
+    this.shipStoresList.forEach(item => {
+      if (item.sequenceNumber === row.sequenceNumber) {
+        this.shipStoresModalComponent.openEditModal(item);
+        return;
+      }
     });
   }
 }
