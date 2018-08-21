@@ -54,6 +54,7 @@ import { CompanySecurityOfficerComponent } from './registration/forms/security/c
 import { FalSecurityService } from '../../../shared/services/fal-security.service';
 import { Last10PortCallsComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls.component';
 import { Last10PortCallsTableComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component';
+import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 
 @NgModule({
   imports: [
@@ -109,6 +110,7 @@ import { Last10PortCallsTableComponent } from './registration/forms/security/las
     CompanySecurityOfficerComponent,
     Last10PortCallsComponent,
     Last10PortCallsTableComponent,
+    ShipToShipActivityComponent,
   ],
   exports: [
     ClearanceComponent,

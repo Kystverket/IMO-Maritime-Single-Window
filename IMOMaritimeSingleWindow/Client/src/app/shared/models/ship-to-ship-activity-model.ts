@@ -11,6 +11,7 @@ export class ShipToShipActivityModel {
   latitude: number;
   longitude: number;
   falSecurityId: number;
+  securityMeasuresAppliedInLieu: number;
   // models
   activityType: PortCallPurposeModel;
   falSecurity: FalSecurityModel;

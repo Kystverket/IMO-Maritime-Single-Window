@@ -13,6 +13,7 @@ namespace IMOMaritimeSingleWindow.Models
         public float? Latitude { get; set; }
         public float? Longitude { get; set; }
         public long? FalSecurityId { get; set; }
+        public string SecurityMeasuresAppliedInLieu { get; set; }
 
         public PortCallPurpose ActivityType { get; set; }
         public FalSecurity FalSecurity { get; set; }

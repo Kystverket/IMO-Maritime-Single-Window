@@ -1826,6 +1826,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ToDate).HasColumnName("to_date");
 
+                entity.Property(e => e.SecurityMeasuresAppliedInLieu).HasColumnName("security_measures_applied_in_lieu");
+
                 entity.HasOne(d => d.ActivityType)
                     .WithMany(p => p.ShipToShipActivity)
                     .HasForeignKey(d => d.ActivityTypeId)
