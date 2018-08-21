@@ -12,7 +12,7 @@ namespace IMOMaritimeSingleWindow.Models
         public long? SecurityLevelId { get; set; }
         public string AdditionalSecurityMeasures { get; set; }
         public int? SequenceNumber { get; set; }
-        public int? FalSecurityId { get; set; }
+        public long? FalSecurityId { get; set; }
 
         public Location Location { get; set; }
         public SecurityLevel SecurityLevel { get; set; }

@@ -1315,6 +1315,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.SecurityLevelId)
                     .HasName("fki_FK_security_previous_port_of_call_security_level_id");
 
+                entity.HasIndex(e => e.FalSecurityId)
+                    .HasName("fki_FK_security_previous_port_of_call_fal_security_id");
+
                 entity.Property(e => e.SecurityPreviousPortOfCallId)
                     .HasColumnName("security_previous_port_of_call_id")
                     .HasDefaultValueSql("nextval('security_previous_port_of_cal_security_previous_port_of_cal_seq'::regclass)");

@@ -56,6 +56,7 @@ import { Last10PortCallsComponent } from './registration/forms/security/last-10-
 import { Last10PortCallsTableComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component';
 import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
+import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
 
 @NgModule({
   imports: [
@@ -113,6 +114,7 @@ import { ShipToShipActivityTableComponent } from './registration/forms/security/
     Last10PortCallsTableComponent,
     ShipToShipActivityComponent,
     ShipToShipActivityTableComponent,
+    SaveSecurityComponent,
   ],
   exports: [
     ClearanceComponent,

@@ -53,10 +53,14 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                FalSecurity falSecurity = _context.FalSecurity.Where(fs => fs.PortCallId == portCallId).FirstOrDefault();
+                FalSecurity falSecurity = _context.FalSecurity.Where(fs => fs.PortCallId == portCallId)
+                                        .Include(fs => fs.CompanySecurityOfficer.Organization)
+                                        .Include(fs => fs.SecurityPreviousPortOfCall).ThenInclude(sppc => sppc.Location.Country)
+                                        .Include(fs => fs.ShipToShipActivity).ThenInclude(stsa => stsa.Location.Country)
+                                        .FirstOrDefault();
                 if (falSecurity == null)
                 {
-                    return NotFound();
+                    return NoContent();
                 }
                 return Ok(falSecurity);
             }
@@ -83,7 +87,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     _context.FalSecurity.Add(falSecurity);
                 }
-                return Ok();
+                _context.SaveChanges();
+                return Ok(falSecurity);
             }
             catch (Exception e)
             {

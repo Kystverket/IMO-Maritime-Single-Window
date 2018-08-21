@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship-to-ship-activity-model';
 import { DateTime } from '../../../../../../../shared/interfaces/dateTime.interface';
 import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
@@ -17,6 +17,8 @@ import { LocationProperties } from '../../../../../../../shared/constants/locati
 })
 export class ShipToShipActivityComponent implements OnInit {
 
+  @Input() shipToShipActivityList: ShipToShipActivityModel[];
+  tableList: ShipToShipActivityModel[] = [];
   shipToShipActivityModel: ShipToShipActivityModel = new ShipToShipActivityModel();
   latitudeDirection = 1;
   longitudeDirection = 1;
@@ -32,7 +34,6 @@ export class ShipToShipActivityComponent implements OnInit {
   };
   activityTypeList: PortCallPurposeModel[] = [];
   activityTypeListSubscription: Subscription;
-  shipToShipActivityList: ShipToShipActivityModel[] = [];
 
   fromDateIsAfterToDateError = false;
 
@@ -41,6 +42,7 @@ export class ShipToShipActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.touchData();
     this.activityTypeListSubscription = this.purposeService.getPurposes().subscribe(
       result => {
         this.activityTypeList = result;
@@ -50,9 +52,26 @@ export class ShipToShipActivityComponent implements OnInit {
     );
   }
 
+  private touchData() {
+    this.sortList();
+    this.tableList = JSON.parse(JSON.stringify(this.shipToShipActivityList));
+  }
+
+  sortList() {
+    if (this.shipToShipActivityList.length > 0) {
+      this.shipToShipActivityList.sort((entry1, entry2) => {
+        const date1 = new Date(entry1.fromDate);
+        const date2 = new Date(entry2.fromDate);
+        return date2.getTime() - date1.getTime();
+      });
+    }
+  }
+
   addShipToShipActivity() {
+    this.validateDateTime();
     const shipToShipActivityCopy = JSON.parse(JSON.stringify(this.shipToShipActivityModel));
-    this.shipToShipActivityList = [...this.shipToShipActivityList, shipToShipActivityCopy];
+    this.shipToShipActivityList.push(shipToShipActivityCopy);
+    this.touchData();
     this.resetModel();
   }
 
@@ -67,6 +86,14 @@ export class ShipToShipActivityComponent implements OnInit {
       time: new NgbTime(0, 0, 0)
     };
     this.shipToShipActivityModel = new ShipToShipActivityModel();
+  }
+
+  onDeleteShipToShipActivity(row) {
+    const index = this.tableList.findIndex(entry => entry.fromDate === row.shipToShipActivity.fromDate);
+    if (index !== -1) {
+      this.shipToShipActivityList.splice(index, 1);
+    }
+    this.touchData();
   }
 
   onFromDateResult(fromDateResult) {
@@ -118,9 +145,6 @@ export class ShipToShipActivityComponent implements OnInit {
     this.shipToShipActivityModel.activityTypeId = activityType.portCallPurposeId;
   }
 
-  onDeleteShipToShipActivity(row) {
-    this.shipToShipActivityList = this.shipToShipActivityList.filter(entry => entry !== row.shipToShipActivity);
-  }
 
   private validateDateTime() {
     if (this.fromDateModel && this.fromDateModel.date && this.toDateModel && this.toDateModel.date) {

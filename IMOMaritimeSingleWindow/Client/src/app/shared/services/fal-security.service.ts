@@ -26,6 +26,16 @@ export class FalSecurityService {
     this.securityDataSource.next(data);
   }
 
+  saveCompanySecurityOfficer(cso: CompanySecurityOfficerModel): Observable<CompanySecurityOfficerModel> {
+    const uri = [this.apiUrl, this.companySecurityOfficerUrl].join('/');
+    return this.http.put<CompanySecurityOfficerModel>(uri, cso);
+  }
+
+  saveFalSecurity(falSecurity: FalSecurityModel) {
+    const uri = [this.apiUrl, this.falSecurityUrl].join('/');
+    return this.http.put(uri, falSecurity);
+  }
+
   getCompanySecurityOfficerBySecurityId(securityId: number): Observable<CompanySecurityOfficerModel> {
     const uri = [this.apiUrl, this.falSecurityUrl, securityId, this.companySecurityOfficerUrl].join('/');
     return this.http.get<CompanySecurityOfficerModel>(uri);

@@ -42,6 +42,10 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
         title: 'Ship Security Level',
         type: 'html'
       },
+      sequenceNumber: {
+        title: 'Sequence Number',
+        type: 'html'
+      },
       delete: {
         title: 'Delete',
         type: 'custom',
@@ -92,7 +96,8 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
           `</span> <span class="no-wrap">` +
           this.datePipe.transform(pc.departureDateTime, 'HH:mm') +
           `</span>`,
-        shipSecurityLevel: pc.securityLevel.name
+        shipSecurityLevel: pc.securityLevel.name,
+        sequenceNumber: pc.sequenceNumber
       };
     });
     return rowData;

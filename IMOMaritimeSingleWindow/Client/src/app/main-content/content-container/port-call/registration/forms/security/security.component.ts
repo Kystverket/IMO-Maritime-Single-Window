@@ -9,6 +9,8 @@ import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ShipModel } from 'app/shared/models/ship-model';
 import { OrganizationModel } from '../../../../../../shared/models/organization-model';
 import { FalSecurityService } from '../../../../../../shared/services/fal-security.service';
+import { SecurityPreviousPortOfCallModel } from '../../../../../../shared/models/security-previous-port-of-call-model';
+import { ShipToShipActivityModel } from '../../../../../../shared/models/ship-to-ship-activity-model';
 
 @Component({
   selector: 'app-security',
@@ -16,21 +18,27 @@ import { FalSecurityService } from '../../../../../../shared/services/fal-securi
   styleUrls: ['./security.component.css']
 })
 export class SecurityComponent implements OnInit, OnDestroy {
-  @Input() portCallId: number;
-  @Input() shipModel: ShipModel;
   @Input() securityModel: FalSecurityModel = new FalSecurityModel();
-
-  isscModel: InternationalShipSecurityCertificateModel = new InternationalShipSecurityCertificateModel();
-  organizationModel: OrganizationModel;
-  organizationSubscription: Subscription;
-  csoSubscription: Subscription;
-  csoModel: CompanySecurityOfficerModel = new CompanySecurityOfficerModel();
+  @Input() shipModel: ShipModel;
+  @Input() portCallId: number;
 
   constructor(
     private securityService: FalSecurityService
   ) { }
 
   ngOnInit() {
+    if (!this.securityModel.companySecurityOfficer) {
+      this.securityModel.companySecurityOfficer = new CompanySecurityOfficerModel();
+    }
+    if (!this.securityModel.securityPreviousPortOfCall) {
+      this.securityModel.securityPreviousPortOfCall = [];
+    }
+    if (!this.securityModel.shipToShipActivity) {
+      this.securityModel.shipToShipActivity = [];
+    }
+    if (!this.shipModel.internationalShipSecurityCertificate) {
+      this.shipModel.internationalShipSecurityCertificate = new InternationalShipSecurityCertificateModel();
+    }
   }
 
   ngOnDestroy() {

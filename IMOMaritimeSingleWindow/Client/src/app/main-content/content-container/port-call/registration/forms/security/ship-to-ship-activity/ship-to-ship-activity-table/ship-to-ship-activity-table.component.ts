@@ -92,7 +92,7 @@ export class ShipToShipActivityTableComponent implements OnInit, OnChanges {
           `</span> <span class="no-wrap">` +
           this.datePipe.transform(shipActivity.toDate, 'HH:mm') +
           `</span>`,
-        activityType: shipActivity.activityType.name
+        activityType: shipActivity.activityType.name,
       };
     });
     return rowData;
