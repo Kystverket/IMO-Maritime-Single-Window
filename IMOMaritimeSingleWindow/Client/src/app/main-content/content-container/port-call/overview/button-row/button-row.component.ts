@@ -11,6 +11,7 @@ import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ViewCell } from 'ng2-smart-table';
@@ -47,7 +48,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private portCallDetailsService: PortCallDetailsService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {

@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { LocationModel } from 'app/shared/models/location-model';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { ShipModel } from 'app/shared/models/ship-model';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { LocationModel } from 'app/shared/models/location-model';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 
 @Component({
@@ -37,6 +37,8 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
+  passengerData: PersonOnBoardModel[];
+  crewData: PersonOnBoardModel[];
 
   formNames: any;
 
@@ -45,6 +47,8 @@ export class FormsComponent implements OnInit, OnDestroy {
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
   shipStoresSubscription: Subscription;
+  passengerListSubscription: Subscription;
+  crewListSubscription: Subscription;
 
   // Voyages
   shipSubscription: Subscription;
@@ -62,7 +66,7 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private passengerListService: PortCallPassengerListService
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -127,22 +131,49 @@ export class FormsComponent implements OnInit, OnDestroy {
         this.cargoData = data;
       }
     );
-    this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
-      data => {
-        this.shipStoresData = data;
+    this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
+      idResult => {
+        if (idResult) {
+          this.portCallId = idResult;
+
+          this.passengerListSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+            passengerList => {
+              if (passengerList) {
+                this.passengerData = passengerList;
+                this.personOnBoardService.setPassengersList(passengerList);
+                this.personOnBoardService.setPassengerDataIsPristine(true);
+              }
+            }
+          );
+
+          this.crewListSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+            crewList => {
+              if (crewList) {
+                this.crewData = crewList;
+                this.personOnBoardService.setCrewList(crewList);
+                this.personOnBoardService.setCrewDataIsPristine(true);
+              }
+            }
+          );
+        }
+        this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
+          data => {
+            this.shipStoresData = data;
+          }
+        );
+        this.shipDataSubscription = this.portCallService.shipData$.subscribe(
+          shipResult => {
+            this.shipService.setShipData(shipResult);
+          }
+        );
+        this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
+          content => {
+            this.selectedComponent = content;
+          }
+        );
+        this.formNames = FORM_NAMES;
       }
     );
-    this.shipDataSubscription = this.portCallService.shipData$.subscribe(
-      shipResult => {
-        this.shipService.setShipData(shipResult);
-      }
-    );
-    this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
-      content => {
-        this.selectedComponent = content;
-      }
-    );
-    this.formNames = FORM_NAMES;
   }
 
   setCargoForPortCall(portCallId) {
@@ -160,6 +191,8 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
+    this.passengerListSubscription.unsubscribe();
+    this.crewListSubscription.unsubscribe();
     this.prevLocationSubscription.unsubscribe();
     this.prevEtdSubscription.unsubscribe();
     this.nextLocationSubscription.unsubscribe();

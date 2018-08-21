@@ -10,9 +10,11 @@ import { ShipStoresComponent } from 'app/main-content/content-container/port-cal
 import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
+import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
@@ -24,17 +26,23 @@ import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-ti
 import { PortCallComponent } from './port-call.component';
 import { CargoComponent } from './registration/forms/cargo/cargo.component';
 import { ConsignmentFormComponent } from './registration/forms/cargo/consignment-form/consignment-form.component';
+import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
+import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
+import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 import { FormsComponent } from './registration/forms/forms.component';
-import { FindPortOfEmbarkationComponent } from './registration/forms/passenger-list/find-port-of-embarkation/find-port-of-embarkation.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
-import { SearchPassengerPortComponent } from './registration/forms/passenger-list/search-passenger-port/search-passenger-port.component';
+import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
+import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
 import { CargoDescriptionComponent } from './registration/forms/port-call-details/cargo-description/cargo-description.component';
 import { CrewPassengersDimensionsComponent } from './registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component';
 import { PortCallDetailsComponent } from './registration/forms/port-call-details/port-call-details.component';
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
+import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
+import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
+import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
@@ -52,10 +60,11 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     Ng2SmartTableModule,
     NgbModule,
     NgSelectModule,
-    SharedModule,
+    SharedModule
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent],
   declarations: [
+    ActionButtonsComponent,
     ButtonRowComponent,
     ClearanceComponent,
     ClearanceRowComponent,
@@ -75,14 +84,19 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    FindPortOfEmbarkationComponent,
-    SearchPassengerPortComponent,
     CargoDescriptionComponent,
     SetActualTimeComponent,
     CargoComponent,
     CargoTableComponent,
     ConsignmentFormComponent,
     CargoItemFormComponent,
+    DatePickerComponent,
+    SavePassengerListComponent,
+    IdentityDocumentComponent,
+    PassengerModalComponent,
+    CrewListComponent,
+    CrewMemberModalComponent,
+    SaveCrewListComponent,
     VoyagesComponent,
     SaveVoyagesComponent,
     SaveNewPortCallComponent,
@@ -93,6 +107,15 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     RegistrationComponent,
     ViewPortCallComponent,
   ],
-  providers: [PortCallService, FalShipStoresService, PortCallPassengerListService, CountryService, PortCallDetailsService, FalCargoService]
+  providers: [
+    PortCallService,
+    FalShipStoresService,
+    IdentityDocumentService,
+    CountryService,
+    PortCallDetailsService,
+    FalCargoService,
+    ValidateDateTimeService,
+    PortCallFalPersonOnBoardService
+  ]
 })
 export class PortCallModule { }
