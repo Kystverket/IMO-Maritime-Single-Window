@@ -43,14 +43,18 @@
     </div>
   </div>
 
+  <div class="alert alert-danger text-center" *ngIf="fromDateIsAfterToDateError">
+    <div *ngIf="fromDateIsAfterToDateError">Error: 'to date' must be after 'from date'.</div>
+  </div>
+
   <div class="row text-right">
     <div class="col-md-6">
-      <div *ngIf="locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
+      <div *ngIf="!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
         <button class="btn btn-ssn" (click)="addShipToShipActivity()">
           <span> Add Entry</span>
         </button>
       </div>
-      <div *ngIf="!(locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
+      <div *ngIf="!(!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
         <button class="btn btn-ssn" disabled>
           <span> Add Entry</span>
         </button>

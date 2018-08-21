@@ -34,6 +34,8 @@ export class ShipToShipActivityComponent implements OnInit {
   activityTypeListSubscription: Subscription;
   shipToShipActivityList: ShipToShipActivityModel[] = [];
 
+  fromDateIsAfterToDateError = false;
+
   constructor(
     private purposeService: PurposeService
   ) { }
@@ -72,6 +74,7 @@ export class ShipToShipActivityComponent implements OnInit {
       this.fromDateModel = fromDateResult;
       this.shipToShipActivityModel.fromDate = new Date(this.fromDateModel.date.year, this.fromDateModel.date.month - 1, this.fromDateModel.date.day, this.fromDateModel.time.hour, this.fromDateModel.time.minute);
     }
+    this.validateDateTime();
   }
 
   onToDateResult(toDateResult) {
@@ -79,6 +82,7 @@ export class ShipToShipActivityComponent implements OnInit {
       this.toDateModel = toDateResult;
       this.shipToShipActivityModel.toDate = new Date(this.toDateModel.date.year, this.toDateModel.date.month - 1, this.toDateModel.date.day, this.toDateModel.time.hour, this.toDateModel.time.minute);
     }
+    this.validateDateTime();
   }
 
   onLatitudeInput(latitudeResult) {
@@ -116,6 +120,39 @@ export class ShipToShipActivityComponent implements OnInit {
 
   onDeleteShipToShipActivity(row) {
     this.shipToShipActivityList = this.shipToShipActivityList.filter(entry => entry !== row.shipToShipActivity);
+  }
+
+  private validateDateTime() {
+    if (this.fromDateModel && this.fromDateModel.date && this.toDateModel && this.toDateModel.date) {
+      this.fromDateIsAfterToDateError = this.isAfter(this.fromDateModel, this.toDateModel);
+    } else {
+      this.fromDateIsAfterToDateError = false;
+    }
+  }
+
+  private dateStringToDateTime(dateString) {
+    const date = new Date(dateString);
+    const dateTime: DateTime = {
+      date: new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+      time: new NgbTime(date.getHours(), date.getMinutes(), 0)
+    };
+    return dateTime;
+  }
+
+  private isAfter(dt1: DateTime, dt2: DateTime) {
+    if (dt1.date && dt2.date) {
+      const dt1Date = new NgbDate(dt1.date.year, dt1.date.month, dt1.date.day);
+      const dt2Date = new NgbDate(dt2.date.year, dt2.date.month, dt2.date.day);
+      if (dt1Date.after(dt2Date)) {
+        return true;
+      }
+      if (dt1Date.equals(dt2Date)) {
+        if (dt1.time.hour > dt2.time.hour || (dt1.time.hour === dt2.time.hour && dt1.time.minute >= dt2.time.minute)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }
