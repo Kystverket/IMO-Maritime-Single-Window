@@ -195,15 +195,11 @@ export class VoyagesComponent implements OnInit {
   }
 
   private persistPrevEtd() {
-    if (this.prevEtdModel) {
-      this.portCallService.setPrevEtdData(this.prevEtdModel);
-    }
+    this.portCallService.setPrevEtdData(this.prevEtdModel);
   }
 
   private persistNextEta() {
-    if (this.nextEtaModel) {
-      this.portCallService.setNextEtaData(this.nextEtaModel);
-    }
+    this.portCallService.setNextEtaData(this.nextEtaModel);
   }
 
   // Methods used for populating info tables with correcly formatted data

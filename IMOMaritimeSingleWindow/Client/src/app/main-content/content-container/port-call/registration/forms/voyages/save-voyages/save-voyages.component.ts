@@ -140,21 +140,10 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
     portCallModel.locationEta = this.formatDateTime(this.etaModel);
     portCallModel.locationEtd = this.formatDateTime(this.etdModel);
 
-    if (this.prevLocationFound) {
-      portCallModel.previousLocationId = this.prevLocationModel.locationId;
-    }
-
-    if (this.prevEtdFound) {
-      portCallModel.previousLocationEtd = this.formatDateTime(this.prevEtdModel);
-    }
-
-    if (this.nextLocationFound) {
-      portCallModel.nextLocationId = this.nextLocationModel.locationId;
-    }
-
-    if (this.nextEtaFound) {
-      portCallModel.nextLocationEta = this.formatDateTime(this.nextEtaModel);
-    }
+    portCallModel.previousLocationId = this.prevLocationFound ? this.prevLocationModel.locationId : null;
+    portCallModel.previousLocationEtd = this.prevEtdFound ? this.formatDateTime(this.prevEtdModel) : null;
+    portCallModel.nextLocationId = this.nextLocationFound ? this.nextLocationModel.locationId : null;
+    portCallModel.nextLocationEta = this.nextEtaFound ? this.formatDateTime(this.nextEtaModel) : null;
 
     return portCallModel;
   }
