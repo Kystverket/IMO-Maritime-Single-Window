@@ -1,20 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService } from 'app/shared/services/content.service';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -45,11 +41,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   detailsMeta: FormMetaData;
   detailsModel: PortCallDetailsModel = new PortCallDetailsModel();
   cargoData: ConsignmentModel[];
-
-  prevLocationModel: LocationModel;
-  nextLocationModel: LocationModel;
-  etdModel: DateTime = null;
-  etaModel: DateTime = null;
 
   shipStoresList: any[];
 
@@ -211,6 +202,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.shipStoresIsPristineSubscription.unsubscribe();
     this.cargoDataSubscription.unsubscribe();
     this.cargoIsPristineSubscription.unsubscribe();
+  }
+
+  saveVoyages() {
+    alert('Saving voyages from this page is not yet implemented. Please return to the Voyages page to save your changes.');
   }
 
   saveDetails() {
