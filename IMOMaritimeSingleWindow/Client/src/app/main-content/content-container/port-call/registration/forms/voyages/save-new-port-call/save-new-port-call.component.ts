@@ -23,10 +23,13 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   etaFound = false;
   etdFound = false;
 
+  voyagesErrors = false;
+
   shipDataSubscription: Subscription;
   locationDataSubscription: Subscription;
   etaDataSubscription: Subscription;
   etdDataSubscription: Subscription;
+  voyagesErrorSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService
@@ -65,6 +68,12 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
         this.etdFound = false;
       }
     });
+
+    this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
+      hasError => {
+        this.voyagesErrors = hasError;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -72,6 +81,7 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     this.locationDataSubscription.unsubscribe();
     this.etaDataSubscription.unsubscribe();
     this.etdDataSubscription.unsubscribe();
+    this.voyagesErrorSubscription.unsubscribe();
   }
 
   formatDateTime(dateTime: DateTime): Date {

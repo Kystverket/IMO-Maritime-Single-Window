@@ -1,14 +1,15 @@
-<div *ngIf="!(shipFound && locationFound && etaFound && etdFound)" class="text-center">
+<div *ngIf="!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)" class="text-center">
   <div class="mb-3">
     <p *ngIf="!shipFound" class="no-wrap mb-0">Ship is required.</p>
     <p *ngIf="!locationFound" class="no-wrap mb-0">Location is required.</p>
     <p *ngIf="!etaFound" class="no-wrap mb-0">ETA is required.</p>
     <p *ngIf="!etdFound" class="no-wrap mb-0">ETD is required.</p>
   </div>
+  <div class="alert alert-danger mb-3" *ngIf="voyagesErrors">There are errors that must be resolved.</div>
   <button class="btn btn-ssn" disabled>
     <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> Create Port Call Draft</button>
 </div>
-<div *ngIf="shipFound && locationFound && etaFound && etdFound" class="text-center">
+<div *ngIf="shipFound && locationFound && etaFound && etdFound && !voyagesErrors" class="text-center">
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>

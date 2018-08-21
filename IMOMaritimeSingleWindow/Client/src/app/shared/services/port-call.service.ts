@@ -36,29 +36,14 @@ export class PortCallService {
   private clearancePortCallUrl = 'api/organizationportcall/portcall';
 
   // Data sources with observables
+  private portCallIdSource = new BehaviorSubject<any>(null);
+  portCallIdData$ = this.portCallIdSource.asObservable();
+
   private updateOverviewSource = new BehaviorSubject<any>(null);
   updateOverview$ = this.updateOverviewSource.asObservable();
 
-  private shipDataSource = new BehaviorSubject<any>(null);
-  shipData$ = this.shipDataSource.asObservable();
-
-  private locationDataSource = new BehaviorSubject<any>(null);
-  locationData$ = this.locationDataSource.asObservable();
-
-  private etaEtdDataSource = new BehaviorSubject<any>(null);
-  etaEtdData$ = this.etaEtdDataSource.asObservable();
-
-  private etaSource = new BehaviorSubject<DateTime>(null);
-  etaData$ = this.etaSource.asObservable();
-
-  private etdSource = new BehaviorSubject<DateTime>(null);
-  etdData$ = this.etdSource.asObservable();
-
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
-
-  private portCallIdSource = new BehaviorSubject<any>(null);
-  portCallIdData$ = this.portCallIdSource.asObservable();
 
   private clearanceDataSource = new BehaviorSubject<any>(null);
   clearanceData$ = this.clearanceDataSource.asObservable();
@@ -68,6 +53,34 @@ export class PortCallService {
 
   private createdByUserDataSource = new BehaviorSubject<any>(null);
   createdByUserData$ = this.createdByUserDataSource.asObservable();
+
+  // Data sources for Voyages tab
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
+
+  private locationDataSource = new BehaviorSubject<any>(null);
+  locationData$ = this.locationDataSource.asObservable();
+
+  private etaSource = new BehaviorSubject<DateTime>(null);
+  etaData$ = this.etaSource.asObservable();
+
+  private etdSource = new BehaviorSubject<DateTime>(null);
+  etdData$ = this.etdSource.asObservable();
+
+  private prevLocationDataSource = new BehaviorSubject<any>(null);
+  prevLocationData$ = this.prevLocationDataSource.asObservable();
+
+  private prevEtdSource = new BehaviorSubject<DateTime>(null);
+  prevEtdData$ = this.prevEtdSource.asObservable();
+
+  private nextLocationDataSource = new BehaviorSubject<any>(null);
+  nextLocationData$ = this.nextLocationDataSource.asObservable();
+
+  private nextEtaSource = new BehaviorSubject<DateTime>(null);
+  nextEtaData$ = this.nextEtaSource.asObservable();
+
+  private voyagesErrorsSource = new BehaviorSubject<boolean>(null);
+  voyagesErrors$ = this.voyagesErrorsSource.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -109,14 +122,16 @@ export class PortCallService {
     return this.http
       .put(this.portCallUrl, portCall);
   }
+
+  setPortCallIdData(data) {
+    this.portCallIdSource.next(data);
+  }
+
   setShipData(data) {
     this.shipDataSource.next(data);
   }
   setLocationData(data) {
     this.locationDataSource.next(data);
-  }
-  setEtaEtdData(data) {
-    this.etaEtdDataSource.next(data);
   }
   setEtaData(data) {
     this.etaSource.next(data);
@@ -124,14 +139,26 @@ export class PortCallService {
   setEtdData(data) {
     this.etdSource.next(data);
   }
+  setPrevLocationData(data) {
+    this.prevLocationDataSource.next(data);
+  }
+  setPrevEtdData(data) {
+    this.prevEtdSource.next(data);
+  }
+  setNextLocationData(data) {
+    this.nextLocationDataSource.next(data);
+  }
+  setNextEtdData(data) {
+    this.nextEtaSource.next(data);
+  }
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
   }
-  setPortCallIdData(data) {
-    this.portCallIdSource.next(data);
-  }
   setCreatedByUserData(data) {
     this.createdByUserDataSource.next(data);
+  }
+  setVoyagesErrors(hasError: boolean) {
+    this.voyagesErrorsSource.next(hasError);
   }
 
   // REGISTER NEW PORT CALL
@@ -271,7 +298,7 @@ export class PortCallService {
     });
   }
 
-  /** * * * * * * * * *
+  /* * * * * * * * * * *
    *                   *
    *  == CLEARANCE ==  *
    *                   *
@@ -284,7 +311,6 @@ export class PortCallService {
   // Clearance agencies list
 
   setClearanceListData(data) {
-    // NEW
     this.clearanceListDataSource.next(data);
   }
 
@@ -309,13 +335,10 @@ export class PortCallService {
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
   registerClearanceAgenciesForPortCall(portCall: PortCallModel) {
-    // NEW
     this.http
       .post(this.clearanceUrl, portCall)
       .subscribe(clearanceData => {
-        console.log(
-          'Clearance agency information successfully added to port call.'
-        );
+        console.log('Clearance agency information successfully added to port call.');
         this.clearanceListDataSource.next(clearanceData);
       });
   }
@@ -324,7 +347,10 @@ export class PortCallService {
   wipeServiceData() {
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
-    this.etaEtdDataSource.next(null);
+    this.etaSource.next(null);
+    this.etdSource.next(null);
+    this.prevEtdSource.next(null);
+    this.nextEtaSource.next(null);
     this.clearanceListDataSource.next(null);
     this.createdByUserDataSource.next(null);
     // Details
