@@ -16,6 +16,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
     reportingShipStores: boolean,
     reportingCrew: boolean,
     reportingPax: boolean,
+    reportingSecurity: boolean
   };
   checkboxes: any = [];
 
@@ -36,6 +37,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
             reportingShipStores: null,
             reportingCrew: null,
             reportingPax: null,
+            reportingSecurity: null
           };
         }
         this.checkboxes = [
@@ -43,7 +45,8 @@ export class ReportingComponent implements OnInit, OnDestroy {
           { name: 'Cargo', icon: 'cargo.png', checked: this.reportingModel.reportingCargo || false },
           { name: 'Ship Stores', icon: 'alcohol.png', checked: this.reportingModel.reportingShipStores || false },
           { name: 'Crew', icon: 'crew.png', checked: this.reportingModel.reportingCrew || false },
-          { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false }
+          { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false },
+          { name: 'Security', icon: 'security.png', checked: this.reportingModel.reportingSecurity || false }
         ];
       }
     );
@@ -70,6 +73,9 @@ export class ReportingComponent implements OnInit, OnDestroy {
         break;
       case 'Pax':
         this.reportingModel.reportingPax = checkboxModel.checked;
+        break;
+      case 'Security':
+        this.reportingModel.reportingSecurity = checkboxModel.checked;
         break;
       default:
         console.log('Oops. Something went wrong with the checkboxes.');

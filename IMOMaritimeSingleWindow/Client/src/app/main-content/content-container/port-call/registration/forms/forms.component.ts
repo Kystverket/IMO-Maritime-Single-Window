@@ -13,6 +13,10 @@ import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-f
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallModel } from 'app/shared/models/port-call-model';
+import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
+import { FalSecurityModel } from '../../../../../shared/models/fal-security-model';
+import { CompanySecurityOfficerModel } from '../../../../../shared/models/company-security-officer-model';
 
 
 @Component({
@@ -49,6 +53,13 @@ export class FormsComponent implements OnInit, OnDestroy {
   shipStoresSubscription: Subscription;
   passengerListSubscription: Subscription;
   crewListSubscription: Subscription;
+  securitySubscription: Subscription;
+  setSecuritySubscription: Subscription;
+  // 2018.08.17 Trying new pattern for security-component
+  portCallSubscription: Subscription;
+  portCallModel: PortCallModel;
+  securityData: FalSecurityModel;
+  securityShipModel: ShipModel;
 
   // Voyages
   shipSubscription: Subscription;
@@ -66,15 +77,44 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
+    private securityService: FalSecurityService,
     private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
+    this.portCallSubscription = this.portCallService.portCallData$.subscribe(
+      portCallData => {
+        if (portCallData) {
+          this.portCallModel = portCallData;
+          this.setCargoForPortCall(this.portCallModel.portCallId);
+          this.setSecurityForPortCall(this.portCallModel.portCallId);
+          this.shipDataSubscription = this.shipService.getShip(this.portCallModel.shipId).subscribe(
+            data => {
+              console.log(data);
+              if (data) {
+                this.securityShipModel = data;
+              }
+            }
+          );
+        }
+      }
+    );
+
+    this.securitySubscription = this.securityService.securityData$.subscribe(
+      data => {
+        if (data) {
+          this.securityData = data;
+        } else {
+          this.securityData = new FalSecurityModel();
+          this.securityData.companySecurityOfficer = new CompanySecurityOfficerModel();
+        }
+      }
+    );
+
     this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData;
-          this.setCargoForPortCall(this.portCallId);
         }
       }
     );
@@ -176,6 +216,18 @@ export class FormsComponent implements OnInit, OnDestroy {
     );
   }
 
+  setSecurityForPortCall(portCallId) {
+    this.setSecuritySubscription = this.securityService.getFalSecurityByPortCallId(portCallId).subscribe(
+      data => {
+        if (data) {
+          this.securityService.setSecurityData(data);
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
   setCargoForPortCall(portCallId) {
     this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
       data => {
@@ -185,6 +237,7 @@ export class FormsComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 
 
   ngOnDestroy() {
@@ -200,6 +253,8 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.portCallFormNameSubscription.unsubscribe();
     this.portCallIdSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
+    this.securitySubscription.unsubscribe();
+    this.setSecuritySubscription.unsubscribe();
     this.shipStoresSubscription.unsubscribe();
     this.passengerListSubscription.unsubscribe();
     this.crewListSubscription.unsubscribe();

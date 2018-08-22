@@ -41,6 +41,11 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
+import { IsscComponent } from './components/issc/issc.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { CountrySelectComponent } from './components/country-select/country-select.component';
+import { RsoSelectComponent } from './components/issc/rso-select/rso-select.component';
+import { OrganizationInfoTableComponent } from './components/organization-info-table/organization-info-table.component';
 
 @NgModule({
   imports: [
@@ -89,6 +94,11 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     FeedbackComponent,
     CargoInfoTableComponent,
     UserInfoTableComponent,
+    IsscComponent,
+    DatePickerComponent,
+    CountrySelectComponent,
+    RsoSelectComponent,
+    OrganizationInfoTableComponent,
   ],
   exports: [
     AlphaNumericValidator,
@@ -121,7 +131,9 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    IsscComponent,
+    OrganizationInfoTableComponent
   ],
   providers: [
     LocationService,

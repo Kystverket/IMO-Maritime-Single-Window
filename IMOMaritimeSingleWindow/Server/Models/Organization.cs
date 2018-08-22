@@ -7,6 +7,8 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public Organization()
         {
+            CompanySecurityOfficer = new HashSet<CompanySecurityOfficer>();
+            InternationalShipSecurityCertificate = new HashSet<InternationalShipSecurityCertificate>();
             OrganizationPortCall = new HashSet<OrganizationPortCall>();
             Ship = new HashSet<Ship>();
             ShipCertificate = new HashSet<ShipCertificate>();
@@ -26,6 +28,8 @@ namespace IMOMaritimeSingleWindow.Models
         public string ClearanceIsFalseString { get; set; }
 
         public OrganizationType OrganizationType { get; set; }
+        public ICollection<CompanySecurityOfficer> CompanySecurityOfficer { get; set; }
+        public ICollection<InternationalShipSecurityCertificate> InternationalShipSecurityCertificate { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
         public ICollection<Ship> Ship { get; set; }
         public ICollection<ShipCertificate> ShipCertificate { get; set; }

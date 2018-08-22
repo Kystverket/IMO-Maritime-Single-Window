@@ -50,6 +50,15 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { SecurityComponent } from './registration/forms/security/security.component';
+import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
+import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
+import { FalSecurityService } from '../../../shared/services/fal-security.service';
+import { Last10PortCallsComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls.component';
+import { Last10PortCallsTableComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component';
+import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
+import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
+import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
 
 @NgModule({
   imports: [
@@ -100,6 +109,14 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     VoyagesComponent,
     SaveVoyagesComponent,
     SaveNewPortCallComponent,
+    SecurityComponent,
+    SecurityDetailsComponent,
+    CompanySecurityOfficerComponent,
+    Last10PortCallsComponent,
+    Last10PortCallsTableComponent,
+    ShipToShipActivityComponent,
+    ShipToShipActivityTableComponent,
+    SaveSecurityComponent,
   ],
   exports: [
     ClearanceComponent,
@@ -115,7 +132,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     PortCallDetailsService,
     FalCargoService,
     ValidateDateTimeService,
-    PortCallFalPersonOnBoardService
+    PortCallFalPersonOnBoardService,
+    FalSecurityService
   ]
 })
 export class PortCallModule { }

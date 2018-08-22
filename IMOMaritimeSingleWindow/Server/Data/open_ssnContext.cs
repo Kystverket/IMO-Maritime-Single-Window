@@ -12,6 +12,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
         public virtual DbSet<ClaimType> ClaimType { get; set; }
+        public virtual DbSet<CompanySecurityOfficer> CompanySecurityOfficer { get; set; }
         public virtual DbSet<Consignment> Consignment { get; set; }
         public virtual DbSet<ContactMedium> ContactMedium { get; set; }
         public virtual DbSet<Country> Country { get; set; }
@@ -22,11 +23,13 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<Dpg> Dpg { get; set; }
         public virtual DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         public virtual DbSet<DpgType> DpgType { get; set; }
+        public virtual DbSet<FalSecurity> FalSecurity { get; set; }
         public virtual DbSet<FalShipStores> FalShipStores { get; set; }
         public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<IdentityDocument> IdentityDocument { get; set; }
         public virtual DbSet<IdentityDocumentType> IdentityDocumentType { get; set; }
         public virtual DbSet<ImoHazardClass> ImoHazardClass { get; set; }
+        public virtual DbSet<InternationalShipSecurityCertificate> InternationalShipSecurityCertificate { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<LocationSource> LocationSource { get; set; }
         public virtual DbSet<LocationType> LocationType { get; set; }
@@ -48,6 +51,8 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<PortCallStatus> PortCallStatus { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<RoleClaim> RoleClaim { get; set; }
+        public virtual DbSet<SecurityLevel> SecurityLevel { get; set; }
+        public virtual DbSet<SecurityPreviousPortOfCall> SecurityPreviousPortOfCall { get; set; }
         public virtual DbSet<Ship> Ship { get; set; }
         public virtual DbSet<ShipBreadthType> ShipBreadthType { get; set; }
         public virtual DbSet<ShipCertificate> ShipCertificate { get; set; }
@@ -61,6 +66,7 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<ShipPowerType> ShipPowerType { get; set; }
         public virtual DbSet<ShipSource> ShipSource { get; set; }
         public virtual DbSet<ShipStatus> ShipStatus { get; set; }
+        public virtual DbSet<ShipToShipActivity> ShipToShipActivity { get; set; }
         public virtual DbSet<ShipType> ShipType { get; set; }
         public virtual DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -169,6 +175,32 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+            });
+
+            modelBuilder.Entity<CompanySecurityOfficer>(entity =>
+            {
+                entity.ToTable("company_security_officer");
+
+                entity.HasIndex(e => e.OrganizationId)
+                    .HasName("fki_FK_company_security_officer_organization_id");
+
+                entity.Property(e => e.CompanySecurityOfficerId).HasColumnName("company_security_officer_id");
+
+                entity.Property(e => e.Email).HasColumnName("email");
+
+                entity.Property(e => e.GivenName).HasColumnName("given_name");
+
+                entity.Property(e => e.OrganizationId).HasColumnName("organization_id");
+
+                entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
+
+                entity.Property(e => e.Surname).HasColumnName("surname");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.CompanySecurityOfficer)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_company_security_officer_organization_id");
             });
 
             modelBuilder.Entity<Consignment>(entity =>
@@ -452,6 +484,52 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<FalSecurity>(entity =>
+            {
+                entity.ToTable("fal_security");
+
+                entity.HasIndex(e => e.CompanySecurityOfficerId)
+                    .HasName("fki_FK_fal_security_company_security_officer_id");
+
+                entity.HasIndex(e => e.PortCallId)
+                    .HasName("fki_FK_fal_security_port_call_id");
+
+                entity.HasIndex(e => e.SecurityLevelId)
+                    .HasName("fki_FK_fal_security_security_level_id");
+
+                entity.Property(e => e.FalSecurityId)
+                    .HasColumnName("fal_security_id")
+                    .HasDefaultValueSql("nextval('fal_security_id_seq'::regclass)");
+
+                entity.Property(e => e.CompanySecurityOfficerId).HasColumnName("company_security_officer_id");
+
+                entity.Property(e => e.OtherRelatedInfo).HasColumnName("other_related_info");
+
+                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.Property(e => e.SecurityLevelId).HasColumnName("security_level_id");
+
+                entity.Property(e => e.ShipHasValidSspOnBoard).HasColumnName("ship_has_valid_ssp_on_board");
+
+                entity.HasOne(d => d.CompanySecurityOfficer)
+                    .WithMany(p => p.FalSecurity)
+                    .HasForeignKey(d => d.CompanySecurityOfficerId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_fal_security_company_security_officer_id");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.FalSecurity)
+                    .HasForeignKey(d => d.PortCallId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_fal_security_port_call_id");
+
+                entity.HasOne(d => d.SecurityLevel)
+                    .WithMany(p => p.FalSecurity)
+                    .HasForeignKey(d => d.SecurityLevelId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_fal_security_security_level_id");
+            });
+
             modelBuilder.Entity<FalShipStores>(entity =>
             {
                 entity.ToTable("fal_ship_stores");
@@ -574,6 +652,46 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.InverseParentImoHazardClass)
                     .HasForeignKey(d => d.ParentImoHazardClassId)
                     .HasConstraintName("imo_hazard_class_parent_imo_hazard_class_id_fkey");
+            });
+
+            modelBuilder.Entity<InternationalShipSecurityCertificate>(entity =>
+            {
+                entity.HasKey(e => e.IsscId);
+
+                entity.ToTable("international_ship_security_certificate");
+
+                entity.HasIndex(e => e.GovernmentIssuerId)
+                    .HasName("fki_FK_issc_government_issuer_id");
+
+                entity.Property(e => e.IsscId)
+                    .HasColumnName("issc_id")
+                    .HasDefaultValueSql("nextval('issc_id_seq'::regclass)");
+
+                entity.Property(e => e.CertificateNumber).HasColumnName("certificate_number");
+
+                entity.Property(e => e.ExpiryDate)
+                    .HasColumnName("expiry_date")
+                    .HasColumnType("date");
+
+                entity.Property(e => e.GovernmentIssuerId).HasColumnName("government_issuer_id");
+
+                entity.Property(e => e.IssuedByGovernment)
+                    .HasColumnName("issued_by_government")
+                    .HasDefaultValueSql("true");
+
+                entity.Property(e => e.RsoIssuerId).HasColumnName("rso_issuer_id");
+
+                entity.HasOne(d => d.GovernmentIssuer)
+                    .WithMany(p => p.InternationalShipSecurityCertificate)
+                    .HasForeignKey(d => d.GovernmentIssuerId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_issc_government_issuer_id");
+
+                entity.HasOne(d => d.RsoIssuer)
+                    .WithMany(p => p.InternationalShipSecurityCertificate)
+                    .HasForeignKey(d => d.RsoIssuerId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_issc_rso_issuer_id");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -1059,6 +1177,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 
+                entity.Property(e => e.ReportingSecurity).HasColumnName("reporting_security");
+
                 entity.Property(e => e.ReportingShipStores).HasColumnName("reporting_ship_stores");
 
                 entity.Property(e => e.ReportingWaste).HasColumnName("reporting_waste");
@@ -1175,12 +1295,77 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasConstraintName("FK_role_claim_role_id1");
             });
 
+            modelBuilder.Entity<SecurityLevel>(entity =>
+            {
+                entity.ToTable("security_level");
+
+                entity.Property(e => e.SecurityLevelId).HasColumnName("security_level_id");
+
+                entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+            });
+
+            modelBuilder.Entity<SecurityPreviousPortOfCall>(entity =>
+            {
+                entity.ToTable("security_previous_port_of_call");
+
+                entity.HasIndex(e => e.LocationId)
+                    .HasName("fki_FK_security_previous_port_of_call_location_id");
+
+                entity.HasIndex(e => e.SecurityLevelId)
+                    .HasName("fki_FK_security_previous_port_of_call_security_level_id");
+
+                entity.HasIndex(e => e.FalSecurityId)
+                    .HasName("fki_FK_security_previous_port_of_call_fal_security_id");
+
+                entity.Property(e => e.SecurityPreviousPortOfCallId)
+                    .HasColumnName("security_previous_port_of_call_id")
+                    .HasDefaultValueSql("nextval('security_previous_port_of_cal_security_previous_port_of_cal_seq'::regclass)");
+
+                entity.Property(e => e.AdditionalSecurityMeasures).HasColumnName("additional_security_measures");
+
+                entity.Property(e => e.ArrivalDateTime).HasColumnName("arrival_datetime");
+
+                entity.Property(e => e.DepartureDateTime).HasColumnName("departure_datetime");
+
+                entity.Property(e => e.LocationId).HasColumnName("location_id");
+
+                entity.Property(e => e.SecurityLevelId).HasColumnName("security_level_id");
+
+                entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
+
+                entity.Property(e => e.FalSecurityId).HasColumnName("fal_security_id");
+
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.SecurityPreviousPortOfCall)
+                    .HasForeignKey(d => d.LocationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_security_previous_port_of_call_location_id");
+
+                entity.HasOne(d => d.SecurityLevel)
+                    .WithMany(p => p.SecurityPreviousPortOfCall)
+                    .HasForeignKey(d => d.SecurityLevelId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_security_previous_port_of_call_security_level_id");
+
+                entity.HasOne(d => d.FalSecurity)
+                    .WithMany(p => p.SecurityPreviousPortOfCall)
+                    .HasForeignKey(d => d.FalSecurityId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_security_previous_port_of_call_fal_security_id");
+            });
+
             modelBuilder.Entity<Ship>(entity =>
             {
                 entity.ToTable("ship");
 
                 entity.HasIndex(e => e.CertificateOfRegistryId)
                     .HasName("fki_FK_ship_certificate_of_registry_id");
+
+                entity.HasIndex(e => e.IsscId)
+                    .HasName("fki_FK_ship_issc_id");
 
                 entity.HasIndex(e => e.OrganizationId)
                     .HasName("ifk_rel_22");
@@ -1235,6 +1420,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ImoNo).HasColumnName("imo_no");
 
+                entity.Property(e => e.IsscId).HasColumnName("issc_id");
+
                 entity.Property(e => e.Length).HasColumnName("length");
 
                 entity.Property(e => e.MmsiNo).HasColumnName("mmsi_no");
@@ -1273,6 +1460,12 @@ namespace IMOMaritimeSingleWindow.Data
                     .WithMany(p => p.Ship)
                     .HasForeignKey(d => d.CertificateOfRegistryId)
                     .HasConstraintName("FK_ship_certificate_of_registry_id");
+
+                entity.HasOne(d => d.Issc)
+                    .WithMany(p => p.Ship)
+                    .HasForeignKey(d => d.IsscId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_ship_issc_id");
 
                 entity.HasOne(d => d.Organization)
                     .WithMany(p => p.Ship)
@@ -1626,6 +1819,47 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasColumnName("name");
             });
 
+            modelBuilder.Entity<ShipToShipActivity>(entity =>
+            {
+                entity.ToTable("ship_to_ship_activity");
+
+                entity.Property(e => e.ShipToShipActivityId).HasColumnName("ship_to_ship_activity_id");
+
+                entity.Property(e => e.ActivityTypeId).HasColumnName("activity_type_id");
+
+                entity.Property(e => e.FalSecurityId).HasColumnName("fal_security_id");
+
+                entity.Property(e => e.FromDate).HasColumnName("from_date");
+
+                entity.Property(e => e.Latitude).HasColumnName("latitude");
+
+                entity.Property(e => e.LocationId).HasColumnName("location_id");
+
+                entity.Property(e => e.Longitude).HasColumnName("longitude");
+
+                entity.Property(e => e.ToDate).HasColumnName("to_date");
+
+                entity.Property(e => e.SecurityMeasuresAppliedInLieu).HasColumnName("security_measures_applied_in_lieu");
+
+                entity.HasOne(d => d.ActivityType)
+                    .WithMany(p => p.ShipToShipActivity)
+                    .HasForeignKey(d => d.ActivityTypeId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_ship_to_ship_activity_activity_type_id");
+
+                entity.HasOne(d => d.FalSecurity)
+                    .WithMany(p => p.ShipToShipActivity)
+                    .HasForeignKey(d => d.FalSecurityId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_ship_to_ship_activity_fal_security_id");
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.ShipToShipActivity)
+                    .HasForeignKey(d => d.LocationId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_ship_to_ship_activity_location_id");
+            });
+
             modelBuilder.Entity<ShipType>(entity =>
             {
                 entity.ToTable("ship_type");
@@ -1796,9 +2030,13 @@ namespace IMOMaritimeSingleWindow.Data
                 .HasMin(1)
                 .HasMax(2147483647);
 
+            modelBuilder.HasSequence("fal_security_id_seq");
+
             modelBuilder.HasSequence("identity_document_id_seq");
 
             modelBuilder.HasSequence("identity_document_type_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("issc_id_seq");
 
             modelBuilder.HasSequence("password_password_id_seq").HasMax(2147483647);
 
@@ -1811,6 +2049,8 @@ namespace IMOMaritimeSingleWindow.Data
                 .HasMax(2147483647);
 
             modelBuilder.HasSequence("role_role_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("security_previous_port_of_cal_security_previous_port_of_cal_seq");
 
             modelBuilder.HasSequence("ship_ship_id_seq")
                 .StartsAt(359004)
@@ -1832,7 +2072,6 @@ namespace IMOMaritimeSingleWindow.Data
 
             modelBuilder.HasSequence("person_on_board_id_seq").HasMax(9223372036854775807).StartsAt(5);
         }
-
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
         public override int SaveChanges()
         {
