@@ -17,6 +17,9 @@ export class PortCallDetailsService extends BaseService {
   private detailsUrl = 'api/portcalldetails';
   private detailsPortCallUrl = 'api/portcalldetails/portcall';
 
+  private portCallDetailsIdSource = new BehaviorSubject<any>(null);
+  portCallDetailsIdData$ = this.portCallDetailsIdSource.asObservable();
+
   private crewPassengersAndDimensionsSource = new BehaviorSubject<any>(null);
   crewPassengersAndDimensionsData$ = this.crewPassengersAndDimensionsSource.asObservable();
 
@@ -48,10 +51,16 @@ export class PortCallDetailsService extends BaseService {
   }
 
   setDetails(details: PortCallDetailsModel) {
+    console.log('Details received in PortCallDetailsService:', details);
+    this.setPortCallDetailsId(details.portCallDetailsId);
     this.setCrewPassengersAndDimensionsData(details);
     this.setReportingForThisPortCallData(details);
     this.setCargoBriefDescriptionData(details.cargoBriefDescription);
     this.detailsPristine.next(true);
+  }
+
+  setPortCallDetailsId(data) {
+    this.portCallDetailsIdSource.next(data);
   }
 
   setCrewPassengersAndDimensionsData(data) {
@@ -71,14 +80,12 @@ export class PortCallDetailsService extends BaseService {
   // This is a list of checkboxes that specify which FAL forms to include in this port call registration
 
   setReportingForThisPortCallData(data) {
-    // NEW
     this.detailsPristine.next(false);
     this.reportingForThisPortCallSource.next(data);
   }
   // Purpose
 
   setPortCallPurposeData(data) {
-    // NEW
     this.detailsPristine.next(false);
     this.portCallPurposeDataSource.next(data);
   }
@@ -89,7 +96,6 @@ export class PortCallDetailsService extends BaseService {
   }
 
   setOtherPurposeData(data) {
-    // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
     this.otherPurposeDataSource.next(data);
   }
 
@@ -114,6 +120,7 @@ export class PortCallDetailsService extends BaseService {
   }
 
   wipeDetailsData() {
+    this.portCallDetailsIdSource.next(null);
     this.reportingForThisPortCallSource.next(null);
     this.crewPassengersAndDimensionsSource.next(null);
     this.portCallPurposeDataSource.next(null);

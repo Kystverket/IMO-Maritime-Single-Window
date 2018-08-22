@@ -188,14 +188,20 @@ export class FormsComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.shipDataSubscription.unsubscribe();
-    this.portCallFormNameSubscription.unsubscribe();
-    this.cargoSubscription.unsubscribe();
-    this.passengerListSubscription.unsubscribe();
-    this.crewListSubscription.unsubscribe();
+    this.shipSubscription.unsubscribe();
+    this.locationSubscription.unsubscribe();
+    this.etaSubscription.unsubscribe();
+    this.etdSubscription.unsubscribe();
     this.prevLocationSubscription.unsubscribe();
     this.prevEtdSubscription.unsubscribe();
     this.nextLocationSubscription.unsubscribe();
     this.nextEtaSubscription.unsubscribe();
+    this.shipDataSubscription.unsubscribe();
+    this.portCallFormNameSubscription.unsubscribe();
+    this.portCallIdSubscription.unsubscribe();
+    this.cargoSubscription.unsubscribe();
+    this.shipStoresSubscription.unsubscribe();
+    this.passengerListSubscription.unsubscribe();
+    this.crewListSubscription.unsubscribe();
   }
 }

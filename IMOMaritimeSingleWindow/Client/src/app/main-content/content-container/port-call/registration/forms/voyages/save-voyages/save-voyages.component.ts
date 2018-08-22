@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ShipModel } from 'app/shared/models/ship-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 
 const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
@@ -16,7 +17,7 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 })
 export class SaveVoyagesComponent implements OnInit, OnDestroy {
 
-  portCallId: number;
+  @Input() portCallId: number;
 
   shipModel: ShipModel;
   locationModel: LocationModel;
@@ -41,7 +42,6 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
   dataIsPristine = true;
   dataIsPristineText: string;
 
-  portCallIdSubscription: Subscription;
   dataIsPrisitineSubscription: Subscription;
   shipDataSubscription: Subscription;
   locationDataSubscription: Subscription;
@@ -53,16 +53,11 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
   nextLocationSubscription: Subscription;
   nextEtaSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) {
+  constructor(private portCallService: PortCallService, private portCallDetailsService: PortCallDetailsService) {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
   }
 
   ngOnInit() {
-    this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
-      portCallIdData => {
-        this.portCallId = portCallIdData;
-      }
-    );
     this.dataIsPrisitineSubscription = this.portCallService.voyagesIsPristine$.subscribe(
       voyagesIsPristine => {
         this.dataIsPristine = voyagesIsPristine;
@@ -118,6 +113,7 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.dataIsPrisitineSubscription.unsubscribe();
     this.shipDataSubscription.unsubscribe();
     this.locationDataSubscription.unsubscribe();
     this.etaDataSubscription.unsubscribe();
@@ -146,23 +142,6 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
     portCallModel.nextLocationEta = this.nextEtaFound ? this.formatDateTime(this.nextEtaModel) : null;
 
     return portCallModel;
-  }
-
-  registerPortCallDraft() {
-    const portCallModel = this.buildPortCallModel();
-    this.portCallService.registerNewPortCall(portCallModel).subscribe(
-      result => {
-        console.log('New port call successfully registered.');
-        // add list of authorities for clearance
-        console.log('Registering authority clearance agencies to port call...');
-        this.portCallService.registerClearanceAgenciesForPortCall(result);
-
-        this.portCallService.setPortCallIdData(result.portCallId);
-      },
-      error => {
-        console.log(error);
-      }
-    );
   }
 
   savePortCall() {

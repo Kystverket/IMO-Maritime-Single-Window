@@ -271,7 +271,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   saveDetails() {
-    this.detailsModel.portCallDetailsId = this.portCallId;
+    // this.detailsModel.portCallDetailsId = this.portCallId;
     this.detailsModel.portCallId = this.portCallId;
     this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
@@ -286,7 +286,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       this.detailsModel,
       this.purposeModel,
       this.otherPurposeName
-    );
+    ).subscribe(detailsResponse => {
+      console.log('Successfully saved port call details:', detailsResponse);
+      this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
+      this.portCallService.savePurposesForPortCall(this.portCallId, this.purposeModel, this.otherPurposeName);
+    });
   }
 
   saveShipStores() {

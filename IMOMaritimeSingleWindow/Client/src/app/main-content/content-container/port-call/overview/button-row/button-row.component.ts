@@ -251,7 +251,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         } else {
           console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
-          portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
+          // portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
           portCallDetails.portCallId = this.rowData.overviewModel.portCall.portCallId;
           this.portCallDetailsService.setDetails(portCallDetails);
         }
