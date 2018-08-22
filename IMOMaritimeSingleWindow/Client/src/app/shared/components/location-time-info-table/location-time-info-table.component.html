@@ -4,7 +4,7 @@
       <td>
         <img *ngIf="locationFlag" src="assets/images/flags/128x128/{{locationFlag | lowercase}}.png" class="my-2" height="32px">
       </td>
-      <td *ngFor="let entry of locationTimeInfo" class="no-wrap px-1 mx-1">
+      <td *ngFor="let entry of locationTimeProperties" class="no-wrap px-1 mx-1">
         <tr *ngIf="entry.data">
           <small>{{ entry.description }}:</small>
         </tr>

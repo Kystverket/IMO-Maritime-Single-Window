@@ -1,0 +1,19 @@
+<app-ssn-card header="Save Crew List" icon="save.png">
+    <div class="text-center" *ngIf="!listIsPristine">
+      <span>You have unsaved changes.</span>
+      <br>
+      <button class="btn btn-ssn" (click)="saveCrewList()">
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Crew List</span>
+      </button>
+    </div>
+  
+    <div class="text-center" *ngIf="listIsPristine">
+      <span>There is nothing to save.</span>
+      <br>
+      <button class="btn btn-ssn mt-2" disabled>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Crew List</span>
+      </button>
+    </div>
+  </app-ssn-card>

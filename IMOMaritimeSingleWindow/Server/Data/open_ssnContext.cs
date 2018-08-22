@@ -540,7 +540,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.HasIndex(e => e.PortCallId)
                     .HasName("fki_fal_ship_stores_port_call_id_fkey");
 
-                entity.Property(e => e.FalShipStoresId).HasColumnName("fal_ship_stores_id");
+                entity.Property(e => e.FalShipStoresId)
+                .HasColumnName("fal_ship_stores_id");
 
                 entity.Property(e => e.ArticleCode).HasColumnName("article_code");
 
@@ -2068,6 +2069,8 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.HasSequence("user_token_user_token_id_seq").HasMax(2147483647);
 
             modelBuilder.HasSequence("user_user_id_seq").HasMax(2147483647);
+
+            modelBuilder.HasSequence("person_on_board_id_seq").HasMax(9223372036854775807).StartsAt(5);
         }
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
         public override int SaveChanges()

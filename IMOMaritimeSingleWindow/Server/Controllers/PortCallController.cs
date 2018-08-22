@@ -34,6 +34,46 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpPut("{portCallId}/falShipStores")]
+        public IActionResult UpdateShipStoresList([FromBody] List<FalShipStores> shipStoresList, long portCallId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (!shipStoresList.Any())
+                {
+                    _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(s => s.PortCallId == portCallId));
+                }
+                else
+                {
+                    var oldList = _context.FalShipStores.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
+                    var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId)).ToList();
+                    _context.FalShipStores.RemoveRange(removeList);
+
+                    foreach (FalShipStores shipStoresEntity in shipStoresList)
+                    {
+                        if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                        {
+                            _context.FalShipStores.Update(shipStoresEntity);
+                        }
+                        else
+                        {
+                            _context.FalShipStores.Add(shipStoresEntity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                return Ok(true);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
         [HttpGet("{portCallId}/consignments")]
         public IActionResult GetConsignments(int portCallId)
         {
@@ -72,6 +112,123 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception e)
             {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpGet("{portCallId}/personOnBoard")]
+        public IActionResult GetAllPersonOnBoardByPortCall(int portCallId)
+        {
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
+            .Include(pob => pob.PortCall)
+            .Include(pob => pob.Nationality)
+            .Include(pob => pob.CountryOfBirth)
+            .Include(pob => pob.PersonOnBoardType)
+            .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+            .ToList();
+            if (personOnBoardList == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoardList);
+        }
+
+        [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}")]
+        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, int personOnBoardTypeId)
+        {
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId)
+            .Include(pob => pob.PortCall)
+            .Include(pob => pob.Nationality)
+            .Include(pob => pob.CountryOfBirth)
+            .Include(pob => pob.PersonOnBoardType)
+            .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+            .ToList();
+            if (personOnBoardList == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoardList);
+        }
+
+        [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
+        public IActionResult GetPersonOnBoardById(int portCallId, int personOnBoardId)
+        {
+            var personOnBoardList = _context.PersonOnBoard.Where(pob => pob.PortCallId == portCallId)
+            .Include(pob => pob.Nationality)
+            .Include(pob => pob.CountryOfBirth)
+            .Include(pob => pob.PersonOnBoardType)
+            .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
+            .Include(pob => pob.Gender)
+            .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
+            .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType);
+            var personOnBoard = personOnBoardList.FirstOrDefault(pob => pob.PersonOnBoardId == personOnBoardId);
+            if (personOnBoard == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoard);
+        }
+
+        [HttpPut("{portCallId}/personOnboard/personOnBoardType/{personOnBoardTypeId}")]
+        public IActionResult UpdatePersonOnBoardList([FromBody] List<PersonOnBoard> personOnBoardList, long portCallId, int personOnBoardTypeId)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                if (!personOnBoardList.Any())
+                {
+                    _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId));
+                }
+                else
+                {
+                    var oldList = _context.PersonOnBoard.AsNoTracking().Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId).ToList();
+                    // Every entry in oldList that does not match a PersonOnBoardId of any of the entries in personOnBoardList
+                    var removeList = oldList.Where(s => !personOnBoardList.Any(personOnBoardEntity => personOnBoardEntity.PersonOnBoardId == s.PersonOnBoardId)).ToList();
+                    _context.PersonOnBoard.RemoveRange(removeList);
+
+                    foreach (PersonOnBoard personOnBoardEntity in personOnBoardList)
+                    {
+                        if (_context.PersonOnBoard.Any(s => s.PersonOnBoardId == personOnBoardEntity.PersonOnBoardId))
+                        {
+                            _context.PersonOnBoard.Update(personOnBoardEntity);
+                        }
+                        else
+                        {
+                            _context.PersonOnBoard.Add(personOnBoardEntity);
+                        }
+                    }
+                }
+                _context.SaveChanges();
+                /* personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId)
+                                    .Include(pob => pob.Nationality)
+                                    .Include(pob => pob.CountryOfBirth)
+                                    .Include(pob => pob.PersonOnBoardType)
+                                    .Include(pob => pob.PortOfEmbarkation).ThenInclude(p => p.Country)
+                                    .Include(pob => pob.PortOfDisembarkation).ThenInclude(p => p.Country)
+                                    .Include(pob => pob.Gender)
+                                    .Include(pob => pob.IdentityDocument)
+                                    .ThenInclude(i => i.IssuingNation)
+                                    .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
+                                    .ToList(); */
+                // return Ok(true);
+                return Json(personOnBoardList);
+            }
+            catch (Exception e)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
                 return BadRequest(e);
             }
         }

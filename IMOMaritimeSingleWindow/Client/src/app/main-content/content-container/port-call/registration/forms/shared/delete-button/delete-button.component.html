@@ -1,5 +1,5 @@
 <div [ngSwitch]="selectedForm">
-  <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-sm btn-ssn" ngbTooltip="Delete Ship Store" (click)="onDeleteClick(deleteModal)">
+  <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-sm btn-ssn" ngbTooltip="Delete Ship Store" (click)="deleteItem();">
     <img height="16px" src="assets/images/icons/128x128/white/cancel.png">
   </button>
 
@@ -30,10 +30,6 @@
     <button *ngSwitchCase="formNames.SHIP_STORES" class="btn btn-danger" (click)="deleteItem(); close">
       <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
       <span>Delete Ship Store</span>
-    </button>
-    <button *ngSwitchCase="formNames.PAX" class="btn btn-danger" (click)="deletePassengerEntry(); close">
-      <img src="assets/images/icons/128x128/white/cancel.png" height="24px">
-      <span>Passenger Entry</span>
     </button>
     <button *ngSwitchCase="formNames.CARGO" class="btn btn-danger" (click)="deleteItem(); close">
       <img src="assets/images/icons/128x128/white/trash.png" height="24px">

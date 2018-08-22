@@ -70,7 +70,7 @@ export class SearchShipComponent implements OnInit {
       }),
       merge(this.hideSearchingWhenUnsubscribed)
     )
-  formatter = (x: { shipId: string }) => x.shipId;
+  formatter = (x: { shipId: string }) => '';
 
   selectShip($event) {
     this.shipSelected = true;

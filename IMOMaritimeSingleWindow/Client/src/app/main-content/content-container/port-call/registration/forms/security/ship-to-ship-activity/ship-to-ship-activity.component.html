@@ -24,8 +24,8 @@
 
   <div class="row mb-1">
     <div class="col-md-6">
-      <app-date-time-picker [header]="'From Date'" [dateTimeModel]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
-      <app-date-time-picker [header]="'To Date'" [dateTimeModel]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'From Date'" [dateTimeInput]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'To Date'" [dateTimeInput]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
       <div class="mb-2">
