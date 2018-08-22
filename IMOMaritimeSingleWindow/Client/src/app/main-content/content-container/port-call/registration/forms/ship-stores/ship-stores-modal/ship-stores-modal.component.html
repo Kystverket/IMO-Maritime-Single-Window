@@ -77,11 +77,13 @@
         <div class="col my-auto">
           <input type="text" required [(ngModel)]="inputShipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name"
             class="form-control form-control-sm" name="articleName" alphaNumericValidator>
-          <div *ngIf="!articleName.valid && articleName.touched" class="alert alert-danger">
-            <li *ngIf="articleName.hasError('invalidAlphaNumeric')">
+          <div *ngIf="articleName.hasError('invalidAlphaNumeric')" class="alert alert-danger">
+            <li>
               <small>Only alphanumeric characters allowed.</small>
             </li>
-            <li *ngIf="articleName.hasError('required')">
+          </div>
+          <div *ngIf="articleName.hasError('required') && articleName.touched" class="alert alert-danger">
+            <li>
               <small>This field is required.</small>
             </li>
           </div>

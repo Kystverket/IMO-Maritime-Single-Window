@@ -8,33 +8,36 @@
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
-                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name"
-                  class="form-control form-control-sm" alphaNumericValidator required name="familyName">
+                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
+                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                  name="givenName" alphaNumericValidator required>
               </div>
             </div>
-            <div class="alert alert-danger" *ngIf="!familyName.valid && familyName.touched">
-              <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
+            <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
+              <li>
                 <small>Only alphanumeric characters allowed.</small>
               </li>
-              <li *ngIf="familyName.hasError('required')">
+            </div>
+            <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
+              <li>
                 <small>This field is required.</small>
               </li>
             </div>
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
-                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  name="givenName" alphaNumericValidator required>
+                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
+                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
+                  alphaNumericValidator required name="familyName">
               </div>
             </div>
-
-            <div class="alert alert-danger" *ngIf="!givenName.valid && givenName.touched">
-              <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
+            <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
+              <li>
                 <small>Only alphanumeric characters allowed.</small>
               </li>
-              <li *ngIf="givenName.hasError('required')">
+            </div>
+            <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
+              <li>
                 <small>This field is required.</small>
               </li>
             </div>
