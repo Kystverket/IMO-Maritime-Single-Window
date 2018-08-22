@@ -69,12 +69,18 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
     if (this.portCallList && this.portCallList.length > 0) {
       const rows = this.generateRows();
       this.portCallDataSource.load(rows);
+    } else {
+      this.portCallDataSource.load([]);
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const rows = this.generateRows();
-    this.portCallDataSource.load(rows);
+    if (this.portCallList && this.portCallList.length > 0) {
+      const rows = this.generateRows();
+      this.portCallDataSource.load(rows);
+    } else {
+      this.portCallDataSource.load([]);
+    }
   }
 
   deletePortCall(row) {
@@ -85,7 +91,7 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
     const rowData = this.portCallList.map(pc => {
       return {
         portCall: pc,
-        portOfCall: pc.location.name,
+        portOfCall: (pc.location != null) ? pc.location.name : '',
         arrival: `<span class="no-wrap">` +
           this.datePipe.transform(pc.arrivalDateTime, 'yyyy-MM-dd') +
           `</span> <span class="no-wrap">` +

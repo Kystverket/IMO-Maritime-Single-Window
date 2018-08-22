@@ -31,7 +31,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 CompanySecurityOfficer companySecurityOfficer = _context.FalSecurity.Where(fs => fs.FalSecurityId == securityId)
-                                                            .Include(fs => fs.CompanySecurityOfficer.Organization).Select(fs => fs.CompanySecurityOfficer).FirstOrDefault();
+                                                            .Include(fs => fs.CompanySecurityOfficer.Organization.OrganizationType).Select(fs => fs.CompanySecurityOfficer).FirstOrDefault();
                 if (companySecurityOfficer == null)
                 {
                     return NotFound();
@@ -54,9 +54,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 FalSecurity falSecurity = _context.FalSecurity.Where(fs => fs.PortCallId == portCallId)
-                                        .Include(fs => fs.CompanySecurityOfficer.Organization)
+                                        .Include(fs => fs.CompanySecurityOfficer.Organization.OrganizationType)
                                         .Include(fs => fs.SecurityPreviousPortOfCall).ThenInclude(sppc => sppc.Location.Country)
+                                        .Include(fs => fs.SecurityPreviousPortOfCall).ThenInclude(sppc => sppc.SecurityLevel)
                                         .Include(fs => fs.ShipToShipActivity).ThenInclude(stsa => stsa.Location.Country)
+                                        .Include(fs => fs.ShipToShipActivity).ThenInclude(stsa => stsa.ActivityType)
                                         .FirstOrDefault();
                 if (falSecurity == null)
                 {
@@ -79,8 +81,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                if (_context.FalSecurity.Find(falSecurity.FalSecurityId) != null)
+                if (falSecurity.FalSecurityId > 0)
                 {
+                    _context.ShipToShipActivity.RemoveRange(_context.ShipToShipActivity.Where(stsa => stsa.FalSecurityId == falSecurity.FalSecurityId));
+                    _context.SecurityPreviousPortOfCall.RemoveRange(_context.SecurityPreviousPortOfCall.Where(pc => pc.FalSecurityId == falSecurity.FalSecurityId));
                     _context.FalSecurity.Update(falSecurity);
                 }
                 else

@@ -1324,9 +1324,9 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.AdditionalSecurityMeasures).HasColumnName("additional_security_measures");
 
-                entity.Property(e => e.ArrivalDatetime).HasColumnName("arrival_datetime");
+                entity.Property(e => e.ArrivalDateTime).HasColumnName("arrival_datetime");
 
-                entity.Property(e => e.DepartureDatetime).HasColumnName("departure_datetime");
+                entity.Property(e => e.DepartureDateTime).HasColumnName("departure_datetime");
 
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 

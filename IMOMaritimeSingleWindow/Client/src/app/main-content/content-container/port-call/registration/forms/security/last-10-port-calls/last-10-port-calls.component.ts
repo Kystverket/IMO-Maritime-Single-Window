@@ -91,6 +91,7 @@ export class Last10PortCallsComponent implements OnInit {
 
   onLocationResult(location) {
     this.portCallModel.location = location;
+    this.portCallModel.locationId = location.locationId;
     LocationProperties.setLocationData(this.locationData, this.portCallModel.location);
     if (this.portCallModel.location.country) {
       const twoCharCode = this.portCallModel.location.country.twoCharCode.toLowerCase() || 'xx';
@@ -103,6 +104,7 @@ export class Last10PortCallsComponent implements OnInit {
   deselectLocation() {
     this.locationFound = false;
     this.portCallModel.location = null;
+    this.portCallModel.locationId = null;
   }
 
   onArrivalResult(arrivalResult) {

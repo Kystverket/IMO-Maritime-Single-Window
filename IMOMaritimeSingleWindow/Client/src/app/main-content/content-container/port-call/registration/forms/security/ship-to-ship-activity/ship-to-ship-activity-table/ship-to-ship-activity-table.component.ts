@@ -65,12 +65,18 @@ export class ShipToShipActivityTableComponent implements OnInit, OnChanges {
     if (this.shipToShipActivityList && this.shipToShipActivityList.length > 0) {
       const rows = this.generateRows();
       this.shipActivitiesDataSource.load(rows);
+    } else {
+      this.shipActivitiesDataSource.load([]);
     }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const rows = this.generateRows();
-    this.shipActivitiesDataSource.load(rows);
+    if (this.shipToShipActivityList && this.shipToShipActivityList.length > 0) {
+      const rows = this.generateRows();
+      this.shipActivitiesDataSource.load(rows);
+    } else {
+      this.shipActivitiesDataSource.load([]);
+    }
   }
 
   deleteShipActivity(row) {
@@ -81,7 +87,7 @@ export class ShipToShipActivityTableComponent implements OnInit, OnChanges {
     const rowData = this.shipToShipActivityList.map(shipActivity => {
       return {
         shipToShipActivity: shipActivity,
-        location: shipActivity.location.name,
+        location: (shipActivity.location != null) ? shipActivity.location.name : '',
         fromDate: `<span class="no-wrap">` +
           this.datePipe.transform(shipActivity.fromDate, 'yyyy-MM-dd') +
           `</span> <span class="no-wrap">` +

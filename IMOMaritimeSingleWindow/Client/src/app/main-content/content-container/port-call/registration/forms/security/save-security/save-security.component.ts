@@ -27,6 +27,9 @@ export class SaveSecurityComponent implements OnInit {
     console.log('securityModel:\n', this.securityModel);
     console.log('isscModel:\n', this.isscModel);
     const dbSecurity = new FalSecurityModel();
+    if (this.securityModel.falSecurityId) {
+      dbSecurity.falSecurityId = this.securityModel.falSecurityId;
+    }
     dbSecurity.portCallId = this.portCallId;
     dbSecurity.securityLevelId = this.securityModel.securityLevelId;
     dbSecurity.shipHasValidSspOnBoard = this.securityModel.shipHasValidSspOnBoard;

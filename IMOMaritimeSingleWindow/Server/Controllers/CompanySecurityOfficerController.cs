@@ -30,7 +30,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                if (_context.CompanySecurityOfficer.Find(cso.CompanySecurityOfficerId) != null)
+                if (cso.CompanySecurityOfficerId > 0)
                 {
                     _context.CompanySecurityOfficer.Update(cso);
                 }
