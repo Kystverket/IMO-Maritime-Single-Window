@@ -41,8 +41,8 @@ export class CountryService {
     return this.http.get(uri);
   }
 
-  public getCountries() {
-    return this.http.get(this.countryUrl);
+  public getCountries(): Observable<CountryModel[]> {
+    return this.http.get<CountryModel[]>(this.countryUrl);
   }
 
 }
