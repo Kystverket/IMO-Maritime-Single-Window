@@ -22,12 +22,7 @@
       <app-ship-stores-info-table [iconPath]="iconPath"></app-ship-stores-info-table>
     </div>
     <div *ngSwitchCase="'Crew'" class="col">
-      <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
-        <div class="text-center my-3">
-          <span class="no-wrap">{{ entry.name }} information</span>
-          <span class="no-wrap">has been provided.</span>
-        </div>
-      </app-table-card>
+      <app-crew-info-table [iconPath]="iconPath"></app-crew-info-table>
     </div>
     <div *ngSwitchCase="'Pax'" class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
