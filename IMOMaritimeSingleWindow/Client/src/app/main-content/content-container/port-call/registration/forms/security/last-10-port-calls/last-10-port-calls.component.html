@@ -1,5 +1,7 @@
 <app-ssn-card [header]="'Last 10 Port Calls'" icon="location.png">
-
+  <div class="text-center mb-1">
+    <span>Select a port by searching for it by name or LOCODE.</span>
+  </div>
   <app-search-location *ngIf="!locationFound" [restrictTypeHarbour]=true (locationResult)="onLocationResult($event)"></app-search-location>
   <div class="text-center" *ngIf="locationFound">
     <app-ssn-table [entryData]="locationData"></app-ssn-table>
@@ -26,10 +28,14 @@
 
   <div class="alert alert-danger text-center" *ngIf="arrivalIsAfterDepartureError || arrivalOverlapError || departureOverlapError || entryArrivalOverlapError || entryDepartureOverlapError">
     <div *ngIf="arrivalIsAfterDepartureError">Error: time of arrival cannot be set after time of departure.</div>
-    <div *ngIf="arrivalOverlapError">Error: time of arrival cannot be between the arrival and departure times of another port call.</div>
-    <div *ngIf="departureOverlapError">Error: time of departure cannot be between the arrival and departure times of another port call.</div>
-    <div *ngIf="entryArrivalOverlapError">Error: time of arrival of another port call cannot be between arrival and departure times of this port call.</div>
-    <div *ngIf="entryDepartureOverlapError">Error: time of departure of another port call cannot be between arrival and departure times of this port call.</div>
+    <div *ngIf="arrivalOverlapError">Error: time of arrival cannot be between the arrival and departure times of another
+      port call.</div>
+    <div *ngIf="departureOverlapError">Error: time of departure cannot be between the arrival and departure times of another
+      port call.</div>
+    <div *ngIf="entryArrivalOverlapError">Error: time of arrival of another port call cannot be between arrival and departure
+      times of this port call.</div>
+    <div *ngIf="entryDepartureOverlapError">Error: time of departure of another port call cannot be between arrival and departure
+      times of this port call.</div>
   </div>
 
   <div class="row text-center mb-1">

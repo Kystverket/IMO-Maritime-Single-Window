@@ -1,6 +1,9 @@
 <app-ssn-card [header]="'Ship To Ship Activities'">
   <div class="row">
     <div class="col-md-6">
+      <div class="text-center mb-1">
+        <span>Select a port by searching for it by name or LOCODE.</span>
+      </div>
       <app-search-location *ngIf="!locationFound" [restrictTypeHarbour]=true (locationResult)="onLocationResult($event)"></app-search-location>
       <div class="text-center" *ngIf="locationFound">
         <app-ssn-table [entryData]="locationData"></app-ssn-table>
@@ -33,7 +36,8 @@
         <ng-select id="activity_type_select" [items]="activityTypeList" bindLabel="name" [ngModel]="shipToShipActivityModel.activityType"
           placeholder="Select activity..." (change)="onActivityTypeResult($event)"></ng-select>
       </div>
-      <label class="col-form-label-sm no-wrap mb-0" for="security_measures_applied_in_lieu">(Optional) Security measures applied in lieu</label>
+      <label class="col-form-label-sm no-wrap mb-0" for="security_measures_applied_in_lieu">(Optional) Security measures
+        applied in lieu</label>
       <textarea [(ngModel)]="shipToShipActivityModel.securityMeasuresAppliedInLieu" class="form-control form-control-sm" id="security_measures_applied_in_lieu"
         rows="6" placeholder="Please describe any security measures applied in lieu of procedures specified in the SSP."></textarea>
     </div>
