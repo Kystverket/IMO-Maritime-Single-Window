@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { LocationTimeProperties } from 'app/shared/constants/location-time-properties';
-import { PrevLocationTimeProperties } from 'app/shared/constants/prev-location-time-properties';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NextLocationTimeProperties } from 'app/shared/constants/next-location-time-properties';
+import { PrevLocationTimeProperties } from 'app/shared/constants/prev-location-time-properties';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallService } from '../../services/port-call.service';
+import { DateTime } from '../../interfaces/dateTime.interface';
 
 @Component({
   selector: 'app-prev-and-next-poc-table',
@@ -24,17 +24,17 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
   prevPortOfCallDataSubscription: Subscription;
   nextPortOfCallDataSubscription: Subscription;
 
-  constructor(private prevAndNextPocService: PrevAndNextPocService) { }
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
     this.prevLocationTimeProperties = this.PrevLocationTimeProperties.getProperties();
     this.nextLocationTimeProperties = this.NextLocationTimeProperties.getProperties();
 
-    this.prevPortOfCallDataSubscription = this.prevAndNextPocService.prevPortOfCallData$.subscribe(prevPocResult => {
+    this.prevPortOfCallDataSubscription = this.portCallService.prevLocationData$.subscribe(prevPocResult => {
       if (prevPocResult) {
         this.prevLocationTimeProperties.LOCATION_NAME.data = prevPocResult.name;
         this.prevLocationTimeProperties.LOCATION_CODE.data = prevPocResult.locationCode;
-        this.prevAndNextPocService.prevPortOfCallEtdData$.subscribe(dateTimeResult => {
+        this.portCallService.prevEtdData$.subscribe(dateTimeResult => {
           if (dateTimeResult) {
             this.prevLocationTimeProperties.ETD.data = this.dateTimeFormat(dateTimeResult);
           }
@@ -45,12 +45,13 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
       this.prevLocationTimeInfo = Object.values(this.prevLocationTimeProperties);
     });
 
-    this.nextPortOfCallDataSubscription = this.prevAndNextPocService.nextPortOfCallData$.subscribe(nextPocResult => {
+    this.nextPortOfCallDataSubscription = this.portCallService.nextLocationData$.subscribe(nextPocResult => {
       if (nextPocResult) {
         this.nextLocationTimeProperties.LOCATION_NAME.data = nextPocResult.name;
         this.nextLocationTimeProperties.LOCATION_CODE.data = nextPocResult.locationCode;
-        this.prevAndNextPocService.nextPortOfCallEtaData$.subscribe(dateTimeResult => {
+        this.portCallService.nextEtaData$.subscribe(dateTimeResult => {
           if (dateTimeResult) {
+            console.log(dateTimeResult);
             this.nextLocationTimeProperties.ETA.data = this.dateTimeFormat(dateTimeResult);
           }
         });
@@ -66,18 +67,17 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
     this.nextPortOfCallDataSubscription.unsubscribe();
   }
 
-  private dateTimeFormat(dateTime) {
-    dateTime = new Date(dateTime);
+  private dateTimeFormat(dateTime: DateTime) {
     return (
-      dateTime.getFullYear() +
+      dateTime.date.year +
       '-' +
-      this.twoDigitFormat(dateTime.getMonth() + 1) +
+      this.twoDigitFormat(dateTime.date.month) +
       '-' +
-      this.twoDigitFormat(dateTime.getDate()) +
+      this.twoDigitFormat(dateTime.date.day) +
       ' ' +
-      this.twoDigitFormat(dateTime.getHours()) +
+      this.twoDigitFormat(dateTime.time.hour) +
       ':' +
-      this.twoDigitFormat(dateTime.getMinutes())
+      this.twoDigitFormat(dateTime.time.minute)
     );
   }
 

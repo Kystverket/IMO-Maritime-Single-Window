@@ -42,8 +42,10 @@ namespace IMOMaritimeSingleWindow.Models
         public int? ImoNo { get; set; }
         public int? MmsiNo { get; set; }
         public int? NetTonnage { get; set; }
+        public long? IsscId { get; set; }
 
         public CertificateOfRegistry CertificateOfRegistry { get; set; }
+        public InternationalShipSecurityCertificate Issc { get; set; }
         public Organization Organization { get; set; }
         public ShipBreadthType ShipBreadthType { get; set; }
         public ShipFlagCode ShipFlagCode { get; set; }

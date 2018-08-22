@@ -1,15 +1,22 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { ConsignmentModel } from 'app/shared/models/consignment-model';
+import { LocationModel } from 'app/shared/models/location-model';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { ShipModel } from 'app/shared/models/ship-model';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { ContentService } from 'app/shared/services/content.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { PortCallModel } from 'app/shared/models/port-call-model';
+import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { FalSecurityModel } from 'app/shared/models/fal-security-model';
+import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
 
 
 @Component({
@@ -21,6 +28,16 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   selectedComponent: string;
   portCallId: number;
+
+  // Voyages
+  shipModel: ShipModel;
+  locationModel: LocationModel;
+  etaModel: DateTime;
+  etdModel: DateTime;
+  prevLocationModel: LocationModel;
+  prevEtdModel: DateTime;
+  nextLocationModel: LocationModel;
+  nextEtaModel: DateTime;
 
   cargoData: ConsignmentModel[];
   shipStoresData: ShipStoresModel[];
@@ -36,6 +53,23 @@ export class FormsComponent implements OnInit, OnDestroy {
   shipStoresSubscription: Subscription;
   passengerListSubscription: Subscription;
   crewListSubscription: Subscription;
+  securitySubscription: Subscription;
+  setSecuritySubscription: Subscription;
+  // 2018.08.17 Trying new pattern for security-component
+  portCallSubscription: Subscription;
+  portCallModel: PortCallModel;
+  securityData: FalSecurityModel;
+  securityShipModel: ShipModel;
+
+  // Voyages
+  shipSubscription: Subscription;
+  locationSubscription: Subscription;
+  etaSubscription: Subscription;
+  etdSubscription: Subscription;
+  prevLocationSubscription: Subscription;
+  prevEtdSubscription: Subscription;
+  nextLocationSubscription: Subscription;
+  nextEtaSubscription: Subscription;
 
   constructor(
     private contentService: ContentService,
@@ -43,18 +77,95 @@ export class FormsComponent implements OnInit, OnDestroy {
     private shipService: ShipService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
+    private securityService: FalSecurityService,
     private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
+    this.portCallSubscription = this.portCallService.portCallData$.subscribe(
+      portCallData => {
+        if (portCallData) {
+          this.portCallModel = portCallData;
+          this.setCargoForPortCall(this.portCallModel.portCallId);
+          this.setSecurityForPortCall(this.portCallModel.portCallId);
+          this.shipDataSubscription = this.shipService.getShip(this.portCallModel.shipId).subscribe(
+            data => {
+              console.log(data);
+              if (data) {
+                this.securityShipModel = data;
+              }
+            }
+          );
+        }
+      }
+    );
+
+    this.securitySubscription = this.securityService.securityData$.subscribe(
+      data => {
+        if (data) {
+          this.securityData = data;
+        } else {
+          this.securityData = new FalSecurityModel();
+          this.securityData.companySecurityOfficer = new CompanySecurityOfficerModel();
+        }
+      }
+    );
+
     this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(
       portCallIdData => {
         if (portCallIdData) {
           this.portCallId = portCallIdData;
-          this.setCargoForPortCall(this.portCallId);
         }
       }
     );
+
+    // Voyages
+    this.shipSubscription = this.portCallService.shipData$.subscribe(
+      data => {
+        this.shipModel = data;
+      }
+    );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.etaSubscription = this.portCallService.etaData$.subscribe(
+      data => {
+        this.etaModel = data;
+      }
+    );
+    this.etdSubscription = this.portCallService.etdData$.subscribe(
+      data => {
+        this.etdModel = data;
+      }
+    );
+    this.locationSubscription = this.portCallService.locationData$.subscribe(
+      data => {
+        this.locationModel = data;
+      }
+    );
+    this.prevLocationSubscription = this.portCallService.prevLocationData$.subscribe(
+      data => {
+        this.prevLocationModel = data;
+      }
+    );
+    this.prevEtdSubscription = this.portCallService.prevEtdData$.subscribe(
+      data => {
+        this.prevEtdModel = data;
+      }
+    );
+    this.nextLocationSubscription = this.portCallService.nextLocationData$.subscribe(
+      data => {
+        this.nextLocationModel = data;
+      }
+    );
+    this.nextEtaSubscription = this.portCallService.nextEtaData$.subscribe(
+      data => {
+        this.nextEtaModel = data;
+      }
+    );
+
     this.cargoSubscription = this.cargoService.consignmentListData$.subscribe(
       data => {
         this.cargoData = data;
@@ -105,6 +216,18 @@ export class FormsComponent implements OnInit, OnDestroy {
     );
   }
 
+  setSecurityForPortCall(portCallId) {
+    this.setSecuritySubscription = this.securityService.getFalSecurityByPortCallId(portCallId).subscribe(
+      data => {
+        if (data) {
+          this.securityService.setSecurityData(data);
+        }
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
   setCargoForPortCall(portCallId) {
     this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
       data => {
@@ -115,11 +238,22 @@ export class FormsComponent implements OnInit, OnDestroy {
     );
   }
 
-
   ngOnDestroy() {
+    this.shipSubscription.unsubscribe();
+    this.locationSubscription.unsubscribe();
+    this.etaSubscription.unsubscribe();
+    this.etdSubscription.unsubscribe();
+    this.prevLocationSubscription.unsubscribe();
+    this.prevEtdSubscription.unsubscribe();
+    this.nextLocationSubscription.unsubscribe();
+    this.nextEtaSubscription.unsubscribe();
     this.shipDataSubscription.unsubscribe();
     this.portCallFormNameSubscription.unsubscribe();
+    this.portCallIdSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
+    this.securitySubscription.unsubscribe();
+    this.setSecuritySubscription.unsubscribe();
+    this.shipStoresSubscription.unsubscribe();
     this.passengerListSubscription.unsubscribe();
     this.crewListSubscription.unsubscribe();
   }

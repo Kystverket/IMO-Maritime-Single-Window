@@ -4,16 +4,17 @@ import { SearchService } from './search.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/of';
+import { CountryModel } from 'app/shared/models/country-model';
 
 @Injectable()
 export class CountryService {
-  private searchUrl: string;
   private countryUrl: string;
+  private searchUrl: string;
 
   constructor(
     private http: HttpClient
   ) {
-    this.searchUrl = 'api/country/search/';
+    this.searchUrl = 'api/country/search';
     this.countryUrl = 'api/country';
   }
 
@@ -40,8 +41,8 @@ export class CountryService {
     return this.http.get(uri);
   }
 
-  public getCountries() {
-    return this.http.get(this.countryUrl);
+  public getCountries(): Observable<CountryModel[]> {
+    return this.http.get<CountryModel[]>(this.countryUrl);
   }
 
 }
