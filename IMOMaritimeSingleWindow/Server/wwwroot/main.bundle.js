@@ -2407,7 +2407,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
         alert('Saving voyages from this page is not yet implemented. Please return to the Voyages page to save your changes.');
     };
     ActivatePortCallComponent.prototype.saveDetails = function () {
-        this.detailsModel.portCallDetailsId = this.portCallId;
+        var _this = this;
+        // this.detailsModel.portCallDetailsId = this.portCallId;
         this.detailsModel.portCallId = this.portCallId;
         this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
         this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
@@ -2419,7 +2420,11 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.detailsModel.reportingPax = this.reportingModel.reportingPax;
         this.detailsModel.reportingSecurity = this.reportingModel.reportingSecurity;
         this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
-        this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
+        this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName).subscribe(function (detailsResponse) {
+            console.log('Successfully saved port call details:', detailsResponse);
+            _this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
+            _this.portCallService.savePurposesForPortCall(_this.portCallId, _this.purposeModel, _this.otherPurposeName);
+        });
     };
     ActivatePortCallComponent.prototype.saveShipStores = function () {
         var _this = this;
@@ -2868,7 +2873,7 @@ var ButtonRowComponent = /** @class */ (function () {
             else {
                 console.log('No details information has been registered for this port call.');
                 var portCallDetails = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
-                portCallDetails.portCallDetailsId = _this.rowData.overviewModel.portCall.portCallId;
+                // portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
                 portCallDetails.portCallId = _this.rowData.overviewModel.portCall.portCallId;
                 _this.portCallDetailsService.setDetails(portCallDetails);
             }
@@ -5367,17 +5372,23 @@ var FormsComponent = /** @class */ (function () {
         });
     };
     FormsComponent.prototype.ngOnDestroy = function () {
-        this.shipDataSubscription.unsubscribe();
-        this.portCallFormNameSubscription.unsubscribe();
-        this.cargoSubscription.unsubscribe();
-        this.securitySubscription.unsubscribe();
-        this.setSecuritySubscription.unsubscribe();
-        this.passengerListSubscription.unsubscribe();
-        this.crewListSubscription.unsubscribe();
+        this.shipSubscription.unsubscribe();
+        this.locationSubscription.unsubscribe();
+        this.etaSubscription.unsubscribe();
+        this.etdSubscription.unsubscribe();
         this.prevLocationSubscription.unsubscribe();
         this.prevEtdSubscription.unsubscribe();
         this.nextLocationSubscription.unsubscribe();
         this.nextEtaSubscription.unsubscribe();
+        this.shipDataSubscription.unsubscribe();
+        this.portCallFormNameSubscription.unsubscribe();
+        this.portCallIdSubscription.unsubscribe();
+        this.cargoSubscription.unsubscribe();
+        this.securitySubscription.unsubscribe();
+        this.setSecuritySubscription.unsubscribe();
+        this.shipStoresSubscription.unsubscribe();
+        this.passengerListSubscription.unsubscribe();
+        this.crewListSubscription.unsubscribe();
     };
     FormsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -6703,6 +6714,12 @@ var SaveDetailsComponent = /** @class */ (function () {
         this.detailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(function (detailsDataIsPristine) {
             _this.dataIsPristine = detailsDataIsPristine;
         });
+        // Port Call Details Id
+        this.portCallDetailsIdSubscription = this.portCallDetailsService.portCallDetailsIdData$.subscribe(function (portCallDetailsIdData) {
+            if (portCallDetailsIdData) {
+                _this.detailsModel.portCallDetailsId = portCallDetailsIdData;
+            }
+        });
         // Reporting
         this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
             if (reportingData) {
@@ -6742,6 +6759,7 @@ var SaveDetailsComponent = /** @class */ (function () {
         });
     };
     SaveDetailsComponent.prototype.ngOnDestroy = function () {
+        this.portCallDetailsIdSubscription.unsubscribe();
         this.detailsPristineSubscription.unsubscribe();
         this.reportingForThisPortCallDataSubscription.unsubscribe();
         this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
@@ -6751,14 +6769,19 @@ var SaveDetailsComponent = /** @class */ (function () {
         this.cargoDescriptionSubscription.unsubscribe();
     };
     SaveDetailsComponent.prototype.saveDetails = function () {
+        var _this = this;
         if (this.crewPassengersAndDimensionsMeta.valid) {
             this.detailsModel.portCallId = this.portCallId;
-            this.detailsModel.portCallDetailsId = this.portCallId;
             this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
             this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
             this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
             this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
-            this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName);
+            console.log(this.detailsModel);
+            this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName).subscribe(function (detailsResponse) {
+                console.log('Successfully saved port call details:', detailsResponse);
+                _this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
+                _this.portCallService.savePurposesForPortCall(_this.portCallId, _this.purposeModel, _this.otherPurposeName);
+            });
             this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
         }
     };
@@ -8668,6 +8691,7 @@ module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFo
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8680,9 +8704,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SaveNewPortCallComponent = /** @class */ (function () {
-    function SaveNewPortCallComponent(portCallService) {
+    function SaveNewPortCallComponent(portCallService, portCallDetailsService) {
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.shipFound = false;
         this.locationFound = false;
         this.etaFound = false;
@@ -8745,31 +8771,30 @@ var SaveNewPortCallComponent = /** @class */ (function () {
     SaveNewPortCallComponent.prototype.formatDateTime = function (dateTime) {
         return new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
     };
-    SaveNewPortCallComponent.prototype.registerPortCallDraft = function () {
-        var _this = this;
-        var portCallModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_model__["a" /* PortCallModel */]();
+    SaveNewPortCallComponent.prototype.buildPortCallModel = function (oldPortCallModel) {
+        if (oldPortCallModel === void 0) { oldPortCallModel = null; }
+        var portCallModel = !!oldPortCallModel ? oldPortCallModel : new __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_model__["a" /* PortCallModel */]();
         portCallModel.shipId = this.shipModel.shipId;
         portCallModel.locationId = this.locationModel.locationId;
         portCallModel.locationEta = this.formatDateTime(this.etaModel);
         portCallModel.locationEtd = this.formatDateTime(this.etdModel);
-        if (this.prevLocationFound) {
-            portCallModel.previousLocationId = this.prevLocationModel.locationId;
-        }
-        if (this.prevEtdFound) {
-            portCallModel.previousLocationEtd = this.formatDateTime(this.prevEtdModel);
-        }
-        if (this.nextLocationFound) {
-            portCallModel.nextLocationId = this.nextLocationModel.locationId;
-        }
-        if (this.nextEtaFound) {
-            portCallModel.nextLocationEta = this.formatDateTime(this.nextEtaModel);
-        }
+        portCallModel.previousLocationId = this.prevLocationFound ? this.prevLocationModel.locationId : null;
+        portCallModel.previousLocationEtd = this.prevEtdFound ? this.formatDateTime(this.prevEtdModel) : null;
+        portCallModel.nextLocationId = this.nextLocationFound ? this.nextLocationModel.locationId : null;
+        portCallModel.nextLocationEta = this.nextEtaFound ? this.formatDateTime(this.nextEtaModel) : null;
+        return portCallModel;
+    };
+    SaveNewPortCallComponent.prototype.registerPortCallDraft = function () {
+        var _this = this;
+        var portCallModel = this.buildPortCallModel();
         this.portCallService.registerNewPortCall(portCallModel).subscribe(function (result) {
-            console.log('New port call successfully registered.');
+            console.log('New port call successfully registered:', result);
             // add list of authorities for clearance
             console.log('Registering authority clearance agencies to port call...');
             _this.portCallService.registerClearanceAgenciesForPortCall(result);
             _this.portCallService.setPortCallIdData(result.portCallId);
+            _this.portCallDetailsService.wipeDetailsData();
+            _this.portCallService.setVoyagesIsPristine(true);
         }, function (error) {
             console.log(error);
         });
@@ -8780,7 +8805,7 @@ var SaveNewPortCallComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], SaveNewPortCallComponent);
     return SaveNewPortCallComponent;
 }());
@@ -8799,7 +8824,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)\" class=\"text-center\">\r\n  <div class=\"mb-3\">\r\n    <p *ngIf=\"!shipFound\" class=\"no-wrap mb-0\">Ship is required.</p>\r\n    <p *ngIf=\"!locationFound\" class=\"no-wrap mb-0\">Location is required.</p>\r\n    <p *ngIf=\"!etaFound\" class=\"no-wrap mb-0\">ETA is required.</p>\r\n    <p *ngIf=\"!etdFound\" class=\"no-wrap mb-0\">ETD is required.</p>\r\n  </div>\r\n  <div class=\"alert alert-danger mb-3\" *ngIf=\"voyagesErrors\">There are errors that must be resolved.</div>\r\n  <button class=\"btn btn-ssn\" disabled>\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> Create Port Call Draft</button>\r\n</div>\r\n<div *ngIf=\"!portCallId && shipFound && locationFound && etaFound && etdFound && !voyagesErrors\" class=\"text-center\">\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-bordered\">\r\n      <thead>\r\n        <tr class=\"bg-ssn text-ssn\">\r\n          <th>Ship flag</th>\r\n          <th>Ship name</th>\r\n          <th>Location Name</th>\r\n          <th>Location Code</th>\r\n          <th>ETA</th>\r\n          <th>ETD</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr>\r\n          <td>\r\n            <img src=\"assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png\" height=\"20px\" />\r\n          </td>\r\n          <td>{{ shipModel.name }}</td>\r\n          <td>{{ locationModel.name }}</td>\r\n          <td>{{ locationModel.locationCode }}</td>\r\n          <td>{{ formatDateTime(etaModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n          <td>{{ formatDateTime(etdModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n  <button class=\"btn btn-ssn\" (click)=\"registerPortCallDraft()\">\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" />\r\n    <span> Create Port Call Draft</span>\r\n  </button>\r\n</div>\r\n<div *ngIf=\"!!portCallId && shipFound && locationFound && etaFound && etdFound && !voyagesErrors\" class=\"text-center\">\r\n  \r\n  <div class=\"text-center\" *ngIf=\"!dataIsPristine\">\r\n    <button class=\"btn btn-ssn\" (click)=\"savePortCall()\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Voyages</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"text-center\" *ngIf=\"dataIsPristine\">\r\n    <span>{{ dataIsPristineText }}</span>\r\n    <br>\r\n    <button class=\"btn btn-ssn mt-2\" disabled>\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Voyages</span>\r\n    </button>\r\n  </div>\r\n</div>"
+module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)\" class=\"text-center\">\r\n  <div class=\"mb-3\">\r\n    <p *ngIf=\"!shipFound\" class=\"no-wrap mb-0\">Ship is required.</p>\r\n    <p *ngIf=\"!locationFound\" class=\"no-wrap mb-0\">Location is required.</p>\r\n    <p *ngIf=\"!etaFound\" class=\"no-wrap mb-0\">ETA is required.</p>\r\n    <p *ngIf=\"!etdFound\" class=\"no-wrap mb-0\">ETD is required.</p>\r\n  </div>\r\n  <div class=\"alert alert-danger mb-3\" *ngIf=\"voyagesErrors\">There are errors that must be resolved.</div>\r\n  <button class=\"btn btn-ssn\" disabled>\r\n    <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\" /> Save Voyages</button>\r\n</div>\r\n<div *ngIf=\"shipFound && locationFound && etaFound && etdFound && !voyagesErrors\" class=\"text-center\">\r\n  \r\n  <div class=\"text-center\" *ngIf=\"!dataIsPristine\">\r\n    <button class=\"btn btn-ssn\" (click)=\"savePortCall()\">\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Voyages</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"text-center\" *ngIf=\"dataIsPristine\">\r\n    <span>{{ dataIsPristineText }}</span>\r\n    <br>\r\n    <button class=\"btn btn-ssn mt-2\" disabled>\r\n      <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n      <span>Save Voyages</span>\r\n    </button>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -8811,6 +8836,7 @@ module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFo
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8823,11 +8849,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 var UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 var SaveVoyagesComponent = /** @class */ (function () {
-    function SaveVoyagesComponent(portCallService) {
+    function SaveVoyagesComponent(portCallService, portCallDetailsService) {
         this.portCallService = portCallService;
+        this.portCallDetailsService = portCallDetailsService;
         this.shipFound = false;
         this.locationFound = false;
         this.etaFound = false;
@@ -8842,9 +8870,6 @@ var SaveVoyagesComponent = /** @class */ (function () {
     }
     SaveVoyagesComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(function (portCallIdData) {
-            _this.portCallId = portCallIdData;
-        });
         this.dataIsPrisitineSubscription = this.portCallService.voyagesIsPristine$.subscribe(function (voyagesIsPristine) {
             _this.dataIsPristine = voyagesIsPristine;
         });
@@ -8885,6 +8910,7 @@ var SaveVoyagesComponent = /** @class */ (function () {
         });
     };
     SaveVoyagesComponent.prototype.ngOnDestroy = function () {
+        this.dataIsPrisitineSubscription.unsubscribe();
         this.shipDataSubscription.unsubscribe();
         this.locationDataSubscription.unsubscribe();
         this.etaDataSubscription.unsubscribe();
@@ -8911,19 +8937,6 @@ var SaveVoyagesComponent = /** @class */ (function () {
         portCallModel.nextLocationEta = this.nextEtaFound ? this.formatDateTime(this.nextEtaModel) : null;
         return portCallModel;
     };
-    SaveVoyagesComponent.prototype.registerPortCallDraft = function () {
-        var _this = this;
-        var portCallModel = this.buildPortCallModel();
-        this.portCallService.registerNewPortCall(portCallModel).subscribe(function (result) {
-            console.log('New port call successfully registered.');
-            // add list of authorities for clearance
-            console.log('Registering authority clearance agencies to port call...');
-            _this.portCallService.registerClearanceAgenciesForPortCall(result);
-            _this.portCallService.setPortCallIdData(result.portCallId);
-        }, function (error) {
-            console.log(error);
-        });
-    };
     SaveVoyagesComponent.prototype.savePortCall = function () {
         var _this = this;
         this.portCallService.getPortCallById(this.portCallId).subscribe(function (portCall) {
@@ -8939,13 +8952,17 @@ var SaveVoyagesComponent = /** @class */ (function () {
             }
         });
     };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SaveVoyagesComponent.prototype, "portCallId", void 0);
     SaveVoyagesComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-save-voyages',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
     ], SaveVoyagesComponent);
     return SaveVoyagesComponent;
 }());
@@ -15310,6 +15327,8 @@ var PortCallDetailsService = /** @class */ (function (_super) {
         // Global details
         _this.detailsUrl = 'api/portcalldetails';
         _this.detailsPortCallUrl = 'api/portcalldetails/portcall';
+        _this.portCallDetailsIdSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        _this.portCallDetailsIdData$ = _this.portCallDetailsIdSource.asObservable();
         _this.crewPassengersAndDimensionsSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         _this.crewPassengersAndDimensionsData$ = _this.crewPassengersAndDimensionsSource.asObservable();
         _this.crewPassengersAndDimensionsMeta = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */]({ valid: true });
@@ -15329,10 +15348,15 @@ var PortCallDetailsService = /** @class */ (function (_super) {
         return _this;
     }
     PortCallDetailsService.prototype.setDetails = function (details) {
+        console.log('Details received in PortCallDetailsService:', details);
+        this.setPortCallDetailsId(details.portCallDetailsId);
         this.setCrewPassengersAndDimensionsData(details);
         this.setReportingForThisPortCallData(details);
         this.setCargoBriefDescriptionData(details.cargoBriefDescription);
         this.detailsPristine.next(true);
+    };
+    PortCallDetailsService.prototype.setPortCallDetailsId = function (data) {
+        this.portCallDetailsIdSource.next(data);
     };
     PortCallDetailsService.prototype.setCrewPassengersAndDimensionsData = function (data) {
         this.detailsPristine.next(false);
@@ -15347,13 +15371,11 @@ var PortCallDetailsService = /** @class */ (function (_super) {
     // Reporting
     // This is a list of checkboxes that specify which FAL forms to include in this port call registration
     PortCallDetailsService.prototype.setReportingForThisPortCallData = function (data) {
-        // NEW
         this.detailsPristine.next(false);
         this.reportingForThisPortCallSource.next(data);
     };
     // Purpose
     PortCallDetailsService.prototype.setPortCallPurposeData = function (data) {
-        // NEW
         this.detailsPristine.next(false);
         this.portCallPurposeDataSource.next(data);
     };
@@ -15363,7 +15385,6 @@ var PortCallDetailsService = /** @class */ (function (_super) {
         this.otherPurposeNameSource.next(data);
     };
     PortCallDetailsService.prototype.setOtherPurposeData = function (data) {
-        // NEW - try to use otherpurpose object instead of just name string, for easier id handling etc.
         this.otherPurposeDataSource.next(data);
     };
     PortCallDetailsService.prototype.setDetailsPristine = function (isPristine) {
@@ -15383,6 +15404,7 @@ var PortCallDetailsService = /** @class */ (function (_super) {
         return this.http.get(uri);
     };
     PortCallDetailsService.prototype.wipeDetailsData = function () {
+        this.portCallDetailsIdSource.next(null);
         this.reportingForThisPortCallSource.next(null);
         this.crewPassengersAndDimensionsSource.next(null);
         this.portCallPurposeDataSource.next(null);
@@ -15935,13 +15957,9 @@ var PortCallService = /** @class */ (function () {
     };
     // SAVE DETAILS
     PortCallService.prototype.saveDetails = function (details, purposes, otherName) {
-        var _this = this;
         console.log(details);
         console.log('Saving port call details...');
-        this.http.post(this.detailsUrl, details).subscribe(function (detailsResponse) {
-            console.log('Successfully saved port call details.');
-            _this.savePurposesForPortCall(details.portCallId, purposes, otherName);
-        });
+        return this.http.post(this.detailsUrl, details);
     };
     PortCallService.prototype.savePurposesForPortCall = function (pcId, purposes, otherName) {
         var _this = this;
@@ -16017,7 +16035,9 @@ var PortCallService = /** @class */ (function () {
         this.locationDataSource.next(null);
         this.etaSource.next(null);
         this.etdSource.next(null);
+        this.prevLocationDataSource.next(null);
         this.prevEtdSource.next(null);
+        this.nextLocationDataSource.next(null);
         this.nextEtaSource.next(null);
         this.clearanceListDataSource.next(null);
         this.createdByUserDataSource.next(null);
