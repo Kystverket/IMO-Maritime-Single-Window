@@ -34,6 +34,8 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
 
   voyagesErrors = false;
 
+  creatingPortCall = false;
+
   shipDataSubscription: Subscription;
   locationDataSubscription: Subscription;
   etaDataSubscription: Subscription;
@@ -43,6 +45,8 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   prevEtdSubscription: Subscription;
   nextLocationSubscription: Subscription;
   nextEtaSubscription: Subscription;
+
+  isLoadingPortCallSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
@@ -97,6 +101,12 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
         this.voyagesErrors = hasError;
       }
     );
+
+    this.isLoadingPortCallSubscription = this.loadPortCallService.isLoading$.subscribe(
+      data => {
+        this.creatingPortCall = data;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -109,6 +119,7 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     this.prevEtdSubscription.unsubscribe();
     this.nextLocationSubscription.unsubscribe();
     this.nextEtaSubscription.unsubscribe();
+    this.isLoadingPortCallSubscription.unsubscribe();
   }
 
   formatDateTime(dateTime: DateTime): Date {
@@ -131,6 +142,7 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   }
 
   registerPortCallDraft() {
+    this.creatingPortCall = true;
     const portCallModel = this.buildPortCallModel();
     this.portCallService.registerNewPortCall(portCallModel).subscribe(
       result => {
@@ -139,7 +151,6 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
         console.log('Registering authority clearance agencies to port call...');
         this.portCallService.registerClearanceAgenciesForPortCall(result);
 
-        this.portCallService.setPortCallIdData(result.portCallId);
         this.portCallDetailsService.wipeDetailsData();
         this.loadPortCallService.setContent(result.portCallId);
       },

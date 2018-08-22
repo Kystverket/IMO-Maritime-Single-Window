@@ -7,12 +7,16 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class LoadPortCallService {
 
   content: string;
   portCallId: number;
+
+  private isLoadingSource = new BehaviorSubject<boolean>(false);
+  isLoading$ = this.isLoadingSource.asObservable();
 
   constructor(
     private overviewService: PortCallOverviewService,
@@ -26,6 +30,7 @@ export class LoadPortCallService {
   setContent(portCallId: number, content: string = CONTENT_NAMES.REGISTER_PORT_CALL) {
     this.content = content;
     this.portCallId = portCallId;
+    this.isLoadingSource.next(true);
     this.setPortCall();
   }
 
@@ -84,11 +89,16 @@ export class LoadPortCallService {
           portCallDetails.portCallId = this.portCallId;
           this.portCallDetailsService.setDetails(portCallDetails);
         }
-        this.contentService.setContent(this.content);
+        this.finishLoading();
       },
       error => {
         console.log('Get Details Error: ', error);
       }
     );
+  }
+  private finishLoading() {
+    this.portCallService.setPortCallIdData(this.portCallId);
+    this.isLoadingSource.next(false);
+    this.contentService.setContent(this.content);
   }
 }
