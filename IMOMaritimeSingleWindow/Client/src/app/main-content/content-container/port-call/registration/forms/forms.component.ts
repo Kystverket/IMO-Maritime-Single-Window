@@ -14,9 +14,9 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallModel } from 'app/shared/models/port-call-model';
-import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
-import { FalSecurityModel } from '../../../../../shared/models/fal-security-model';
-import { CompanySecurityOfficerModel } from '../../../../../shared/models/company-security-officer-model';
+import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { FalSecurityModel } from 'app/shared/models/fal-security-model';
+import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
 
 
 @Component({
@@ -237,8 +237,6 @@ export class FormsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-
 
   ngOnDestroy() {
     this.shipSubscription.unsubscribe();

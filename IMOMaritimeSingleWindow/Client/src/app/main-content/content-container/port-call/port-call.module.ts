@@ -59,6 +59,8 @@ import { Last10PortCallsTableComponent } from './registration/forms/security/las
 import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
 import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
+import { LoadPortCallService } from './load-port-call.service';
+import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 
 @NgModule({
   imports: [
@@ -126,6 +128,7 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
   ],
   providers: [
     PortCallService,
+    LoadPortCallService,
     FalShipStoresService,
     IdentityDocumentService,
     CountryService,
@@ -133,7 +136,8 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
     FalCargoService,
     ValidateDateTimeService,
     PortCallFalPersonOnBoardService,
-    FalSecurityService
+    FalSecurityService,
+    PortCallOverviewService
   ]
 })
 export class PortCallModule { }

@@ -3,10 +3,10 @@ import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ShipModel } from 'app/shared/models/ship-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { LoadPortCallService } from '../../../../load-port-call.service';
 
 @Component({
   selector: 'app-save-new-port-call',
@@ -44,7 +44,11 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   nextLocationSubscription: Subscription;
   nextEtaSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService, private portCallDetailsService: PortCallDetailsService) { }
+  constructor(
+    private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
+    private loadPortCallService: LoadPortCallService,
+  ) { }
 
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipData => {
@@ -137,7 +141,7 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
 
         this.portCallService.setPortCallIdData(result.portCallId);
         this.portCallDetailsService.wipeDetailsData();
-        this.portCallService.setVoyagesIsPristine(true);
+        this.loadPortCallService.setContent(result.portCallId);
       },
       error => {
         console.log(error);
