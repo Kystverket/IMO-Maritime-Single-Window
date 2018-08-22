@@ -21,7 +21,7 @@ export class PassengerInfoTableComponent implements OnInit {
     this.passengerDataSubscription = this.personOnBoardService.passengerList$.subscribe(
       passengerList => {
         if (passengerList) {
-          this.numberOfPassengers += passengerList.length;
+          this.numberOfPassengers = passengerList.length;
           passengerList.forEach(passenger => {
             if (passenger.inTransit === true) {
               this.passengersInTransit += 1;

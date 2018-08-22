@@ -20,7 +20,7 @@ export class CrewInfoTableComponent implements OnInit {
     this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(
       crewList => {
         if (crewList) {
-          this.numberOfCrew += crewList.length;
+          this.numberOfCrew = crewList.length;
         }
       }
     );

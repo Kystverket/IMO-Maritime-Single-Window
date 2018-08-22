@@ -23,7 +23,7 @@ export class ShipStoresInfoTableComponent implements OnInit {
     this.shipStoresDataSubscription = this.shipStoresService.shipStoresList$.subscribe(
       shipStores => {
         if (shipStores) {
-          this.numberOfShipStores += shipStores.length;
+          this.numberOfShipStores = shipStores.length;
           shipStores.forEach(item => {
             if (item.measurementType) {
               if (item.measurementType.name === 'Kilograms (kg)' && item.quantity) {

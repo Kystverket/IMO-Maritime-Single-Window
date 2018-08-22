@@ -79,7 +79,6 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   setIdentityDocumentIssueDate($event) {
-    console.log($event);
     let date: Date = new Date();
     if ($event.date) {
       date = new Date($event.date.year, $event.date.month - 1, $event.date.day);

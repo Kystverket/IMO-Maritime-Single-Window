@@ -22,7 +22,9 @@ export class CargoInfoTableComponent implements OnInit {
     this.cargoDataSubscription = this.cargoService.consignmentListData$.subscribe(
       cargoData => {
         if (cargoData) {
-          this.numberOfConsignments += cargoData.length;
+          this.numberOfConsignments = cargoData.length;
+          this.numberOfCargoItems = 0;
+          this.numberOfPackages = 0;
           cargoData.forEach(consignment => {
             if (consignment.cargoItem && consignment.cargoItem.length > 0) {
               this.numberOfCargoItems += consignment.cargoItem.length;
