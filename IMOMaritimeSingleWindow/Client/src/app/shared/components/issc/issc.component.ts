@@ -12,6 +12,8 @@ import { OrganizationModel } from '../../models/organization-model';
 export class IsscComponent implements OnInit {
   @Input() isscModel: InternationalShipSecurityCertificateModel;
   expiryDateModel: NgbDate;
+  rsoIssuer: OrganizationModel = null;
+  governmentIssuer: CountryModel = null;
   issuerTypeList = [
     {
       name: 'Government',
@@ -29,10 +31,16 @@ export class IsscComponent implements OnInit {
     if (this.isscModel.expiryDate) {
       this.setNgbDate();
     }
+    if (this.isscModel.issuedByGovernment && this.isscModel.governmentIssuer) {
+      this.governmentIssuer = this.isscModel.governmentIssuer;
+    } else if (this.isscModel.rsoIssuer) {
+      this.rsoIssuer = this.isscModel.rsoIssuer;
+    }
   }
 
   setNgbDate() {
-    this.expiryDateModel = new NgbDate(this.isscModel.expiryDate.getFullYear(), this.isscModel.expiryDate.getMonth() + 1, this.isscModel.expiryDate.getDate());
+    const expiryDate = new Date(this.isscModel.expiryDate);
+    this.expiryDateModel = new NgbDate(expiryDate.getFullYear(), expiryDate.getMonth() + 1, expiryDate.getDate());
   }
 
   onExpiryDateSelection(date: NgbDate) {

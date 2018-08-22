@@ -5,7 +5,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <app-issc *ngIf="shipModel.internationalShipSecurityCertificate" [isscModel]="shipModel.internationalShipSecurityCertificate"></app-issc>
+    <app-issc *ngIf="shipModel.issc" [isscModel]="shipModel.issc"></app-issc>
   </div>
 </div>
 <div class="row">
@@ -25,7 +25,7 @@
 </div>
 <div class="row">
   <div class="col">
-    <app-save-security *ngIf="shipModel.internationalShipSecurityCertificate" [securityModel]="securityModel" [isscModel]="shipModel.internationalShipSecurityCertificate"
+    <app-save-security *ngIf="shipModel.issc" [securityModel]="securityModel" [shipModel]="shipModel" [isscModel]="shipModel.issc"
       [portCallId]="portCallId"></app-save-security>
   </div>
 </div>

@@ -36,8 +36,8 @@ export class SecurityComponent implements OnInit, OnDestroy {
     if (!this.securityModel.shipToShipActivity) {
       this.securityModel.shipToShipActivity = [];
     }
-    if (!this.shipModel.internationalShipSecurityCertificate) {
-      this.shipModel.internationalShipSecurityCertificate = new InternationalShipSecurityCertificateModel();
+    if (!this.shipModel.issc) {
+      this.shipModel.issc = new InternationalShipSecurityCertificateModel();
     }
   }
 

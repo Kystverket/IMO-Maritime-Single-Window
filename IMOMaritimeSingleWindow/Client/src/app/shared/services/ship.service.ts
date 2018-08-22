@@ -6,6 +6,7 @@ import { AuthRequest } from './auth.request.service';
 import 'rxjs/add/observable/of';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
 
 @Injectable()
 export class ShipService {
@@ -19,6 +20,7 @@ export class ShipService {
   private shipStatusListUrl = 'api/shipstatus';
   private contactListShipUrl = 'api/shipcontact/ship';
   private shipContactListUrl = 'api/shipcontact/list';
+  private isscUrl = 'api/internationalShipSecurityCertificate';
 
   private shipDataSource = new BehaviorSubject<any>(null);
   shipData$ = this.shipDataSource.asObservable();
@@ -50,6 +52,16 @@ export class ShipService {
 
   updateShip(ship: any) {
     return this.http.put(this.shipUrl, ship);
+  }
+
+  saveISSC(issc: InternationalShipSecurityCertificateModel): Observable<InternationalShipSecurityCertificateModel> {
+    const uri = this.isscUrl;
+    return this.http.put<InternationalShipSecurityCertificateModel>(uri, issc);
+  }
+
+  updateShipISSC(shipId: number, isscId: number) {
+    const uri = [this.shipUrl, shipId, 'internationalShipSecurityCertificate/isscId'].join('/');
+    return this.http.put(uri, isscId);
   }
 
   saveShipContactList(shipContactList: ShipContactModel[]) {

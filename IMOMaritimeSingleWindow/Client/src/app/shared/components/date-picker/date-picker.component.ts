@@ -13,7 +13,7 @@ export class DatePickerComponent implements OnInit {
 
   @Input() header: string;
 
-  @Input() dateModel: NgbDate;
+  @Input() dateInput: NgbDate;
 
   @Output() dateResult = new EventEmitter<NgbDate>();
   @Output() dateFormatError = new EventEmitter<boolean>();
@@ -31,8 +31,8 @@ export class DatePickerComponent implements OnInit {
 
   persistData() {
     this.dateFormatError.emit(!this.validDateFormat);
-    if (this.dateModel && this.validDateFormat) {
-      this.dateResult.emit(this.dateModel);
+    if (this.dateInput && this.validDateFormat) {
+      this.dateResult.emit(this.dateInput);
     } else {
       this.dateResult.emit(null);
     }
