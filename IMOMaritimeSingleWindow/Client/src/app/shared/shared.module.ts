@@ -41,6 +41,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
+import { ErrorService } from './services/error.service';
 
 @NgModule({
   imports: [
@@ -127,7 +128,8 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     LocationService,
     OrganizationService,
     ShipService,
-    DbConnectionService
+    DbConnectionService,
+    ErrorService
   ],
   entryComponents: [
     ConfirmationModalComponent,

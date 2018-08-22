@@ -1,36 +1,70 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router
+} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from 'app/shared/services/auth-service';
 import { LoginService } from 'app/shared/services/login.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { BaseService } from '../shared/services/base.service';
+import { BaseGuard } from '../shared/interfaces/base-guard.interface';
+import { ErrorService } from '../shared/services/error.service';
 
 @Injectable()
-export class RootGuard implements CanActivate {
-
+export class RootGuard extends BaseService implements CanActivate, BaseGuard {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private loginService: LoginService
-  ) { }
+    private loginService: LoginService,
+    private errorService: ErrorService
+  ) {
+    super();
+  }
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
 
-      if (!this.authService.hasToken()) {
+    if (!this.authService.hasToken()) {
+      this.loginService.logout(); // Clear remaining cached data
+      this.router.navigate(['/auth/login']);
+      return false;
+    } else {
+      return this.authService.hasValidToken().map(
+        tokenValid => true,
+        error => false
+      ).catch((error: HttpErrorResponse) => {
+        this.navigateByError(error);
+        return this.handleError(error);
+      });
+    }
+  }
+
+  navigateByError(error: HttpErrorResponse | any) {
+    // Redirects user to correct page according to the error
+    if (error instanceof HttpErrorResponse) {
+      const httpError = error as HttpErrorResponse;
+      if (httpError.status >= 500) {
+        this.errorService.setDefaultHTTPError(httpError);
+        this.router.navigate(['/error']);
+      } else if (httpError.status === 401 || httpError.status === 403) {
+        // Unauthorized - token invalid
+        this.loginService.logout();
+        this.errorService.setErrorReason(`${httpError.status} ${httpError.statusText}`);
+        this.errorService.setErrorMessage('Token was invalid');
         this.router.navigate(['/auth/login']);
-        return false;
       } else {
-        return this.authService.hasValidToken()
-        .map(tokenValid => {
-          if (!tokenValid) {
-            this.loginService.logout();
-            this.router.navigate(['/auth/login']);
-            return false;
-          } else {
-            return true;
-          }
-        });
+        this.loginService.logout();
+        this.errorService.setDefaultHTTPError(httpError);
+        this.router.navigate(['/error']);
       }
+    } else {
+      this.errorService.setDefaultError();
+      this.router.navigate(['/error']);
+    }
   }
 }
