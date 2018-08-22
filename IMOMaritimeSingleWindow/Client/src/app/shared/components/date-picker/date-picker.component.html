@@ -8,7 +8,7 @@
             <img src="assets/images/icons/128x128/white/calendar.png" height="20px" />
           </button>
         </div>
-        <input id="date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp" [showWeekNumbers]="true" [(ngModel)]="dateModel"
+        <input id="date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp" [showWeekNumbers]="true" [(ngModel)]="dateInput"
           ngbDatepicker #dp="ngbDatepicker" (ngModelChange)="dateChanged($event)">
       </div>
     </div>

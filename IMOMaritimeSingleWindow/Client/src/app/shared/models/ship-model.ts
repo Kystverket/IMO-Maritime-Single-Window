@@ -45,5 +45,5 @@ export class ShipModel {
     shipFlagCode: ShipFlagCodeModel;
     shipType: any;
     shipContact: any[];
-    internationalShipSecurityCertificate: InternationalShipSecurityCertificateModel;
+    issc: InternationalShipSecurityCertificateModel;
 }

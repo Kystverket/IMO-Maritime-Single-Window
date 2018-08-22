@@ -5,6 +5,7 @@ import { SecurityLevelModel } from '../models/security-level-model';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from '../../../../node_modules/rxjs';
 import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
+import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
 
 @Injectable()
 export class FalSecurityService {

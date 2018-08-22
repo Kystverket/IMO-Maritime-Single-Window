@@ -7,7 +7,7 @@
           placeholder="Enter certificate number...">
       </div>
       <div class="col-md-6">
-        <app-date-picker header="Expiry Date" (dateResult)="onExpiryDateSelection($event)"></app-date-picker>
+        <app-date-picker header="Expiry Date" [dateInput]="expiryDateModel" (dateResult)="onExpiryDateSelection($event)"></app-date-picker>
       </div>
     </div>
 
@@ -23,10 +23,10 @@
           <select class="custom-select" placeholder="Select issuer type first" disabled></select>
         </div>
         <div *ngIf="isscModel.issuedByGovernment">
-          <app-country-select (countryResult)="onCountrySelection($event)"></app-country-select>
+          <app-country-select [countryModel]="governmentIssuer" (countryResult)="onCountrySelection($event)"></app-country-select>
         </div>
         <div *ngIf="isscModel.issuedByGovernment == false">
-          <app-rso-select (organizationResult)="onOrganizationSelection($event)"></app-rso-select>
+          <app-rso-select [organizationModel]="rsoIssuer" (organizationResult)="onOrganizationSelection($event)"></app-rso-select>
         </div>
       </div>
     </div>

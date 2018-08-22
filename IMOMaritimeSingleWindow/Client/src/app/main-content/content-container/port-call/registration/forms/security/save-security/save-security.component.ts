@@ -5,6 +5,8 @@ import { SecurityPreviousPortOfCallModel } from '../../../../../../../shared/mod
 import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship-to-ship-activity-model';
 import { CompanySecurityOfficerModel } from '../../../../../../../shared/models/company-security-officer-model';
 import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
+import { ShipService } from '../../../../../../../shared/services/ship.service';
+import { ShipModel } from '../../../../../../../shared/models/ship-model';
 
 @Component({
   selector: 'app-save-security',
@@ -14,10 +16,12 @@ import { FalSecurityService } from '../../../../../../../shared/services/fal-sec
 export class SaveSecurityComponent implements OnInit {
   @Input() securityModel: FalSecurityModel;
   @Input() isscModel: InternationalShipSecurityCertificateModel;
+  @Input() shipModel: ShipModel;
   @Input() portCallId: number;
 
   constructor(
-    private securityService: FalSecurityService
+    private securityService: FalSecurityService,
+    private shipService: ShipService
   ) { }
 
   ngOnInit() {
@@ -27,6 +31,28 @@ export class SaveSecurityComponent implements OnInit {
     console.log('securityModel:\n', this.securityModel);
     console.log('isscModel:\n', this.isscModel);
     const dbSecurity = new FalSecurityModel();
+    const dbIssc = new InternationalShipSecurityCertificateModel();
+    if (this.isscModel.isscId) {
+      dbIssc.isscId = this.isscModel.isscId;
+    }
+    dbIssc.certificateNumber = this.isscModel.certificateNumber;
+    dbIssc.governmentIssuerId = this.isscModel.governmentIssuerId;
+    dbIssc.rsoIssuerId = this.isscModel.rsoIssuerId;
+    dbIssc.expiryDate = this.isscModel.expiryDate;
+    dbIssc.issuedByGovernment = this.isscModel.issuedByGovernment;
+    this.shipService.saveISSC(dbIssc).subscribe(
+      isscResult => {
+        console.log('ISSC saved.');
+        if (!this.isscModel.isscId) {
+          this.shipService.updateShipISSC(this.shipModel.shipId, isscResult.isscId).subscribe(
+            shipIsscResult => {
+              console.log('Ship has been registered with ISSC.');
+            }
+          );
+        }
+      }
+    );
+
     if (this.securityModel.falSecurityId) {
       dbSecurity.falSecurityId = this.securityModel.falSecurityId;
     }
