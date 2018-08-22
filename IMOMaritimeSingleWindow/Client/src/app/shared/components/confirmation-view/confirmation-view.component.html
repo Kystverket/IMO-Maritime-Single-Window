@@ -14,29 +14,39 @@
 
 <!-- FAL forms -->
 <div *ngFor="let entry of falForms">
-  <div class="row mb-3" *ngIf="entry.checked && entry.name != 'Cargo'">
-    <div class="col">
+  <div *ngIf="entry.checked" [ngSwitch]="entry.name" class="row mb-3">
+    <div *ngSwitchCase="'Cargo'" class="col">
+      <app-cargo-info-table [iconPath]="iconPath"></app-cargo-info-table>
+    </div>
+    <div *ngSwitchCase="'Ship Stores'" class="col">
+      <app-ship-stores-info-table [iconPath]="iconPath"></app-ship-stores-info-table>
+    </div>
+    <div *ngSwitchCase="'Crew'" class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
-        <div [ngSwitch]="entry.name">
-          <div *ngSwitchCase="'Ship Stores'" class="text-center my-3">
-            <span class="no-wrap">{{ entry.name }} information</span>
-            <span class="no-wrap">has been provided.</span>
-          </div>
-          <div *ngSwitchDefault class="text-center my-3">
-            <img src="{{iconPath}}warning.png" height="24px" />
-            <span class="no-wrap">{{ entry.name }} information</span>
-            <span class="no-wrap">is marked for delivery,</span>
-            <span class="no-wrap">but no information is provided.</span>
-          </div>
+        <div class="text-center my-3">
+          <span class="no-wrap">{{ entry.name }} information</span>
+          <span class="no-wrap">has been provided.</span>
         </div>
       </app-table-card>
     </div>
-  </div>
-</div>
-
-<div *ngIf="reportingCargo" class="row mb-3">
-  <div class="col">
-    <app-cargo-info-table></app-cargo-info-table>
+    <div *ngSwitchCase="'Pax'" class="col">
+      <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
+        <div class="text-center my-3">
+          <span class="no-wrap">{{ entry.name }} information</span>
+          <span class="no-wrap">has been provided.</span>
+        </div>
+      </app-table-card>
+    </div>
+    <div *ngSwitchDefault class="col">
+      <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
+        <div class="text-center my-3">
+          <img src="{{iconPath}}warning.png" height="24px" />
+          <span class="no-wrap">{{ entry.name }} information</span>
+          <span class="no-wrap">is marked for delivery,</span>
+          <span class="no-wrap">but no information is provided.</span>
+        </div>
+      </app-table-card>
+    </div>
   </div>
 </div>
 

@@ -1,0 +1,49 @@
+<div class="row mb-3">
+  <div class="col">
+    <app-table-card header="Ship Stores" icon="alcohol.png" collapsible=true>
+      <tbody *ngIf="numberOfShipStores > 0">
+        <tr>
+          <td class="no-wrap px-1 mx-1">
+            <tr>
+              <small>No. of Ship Stores</small>
+            </tr>
+            <tr>
+              {{ numberOfShipStores }}
+            </tr>
+          </td>
+          <td class="no-wrap px-1 mx-1">
+            <tr>
+              <small>Total Registered Weight</small>
+            </tr>
+            <tr>
+              {{ totalWeight }} kg
+            </tr>
+          </td>
+          <td>
+            <tr>
+              <small>Total Registered Volume</small>
+            </tr>
+            <tr>
+              {{ totalVolume }} liter
+            </tr>
+          </td>
+          <td>
+            <tr>
+              <small>Total Registered Units</small>
+            </tr>
+            <tr>
+              {{ totalUnits }} u
+            </tr>
+          </td>
+        </tr>
+      </tbody>
+      <div *ngIf="numberOfShipStores === 0" class="text-center my-3">
+        <img *ngIf="iconPath" src="{{iconPath}}warning.png" height="24px" />
+        <span class="no-wrap">Ship stores information</span>
+        <span class="no-wrap">is marked for delivery,</span>
+        <span class="no-wrap">but no information is provided.</span>
+      </div>
+
+    </app-table-card>
+  </div>
+</div>

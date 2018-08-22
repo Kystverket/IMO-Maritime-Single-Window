@@ -41,6 +41,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
+import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
 
 @NgModule({
   imports: [
@@ -89,6 +90,7 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
     FeedbackComponent,
     CargoInfoTableComponent,
     UserInfoTableComponent,
+    ShipStoresInfoTableComponent,
   ],
   exports: [
     AlphaNumericValidator,

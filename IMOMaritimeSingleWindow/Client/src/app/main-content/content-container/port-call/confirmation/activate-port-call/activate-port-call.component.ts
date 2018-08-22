@@ -238,8 +238,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.cargoDataIsPristine = pristineData;
       }
     );
-
-
     //
     // Passenger List
     //
@@ -258,7 +256,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.passengerListIsChecked = isChecked;
       }
     );
-
     //
     // Crew List
     //

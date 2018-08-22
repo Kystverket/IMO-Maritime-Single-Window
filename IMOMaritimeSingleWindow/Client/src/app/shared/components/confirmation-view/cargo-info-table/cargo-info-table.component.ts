@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Subscription } from '../../../../../../node_modules/rxjs/Subscription';
-import { FalCargoService } from '../../../services/fal-cargo.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 
 @Component({
   selector: 'app-cargo-info-table',
@@ -8,6 +8,7 @@ import { FalCargoService } from '../../../services/fal-cargo.service';
   styleUrls: ['./cargo-info-table.component.css']
 })
 export class CargoInfoTableComponent implements OnInit {
+  @Input() iconPath: string;
   cargoDataSubscription: Subscription;
   numberOfConsignments = 0;
   numberOfCargoItems = 0;

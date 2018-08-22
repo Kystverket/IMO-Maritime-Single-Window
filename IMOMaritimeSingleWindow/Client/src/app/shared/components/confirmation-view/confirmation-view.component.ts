@@ -53,6 +53,7 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
             }
           ];
         }
+      console.log(reportingData);
       }
     );
   }
