@@ -314,7 +314,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         #region Helper methods
 
 
-        private async Task<Uri> GenerateEmailConfirmationLinkAsync(ApplicationUser applicationUser)
+        private async Task<string> GenerateEmailConfirmationLinkAsync(ApplicationUser applicationUser)
         {
             var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
 
@@ -331,10 +331,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                 Query = queryBuilder.ToString()
             };
 
-            return uriBuilder.Uri;
+            return _env.IsDevelopment() ? uriBuilder.Uri.ToString() : RemovePortFromUri(uriBuilder.Uri);
         }
 
-        private async Task<Uri> GeneratePasswordResetLinkAsync(ApplicationUser applicationUser)
+        private async Task<string> GeneratePasswordResetLinkAsync(ApplicationUser applicationUser)
         {
             var passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
             if (passwordResetToken == null)
@@ -353,7 +353,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 Query = queryBuilder.ToString()
             };
 
-            return uriBuilder.Uri;
+            return _env.IsDevelopment() ? uriBuilder.Uri.ToString() : RemovePortFromUri(uriBuilder.Uri);
         }
 
         private Uri GetCallBackUri()
@@ -367,6 +367,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 uriBuilder.Port = 4200;
             return uriBuilder.Uri;
         }
+
         // Returns an URI pointing to the route in the web application
         private Uri GetCallBackUri(string route)
         {
@@ -405,6 +406,14 @@ namespace IMOMaritimeSingleWindow.Controllers
                 Port = HttpContext.Connection.LocalPort
             };
             return uriBuilder.Uri;
+        }
+
+        private string RemovePortFromUri(Uri uri)
+        {
+            // Sets the port flag to false
+            var uriComponents = UriComponents.AbsoluteUri ^ UriComponents.Port;
+            // Returns an escaped uri without the port number present
+            return uri.GetComponents(uriComponents, UriFormat.UriEscaped);
         }
 
         #endregion
