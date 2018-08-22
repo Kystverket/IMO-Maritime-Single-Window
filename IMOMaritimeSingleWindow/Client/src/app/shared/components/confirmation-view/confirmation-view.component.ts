@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
-import { FalCargoService } from '../../services/fal-cargo.service';
-import { PortCallService } from '../../services/port-call.service';
 
 @Component({
   selector: 'app-confirmation-view',
@@ -13,6 +11,7 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
   iconPath = 'assets/images/icons/128x128/white/';
   falForms: any;
   reportingCargo = false;
+  portCallId: number;
 
   reportingForThisPortCallDataSubcription: Subscription;
 
@@ -24,6 +23,7 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
     this.reportingForThisPortCallDataSubcription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData != null) {
+          this.portCallId = reportingData.portCallId;
           this.reportingCargo = reportingData.reportingCargo || false;
           this.falForms = [
             {
@@ -53,7 +53,6 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
             }
           ];
         }
-      console.log(reportingData);
       }
     );
   }

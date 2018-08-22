@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -7,8 +7,10 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './crew-info-table.component.html',
   styleUrls: ['./crew-info-table.component.css']
 })
-export class CrewInfoTableComponent implements OnInit {
+export class CrewInfoTableComponent implements OnInit, OnDestroy {
   @Input() iconPath: string;
+  @Input() portCallId: number;
+
   crewDataSubscription: Subscription;
   numberOfCrew = 0;
 
@@ -17,13 +19,19 @@ export class CrewInfoTableComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(
-      crewList => {
-        if (crewList) {
-          this.numberOfCrew = crewList.length;
+    if (this.portCallId) {
+      this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+        crewList => {
+          if (crewList) {
+            this.numberOfCrew = crewList.length;
+          }
         }
-      }
-    );
+      );
+    }
+  }
+
+  ngOnDestroy() {
+    this.crewDataSubscription.unsubscribe();
   }
 
 }

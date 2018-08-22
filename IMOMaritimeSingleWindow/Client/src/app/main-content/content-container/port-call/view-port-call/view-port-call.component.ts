@@ -24,7 +24,6 @@ export class ViewPortCallComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipResult => {
-      console.log(shipResult);
       this.shipService.setShipData(shipResult);
     });
   }

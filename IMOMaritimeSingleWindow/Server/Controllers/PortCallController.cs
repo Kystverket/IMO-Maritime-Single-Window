@@ -26,7 +26,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{portCallId}/falShipStores")]
         public IActionResult GetFalShipStores(int portCallId)
         {
-            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId).ToList();
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId)
+            .Include(shipStore => shipStore.MeasurementType)
+            .ToList();
             if (shipStores == null)
             {
                 return NotFound();
