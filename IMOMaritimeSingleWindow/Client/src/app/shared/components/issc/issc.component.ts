@@ -3,6 +3,7 @@ import { InternationalShipSecurityCertificateModel } from '../../models/internat
 import { NgbDate } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { CountryModel } from '../../models/country-model';
 import { OrganizationModel } from '../../models/organization-model';
+import { ShipService } from '../../services/ship.service';
 
 @Component({
   selector: 'app-issc',
@@ -25,9 +26,12 @@ export class IsscComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(
+    private shipService: ShipService
+  ) { }
 
   ngOnInit() {
+    this.validateData();
     if (this.isscModel.expiryDate) {
       this.setNgbDate();
     }
@@ -44,7 +48,8 @@ export class IsscComponent implements OnInit {
   }
 
   onExpiryDateSelection(date: NgbDate) {
-    this.isscModel.expiryDate = new Date(Date.UTC(date.year, date.month - 1, date.day));
+    this.isscModel.expiryDate = (date != null) ? new Date(Date.UTC(date.year, date.month - 1, date.day)) : null;
+    this.touchData();
   }
 
   onIssuerTypeSelection(issuerType) {
@@ -53,14 +58,34 @@ export class IsscComponent implements OnInit {
     } else {
       this.isscModel.governmentIssuerId = null;
     }
+    this.touchData();
   }
 
   onCountrySelection(country: CountryModel) {
     this.isscModel.governmentIssuerId = country.countryId;
+    this.touchData();
   }
 
   onOrganizationSelection(organization: OrganizationModel) {
     this.isscModel.rsoIssuerId = organization.organizationId;
+    this.touchData();
+  }
+
+  touchData() {
+    this.shipService.setIsscPristineData(false);
+    this.validateData();
+  }
+
+  private validateData() {
+    this.shipService.setValidIsscData(this.dataIsValid());
+  }
+
+  private dataIsValid() {
+    return this.isscModel != null
+      && this.isscModel.certificateNumber != null && this.isscModel.certificateNumber.length > 0
+      && this.isscModel.expiryDate != null
+      && this.isscModel.issuedByGovernment != null
+      && (this.isscModel.governmentIssuerId != null || this.isscModel.rsoIssuerId != null);
   }
 
 }

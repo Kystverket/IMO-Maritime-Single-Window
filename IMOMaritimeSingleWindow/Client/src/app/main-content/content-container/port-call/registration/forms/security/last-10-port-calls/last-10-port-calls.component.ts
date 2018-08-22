@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { LocationModel } from '../../../../../../../shared/models/location-model';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationProperties } from '../../../../../../../shared/constants/location-properties';
@@ -14,7 +14,7 @@ import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/n
   templateUrl: './last-10-port-calls.component.html',
   styleUrls: ['./last-10-port-calls.component.css']
 })
-export class Last10PortCallsComponent implements OnInit {
+export class Last10PortCallsComponent implements OnInit, OnDestroy {
 
   @Input() portCallList: SecurityPreviousPortOfCallModel[];
   portCallTableList: SecurityPreviousPortOfCallModel[] = [];
@@ -45,7 +45,8 @@ export class Last10PortCallsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.touchData();
+    this.validateData();
+    this.portCallTableList = JSON.parse(JSON.stringify(this.portCallList));
     this.getSecurityLevelListSubscription = this.securityService.getSecurityLevelList().subscribe(
       data => {
         this.securityLevelList = data;
@@ -55,10 +56,10 @@ export class Last10PortCallsComponent implements OnInit {
     );
   }
 
-  private touchData() {
-    this.setSequenceNumbers();
-    this.portCallTableList = JSON.parse(JSON.stringify(this.portCallList));
+  ngOnDestroy() {
+    this.getSecurityLevelListSubscription.unsubscribe();
   }
+
 
   addPortCallEntry() {
     this.validateDateTime();
@@ -66,6 +67,14 @@ export class Last10PortCallsComponent implements OnInit {
     this.portCallList.push(portCallCopy);
     this.touchData();
     this.resetModel();
+  }
+
+  onDeletePortCall(row) {
+    const index = this.portCallList.findIndex(entry => entry.sequenceNumber === row.portCall.sequenceNumber);
+    if (index !== -1) {
+      this.portCallList.splice(index, 1);
+    }
+    this.touchData();
   }
 
   setSequenceNumbers() {
@@ -81,13 +90,6 @@ export class Last10PortCallsComponent implements OnInit {
     }
   }
 
-  onDeletePortCall(row) {
-    const index = this.portCallList.findIndex(entry => entry.sequenceNumber === row.portCall.sequenceNumber);
-    if (index !== -1) {
-      this.portCallList.splice(index, 1);
-    }
-    this.touchData();
-  }
 
   onLocationResult(location) {
     this.portCallModel.location = location;
@@ -202,4 +204,18 @@ export class Last10PortCallsComponent implements OnInit {
     this.portCallModel = new SecurityPreviousPortOfCallModel();
   }
 
+  private touchData() {
+    this.setSequenceNumbers();
+    this.portCallTableList = JSON.parse(JSON.stringify(this.portCallList));
+    this.securityService.setPristineData(false);
+    this.validateData();
+  }
+
+  private validateData() {
+    this.securityService.setValidLast10PortCallsData(this.dataIsValid());
+  }
+
+  private dataIsValid() {
+    return true; // can potentially be replaced with 'this.portCallList.length >= 10'
+  }
 }

@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from '../../../../node_modules/rxjs';
 import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
+import { ShipModel } from 'app/shared/models/ship-model';
 
 @Injectable()
 export class FalSecurityService {
@@ -23,8 +24,69 @@ export class FalSecurityService {
   private securityDataSource = new BehaviorSubject<FalSecurityModel>(null);
   securityData$ = this.securityDataSource.asObservable();
 
+  private securityIsCheckedDataSource = new BehaviorSubject<boolean>(false);
+  securityIsCheckedData$ = this.securityIsCheckedDataSource.asObservable();
+
+  private pristineDataSource = new BehaviorSubject<boolean>(true);
+  pristineData$ = this.pristineDataSource.asObservable();
+
+  private validSecurityDetailsDataSource = new BehaviorSubject<boolean>(true);
+  validSecurityDetailsData$ = this.validSecurityDetailsDataSource.asObservable();
+
+  private validCompanySecurityOfficerDataSource = new BehaviorSubject<boolean>(true);
+  validCompanySecurityOfficerData$ = this.validCompanySecurityOfficerDataSource.asObservable();
+
+  private validLast10PortCallsDataSource = new BehaviorSubject<boolean>(true);
+  validLast10PortCallsData$ = this.validLast10PortCallsDataSource.asObservable();
+
+  private validShipToShipActivityDataSource = new BehaviorSubject<boolean>(true);
+  validShipToShipActivityData$ = this.validShipToShipActivityDataSource.asObservable();
+
+  private saveSecurityModelDataSource = new BehaviorSubject<FalSecurityModel>(null);
+  saveSecurityModelData$ = this.saveSecurityModelDataSource.asObservable();
+
+  private saveIsscModelDataSource = new BehaviorSubject<InternationalShipSecurityCertificateModel>(null);
+  saveIsscModelData$ = this.saveIsscModelDataSource.asObservable();
+
+  private saveShipModelDataSource = new BehaviorSubject<ShipModel>(null);
+  saveShipModelData$ = this.saveShipModelDataSource.asObservable();
+
+  private allowSavingDataSource = new BehaviorSubject<boolean>(false);
+  allowSavingData$ = this.allowSavingDataSource.asObservable();
+
+
   setSecurityData(data) {
     this.securityDataSource.next(data);
+  }
+  setSecurityIsCheckedData(data: boolean) {
+    this.securityIsCheckedDataSource.next(data);
+  }
+  setPristineData(data: boolean) {
+    this.pristineDataSource.next(data);
+  }
+  setValidSecurityDetailsData(data: boolean) {
+    this.validSecurityDetailsDataSource.next(data);
+  }
+  setValidCompanySecurityOfficerData(data: boolean) {
+    this.validCompanySecurityOfficerDataSource.next(data);
+  }
+  setValidLast10PortCallsData(data: boolean) {
+    this.validLast10PortCallsDataSource.next(data);
+  }
+  setValidShipToShipActivityData(data: boolean) {
+    this.validShipToShipActivityDataSource.next(data);
+  }
+  setSaveSecurityModelData(data: FalSecurityModel) {
+    this.saveSecurityModelDataSource.next(data);
+  }
+  setSaveIsscModelData(data: InternationalShipSecurityCertificateModel) {
+    this.saveIsscModelDataSource.next(data);
+  }
+  setSaveShipModelData(data: ShipModel) {
+    this.saveShipModelDataSource.next(data);
+  }
+  setAllowSavingData(data: boolean) {
+    this.allowSavingDataSource.next(data);
   }
 
   saveCompanySecurityOfficer(cso: CompanySecurityOfficerModel): Observable<CompanySecurityOfficerModel> {
