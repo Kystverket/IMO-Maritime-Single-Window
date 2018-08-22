@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ship-stores',
@@ -88,7 +89,10 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   getMeasurementTypeSubscription: Subscription;
 
-  constructor(private shipStoresService: FalShipStoresService) { }
+  constructor(
+    private shipStoresService: FalShipStoresService,
+    private modalService: NgbModal
+  ) { }
 
   ngOnInit() {
     this.getMeasurementTypeSubscription = this.shipStoresService.getMeasurementTypeList().subscribe(
@@ -192,6 +196,11 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     this.persistData();
   }
 
+  deleteAllShipStores() {
+    this.shipStoresList = [];
+    this.persistData();
+  }
+
   openViewShipStoreModal(row) {
     this.shipStoresList.forEach(item => {
       if (item.sequenceNumber === row.sequenceNumber) {
@@ -208,5 +217,9 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
         return;
       }
     });
+  }
+
+  openWarningModal(content: any) {
+    this.modalService.open(content);
   }
 }

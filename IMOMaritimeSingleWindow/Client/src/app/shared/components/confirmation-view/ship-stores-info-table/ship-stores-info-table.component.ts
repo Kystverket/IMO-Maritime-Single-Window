@@ -42,7 +42,6 @@ export class ShipStoresInfoTableComponent implements OnInit {
         }
       }
     );
-    console.log(this.numberOfShipStores, this.totalWeight, this.totalVolume, this.totalUnits);
   }
 
 }
