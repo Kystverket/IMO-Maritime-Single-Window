@@ -5266,6 +5266,7 @@ var FormsComponent = /** @class */ (function () {
                 _this.setCargoForPortCall(_this.portCallModel.portCallId);
                 _this.setSecurityForPortCall(_this.portCallModel.portCallId);
                 _this.shipDataSubscription = _this.shipService.getShip(_this.portCallModel.shipId).subscribe(function (data) {
+                    console.log(data);
                     if (data) {
                         _this.securityShipModel = data;
                     }
@@ -7246,6 +7247,8 @@ module.exports = "<app-ssn-card [header]=\"'Save Security/ISPS'\">\r\n  <div cla
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_models_ship_to_ship_activity_model__ = __webpack_require__("./src/app/shared/models/ship-to-ship-activity-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_models_company_security_officer_model__ = __webpack_require__("./src/app/shared/models/company-security-officer-model.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_models_ship_model__ = __webpack_require__("./src/app/shared/models/ship-model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7262,9 +7265,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var SaveSecurityComponent = /** @class */ (function () {
-    function SaveSecurityComponent(securityService) {
+    function SaveSecurityComponent(securityService, shipService) {
         this.securityService = securityService;
+        this.shipService = shipService;
     }
     SaveSecurityComponent.prototype.ngOnInit = function () {
     };
@@ -7273,6 +7279,23 @@ var SaveSecurityComponent = /** @class */ (function () {
         console.log('securityModel:\n', this.securityModel);
         console.log('isscModel:\n', this.isscModel);
         var dbSecurity = new __WEBPACK_IMPORTED_MODULE_1__shared_models_fal_security_model__["a" /* FalSecurityModel */]();
+        var dbIssc = new __WEBPACK_IMPORTED_MODULE_2__shared_models_international_ship_security_certificate_model__["a" /* InternationalShipSecurityCertificateModel */]();
+        if (this.isscModel.isscId) {
+            dbIssc.isscId = this.isscModel.isscId;
+        }
+        dbIssc.certificateNumber = this.isscModel.certificateNumber;
+        dbIssc.governmentIssuerId = this.isscModel.governmentIssuerId;
+        dbIssc.rsoIssuerId = this.isscModel.rsoIssuerId;
+        dbIssc.expiryDate = this.isscModel.expiryDate;
+        dbIssc.issuedByGovernment = this.isscModel.issuedByGovernment;
+        this.shipService.saveISSC(dbIssc).subscribe(function (isscResult) {
+            console.log('ISSC saved.');
+            if (!_this.isscModel.isscId) {
+                _this.shipService.updateShipISSC(_this.shipModel.shipId, isscResult.isscId).subscribe(function (shipIsscResult) {
+                    console.log('Ship has been registered with ISSC.');
+                });
+            }
+        });
         if (this.securityModel.falSecurityId) {
             dbSecurity.falSecurityId = this.securityModel.falSecurityId;
         }
@@ -7331,6 +7354,10 @@ var SaveSecurityComponent = /** @class */ (function () {
     ], SaveSecurityComponent.prototype, "isscModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_8__shared_models_ship_model__["a" /* ShipModel */])
+    ], SaveSecurityComponent.prototype, "shipModel", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Number)
     ], SaveSecurityComponent.prototype, "portCallId", void 0);
     SaveSecurityComponent = __decorate([
@@ -7339,7 +7366,8 @@ var SaveSecurityComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__shared_services_fal_security_service__["a" /* FalSecurityService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__shared_services_fal_security_service__["a" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_7__shared_services_ship_service__["a" /* ShipService */]])
     ], SaveSecurityComponent);
     return SaveSecurityComponent;
 }());
@@ -7427,7 +7455,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/security/security.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-security-details [securityModel]=\"securityModel\"></app-security-details>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-issc *ngIf=\"shipModel.internationalShipSecurityCertificate\" [isscModel]=\"shipModel.internationalShipSecurityCertificate\"></app-issc>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-company-security-officer *ngIf=\"securityModel.companySecurityOfficer\" [csoModel]=\"securityModel.companySecurityOfficer\"></app-company-security-officer>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-last-10-port-calls *ngIf=\"securityModel.securityPreviousPortOfCall\" [portCallList]=\"securityModel.securityPreviousPortOfCall\"></app-last-10-port-calls>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-ship-to-ship-activity *ngIf=\"securityModel.shipToShipActivity\" [shipToShipActivityList]=\"securityModel.shipToShipActivity\"></app-ship-to-ship-activity>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-save-security *ngIf=\"shipModel.internationalShipSecurityCertificate\" [securityModel]=\"securityModel\" [isscModel]=\"shipModel.internationalShipSecurityCertificate\"\r\n      [portCallId]=\"portCallId\"></app-save-security>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-security-details [securityModel]=\"securityModel\"></app-security-details>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-issc *ngIf=\"shipModel.issc\" [isscModel]=\"shipModel.issc\"></app-issc>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-company-security-officer *ngIf=\"securityModel.companySecurityOfficer\" [csoModel]=\"securityModel.companySecurityOfficer\"></app-company-security-officer>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-last-10-port-calls *ngIf=\"securityModel.securityPreviousPortOfCall\" [portCallList]=\"securityModel.securityPreviousPortOfCall\"></app-last-10-port-calls>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-ship-to-ship-activity *ngIf=\"securityModel.shipToShipActivity\" [shipToShipActivityList]=\"securityModel.shipToShipActivity\"></app-ship-to-ship-activity>\r\n  </div>\r\n</div>\r\n<div class=\"row\">\r\n  <div class=\"col\">\r\n    <app-save-security *ngIf=\"shipModel.issc\" [securityModel]=\"securityModel\" [shipModel]=\"shipModel\" [isscModel]=\"shipModel.issc\"\r\n      [portCallId]=\"portCallId\"></app-save-security>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -7472,8 +7500,8 @@ var SecurityComponent = /** @class */ (function () {
         if (!this.securityModel.shipToShipActivity) {
             this.securityModel.shipToShipActivity = [];
         }
-        if (!this.shipModel.internationalShipSecurityCertificate) {
-            this.shipModel.internationalShipSecurityCertificate = new __WEBPACK_IMPORTED_MODULE_2__shared_models_international_ship_security_certificate_model__["a" /* InternationalShipSecurityCertificateModel */]();
+        if (!this.shipModel.issc) {
+            this.shipModel.issc = new __WEBPACK_IMPORTED_MODULE_2__shared_models_international_ship_security_certificate_model__["a" /* InternationalShipSecurityCertificateModel */]();
         }
     };
     SecurityComponent.prototype.ngOnDestroy = function () {
@@ -10546,7 +10574,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/date-picker/date-picker.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n    <div class=\"form-group\">\r\n      <label for=\"date_input\">{{ header }}</label>\r\n      <div class=\"input-group\">\r\n        <div class=\"input-group-prepend\">\r\n          <button class=\"btn btn-sm btn-ssn\" (click)=\"dp.toggle()\" type=\"button\">\r\n            <img src=\"assets/images/icons/128x128/white/calendar.png\" height=\"20px\" />\r\n          </button>\r\n        </div>\r\n        <input id=\"date_input\" class=\"form-control form-control-sm\" placeholder=\"yyyy-mm-dd\" name=\"dp\" [showWeekNumbers]=\"true\" [(ngModel)]=\"dateModel\"\r\n          ngbDatepicker #dp=\"ngbDatepicker\" (ngModelChange)=\"dateChanged($event)\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"d-table-row\">\r\n    <div *ngIf=\"!validDateFormat\" class=\"alert alert-danger\" role=\"alert\">\r\n      <span>Invalid date format.</span>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n    <div class=\"form-group\">\r\n      <label for=\"date_input\">{{ header }}</label>\r\n      <div class=\"input-group\">\r\n        <div class=\"input-group-prepend\">\r\n          <button class=\"btn btn-sm btn-ssn\" (click)=\"dp.toggle()\" type=\"button\">\r\n            <img src=\"assets/images/icons/128x128/white/calendar.png\" height=\"20px\" />\r\n          </button>\r\n        </div>\r\n        <input id=\"date_input\" class=\"form-control form-control-sm\" placeholder=\"yyyy-mm-dd\" name=\"dp\" [showWeekNumbers]=\"true\" [(ngModel)]=\"dateInput\"\r\n          ngbDatepicker #dp=\"ngbDatepicker\" (ngModelChange)=\"dateChanged($event)\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"d-table-row\">\r\n    <div *ngIf=\"!validDateFormat\" class=\"alert alert-danger\" role=\"alert\">\r\n      <span>Invalid date format.</span>\r\n    </div>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -10581,8 +10609,8 @@ var DatePickerComponent = /** @class */ (function () {
     };
     DatePickerComponent.prototype.persistData = function () {
         this.dateFormatError.emit(!this.validDateFormat);
-        if (this.dateModel && this.validDateFormat) {
-            this.dateResult.emit(this.dateModel);
+        if (this.dateInput && this.validDateFormat) {
+            this.dateResult.emit(this.dateInput);
         }
         else {
             this.dateResult.emit(null);
@@ -10598,7 +10626,7 @@ var DatePickerComponent = /** @class */ (function () {
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__node_modules_ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */])
-    ], DatePickerComponent.prototype, "dateModel", void 0);
+    ], DatePickerComponent.prototype, "dateInput", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
         __metadata("design:type", Object)
@@ -10812,7 +10840,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/issc/issc.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card [header]=\"'International Ship Security Certificate'\" class=\"mb-3\">\r\n  <form #form=\"ngForm\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0 mt-2\" for=\"certificate_number\">Certificate Number</label>\r\n        <input [(ngModel)]=\"isscModel.certificateNumber\" class=\"form-control form-control-sm\" id=\"certificate_number\" name=\"certificate_number\"\r\n          placeholder=\"Enter certificate number...\">\r\n      </div>\r\n      <div class=\"col-md-6\">\r\n        <app-date-picker header=\"Expiry Date\" (dateResult)=\"onExpiryDateSelection($event)\"></app-date-picker>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0\" for=\"issuer_type_select\">Issuer Type</label>\r\n        <ng-select [(ngModel)]=\"isscModel.issuedByGovernment\" name=\"issuer_type_select\" [items]=\"issuerTypeList\" bindLabel=\"name\"\r\n          bindValue=\"isGovernmentType\" placeholder=\"Select issuer type...\" [searchable]=\"false\" (change)=\"onIssuerTypeSelection($event)\"></ng-select>\r\n      </div>\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0\" for=\"issc_issuer\">Issued By</label>\r\n        <div *ngIf=\"isscModel.issuedByGovernment == null\">\r\n          <select class=\"custom-select\" placeholder=\"Select issuer type first\" disabled></select>\r\n        </div>\r\n        <div *ngIf=\"isscModel.issuedByGovernment\">\r\n          <app-country-select (countryResult)=\"onCountrySelection($event)\"></app-country-select>\r\n        </div>\r\n        <div *ngIf=\"isscModel.issuedByGovernment == false\">\r\n          <app-rso-select (organizationResult)=\"onOrganizationSelection($event)\"></app-rso-select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </form>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card [header]=\"'International Ship Security Certificate'\" class=\"mb-3\">\r\n  <form #form=\"ngForm\">\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0 mt-2\" for=\"certificate_number\">Certificate Number</label>\r\n        <input [(ngModel)]=\"isscModel.certificateNumber\" class=\"form-control form-control-sm\" id=\"certificate_number\" name=\"certificate_number\"\r\n          placeholder=\"Enter certificate number...\">\r\n      </div>\r\n      <div class=\"col-md-6\">\r\n        <app-date-picker header=\"Expiry Date\" [dateInput]=\"expiryDateModel\" (dateResult)=\"onExpiryDateSelection($event)\"></app-date-picker>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\">\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0\" for=\"issuer_type_select\">Issuer Type</label>\r\n        <ng-select [(ngModel)]=\"isscModel.issuedByGovernment\" name=\"issuer_type_select\" [items]=\"issuerTypeList\" bindLabel=\"name\"\r\n          bindValue=\"isGovernmentType\" placeholder=\"Select issuer type...\" [searchable]=\"false\" (change)=\"onIssuerTypeSelection($event)\"></ng-select>\r\n      </div>\r\n      <div class=\"col-md-6\">\r\n        <label class=\"no-wrap mb-0\" for=\"issc_issuer\">Issued By</label>\r\n        <div *ngIf=\"isscModel.issuedByGovernment == null\">\r\n          <select class=\"custom-select\" placeholder=\"Select issuer type first\" disabled></select>\r\n        </div>\r\n        <div *ngIf=\"isscModel.issuedByGovernment\">\r\n          <app-country-select [countryModel]=\"governmentIssuer\" (countryResult)=\"onCountrySelection($event)\"></app-country-select>\r\n        </div>\r\n        <div *ngIf=\"isscModel.issuedByGovernment == false\">\r\n          <app-rso-select [organizationModel]=\"rsoIssuer\" (organizationResult)=\"onOrganizationSelection($event)\"></app-rso-select>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </form>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -10838,6 +10866,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var IsscComponent = /** @class */ (function () {
     function IsscComponent() {
+        this.rsoIssuer = null;
+        this.governmentIssuer = null;
         this.issuerTypeList = [
             {
                 name: 'Government',
@@ -10853,9 +10883,16 @@ var IsscComponent = /** @class */ (function () {
         if (this.isscModel.expiryDate) {
             this.setNgbDate();
         }
+        if (this.isscModel.issuedByGovernment && this.isscModel.governmentIssuer) {
+            this.governmentIssuer = this.isscModel.governmentIssuer;
+        }
+        else if (this.isscModel.rsoIssuer) {
+            this.rsoIssuer = this.isscModel.rsoIssuer;
+        }
     };
     IsscComponent.prototype.setNgbDate = function () {
-        this.expiryDateModel = new __WEBPACK_IMPORTED_MODULE_2__node_modules_ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](this.isscModel.expiryDate.getFullYear(), this.isscModel.expiryDate.getMonth() + 1, this.isscModel.expiryDate.getDate());
+        var expiryDate = new Date(this.isscModel.expiryDate);
+        this.expiryDateModel = new __WEBPACK_IMPORTED_MODULE_2__node_modules_ng_bootstrap_ng_bootstrap_datepicker_ngb_date__["a" /* NgbDate */](expiryDate.getFullYear(), expiryDate.getMonth() + 1, expiryDate.getDate());
     };
     IsscComponent.prototype.onExpiryDateSelection = function (date) {
         this.isscModel.expiryDate = new Date(Date.UTC(date.year, date.month - 1, date.day));
@@ -16110,6 +16147,7 @@ var ShipService = /** @class */ (function () {
         this.shipStatusListUrl = 'api/shipstatus';
         this.contactListShipUrl = 'api/shipcontact/ship';
         this.shipContactListUrl = 'api/shipcontact/list';
+        this.isscUrl = 'api/internationalShipSecurityCertificate';
         this.shipDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipData$ = this.shipDataSource.asObservable();
         this.shipSearchDataSource = new __WEBPACK_IMPORTED_MODULE_1_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
@@ -16131,6 +16169,14 @@ var ShipService = /** @class */ (function () {
     };
     ShipService.prototype.updateShip = function (ship) {
         return this.http.put(this.shipUrl, ship);
+    };
+    ShipService.prototype.saveISSC = function (issc) {
+        var uri = this.isscUrl;
+        return this.http.put(uri, issc);
+    };
+    ShipService.prototype.updateShipISSC = function (shipId, isscId) {
+        var uri = [this.shipUrl, shipId, 'internationalShipSecurityCertificate/isscId'].join('/');
+        return this.http.put(uri, isscId);
     };
     ShipService.prototype.saveShipContactList = function (shipContactList) {
         return this.http.post(this.shipContactListUrl, shipContactList);
