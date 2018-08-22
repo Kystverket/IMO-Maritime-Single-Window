@@ -53,6 +53,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
           this.detailsModel.reportingDpg = reportingData.reportingDpg;
           this.detailsModel.reportingPax = reportingData.reportingPax;
           this.detailsModel.reportingShipStores = reportingData.reportingShipStores;
+          this.detailsModel.reportingSecurity = reportingData.reportingSecurity;
         }
       }
     );

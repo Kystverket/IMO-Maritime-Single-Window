@@ -1,0 +1,21 @@
+<div class="d-table">
+  <div class="d-table-row">
+    <div class="form-group">
+      <label for="date_input">{{ header }}</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button class="btn btn-sm btn-ssn" (click)="dp.toggle()" type="button">
+            <img src="assets/images/icons/128x128/white/calendar.png" height="20px" />
+          </button>
+        </div>
+        <input id="date_input" class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="dp" [showWeekNumbers]="true" [(ngModel)]="dateModel"
+          ngbDatepicker #dp="ngbDatepicker" (ngModelChange)="dateChanged($event)">
+      </div>
+    </div>
+  </div>
+  <div class="d-table-row">
+    <div *ngIf="!validDateFormat" class="alert alert-danger" role="alert">
+      <span>Invalid date format.</span>
+    </div>
+  </div>
+</div>

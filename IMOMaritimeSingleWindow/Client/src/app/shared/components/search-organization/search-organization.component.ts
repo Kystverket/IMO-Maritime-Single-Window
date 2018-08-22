@@ -17,6 +17,7 @@ import { SearchOrganizationService } from './search-organization.service';
 export class SearchOrganizationComponent implements OnInit {
 
   @Input() showDropdown = true;
+  @Input() header = 'Search using organization name or organization number';
 
   @Output() organizationResult = new EventEmitter<any>();
   @Output() organizationSearchResult = new EventEmitter<any>();

@@ -12,6 +12,7 @@ namespace IMOMaritimeSingleWindow.Helpers
             {
                 public const int ORGANIZATION_TYPE_GOVERNMENT_AGENCY = 1;
                 public const int ORGANIZATION_TYPE_COMPANY = 2;
+                public const int ORGANIZATION_TYPE_RECOGNIZED_SECURITY_ORGANIZATION = 3;
                 public const int OTHER_PURPOSE_ID = 100249;
                 public const int PORT_CALL_STATUS_AWAITING_CLEARANCE = 100232;
                 public const int PORT_CALL_STATUS_CANCELLED = 100233;

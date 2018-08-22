@@ -11,6 +11,7 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         DbSet<Claim> Claim { get; set; }
         DbSet<ClaimType> ClaimType { get; set; }
+        DbSet<CompanySecurityOfficer> CompanySecurityOfficer { get; set; }
         DbSet<Consignment> Consignment { get; set; }
         DbSet<ContactMedium> ContactMedium { get; set; }
         DbSet<Country> Country { get; set; }
@@ -21,11 +22,13 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<Dpg> Dpg { get; set; }
         DbSet<DpgOnBoard> DpgOnBoard { get; set; }
         DbSet<DpgType> DpgType { get; set; }
+        DbSet<FalSecurity> FalSecurity { get; set; }
         DbSet<FalShipStores> FalShipStores { get; set; }
         DbSet<Gender> Gender { get; set; }
         DbSet<IdentityDocument> IdentityDocument { get; set; }
         DbSet<IdentityDocumentType> IdentityDocumentType { get; set; }
         DbSet<ImoHazardClass> ImoHazardClass { get; set; }
+        DbSet<InternationalShipSecurityCertificate> InternationalShipSecurityCertificate { get; set; }
         DbSet<Location> Location { get; set; }
         DbSet<LocationSource> LocationSource { get; set; }
         DbSet<LocationType> LocationType { get; set; }
@@ -47,6 +50,8 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<PortCallStatus> PortCallStatus { get; set; }
         DbSet<Role> Role { get; set; }
         DbSet<RoleClaim> RoleClaim { get; set; }
+        DbSet<SecurityLevel> SecurityLevel { get; set; }
+        DbSet<SecurityPreviousPortOfCall> SecurityPreviousPortOfCall { get; set; }
         DbSet<Ship> Ship { get; set; }
         DbSet<ShipBreadthType> ShipBreadthType { get; set; }
         DbSet<ShipCertificate> ShipCertificate { get; set; }
@@ -60,6 +65,7 @@ namespace IMOMaritimeSingleWindow.Data
         DbSet<ShipPowerType> ShipPowerType { get; set; }
         DbSet<ShipSource> ShipSource { get; set; }
         DbSet<ShipStatus> ShipStatus { get; set; }
+        DbSet<ShipToShipActivity> ShipToShipActivity { get; set; }
         DbSet<ShipType> ShipType { get; set; }
         DbSet<ShipTypeGroup> ShipTypeGroup { get; set; }
         DbSet<User> User { get; set; }

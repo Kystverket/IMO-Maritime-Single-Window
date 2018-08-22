@@ -87,6 +87,39 @@ export class PortCallService {
     private portCallDetailsService: PortCallDetailsService
   ) { }
 
+  //
+  // READ IMPORTANT 17.08.2018
+  // Trying a new pattern for port call registration forms
+  // See: security-component for usage
+  //
+  private portCallDataSource = new BehaviorSubject<PortCallModel>(null);
+  portCallData$ = this.portCallDataSource.asObservable();
+
+  setPortCallData(data) {
+    this.portCallDataSource.next(data);
+  }
+
+  // Helper method for ETA/ETD formatting
+  etaEtdDataFormat(arrival, departure) {
+    const etaData = new Date(arrival);
+    const etdData = new Date(departure);
+    return {
+      eta: {
+        year: etaData.getFullYear(),
+        month: etaData.getMonth() + 1,
+        day: etaData.getDate(),
+        hour: etaData.getHours(),
+        minute: etaData.getMinutes()
+      },
+      etd: {
+        year: etdData.getFullYear(),
+        month: etdData.getMonth() + 1,
+        day: etdData.getDate(),
+        hour: etdData.getHours(),
+        minute: etdData.getMinutes()
+      }
+    };
+  }
   private dateStringToDateTime(dateString: string): DateTime {
     const dateObject = new Date(dateString);
     const dateTime: DateTime = {
