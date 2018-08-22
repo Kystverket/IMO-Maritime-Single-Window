@@ -2619,6 +2619,137 @@ var ConfirmationModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/main-content/content-container/port-call/load-port-call.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoadPortCallService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_models_port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+var LoadPortCallService = /** @class */ (function () {
+    function LoadPortCallService(overviewService, portCallService, contentService, cargoService, shipStoresService, portCallDetailsService) {
+        this.overviewService = overviewService;
+        this.portCallService = portCallService;
+        this.contentService = contentService;
+        this.cargoService = cargoService;
+        this.shipStoresService = shipStoresService;
+        this.portCallDetailsService = portCallDetailsService;
+        this.isLoadingSource = new __WEBPACK_IMPORTED_MODULE_9_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.isLoading$ = this.isLoadingSource.asObservable();
+    }
+    LoadPortCallService.prototype.setContent = function (portCallId, content) {
+        if (content === void 0) { content = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL; }
+        this.content = content;
+        this.portCallId = portCallId;
+        this.isLoadingSource.next(true);
+        this.setPortCall();
+    };
+    LoadPortCallService.prototype.setPortCall = function () {
+        var _this = this;
+        this.overviewService.getOverview(this.portCallId).subscribe(function (data) {
+            if (data) {
+                console.log(data);
+                // 2018.08.17 Trying new pattern:
+                _this.portCallService.setPortCallData(data.portCall);
+                //
+                _this.portCallService.setPortCall(data);
+                _this.portCallService.setVoyagesIsPristine(true);
+                _this.cargoService.setDataIsPristine(true);
+                _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
+                _this.shipStoresService.setDataIsPristine(true);
+                _this.setPurpose();
+            }
+        });
+    };
+    LoadPortCallService.prototype.setPurpose = function () {
+        var _this = this;
+        this.portCallDetailsService.getPurposeByPortCallId(this.portCallId).subscribe(function (purposeData) {
+            if (purposeData) {
+                if (purposeData.find(function (p) { return p.name === 'Other'; })) {
+                    _this.portCallDetailsService.getOtherName(_this.portCallId).subscribe(function (otherNameData) {
+                        _this.portCallDetailsService.setOtherPurposeName(otherNameData);
+                        _this.portCallDetailsService.setPortCallPurposeData(purposeData);
+                        _this.setDetails();
+                    });
+                }
+                else {
+                    _this.portCallDetailsService.setPortCallPurposeData(purposeData);
+                    _this.setDetails();
+                }
+            }
+            else {
+                console.log('No purpose information has been registered for this port call.');
+            }
+        }, function (error) {
+            console.log('Get Purpose Error: ', error);
+        });
+    };
+    LoadPortCallService.prototype.setDetails = function () {
+        var _this = this;
+        this.portCallDetailsService.getDetailsByPortCallId(this.portCallId).subscribe(function (detailsData) {
+            if (detailsData) {
+                _this.portCallDetailsService.setDetails(detailsData);
+            }
+            else {
+                console.log('No details information has been registered for this port call.');
+                var portCallDetails = new __WEBPACK_IMPORTED_MODULE_8_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
+                // portCallDetails.portCallDetailsId = this.portCallId;
+                portCallDetails.portCallId = _this.portCallId;
+                _this.portCallDetailsService.setDetails(portCallDetails);
+            }
+            _this.finishLoading();
+        }, function (error) {
+            console.log('Get Details Error: ', error);
+        });
+    };
+    LoadPortCallService.prototype.finishLoading = function () {
+        this.portCallService.setPortCallIdData(this.portCallId);
+        this.isLoadingSource.next(false);
+        this.contentService.setContent(this.content);
+    };
+    LoadPortCallService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_7_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
+    ], LoadPortCallService);
+    return LoadPortCallService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.css":
 /***/ (function(module, exports) {
 
@@ -2643,16 +2774,12 @@ module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__ = __webpack_require__("./src/app/shared/constants/port-call-claims.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__ = __webpack_require__("./src/app/shared/constants/port-call-status-types.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models_port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_constants_service__ = __webpack_require__("./src/app/shared/services/constants.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2673,21 +2800,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
-
-
 var ButtonRowComponent = /** @class */ (function () {
-    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, portCallDetailsService, cargoService, shipStoresService, modalService, personOnBoardService) {
+    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, modalService, loadPortCallService) {
         this.accountService = accountService;
         this.overviewService = overviewService;
         this.contentService = contentService;
         this.portCallService = portCallService;
-        this.portCallDetailsService = portCallDetailsService;
-        this.cargoService = cargoService;
-        this.shipStoresService = shipStoresService;
         this.modalService = modalService;
-        this.personOnBoardService = personOnBoardService;
+        this.loadPortCallService = loadPortCallService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.permissions = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_port_call_claims__["a" /* PortCallClaims */].buttonRowPermissions;
         this.portCallIsDraft = false;
@@ -2730,14 +2850,14 @@ var ButtonRowComponent = /** @class */ (function () {
         });
     };
     ButtonRowComponent.prototype.onViewClick = function () {
-        this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALL);
+        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALL);
     };
     ButtonRowComponent.prototype.onEditClick = function () {
         this.contentService.setPortCallForm(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VOYAGES);
-        this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL);
+        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL);
     };
     ButtonRowComponent.prototype.onClearanceClick = function () {
-        this.setContent(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].PORT_CALL_CLEARANCE);
+        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].PORT_CALL_CLEARANCE);
     };
     ButtonRowComponent.prototype.openModal = function (content) {
         this.modalService.open(content);
@@ -2819,68 +2939,10 @@ var ButtonRowComponent = /** @class */ (function () {
             console.log(error);
         });
     };
-    ButtonRowComponent.prototype.setContent = function (content) {
-        this.setPortCall(content);
-    };
-    ButtonRowComponent.prototype.setPortCall = function (content) {
-        var _this = this;
+    ButtonRowComponent.prototype.setContent = function (portCallId, content) {
         this.overviewService.setLoadingPortCall(true);
         this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
-        this.overviewService.getOverview(this.rowData.overviewModel.portCall.portCallId).subscribe(function (data) {
-            if (data) {
-                console.log(data);
-                // 2018.08.17 Trying new pattern:
-                _this.portCallService.setPortCallData(data.portCall);
-                //
-                _this.portCallService.setPortCall(data);
-                _this.portCallService.setVoyagesIsPristine(true);
-                _this.cargoService.setDataIsPristine(true);
-                _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
-                _this.shipStoresService.setDataIsPristine(true);
-                _this.setPurpose(content);
-            }
-        });
-    };
-    ButtonRowComponent.prototype.setPurpose = function (content) {
-        var _this = this;
-        this.portCallDetailsService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (purposeData) {
-            if (purposeData) {
-                if (purposeData.find(function (p) { return p.name === 'Other'; })) {
-                    _this.portCallDetailsService.getOtherName(_this.rowData.overviewModel.portCall.portCallId).subscribe(function (otherNameData) {
-                        _this.portCallDetailsService.setOtherPurposeName(otherNameData);
-                        _this.portCallDetailsService.setPortCallPurposeData(purposeData);
-                        _this.setDetails(content);
-                    });
-                }
-                else {
-                    _this.portCallDetailsService.setPortCallPurposeData(purposeData);
-                    _this.setDetails(content);
-                }
-            }
-            else {
-                console.log('No purpose information has been registered for this port call.');
-            }
-        }, function (error) {
-            console.log('Get Purpose Error: ', error);
-        });
-    };
-    ButtonRowComponent.prototype.setDetails = function (content) {
-        var _this = this;
-        this.portCallDetailsService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(function (detailsData) {
-            if (detailsData) {
-                _this.portCallDetailsService.setDetails(detailsData);
-            }
-            else {
-                console.log('No details information has been registered for this port call.');
-                var portCallDetails = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
-                // portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
-                portCallDetails.portCallId = _this.rowData.overviewModel.portCall.portCallId;
-                _this.portCallDetailsService.setDetails(portCallDetails);
-            }
-            _this.contentService.setContent(content);
-        }, function (error) {
-            console.log('Get Details Error: ', error);
-        });
+        this.loadPortCallService.setContent(portCallId, content);
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -2899,17 +2961,14 @@ var ButtonRowComponent = /** @class */ (function () {
             selector: 'app-button-row',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_7_app_shared_services_constants_service__["a" /* ConstantsService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_constants_service__["a" /* ConstantsService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_13_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
-            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_14_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_11_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
-            __WEBPACK_IMPORTED_MODULE_9_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
-            __WEBPACK_IMPORTED_MODULE_10_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
+            __WEBPACK_IMPORTED_MODULE_7_app_shared_services_content_service__["a" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_service__["a" /* PortCallService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+            __WEBPACK_IMPORTED_MODULE_10__load_port_call_service__["a" /* LoadPortCallService */]])
     ], ButtonRowComponent);
     return ButtonRowComponent;
 }());
@@ -3009,11 +3068,11 @@ module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-12 col-md-6 col
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3051,9 +3110,9 @@ var OverviewComponent = /** @class */ (function () {
         this.completedOverviewList = [];
         this.clearedByUserAgencyOverviewList = [];
         this.userIsGovernmentAgency = false;
-        this.overviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
-        this.draftOverviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
-        this.clearedByUserAgencyOverviewSource = new __WEBPACK_IMPORTED_MODULE_10_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.overviewSource = new __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.draftOverviewSource = new __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.clearedByUserAgencyOverviewSource = new __WEBPACK_IMPORTED_MODULE_9_ng2_smart_table__["a" /* LocalDataSource */]();
         this.showCancelledPortCalls = false;
         this.showCompletedPortCalls = false;
         // Smart table
@@ -3094,14 +3153,14 @@ var OverviewComponent = /** @class */ (function () {
                     type: 'custom',
                     filter: false,
                     sort: false,
-                    renderComponent: __WEBPACK_IMPORTED_MODULE_12__clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */]
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_11__clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */]
                 },
                 actions: {
                     title: 'Actions',
                     type: 'custom',
                     filter: false,
                     sort: false,
-                    renderComponent: __WEBPACK_IMPORTED_MODULE_11__button_row_button_row_component__["a" /* ButtonRowComponent */]
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_10__button_row_button_row_component__["a" /* ButtonRowComponent */]
                 }
             }
         };
@@ -3138,7 +3197,7 @@ var OverviewComponent = /** @class */ (function () {
                     type: 'custom',
                     filter: false,
                     sort: false,
-                    renderComponent: __WEBPACK_IMPORTED_MODULE_11__button_row_button_row_component__["a" /* ButtonRowComponent */]
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_10__button_row_button_row_component__["a" /* ButtonRowComponent */]
                 }
             }
         };
@@ -3305,14 +3364,14 @@ var OverviewComponent = /** @class */ (function () {
             selector: 'app-overview',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */], __WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__["a" /* OrganizationService */], __WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__["a" /* OrganizationService */], __WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services_account_service__["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_7_app_shared_services_organization_service__["a" /* OrganizationService */],
             __WEBPACK_IMPORTED_MODULE_6_app_shared_services_content_service__["a" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_9_app_shared_services_port_call_service__["a" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */]])
+            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_12_app_shared_services_port_call_overview_service__["a" /* PortCallOverviewService */]])
     ], OverviewComponent);
     return OverviewComponent;
 }());
@@ -3672,12 +3731,16 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -3809,6 +3872,7 @@ var PortCallModule = /** @class */ (function () {
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_15_app_shared_services_port_call_service__["a" /* PortCallService */],
+                __WEBPACK_IMPORTED_MODULE_61__load_port_call_service__["a" /* LoadPortCallService */],
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
                 __WEBPACK_IMPORTED_MODULE_12_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
                 __WEBPACK_IMPORTED_MODULE_9_app_shared_services_country_service__["a" /* CountryService */],
@@ -3816,7 +3880,8 @@ var PortCallModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_10_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
                 __WEBPACK_IMPORTED_MODULE_16_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
                 __WEBPACK_IMPORTED_MODULE_14_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
-                __WEBPACK_IMPORTED_MODULE_55__shared_services_fal_security_service__["a" /* FalSecurityService */]
+                __WEBPACK_IMPORTED_MODULE_55__shared_services_fal_security_service__["a" /* FalSecurityService */],
+                __WEBPACK_IMPORTED_MODULE_62__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */]
             ]
         })
     ], PortCallModule);
@@ -5230,9 +5295,9 @@ module.exports = "<app-progress-bar *ngIf=\"portCallId != null\"></app-progress-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared_models_fal_security_model__ = __webpack_require__("./src/app/shared/models/fal-security-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_models_company_security_officer_model__ = __webpack_require__("./src/app/shared/models/company-security-officer-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_app_shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_models_fal_security_model__ = __webpack_require__("./src/app/shared/models/fal-security-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_models_company_security_officer_model__ = __webpack_require__("./src/app/shared/models/company-security-officer-model.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5283,8 +5348,8 @@ var FormsComponent = /** @class */ (function () {
                 _this.securityData = data;
             }
             else {
-                _this.securityData = new __WEBPACK_IMPORTED_MODULE_9__shared_models_fal_security_model__["a" /* FalSecurityModel */]();
-                _this.securityData.companySecurityOfficer = new __WEBPACK_IMPORTED_MODULE_10__shared_models_company_security_officer_model__["a" /* CompanySecurityOfficerModel */]();
+                _this.securityData = new __WEBPACK_IMPORTED_MODULE_9_app_shared_models_fal_security_model__["a" /* FalSecurityModel */]();
+                _this.securityData.companySecurityOfficer = new __WEBPACK_IMPORTED_MODULE_10_app_shared_models_company_security_officer_model__["a" /* CompanySecurityOfficerModel */]();
             }
         });
         this.portCallIdSubscription = this.portCallService.portCallIdData$.subscribe(function (portCallIdData) {
@@ -5401,7 +5466,7 @@ var FormsComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_7_app_shared_services_ship_service__["a" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
             __WEBPACK_IMPORTED_MODULE_4_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_8__shared_services_fal_security_service__["a" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_8_app_shared_services_fal_security_service__["a" /* FalSecurityService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], FormsComponent);
     return FormsComponent;
@@ -8679,7 +8744,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)\" class=\"text-center\">\r\n  <div class=\"mb-3\">\r\n    <p *ngIf=\"!shipFound\" class=\"no-wrap mb-0\">Ship is required.</p>\r\n    <p *ngIf=\"!locationFound\" class=\"no-wrap mb-0\">Location is required.</p>\r\n    <p *ngIf=\"!etaFound\" class=\"no-wrap mb-0\">ETA is required.</p>\r\n    <p *ngIf=\"!etdFound\" class=\"no-wrap mb-0\">ETD is required.</p>\r\n  </div>\r\n  <div class=\"alert alert-danger mb-3\" *ngIf=\"voyagesErrors\">There are errors that must be resolved.</div>\r\n  <button class=\"btn btn-ssn\" disabled>\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> Create Port Call Draft</button>\r\n</div>\r\n<div *ngIf=\"shipFound && locationFound && etaFound && etdFound && !voyagesErrors\" class=\"text-center\">\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-bordered\">\r\n      <thead>\r\n        <tr class=\"bg-ssn text-ssn\">\r\n          <th>Ship flag</th>\r\n          <th>Ship name</th>\r\n          <th>Location Name</th>\r\n          <th>Location Code</th>\r\n          <th>ETA</th>\r\n          <th>ETD</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr>\r\n          <td>\r\n            <img src=\"assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png\" height=\"20px\" />\r\n          </td>\r\n          <td>{{ shipModel.name }}</td>\r\n          <td>{{ locationModel.name }}</td>\r\n          <td>{{ locationModel.locationCode }}</td>\r\n          <td>{{ formatDateTime(etaModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n          <td>{{ formatDateTime(etdModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n  <button class=\"btn btn-ssn\" (click)=\"registerPortCallDraft()\">\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" />\r\n    <span> Create Port Call Draft</span>\r\n  </button>\r\n</div>"
+module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)\" class=\"text-center\">\r\n  <div class=\"mb-3\">\r\n    <p *ngIf=\"!shipFound\" class=\"no-wrap mb-0\">Ship is required.</p>\r\n    <p *ngIf=\"!locationFound\" class=\"no-wrap mb-0\">Location is required.</p>\r\n    <p *ngIf=\"!etaFound\" class=\"no-wrap mb-0\">ETA is required.</p>\r\n    <p *ngIf=\"!etdFound\" class=\"no-wrap mb-0\">ETD is required.</p>\r\n  </div>\r\n  <div class=\"alert alert-danger mb-3\" *ngIf=\"voyagesErrors\">There are errors that must be resolved.</div>\r\n  <button class=\"btn btn-ssn\" disabled>\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> Create Port Call Draft</button>\r\n</div>\r\n<div *ngIf=\"shipFound && locationFound && etaFound && etdFound && !voyagesErrors\" class=\"text-center\">\r\n  <div class=\"table-responsive\">\r\n    <table class=\"table table-bordered\">\r\n      <thead>\r\n        <tr class=\"bg-ssn text-ssn\">\r\n          <th>Ship flag</th>\r\n          <th>Ship name</th>\r\n          <th>Location Name</th>\r\n          <th>Location Code</th>\r\n          <th>ETA</th>\r\n          <th>ETD</th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        <tr>\r\n          <td>\r\n            <img src=\"assets/images/flags/128x128/{{shipModel.shipFlagCode.country.twoCharCode | lowercase}}.png\" height=\"20px\" />\r\n          </td>\r\n          <td>{{ shipModel.name }}</td>\r\n          <td>{{ locationModel.name }}</td>\r\n          <td>{{ locationModel.locationCode }}</td>\r\n          <td>{{ formatDateTime(etaModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n          <td>{{ formatDateTime(etdModel) | date:'dd-MM-yyyy hh:mm' }}</td>\r\n        </tr>\r\n      </tbody>\r\n    </table>\r\n  </div>\r\n  <button class=\"btn btn-ssn\" (click)=\"registerPortCallDraft()\" [disabled]=\"creatingPortCall\">\r\n    <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" />\r\n    <span> Create Port Call Draft</span>\r\n  </button>\r\n  <p *ngIf=\"creatingPortCall\">Registering new port call draft...</p>\r\n</div>"
 
 /***/ }),
 
@@ -8690,8 +8755,9 @@ module.exports = "<div *ngIf=\"!(shipFound && locationFound && etaFound && etdFo
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SaveNewPortCallComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8705,10 +8771,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SaveNewPortCallComponent = /** @class */ (function () {
-    function SaveNewPortCallComponent(portCallService, portCallDetailsService) {
+    function SaveNewPortCallComponent(portCallService, portCallDetailsService, loadPortCallService) {
         this.portCallService = portCallService;
         this.portCallDetailsService = portCallDetailsService;
+        this.loadPortCallService = loadPortCallService;
         this.shipFound = false;
         this.locationFound = false;
         this.etaFound = false;
@@ -8718,6 +8786,7 @@ var SaveNewPortCallComponent = /** @class */ (function () {
         this.nextLocationFound = false;
         this.nextEtaFound = false;
         this.voyagesErrors = false;
+        this.creatingPortCall = false;
     }
     SaveNewPortCallComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -8756,6 +8825,9 @@ var SaveNewPortCallComponent = /** @class */ (function () {
         this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(function (hasError) {
             _this.voyagesErrors = hasError;
         });
+        this.isLoadingPortCallSubscription = this.loadPortCallService.isLoading$.subscribe(function (data) {
+            _this.creatingPortCall = data;
+        });
     };
     SaveNewPortCallComponent.prototype.ngOnDestroy = function () {
         this.shipDataSubscription.unsubscribe();
@@ -8767,6 +8839,7 @@ var SaveNewPortCallComponent = /** @class */ (function () {
         this.prevEtdSubscription.unsubscribe();
         this.nextLocationSubscription.unsubscribe();
         this.nextEtaSubscription.unsubscribe();
+        this.isLoadingPortCallSubscription.unsubscribe();
     };
     SaveNewPortCallComponent.prototype.formatDateTime = function (dateTime) {
         return new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
@@ -8786,15 +8859,15 @@ var SaveNewPortCallComponent = /** @class */ (function () {
     };
     SaveNewPortCallComponent.prototype.registerPortCallDraft = function () {
         var _this = this;
+        this.creatingPortCall = true;
         var portCallModel = this.buildPortCallModel();
         this.portCallService.registerNewPortCall(portCallModel).subscribe(function (result) {
             console.log('New port call successfully registered:', result);
             // add list of authorities for clearance
             console.log('Registering authority clearance agencies to port call...');
             _this.portCallService.registerClearanceAgenciesForPortCall(result);
-            _this.portCallService.setPortCallIdData(result.portCallId);
             _this.portCallDetailsService.wipeDetailsData();
-            _this.portCallService.setVoyagesIsPristine(true);
+            _this.loadPortCallService.setContent(result.portCallId);
         }, function (error) {
             console.log(error);
         });
@@ -8805,7 +8878,9 @@ var SaveNewPortCallComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_service__["a" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+            __WEBPACK_IMPORTED_MODULE_4__load_port_call_service__["a" /* LoadPortCallService */]])
     ], SaveNewPortCallComponent);
     return SaveNewPortCallComponent;
 }());
