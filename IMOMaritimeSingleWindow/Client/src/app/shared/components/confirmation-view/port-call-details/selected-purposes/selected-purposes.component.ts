@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PurposeService } from 'app/shared/services/purpose.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -23,19 +23,19 @@ export class SelectedPurposesComponent implements OnInit, OnDestroy {
 
   constructor(
     private purposeService: PurposeService,
-    private portCallService: PortCallService
+    private portCallDetailsService: PortCallDetailsService
   ) {}
 
   ngOnInit() {
     this.getPurposesSubscription = this.purposeService.getPurposes().subscribe(data => {
       this.purposeList = data;
     });
-    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(data => {
+    this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(data => {
       if (data != null) {
         this.selectedPurposes = data;
       }
     });
-    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(data => {
+    this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(data => {
       this.otherPurposeName = data;
     });
   }

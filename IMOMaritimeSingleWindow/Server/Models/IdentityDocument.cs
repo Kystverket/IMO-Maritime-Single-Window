@@ -5,6 +5,7 @@ namespace IMOMaritimeSingleWindow.Models
 {
     public partial class IdentityDocument
     {
+
         public long IdentityDocumentId { get; set; }
         public int? IdentityDocumentTypeId { get; set; }
         public long? VisaOrResidencePermitNumber { get; set; }

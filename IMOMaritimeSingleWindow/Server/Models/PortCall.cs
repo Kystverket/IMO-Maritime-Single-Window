@@ -10,6 +10,7 @@ namespace IMOMaritimeSingleWindow.Models
             Consignment = new HashSet<Consignment>();
             CustomsCargo = new HashSet<CustomsCargo>();
             DpgOnBoard = new HashSet<DpgOnBoard>();
+            FalSecurity = new HashSet<FalSecurity>();
             FalShipStores = new HashSet<FalShipStores>();
             OrganizationPortCall = new HashSet<OrganizationPortCall>();
             PersonOnBoard = new HashSet<PersonOnBoard>();
@@ -44,6 +45,7 @@ namespace IMOMaritimeSingleWindow.Models
         public ICollection<Consignment> Consignment { get; set; }
         public ICollection<CustomsCargo> CustomsCargo { get; set; }
         public ICollection<DpgOnBoard> DpgOnBoard { get; set; }
+        public ICollection<FalSecurity> FalSecurity { get; set; }
         public ICollection<FalShipStores> FalShipStores { get; set; }
         public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
         public ICollection<PersonOnBoard> PersonOnBoard { get; set; }

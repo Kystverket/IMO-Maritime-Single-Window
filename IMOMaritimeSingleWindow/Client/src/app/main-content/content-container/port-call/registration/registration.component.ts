@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ContentService } from 'app/shared/services/content.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ContentService } from '../../../../shared/services/content.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -12,7 +12,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   portCallFormNameSubscription: Subscription;
 
-  constructor(private contentService: ContentService) {}
+  constructor(
+    private contentService: ContentService
+  ) { }
 
   ngOnInit() {
     this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(content => {

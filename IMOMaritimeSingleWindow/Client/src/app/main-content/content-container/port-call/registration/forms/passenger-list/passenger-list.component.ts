@@ -1,37 +1,60 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { DeleteButtonComponent } from '../shared/delete-button/delete-button.component';
-import { PassengerModel } from 'app/shared/models/port-call-passenger-model';
-import { PortCallPassengerListService } from 'app/shared/services/port-call-passenger-list.service';
-import { LocationService } from 'app/shared/services/location.service';
+import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { SmartTableModel } from './smartTableModel';
+import { GenderModel } from 'app/shared/models/gender-model';
+import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Subscription } from 'rxjs/Subscription';
+import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
+import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
+import { LocationModel } from 'app/shared/models/location-model';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 @Component({
   selector: 'app-passenger-list',
   templateUrl: './passenger-list.component.html',
   styleUrls: ['./passenger-list.component.css']
 })
-export class PassengerListComponent implements OnInit, OnDestroy {
+export class PassengerListComponent implements OnInit {
+  @Input() portCallId: number;
+  @Input() passengerList: PersonOnBoardModel[] = [];
 
-  @Input() showDropdown = true;
+  identityDocumentList: IdentityDocumentModel[] = [];
 
-  portCallId: number;
-  passengerList: any[] = [];
+  portCallPassengerModel: PersonOnBoardModel = new PersonOnBoardModel();
+
+  genderList: GenderModel[];
+  selectedGender: GenderModel;
+  identityDocTypeList: IdentityDocumentModel[];
+  identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
+  personOnBoardType: PersonOnBoardTypeModel;
+
+  modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
 
-  countryList: string[] = ['Norway', 'Sweeden', 'Australia'];
-
-  countryOfBirth: string;
-  passengerModel: PassengerModel = new PassengerModel();
-
-  locationModel: any;
-
-  formValid = false;
+  @ViewChild(PassengerModalComponent) passengerModalComponent;
+  @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
+  @ViewChild('dateOfBirth') dateOfBirthComponent;
 
   @ViewChild(NgForm) form: NgForm;
 
+  booleanList: string[] = ['Yes', 'No'];
+  booleanModel = {
+    'Yes': true,
+    'No': false
+  };
+  inTransit: boolean = null;
+
+  formValid = true;
+  validDocumentDates = true;
+
   passengerListDataSource: LocalDataSource = new LocalDataSource();
+  smartTableList = [];
 
   tableSettings = {
     actions: false,
@@ -47,8 +70,8 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     },
     noDataMessage: 'There are no passengers in this list.',
     columns: {
-      passengerId: {
-        title: 'Passenger ID'
+      sequenceNumber: {
+        title: 'ID'
       },
       familyName: {
         title: 'Family Name',
@@ -59,23 +82,11 @@ export class PassengerListComponent implements OnInit, OnDestroy {
       nationality: {
         title: 'Nationality'
       },
+      gender: {
+        title: 'Gender'
+      },
       dateOfBirth: {
         title: 'Date of Birth'
-      },
-      placeOfBirth: {
-        title: 'Place of Birth'
-      },
-      countryOfBirth: {
-        title: 'Location Onboard'
-      },
-      natureOfIdentityDoc: {
-        title: 'Nature of Identity Document'
-      },
-      numberOfIdentityDoc: {
-        title: 'Identity Document No.'
-      },
-      permitNumber: {
-        title: 'Permit Number'
       },
       portOfEmbarkation: {
         title: 'Port of Embarkation'
@@ -84,103 +95,338 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         title: 'Port of Disembarkation'
       },
       delete: {
-        title: 'Delete',
+        title: 'Actions',
         // deleteButtonContent: 'Delete',
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: DeleteButtonComponent,
+        renderComponent: ActionButtonsComponent,
+        onComponentInitFunction: (instance) => {
+          instance.view.subscribe(row => {
+            this.openViewPassengerModal(row);
+          });
+          instance.edit.subscribe(row => {
+            this.openEditPassengerModal(row);
+          });
+          instance.delete.subscribe(row => {
+            this.deletePassenger(row);
+          });
+        }
       },
     }
   };
 
-  countries = ['Norway', 'Sweden'];
-
   passengerListSubscription: Subscription;
-  passengerModelSubscription: Subscription;
+  detailsIdentificationDataSubscription: Subscription;
 
   constructor(
-    private passengerListService: PortCallPassengerListService,
-    private locationService: LocationService
-  ) { }
+    private identityDocumentService: IdentityDocumentService,
+    private modalService: NgbModal,
+    private personOnBoardService: PortCallFalPersonOnBoardService
+  ) {}
+
 
   ngOnInit() {
-    this.passengerListSubscription = this.passengerListService.passengerList$.subscribe(list => {
-      if (list) {
-        this.passengerList = list;
-        this.passengerListDataSource.load(list);
-      }
+
+    if (this.passengerList) {
+      this.passengerList.forEach(passenger => {
+        passenger = this.makeDates(passenger);
+      });
+    }
+    // Load in passenger list in smart table
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+
+    // Initiate models
+    this.portCallPassengerModel = new PersonOnBoardModel();
+    this.identityDocumentModel = new IdentityDocumentModel();
+
+    // Get gender list
+    if (!this.genderList) {
+      this.personOnBoardService.getGenderList().subscribe(results => {
+        this.genderList = results;
+      });
+    }
+
+    // Get passenger person on board type (id 2)
+    this.personOnBoardService.getPersonOnBoardType(2).subscribe(personOnBoardType => {
+      this.personOnBoardType = personOnBoardType;
     });
 
-    this.passengerModelSubscription = this.passengerListService.passengerModel$.subscribe(model => {
-      if (model) {
-        this.passengerModel = model;
-      }
-    });
-  }
+    this.personOnBoardService.setPassengersList(this.passengerList);
 
-  ngOnDestroy() {
-    this.passengerListSubscription.unsubscribe();
-    this.passengerModelSubscription.unsubscribe();
+    this.personOnBoardService.passengerDataIsPristine$.subscribe(isPristine => {
+      this.listIsPristine = isPristine;
+    });
   }
 
   addPassenger() {
-    this.listIsPristine = false;
+    // Modify
+    this.portCallPassengerModel.portCallId = this.portCallId;
+    this.portCallPassengerModel.personOnBoardType = this.personOnBoardType;
+    this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
+    // If there are any passengers in the list, set sequence number to one more than max value of sequence number in the passenger list.
     if (this.passengerList.length > 0) {
-      this.passengerModel.passengerId = this.passengerList[this.passengerList.length - 1].passengerId + 1;
+      this.portCallPassengerModel.sequenceNumber = Math.max.apply(Math, this.passengerList.map(passenger => {
+        return passenger.sequenceNumber + 1;
+      }));
     } else {
-      this.passengerModel.passengerId = 1;
+      this.portCallPassengerModel.sequenceNumber = 1;
     }
+// Add the identityDocumentModel to passengerModel
+    this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
 
-    // Add this passenger to local model and create new model
-    this.passengerList.push(this.passengerModel);
-    this.passengerModel = new PassengerModel();
+    // Add
+    this.passengerList.push(this.portCallPassengerModel);
 
     // Update values in service
-    this.passengerListService.setPassengerModel(this.passengerModel);
-    this.passengerListService.setPassengersList(
+    this.personOnBoardService.setPassengersList(
       this.passengerList
     );
+
+    // Reset
+    this.portCallPassengerModel = new PersonOnBoardModel();
+    this.identityDocumentModel = new IdentityDocumentModel();
+    this.resetDateOfBirth();
+    this.identityDocumentComponent.resetForm();
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setPassengerDataIsPristine(false);
   }
 
-  isValid(valid: Boolean): Boolean {
-    this.sendMetaData();
-    return valid;
+/*   ngOnDestroy()  {
+    this.detailsIdentificationDataSubscription.unsubscribe();
+  } */
+
+
+  generateSmartTable(passengerList): any[] {
+    const newList = [];
+    if (passengerList) {
+      passengerList.forEach(passenger => {
+        newList.push(this.makeSmartTableEntry(passenger));
+      });
+    }
+    return newList;
   }
 
-  private sendMetaData(): void {
-    this.passengerListService.setPassengerListMeta({ valid: this.form.valid });
+  makeSmartTableEntry(passenger) {
+    const modifiedPassenger = new SmartTableModel();
+    if (passenger.personOnBoardId) {
+      modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
+    }
+    modifiedPassenger.sequenceNumber = passenger.sequenceNumber;
+    modifiedPassenger.givenName = passenger.givenName;
+    modifiedPassenger.familyName = passenger.familyName;
+    if (passenger.dateOfBirth) {
+        modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(passenger.dateOfBirth);
+    }
+    if (passenger.portOfEmbarkation) {
+      modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name;
+    }
+    if (passenger.portOfDisembarkation) {
+      modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name;
+    }
+    if (passenger.nationality) {
+      modifiedPassenger.nationality = passenger.nationality.name;
+    }
+    if (passenger.gender) {
+      modifiedPassenger.gender = passenger.gender.description;
+    }
+
+    return modifiedPassenger;
+  }
+
+  makeLocationModel($event) {
+    const tempLocationModel = Object.assign(new LocationModel(), $event);
+    return tempLocationModel;
+  }
+
+  // Setters
+  setIdentityDocumentModel($event) {
+    this.identityDocumentModel = $event.identityDocumentModel;
+    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+  }
+
+  setPortOfEmbarkation($event) {
+    this.portCallPassengerModel.portOfEmbarkation = this.makeLocationModel($event);
+    this.portCallPassengerModel.portOfEmbarkationId = $event.locationId;
+  }
+
+  setPortOfDisembarkation($event) {
+    this.portCallPassengerModel.portOfDisembarkation = this.makeLocationModel($event);
+    this.portCallPassengerModel.portOfDisembarkationId = $event.locationId;
+  }
+
+  setDateOfBirth($event) {
+    if ($event) {
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+      this.portCallPassengerModel.dateOfBirth = date;
+    } else {
+      this.portCallPassengerModel.dateOfBirth = null;
+    }
+  }
+
+  setGender($event) {
+    this.portCallPassengerModel.gender = $event;
+    this.portCallPassengerModel.genderId = $event.genderId;
+  }
+
+  setCountryOfBirth($event) {
+    this.portCallPassengerModel.countryOfBirth = $event.item;
+    this.portCallPassengerModel.countryOfBirthId = $event.item.countryId;
+  }
+
+  setNationality($event) {
+    this.portCallPassengerModel.nationality = $event.item;
+    this.portCallPassengerModel.nationalityId = $event.item.countryId;
+  }
+
+  setTransit($event) {
+    this.inTransit = $event;
+    Object.keys(this.booleanModel).forEach(key => {
+      if (key === $event) {
+        this.portCallPassengerModel.inTransit = this.booleanModel[key];
+        return;
+      }
+    });
+  }
+
+  // Resetters
+  resetPortOfDisembarkation() {
+    this.portCallPassengerModel.portOfDisembarkation = null;
+    this.portCallPassengerModel.portOfDisembarkationId = null;
+  }
+
+  resetPortOfEmbarkation() {
+    this.portCallPassengerModel.portOfEmbarkation = null;
+    this.portCallPassengerModel.portOfEmbarkationId = null;
+  }
+
+  resetNationality() {
+    this.portCallPassengerModel.nationality = null;
+    this.portCallPassengerModel.nationalityId = null;
+  }
+
+  resetCountryOfBirth() {
+    this.portCallPassengerModel.countryOfBirth = null;
+    this.portCallPassengerModel.countryOfBirthId = null;
+  }
+
+  resetIssuingNation() {
+    this.identityDocumentModel.issuingNation = null;
+    this.identityDocumentModel.issuingNationId = null;
+  }
+
+  resetDateOfBirth() {
+    this.portCallPassengerModel.dateOfBirth = null;
+    this.dateOfBirthComponent.dateChanged(null);
+  }
+
+  makeDates(passenger: PersonOnBoardModel) {
+    passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
+    passenger.identityDocument.forEach(identityDocument => {
+          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
+          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+        });
+    return passenger;
+  }
+
+  openViewPassengerModal(row) {
+    this.passengerList.forEach(passenger => {
+      if (passenger.sequenceNumber === row.sequenceNumber) {
+        this.passengerModalComponent.openViewModal(passenger);
+        return;
+      }
+    });
+  }
+
+  openEditPassengerModal(row) {
+    this.passengerList.forEach(passenger => {
+      if (passenger.sequenceNumber === row.sequenceNumber) {
+        this.passengerModalComponent.openEditModal(passenger);
+        return;
+      }
+    });
+  }
+
+  editPassenger($event) {
+    // Set corresponding passenger to the edited instance
+    this.passengerList[this.passengerList.findIndex(p => p.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
+    this.personOnBoardService.setPassengersList(this.passengerList);
+    // Make all dates Date objects again
+    this.passengerList.forEach(passenger => { passenger = this.makeDates(passenger); });
+    // Load to smart table
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setPassengerDataIsPristine(false);
+  }
+
+  deletePassenger(row) {
+    if (this.passengerList.length <= 1) {
+      this.passengerList = [];
+    } else {
+      this.passengerList.forEach((item, index) => {
+        if (item.sequenceNumber === row.sequenceNumber) {
+          this.passengerList.splice(index, 1);
+        }
+      });
+    }
+    this.setSequenceNumbers();
+    this.personOnBoardService.setPassengersList(this.passengerList);
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+    this.listIsPristine = false;
+    this.personOnBoardService.setPassengerDataIsPristine(false);
+  }
+
+  deleteAllPassengers() {
+    this.passengerList = [];
+    this.listIsPristine = false;
+    this.personOnBoardService.setPassengerDataIsPristine(false);
+    this.passengerListDataSource.load(this.generateSmartTable(this.passengerList));
+  }
+
+  savePassengers() {
+    this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
+        this.listIsPristine = true;
+        this.personOnBoardService.setPassengerDataIsPristine(true);
+        console.log('Saved passengers.');
+    });
   }
 
 
-  selectNationality($event) {
-    this.passengerModel.nationality = $event.name;
-  }
+    // Helper methods
 
-  selectCountryOfBirth($event) {
-    this.passengerModel.countryOfBirth = $event.name;
-  }
+    setSequenceNumbers() {
+      let tempSequenceNumber = 1;
+      this.passengerList.forEach(passenger => {
+        passenger.sequenceNumber = tempSequenceNumber;
+        tempSequenceNumber++;
+      });
+    }
 
-  addMockData() {
-    const mockData = {
-      familyName: 'Dalan',
-      givenName: 'Camilla',
-      nationality: 'Norwegian',
-      dateOfBirth: 130794,
-      placeOfBirth: 'Oslo',
-      countryOfBirth: 'Norway',
-      natureOfIdentityDoc: 'Passport',
-      numberOfIdentityDoc: 39572824,
-      permitNumber: null,
-      portOfEmbarkation: 'Trondheim',
-      portOfDisembarkation: 'Oslo',
-      transit: true,
-      passengerId: 49292,
-      portCallId: 160
-    };
+    getDateFormatFromNgb(date) {
+      return new Date(date.year, date.month, date.day);
+    }
 
-    this.passengerModel = mockData;
-    this.addPassenger();
-  }
+    getDisplayDateFormat(date) {
+      if (date) {
+        const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+        return dateString;
+      } else {
+        return null;
+      }
+    }
 
+    getNgbDateFormat(date) {
+      const newDate = new Date(date);
+      return {
+        year: newDate.getFullYear(),
+        month: newDate.getMonth() + 1,
+        day: newDate.getDate()
+      };
+    }
+
+    openWarningModal(content: any) {
+      this.modalService.open(content);
+    }
 }
+

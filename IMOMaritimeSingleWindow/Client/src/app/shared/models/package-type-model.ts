@@ -1,4 +1,4 @@
-import { CargoItemModel } from 'app/shared/models/cargo-item-model';
+import { CargoItemModel } from './cargo-item-model';
 
 export class PackageTypeModel {
     packageTypeId: number;
