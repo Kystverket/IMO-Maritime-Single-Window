@@ -5,8 +5,8 @@ import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 
 
 @Component({
@@ -15,19 +15,17 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./progress-bar.component.css']
 })
 export class ProgressBarComponent implements OnInit, OnDestroy {
-  formNames = FORM_NAMES;
-
   iconPath = 'assets/images/icons/128x128/white/';
   baseMenuEntries: any[] = [
     {
-      name: this.formNames.PREV_AND_NEXT_POC,
+      name: FORM_NAMES.VOYAGES,
       icon: 'voyage.png',
       checked: true,
       hasError: false,
       hasUnsavedData: false
     },
     {
-      name: this.formNames.PORT_CALL_DETAILS,
+      name: FORM_NAMES.PORT_CALL_DETAILS,
       icon: 'verification-clipboard.png',
       checked: true,
       hasError: false,
@@ -36,7 +34,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   ];
   finalMenuEntries: any[] = [
     {
-      name: this.formNames.CONFIRM_PORT_CALL,
+      name: FORM_NAMES.CONFIRM_PORT_CALL,
       icon: 'checkmark.png',
       checked: true,
       hasError: false,
@@ -48,6 +46,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
   cargoIsPrisitne = true;
   shipStoresIsPristine = true;
+  passengerListIsPristine = true;
+  crewListIsPristine = true;
 
   selectedPortCallForm: string;
 
@@ -55,18 +55,20 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   portCallFormNameSubscription: Subscription;
   crewPassengersAndDimensionsMetaSubscription: Subscription;
   voyagesDataIsPristineSubscription: Subscription;
-  voyagesMetaSubscription: Subscription;
+  voyagesErrorSubscription: Subscription;
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
   cargoDataIsPristineSubscription: Subscription;
+  passengerDataIsPristineSubscription: Subscription;
+  crewDataIsPristineSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
     private portCallDetailsService: PortCallDetailsService,
-    private prevAndNextPortCallService: PrevAndNextPocService,
     private contentService: ContentService,
     private shipStoresService: FalShipStoresService,
-    private cargoService: FalCargoService
+    private cargoService: FalCargoService,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   ngOnInit() {
@@ -77,42 +79,42 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
         if (reportingData != null) {
           const falForms = [
             {
-              name: this.formNames.DPG,
+              name: FORM_NAMES.DPG,
               icon: 'hazard.png',
               checked: reportingData.reportingDpg || false,
               hasError: false,
               hasUnsavedData: false
             },
             {
-              name: this.formNames.CARGO,
+              name: FORM_NAMES.CARGO,
               icon: 'cargo.png',
               checked: reportingData.reportingCargo || false,
               hasError: false,
               hasUnsavedData: !this.cargoIsPrisitne
             },
             {
-              name: this.formNames.SHIP_STORES,
+              name: FORM_NAMES.SHIP_STORES,
               icon: 'alcohol.png',
               checked: reportingData.reportingShipStores || false,
               hasError: false,
               hasUnsavedData: !this.shipStoresIsPristine
             },
             {
-              name: this.formNames.CREW,
+              name: FORM_NAMES.CREW,
               icon: 'crew.png',
               checked: reportingData.reportingCrew || false,
               hasError: false,
               hasUnsavedData: false
             },
             {
-              name: this.formNames.PAX,
+              name: FORM_NAMES.PAX,
               icon: 'pax.png',
               checked: reportingData.reportingPax || false,
               hasError: false,
               hasUnsavedData: false
             },
             {
-              name: this.formNames.SECURITY,
+              name: FORM_NAMES.SECURITY,
               icon: 'security.png',
               checked: reportingData.reportingSecurity || false,
               hasError: false,
@@ -125,6 +127,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
 
           // Set checked in services for FAL forms
           this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
+          this.personOnBoardService.setPassengerCheckedInProgressBar(reportingData.reportingPax);
+          this.personOnBoardService.setCrewCheckedInProgressBar(reportingData.reportingCrew);
         }
       }
     );
@@ -138,31 +142,31 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     this.crewPassengersAndDimensionsMetaSubscription = this.portCallDetailsService.crewPassengersAndDimensionsMeta$.subscribe(
       metaData => {
         this.menuEntries.find(
-          p => p.name === this.formNames.PORT_CALL_DETAILS
+          p => p.name === FORM_NAMES.PORT_CALL_DETAILS
         ).hasError = !metaData.valid;
       }
     );
 
-    this.voyagesDataIsPristineSubscription = this.prevAndNextPortCallService.dataIsPristine$.subscribe(
+    this.voyagesDataIsPristineSubscription = this.portCallService.voyagesIsPristine$.subscribe(
       pristineData => {
         this.menuEntries.find(
-          p => p.name === this.formNames.PREV_AND_NEXT_POC
+          p => p.name === FORM_NAMES.VOYAGES
         ).hasUnsavedData = !pristineData;
       }
     );
 
-    this.voyagesMetaSubscription = this.prevAndNextPortCallService.prevAndNextPortOfCallMeta$.subscribe(
-      metaData => {
+    this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
+      hasError => {
         this.menuEntries.find(
-          p => p.name === this.formNames.PREV_AND_NEXT_POC
-        ).hasError = !metaData.valid;
+          p => p.name === FORM_NAMES.VOYAGES
+        ).hasError = hasError;
       }
     );
 
     this.portCallDetailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(
       detailsDataIsPristine => {
         this.menuEntries.find(
-          p => p.name === this.formNames.PORT_CALL_DETAILS
+          p => p.name === FORM_NAMES.PORT_CALL_DETAILS
         ).hasUnsavedData = !detailsDataIsPristine;
       }
     );
@@ -170,7 +174,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     this.shipStoresDataIsPristineSubscription = this.shipStoresService.dataIsPristine$.subscribe(shipStoresDataIsPristine => {
       this.shipStoresIsPristine = shipStoresDataIsPristine;
       const shipStores = this.menuEntries.find(
-        p => p.name === this.formNames.SHIP_STORES
+        p => p.name === FORM_NAMES.SHIP_STORES
       );
       if (shipStores) {
         shipStores.hasUnsavedData = !shipStoresDataIsPristine;
@@ -181,13 +185,38 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       cargoDataIsPristine => {
         this.cargoIsPrisitne = cargoDataIsPristine;
         const cargo = this.menuEntries.find(
-          p => p.name === this.formNames.CARGO
+          p => p.name === FORM_NAMES.CARGO
         );
         if (cargo) {
           cargo.hasUnsavedData = !cargoDataIsPristine;
         }
       }
     );
+
+    this.passengerDataIsPristineSubscription = this.personOnBoardService.passengerDataIsPristine$.subscribe(
+      passengerDataIsPristine => {
+        this.passengerListIsPristine = passengerDataIsPristine;
+        const pax = this.menuEntries.find(
+          p => p.name === FORM_NAMES.PAX
+        );
+        if (pax) {
+          pax.hasUnsavedData = !passengerDataIsPristine;
+        }
+      }
+    );
+
+    this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
+      crewDataIsPristine => {
+        this.crewListIsPristine = crewDataIsPristine;
+        const crew = this.menuEntries.find(
+          p => p.name === FORM_NAMES.CREW
+        );
+        if (crew) {
+          crew.hasUnsavedData = !crewDataIsPristine;
+        }
+      }
+    );
+
   }
 
   ngOnDestroy() {

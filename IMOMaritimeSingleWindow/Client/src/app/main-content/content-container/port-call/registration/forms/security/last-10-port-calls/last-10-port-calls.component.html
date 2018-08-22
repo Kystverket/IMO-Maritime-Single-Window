@@ -9,8 +9,8 @@
 
   <div class="row mb-1">
     <div class="col-md-6">
-      <app-date-time-picker [header]="'Arrival'" [dateTimeModel]="arrivalModel" (dateTimeResult)="onArrivalResult($event)"></app-date-time-picker>
-      <app-date-time-picker [header]="'Departure'" [dateTimeModel]="departureModel" (dateTimeResult)="onDepartureResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'Arrival'" [dateTimeInput]="arrivalModel" (dateTimeResult)="onArrivalResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'Departure'" [dateTimeInput]="departureModel" (dateTimeResult)="onDepartureResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
       <div class="mb-2">
