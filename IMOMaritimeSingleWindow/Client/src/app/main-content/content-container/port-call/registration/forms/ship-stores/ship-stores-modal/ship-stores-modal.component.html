@@ -1,0 +1,159 @@
+<ng-template #viewModal let-close="close()" class="modal fade">
+  <div class="modal-header">
+    <h4 class="modal-title">View</h4>
+    <button type="button" class="close" aria-label="Close" (click)="resetInputShipStoresModel(); close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body" *ngIf="inputShipStoresModel">
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Article Name *</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.articleName" readonly name="articleName">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.articleCode" readonly name="articleCode">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>
+      <div class="col my-auto">
+        <input *ngIf="inputShipStoresModel.measurementType" class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.measurementType.name"
+          readonly name="measurementType">
+        <input *ngIf="!inputShipStoresModel.measurementType" class="form-control form-control-sm" type="text" readonly name="measurementType">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Quantity</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.quantity" readonly name="quantity">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Location on Board</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.locationOnBoard" readonly name="locationOnBoard">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.locationOnBoardCode" readonly name="locationOnBoardCode">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ssn" (click)="resetInputShipStoresModel(); close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editModal let-close="close()" class="modal fade">
+  <form #editForm="ngForm">
+    <div class="modal-header">
+      <h4 class="modal-title">Edit</h4>
+      <button type="button" class="close" aria-label="Close" (click)="resetInputShipStoresModel(); close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body" *ngIf="inputShipStoresModel">
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Article Name *</label>
+        <div class="col my-auto">
+          <input type="text" required [(ngModel)]="inputShipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name"
+            class="form-control form-control-sm" name="articleName" alphaNumericValidator>
+          <div *ngIf="articleName.hasError('invalidAlphaNumeric')" class="alert alert-danger">
+            <li>
+              <small>Only alphanumeric characters allowed.</small>
+            </li>
+          </div>
+          <div *ngIf="articleName.hasError('required') && articleName.touched" class="alert alert-danger">
+            <li>
+              <small>This field is required.</small>
+            </li>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
+        <div class="col my-auto">
+          <input type="text" [(ngModel)]="inputShipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code" class="form-control form-control-sm"
+            name="articleCode">
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-sm" [items]="measurementTypeList" [ngModel]="inputShipStoresModel.measurementType"
+            name="measurementType" bindLabel="name" [closeOnSelect]="true" placeholder="Measurement Type" (change)="setMeasurementType($event)">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Quantity</label>
+        <div class="col my-auto">
+          <input type="number" [(ngModel)]="inputShipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
+            integerValidator positiveNumberValidator name="quantity">
+          <div *ngIf="!quantity.valid && quantity.touched" class="alert alert-danger">
+            <li *ngIf="quantity.hasError('notIntegerError')">
+              <small>The quantity specified must be an integer.</small>
+            </li>
+            <li *ngIf="quantity.hasError('notPositiveNumberError')">
+              <small>The quantity specified must be a positive number.</small>
+            </li>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Location on Board</label>
+        <div class="col my-auto">
+          <textarea type="text" [(ngModel)]="inputShipStoresModel.locationOnBoard" #locationOnBoard="ngModel" placeholder="Location on Board"
+            class="form-control form-control-sm" name="locationOnBoard">
+          </textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+        <div class="col my-auto">
+          <input type="text" [(ngModel)]="inputShipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
+            class="form-control form-control-sm" name="locationOnBoardCode">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button *ngIf="editForm.valid && editForm.form.dirty" type="button" class="btn btn-ssn" (click)="editShipStoresItem(); editForm.reset(); close">
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button *ngIf="!editForm.valid || !editForm.form.dirty" type="button" class="btn btn-ssn" disabled>
+        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
+        <span>Edit Entry</span>
+      </button>
+      <button type="button" class="btn btn-ssn" (click)="resetInputShipStoresModel($event); close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </form>
+</ng-template>

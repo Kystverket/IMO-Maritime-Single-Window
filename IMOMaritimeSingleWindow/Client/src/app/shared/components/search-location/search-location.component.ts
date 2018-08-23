@@ -1,10 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap, filter } from 'rxjs/operators';
 import { SearchLocationService } from './search-location.service';
 import { LocationModel } from '../../models/location-model';
+import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-search-location',
@@ -37,6 +39,8 @@ export class SearchLocationComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  formatter = (x: { locationId: string }) => '';
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -73,11 +77,19 @@ export class SearchLocationComponent implements OnInit {
       merge(this.hideSearchingWhenUnsubscribed)
     )
 
-  formatter = (x: { locationId: string }) => '';
 
   selectLocation($event) {
     this.locationModel = $event.item;
     this.locationSelected = true;
     this.locationResult.emit(this.locationModel);
+  }
+
+
+  onFocus(e: Event): void {
+    e.stopPropagation();
+    setTimeout(() => {
+      const inputEvent: Event = new Event('input');
+      e.target.dispatchEvent(inputEvent);
+    }, 0);
   }
 }

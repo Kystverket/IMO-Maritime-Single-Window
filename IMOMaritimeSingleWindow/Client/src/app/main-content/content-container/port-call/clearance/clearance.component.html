@@ -56,12 +56,12 @@
     </button>
   </div>
   <div class="modal-body">
-    <div *ngIf="clearanceModel.remark">
+    <div *ngIf="clearanceText && clearanceText.length > 0">
       <span>Are you sure you want to submit a clearance response with the following remark:</span>
       <br>
       <pre>{{ clearanceText }}</pre>
     </div>
-    <div *ngIf="!clearanceModel.remark">
+    <div *ngIf="!(clearanceText && clearanceText.length > 0)">
       <span>Are you sure you want to submit a clearance response with no remark?</span>
     </div>
   </div>

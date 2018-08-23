@@ -4,10 +4,6 @@ p {
     line-height: 0px;
 }
 
-img {
-    margin: 0 5px !important;
-}
-
 .input-group-append {
     display: flex;
     align-items: center;

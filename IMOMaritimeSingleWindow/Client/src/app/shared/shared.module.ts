@@ -41,6 +41,9 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
+import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
+import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
+import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
 import { ErrorService } from './services/error.service';
 import { IsscComponent } from './components/issc/issc.component';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
@@ -95,6 +98,9 @@ import { OrganizationInfoTableComponent } from './components/organization-info-t
     FeedbackComponent,
     CargoInfoTableComponent,
     UserInfoTableComponent,
+    ShipStoresInfoTableComponent,
+    CrewInfoTableComponent,
+    PassengerInfoTableComponent,
     IsscComponent,
     DatePickerComponent,
     CountrySelectComponent,

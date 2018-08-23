@@ -1,0 +1,3 @@
+:host ::ng-deep tr > ::ng-deep td {
+    border-width: 0;
+}
