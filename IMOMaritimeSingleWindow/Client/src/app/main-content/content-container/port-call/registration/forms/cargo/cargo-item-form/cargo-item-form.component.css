@@ -5,10 +5,6 @@
   font-style: italic;
 }
 
-/* :host ::ng-deep .ng-input {
-  height: 21px;
-} */
-
 :host ::ng-deep .ng-select .ng-select-container {
   min-height: 31px;
   height: 31px;

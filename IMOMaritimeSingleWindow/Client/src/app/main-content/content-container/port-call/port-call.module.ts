@@ -39,10 +39,10 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
-import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
-import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
