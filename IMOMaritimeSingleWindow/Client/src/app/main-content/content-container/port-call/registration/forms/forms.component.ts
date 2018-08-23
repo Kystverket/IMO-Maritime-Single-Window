@@ -46,15 +46,9 @@ export class FormsComponent implements OnInit, OnDestroy {
 
   formNames: any;
 
-  shipDataSubscription: Subscription;
-  portCallFormNameSubscription: Subscription;
   portCallIdSubscription: Subscription;
   cargoSubscription: Subscription;
-  shipStoresSubscription: Subscription;
-  passengerListSubscription: Subscription;
-  crewListSubscription: Subscription;
   securitySubscription: Subscription;
-  setSecuritySubscription: Subscription;
   // 2018.08.17 Trying new pattern for security-component
   portCallSubscription: Subscription;
   portCallModel: PortCallModel;
@@ -88,7 +82,7 @@ export class FormsComponent implements OnInit, OnDestroy {
           this.portCallModel = portCallData;
           this.setCargoForPortCall(this.portCallModel.portCallId);
           this.setSecurityForPortCall(this.portCallModel.portCallId);
-          this.shipDataSubscription = this.shipService.getShip(this.portCallModel.shipId).subscribe(
+          this.shipService.getShip(this.portCallModel.shipId).subscribe(
             data => {
               console.log(data);
               if (data) {
@@ -176,7 +170,7 @@ export class FormsComponent implements OnInit, OnDestroy {
         if (idResult) {
           this.portCallId = idResult;
 
-          this.passengerListSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+          this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
             passengerList => {
               if (passengerList) {
                 this.passengerData = passengerList;
@@ -186,7 +180,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             }
           );
 
-          this.crewListSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+          this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
             crewList => {
               if (crewList) {
                 this.crewData = crewList;
@@ -196,17 +190,17 @@ export class FormsComponent implements OnInit, OnDestroy {
             }
           );
         }
-        this.shipStoresSubscription = this.shipStoresService.shipStoresList$.subscribe(
+        this.shipStoresService.shipStoresList$.subscribe(
           data => {
             this.shipStoresData = data;
           }
         );
-        this.shipDataSubscription = this.portCallService.shipData$.subscribe(
+        this.portCallService.shipData$.subscribe(
           shipResult => {
             this.shipService.setShipData(shipResult);
           }
         );
-        this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(
+        this.contentService.portCallFormName$.subscribe(
           content => {
             this.selectedComponent = content;
           }
@@ -217,7 +211,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   }
 
   setSecurityForPortCall(portCallId) {
-    this.setSecuritySubscription = this.securityService.getFalSecurityByPortCallId(portCallId).subscribe(
+    this.securityService.getFalSecurityByPortCallId(portCallId).subscribe(
       data => {
         if (data) {
           this.securityService.setSecurityData(data);
@@ -229,7 +223,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   }
 
   setCargoForPortCall(portCallId) {
-    this.cargoSubscription = this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
+    this.cargoService.getConsignmentListForPortCall(portCallId).subscribe(
       data => {
         if (data) {
           this.cargoService.setConsignmentListData(data);
@@ -247,14 +241,8 @@ export class FormsComponent implements OnInit, OnDestroy {
     this.prevEtdSubscription.unsubscribe();
     this.nextLocationSubscription.unsubscribe();
     this.nextEtaSubscription.unsubscribe();
-    this.shipDataSubscription.unsubscribe();
-    this.portCallFormNameSubscription.unsubscribe();
     this.portCallIdSubscription.unsubscribe();
     this.cargoSubscription.unsubscribe();
     this.securitySubscription.unsubscribe();
-    this.setSecuritySubscription.unsubscribe();
-    this.shipStoresSubscription.unsubscribe();
-    this.passengerListSubscription.unsubscribe();
-    this.crewListSubscription.unsubscribe();
   }
 }

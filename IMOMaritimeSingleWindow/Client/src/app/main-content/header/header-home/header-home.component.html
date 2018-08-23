@@ -3,9 +3,9 @@
     <ul class="navbar-nav mr-auto">
 
       <li class="nav-item">
-        <a class="btn btn-sm btn-ssn" type="button" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <button class="btn btn-sm btn-ssn" (click)="onClick()" routerLink="/">
           <img src="{{iconPath}}home.png" height="16px">
-        </a>
+        </button>
         <img src="/assets/images/logos/logo.png" height="32px" />
         <span class="text-center text-ssn">IMO Maritime Single Window</span>
       </li>
@@ -16,9 +16,9 @@
 
 <ng-template #inExistingNav>
   <li class="nav-item">
-    <a class="btn btn-sm btn-ssn" type="button" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <button class="btn btn-sm btn-ssn" (click)="onClick()" routerLink="/">
       <img src="{{iconPath}}home.png" height="16px">
-    </a>
+    </button>
     <img src="/assets/images/logos/logo.png" height="32px" />
     <span class="text-center text-ssn">IMO Maritime Single Window</span>
   </li>
