@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LocationTimeProperties } from 'app/shared/constants/location-time-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
+import { DateTime } from '../../interfaces/dateTime.interface';
 
 @Component({
   selector: 'app-location-time-info-table',
@@ -10,56 +11,52 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class LocationTimeInfoTableComponent implements OnInit, OnDestroy {
   locationFlag: string;
-  locationTimeProperties = LocationTimeProperties.PROPERTIES;
-  locationTimeInfo: any[] = [];
+  locationTimeProperties = new LocationTimeProperties().getPropertyList();
 
   locationDataSubscription: Subscription;
+  etaDataSubscription: Subscription;
+  etdDataSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) {}
+  constructor(private portCallService: PortCallService) { }
 
   ngOnInit() {
-    this.locationTimeProperties = LocationTimeProperties.PROPERTIES;
     this.locationDataSubscription = this.portCallService.locationData$.subscribe(locationResult => {
       if (locationResult) {
         this.locationFlag = locationResult.country
           ? locationResult.country.twoCharCode.toLowerCase()
           : null;
-        this.locationTimeProperties.LOCATION_TYPE.data =
-          locationResult.locationType.name;
-        this.locationTimeProperties.LOCATION_NAME.data = locationResult.name;
-        this.locationTimeProperties.LOCATION_CODE.data =
-          locationResult.locationCode;
-
-        this.portCallService.etaEtdData$.subscribe(dateTimeResult => {
-          if (dateTimeResult && dateTimeResult.eta && dateTimeResult.etd) {
-            this.locationTimeProperties.ETA.data = this.dateTimeFormat(
-              dateTimeResult.eta
-            );
-            this.locationTimeProperties.ETD.data = this.dateTimeFormat(
-              dateTimeResult.etd
-            );
-          }
-        });
+        LocationTimeProperties.setLocationData(this.locationTimeProperties, locationResult);
       }
-      this.locationTimeInfo = Object.values(this.locationTimeProperties);
     });
+    this.etaDataSubscription = this.portCallService.etaData$.subscribe(
+      etaData => {
+        LocationTimeProperties.setEta(this.locationTimeProperties, this.dateTimeFormat(etaData));
+      }
+    );
+    this.etdDataSubscription = this.portCallService.etdData$.subscribe(
+      etdData => {
+        LocationTimeProperties.setEtd(this.locationTimeProperties, this.dateTimeFormat(etdData));
+      }
+    );
   }
 
   ngOnDestroy() {
     this.locationDataSubscription.unsubscribe();
+    this.etaDataSubscription.unsubscribe();
+    this.etdDataSubscription.unsubscribe();
   }
 
-  private dateTimeFormat(time) {
+  private dateTimeFormat(dateTime: DateTime) {
     return (
-      time.year +
+      dateTime.date.year +
       '-' +
-      this.twoDigitFormat(time.month) +
+      this.twoDigitFormat(dateTime.date.month) +
       '-' +
-      this.twoDigitFormat(time.day) +
+      this.twoDigitFormat(dateTime.date.day) +
       ' ' +
-      this.twoDigitFormat(time.hour) +
+      this.twoDigitFormat(dateTime.time.hour) +
       ':' +
-      this.twoDigitFormat(time.minute)
+      this.twoDigitFormat(dateTime.time.minute)
     );
   }
 

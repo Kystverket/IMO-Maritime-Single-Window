@@ -1,39 +1,26 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from 'app/shared/services/auth-service';
-import { LoginService } from 'app/shared/services/login.service';
+import { ErrorService } from '../shared/services/error.service';
 
 @Injectable()
 export class ErrorGuard implements CanActivate {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
-    private loginService: LoginService
+    private errorService: ErrorService
   ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-
-      if (!this.authService.hasToken()) {
-        console.log('error guard');
-        this.router.navigate(['/auth/login']);
+      if(state.url !== '/error') {
+        this.errorService.setErrorReason('Page not found');
+        this.errorService.setErrorMessage('The page you requested could not be found.');
+        this.router.navigate(['/error']);
         return false;
-      } else {
-        return this.authService.hasValidToken()
-        .map(tokenValid => {
-          if (!tokenValid) {
-            this.loginService.logout();
-            this.router.navigate(['/auth/login']);
-            return false;
-          } else {
-            // TODO: redirect to an error page
-            this.router.navigate(['']);
-            return true;
-          }
-        });
       }
+      return true;
   }
+
 }

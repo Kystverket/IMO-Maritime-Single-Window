@@ -274,6 +274,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Ship.ShipStatus)
             .Include(pc => pc.Location.Country)
             .Include(pc => pc.Location.LocationType)
+            .Include(pc => pc.PortCallDetails)
             .Include(pc => pc.FalShipStores).ThenInclude(fss => fss.MeasurementType)
             .Include(pc => pc.PersonOnBoard)
             .Include(pc => pc.PreviousLocation)

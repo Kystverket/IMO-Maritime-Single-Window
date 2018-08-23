@@ -6,18 +6,18 @@ import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css'],
-  providers: [PortCallOverviewService, OrganizationService, DatePipe]
+  providers: [OrganizationService, DatePipe]
 })
 export class OverviewComponent implements OnInit, OnDestroy {
   permissions = PortCallClaims.portCallPermissions;

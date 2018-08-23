@@ -7,7 +7,9 @@ import { LocationModel } from '../models/location-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallDetailsService } from './port-call-details.service';
-import { PrevAndNextPocService } from './prev-and-next-poc.service';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
 
 @Injectable()
@@ -34,23 +36,11 @@ export class PortCallService {
   private clearancePortCallUrl = 'api/organizationportcall/portcall';
 
   // Data sources with observables
-  private updateOverviewSource = new BehaviorSubject<any>(null);
-  updateOverview$ = this.updateOverviewSource.asObservable();
-
-  private shipDataSource = new BehaviorSubject<any>(null);
-  shipData$ = this.shipDataSource.asObservable();
-
-  private locationDataSource = new BehaviorSubject<any>(null);
-  locationData$ = this.locationDataSource.asObservable();
-
-  private etaEtdDataSource = new BehaviorSubject<any>(null);
-  etaEtdData$ = this.etaEtdDataSource.asObservable();
+  private portCallIdSource = new BehaviorSubject<any>(null);
+  portCallIdData$ = this.portCallIdSource.asObservable();
 
   private portCallStatusSource = new BehaviorSubject<any>(null);
   portCallStatusData$ = this.portCallStatusSource.asObservable();
-
-  private portCallIdSource = new BehaviorSubject<any>(null);
-  portCallIdData$ = this.portCallIdSource.asObservable();
 
   private clearanceDataSource = new BehaviorSubject<any>(null);
   clearanceData$ = this.clearanceDataSource.asObservable();
@@ -61,11 +51,53 @@ export class PortCallService {
   private createdByUserDataSource = new BehaviorSubject<any>(null);
   createdByUserData$ = this.createdByUserDataSource.asObservable();
 
+  // Data sources for Voyages tab
+  private shipDataSource = new BehaviorSubject<any>(null);
+  shipData$ = this.shipDataSource.asObservable();
+
+  private locationDataSource = new BehaviorSubject<any>(null);
+  locationData$ = this.locationDataSource.asObservable();
+
+  private etaSource = new BehaviorSubject<DateTime>(null);
+  etaData$ = this.etaSource.asObservable();
+
+  private etdSource = new BehaviorSubject<DateTime>(null);
+  etdData$ = this.etdSource.asObservable();
+
+  private prevLocationDataSource = new BehaviorSubject<any>(null);
+  prevLocationData$ = this.prevLocationDataSource.asObservable();
+
+  private prevEtdSource = new BehaviorSubject<DateTime>(null);
+  prevEtdData$ = this.prevEtdSource.asObservable();
+
+  private nextLocationDataSource = new BehaviorSubject<any>(null);
+  nextLocationData$ = this.nextLocationDataSource.asObservable();
+
+  private nextEtaSource = new BehaviorSubject<DateTime>(null);
+  nextEtaData$ = this.nextEtaSource.asObservable();
+
+  private voyagesErrorsSource = new BehaviorSubject<boolean>(null);
+  voyagesErrors$ = this.voyagesErrorsSource.asObservable();
+
+  private voyagesIsPristineSource = new BehaviorSubject<boolean>(true);
+  voyagesIsPristine$ = this.voyagesIsPristineSource.asObservable();
+
   constructor(
     private http: HttpClient,
-    private prevAndNextPocService: PrevAndNextPocService,
     private portCallDetailsService: PortCallDetailsService
   ) { }
+
+  //
+  // READ IMPORTANT 17.08.2018
+  // Trying a new pattern for port call registration forms
+  // See: security-component for usage
+  //
+  private portCallDataSource = new BehaviorSubject<PortCallModel>(null);
+  portCallData$ = this.portCallDataSource.asObservable();
+
+  setPortCallData(data) {
+    this.portCallDataSource.next(data);
+  }
 
   // Helper method for ETA/ETD formatting
   etaEtdDataFormat(arrival, departure) {
@@ -88,16 +120,15 @@ export class PortCallService {
       }
     };
   }
-
-  setUpdateOverview(data) {
-    this.updateOverviewSource.next(data);
+  private dateStringToDateTime(dateString: string): DateTime {
+    const dateObject = new Date(dateString);
+    const dateTime: DateTime = {
+      date: new NgbDate(dateObject.getFullYear(), dateObject.getMonth() + 1, dateObject.getDate()),
+      time: new NgbTime(dateObject.getHours(), dateObject.getMinutes(), 0)
+    };
+    return dateTime;
   }
 
-  /** * * * * * * * * * * *
-   *                       *
-   *  == NEW PORT CALL ==  *
-   *                       *
-   * * * * * * * * * * * * */
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: any) {
     console.log(overview);
@@ -105,11 +136,16 @@ export class PortCallService {
     // Ship Location Time
     this.setShipData(overview.ship);
     this.setLocationData(overview.location);
-    const etaEtd = this.etaEtdDataFormat(
-      overview.portCall.locationEta,
-      overview.portCall.locationEtd
-    );
-    this.setEtaEtdData(etaEtd);
+    this.setEtaData(this.dateStringToDateTime(overview.portCall.locationEta));
+    this.setEtdData(this.dateStringToDateTime(overview.portCall.locationEtd));
+    this.setPrevLocationData(overview.portCall.previousLocation);
+    if (overview.portCall.previousLocationEtd) {
+      this.setPrevEtdData(this.dateStringToDateTime(overview.portCall.previousLocationEtd));
+    }
+    this.setNextLocationData(overview.portCall.nextLocation);
+    if (overview.portCall.nextLocationEta) {
+      this.setNextEtaData(this.dateStringToDateTime(overview.portCall.nextLocationEta));
+    }
     // Clearance list
     this.setClearanceListData(overview.clearanceList);
     this.setPortCallStatus(overview.status);
@@ -119,23 +155,54 @@ export class PortCallService {
 
   updatePortCall(portCall: PortCallModel): Observable<any> {
     console.log('Updating port call...');
-    return this.http
-      .put(this.portCallUrl, portCall);
+    return this.http.put(this.portCallUrl, portCall);
   }
+
+  setPortCallIdData(data) {
+    this.portCallIdSource.next(data);
+  }
+
   setShipData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.shipDataSource.next(data);
   }
   setLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
     this.locationDataSource.next(data);
   }
-  setEtaEtdData(data) {
-    this.etaEtdDataSource.next(data);
+  setEtaData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.etaSource.next(data);
   }
+  setEtdData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.etdSource.next(data);
+  }
+  setPrevLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.prevLocationDataSource.next(data);
+  }
+  setPrevEtdData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.prevEtdSource.next(data);
+  }
+  setNextLocationData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.nextLocationDataSource.next(data);
+  }
+  setNextEtaData(data) {
+    this.voyagesIsPristineSource.next(false);
+    this.nextEtaSource.next(data);
+  }
+  setVoyagesErrors(hasError: boolean) {
+    this.voyagesErrorsSource.next(hasError);
+  }
+  setVoyagesIsPristine(isPristine: boolean) {
+    this.voyagesIsPristineSource.next(isPristine);
+  }
+
   setPortCallStatus(data) {
     this.portCallStatusSource.next(data);
-  }
-  setPortCallIdData(data) {
-    this.portCallIdSource.next(data);
   }
   setCreatedByUserData(data) {
     this.createdByUserDataSource.next(data);
@@ -207,14 +274,10 @@ export class PortCallService {
   }
 
   // SAVE DETAILS
-  saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string) {
+  saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string): Observable<PortCallDetailsModel> {
     console.log(details);
-    details.portCallDetailsId = details.portCallId; // To ensure one-to-one in DB
     console.log('Saving port call details...');
-    this.http.post(this.detailsUrl, details).subscribe(detailsResponse => {
-      console.log('Successfully saved port call details.');
-      this.savePurposesForPortCall(details.portCallId, purposes, otherName);
-    });
+    return this.http.post<PortCallDetailsModel>(this.detailsUrl, details);
   }
 
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
@@ -248,38 +311,7 @@ export class PortCallService {
     }
   }
 
-  savePrevAndNextPortCall(
-    portCallId: number,
-    prevPortOfCall: LocationModel,
-    nextPortCall: LocationModel,
-    prevEtd: Date,
-    nextEta: Date
-  ) {
-    // const updatedPortCallData = new PortCallModel();
-    this.getPortCallById(portCallId).subscribe(data => {
-      if (data) {
-        const updatedPortCallData = data;
-        updatedPortCallData.previousLocationId =
-          prevPortOfCall != null ? prevPortOfCall.locationId : null;
-        updatedPortCallData.nextLocationId =
-          nextPortCall != null ? nextPortCall.locationId : null;
-        updatedPortCallData.previousLocationEtd = prevEtd;
-        updatedPortCallData.nextLocationEta = nextEta;
-        console.log(updatedPortCallData);
-        this.updatePortCall(updatedPortCallData).subscribe(
-          result => {
-            console.log(result);
-            this.prevAndNextPocService.setDataPristine(true);
-          },
-          error => {
-            console.log(error);
-          }
-        );
-      }
-    });
-  }
-
-  /** * * * * * * * * *
+  /* * * * * * * * * * *
    *                   *
    *  == CLEARANCE ==  *
    *                   *
@@ -292,7 +324,6 @@ export class PortCallService {
   // Clearance agencies list
 
   setClearanceListData(data) {
-    // NEW
     this.clearanceListDataSource.next(data);
   }
 
@@ -317,22 +348,25 @@ export class PortCallService {
 
   // REGISTER CLEARANCE AGENCIES FOR NEW PORT CALL
   registerClearanceAgenciesForPortCall(portCall: PortCallModel) {
-    // NEW
     this.http
       .post(this.clearanceUrl, portCall)
       .subscribe(clearanceData => {
-        console.log(
-          'Clearance agency information successfully added to port call.'
-        );
+        console.log('Clearance agency information successfully added to port call.');
         this.clearanceListDataSource.next(clearanceData);
       });
   }
 
   // Wipe methods
   wipeServiceData() {
+    this.portCallIdSource.next(null);
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
-    this.etaEtdDataSource.next(null);
+    this.etaSource.next(null);
+    this.etdSource.next(null);
+    this.prevLocationDataSource.next(null);
+    this.prevEtdSource.next(null);
+    this.nextLocationDataSource.next(null);
+    this.nextEtaSource.next(null);
     this.clearanceListDataSource.next(null);
     this.createdByUserDataSource.next(null);
     // Details

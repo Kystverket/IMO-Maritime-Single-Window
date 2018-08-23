@@ -44,6 +44,12 @@ import { UserInfoTableComponent } from './components/confirmation-view/user-info
 import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
 import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
 import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
+import { ErrorService } from './services/error.service';
+import { IsscComponent } from './components/issc/issc.component';
+import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { CountrySelectComponent } from './components/country-select/country-select.component';
+import { RsoSelectComponent } from './components/issc/rso-select/rso-select.component';
+import { OrganizationInfoTableComponent } from './components/organization-info-table/organization-info-table.component';
 
 @NgModule({
   imports: [
@@ -95,6 +101,11 @@ import { PassengerInfoTableComponent } from './components/confirmation-view/pass
     ShipStoresInfoTableComponent,
     CrewInfoTableComponent,
     PassengerInfoTableComponent,
+    IsscComponent,
+    DatePickerComponent,
+    CountrySelectComponent,
+    RsoSelectComponent,
+    OrganizationInfoTableComponent,
   ],
   exports: [
     AlphaNumericValidator,
@@ -127,13 +138,17 @@ import { PassengerInfoTableComponent } from './components/confirmation-view/pass
     PrevAndNextPocTableComponent,
     SearchShipFlagCodeComponent,
     ContactSelectComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    FeedbackComponent,
+    IsscComponent,
+    OrganizationInfoTableComponent
   ],
   providers: [
     LocationService,
     OrganizationService,
     ShipService,
-    DbConnectionService
+    DbConnectionService,
+    ErrorService
   ],
   entryComponents: [
     ConfirmationModalComponent,

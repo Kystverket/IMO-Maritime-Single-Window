@@ -61,6 +61,31 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(ship);
         }
 
+        [HttpPut("{shipId}/internationalShipSecurityCertificate/isscId")]
+        public IActionResult UpdateIsscId(int shipId, [FromBody] long isscId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Ship ship = _context.Ship.Where(s => s.ShipId == shipId).FirstOrDefault();
+                if (ship == null)
+                {
+                    return NotFound();
+                }
+                ship.IsscId = isscId;
+                _context.Ship.Update(ship);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok(isscId);
+        }
+
         public List<Ship> SearchShip(string searchTerm, int amount = 10)
         {
             if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
@@ -112,6 +137,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                         .Include(s => s.ShipBreadthType)
                         .Include(s => s.CertificateOfRegistry.PortLocation.LocationType)
                         .Include(s => s.CertificateOfRegistry.PortLocation.Country)
+                        .Include(s => s.Issc).ThenInclude(issc => issc.GovernmentIssuer)
+                        .Include(s => s.Issc).ThenInclude(issc => issc.RsoIssuer)
                         .FirstOrDefault();
             return Json(ship);
         }

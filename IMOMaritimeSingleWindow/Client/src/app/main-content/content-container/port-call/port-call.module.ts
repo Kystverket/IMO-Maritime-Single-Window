@@ -10,19 +10,15 @@ import { ShipStoresComponent } from 'app/main-content/content-container/port-cal
 import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
+import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
 import { ConfirmationModule } from './confirmation/confirmation.module';
-import { NewPortCallDraftComponent } from './new-port-call-draft/new-port-call-draft.component';
-import { ConfirmDataComponent } from './new-port-call-draft/ship-location-time/confirm-data/confirm-data.component';
-import { EtaEtdComponent } from './new-port-call-draft/ship-location-time/eta-etd/eta-etd.component';
-import { FindLocationComponent } from './new-port-call-draft/ship-location-time/find-location/find-location.component';
-import { FindShipComponent } from './new-port-call-draft/ship-location-time/find-ship/find-ship.component';
-import { ShipLocationTimeComponent } from './new-port-call-draft/ship-location-time/ship-location-time.component';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -30,6 +26,9 @@ import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-ti
 import { PortCallComponent } from './port-call.component';
 import { CargoComponent } from './registration/forms/cargo/cargo.component';
 import { ConsignmentFormComponent } from './registration/forms/cargo/consignment-form/consignment-form.component';
+import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
+import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
+import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 import { FormsComponent } from './registration/forms/forms.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
@@ -40,23 +39,29 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { PrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/prev-and-next-poc.component';
-import { SavePrevAndNextPocComponent } from './registration/forms/prev-and-next-poc/save-prev-and-next-poc/save-prev-and-next-poc.component';
 import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
+import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
 import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
 import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
-import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
+import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
+import { VoyagesComponent } from './registration/forms/voyages/voyages.component';
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
-import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
-import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
-import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
+import { SecurityComponent } from './registration/forms/security/security.component';
+import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
+import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
+import { FalSecurityService } from '../../../shared/services/fal-security.service';
+import { Last10PortCallsComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls.component';
+import { Last10PortCallsTableComponent } from './registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component';
+import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
+import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
+import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
+import { LoadPortCallService } from './load-port-call.service';
+import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 
 @NgModule({
   imports: [
@@ -75,13 +80,8 @@ import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-
     ButtonRowComponent,
     ClearanceComponent,
     ClearanceRowComponent,
-    ConfirmDataComponent,
     CrewPassengersDimensionsComponent,
-    EtaEtdComponent,
-    FindLocationComponent,
-    FindShipComponent,
     FormsComponent,
-    NewPortCallDraftComponent,
     OverviewComponent,
     PortCallComponent,
     PortCallDetailsComponent,
@@ -90,16 +90,12 @@ import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-
     RegistrationComponent,
     ReportingComponent,
     SaveDetailsComponent,
-    NewPortCallDraftComponent,
     ClearanceRowComponent,
     ShipStoresComponent,
     DeleteButtonComponent,
-    ShipLocationTimeComponent,
-    PrevAndNextPocComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,
-    SavePrevAndNextPocComponent,
     CargoDescriptionComponent,
     SetActualTimeComponent,
     CargoComponent,
@@ -108,31 +104,42 @@ import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-
     CargoItemFormComponent,
     DatePickerComponent,
     SavePassengerListComponent,
-    SavePrevAndNextPocComponent,
     IdentityDocumentComponent,
     PassengerModalComponent,
     CrewListComponent,
     CrewMemberModalComponent,
+    VoyagesComponent,
+    SaveVoyagesComponent,
+    SaveNewPortCallComponent,
+    SecurityComponent,
+    SecurityDetailsComponent,
+    CompanySecurityOfficerComponent,
+    Last10PortCallsComponent,
+    Last10PortCallsTableComponent,
+    ShipToShipActivityComponent,
+    ShipToShipActivityTableComponent,
+    SaveSecurityComponent,
     SaveCrewListComponent,
     ShipStoresModalComponent
   ],
   exports: [
     ClearanceComponent,
-    NewPortCallDraftComponent,
     PortCallComponent,
     RegistrationComponent,
     ViewPortCallComponent,
   ],
   providers: [
     PortCallService,
+    LoadPortCallService,
     FalShipStoresService,
     IdentityDocumentService,
     CountryService,
-    PrevAndNextPocService,
     PortCallDetailsService,
     FalCargoService,
     ValidateDateTimeService,
-    PortCallFalPersonOnBoardService
+    PortCallFalPersonOnBoardService,
+    FalSecurityService,
+    PortCallOverviewService
   ]
 })
 export class PortCallModule { }

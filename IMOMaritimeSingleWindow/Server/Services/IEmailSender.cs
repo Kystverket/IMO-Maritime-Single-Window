@@ -1,10 +1,11 @@
+using IMOMaritimeSingleWindow.Helpers;
 using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Services
 {
     public interface IEmailSender
     {
-        Task SendEmail(string subject, string message, string recipient);
-        Task SendHtml(string subject, string html, string recipient);
+        Task<EmailResult> SendEmail(string subject, string message, string recipient);
+        Task<EmailResult> SendHtml(string subject, string html, string recipient);
     }
 }
