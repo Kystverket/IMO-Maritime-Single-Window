@@ -274,13 +274,10 @@ export class PortCallService {
   }
 
   // SAVE DETAILS
-  saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string) {
+  saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string): Observable<PortCallDetailsModel> {
     console.log(details);
     console.log('Saving port call details...');
-    this.http.post(this.detailsUrl, details).subscribe(detailsResponse => {
-      console.log('Successfully saved port call details.');
-      this.savePurposesForPortCall(details.portCallId, purposes, otherName);
-    });
+    return this.http.post<PortCallDetailsModel>(this.detailsUrl, details);
   }
 
   savePurposesForPortCall(pcId: number, purposes: any, otherName: string) {
@@ -366,7 +363,9 @@ export class PortCallService {
     this.locationDataSource.next(null);
     this.etaSource.next(null);
     this.etdSource.next(null);
+    this.prevLocationDataSource.next(null);
     this.prevEtdSource.next(null);
+    this.nextLocationDataSource.next(null);
     this.nextEtaSource.next(null);
     this.clearanceListDataSource.next(null);
     this.createdByUserDataSource.next(null);

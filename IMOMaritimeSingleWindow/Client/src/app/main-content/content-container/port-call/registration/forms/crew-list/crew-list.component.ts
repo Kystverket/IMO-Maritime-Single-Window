@@ -126,9 +126,7 @@ export class CrewListComponent implements OnInit {
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
         crewMember = this.makeDates(crewMember);
-        console.log(crewMember);
       });
-      console.log(this.crewList);
     }
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable(this.crewList));
@@ -257,8 +255,8 @@ export class CrewListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    if ($event) {
-      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+    if ($event.date) {
+      const date: Date = new Date($event.date.year, $event.date.month -  1, $event.date.day);
       this.portCallCrewModel.dateOfBirth = date;
     } else {
       this.portCallCrewModel.dateOfBirth = null;

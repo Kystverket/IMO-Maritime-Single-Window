@@ -116,19 +116,22 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 .FirstOrDefault();
             _mapper.Map(user, _user);
             // ApplicationUser contains password
-            if (await HasPasswordAsync(user))
+            if (await HasPasswordAsync(user, cancellationToken))
             {
                 // User in backing store has password
-                if (await HasPassword(_user))
+                if (await HasPassword(_user, cancellationToken))
                 {
                     // Check if password has been changed
                     if (_user.Password.Hash != user.PasswordHash)
                     {
                         // Update password
                         expectedObjectsAffected++;
-                        var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
-                        pwEntity.Hash = user.PasswordHash;
-                        _unitOfWork.Passwords.Update(pwEntity);
+                        if (_user.PasswordId != null)
+                        {
+                            var pwEntity = _unitOfWork.Passwords.Get(_user.PasswordId.Value);
+                            pwEntity.Hash = user.PasswordHash;
+                            _unitOfWork.Passwords.Update(pwEntity);
+                        }
                     }
                 }
                 // User in backing store does not contain a password; create a new one

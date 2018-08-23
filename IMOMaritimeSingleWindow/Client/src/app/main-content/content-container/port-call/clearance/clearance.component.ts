@@ -64,8 +64,11 @@ export class ClearanceComponent implements OnInit, OnDestroy {
 
   saveClearance() {
     console.log(this.clearanceModel);
+    this.clearanceModel.portCall = null;
+    // this.clearanceModel.organization = null;
     this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
+    console.log(this.clearanceModel);
     this.portCallService.saveClearance(this.clearanceModel);
 
     if (this.clearanceModel.cleared) {

@@ -28,6 +28,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
   dataIsPristine = true;
   dataIsPristineText: string;
 
+  portCallDetailsIdSubscription: Subscription;
   detailsPristineSubscription: Subscription;
   reportingForThisPortCallDataSubscription: Subscription;
   crewPassengersAndDimensionsDataSubscription: Subscription;
@@ -44,6 +45,14 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
     this.detailsPristineSubscription = this.portCallDetailsService.detailsPristine$.subscribe(detailsDataIsPristine => {
       this.dataIsPristine = detailsDataIsPristine;
     });
+    // Port Call Details Id
+    this.portCallDetailsIdSubscription = this.portCallDetailsService.portCallDetailsIdData$.subscribe(
+      portCallDetailsIdData => {
+        if (portCallDetailsIdData) {
+          this.detailsModel.portCallDetailsId = portCallDetailsIdData;
+        }
+      }
+    );
     // Reporting
     this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
@@ -94,6 +103,7 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.portCallDetailsIdSubscription.unsubscribe();
     this.detailsPristineSubscription.unsubscribe();
     this.reportingForThisPortCallDataSubscription.unsubscribe();
     this.crewPassengersAndDimensionsDataSubscription.unsubscribe();
@@ -106,17 +116,22 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
   saveDetails() {
     if (this.crewPassengersAndDimensionsMeta.valid) {
       this.detailsModel.portCallId = this.portCallId;
-      this.detailsModel.portCallDetailsId = this.portCallId;
       this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
       this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
       this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
       this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
 
+      console.log(this.detailsModel);
+
       this.portCallService.saveDetails(
         this.detailsModel,
         this.purposeModel,
         this.otherPurposeName
-      );
+      ).subscribe(detailsResponse => {
+        console.log('Successfully saved port call details:', detailsResponse);
+        this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
+        this.portCallService.savePurposesForPortCall(this.portCallId, this.purposeModel, this.otherPurposeName);
+      });
       this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
     }
   }

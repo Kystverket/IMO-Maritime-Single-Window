@@ -36,8 +36,9 @@
       </tbody>
     </table>
   </div>
-  <button class="btn btn-ssn" (click)="registerPortCallDraft()">
+  <button class="btn btn-ssn" (click)="registerPortCallDraft()" [disabled]="creatingPortCall">
     <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" />
     <span> Create Port Call Draft</span>
   </button>
+  <p *ngIf="creatingPortCall">Registering new port call draft...</p>
 </div>

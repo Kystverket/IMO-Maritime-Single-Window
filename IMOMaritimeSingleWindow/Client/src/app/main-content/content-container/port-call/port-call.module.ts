@@ -49,6 +49,7 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
 import { SecurityComponent } from './registration/forms/security/security.component';
 import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
 import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
@@ -61,6 +62,8 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
 import { SaveSecurityButtonComponent } from './registration/forms/security/save-security/save-security-button/save-security-button.component';
 import { ActivatePortCallComponent } from './confirmation/activate-port-call/activate-port-call.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { LoadPortCallService } from './load-port-call.service';
+import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 
 @NgModule({
   imports: [
@@ -106,7 +109,6 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     PassengerModalComponent,
     CrewListComponent,
     CrewMemberModalComponent,
-    SaveCrewListComponent,
     VoyagesComponent,
     SaveVoyagesComponent,
     SaveNewPortCallComponent,
@@ -121,6 +123,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     SaveSecurityButtonComponent,
     ActivatePortCallComponent,
     ConfirmationComponent,
+    SaveCrewListComponent,
+    ShipStoresModalComponent
   ],
   exports: [
     ClearanceComponent,
@@ -131,6 +135,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
   ],
   providers: [
     PortCallService,
+    LoadPortCallService,
     FalShipStoresService,
     IdentityDocumentService,
     CountryService,
@@ -138,7 +143,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
     FalCargoService,
     ValidateDateTimeService,
     PortCallFalPersonOnBoardService,
-    FalSecurityService
+    FalSecurityService,
+    PortCallOverviewService
   ]
 })
 export class PortCallModule { }

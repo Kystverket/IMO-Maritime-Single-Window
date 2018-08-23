@@ -11,6 +11,7 @@ export class DatePickerComponent implements OnInit {
   @Input() inputDate: any;
 
   @Output() selectDate: EventEmitter<any> = new EventEmitter();
+  @Output() outputValidDateFormat: EventEmitter<boolean> = new EventEmitter();
 
   dateModel: NgbDate = new NgbDate(null, null, null);
 
@@ -34,7 +35,9 @@ export class DatePickerComponent implements OnInit {
 
   private validateData() {
     if (this.validDateFormat) {
-      this.selectDate.emit(this.dateModel);
+      this.selectDate.emit({date: this.dateModel, validDate: true});
+    } else {
+      this.selectDate.emit({date: null, validDate: false});
     }
   }
 

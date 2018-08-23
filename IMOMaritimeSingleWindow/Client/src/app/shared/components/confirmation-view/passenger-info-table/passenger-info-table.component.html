@@ -1,0 +1,33 @@
+<div class="row mb-3">
+    <div class="col">
+      <app-table-card header="Pax" icon="pax.png" collapsible=true>
+        <tbody *ngIf="numberOfPassengers > 0">
+          <tr>
+            <td class="no-wrap">
+              <tr>
+                <small>No. of Passengers</small>
+              </tr>
+              <tr>
+                {{ numberOfPassengers }}
+              </tr>
+            </td>
+            <td class="no-wrap">
+              <tr>
+                <small>No. of Passengers in Transit</small>
+              </tr>
+              <tr>
+                {{ passengersInTransit }}
+              </tr>
+            </td>
+          </tr>
+        </tbody>
+        <div *ngIf="numberOfPassengers === 0" class="text-center my-3">
+          <img *ngIf="iconPath" src="{{iconPath}}warning.png" height="24px" />
+          <span class="no-wrap">Passenger information</span>
+          <span class="no-wrap">is marked for delivery,</span>
+          <span class="no-wrap">but no information is provided.</span>
+        </div>
+  
+      </app-table-card>
+    </div>
+  </div>

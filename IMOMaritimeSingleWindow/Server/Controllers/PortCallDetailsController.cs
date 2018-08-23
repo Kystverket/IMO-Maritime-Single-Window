@@ -51,7 +51,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpPost()]
         public IActionResult Register([FromBody] PortCallDetails portCallDetails)
         {
-            Console.WriteLine("DETAILS ID: " + portCallDetails.PortCallDetailsId + "\n\n\n");
+            // Console.WriteLine("DETAILS MODEL PORT CALL ID: " + portCallDetails.PortCallId + "\n\n\n");
             if (!ValidateDetails(portCallDetails))
             {
                 return BadRequest("Invalid port call details form data.");

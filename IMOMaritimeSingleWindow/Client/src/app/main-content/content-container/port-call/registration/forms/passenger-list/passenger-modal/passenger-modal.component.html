@@ -176,18 +176,34 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
-          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.givenName" type="text" name="givenName" required>
-          <div *ngIf="!inputPassengerModel.givenName" class="alert alert-danger form-control-sm" role="alert">
-            <span>This field is required.</span>
+          <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputPassengerModel.givenName" type="text"
+            name="givenName" alphaNumericValidator required>
+          <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
+            <li>
+              <small>Only alphanumeric characters allowed.</small>
+            </li>
+          </div>
+          <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
+            <li>
+              <small>This field is required.</small>
+            </li>
           </div>
         </div>
       </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
         <div class="col my-auto">
-          <input class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.familyName" type="text" name="familyName" required>
-          <div *ngIf="!inputPassengerModel.familyName" class="alert alert-danger form-control-sm" role="alert">
-            <span>This field is required.</span>
+          <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputPassengerModel.familyName" type="text"
+            name="familyName" alphaNumericValidator required>
+          <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
+            <li>
+              <small>Only alphanumeric characters allowed.</small>
+            </li>
+          </div>
+          <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
+            <li>
+              <small>This field is required.</small>
+            </li>
           </div>
         </div>
       </div>
@@ -371,11 +387,13 @@
     </div>
 
     <div class="modal-footer">
-      <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn" (click)="editPassenger(); resetForm(); close">
+      <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
+        (click)="editPassenger(); resetForm(); close">
         <img src="assets/images/icons/128x128/white/edit.png" height="24px">
         <span>Edit Entry</span>
       </button>
-      <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn" disabled>
+      <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
+        disabled>
         <img src="assets/images/icons/128x128/white/edit.png" height="24px">
         <span>Edit Entry</span>
       </button>

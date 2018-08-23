@@ -2,10 +2,17 @@
   <img src="assets/images/flags/128x128/{{r.twoCharCode.toLowerCase()}}.png" height="16px" />
   <strong *ngIf="r.name">Name: </strong> {{ r.name }}
 </ng-template>
- 
+
 <div *ngIf="!locationSelected" class="input-group">
-    <input id="search-country" type="text" class="form-control form-control-sm" [(ngModel)]="locationModel" [ngbTypeahead]="search"
-      [resultTemplate]="rt" (selectItem)="selectLocation($event)" placeholder="Enter search here..." />
+  <div class="input-group-prepend">
+    <button disabled class="btn btn-sm btn-ssn">
+      <img src="assets/images/icons/128x128/white/search.png" height="20px">
+    </button>
+  </div>
+  <input id="search-country" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
+    [resultTemplate]="rt" (selectItem)="selectLocation($event)" placeholder="Enter search here..." (focus)="onFocus($event)"
+  />
+
   <div class="input-group-append" *ngIf="searching">
     <img class="mx-auto" src="assets/images/animations/location.gif" height="20px">
     <p>Searching</p>
@@ -15,7 +22,7 @@
     <p>No results</p>
   </div>
 </div>
- 
+
 <div *ngIf="locationSelected" class="input-group">
   <div class="input-group-prepend flag">
     <img src="assets/images/flags/128x128/{{locationFlag | lowercase}}.png" height="30px">
