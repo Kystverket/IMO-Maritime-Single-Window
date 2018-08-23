@@ -56,6 +56,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   portCallIsDraft = false;
   STATUS_DRAFT = 'Draft';
 
+  numberOfCrewError = false;
+  numberOfPassengersError = false;
+
   voyagesIsPristineSubscription: Subscription;
   voyagesErrorSubscription: Subscription;
   detailsPristineSubscription: Subscription;
@@ -119,6 +122,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
+          console.log(cpadData);
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
@@ -190,6 +194,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.passengerDataSubscription = this.personOnBoardService.passengerList$.subscribe(
       passengerData => {
         this.passengerList = passengerData;
+        if (this.passengerList.length !== this.crewPassengersAndDimensionsModel.numberOfPassengers) {
+          this.numberOfPassengersError = true;
+        } else {
+          this.numberOfPassengersError = false;
+        }
       }
     );
     this.passengerListIsPristineSubscription = this.personOnBoardService.passengerDataIsPristine$.subscribe(
@@ -208,6 +217,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(
       crewData => {
         this.crewList = crewData;
+        if (this.crewList.length !== this.crewPassengersAndDimensionsModel.numberOfCrew) {
+          this.numberOfCrewError = true;
+        } else {
+          this.numberOfCrewError = false;
+        }
       }
     );
     this.crewListIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(

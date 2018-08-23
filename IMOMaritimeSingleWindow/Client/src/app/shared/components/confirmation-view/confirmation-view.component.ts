@@ -22,6 +22,7 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.reportingForThisPortCallDataSubcription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
+        console.log(reportingData);
         if (reportingData != null) {
           this.portCallId = reportingData.portCallId;
           this.reportingCargo = reportingData.reportingCargo || false;
