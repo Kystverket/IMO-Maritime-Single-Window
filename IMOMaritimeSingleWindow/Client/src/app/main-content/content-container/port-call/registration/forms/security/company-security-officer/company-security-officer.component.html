@@ -17,11 +17,11 @@
         <div class="form-group">
           <label class="col-form-label-sm no-wrap mb-0" for="given_name">Given name</label>
           <input type="text" [(ngModel)]="csoModel.givenName" placeholder="Enter given name" name="given_name" class="form-control form-control-sm"
-          />
+            (change)="touchData()" />
 
           <label class="col-form-label-sm no-wrap mb-0" for="surname">Surname</label>
           <input type="text" [(ngModel)]="csoModel.surname" placeholder="Enter surname" name="surname" class="form-control form-control-sm"
-          />
+            (change)="touchData()" />
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@
         <div class="form-group">
           <label class="col-form-label-sm no-wrap mb-0" for="phone_number">Phone number</label>
           <input type="text" [(ngModel)]="csoModel.phoneNumber" placeholder="Enter phone number" name="phone_number" class="form-control form-control-sm"
-          />
+            (change)="touchData()" />
 
         </div>
       </div>
@@ -40,7 +40,7 @@
 
           <label class="col-form-label-sm no-wrap mb-0" for="email_address">Email</label>
           <input type="text" [(ngModel)]="csoModel.email" placeholder="Enter email address" name="email_address" class="form-control form-control-sm"
-          />
+            (change)="touchData()" />
         </div>
       </div>
     </div>

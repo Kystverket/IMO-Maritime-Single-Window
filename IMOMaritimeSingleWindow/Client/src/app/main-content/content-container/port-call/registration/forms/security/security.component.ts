@@ -21,6 +21,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   @Input() securityModel: FalSecurityModel = new FalSecurityModel();
   @Input() shipModel: ShipModel;
   @Input() portCallId: number;
+  isInitialized = false;
 
   constructor(
     private securityService: FalSecurityService
@@ -39,6 +40,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     if (!this.shipModel.issc) {
       this.shipModel.issc = new InternationalShipSecurityCertificateModel();
     }
+    this.isInitialized = true;
   }
 
   ngOnDestroy() {

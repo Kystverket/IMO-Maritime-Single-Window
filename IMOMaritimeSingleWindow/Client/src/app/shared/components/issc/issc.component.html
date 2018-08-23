@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <label class="no-wrap mb-0 mt-2" for="certificate_number">Certificate Number</label>
         <input [(ngModel)]="isscModel.certificateNumber" class="form-control form-control-sm" id="certificate_number" name="certificate_number"
-          placeholder="Enter certificate number...">
+          placeholder="Enter certificate number..." (change)="touchData()">
       </div>
       <div class="col-md-6">
         <app-date-picker header="Expiry Date" [dateInput]="expiryDateModel" (dateResult)="onExpiryDateSelection($event)"></app-date-picker>
