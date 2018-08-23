@@ -79,5 +79,5 @@
 </app-ssn-card>
 
 <app-ssn-card [header]="'Save Voyages'" [icon]="'save.png'" *ngIf="portCallId != null">
-  <app-save-voyages></app-save-voyages>
+  <app-save-voyages [portCallId]="portCallId"></app-save-voyages>
 </app-ssn-card>
