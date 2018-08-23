@@ -81,7 +81,18 @@ export class OverviewComponent implements OnInit, OnDestroy {
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: ButtonRowComponent
+        renderComponent: ButtonRowComponent,
+        onComponentInitFunction: (instance) => {
+          instance.portCallCancelled.subscribe(portCallId => {
+            this.onPortCallCancelled(portCallId);
+          });
+          instance.portCallCompleted.subscribe(portCallId => {
+            this.onPortCallCompleted(portCallId);
+          });
+          instance.portCallUncompleted.subscribe(portCallId => {
+            this.onPortCallUncompleted(portCallId);
+          });
+        }
       }
     }
   };
@@ -312,6 +323,27 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.overviewService.setOverviewData(portCallList.sort(
       (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
     ));
+  }
+
+  onPortCallCancelled(portCallId) {
+    this.movePortCallToList(portCallId, this.overviewList, this.cancelledOverviewList);
+  }
+
+  onPortCallCompleted(portCallId) {
+    this.movePortCallToList(portCallId, this.overviewList, this.completedOverviewList);
+  }
+
+  onPortCallUncompleted(portCallId) {
+    this.movePortCallToList(portCallId, this.completedOverviewList, this.overviewList);
+  }
+
+  private movePortCallToList(portCallId: number, fromList: any[], toList: any[]) {
+    const portCallIndex = fromList.findIndex(row => row.overviewModel.portCall.portCallId === portCallId);
+    if (portCallIndex >= 0) {
+      toList.push(fromList[portCallIndex]);
+      fromList.splice(portCallIndex, 1);
+      this.rerenderList();
+    }
   }
 
   toggleCancelledPortCalls(showCancelled) {
