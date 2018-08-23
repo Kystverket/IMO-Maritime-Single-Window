@@ -278,8 +278,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
                     this.overviewService.setOverviewData(this.overviewList.sort(
                       (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
                     ));
-                    this.overviewService.setDraftData(this.draftOverviewList);
-                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList);
+                    this.overviewService.setDraftData(this.draftOverviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
+                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
                   }
                 },
                 error => console.log(error),
