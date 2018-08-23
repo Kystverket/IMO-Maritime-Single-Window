@@ -49,6 +49,7 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
 import { SecurityComponent } from './registration/forms/security/security.component';
 import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
 import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
@@ -108,7 +109,6 @@ import { PortCallOverviewService } from '../../../shared/services/port-call-over
     PassengerModalComponent,
     CrewListComponent,
     CrewMemberModalComponent,
-    SaveCrewListComponent,
     VoyagesComponent,
     SaveVoyagesComponent,
     SaveNewPortCallComponent,
@@ -123,6 +123,8 @@ import { PortCallOverviewService } from '../../../shared/services/port-call-over
     SaveSecurityButtonComponent,
     ActivatePortCallComponent,
     ConfirmationComponent,
+    SaveCrewListComponent,
+    ShipStoresModalComponent
   ],
   exports: [
     ClearanceComponent,

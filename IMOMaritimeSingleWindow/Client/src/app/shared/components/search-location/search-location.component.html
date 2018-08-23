@@ -5,9 +5,14 @@
 </ng-template>
 
 <div class="input-group">
-  <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel" [ngbTypeahead]="search"
-    [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" placeholder="Enter search here..."
-  />
+  <div class="input-group-prepend">
+    <button disabled class="btn btn-sm btn-ssn">
+      <img src="assets/images/icons/128x128/white/search.png" height="20px">
+    </button>
+  </div>
+  <input id="search-location" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="locationModel"
+    [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectLocation($event)" placeholder="Enter search here..."
+    (focus)="onFocus($event)" />
 
   <div *ngIf="searching" class="input-group-append">
     <img class="mx-auto" src="assets/images/animations/location.gif" height="32px">

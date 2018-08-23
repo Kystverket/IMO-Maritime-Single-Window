@@ -140,7 +140,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
-          console.log(reportingData);
           this.reportingModel = reportingData;
           this.cargoIsChecked = this.reportingModel.reportingCargo || false;
         }
@@ -194,8 +193,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.cargoDataIsPristine = pristineData;
       }
     );
-
-
     //
     // Passenger List
     //
@@ -214,7 +211,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.passengerListIsChecked = isChecked;
       }
     );
-
     //
     // Crew List
     //
@@ -231,7 +227,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewListIsCheckedSubscription = this.personOnBoardService.crewListIsChecked$.subscribe(
       isChecked => {
         this.crewListIsChecked = isChecked;
-        console.log(isChecked);
       }
     );
 

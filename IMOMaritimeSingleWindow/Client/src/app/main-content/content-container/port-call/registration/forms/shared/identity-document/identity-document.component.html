@@ -1,5 +1,5 @@
 <form>
-  <app-ssn-card header="Identity Document Information" icon="user-info.png">
+  <app-ssn-card header="Identity Document Information" icon="user-info.png" [collapsible]="true">
     <div class="row">
       <div class="col-lg-6">
 
@@ -60,8 +60,10 @@
           <div class="col my-auto">
             <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
             <app-date-picker #selectIssueDate (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(identityDocumentModel.identityDocumentIssueDate)"></app-date-picker>
-            <div *ngIf="issueDateAfterExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
-              <span>Identity document issue date must be before the expiry date.</span>
+            <div *ngIf="issueDateAfterExpiryDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
+              <li>
+                <small>Identity document issue date must be before the expiry date.</small>
+              </li>
             </div>
           </div>
         </div>
@@ -70,8 +72,10 @@
           <div class="col my-auto">
             <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identiy Document Expiry Date</label>
             <app-date-picker #selectExpiryDate (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(identityDocumentModel.identityDocumentExpiryDate)"></app-date-picker>
-            <div *ngIf="expiryDateBeforeIssueDateError" class="alert alert-danger form-control-sm" role="alert">
-              <span *ngIf="expiryDateBeforeIssueDateError">Identity document expiry date must be after the issue date.</span>
+            <div *ngIf="expiryDateBeforeIssueDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
+              <li>
+                <small>Identity document expiry date must be after the issue date.</small>
+              </li>
             </div>
           </div>
         </div>

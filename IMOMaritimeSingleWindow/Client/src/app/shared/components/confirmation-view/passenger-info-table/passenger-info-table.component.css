@@ -1,0 +1,20 @@
+:host ::ng-deep td {
+    margin: auto;
+}
+
+:host ::ng-deep td > ::ng-deep tbody {
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+}
+
+:host ::ng-deep tr > ::ng-deep td {
+    text-align: center;
+    display: inline-block;
+    margin: 0 auto;
+    border-width: 0;
+}
+
+:host ::ng-deep tbody > ::ng-deep tr {
+    display: flex;
+}

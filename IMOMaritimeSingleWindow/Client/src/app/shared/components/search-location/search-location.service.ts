@@ -21,6 +21,6 @@ export class SearchLocationService {
       return Observable.of([]);
     }
     const uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
-    return this.searchService.search(uri, term, amount);
+    return this.searchService.search(uri, term, amount)/* .map(response => response.json().items) */;
   }
 }

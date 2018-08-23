@@ -257,8 +257,8 @@ export class PassengerListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    if ($event) {
-      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+    if ($event.date) {
+      const date: Date = new Date($event.date.year, $event.date.month -  1, $event.date.day);
       this.portCallPassengerModel.dateOfBirth = date;
     } else {
       this.portCallPassengerModel.dateOfBirth = null;

@@ -26,7 +26,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{portCallId}/falShipStores")]
         public IActionResult GetFalShipStores(int portCallId)
         {
-            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId).ToList();
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId)
+            .Include(shipStore => shipStore.MeasurementType)
+            .ToList();
             if (shipStores == null)
             {
                 return NotFound();
@@ -274,6 +276,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.PortCallDetails)
             .Include(pc => pc.FalShipStores).ThenInclude(fss => fss.MeasurementType)
+            .Include(pc => pc.PersonOnBoard)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.PreviousLocation.Country)
