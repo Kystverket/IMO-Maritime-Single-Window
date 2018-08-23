@@ -1,12 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FalSecurityModel } from '../../../../../../../shared/models/fal-security-model';
-import { InternationalShipSecurityCertificateModel } from '../../../../../../../shared/models/international-ship-security-certificate-model';
-import { SecurityPreviousPortOfCallModel } from '../../../../../../../shared/models/security-previous-port-of-call-model';
-import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship-to-ship-activity-model';
-import { CompanySecurityOfficerModel } from '../../../../../../../shared/models/company-security-officer-model';
-import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
-import { ShipService } from '../../../../../../../shared/services/ship.service';
-import { ShipModel } from '../../../../../../../shared/models/ship-model';
+import { FalSecurityModel } from 'app/shared/models/fal-security-model';
+import { InternationalShipSecurityCertificateModel } from 'app/shared/models/international-ship-security-certificate-model';
+import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
+import { ShipToShipActivityModel } from 'app/shared/models/ship-to-ship-activity-model';
+import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
+import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { ShipService } from 'app/shared/services/ship.service';
+import { ShipModel } from 'app/shared/models/ship-model';
 
 @Component({
   selector: 'app-save-security',

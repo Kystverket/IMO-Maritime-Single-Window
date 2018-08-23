@@ -44,7 +44,11 @@ export class IsscComponent implements OnInit {
   }
 
   onExpiryDateSelection(date: NgbDate) {
-    this.isscModel.expiryDate = new Date(Date.UTC(date.year, date.month - 1, date.day));
+    if (date !== null) {
+      this.isscModel.expiryDate = new Date(Date.UTC(date.year, date.month - 1, date.day));
+    } else {
+      this.isscModel.expiryDate = null;
+    }
   }
 
   onIssuerTypeSelection(issuerType) {
