@@ -114,4 +114,18 @@ export class FalSecurityService {
     return this.http.get<SecurityLevelModel[]>(uri);
   }
 
+  resetServiceData() {
+    this.setPristineData(true);
+    this.setSecurityData(null);
+    this.setAllowSavingData(false);
+    this.setSecurityIsCheckedData(false);
+    this.setValidCompanySecurityOfficerData(true);
+    this.setValidLast10PortCallsData(true);
+    this.setValidSecurityDetailsData(true);
+    this.setValidShipToShipActivityData(true);
+    this.setSaveIsscModelData(null);
+    this.setSaveShipModelData(null);
+    this.setSaveSecurityModelData(null);
+  }
+
 }

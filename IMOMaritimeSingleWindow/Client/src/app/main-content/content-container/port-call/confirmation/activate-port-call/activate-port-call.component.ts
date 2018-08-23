@@ -84,6 +84,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   crewListIsCheckedSubscription: Subscription;
   securityIsCheckedSubscription: Subscription;
   securityIsPristineSubscription: Subscription;
+  allowSavingSecuritySubscription: Subscription;
+  allowSavingSecurity = false;
 
   constructor(
     private contentService: ContentService,
@@ -246,6 +248,12 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.securityIsChecked = isChecked;
       }
     );
+    this.allowSavingSecuritySubscription = this.securityService.allowSavingData$.subscribe(
+      allowSavingData => {
+        this.allowSavingSecurity = allowSavingData;
+      }
+    );
+
 
     //
     // Status

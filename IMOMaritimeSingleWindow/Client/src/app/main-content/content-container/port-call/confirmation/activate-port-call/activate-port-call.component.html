@@ -91,7 +91,7 @@
       </div>
     </div>
 
-    <div *ngIf="!securityDataIsPristine && securityIsChecked && portCallId" class="row">
+    <div *ngIf="allowSavingSecurity" class="row">
       <div class="col">
         <div class="alert alert-warning">
           <span>Warning: Security data is unsaved.</span>

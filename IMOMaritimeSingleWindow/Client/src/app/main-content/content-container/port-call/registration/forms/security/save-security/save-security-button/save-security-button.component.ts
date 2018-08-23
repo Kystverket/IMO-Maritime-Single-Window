@@ -20,6 +20,7 @@ export class SaveSecurityButtonComponent implements OnInit {
   isscModel: InternationalShipSecurityCertificateModel;
   shipModel: ShipModel;
   allowSaving = false;
+  saving = false;
 
   saveSecurityModelSubscription: Subscription;
   saveIsscModelSubscription: Subscription;
@@ -55,6 +56,7 @@ export class SaveSecurityButtonComponent implements OnInit {
   }
 
   saveSecurity() {
+    this.saving = true;
     const dbSecurity = new FalSecurityModel();
     const dbIssc = new InternationalShipSecurityCertificateModel();
     if (this.isscModel.isscId) {
@@ -127,12 +129,20 @@ export class SaveSecurityButtonComponent implements OnInit {
         dbSecurity.companySecurityOfficerId = csoResult.companySecurityOfficerId;
         this.securityService.saveFalSecurity(dbSecurity).subscribe(
           securityResult => {
+            this.saving = false;
+            this.securityService.setPristineData(true);
+            this.shipService.setIsscPristineData(true);
+            this.securityService.setAllowSavingData(false);
             console.log(securityResult);
+          }, error => {
+            this.securityService.setPristineData(true);
+            this.shipService.setIsscPristineData(true);
+            this.securityService.setAllowSavingData(false);
+            this.saving = false;
           }
         );
       }
     );
-
   }
 
 }
