@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -7,6 +7,7 @@ namespace IMOMaritimeSingleWindow.Models
     {
         public User()
         {
+            OrganizationPortCall = new HashSet<OrganizationPortCall>();
             PortCall = new HashSet<PortCall>();
             UserLogin = new HashSet<UserLogin>();
             UserToken = new HashSet<UserToken>();
@@ -33,6 +34,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Password Password { get; set; }
         public Person Person { get; set; }
         public Role Role { get; set; }
+        public ICollection<OrganizationPortCall> OrganizationPortCall { get; set; }
         public ICollection<PortCall> PortCall { get; set; }
         public ICollection<UserLogin> UserLogin { get; set; }
         public ICollection<UserToken> UserToken { get; set; }

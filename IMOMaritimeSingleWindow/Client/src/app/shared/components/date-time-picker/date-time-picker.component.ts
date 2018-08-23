@@ -9,22 +9,29 @@ import { DateTime } from '../../interfaces/dateTime.interface';
   providers: []
 })
 export class DateTimePickerComponent implements OnInit {
-
   @Input() header: string;
 
-  @Input() dateTimeModel: DateTime = {
-    date: null,
-    time: new NgbTime(0, 0, 0)
-  };
+  @Input() dateTimeInput: DateTime;
 
   @Output() dateTimeResult = new EventEmitter<DateTime>();
   @Output() dateFormatError = new EventEmitter<boolean>();
+
+  @Input() dateTimeModel: DateTime;
 
   validDateFormat = true;
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.dateTimeInput != null) {
+      this.dateTimeModel = JSON.parse(JSON.stringify(this.dateTimeInput));
+    } else if (this.dateTimeModel == null) {
+      this.dateTimeModel = {
+        date: null,
+        time: new NgbTime(0, 0, 0)
+      };
+    }
+  }
 
   dateChanged(dateResult) {
     this.validDateFormat = this.hasValidDateFormat(dateResult);

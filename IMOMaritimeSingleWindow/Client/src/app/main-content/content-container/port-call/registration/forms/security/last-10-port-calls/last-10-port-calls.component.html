@@ -1,0 +1,63 @@
+<app-ssn-card [header]="'Last 10 Port Calls'" icon="location.png">
+  <div class="text-center mb-1">
+    <span>Select a port by searching for it by name or LOCODE.</span>
+  </div>
+  <app-search-location *ngIf="!locationFound" [restrictTypeHarbour]=true (locationResult)="onLocationResult($event)"></app-search-location>
+  <div class="text-center" *ngIf="locationFound">
+    <app-ssn-table [entryData]="locationData"></app-ssn-table>
+    <button class="btn btn-ssn" (click)="deselectLocation()">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-md-6">
+      <app-date-time-picker [header]="'Arrival'" [dateTimeModel]="arrivalModel" (dateTimeResult)="onArrivalResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'Departure'" [dateTimeModel]="departureModel" (dateTimeResult)="onDepartureResult($event)"></app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-2">
+        <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Ship Security Level</label>
+        <ng-select id="security_level_select" name="security_level_select" [items]="securityLevelList" bindLabel="name" [(ngModel)]="portCallModel.securityLevel"
+          placeholder="Select security level..." (change)="onSecurityLevelResult($event)"></ng-select>
+      </div>
+      <label class="col-form-label-sm no-wrap mb-0" for="additional_security_measures">(Optional) Additional security measures</label>
+      <textarea [(ngModel)]="portCallModel.additionalSecurityMeasures" class="form-control form-control-sm" id="additional_security_measures"
+        name="additional_security_measures" rows="6" placeholder="Please describe any special or additional security measures, beyond those in the approved SSP."></textarea>
+    </div>
+  </div>
+
+  <div class="alert alert-danger text-center" *ngIf="arrivalIsAfterDepartureError || arrivalOverlapError || departureOverlapError || entryArrivalOverlapError || entryDepartureOverlapError">
+    <div *ngIf="arrivalIsAfterDepartureError">Error: time of arrival cannot be set after time of departure.</div>
+    <div *ngIf="arrivalOverlapError">Error: time of arrival cannot be between the arrival and departure times of another
+      port call.</div>
+    <div *ngIf="departureOverlapError">Error: time of departure cannot be between the arrival and departure times of another
+      port call.</div>
+    <div *ngIf="entryArrivalOverlapError">Error: time of arrival of another port call cannot be between arrival and departure
+      times of this port call.</div>
+    <div *ngIf="entryDepartureOverlapError">Error: time of departure of another port call cannot be between arrival and departure
+      times of this port call.</div>
+  </div>
+
+  <div class="row text-center mb-1">
+    <div class="col">
+      <div *ngIf="locationFound && portCallModel.securityLevelId && portCallModel.securityLevel && portCallModel.arrivalDateTime && portCallModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError">
+        <button class="btn btn-ssn" (click)="addPortCallEntry()">
+          <span> Add Entry</span>
+        </button>
+      </div>
+      <div *ngIf="!(locationFound && portCallModel.securityLevelId && portCallModel.securityLevel && portCallModel.arrivalDateTime && portCallModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError)">
+        <button class="btn btn-ssn" disabled>
+          <span> Add Entry</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col">
+      <app-last-10-port-calls-table [portCallList]="portCallTableList" (delete)="onDeletePortCall($event)"></app-last-10-port-calls-table>
+    </div>
+  </div>
+
+</app-ssn-card>

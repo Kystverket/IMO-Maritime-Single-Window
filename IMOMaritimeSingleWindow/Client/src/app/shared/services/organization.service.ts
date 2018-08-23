@@ -4,6 +4,7 @@ import { OrganizationModel } from '../models/organization-model';
 import { SearchService } from './search.service';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
+import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 
 @Injectable()
 export class OrganizationService {
@@ -59,5 +60,20 @@ export class OrganizationService {
   public getOrganizationForUser(): Observable<any> {
     const uri: string = this.organizationUserUrl;
     return this.http.get(uri);
+  }
+
+  getOrganizationById(organizationId: number): Observable<any> {
+    const uri: string = [this.organizationUrl, organizationId].join('/');
+    return this.http.get(uri);
+  }
+
+  getRecognizedSecurityOrganizations(): Observable<OrganizationModel[]> {
+    const uri = [this.organizationTypeUrl, 'recognizedSecurityOrganization', 'organization'].join('/');
+    return this.http.get<OrganizationModel[]>(uri);
+  }
+
+  getCompanySecurityOfficersByOrganizationId(organizationId: number): Observable<CompanySecurityOfficerModel[]> {
+    const uri = [this.organizationUrl, organizationId, 'companySecurityOfficer'].join('/');
+    return this.http.get<CompanySecurityOfficerModel[]>(uri);
   }
 }

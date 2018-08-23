@@ -1,0 +1,83 @@
+<app-ssn-card [header]="'Select Ship'" [icon]="'ship.png'">
+  <div *ngIf="!shipFound">
+    <app-search-ship (shipResult)="onShipResult($event)"></app-search-ship>
+  </div>
+
+  <div *ngIf="shipFound" class="text-center">
+    <div class="table-responsive">
+      <app-ssn-table [entryData]=shipProperties></app-ssn-table>
+    </div>
+    <button class="btn btn-ssn" (click)="deselectShip()">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+</app-ssn-card>
+
+<app-ssn-card [header]="'Select Port of Call'" [icon]="'location.png'">
+  <div class="row">
+    <div class="col">
+      <div *ngIf="!locationFound" class="text-center">
+        <app-search-location [restrictTypeHarbour]=true [showDropdown]=true (locationResult)="onLocationResult($event)"></app-search-location>
+      </div>
+
+      <div *ngIf="locationFound" class="text-center">
+        <div class="table-responsive">
+          <app-ssn-table [entryData]="locationProperties"></app-ssn-table>
+        </div>
+        <button class="btn btn-ssn" (click)="deselectLocation()">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-date-time-picker [header]="'ETA'" [dateTimeInput]="etaModel" (dateTimeResult)="onEtaResult($event)"></app-date-time-picker>
+    </div>
+    <div class="col-md-6">
+      <app-date-time-picker [header]="'ETD'" [dateTimeInput]="etdModel" (dateTimeResult)="onEtdResult($event)"></app-date-time-picker>
+    </div>
+  </div>
+  <div class="row justify-content-center" *ngIf="etaIsAfterEtdError">
+    <div class="col-6 alert alert-danger" role="alert">
+      <span>Departure must be after arrival.</span>
+    </div>
+  </div>
+</app-ssn-card>
+
+<app-ssn-card header="Previous Port of Call" icon="location.png">
+  <app-search-location *ngIf="!prevLocationFound" [restrictTypeHarbour]=true (locationResult)="onPrevLocationResult($event)"></app-search-location>
+  <div class="text-center" *ngIf="prevLocationModel">
+      <app-ssn-table [entryData]="prevLocationProperties"></app-ssn-table>
+      <button class="btn btn-ssn" (click)="deselectPrevLocation()">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+  <app-date-time-picker header="ETD" [dateTimeInput]="prevEtdModel" (dateTimeResult)="onPrevEtdResult($event)"></app-date-time-picker>
+  <div class="row justify-content-center" *ngIf="prevEtdIsAfterCurrentEtaError">
+      <div class="col-6 alert alert-danger" role="alert">
+          <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>
+      </div>
+  </div>
+</app-ssn-card>
+
+<app-ssn-card header="Next Port of Call" icon="location.png">
+  <app-search-location *ngIf="!nextLocationFound" [restrictTypeHarbour]=true (locationResult)="onNextLocationResult($event)"></app-search-location>
+  <div class="text-center" *ngIf="nextLocationModel">
+      <app-ssn-table [entryData]="nextLocationProperties"></app-ssn-table>
+      <button class="btn btn-ssn" (click)="deselectNextLocation()">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="24px" /> Clear selection</button>
+  </div>
+  <app-date-time-picker header="ETA" [dateTimeInput]="nextEtaModel" (dateTimeResult)="onNextEtaResult($event)"></app-date-time-picker>
+  <div class="row justify-content-center" *ngIf="nextEtaIsBeforeCurrentEtdError">
+      <div class="col-6 alert alert-danger" role="alert">
+          <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>
+      </div>
+  </div>
+</app-ssn-card>
+
+<app-ssn-card [header]="'Create Port Call Draft'" [icon]="'save.png'" *ngIf="portCallId == null">
+  <app-save-new-port-call></app-save-new-port-call>
+</app-ssn-card>
+
+<app-ssn-card [header]="'Save Voyages'" [icon]="'save.png'" *ngIf="portCallId != null">
+  <app-save-voyages [portCallId]="portCallId"></app-save-voyages>
+</app-ssn-card>

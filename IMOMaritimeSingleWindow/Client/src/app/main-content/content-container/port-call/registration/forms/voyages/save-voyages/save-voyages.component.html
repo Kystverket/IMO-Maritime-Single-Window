@@ -1,0 +1,29 @@
+<div *ngIf="!(shipFound && locationFound && etaFound && etdFound && !voyagesErrors)" class="text-center">
+  <div class="mb-3">
+    <p *ngIf="!shipFound" class="no-wrap mb-0">Ship is required.</p>
+    <p *ngIf="!locationFound" class="no-wrap mb-0">Location is required.</p>
+    <p *ngIf="!etaFound" class="no-wrap mb-0">ETA is required.</p>
+    <p *ngIf="!etdFound" class="no-wrap mb-0">ETD is required.</p>
+  </div>
+  <div class="alert alert-danger mb-3" *ngIf="voyagesErrors">There are errors that must be resolved.</div>
+  <button class="btn btn-ssn" disabled>
+    <img src="assets/images/icons/128x128/white/save.png" height="24px" /> Save Voyages</button>
+</div>
+<div *ngIf="shipFound && locationFound && etaFound && etdFound && !voyagesErrors" class="text-center">
+  
+  <div class="text-center" *ngIf="!dataIsPristine">
+    <button class="btn btn-ssn" (click)="savePortCall()">
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save Voyages</span>
+    </button>
+  </div>
+
+  <div class="text-center" *ngIf="dataIsPristine">
+    <span>{{ dataIsPristineText }}</span>
+    <br>
+    <button class="btn btn-ssn mt-2" disabled>
+      <img src="assets/images/icons/128x128/white/save.png" height="24px">
+      <span>Save Voyages</span>
+    </button>
+  </div>
+</div>

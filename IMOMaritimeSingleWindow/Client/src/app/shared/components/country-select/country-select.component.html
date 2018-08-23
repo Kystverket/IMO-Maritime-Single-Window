@@ -1,0 +1,2 @@
+<ng-select [(ngModel)]="countryModel" id="country_select" name="country_select" [items]="countryList" [multiple]="false"
+  [closeOnSelect]="true" bindLabel="name" placeholder="Select country..." (change)="countryChanged($event)"></ng-select>

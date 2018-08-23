@@ -1,0 +1,30 @@
+<app-ssn-card [header]="'Security Details'" class="mb-3">
+  <form #form="ngForm">
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="checkbox">
+          <label class="col-form-label-sm no-wrap mb-0" for="ship_has_valid_ssp_checkbox">
+            <input [(ngModel)]="securityModel.shipHasValidSspOnBoard" (change)="touchData()" type="checkbox" name="ship_has_valid_ssp_checkbox"
+              id="ship_has_valid_ssp_checkbox"> The ship has a valid Ship Security Plan (SSP) on board
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Security Level at which the ship is currently
+          operating
+        </label>
+        <ng-select id="security_level_select" name="security_level_select" [items]="securityLevelList" bindLabel="name" bindValue="securityLevelId"
+          placeholder="Select security level..." [(ngModel)]="securityModel.securityLevelId" (change)="touchData()"></ng-select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label class="col-form-label-sm no-wrap mb-0" for="other_related_info">(Optional) Additional information</label>
+        <textarea [(ngModel)]="securityModel.otherRelatedInfo" (change)="touchData()" class="form-control form-control-sm" id="other_related_info"
+          name="other_related_info" rows="6" placeholder="If there are any other security-related matters you wish to report, you can provide them here."></textarea>
+      </div>
+    </div>
+  </form>
+</app-ssn-card>

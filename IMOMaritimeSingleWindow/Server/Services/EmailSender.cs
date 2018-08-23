@@ -2,6 +2,7 @@ using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.AspNetCore.Http;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Services
@@ -45,9 +46,9 @@ namespace IMOMaritimeSingleWindow.Services
 
             msg.AddTo(new EmailAddress(recipient));
             var result = await _emailClient.SendEmailAsync(msg);
-            if ((int)result.StatusCode != StatusCodes.Status200OK)
-                return EmailResult.Failed();
-            return EmailResult.Success;
+            if (result.StatusCode == HttpStatusCode.Accepted || result.StatusCode == HttpStatusCode.OK)
+                return EmailResult.Success; 
+            return EmailResult.Failed();
         }
     }
 }

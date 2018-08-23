@@ -172,12 +172,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__guards_login_guard__ = __webpack_require__("./src/app/auth/guards/login.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__guards_auth_home_guard__ = __webpack_require__("./src/app/auth/guards/auth-home.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__password_forgotten_password_forgotten_component__ = __webpack_require__("./src/app/auth/password-forgotten/password-forgotten.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__main_content_header_header_module__ = __webpack_require__("./src/app/main-content/header/header.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -214,6 +216,7 @@ var AuthModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */],
                 __WEBPACK_IMPORTED_MODULE_9__angular_router__["c" /* RouterModule */],
                 __WEBPACK_IMPORTED_MODULE_7__shared_shared_module__["a" /* SharedModule */],
+                __WEBPACK_IMPORTED_MODULE_23__main_content_header_header_module__["a" /* HeaderModule */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_11__password_password_component__["a" /* PasswordComponent */],
@@ -258,7 +261,7 @@ module.exports = ""
 /***/ "./src/app/auth/email-confirmation/email-confirmation.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"ACCOUNT CONFIRMATION\" icon=\"user.png\">\r\n\r\n    <div *ngIf=isRequesting></div>\r\n    <div *ngIf=!isRequesting>\r\n      <div *ngIf=\"emailConfirmationSuccessful\">\r\n        <div class=\"row\">\r\n          <div class=\"col col-sm-2 col-md-2 col-lg-2 col-xl-2 text-center\"></div>\r\n          <h3>Thank you for confirming your email address.</h3>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col col-sm-2 col-md-3 col-lg-5 col-xl-6 text-center\">\r\n            <p>Now please select a password for the account created by your local administrator:</p>\r\n          </div>\r\n        </div>\r\n  \r\n        <app-password purpose=\"Set\"></app-password>\r\n  \r\n        <!-- <div class=\"row\">\r\n          <div class=\"col\">\r\n            <h3>You will be redirected to login page in... </h3>\r\n          </div>\r\n          <div class=\"col\">\r\n            <h1>{{secondsRemaining}} seconds</h1>\r\n          </div>\r\n        </div> -->\r\n      </div>\r\n  \r\n      <app-ssn-card *ngIf=\"!emailConfirmationSuccessful\" header=\"Account confirmation\">\r\n        <p>Email confirmation unsuccessful.</p>\r\n        <p>This may occur if the link you've been provided has expired. Please contact your local system administrator.</p>\r\n        <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n          <span>{{errors}}</span>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n    \r\n    </app-ssn-bg>\r\n</div>"
+module.exports = "<app-header-home></app-header-home>\r\n<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"ACCOUNT CONFIRMATION\" icon=\"user.png\">\r\n\r\n    <div *ngIf=isRequesting></div>\r\n    <div *ngIf=!isRequesting>\r\n      <div *ngIf=\"emailConfirmationSuccessful\">\r\n        <div class=\"row\">\r\n          <div class=\"col col-sm-2 col-md-2 col-lg-2 col-xl-2 text-center\"></div>\r\n          <h3>Thank you for confirming your email address.</h3>\r\n        </div>\r\n        <div class=\"row\">\r\n          <div class=\"col col-sm-2 col-md-3 col-lg-5 col-xl-6 text-center\">\r\n            <p>Now please select a password for the account created by your local administrator:</p>\r\n          </div>\r\n        </div>\r\n  \r\n        <app-password purpose=\"Set\"></app-password>\r\n  \r\n        <!-- <div class=\"row\">\r\n          <div class=\"col\">\r\n            <h3>You will be redirected to login page in... </h3>\r\n          </div>\r\n          <div class=\"col\">\r\n            <h1>{{secondsRemaining}} seconds</h1>\r\n          </div>\r\n        </div> -->\r\n      </div>\r\n  \r\n      <app-ssn-card *ngIf=\"!emailConfirmationSuccessful\" header=\"Account confirmation\">\r\n        <p>Email confirmation unsuccessful.</p>\r\n        <p>This may occur if the link you've been provided has expired. Please contact your local system administrator.</p>\r\n        <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n          <span>{{errors}}</span>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n    \r\n    </app-ssn-bg>\r\n</div>"
 
 /***/ }),
 
@@ -539,6 +542,19 @@ var EmailConfirmationGuard = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -552,43 +568,75 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoginGuard = /** @class */ (function () {
-    function LoginGuard(router, authService, loginService) {
-        this.router = router;
-        this.authService = authService;
-        this.loginService = loginService;
+
+
+
+var LoginGuard = /** @class */ (function (_super) {
+    __extends(LoginGuard, _super);
+    function LoginGuard(router, authService, loginService, errorService) {
+        var _this = _super.call(this) || this;
+        _this.router = router;
+        _this.authService = authService;
+        _this.loginService = loginService;
+        _this.errorService = errorService;
+        return _this;
     }
     LoginGuard.prototype.canActivate = function (next, state) {
         var _this = this;
+        console.log('login guard');
         if (!this.authService.hasToken()) {
             return true;
         }
         else {
             return this.authService.hasValidToken()
-                .map(function (tokenValid) {
-                console.log(tokenValid);
-                if (tokenValid) {
-                    _this.router.navigateByUrl('');
-                    return false;
-                }
-                else {
-                    /* User tries to access login route with an invalid token
-                     * This is OK, just remove relevant variables from localStorage
-                     * so user can receive a new token upon login. */
-                    _this.loginService.logout();
-                    return true;
-                }
+                .toPromise()
+                .then(function () {
+                _this.router.navigateByUrl('');
+                return false;
+            })
+                .catch(function (error) {
+                console.log(error);
+                var _canActivate = _this.navigateByError(error);
+                return _canActivate;
             });
         }
+    };
+    LoginGuard.prototype.navigateByError = function (error) {
+        // Redirects user to correct page according to the error
+        if (error instanceof __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpErrorResponse */]) {
+            var httpError = error;
+            if (httpError.status >= 500) {
+                this.errorService.setDefaultHTTPError(error);
+                this.router.navigate(['/error']);
+            }
+            else if (httpError.status === 401 || httpError.status === 403) {
+                //  Unauthorized - token invalid
+                /*  User tries to access login route with an invalid token
+                *   This is OK, just remove relevant variables from localStorage
+                *   so user can receive a new token upon login. */
+                this.loginService.logout();
+                return true;
+            }
+            else {
+                this.errorService.setDefaultHTTPError(httpError);
+                this.router.navigate(['/error']);
+            }
+        }
+        else {
+            this.errorService.setDefaultError();
+            this.router.navigate(['/error']);
+        }
+        return false;
     };
     LoginGuard = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_6__shared_services_error_service__["a" /* ErrorService */]])
     ], LoginGuard);
     return LoginGuard;
-}());
+}(__WEBPACK_IMPORTED_MODULE_4__shared_services_base_service__["a" /* BaseService */]));
 
 
 
@@ -661,7 +709,7 @@ module.exports = ""
 /***/ "./src/app/auth/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\"\r\n            placeholder=\"Enter email address\"\r\n            [(ngModel)]=\"credentials.userName\" #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\"\r\n          placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <nav>\r\n        <a class=\"btn btn-light\" routerLink=\"../ForgotPassword\" routerLinkActive=\"active\">Forgot password?</a>\r\n      </nav>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <h5>Error</h5>\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>\r\n<router-outlet></router-outlet>"
+module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n          <h6>Development Version. Deployed: 22.08.2018\r\n          </h6>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email address\" [(ngModel)]=\"credentials.userName\"\r\n            #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\" placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <nav>\r\n        <a class=\"btn btn-light\" routerLink=\"../ForgotPassword\" routerLinkActive=\"active\">Forgot password?</a>\r\n      </nav>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <h5>Error</h5>\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -850,7 +898,7 @@ module.exports = ""
 /***/ "./src/app/auth/password-change/password-change.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-password purpose=\"Change\">\r\n</app-password>\r\n<router-outlet></router-outlet>\r\n"
+module.exports = "<app-header-home></app-header-home>\r\n<app-password purpose=\"Change\">\r\n</app-password>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -900,7 +948,7 @@ module.exports = ""
 /***/ "./src/app/auth/password-forgotten/password-forgotten.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"FORGOT PASSWORD\">\r\n    <app-ssn-card header=\"Forgot password\">\r\n      <div class=\"row\">\r\n        <div class=\"text-center col col-sm-2 col-md-4 col-lg-2 col-xl-6\">\r\n          <p>Please input the email you registered an account with. We will send you an email to that address, providing you\r\n            with a link to a page where you can reset your password.\r\n          </p>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"email\">Email</label>\r\n        <div class=\"col\">\r\n          <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" type=\"email\" placeholder=\"Enter email address\" [(ngModel)]=\"email\"\r\n            tmFocus validateEmail>\r\n        </div>\r\n\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <div class=\"col col-sm-2 col-md-2 col-lg-2 col-xl-2\">\r\n          <button class=\"btn btn-ssn\" (click)=\"requestPasswordReset();\">Send email link</button>\r\n        </div>\r\n      </div>\r\n    </app-ssn-card>\r\n\r\n    <!-- <app-feedback [props]=\"properties\"></app-feedback> -->\r\n    <app-feedback [started]=\"started\" [actionSucceeded]=\"actionSucceeded\" [successMessage]=\"successMessage\" [errors]=\"errors\" [errorDescription]=\"errorDescription\"></app-feedback>\r\n\r\n  </app-ssn-bg>\r\n</div>"
+module.exports = "<app-header-home></app-header-home>\r\n<div class=\"container pt-5\">\r\n  <app-ssn-bg header=\"FORGOT PASSWORD\">\r\n    <app-ssn-card header=\"Forgot password\">\r\n      <div class=\"row\">\r\n        <div class=\"text-center col col-sm-2 col-md-4 col-lg-2 col-xl-6\">\r\n          <p>Please input the email you registered an account with. We will send you an email to that address, providing you\r\n            with a link to a page where you can reset your password.\r\n          </p>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"email\">Email</label>\r\n        <div class=\"col\">\r\n          <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" type=\"email\" placeholder=\"Enter email address\" [(ngModel)]=\"email\"\r\n            tmFocus validateEmail>\r\n        </div>\r\n\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <div class=\"col col-sm-2 col-md-2 col-lg-2 col-xl-2\">\r\n          <button class=\"btn btn-ssn\" (click)=\"requestPasswordReset();\">Send email link</button>\r\n        </div>\r\n      </div>\r\n    </app-ssn-card>\r\n\r\n    <!-- <app-feedback [props]=\"properties\"></app-feedback> -->\r\n    <app-feedback [started]=\"started\" [actionSucceeded]=\"actionSucceeded\" [successMessage]=\"successMessage\" [errors]=\"errors\" [errorDescription]=\"errorDescription\"></app-feedback>\r\n\r\n  </app-ssn-bg>\r\n</div>"
 
 /***/ }),
 
@@ -977,7 +1025,7 @@ module.exports = ""
 /***/ "./src/app/auth/password-reset/password-reset.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-password purpose=\"Reset\"></app-password>\r\n<router-outlet></router-outlet>"
+module.exports = "<app-header-home></app-header-home>\r\n<app-password purpose=\"Reset\"></app-password>\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 

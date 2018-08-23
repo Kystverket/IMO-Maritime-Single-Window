@@ -1,0 +1,15 @@
+<app-table-card header="User Information" collapsible=true icon="user-info.png">
+  <tbody>
+    <tr>
+      <td *ngFor="let entry of createdByUserProperties" class="no-wrap px-1 mx-1">
+        <tr>
+          <small>{{ entry.description }}:</small>
+        </tr>
+        <tr>
+          <div *ngIf="entry.data">{{ entry.data }}</div>
+          <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+        </tr>
+      </td>
+    </tr>
+  </tbody>
+</app-table-card>
