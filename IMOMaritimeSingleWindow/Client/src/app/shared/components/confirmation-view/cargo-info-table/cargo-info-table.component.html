@@ -3,7 +3,7 @@
     <app-table-card header="Cargo" icon="cargo.png" collapsible=true>
       <tbody *ngIf="numberOfConsignments > 0">
         <tr>
-          <td class="no-wrap px-1 mx-1">
+          <td class="no-wrap">
             <tr>
               <small>No. of Consignments</small>
             </tr>
@@ -11,7 +11,7 @@
               {{ numberOfConsignments }}
             </tr>
           </td>
-          <td class="no-wrap px-1 mx-1">
+          <td class="no-wrap">
             <tr>
               <small>Total no. of Cargo Items</small>
             </tr>
@@ -19,7 +19,7 @@
               {{ numberOfCargoItems }}
             </tr>
           </td>
-          <td>
+          <td class="no-wrap">
             <tr>
               <small>Total no. of Packages</small>
             </tr>

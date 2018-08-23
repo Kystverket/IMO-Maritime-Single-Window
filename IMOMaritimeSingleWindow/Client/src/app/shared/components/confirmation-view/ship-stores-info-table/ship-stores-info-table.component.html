@@ -3,7 +3,7 @@
     <app-table-card header="Ship Stores" icon="alcohol.png" collapsible=true>
       <tbody *ngIf="numberOfShipStores > 0">
         <tr>
-          <td class="no-wrap px-1 mx-1">
+          <td class="no-wrap">
             <tr>
               <small>No. of Ship Stores</small>
             </tr>
@@ -11,7 +11,7 @@
               {{ numberOfShipStores }}
             </tr>
           </td>
-          <td class="no-wrap px-1 mx-1">
+          <td class="no-wrap">
             <tr>
               <small>Total Registered Weight</small>
             </tr>
@@ -19,7 +19,7 @@
               {{ totalWeight }} kg
             </tr>
           </td>
-          <td>
+          <td class="no-wrap">
             <tr>
               <small>Total Registered Volume</small>
             </tr>
@@ -27,7 +27,7 @@
               {{ totalVolume }} liter
             </tr>
           </td>
-          <td>
+          <td class="no-wrap">
             <tr>
               <small>Total Registered Units</small>
             </tr>
