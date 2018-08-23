@@ -1,5 +1,50 @@
-<app-ssn-bg>
-    <app-ssn-card header="Account overview">
-        <h1>Account overview works!</h1>
-    </app-ssn-card>
+<app-ssn-bg header="Account overview" icon="eye.png">
+    <div class="row mb-3">
+        <div class="col">
+            <app-table-card header="Personalia" collapsible=true icon="user-info.png">
+                <tbody id="person-details">
+                    <tr>
+                        <td *ngFor="let userLabel of userLabels">
+                            {{userLabel | uppercase}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let userValue of userValues">
+                            {{userValue}}
+                        </td>
+                    </tr>
+                </tbody>
+            </app-table-card>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <app-table-card header="Organization affiliation and permissions" collapsible=true icon="pax.png">
+                <tbody id="organization-permissions-details">
+                    <tr>
+                        <td *ngFor="let organizationLabel of organizationLabels">
+                            {{organizationLabel | uppercase}}
+                        </td>
+                        <td *ngFor="let roleLabel of roleLabels">
+                            {{roleLabel | uppercase}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td *ngFor="let organizationValue of organizationValues">
+                            {{organizationValue}}
+                        </td>
+                        <td *ngFor="let roleValue of roleValues">
+                            {{roleValue}}
+                        </td>
+                    </tr>
+                </tbody>
+            </app-table-card>
+        </div>
+    </div>
 </app-ssn-bg>
+<app-ssn-card header="Password change">
+    <div class="text-center">
+        <p>If you would like to change the password to your account, please click the button below.</p>
+        <button routerLink="/auth/ChangePassword" class="btn btn-ssn btn-sm">Change password</button>
+    </div>
+</app-ssn-card>
