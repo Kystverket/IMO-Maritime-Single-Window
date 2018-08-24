@@ -28,6 +28,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.isInitialized = false;
     if (!this.securityModel.companySecurityOfficer) {
       this.securityModel.companySecurityOfficer = new CompanySecurityOfficerModel();
     }

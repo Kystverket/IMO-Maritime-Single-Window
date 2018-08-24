@@ -354,6 +354,7 @@ export class PortCallService {
 
   // Wipe methods
   wipeServiceData() {
+    this.portCallDataSource.next(null);
     this.portCallIdSource.next(null);
     this.shipDataSource.next(null);
     this.locationDataSource.next(null);
