@@ -39,6 +39,8 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
         this.filterRoleFields(details);
         this.setAffiliationFields();
         this.setUserDetails();
+        this.formatLabels();
+        console.log(this);
       });
   }
 
@@ -72,6 +74,30 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
     this.userValues = this.values
       .filter(value => !this.affiliationValues
         .some(affiliationValue => affiliationValue === value));
+  }
+
+  formatLabels() {
+    const camel2title = (camelCase: string) => {
+      return camelCase
+      .replace(/([A-Z])/g, (match) => ` ${match}`)
+      .replace(/^./, (match) => match.toUpperCase()); 
+    }
+
+    for (let index = 0; index < this.userLabels.length; index++) {
+      const label = this.userLabels[index];
+      this.userLabels[index] = camel2title(label);
+    }
+
+    for (let index = 0; index < this.organizationLabels.length; index++) {
+      const label = this.organizationLabels[index];
+      this.organizationLabels[index] = camel2title(label);
+    }
+
+    for (let index = 0; index < this.roleLabels.length; index++) {
+      const label = this.roleLabels[index];
+      this.roleLabels[index] = camel2title(label);
+    }
+
   }
 
 }
