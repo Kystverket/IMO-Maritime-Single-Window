@@ -177,12 +177,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputPassengerModel.givenName" type="text"
-            name="givenName" alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            name="givenName" required>
           <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
             <li>
               <small>This field is required.</small>
@@ -190,16 +185,12 @@
           </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputPassengerModel.familyName" type="text"
-            name="familyName" alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            name="familyName" required>
           <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
             <li>
               <small>This field is required.</small>
@@ -207,6 +198,7 @@
           </div>
         </div>
       </div>
+      
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
         <div class="col my-auto">
@@ -236,6 +228,7 @@
           <app-search-country *ngIf="!inputPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Nationality</label>
         <div class="col my-auto">
@@ -258,6 +251,7 @@
           <app-search-country *ngIf="!inputPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
         <div class="col my-auto">
@@ -266,6 +260,7 @@
           </ng-select>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Transit</label>
         <div class="col my-auto">
@@ -274,6 +269,7 @@
           </ng-select>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
         <div class="col my-auto">
@@ -296,6 +292,7 @@
           </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
         <div class="col my-auto">
@@ -327,6 +324,7 @@
           </ng-select>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
         <div class="col my-auto">
@@ -334,6 +332,7 @@
             type="text" name="identityDocumentNumber">
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
         <div class="col my-auto">
@@ -358,6 +357,7 @@
             (deselectCountry)="resetIssuingNation()"></app-search-country>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
         <div class="col my-auto">
@@ -367,6 +367,7 @@
           </div>
         </div>
       </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
         <div class="col my-auto">
@@ -376,6 +377,7 @@
           </div>
         </div>
       </div>
+      
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
         <div class="col my-auto">

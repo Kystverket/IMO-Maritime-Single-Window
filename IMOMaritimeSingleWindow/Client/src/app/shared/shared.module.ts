@@ -38,7 +38,7 @@ import { NumberValidator } from './utils/custom-validators/number-validator.dire
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
-import { AlphaNumericValidator } from './utils/custom-validators/alpha-numeric-validator.directive';
+import { ExtendedAlphaNumericValidator } from './utils/custom-validators/extended-alpha-numeric-validator.directive';
 import { FormsModule } from '@angular/forms';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
 import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
@@ -60,7 +60,7 @@ import { OrganizationInfoTableComponent } from './components/organization-info-t
     NgSelectModule
   ],
   declarations: [
-    AlphaNumericValidator,
+    ExtendedAlphaNumericValidator,
     ClearancesComponent,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
@@ -108,7 +108,7 @@ import { OrganizationInfoTableComponent } from './components/organization-info-t
     OrganizationInfoTableComponent,
   ],
   exports: [
-    AlphaNumericValidator,
+    ExtendedAlphaNumericValidator,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     ContactSelectComponent,
