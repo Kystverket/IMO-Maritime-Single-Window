@@ -24,7 +24,6 @@ export class IdentityDocumentService {
 
     getIdentityDocumentById(id: number) {
         const uri = [this.identityDocumentUrl, id].join('/');
-        console.log(uri);
         return this.http.get(uri).map(res => res.json());
     }
 
@@ -44,7 +43,5 @@ export class IdentityDocumentService {
         return this.http.get(uri).map(res => res.json());
       }
 
-    getIdentityDocumentByPersonOnBoardId(personOnBoardId: number) {
-    }
 }
 

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { IntegerValidator } from './integer-validator.directive';
 import { NumberValidator } from './number-validator.directive';
 import { PositiveNumberValidator } from './positive-number-validator.directive';
-import { AlphaNumericValidator } from './alpha-numeric-validator.directive';
+import { ExtendedAlphaNumericValidator } from './extended-alpha-numeric-validator.directive';
 
 @NgModule({
   imports: [
@@ -11,13 +11,13 @@ import { AlphaNumericValidator } from './alpha-numeric-validator.directive';
     IntegerValidator,
     NumberValidator,
     PositiveNumberValidator,
-    AlphaNumericValidator
+    ExtendedAlphaNumericValidator
   ],
   exports: [
     IntegerValidator,
     NumberValidator,
     PositiveNumberValidator,
-    AlphaNumericValidator
+    ExtendedAlphaNumericValidator
   ]
 })
 

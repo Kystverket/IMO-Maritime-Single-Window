@@ -16,7 +16,7 @@ export class DateTimePickerComponent implements OnInit {
   @Output() dateTimeResult = new EventEmitter<DateTime>();
   @Output() dateFormatError = new EventEmitter<boolean>();
 
-  dateTimeModel: DateTime;
+  @Input() dateTimeModel: DateTime;
 
   validDateFormat = true;
 
@@ -25,7 +25,7 @@ export class DateTimePickerComponent implements OnInit {
   ngOnInit() {
     if (this.dateTimeInput != null) {
       this.dateTimeModel = JSON.parse(JSON.stringify(this.dateTimeInput));
-    } else {
+    } else if (this.dateTimeModel == null) {
       this.dateTimeModel = {
         date: null,
         time: new NgbTime(0, 0, 0)

@@ -150,7 +150,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ClaimId)
                     .HasColumnName("claim_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.ClaimTypeId).HasColumnName("claim_type_id");
 
@@ -170,7 +170,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ClaimTypeId)
                     .HasColumnName("claim_type_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.Description).HasColumnName("description");
 
@@ -941,7 +941,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PasswordId)
                     .HasColumnName("password_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.Hash).HasColumnName("hash");
             });
@@ -952,7 +952,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PersonId)
                     .HasColumnName("person_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.CompanyEmail).HasColumnName("company_email");
 
@@ -1249,7 +1249,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.RoleId)
                     .HasColumnName("role_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.ConcurrencyStamp).HasColumnName("concurrency_stamp");
 
@@ -1276,7 +1276,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.RoleClaimId)
                     .HasColumnName("role_claim_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.ClaimId).HasColumnName("claim_id");
 
@@ -1915,7 +1915,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("user_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.AccessFailedCount).HasColumnName("access_failed_count");
 
@@ -1977,7 +1977,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.UserLoginId)
                     .HasColumnName("user_login_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 
@@ -2005,7 +2005,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.UserTokenId)
                     .HasColumnName("user_token_id")
-                    .ValueGeneratedNever();
+                    ;
 
                 entity.Property(e => e.Discriminator).HasColumnName("discriminator");
 

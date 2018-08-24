@@ -82,4 +82,11 @@ export class SearchOrganizationComponent implements OnInit {
     this.organizationResult.emit(this.organizationModel);
   }
 
+  onFocus(e: Event): void {
+    e.stopPropagation();
+    setTimeout(() => {
+      const inputEvent: Event = new Event('input');
+      e.target.dispatchEvent(inputEvent);
+    }, 0);
+  }
 }

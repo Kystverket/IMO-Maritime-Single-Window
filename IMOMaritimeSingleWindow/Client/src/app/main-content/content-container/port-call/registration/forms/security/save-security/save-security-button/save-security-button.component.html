@@ -1,0 +1,9 @@
+<button *ngIf="allowSaving && !saving" class="btn btn-ssn" (click)="saveSecurity()">
+  <img src="assets/images/icons/128x128/white/save.png" height="24px">
+  <span>Save Security</span>
+</button>
+
+<button *ngIf="!(allowSaving && !saving)" class="btn btn-ssn" disabled>
+  <img src="assets/images/icons/128x128/white/save.png" height="24px">
+  <span>Save Security</span>
+</button>

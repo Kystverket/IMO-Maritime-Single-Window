@@ -6,12 +6,18 @@
 
 <div class="text-center">
   <label for="search-shipFlagCode">Search using flag code or name of country</label>
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-8">
-      <input id="search-shipFlagCode" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipFlagCodeModel"
-        [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectShipFlagCode($event)"
-        placeholder="Enter search here..." />
+  <div class="row justify-content-end">
+    <div class="col-sm-10 col-md-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <button disabled class="btn btn-sm btn-ssn">
+            <img src="assets/images/icons/128x128/white/search.png" height="20px">
+          </button>
+        </div>
+        <input id="search-shipFlagCode" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipFlagCodeModel"
+          [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectShipFlagCode($event)"
+          placeholder="Enter search here..." />
+      </div>
     </div>
     <div class="col-2">
       <div *ngIf="searching">

@@ -7,11 +7,10 @@ import { Subscription } from 'rxjs/Subscription';
 @Component({
   selector: 'app-security-details',
   templateUrl: './security-details.component.html',
-  styleUrls: ['./security-details.component.css'],
-  providers: [FalSecurityService]
+  styleUrls: ['./security-details.component.css']
 })
 export class SecurityDetailsComponent implements OnInit, OnDestroy {
-  @Input() securityModel: FalSecurityModel;
+  @Input() formModel: FalSecurityModel;
   securityLevelList: SecurityLevelModel[];
 
   // Subscriptions
@@ -22,6 +21,7 @@ export class SecurityDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.validateData();
     this.getSecurityLevelListSubscription = this.securityService.getSecurityLevelList().subscribe(
       data => {
         this.securityLevelList = data;
@@ -33,6 +33,22 @@ export class SecurityDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getSecurityLevelListSubscription.unsubscribe();
+  }
+
+  /** Called whenever a change is made to the formModel in the form. */
+  touchData() {
+    this.securityService.setPristineData(false);
+    this.validateData();
+  }
+
+  /** Checks that information required for saving is present. */
+  private validateData() {
+    this.securityService.setValidSecurityDetailsData(this.dataIsValid());
+  }
+
+  private dataIsValid(): boolean {
+    return this.formModel != null
+      && this.formModel.securityLevelId != null;
   }
 
 }

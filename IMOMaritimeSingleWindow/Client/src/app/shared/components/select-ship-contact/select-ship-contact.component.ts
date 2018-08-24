@@ -48,7 +48,6 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
   }
 
   onAdd($event) {
-    console.log(this.selectedContactModelList);
     this.selectedContactModelList.push($event);
     this.contactModelListResult.emit(this.selectedContactModelList);
   }
@@ -61,6 +60,11 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
     } else {
       console.error('Selected contact medium could not be found.');
     }
+  }
+
+  onClear() {
+    this.selectedContactModelList = [];
+    this.contactModelListResult.emit(this.selectedContactModelList);
   }
 
   preferredSet(selectedContactModel: ShipContactModel) {

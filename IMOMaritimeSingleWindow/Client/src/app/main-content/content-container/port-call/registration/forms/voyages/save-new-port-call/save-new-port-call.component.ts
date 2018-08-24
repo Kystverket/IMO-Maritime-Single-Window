@@ -3,9 +3,10 @@ import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel } from 'app/shared/models/location-model';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { ShipModel } from 'app/shared/models/ship-model';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { LoadPortCallService } from '../../../../load-port-call.service';
 
 @Component({
   selector: 'app-save-new-port-call',
@@ -33,6 +34,8 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
 
   voyagesErrors = false;
 
+  creatingPortCall = false;
+
   shipDataSubscription: Subscription;
   locationDataSubscription: Subscription;
   etaDataSubscription: Subscription;
@@ -43,7 +46,13 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
   nextLocationSubscription: Subscription;
   nextEtaSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) { }
+  isLoadingPortCallSubscription: Subscription;
+
+  constructor(
+    private portCallService: PortCallService,
+    private portCallDetailsService: PortCallDetailsService,
+    private loadPortCallService: LoadPortCallService,
+  ) { }
 
   ngOnInit() {
     this.shipDataSubscription = this.portCallService.shipData$.subscribe(shipData => {
@@ -92,6 +101,12 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
         this.voyagesErrors = hasError;
       }
     );
+
+    this.isLoadingPortCallSubscription = this.loadPortCallService.isLoading$.subscribe(
+      data => {
+        this.creatingPortCall = data;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -104,43 +119,40 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     this.prevEtdSubscription.unsubscribe();
     this.nextLocationSubscription.unsubscribe();
     this.nextEtaSubscription.unsubscribe();
+    this.isLoadingPortCallSubscription.unsubscribe();
   }
 
   formatDateTime(dateTime: DateTime): Date {
     return new Date(dateTime.date.year, dateTime.date.month - 1, dateTime.date.day, dateTime.time.hour, dateTime.time.minute);
   }
 
-  registerPortCallDraft()  {
-    const portCallModel = new PortCallModel();
+  private buildPortCallModel(oldPortCallModel: PortCallModel = null): PortCallModel {
+    const portCallModel = !!oldPortCallModel ? oldPortCallModel : new PortCallModel();
     portCallModel.shipId = this.shipModel.shipId;
     portCallModel.locationId = this.locationModel.locationId;
     portCallModel.locationEta = this.formatDateTime(this.etaModel);
     portCallModel.locationEtd = this.formatDateTime(this.etdModel);
 
-    if (this.prevLocationFound) {
-      portCallModel.previousLocationId = this.prevLocationModel.locationId;
-    }
+    portCallModel.previousLocationId = this.prevLocationFound ? this.prevLocationModel.locationId : null;
+    portCallModel.previousLocationEtd = this.prevEtdFound ? this.formatDateTime(this.prevEtdModel) : null;
+    portCallModel.nextLocationId = this.nextLocationFound ? this.nextLocationModel.locationId : null;
+    portCallModel.nextLocationEta = this.nextEtaFound ? this.formatDateTime(this.nextEtaModel) : null;
 
-    if (this.prevEtdFound) {
-      portCallModel.previousLocationEtd = this.formatDateTime(this.prevEtdModel);
-    }
+    return portCallModel;
+  }
 
-    if (this.nextLocationFound) {
-      portCallModel.nextLocationId = this.nextLocationModel.locationId;
-    }
-
-    if (this.nextEtaFound) {
-      portCallModel.nextLocationEta = this.formatDateTime(this.nextEtaModel);
-    }
-
+  registerPortCallDraft() {
+    this.creatingPortCall = true;
+    const portCallModel = this.buildPortCallModel();
     this.portCallService.registerNewPortCall(portCallModel).subscribe(
       result => {
-        console.log('New port call successfully registered.');
+        console.log('New port call successfully registered:', result);
         // add list of authorities for clearance
         console.log('Registering authority clearance agencies to port call...');
         this.portCallService.registerClearanceAgenciesForPortCall(result);
 
-        this.portCallService.setPortCallIdData(result.portCallId);
+        this.portCallDetailsService.wipeDetailsData();
+        this.loadPortCallService.setContent(result.portCallId);
       },
       error => {
         console.log(error);

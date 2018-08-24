@@ -1,6 +1,24 @@
 <app-ssn-card header="Activate Port Call" icon="save.png" class="text-center">
   <div class="text-center">
 
+    <div *ngIf="numberOfCrewError" class="row">
+      <div class="col">
+        <div class="alert alert-danger">
+          <span>Error: Crew information does not correspond to number of crew specified.</span>
+          <br>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="numberOfPassengersError" class="row">
+      <div class="col">
+        <div class="alert alert-danger">
+          <span>Error: Passenger information does not correspond to number of passengers specified.</span>
+          <br>
+        </div>
+      </div>
+    </div>
+
     <div *ngIf="!voyagesIsPristine" class="row">
 
       <div *ngIf="!voyagesErrors" class="col">
@@ -80,24 +98,37 @@
     </div>
 
     <div *ngIf="!crewDataIsPristine && crewListIsChecked" class="row">
-        <div class="col">
-          <div class="alert alert-warning">
-            <span>Warning: Crew list data is unsaved.</span>
-            <br>
-            <button class="btn btn-ssn mt-2" (click)="saveCrewList()">
-              <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Crew List
-            </button>
-          </div>
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: Crew list data is unsaved.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="saveCrewList()">
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save Crew List
+          </button>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="allowSavingSecurity" class="row">
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: Security data is unsaved.</span>
+          <br>
+          <app-save-security-button [portCallId]="portCallId"></app-save-security-button>
+        </div>
+      </div>
+    </div>
+
 
     <div class="row" *ngIf="portCallIsDraft">
-      <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine" class="col">
+      <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine && !numberOfCrewError && !numberOfPassengersError"
+        class="col">
         <p class="mb-0">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>
-      <div *ngIf="!((detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine)" class="col">
+      <div *ngIf="!((detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine) || (numberOfCrewError || numberOfPassengersError)"
+        class="col">
         <button class="btn btn-ssn" disabled>
           <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>

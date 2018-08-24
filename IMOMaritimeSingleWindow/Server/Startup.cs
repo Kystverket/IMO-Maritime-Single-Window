@@ -270,13 +270,6 @@ namespace IMOMaritimeSingleWindow
                     context.Request.Path = "/index.html";
                     await next();
                 }
-                if (context.Request.Path.Value.Contains("/api/auth/hasValidToken") && context.Response.StatusCode == StatusCodes.Status401Unauthorized)
-                {
-                    context.Response.StatusCode = StatusCodes.Status200OK;
-                    context.Response.ContentType = new MediaTypeHeaderValue("application/json").ToString();
-                    byte[] data = Encoding.UTF8.GetBytes("false");
-                    await context.Response.Body.WriteAsync(data, 0, data.Length);
-                }
             });
 
             if (!env.IsProduction())

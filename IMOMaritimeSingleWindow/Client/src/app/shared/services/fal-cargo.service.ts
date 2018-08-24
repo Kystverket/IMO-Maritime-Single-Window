@@ -39,7 +39,6 @@ export class FalCargoService {
     }
 
     saveConsignmentListForPortCall(consignmentList: ConsignmentModel[], portCallId: number) {
-        console.log(consignmentList);
         const uri = [this.portCallUrl, portCallId, this.consignmentsString].join('/');
         return this.http.put(uri, consignmentList);
     }

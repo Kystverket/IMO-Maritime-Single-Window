@@ -13,6 +13,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
+import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -32,11 +33,14 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   cargoDataIsPristine = true;
   passengerDataIsPristine: Boolean = true;
   crewDataIsPristine: Boolean = true;
+  securityIsPristine = true;
 
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
   passengerListIsChecked = false;
   crewListIsChecked = false;
+  securityIsChecked = false;
+
 
   voyagesErrors = false;
 
@@ -55,6 +59,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   portCallStatus: string;
   portCallIsDraft = false;
   STATUS_DRAFT = 'Draft';
+
+  numberOfCrewError = false;
+  numberOfPassengersError = false;
 
   voyagesIsPristineSubscription: Subscription;
   voyagesErrorSubscription: Subscription;
@@ -78,6 +85,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   crewDataSubscription: Subscription;
   crewListIsPristineSubscription: Subscription;
   crewListIsCheckedSubscription: Subscription;
+  securityIsCheckedSubscription: Subscription;
+  securityIsPristineSubscription: Subscription;
+  allowSavingSecuritySubscription: Subscription;
+  allowSavingSecurity = false;
 
   constructor(
     private contentService: ContentService,
@@ -86,7 +97,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal,
-    private personOnBoardService: PortCallFalPersonOnBoardService
+    private personOnBoardService: PortCallFalPersonOnBoardService,
+    private securityService: FalSecurityService
   ) { }
 
   ngOnInit() {
@@ -100,7 +112,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     );
     this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
       hasError => {
-          this.voyagesErrors = hasError;
+        this.voyagesErrors = hasError;
       }
     );
     //
@@ -131,7 +143,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       reportingData => {
         if (reportingData) {
-          console.log(reportingData);
           this.reportingModel = reportingData;
           this.cargoIsChecked = this.reportingModel.reportingCargo || false;
         }
@@ -185,14 +196,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.cargoDataIsPristine = pristineData;
       }
     );
-
-
     //
     // Passenger List
     //
     this.passengerDataSubscription = this.personOnBoardService.passengerList$.subscribe(
       passengerData => {
         this.passengerList = passengerData;
+        if (this.passengerList.length !== this.crewPassengersAndDimensionsModel.numberOfPassengers) {
+          this.numberOfPassengersError = true;
+        } else {
+          this.numberOfPassengersError = false;
+        }
       }
     );
     this.passengerListIsPristineSubscription = this.personOnBoardService.passengerDataIsPristine$.subscribe(
@@ -205,13 +219,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.passengerListIsChecked = isChecked;
       }
     );
-
     //
     // Crew List
     //
     this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(
       crewData => {
         this.crewList = crewData;
+        if (this.crewList.length !== this.crewPassengersAndDimensionsModel.numberOfCrew) {
+          this.numberOfCrewError = true;
+        } else {
+          this.numberOfCrewError = false;
+        }
       }
     );
     this.crewListIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
@@ -222,9 +240,28 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewListIsCheckedSubscription = this.personOnBoardService.crewListIsChecked$.subscribe(
       isChecked => {
         this.crewListIsChecked = isChecked;
-        console.log(isChecked);
       }
     );
+
+    //
+    // Security
+    //
+    this.securityIsPristineSubscription = this.securityService.pristineData$.subscribe(
+      pristineData => {
+        this.securityIsPristine = pristineData;
+      }
+    );
+    this.securityIsCheckedSubscription = this.securityService.securityIsCheckedData$.subscribe(
+      isChecked => {
+        this.securityIsChecked = isChecked;
+      }
+    );
+    this.allowSavingSecuritySubscription = this.securityService.allowSavingData$.subscribe(
+      allowSavingData => {
+        this.allowSavingSecurity = allowSavingData;
+      }
+    );
+
 
     //
     // Status
@@ -271,7 +308,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   }
 
   saveDetails() {
-    this.detailsModel.portCallDetailsId = this.portCallId;
+    // this.detailsModel.portCallDetailsId = this.portCallId;
     this.detailsModel.portCallId = this.portCallId;
     this.detailsModel.numberOfCrew = this.crewPassengersAndDimensionsModel.numberOfCrew;
     this.detailsModel.numberOfPassengers = this.crewPassengersAndDimensionsModel.numberOfPassengers;
@@ -287,7 +324,11 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       this.detailsModel,
       this.purposeModel,
       this.otherPurposeName
-    );
+    ).subscribe(detailsResponse => {
+      console.log('Successfully saved port call details:', detailsResponse);
+      this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
+      this.portCallService.savePurposesForPortCall(this.portCallId, this.purposeModel, this.otherPurposeName);
+    });
   }
 
   saveShipStores() {

@@ -18,7 +18,6 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
-import { ConfirmationModule } from './confirmation/confirmation.module';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -39,10 +38,10 @@ import { PortCallDetailsComponent } from './registration/forms/port-call-details
 import { PurposeComponent } from './registration/forms/port-call-details/purpose/purpose.component';
 import { ReportingComponent } from './registration/forms/port-call-details/reporting/reporting.component';
 import { SaveDetailsComponent } from './registration/forms/port-call-details/save-details/save-details.component';
-import { ActionButtonsComponent } from './registration/forms/shared/action-buttons/action-buttons.component';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
-import { DeleteButtonComponent } from './registration/forms/shared/delete-button/delete-button.component';
-import { IdentityDocumentComponent } from './registration/forms/shared/identity-document/identity-document.component';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
 import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
@@ -50,6 +49,7 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
 import { SecurityComponent } from './registration/forms/security/security.component';
 import { SecurityDetailsComponent } from './registration/forms/security/security-details/security-details.component';
 import { CompanySecurityOfficerComponent } from './registration/forms/security/company-security-officer/company-security-officer.component';
@@ -59,11 +59,15 @@ import { Last10PortCallsTableComponent } from './registration/forms/security/las
 import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
 import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
+import { SaveSecurityButtonComponent } from './registration/forms/security/save-security/save-security-button/save-security-button.component';
+import { ActivatePortCallComponent } from './confirmation/activate-port-call/activate-port-call.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { LoadPortCallService } from './load-port-call.service';
+import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfirmationModule,
     FormsModule,
     HttpModule,
     Ng2SmartTableModule,
@@ -105,7 +109,6 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
     PassengerModalComponent,
     CrewListComponent,
     CrewMemberModalComponent,
-    SaveCrewListComponent,
     VoyagesComponent,
     SaveVoyagesComponent,
     SaveNewPortCallComponent,
@@ -117,15 +120,22 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
     ShipToShipActivityComponent,
     ShipToShipActivityTableComponent,
     SaveSecurityComponent,
+    SaveSecurityButtonComponent,
+    ActivatePortCallComponent,
+    ConfirmationComponent,
+    SaveCrewListComponent,
+    ShipStoresModalComponent
   ],
   exports: [
     ClearanceComponent,
     PortCallComponent,
     RegistrationComponent,
     ViewPortCallComponent,
+    ConfirmationComponent
   ],
   providers: [
     PortCallService,
+    LoadPortCallService,
     FalShipStoresService,
     IdentityDocumentService,
     CountryService,
@@ -133,7 +143,8 @@ import { SaveSecurityComponent } from './registration/forms/security/save-securi
     FalCargoService,
     ValidateDateTimeService,
     PortCallFalPersonOnBoardService,
-    FalSecurityService
+    FalSecurityService,
+    PortCallOverviewService
   ]
 })
 export class PortCallModule { }

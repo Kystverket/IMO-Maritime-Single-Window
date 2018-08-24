@@ -35,7 +35,6 @@ export class FalShipStoresService {
   // Save ship stores list to database
   saveShipStores(shipStoresList: any[], portCallId: number) {
     console.log('Saving ship stores...');
-    console.log(shipStoresList);
     const uri = [this.shipStoresUrl, portCallId, this.shipStoresListString].join('/');
     return this.http.put(uri, shipStoresList);
   }

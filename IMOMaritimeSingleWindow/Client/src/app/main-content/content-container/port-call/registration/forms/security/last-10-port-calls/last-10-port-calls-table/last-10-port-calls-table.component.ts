@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { SecurityPreviousPortOfCallModel } from '../../../../../../../../shared/models/security-previous-port-of-call-model';
+import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
 import { DatePipe } from '@angular/common';
-import { LocalDataSource } from '../../../../../../../../../../node_modules/ng2-smart-table';
-import { DeleteButtonComponent } from '../../../shared/delete-button/delete-button.component';
+import { LocalDataSource } from 'ng2-smart-table';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 
 @Component({
   selector: 'app-last-10-port-calls-table',
@@ -11,12 +11,12 @@ import { DeleteButtonComponent } from '../../../shared/delete-button/delete-butt
   providers: [DatePipe]
 })
 export class Last10PortCallsTableComponent implements OnInit, OnChanges {
-  @Input() portCallList: SecurityPreviousPortOfCallModel[] = [];
+  @Input() tableEntryList: SecurityPreviousPortOfCallModel[] = [];
   @Output() delete = new EventEmitter<any>();
 
-  portCallDataSource: LocalDataSource = new LocalDataSource();
+  tableDataSource: LocalDataSource = new LocalDataSource();
 
-  portCallTableSettings = {
+  tableSettings = {
     mode: 'external',
     actions: false,
     attr: {
@@ -66,29 +66,32 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    if (this.portCallList && this.portCallList.length > 0) {
+    if (this.tableEntryList && this.tableEntryList.length > 0) {
       const rows = this.generateRows();
-      this.portCallDataSource.load(rows);
+      this.tableDataSource.load(rows);
     } else {
-      this.portCallDataSource.load([]);
+      this.tableDataSource.load([]);
     }
   }
 
+  /** Called whenever a change is made to the tableEntryList input. */
   ngOnChanges(changes: SimpleChanges) {
-    if (this.portCallList && this.portCallList.length > 0) {
+    if (this.tableEntryList && this.tableEntryList.length > 0) {
       const rows = this.generateRows();
-      this.portCallDataSource.load(rows);
+      this.tableDataSource.load(rows);
     } else {
-      this.portCallDataSource.load([]);
+      this.tableDataSource.load([]);
     }
   }
 
+  /** Emits event to parent component telling it to remove an entry from the table. */
   deletePortCall(row) {
     this.delete.emit(row);
   }
 
+  /** Maps content of tableEntryList to a format compatible with tableSettings. */
   generateRows() {
-    const rowData = this.portCallList.map(pc => {
+    const rowData = this.tableEntryList.map(pc => {
       return {
         portCall: pc,
         portOfCall: (pc.location != null) ? pc.location.name : '',

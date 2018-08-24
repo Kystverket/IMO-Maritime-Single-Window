@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { LoginGuard } from './guards/login.guard';
 import { AuthHomeGuard } from './guards/auth-home.guard';
 import { PasswordForgottenComponent } from './password-forgotten/password-forgotten.component';
+import { HeaderModule } from '../main-content/header/header.module';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { PasswordForgottenComponent } from './password-forgotten/password-forgot
     NgSelectModule,
     RouterModule,
     SharedModule,
+    HeaderModule
   ],
   exports: [
     PasswordComponent,

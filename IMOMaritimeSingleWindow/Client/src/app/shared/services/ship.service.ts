@@ -28,6 +28,12 @@ export class ShipService {
   private shipSearchDataSource = new BehaviorSubject<any>(null);
   shipSearchData$ = this.shipSearchDataSource.asObservable();
 
+  private validIsscDataSource = new BehaviorSubject<boolean>(false);
+  validIsscData$ = this.validIsscDataSource.asObservable();
+
+  private isscPristineDataSource = new BehaviorSubject<boolean>(true);
+  isscPristineData$ = this.isscPristineDataSource.asObservable();
+
   constructor(
     private http: HttpClient
   ) { }
@@ -40,6 +46,14 @@ export class ShipService {
   getShip(id: number): Observable<any> {
     const uri = [this.shipUrl, id].join('/');
     return this.http.get(uri);
+  }
+
+  setValidIsscData(data: boolean) {
+    this.validIsscDataSource.next(data);
+  }
+
+  setIsscPristineData(data: boolean) {
+    this.isscPristineDataSource.next(data);
   }
 
   setShipData(data) {

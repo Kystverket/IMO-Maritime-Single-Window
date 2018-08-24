@@ -63,7 +63,6 @@ export class SearchCountryComponent implements OnInit {
         } else {
           this.countryService.search(this.locationModel).subscribe(
             data => {
-              console.log(data);
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
               // this.countryService.setCountrySearchData(data);
               this.searching = false;
@@ -88,6 +87,14 @@ export class SearchCountryComponent implements OnInit {
     this.locationModel = null;
     this.locationFlag = null;
     this.deselectCountry.emit();
+  }
+
+  onFocus(e: Event): void {
+    e.stopPropagation();
+    setTimeout(() => {
+      const inputEvent: Event = new Event('input');
+      e.target.dispatchEvent(inputEvent);
+    }, 0);
   }
 
   ngOnInit() {

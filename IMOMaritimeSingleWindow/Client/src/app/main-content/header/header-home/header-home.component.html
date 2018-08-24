@@ -1,0 +1,30 @@
+<header *ngIf="standAlone; else inExistingNav">
+  <nav class="navbar navbar-dark bg-ssn">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item">
+        <button class="btn btn-sm btn-ssn" (click)="onClick()" routerLink="/">
+          <img src="{{iconPath}}home.png" height="16px">
+        </button>
+        <img src="/assets/images/logos/logo.png" height="32px" />
+        <span class="text-center text-ssn">IMO Maritime Single Window</span>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+          <span class="text-center text-ssn mx-3">Development Version. Deployed: 24.08.2018</span>
+      </li>
+    </ul>
+  </nav>
+
+</header>
+
+<ng-template #inExistingNav>
+  <li class="nav-item">
+    <button class="btn btn-sm btn-ssn" (click)="onClick()" routerLink="/">
+      <img src="{{iconPath}}home.png" height="16px">
+    </button>
+    <img src="/assets/images/logos/logo.png" height="32px" />
+    <span class="text-center text-ssn">IMO Maritime Single Window</span>
+  </li>
+</ng-template>

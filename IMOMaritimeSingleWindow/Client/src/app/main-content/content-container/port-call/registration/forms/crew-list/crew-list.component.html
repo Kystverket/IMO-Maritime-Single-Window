@@ -3,38 +3,31 @@
   <form name="crewForm" #form="ngForm">
 
     <div class="col-lg-12">
-      <app-ssn-card header="Personalia" icon="user.png">
+      <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
-                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name"
-                  class="form-control form-control-sm" alphaNumericValidator required name="familyName">
+                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
+                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
+                  name="givenName" required>
               </div>
             </div>
-            <div class="alert alert-danger" *ngIf="!familyName.valid && familyName.touched">
-              <li *ngIf="familyName.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
-              <li *ngIf="familyName.hasError('required')">
+            <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
+              <li>
                 <small>This field is required.</small>
               </li>
             </div>
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
-                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  name="givenName" alphaNumericValidator required>
+                <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
+                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
+                  required name="familyName">
               </div>
             </div>
-
-            <div class="alert alert-danger" *ngIf="!givenName.valid && givenName.touched">
-              <li *ngIf="givenName.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
-              <li *ngIf="givenName.hasError('required')">
+            <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
+              <li>
                 <small>This field is required.</small>
               </li>
             </div>
@@ -42,7 +35,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Date of Birth</label>
-                <app-date-picker (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
+                <app-date-picker (dateResult)="setDateOfBirth($event)" [dateInput]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
               </div>
             </div>
 
@@ -114,13 +107,8 @@
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
                 <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallCrewModel.placeOfBirth" placeholder="Place of Birth" class="form-control form-control-sm"
-                  name="placeOfBirth" alphaNumericValidator>
+                  name="placeOfBirth">
               </div>
-            </div>
-            <div class="alert alert-danger" *ngIf="placeOfBirth.hasError('invalidAlphaNumeric') && placeOfBirth.touched">
-              <li *ngIf="placeOfBirth.hasError('invalidAlphaNumeric')">
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
             </div>
 
             <div class="form-group row">
@@ -150,10 +138,10 @@
       <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">
         <span>Submit</span>
       </button>
-      <button *ngIf="crewList?.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
+      <button *ngIf="crewList?.length > 0" type="submit" class="btn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
         <span>Delete all crew members</span>
       </button>
-      <button *ngIf="crewList?.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+      <button *ngIf="crewList?.length === 0" type="submit" class="btn mt-2 btn-danger float-right" disabled>
         <span>Delete all crew members</span>
       </button>
     </div>
@@ -187,10 +175,10 @@
     Do you want to delete all crew members in the list?
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllCrewMembers(); close">
+    <button type="submit" class="btn mt-2 btn-danger float-right" (click)="deleteAllCrewMembers(); close">
       <span>Delete all crew members</span>
     </button>
-    <button type="button" class="btn btn-ssn" (click)="close">
+    <button type="button" class="btn mt-2 btn-ssn" (click)="close">
       <span>Cancel</span>
     </button>
   </div>

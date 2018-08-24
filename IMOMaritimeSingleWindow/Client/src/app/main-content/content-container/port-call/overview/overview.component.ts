@@ -6,18 +6,18 @@ import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types
 import { AccountService } from 'app/shared/services/account.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { OrganizationService } from 'app/shared/services/organization.service';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 import { Subscription } from 'rxjs/Subscription';
+import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css'],
-  providers: [PortCallOverviewService, OrganizationService, DatePipe]
+  providers: [OrganizationService, DatePipe]
 })
 export class OverviewComponent implements OnInit, OnDestroy {
   permissions = PortCallClaims.portCallPermissions;
@@ -81,7 +81,18 @@ export class OverviewComponent implements OnInit, OnDestroy {
         type: 'custom',
         filter: false,
         sort: false,
-        renderComponent: ButtonRowComponent
+        renderComponent: ButtonRowComponent,
+        onComponentInitFunction: (instance) => {
+          instance.portCallCancelled.subscribe(portCallId => {
+            this.onPortCallCancelled(portCallId);
+          });
+          instance.portCallCompleted.subscribe(portCallId => {
+            this.onPortCallCompleted(portCallId);
+          });
+          instance.portCallUncompleted.subscribe(portCallId => {
+            this.onPortCallUncompleted(portCallId);
+          });
+        }
       }
     }
   };
@@ -278,8 +289,12 @@ export class OverviewComponent implements OnInit, OnDestroy {
                     this.overviewService.setOverviewData(this.overviewList.sort(
                       (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
                     ));
-                    this.overviewService.setDraftData(this.draftOverviewList);
-                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList);
+                    this.overviewService.setDraftData(this.draftOverviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
+                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(
+                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+                    ));
                   }
                 },
                 error => console.log(error),
@@ -308,6 +323,27 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.overviewService.setOverviewData(portCallList.sort(
       (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
     ));
+  }
+
+  onPortCallCancelled(portCallId) {
+    this.movePortCallToList(portCallId, this.overviewList, this.cancelledOverviewList);
+  }
+
+  onPortCallCompleted(portCallId) {
+    this.movePortCallToList(portCallId, this.overviewList, this.completedOverviewList);
+  }
+
+  onPortCallUncompleted(portCallId) {
+    this.movePortCallToList(portCallId, this.completedOverviewList, this.overviewList);
+  }
+
+  private movePortCallToList(portCallId: number, fromList: any[], toList: any[]) {
+    const portCallIndex = fromList.findIndex(row => row.overviewModel.portCall.portCallId === portCallId);
+    if (portCallIndex >= 0) {
+      toList.push(fromList[portCallIndex]);
+      fromList.splice(portCallIndex, 1);
+      this.rerenderList();
+    }
   }
 
   toggleCancelledPortCalls(showCancelled) {
