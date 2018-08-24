@@ -130,7 +130,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   // Set measurement type and id of model
   selectMeasurementType(measurementType) {
-    if (measurementType) {
+    if (typeof measurementType !== 'undefined') {
       this.shipStoresModel.measurementType = measurementType;
       this.shipStoresModel.measurementTypeId = measurementType.measurementTypeId;
     } else {
