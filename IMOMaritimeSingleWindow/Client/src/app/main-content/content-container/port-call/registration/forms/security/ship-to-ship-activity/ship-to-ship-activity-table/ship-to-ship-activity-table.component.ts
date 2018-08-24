@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { ShipToShipActivityModel } from '../../../../../../../../shared/models/ship-to-ship-activity-model';
-import { LocalDataSource } from '../../../../../../../../../../node_modules/ng2-smart-table';
-import { DeleteButtonComponent } from 'app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component';
-import { DatePipe } from '../../../../../../../../../../node_modules/@angular/common';
+import { ShipToShipActivityModel } from 'app/shared/models/ship-to-ship-activity-model';
+import { LocalDataSource } from 'ng2-smart-table';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ship-to-ship-activity-table',

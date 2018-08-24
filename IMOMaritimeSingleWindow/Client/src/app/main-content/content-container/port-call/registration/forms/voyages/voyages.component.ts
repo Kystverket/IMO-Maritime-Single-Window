@@ -56,7 +56,6 @@ export class VoyagesComponent implements OnInit {
       this.setPrevLocationData(this.prevLocationModel);
     }
 
-    console.log(this.nextLocationModel);
     this.nextLocationFound = !!this.nextLocationModel;
     if (this.nextLocationFound) {
       this.setNextLocationData(this.nextLocationModel);

@@ -6,7 +6,7 @@ import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.servic
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 

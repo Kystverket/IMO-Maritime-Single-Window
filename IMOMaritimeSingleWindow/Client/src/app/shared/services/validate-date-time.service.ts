@@ -7,13 +7,12 @@ export class ValidateDateTimeService {
 
   constructor() { }
 
-  checkDocumentDates(beforeDateTime, afterDateTime): Boolean {
+  checkDocumentDatesError(beforeDateTime, afterDateTime): Boolean {
     // The dates are in the Date format
-
     if (beforeDateTime && afterDateTime) {
 
       if (beforeDateTime.date && beforeDateTime.time && afterDateTime.date && afterDateTime.time) {
-        // TODO: Intesert time
+        // TODO: Insert time for DateTimePickerComponent
         beforeDateTime = beforeDateTime != null ? this.getNgbDateTimeFormat(beforeDateTime).date : null;
         afterDateTime = afterDateTime != null ? this.getNgbDateTimeFormat(afterDateTime).date : null;
       } else {

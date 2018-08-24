@@ -144,7 +144,7 @@ export class CrewMemberModalComponent implements OnInit {
     this.inputCrewModel.identityDocument[0].identityDocumentIssueDate = date;
     const issueDate = this.inputCrewModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputCrewModel.identityDocument[0].identityDocumentExpiryDate;
-    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+    if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.issueDateAfterExpiryDateError = true;
     } else {
       this.issueDateAfterExpiryDateError = false;
@@ -163,7 +163,7 @@ export class CrewMemberModalComponent implements OnInit {
     this.inputCrewModel.identityDocument[0].identityDocumentExpiryDate = date;
     const issueDate = this.inputCrewModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputCrewModel.identityDocument[0].identityDocumentExpiryDate;
-    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+    if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.expiryDateBeforeExpiryDateError = true;
     } else {
       this.issueDateAfterExpiryDateError = false;

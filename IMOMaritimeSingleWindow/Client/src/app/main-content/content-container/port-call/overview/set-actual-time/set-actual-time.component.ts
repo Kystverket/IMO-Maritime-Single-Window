@@ -137,7 +137,6 @@ export class SetActualTimeComponent implements OnInit {
     this.portCallService.updatePortCall(this.portCallModel).subscribe(
       result => {
         this.saved = true;
-        console.log(result);
         if (null != result.locationAtd) {
           this.portCallService.updatePortCallStatusCompleted(result.portCallId).subscribe(
             res => {

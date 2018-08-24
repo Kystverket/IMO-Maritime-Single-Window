@@ -1,0 +1,52 @@
+:host ::ng-deep .ng-placeholder,
+::placeholder {
+  font-size: 0.875rem;
+  color: gray !important;
+  font-style: italic;
+}
+
+:host ::ng-deep .ng-select .ng-select-container {
+  min-height: 31px;
+  height: 31px;
+  border-radius: 0.2rem;
+  border-color: #ced4da;
+}
+
+:host
+  ::ng-deep
+  .ng-dropdown-panel
+  ::ng-deep
+  .ng-dropdown-panel-items
+  ::ng-deep
+  .ng-option {
+  font-size: 0.875rem;
+}
+
+:host
+  ::ng-deep
+  .ng-select
+  ::ng-deep
+  .ng-select-container
+  ::ng-deep
+  .ng-value-container
+  ::ng-deep
+  .ng-value{
+    padding: 0;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    color: #495057;
+}
+
+:host
+  ::ng-deep
+  .ng-select
+  ::ng-deep
+  .ng-select-container
+  ::ng-deep
+  .ng-value-container
+  ::ng-deep
+  .ng-input {
+      top: auto;
+      padding-left: 8px;
+  }

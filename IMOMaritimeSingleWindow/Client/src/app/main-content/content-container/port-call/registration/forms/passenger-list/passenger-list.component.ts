@@ -7,9 +7,9 @@ import { GenderModel } from 'app/shared/models/gender-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Subscription } from 'rxjs/Subscription';
 import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
-import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
-import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
+import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 import { LocationModel } from 'app/shared/models/location-model';
@@ -257,8 +257,8 @@ export class PassengerListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    if ($event.date) {
-      const date: Date = new Date($event.date.year, $event.date.month -  1, $event.date.day);
+    if ($event) {
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
       this.portCallPassengerModel.dateOfBirth = date;
     } else {
       this.portCallPassengerModel.dateOfBirth = null;

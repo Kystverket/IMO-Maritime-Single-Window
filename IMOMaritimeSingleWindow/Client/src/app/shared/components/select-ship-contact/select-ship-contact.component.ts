@@ -48,7 +48,6 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
   }
 
   onAdd($event) {
-    console.log(this.selectedContactModelList);
     this.selectedContactModelList.push($event);
     this.contactModelListResult.emit(this.selectedContactModelList);
   }

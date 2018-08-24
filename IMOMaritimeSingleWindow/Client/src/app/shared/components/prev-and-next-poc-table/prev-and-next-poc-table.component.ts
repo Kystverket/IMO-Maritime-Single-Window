@@ -51,7 +51,6 @@ export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {
         this.nextLocationTimeProperties.LOCATION_CODE.data = nextPocResult.locationCode;
         this.portCallService.nextEtaData$.subscribe(dateTimeResult => {
           if (dateTimeResult) {
-            console.log(dateTimeResult);
             this.nextLocationTimeProperties.ETA.data = this.dateTimeFormat(dateTimeResult);
           }
         });
