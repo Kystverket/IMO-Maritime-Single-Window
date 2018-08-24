@@ -27,6 +27,7 @@ export class DatePickerComponent implements OnInit {
     }
    }
 
+  /** Runs every time the user changes the date in the input field. */
   dateChanged(dateResult) {
     this.validDateFormat = this.hasValidDateFormat(dateResult);
     this.dateModel = dateResult;

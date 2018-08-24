@@ -34,9 +34,9 @@ export class DatePickerComponent implements OnInit {
 
   private persistData() {
     if (this.validDateFormat) {
-      this.dateResult.emit({date: this.dateModel, validDate: true});
+      this.dateResult.emit(this.dateModel);
     } else {
-      this.dateResult.emit({date: null, validDate: false});
+      this.dateResult.emit(null);
     }
   }
 
