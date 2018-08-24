@@ -144,12 +144,12 @@
 
     <div class="modal-footer">
       <button *ngIf="editForm.valid && editForm.form.dirty" type="button" class="btn btn-ssn" (click)="editShipStoresItem(); editForm.reset(); close">
-        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
-        <span>Edit Entry</span>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Entry</span>
       </button>
       <button *ngIf="!editForm.valid || !editForm.form.dirty" type="button" class="btn btn-ssn" disabled>
-        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
-        <span>Edit Entry</span>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Entry</span>
       </button>
       <button type="button" class="btn btn-ssn" (click)="resetInputShipStoresModel($event); close">
         <span>Cancel</span>

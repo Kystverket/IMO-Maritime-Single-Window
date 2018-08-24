@@ -140,7 +140,6 @@ export class SaveSecurityButtonComponent implements OnInit, OnDestroy {
             this.securityService.setPristineData(true);
             this.shipService.setIsscPristineData(true);
             this.securityService.setAllowSavingData(false);
-            console.log(securityResult);
           }, error => {
             this.securityService.setPristineData(true);
             this.shipService.setIsscPristineData(true);

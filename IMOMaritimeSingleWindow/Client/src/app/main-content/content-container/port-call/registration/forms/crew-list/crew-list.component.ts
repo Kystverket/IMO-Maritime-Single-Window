@@ -1,15 +1,14 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { NgForm } from '@angular/forms';
-import { IdentityDocumentComponent } from '../shared/identity-document/identity-document.component';
+import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
 import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { GenderModel } from 'app/shared/models/gender-model';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ActionButtonsComponent } from '../shared/action-buttons/action-buttons.component';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { Subscription } from 'rxjs/Subscription';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { LocationModel } from 'app/shared/models/location-model';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -255,8 +254,8 @@ export class CrewListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    if ($event.date) {
-      const date: Date = new Date($event.date.year, $event.date.month -  1, $event.date.day);
+    if ($event) {
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
       this.portCallCrewModel.dateOfBirth = date;
     } else {
       this.portCallCrewModel.dateOfBirth = null;

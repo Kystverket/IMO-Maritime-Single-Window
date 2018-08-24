@@ -45,7 +45,7 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Date of Birth</label>
-                <app-date-picker (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
+                <app-date-picker (dateResult)="setDateOfBirth($event)" [dateInput]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
               </div>
             </div>
 

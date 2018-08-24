@@ -121,8 +121,6 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
       this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
       this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
 
-      console.log(this.detailsModel);
-
       this.portCallService.saveDetails(
         this.detailsModel,
         this.purposeModel,

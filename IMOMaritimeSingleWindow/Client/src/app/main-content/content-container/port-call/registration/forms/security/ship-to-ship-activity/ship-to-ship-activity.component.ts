@@ -98,12 +98,10 @@ export class ShipToShipActivityComponent implements OnInit {
   }
 
   onLatitudeInput(latitudeResult) {
-    console.log(latitudeResult);
     this.shipToShipActivityModel.latitude = latitudeResult * this.latitudeDirection;
   }
 
   onLongitudeInput(longitudeResult) {
-    console.log(longitudeResult);
     this.shipToShipActivityModel.longitude = longitudeResult * this.longitudeDirection;
   }
 
