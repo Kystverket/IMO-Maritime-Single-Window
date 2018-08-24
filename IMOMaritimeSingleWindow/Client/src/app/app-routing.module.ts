@@ -30,7 +30,8 @@ const routes: Routes = [
   {
     path: '',
     component: MainContentComponent,
-    canActivate: [RootGuard]
+    canActivate: [RootGuard],
+    canLoad: [RootGuard]
   },
   {
     path: 'error',

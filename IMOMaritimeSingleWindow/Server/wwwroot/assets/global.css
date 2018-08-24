@@ -28,6 +28,9 @@ div .bg-ssn-light {
 .clickable {
     cursor: pointer;
 }
+.non-clickable {
+    pointer-events: none;
+}
 
 .no-wrap {
     white-space: nowrap;
