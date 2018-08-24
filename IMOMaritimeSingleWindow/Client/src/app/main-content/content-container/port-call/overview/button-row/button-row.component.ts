@@ -25,6 +25,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
 
+  @Output() portCallCancelled = new EventEmitter<number>();
+  @Output() portCallCompleted = new EventEmitter<number>();
+  @Output() portCallUncompleted = new EventEmitter<number>();
+
   overviewData: any[];
   draftOverviewData: any[];
   clearedOverviewData: any[];
@@ -104,32 +108,22 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.modalService.open(content);
   }
 
-  onPortCallModelChange(portCallModel: PortCallModel) {
-    console.log(portCallModel);
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
-    this.rowData.overviewModel.status = portCallModel.portCallStatus.name;
-    this.portCallIsCleared = (this.rowData.overviewModel.status === PortCallStatusTypes.CLEARED);
-    this.portCallIsCompleted = (this.rowData.overviewModel.status === PortCallStatusTypes.COMPLETED);
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = portCallModel.portCallStatus.name;
-    this.overviewService.setOverviewData(this.overviewData);
-  }
-
-  onCompletePortCall() {
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
+  onCompletePortCall(portCallId) {
     this.rowData.overviewModel.status = PortCallStatusTypes.COMPLETED;
     this.portCallIsCleared = false;
     this.portCallIsCompleted = true;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.COMPLETED;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.COMPLETED;
     this.overviewService.setOverviewData(this.overviewData);
+    this.portCallCompleted.emit(portCallId);
   }
 
-  onUncompletePortCall() {
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
+  onUncompletePortCall(portCallId) {
     this.rowData.overviewModel.status = PortCallStatusTypes.CLEARED;
     this.portCallIsCleared = true;
     this.portCallIsCompleted = false;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.CLEARED;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.CLEARED;
     this.overviewService.setOverviewData(this.overviewData);
+    this.portCallUncompleted.emit(portCallId);
   }
 
   cancelPortCall() {
@@ -148,7 +142,11 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
-    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId).subscribe(
+      result => {
+        this.portCallCancelled.emit(pcId);
+      }
+    );
 
   }
 
