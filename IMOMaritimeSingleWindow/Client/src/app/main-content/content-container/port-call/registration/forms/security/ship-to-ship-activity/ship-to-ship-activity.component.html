@@ -49,12 +49,12 @@
 
   <div class="row text-center mb-1">
     <div class="col">
-      <div *ngIf="!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
+      <div *ngIf="!fromDateIsAfterToDateError && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
         <button class="btn btn-ssn" (click)="addShipToShipActivity()">
           <span> Add Entry</span>
         </button>
       </div>
-      <div *ngIf="!(!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
+      <div *ngIf="!(!fromDateIsAfterToDateError && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
         <button class="btn btn-ssn" disabled>
           <span> Add Entry</span>
         </button>
