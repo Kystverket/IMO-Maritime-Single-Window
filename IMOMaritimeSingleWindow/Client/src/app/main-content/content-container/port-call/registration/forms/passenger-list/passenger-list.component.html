@@ -190,10 +190,10 @@
       <button *ngIf="!form.valid || !validDocumentDates" type="submit" disabled class="btn btn-ssn mt-2">
         <span>Submit</span>
       </button>
-      <button *ngIf="passengerList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
+      <button *ngIf="passengerList.length > 0" type="submit" class="btn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
         <span>Delete all passengers</span>
       </button>
-      <button *ngIf="passengerList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+      <button *ngIf="passengerList.length === 0" type="submit" class="btn mt-2 btn-danger float-right" disabled>
         <span>Delete all passengers</span>
       </button>
     </div>
@@ -225,10 +225,10 @@
     Do you want to delete all passengers in the list?
   </div>
   <div class="modal-footer">
-    <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllPassengers(); close">
+    <button type="submit" class="btn mt-2 btn-danger float-right" (click)="deleteAllPassengers(); close">
       <span>Delete all passengers</span>
     </button>
-    <button type="button" class="btn btn-ssn" (click)="close">
+    <button type="button" class="btn mt-2 btn-ssn" (click)="close">
       <span>Cancel</span>
     </button>
   </div>

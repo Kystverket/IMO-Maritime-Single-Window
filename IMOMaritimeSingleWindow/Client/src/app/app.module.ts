@@ -25,6 +25,7 @@ import { BLACKLISTED_ROUTES } from './shared/constants/blacklisted-routes';
 import { HeaderHomeComponent } from './main-content/header/header-home/header-home.component';
 import { RouterModule } from '@angular/router';
 import { HeaderModule } from './main-content/header/header.module';
+import { MainContentRoutingModule } from './main-content/main-content-routing.module';
 
 
 
@@ -45,9 +46,10 @@ import { HeaderModule } from './main-content/header/header.module';
         blacklistedRoutes: BLACKLISTED_ROUTES
       }
     }),
+    MainContentRoutingModule,
     NgbModule.forRoot(),
     RouterModule,
-    HeaderModule
+    HeaderModule,
   ],
   declarations: [
     AppComponent,

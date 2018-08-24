@@ -13,6 +13,7 @@
 
 using AutoMapper;
 using IMOMaritimeSingleWindow.Auth;
+using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity;
@@ -25,9 +26,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
@@ -40,6 +43,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly UserManager _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IDbContext _context;
         private readonly IEmailSender _emailSender;
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
@@ -49,6 +53,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
+            IDbContext context,
             IEmailSender emailSender,
             IMapper mapper,
             IHostingEnvironment env,
@@ -58,6 +63,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             _userManager = userManager as UserManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _context = context;
             _emailSender = emailSender;
             _mapper = mapper;
             _env = env;
@@ -255,6 +261,35 @@ namespace IMOMaritimeSingleWindow.Controllers
             roleNames.Remove(Constants.Strings.UserRoles.SuperAdmin);
             return Ok(roleNames);
         }
+
+        [Authorize]
+        [HttpGet("details/overview")]
+        public async Task<IActionResult> GetAccountOverviewAsync()
+        {
+            var userId = Guid.Parse(this.GetUserId());
+            var queryableUser =  _context.User.Where(usr => usr.UserId == userId)
+                        .Select(usr => usr)
+                        .Include(usr => usr.Organization)
+                        .Include(usr => usr.Organization.OrganizationType)
+                        .Include(usr => usr.Person)
+                        .Include(usr => usr.Role);
+
+            var viewModel = await queryableUser.Select(usr => 
+                new {
+                    usr.Person.GivenName,
+                    usr.Person.Surname,
+                    Organization = usr.Organization.Name,
+                    OrganizationType = usr.Organization.OrganizationType.Name,
+                    Role = usr.Role.Name,
+                    usr.PhoneNumber,
+                    usr.Person.CompanyPhoneNumber,
+                    usr.Person.CompanyEmail,
+                    usr.Email
+                })
+                .FirstOrDefaultAsync();
+            return Ok(viewModel);
+        }
+
 
         /// <summary>
         /// Gets the display name of the logged in user

@@ -1,20 +1,13 @@
-import { AuthRequest } from './auth.request.service';
-import { BaseRequest } from '../utils/base.request';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ConfigService } from 'app/shared/utils/config.service';
-import {
-  HttpClient,
-  HttpResponse,
-  HttpHeaders,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ConfigService } from 'app/shared/utils/config.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { TokenQueryModel } from '../models/token-query-model';
-import { PasswordResetModel } from '../models/password-reset-model';
 import { PasswordChangeModel } from '../models/password-change-model';
+import { PasswordResetModel } from '../models/password-reset-model';
+import { TokenQueryModel } from '../models/token-query-model';
 import { UserModel } from '../models/user-model';
-import { tap } from '../../../../node_modules/rxjs/operators';
+import { BaseRequest } from '../utils/base.request';
 
 @Injectable()
 export class AccountService extends BaseRequest {
@@ -30,6 +23,7 @@ export class AccountService extends BaseRequest {
   private passwordUrl: string;
   private emailTakenUrl: string;
   private organizationForUserUrl: string;
+  private accountOverviewUrl: string;
 
   // Subjects & observables
   private userClaimsDataSource = new BehaviorSubject<any[]>(null);
@@ -40,22 +34,15 @@ export class AccountService extends BaseRequest {
 
   constructor(private http: HttpClient, configService: ConfigService) {
     super(configService);
-    this.actionUrl =
-      this.baseUrl + this.accountBaseUrl; /* /api/account/                    */
-    this.userUrl =
-      this.actionUrl + '/user'; /* /api/account/user                */
-    this.rolesUrl =
-      this.actionUrl + '/roles'; /* /api/account/roles               */
-    this.userClaimsUrl =
-      this.userUrl + '/claims'; /* /api/account/claims              */
-    this.userNameUrl =
-      this.userUrl + '/displayName'; /* /api/account/user/displayName    */
-    this.emailUrl =
-      this.userUrl + '/email'; /* /api/account/user/email          */
-    this.passwordUrl =
-      this.userUrl + '/password'; /* /api/account/user/password       */
-    this.emailTakenUrl =
-      this.actionUrl + '/emailTaken'; /* /api/account/emailTaken          */
+    this.actionUrl = this.baseUrl + this.accountBaseUrl;  /* /api/account/account             */
+    this.userUrl = this.actionUrl + '/user'               /* /api/account/user                */
+    this.rolesUrl = this.actionUrl + '/roles';            /* /api/account/roles               */
+    this.userClaimsUrl = this.userUrl + '/claims';        /* /api/account/claims              */
+    this.userNameUrl = this.userUrl + '/displayName';     /* /api/account/user/displayName    */
+    this.emailUrl = this.userUrl + '/email';              /* /api/account/user/email          */
+    this.passwordUrl = this.userUrl + '/password';        /* /api/account/user/password       */
+    this.emailTakenUrl = this.actionUrl + '/emailTaken';  /* /api/account/emailTaken          */
+    this.accountOverviewUrl = [this.actionUrl, 'details', 'overview'].join('/');  // /api/account/details/overview
   }
 
   getAllRoles(): Observable<any> {
@@ -140,4 +127,11 @@ export class AccountService extends BaseRequest {
       .put(uri, model)
       .catch(this.handleError);
   }
+
+  getAccountOverview(): Observable<any> {
+    return this.http
+      .get(this.accountOverviewUrl)
+      .catch(this.handleError);
+  }
+
 }
