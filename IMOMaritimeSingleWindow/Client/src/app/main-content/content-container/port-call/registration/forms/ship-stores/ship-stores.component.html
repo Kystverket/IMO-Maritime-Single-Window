@@ -7,13 +7,8 @@
                     <div class="col my-auto">
                         <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name *</label>
                         <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name" class="form-control form-control-sm"
-                            name="articleName" alphaNumericValidator>
+                            name="articleName">
                     </div>
-                </div>
-                <div *ngIf="articleName.hasError('invalidAlphaNumeric')" class="alert alert-danger">
-                    <li>
-                        <small>Only alphanumeric characters allowed.</small>
-                    </li>
                 </div>
                 <div *ngIf="articleName.hasError('required') && articleName.touched" class="alert alert-danger">
                     <li>

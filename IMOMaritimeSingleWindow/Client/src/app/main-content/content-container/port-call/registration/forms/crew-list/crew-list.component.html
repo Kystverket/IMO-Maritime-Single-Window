@@ -10,13 +10,8 @@
               <div class="col my-auto">
                 <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
                 <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  name="givenName" alphaNumericValidator required>
+                  name="givenName" required>
               </div>
-            </div>
-            <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
-              <li>
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
             </div>
             <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
               <li>
@@ -28,13 +23,8 @@
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
                 <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
-                  alphaNumericValidator required name="familyName">
+                  required name="familyName">
               </div>
-            </div>
-            <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
-              <li>
-                <small>Only alphanumeric characters allowed.</small>
-              </li>
             </div>
             <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
               <li>
