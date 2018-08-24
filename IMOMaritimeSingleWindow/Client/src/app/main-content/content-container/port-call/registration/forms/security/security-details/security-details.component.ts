@@ -22,6 +22,7 @@ export class SecurityDetailsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.validateData();
     this.getSecurityLevelListSubscription = this.securityService.getSecurityLevelList().subscribe(
       data => {
         this.securityLevelList = data;
@@ -33,6 +34,20 @@ export class SecurityDetailsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.getSecurityLevelListSubscription.unsubscribe();
+  }
+
+  touchData() {
+    this.securityService.setPristineData(false);
+    this.validateData();
+  }
+
+  private validateData() {
+    this.securityService.setValidSecurityDetailsData(this.dataIsValid());
+  }
+
+  private dataIsValid(): boolean {
+    return this.securityModel != null
+      && this.securityModel.securityLevelId != null;
   }
 
 }

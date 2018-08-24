@@ -109,6 +109,17 @@
       </div>
     </div>
 
+    <div *ngIf="allowSavingSecurity" class="row">
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: Security data is unsaved.</span>
+          <br>
+          <app-save-security-button [portCallId]="portCallId"></app-save-security-button>
+        </div>
+      </div>
+    </div>
+
+
     <div class="row" *ngIf="portCallIsDraft">
       <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine && !numberOfCrewError && !numberOfPassengersError"
         class="col">

@@ -18,7 +18,6 @@ import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ClearanceComponent } from './clearance/clearance.component';
-import { ConfirmationModule } from './confirmation/confirmation.module';
 import { ButtonRowComponent } from './overview/button-row/button-row.component';
 import { ClearanceRowComponent } from './overview/clearance-row/clearance-row.component';
 import { OverviewComponent } from './overview/overview.component';
@@ -60,13 +59,15 @@ import { Last10PortCallsTableComponent } from './registration/forms/security/las
 import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 import { ShipToShipActivityTableComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component';
 import { SaveSecurityComponent } from './registration/forms/security/save-security/save-security.component';
+import { SaveSecurityButtonComponent } from './registration/forms/security/save-security/save-security-button/save-security-button.component';
+import { ActivatePortCallComponent } from './confirmation/activate-port-call/activate-port-call.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 import { LoadPortCallService } from './load-port-call.service';
 import { PortCallOverviewService } from '../../../shared/services/port-call-overview.service';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfirmationModule,
     FormsModule,
     HttpModule,
     Ng2SmartTableModule,
@@ -119,6 +120,9 @@ import { PortCallOverviewService } from '../../../shared/services/port-call-over
     ShipToShipActivityComponent,
     ShipToShipActivityTableComponent,
     SaveSecurityComponent,
+    SaveSecurityButtonComponent,
+    ActivatePortCallComponent,
+    ConfirmationComponent,
     SaveCrewListComponent,
     ShipStoresModalComponent
   ],
@@ -127,6 +131,7 @@ import { PortCallOverviewService } from '../../../shared/services/port-call-over
     PortCallComponent,
     RegistrationComponent,
     ViewPortCallComponent,
+    ConfirmationComponent
   ],
   providers: [
     PortCallService,

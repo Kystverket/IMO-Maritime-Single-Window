@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FalSecurityModel } from 'app/shared/models/fal-security-model';
 import { InternationalShipSecurityCertificateModel } from 'app/shared/models/international-ship-security-certificate-model';
 import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
@@ -7,17 +7,35 @@ import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-
 import { FalSecurityService } from 'app/shared/services/fal-security.service';
 import { ShipService } from 'app/shared/services/ship.service';
 import { ShipModel } from 'app/shared/models/ship-model';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-save-security',
   templateUrl: './save-security.component.html',
   styleUrls: ['./save-security.component.css']
 })
-export class SaveSecurityComponent implements OnInit {
+export class SaveSecurityComponent implements OnInit, OnDestroy {
   @Input() securityModel: FalSecurityModel;
   @Input() isscModel: InternationalShipSecurityCertificateModel;
   @Input() shipModel: ShipModel;
   @Input() portCallId: number;
+
+  pristineSecuritySubscription: Subscription;
+  pristineIsscSubscription: Subscription;
+  validSecurityDetailsSubscription: Subscription;
+  validCompanySecurityOfficerSubscription: Subscription;
+  validLast10PortCallsSubscription: Subscription;
+  validShipToShipActivitySubscription: Subscription;
+  validIsscDataSubscription: Subscription;
+
+  allowSaving = false;
+  securityIsPristine: boolean;
+  isscIsPristine: boolean;
+  securityDetailsIsValid: boolean;
+  csoIsValid: boolean;
+  last10PortCallsIsValid: boolean;
+  shipToShipActivityIsValid: boolean;
+  isscIsValid: boolean;
 
   constructor(
     private securityService: FalSecurityService,
@@ -25,89 +43,69 @@ export class SaveSecurityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.pristineSecuritySubscription = this.securityService.pristineData$.subscribe(
+      data => {
+        this.securityIsPristine = data;
+        this.checkData();
+      }
+    );
+    this.pristineIsscSubscription = this.shipService.isscPristineData$.subscribe(
+      data => {
+        this.isscIsPristine = data;
+        this.checkData();
+      }
+    );
+    this.validSecurityDetailsSubscription = this.securityService.validSecurityDetailsData$.subscribe(
+      data => {
+        this.securityDetailsIsValid = data;
+        this.checkData();
+      }
+    );
+    this.validCompanySecurityOfficerSubscription = this.securityService.validCompanySecurityOfficerData$.subscribe(
+      data => {
+        this.csoIsValid = data;
+        this.checkData();
+      }
+    );
+    this.validLast10PortCallsSubscription = this.securityService.validLast10PortCallsData$.subscribe(
+      data => {
+        this.last10PortCallsIsValid = data;
+        this.checkData();
+      }
+    );
+    this.validShipToShipActivitySubscription = this.securityService.validShipToShipActivityData$.subscribe(
+      data => {
+        this.shipToShipActivityIsValid = data;
+        this.checkData();
+      }
+    );
+    this.validIsscDataSubscription = this.shipService.validIsscData$.subscribe(
+      data => {
+        this.isscIsValid = data;
+        this.checkData();
+      }
+    );
   }
 
-  saveSecurity() {
-    console.log('securityModel:\n', this.securityModel);
-    console.log('isscModel:\n', this.isscModel);
-    const dbSecurity = new FalSecurityModel();
-    const dbIssc = new InternationalShipSecurityCertificateModel();
-    if (this.isscModel.isscId) {
-      dbIssc.isscId = this.isscModel.isscId;
-    }
-    dbIssc.certificateNumber = this.isscModel.certificateNumber;
-    dbIssc.governmentIssuerId = this.isscModel.governmentIssuerId;
-    dbIssc.rsoIssuerId = this.isscModel.rsoIssuerId;
-    dbIssc.expiryDate = this.isscModel.expiryDate;
-    dbIssc.issuedByGovernment = this.isscModel.issuedByGovernment;
-    this.shipService.saveISSC(dbIssc).subscribe(
-      isscResult => {
-        console.log('ISSC saved.');
-        if (!this.isscModel.isscId) {
-          this.shipService.updateShipISSC(this.shipModel.shipId, isscResult.isscId).subscribe(
-            shipIsscResult => {
-              console.log('Ship has been registered with ISSC.');
-            }
-          );
-        }
-      }
-    );
+  ngOnDestroy() {
+    this.pristineIsscSubscription.unsubscribe();
+    this.pristineSecuritySubscription.unsubscribe();
+    this.validCompanySecurityOfficerSubscription.unsubscribe();
+    this.validIsscDataSubscription.unsubscribe();
+    this.validLast10PortCallsSubscription.unsubscribe();
+    this.validSecurityDetailsSubscription.unsubscribe();
+    this.validShipToShipActivitySubscription.unsubscribe();
+  }
 
-    if (this.securityModel.falSecurityId) {
-      dbSecurity.falSecurityId = this.securityModel.falSecurityId;
-    }
-    dbSecurity.portCallId = this.portCallId;
-    dbSecurity.securityLevelId = this.securityModel.securityLevelId;
-    dbSecurity.shipHasValidSspOnBoard = this.securityModel.shipHasValidSspOnBoard;
-    dbSecurity.otherRelatedInfo = this.securityModel.otherRelatedInfo;
-
-    if (this.securityModel.securityPreviousPortOfCall && this.securityModel.securityPreviousPortOfCall.length > 0) {
-      dbSecurity.securityPreviousPortOfCall = this.securityModel.securityPreviousPortOfCall.map(entry => {
-        const obj = new SecurityPreviousPortOfCallModel();
-        obj.locationId = entry.locationId;
-        obj.securityLevelId = entry.securityLevelId;
-        obj.arrivalDateTime = entry.arrivalDateTime;
-        obj.departureDateTime = entry.departureDateTime;
-        obj.sequenceNumber = entry.sequenceNumber;
-        obj.additionalSecurityMeasures = entry.additionalSecurityMeasures;
-        return obj;
-      });
-    }
-
-    if (this.securityModel.shipToShipActivity && this.securityModel.shipToShipActivity.length > 0) {
-      dbSecurity.shipToShipActivity = this.securityModel.shipToShipActivity.map(entry => {
-        const obj = new ShipToShipActivityModel();
-        obj.locationId = entry.locationId;
-        obj.activityTypeId = entry.activityTypeId;
-        obj.fromDate = entry.fromDate;
-        obj.toDate = entry.toDate;
-        obj.latitude = entry.latitude;
-        obj.longitude = entry.longitude;
-        obj.securityMeasuresAppliedInLieu = entry.securityMeasuresAppliedInLieu;
-        return obj;
-      });
-    }
-
-    const companySecurityOfficer: CompanySecurityOfficerModel = new CompanySecurityOfficerModel();
-    if (this.securityModel.companySecurityOfficer.companySecurityOfficerId) {
-      companySecurityOfficer.companySecurityOfficerId = this.securityModel.companySecurityOfficer.companySecurityOfficerId;
-    }
-    companySecurityOfficer.organizationId = this.securityModel.companySecurityOfficer.organizationId;
-    companySecurityOfficer.email = this.securityModel.companySecurityOfficer.email;
-    companySecurityOfficer.phoneNumber = this.securityModel.companySecurityOfficer.phoneNumber;
-    companySecurityOfficer.givenName = this.securityModel.companySecurityOfficer.givenName;
-    companySecurityOfficer.surname = this.securityModel.companySecurityOfficer.surname;
-    this.securityService.saveCompanySecurityOfficer(companySecurityOfficer).subscribe(
-      csoResult => {
-        dbSecurity.companySecurityOfficerId = csoResult.companySecurityOfficerId;
-        this.securityService.saveFalSecurity(dbSecurity).subscribe(
-          securityResult => {
-            console.log(securityResult);
-          }
-        );
-      }
-    );
-
+  checkData() {
+    this.allowSaving = !(this.securityIsPristine && this.isscIsPristine)
+      && this.securityDetailsIsValid && this.csoIsValid
+      && this.last10PortCallsIsValid && this.shipToShipActivityIsValid
+      && this.isscIsValid;
+    this.securityService.setSaveSecurityModelData(this.securityModel);
+    this.securityService.setSaveIsscModelData(this.isscModel);
+    this.securityService.setSaveShipModelData(this.shipModel);
+    this.securityService.setAllowSavingData(this.allowSaving);
   }
 
 }

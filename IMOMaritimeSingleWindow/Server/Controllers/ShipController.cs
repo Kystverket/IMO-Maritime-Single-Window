@@ -31,6 +31,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
+                if (newShip.ShipContact != null && newShip.ShipContact.Count > 0) // dirty fix
+                {
+                    foreach (ShipContact sc in newShip.ShipContact)
+                    {
+                        sc.ContactMedium = null;
+                    }
+                }
                 _context.Ship.Add(newShip);
                 _context.SaveChanges();
             }

@@ -17,6 +17,9 @@ export class SetActualTimeComponent implements OnInit {
 
   @Output() portCallModelChange = new EventEmitter<PortCallModel>();
 
+  @Output() portCallCompleted = new EventEmitter<number>();
+  @Output() portCallCleared = new EventEmitter<number>();
+
   modalRef: NgbModalRef;
 
   portCallAta: DateTime = {
@@ -139,7 +142,10 @@ export class SetActualTimeComponent implements OnInit {
           this.portCallService.updatePortCallStatusCompleted(result.portCallId).subscribe(
             res => {
               this.portCallModel = res;
+              this.portCallCompleted.emit(result.portCallId);
+              this.modalRef.close();
               console.log('Status set to completed.');
+
             },
             err => console.log(err)
           );
@@ -147,6 +153,8 @@ export class SetActualTimeComponent implements OnInit {
           this.portCallService.updatePortCallStatusCleared(result.portCallId).subscribe(
             res => {
               this.portCallModel = res;
+              this.portCallCleared.emit(result.portCallId);
+              this.modalRef.close();
               console.log('Status set to cleared.');
             },
             err => console.log(err)
@@ -167,7 +175,8 @@ export class SetActualTimeComponent implements OnInit {
     this.saving = false;
     this.saved = false;
     this.saveError = false;
-    this.modalService.open(content, {size: 'lg'}).result.then(
+    this.modalRef = this.modalService.open(content, {size: 'lg'});
+    this.modalRef.result.then(
       (result) => {
         this.modalClosed();
       },
@@ -177,9 +186,7 @@ export class SetActualTimeComponent implements OnInit {
   }
 
   modalClosed() {
-    if (this.saved) {
-      this.portCallModelChange.emit(this.portCallModel);
-    }
+    console.log('modal closed');
   }
 
 }

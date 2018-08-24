@@ -80,37 +80,37 @@ export class IdentityDocumentComponent implements OnInit {
 
   setIdentityDocumentIssueDate($event) {
     let date: Date = new Date();
-    if ($event.date) {
-      date = new Date($event.date.year, $event.date.month - 1, $event.date.day);
+    if ($event) {
+      date = new Date($event.year, $event.month - 1, $event.day);
     } else {
       date = null;
     }
     this.identityDocumentModel.identityDocumentIssueDate = date;
-    if ($event && this.validateDateTimeService.checkDocumentDates(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
+    if ($event && this.validateDateTimeService.checkDocumentDatesError(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
       this.issueDateAfterExpiryDateError = true;
     } else {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
-    this.issueDateValid = $event.validDate;
+    // this.issueDateValid = $event.validDate;
     this.identityDocumentModelChanged();
   }
 
   setIdentityDocumentExpiryDate($event) {
     let date: Date = new Date();
-    if ($event.date) {
-      date = new Date($event.date.year, $event.date.month - 1, $event.date.day);
+    if ($event) {
+      date = new Date($event.year, $event.month - 1, $event.day);
     } else {
       date = null;
     }
     this.identityDocumentModel.identityDocumentExpiryDate = date;
-    if ($event && this.validateDateTimeService.checkDocumentDates(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
+    if ($event && this.validateDateTimeService.checkDocumentDatesError(this.identityDocumentModel.identityDocumentIssueDate, this.identityDocumentModel.identityDocumentExpiryDate)) {
       this.expiryDateBeforeIssueDateError = true;
     } else {
       this.expiryDateBeforeIssueDateError = false;
       this.issueDateAfterExpiryDateError = false;
     }
-    this.expiryDateValid = $event.validDate;
+    // this.expiryDateValid = $event.validDate;
     this.identityDocumentModelChanged();
   }
 

@@ -27,8 +27,8 @@
 
   <div class="row mb-1">
     <div class="col-md-6">
-      <app-date-time-picker [header]="'From Date'" [dateTimeInput]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
-      <app-date-time-picker [header]="'To Date'" [dateTimeInput]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'From Date'" [dateTimeModel]="fromDateModel" (dateTimeResult)="onFromDateResult($event)"></app-date-time-picker>
+      <app-date-time-picker [header]="'To Date'" [dateTimeModel]="toDateModel" (dateTimeResult)="onToDateResult($event)"></app-date-time-picker>
     </div>
     <div class="col-md-6">
       <div class="mb-2">
@@ -49,12 +49,12 @@
 
   <div class="row text-center mb-1">
     <div class="col">
-      <div *ngIf="!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
+      <div *ngIf="!fromDateIsAfterToDateError && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId">
         <button class="btn btn-ssn" (click)="addShipToShipActivity()">
           <span> Add Entry</span>
         </button>
       </div>
-      <div *ngIf="!(!fromDateIsAfterToDateError && locationFound && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
+      <div *ngIf="!(!fromDateIsAfterToDateError && shipToShipActivityModel.fromDate && shipToShipActivityModel.toDate && shipToShipActivityModel.activityType && shipToShipActivityModel.activityTypeId)">
         <button class="btn btn-ssn" disabled>
           <span> Add Entry</span>
         </button>

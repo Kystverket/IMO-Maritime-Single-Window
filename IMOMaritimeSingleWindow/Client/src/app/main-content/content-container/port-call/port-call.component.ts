@@ -22,7 +22,7 @@ export class PortCallComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private contentService: ContentService,
     private portCallService: PortCallService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.userClaimsDataSubscription = this.accountService.userClaimsData$.subscribe(userClaims => {

@@ -7,6 +7,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
 
 
 @Component({
@@ -68,7 +69,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     private contentService: ContentService,
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
-    private personOnBoardService: PortCallFalPersonOnBoardService
+    private personOnBoardService: PortCallFalPersonOnBoardService,
+    private securityService: FalSecurityService
   ) { }
 
   ngOnInit() {
@@ -129,6 +131,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           this.shipStoresService.setCheckedInProgressBar(reportingData.reportingShipStores);
           this.personOnBoardService.setPassengerCheckedInProgressBar(reportingData.reportingPax);
           this.personOnBoardService.setCrewCheckedInProgressBar(reportingData.reportingCrew);
+          this.securityService.setSecurityIsCheckedData(reportingData.reportingSecurity);
         }
       }
     );

@@ -76,6 +76,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.securityService.resetServiceData();
     this.portCallSubscription = this.portCallService.portCallData$.subscribe(
       portCallData => {
         if (portCallData) {
