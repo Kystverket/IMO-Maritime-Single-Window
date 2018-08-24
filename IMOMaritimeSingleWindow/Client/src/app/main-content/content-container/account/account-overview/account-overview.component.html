@@ -10,7 +10,8 @@
                     </tr>
                     <tr>
                         <td *ngFor="let userValue of userValues">
-                            {{userValue}}
+                            <div *ngIf="userValue">{{userValue}}</div>
+                            <div *ngIf="!userValue" class="font-italic">Not provided</div>
                         </td>
                     </tr>
                 </tbody>
@@ -31,10 +32,12 @@
                     </tr>
                     <tr>
                         <td *ngFor="let organizationValue of organizationValues">
-                            {{organizationValue}}
+                            <div *ngIf="organizationValue">{{organizationValue}}</div>
+                            <div *ngIf="!organizationValue" class="font-italic">Not provided</div>
                         </td>
                         <td *ngFor="let roleValue of roleValues">
-                            {{roleValue}}
+                            <div *ngIf="roleValue">{{roleValue}}</div>
+                            <div *ngIf="!roleValue" class="font-italic">Not assigned</div>
                         </td>
                     </tr>
                 </tbody>
