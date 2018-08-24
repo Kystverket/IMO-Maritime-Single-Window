@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { ShipToShipActivityModel } from '../../../../../../../../shared/models/ship-to-ship-activity-model';
-import { LocalDataSource } from '../../../../../../../../../../node_modules/ng2-smart-table';
-import { DeleteButtonComponent } from 'app/main-content/content-container/port-call/registration/forms/shared/delete-button/delete-button.component';
-import { DatePipe } from '../../../../../../../../../../node_modules/@angular/common';
+import { ShipToShipActivityModel } from 'app/shared/models/ship-to-ship-activity-model';
+import { LocalDataSource } from 'ng2-smart-table';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ship-to-ship-activity-table',
@@ -11,12 +11,12 @@ import { DatePipe } from '../../../../../../../../../../node_modules/@angular/co
   providers: [DatePipe]
 })
 export class ShipToShipActivityTableComponent implements OnInit, OnChanges {
-  @Input() shipToShipActivityList: ShipToShipActivityModel[] = [];
+  @Input() tableEntryList: ShipToShipActivityModel[] = [];
   @Output() delete = new EventEmitter<any>();
 
-  shipActivitiesDataSource: LocalDataSource = new LocalDataSource();
+  tableDataSource: LocalDataSource = new LocalDataSource();
 
-  shipActivitiesTableSettings = {
+  tableSettings = {
     mode: 'external',
     actions: false,
     attr: {
@@ -62,29 +62,32 @@ export class ShipToShipActivityTableComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
-    if (this.shipToShipActivityList && this.shipToShipActivityList.length > 0) {
+    if (this.tableEntryList && this.tableEntryList.length > 0) {
       const rows = this.generateRows();
-      this.shipActivitiesDataSource.load(rows);
+      this.tableDataSource.load(rows);
     } else {
-      this.shipActivitiesDataSource.load([]);
+      this.tableDataSource.load([]);
     }
   }
 
+  /** Called whenever a change is made to the tableEntryList input. */
   ngOnChanges(changes: SimpleChanges) {
-    if (this.shipToShipActivityList && this.shipToShipActivityList.length > 0) {
+    if (this.tableEntryList && this.tableEntryList.length > 0) {
       const rows = this.generateRows();
-      this.shipActivitiesDataSource.load(rows);
+      this.tableDataSource.load(rows);
     } else {
-      this.shipActivitiesDataSource.load([]);
+      this.tableDataSource.load([]);
     }
   }
 
+  /** Emits event to parent component telling it to remove an entry from the table. */
   deleteShipActivity(row) {
     this.delete.emit(row);
   }
 
+  /** Maps content of tableEntryList to a format compatible with tableSettings. */
   generateRows() {
-    const rowData = this.shipToShipActivityList.map(shipActivity => {
+    const rowData = this.tableEntryList.map(shipActivity => {
       return {
         shipToShipActivity: shipActivity,
         location: (shipActivity.location != null) ? shipActivity.location.name : '',

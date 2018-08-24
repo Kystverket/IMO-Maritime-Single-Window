@@ -20,11 +20,14 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item">
-        <span class="text-center text-ssn mx-3">Development Version. Deployed: 24.08.2018</span>
-        <div class="btn-group">
-          <button routerLink="/auth/ChangePassword" class="btn btn-light btn-sm">{{userName}}</button>
-          <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
-        </div>
+          <span class="text-center text-ssn mx-3">Development Version. Deployed: 24.08.2018</span>
+          <div class="btn-group">
+            <button (click)="navigateToMyAccountPage()" class="btn btn-light btn-sm">My account</button>
+          </div>
+          <div class="btn-group">
+            <span class="btn btn-light btn-sm non-clickable">{{userName}}</span>
+            <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
+          </div>
       </li>
     </ul>
 

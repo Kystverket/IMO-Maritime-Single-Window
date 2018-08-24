@@ -38,7 +38,6 @@ export class LoadPortCallService {
     this.overviewService.getOverview(this.portCallId).subscribe(
       data => {
         if (data) {
-          console.log(data);
           // 2018.08.17 Trying new pattern:
           this.portCallService.setPortCallData(data.portCall);
           //

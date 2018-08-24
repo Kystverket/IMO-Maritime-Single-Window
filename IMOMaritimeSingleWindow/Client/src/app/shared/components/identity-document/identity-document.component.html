@@ -59,7 +59,7 @@
         <div class="form-group row">
           <div class="col my-auto">
             <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
-            <app-date-picker #selectIssueDate (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(identityDocumentModel.identityDocumentIssueDate)"></app-date-picker>
+            <app-date-picker #selectIssueDate (dateResult)="setIdentityDocumentIssueDate($event)" [dateInput]="getNgbDateFormat(identityDocumentModel.identityDocumentIssueDate)"></app-date-picker>
             <div *ngIf="issueDateAfterExpiryDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
               <li>
                 <small>Identity document issue date must be before the expiry date.</small>
@@ -71,7 +71,7 @@
         <div class="form-group row">
           <div class="col my-auto">
             <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identiy Document Expiry Date</label>
-            <app-date-picker #selectExpiryDate (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(identityDocumentModel.identityDocumentExpiryDate)"></app-date-picker>
+            <app-date-picker #selectExpiryDate (dateResult)="setIdentityDocumentExpiryDate($event)" [dateInput]="getNgbDateFormat(identityDocumentModel.identityDocumentExpiryDate)"></app-date-picker>
             <div *ngIf="expiryDateBeforeIssueDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
               <li>
                 <small>Identity document expiry date must be after the issue date.</small>

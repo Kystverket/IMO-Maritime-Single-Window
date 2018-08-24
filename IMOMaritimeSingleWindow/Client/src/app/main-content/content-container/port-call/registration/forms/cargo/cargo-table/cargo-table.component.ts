@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CargoItemModel } from 'app/shared/models/cargo-item-model';
 import { LocalDataSource } from 'ng2-smart-table';
-import { DeleteButtonComponent } from '../../shared/delete-button/delete-button.component';
-import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';
+import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 
 @Component({
   selector: 'app-cargo-table',

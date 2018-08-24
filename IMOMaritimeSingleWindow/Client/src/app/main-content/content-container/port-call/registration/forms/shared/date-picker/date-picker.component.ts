@@ -8,9 +8,9 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 })
 export class DatePickerComponent implements OnInit {
 
-  @Input() inputDate: any;
+  @Input() dateInput: any;
 
-  @Output() selectDate: EventEmitter<any> = new EventEmitter();
+  @Output() dateResult: EventEmitter<any> = new EventEmitter();
   @Output() outputValidDateFormat: EventEmitter<boolean> = new EventEmitter();
 
   dateModel: NgbDate = new NgbDate(null, null, null);
@@ -19,32 +19,29 @@ export class DatePickerComponent implements OnInit {
 
   constructor() { }
 
-  dateChanged($event): void {
-    this.dateModel = $event;
-    this.updateModel($event);
+  ngOnInit() {
+    if (this.dateInput != null) {
+      this.dateModel = this.dateInput;
+    }
   }
 
-  private updateModel($event): void {
+  /** Runs every time the user changes the date in the input field. */
+  dateChanged($event): void {
     this.validDateFormat = this.hasValidDateFormat($event);
-    this.validateData();
+    this.dateModel = $event;
+    this.persistData();
+  }
+
+  private persistData() {
+    if (this.validDateFormat) {
+      this.dateResult.emit(this.dateModel);
+    } else {
+      this.dateResult.emit(null);
+    }
   }
 
   private hasValidDateFormat($event) {
     return typeof $event !== 'string';
-  }
-
-  private validateData() {
-    if (this.validDateFormat) {
-      this.selectDate.emit({date: this.dateModel, validDate: true});
-    } else {
-      this.selectDate.emit({date: null, validDate: false});
-    }
-  }
-
-  ngOnInit() {
-    if (this.inputDate != null) {
-      this.dateModel = this.inputDate;
-    }
   }
 
   getNgbDateFormat(date) {

@@ -50,6 +50,11 @@ export class ConfirmationViewComponent implements OnInit, OnDestroy {
               name: 'Pax',
               icon: 'pax.png',
               checked: reportingData.reportingPax || false
+            },
+            {
+              name: 'Security',
+              icon: 'security.png',
+              checked: reportingData.reportingSecurity || false
             }
           ];
         }

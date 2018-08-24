@@ -7,13 +7,8 @@
                     <div class="col my-auto">
                         <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name *</label>
                         <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name" class="form-control form-control-sm"
-                            name="articleName" alphaNumericValidator>
+                            name="articleName">
                     </div>
-                </div>
-                <div *ngIf="articleName.hasError('invalidAlphaNumeric')" class="alert alert-danger">
-                    <li>
-                        <small>Only alphanumeric characters allowed.</small>
-                    </li>
                 </div>
                 <div *ngIf="articleName.hasError('required') && articleName.touched" class="alert alert-danger">
                     <li>
@@ -87,10 +82,10 @@
                 <button *ngIf="!(form.valid)" type="submit" disabled class="btn btn-ssn mt-2">
                     <span>Submit</span>
                 </button>
-                <button *ngIf="shipStoresList.length > 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
+                <button *ngIf="shipStoresList.length > 0" type="submit" class="btn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
                     <span>Delete all ship stores</span>
                 </button>
-                <button *ngIf="shipStoresList.length === 0" type="submit" class="btn btn-ssn mt-2 btn-danger float-right" disabled>
+                <button *ngIf="shipStoresList.length === 0" type="submit" class="btn mt-2 btn-danger float-right" disabled>
                     <span>Delete all ship stores</span>
                 </button>
             </div>
@@ -123,10 +118,10 @@
         Do you want to delete all ship stores in the list?
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-ssn mt-2 btn-danger float-right" (click)="deleteAllShipStores(); close">
+        <button type="submit" class="btn mt-2 btn-danger float-right" (click)="deleteAllShipStores(); close">
             <span>Delete all ship stores</span>
         </button>
-        <button type="button" class="btn btn-ssn" (click)="close">
+        <button type="button" class="btn mt-2 btn-ssn" (click)="close">
             <span>Cancel</span>
         </button>
     </div>

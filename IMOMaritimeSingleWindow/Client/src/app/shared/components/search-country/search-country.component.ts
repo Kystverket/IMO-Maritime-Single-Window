@@ -63,7 +63,6 @@ export class SearchCountryComponent implements OnInit {
         } else {
           this.countryService.search(this.locationModel).subscribe(
             data => {
-              console.log(data);
               this.searchFailed = this.locationModel.length >= 2 && data.length === 0;
               // this.countryService.setCountrySearchData(data);
               this.searching = false;

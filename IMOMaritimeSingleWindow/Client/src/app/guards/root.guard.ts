@@ -3,7 +3,8 @@ import {
   CanActivate,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  Router
+  Router,
+  CanLoad
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from 'app/shared/services/auth-service';
@@ -12,9 +13,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { BaseService } from '../shared/services/base.service';
 import { BaseGuard } from '../shared/interfaces/base-guard.interface';
 import { ErrorService } from '../shared/services/error.service';
+import { Route } from '@angular/compiler/src/core';
 
 @Injectable()
-export class RootGuard extends BaseService implements CanActivate, BaseGuard {
+export class RootGuard extends BaseService implements CanActivate, CanLoad, BaseGuard {
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -39,6 +41,19 @@ export class RootGuard extends BaseService implements CanActivate, BaseGuard {
         error => false
       ).catch((error: HttpErrorResponse) => {
         this.navigateByError(error);
+        return this.handleError(error);
+      });
+    }
+  }
+
+  canLoad(route: Route): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.authService.hasToken()) {
+      return false;
+    } else {
+      return this.authService.hasValidToken().map(
+        tokenValid => true,
+        error => false
+      ).catch((error: HttpErrorResponse) => {
         return this.handleError(error);
       });
     }

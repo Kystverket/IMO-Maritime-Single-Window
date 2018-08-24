@@ -145,12 +145,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputCrewModel.givenName" type="text" name="givenName"
-            alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            required>
           <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
             <li>
               <small>This field is required.</small>
@@ -162,12 +157,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputCrewModel.familyName" type="text" name="familyName"
-            alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            required>
           <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
             <li>
               <small>This field is required.</small>
@@ -178,7 +168,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Date of Birth</label>
         <div class="col my-auto">
-          <app-date-picker (selectDate)="setDateOfBirth($event)" [inputDate]="getNgbDateFormat(inputCrewModel.dateOfBirth)"></app-date-picker>
+          <app-date-picker (dateResult)="setDateOfBirth($event)" [dateInput]="getNgbDateFormat(inputCrewModel.dateOfBirth)"></app-date-picker>
         </div>
       </div>
       <div class="form-group row">
@@ -291,7 +281,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Identity Document Issue Date</label>
         <div class="col my-auto">
-          <app-date-picker (selectDate)="setIdentityDocumentIssueDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"></app-date-picker>
+          <app-date-picker (dateResult)="setIdentityDocumentIssueDate($event)" [dateInput]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)"></app-date-picker>
           <div *ngIf="issueDateAfterExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
             <span>Identity document issue date must be before the expiry date.</span>
           </div>
@@ -300,7 +290,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
         <div class="col my-auto">
-          <app-date-picker (selectDate)="setIdentityDocumentExpiryDate($event)" [inputDate]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"></app-date-picker>
+          <app-date-picker (dateResult)="setIdentityDocumentExpiryDate($event)" [dateInput]="getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)"></app-date-picker>
           <div *ngIf="expiryDateBeforeExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
             <span>Identity document expiry date must be after the issue date.</span>
           </div>
@@ -312,13 +302,13 @@
     <div class="modal-footer">
       <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
         (click)="editCrewMember(); resetForm(); close">
-        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
-        <span>Edit Entry</span>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Entry</span>
       </button>
       <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
         disabled>
-        <img src="assets/images/icons/128x128/white/edit.png" height="24px">
-        <span>Edit Entry</span>
+        <img src="assets/images/icons/128x128/white/save.png" height="24px">
+        <span>Save Entry</span>
       </button>
       <button type="button" class="btn btn-ssn" (click)="resetInputCrewModel($event); close">
         <span>Cancel</span>

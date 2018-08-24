@@ -1,13 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { LocationModel } from '../../../../../../../shared/models/location-model';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { LocationProperties } from '../../../../../../../shared/constants/location-properties';
-import { NgbTime } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { SecurityPreviousPortOfCallModel } from '../../../../../../../shared/models/security-previous-port-of-call-model';
-import { Subscription } from '../../../../../../../../../node_modules/rxjs/Subscription';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
+import { Subscription } from 'rxjs/Subscription';
 import { SecurityLevelModel } from 'app/shared/models/security-level-model';
-import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
-import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 
 @Component({
   selector: 'app-last-10-port-calls',
@@ -16,12 +15,15 @@ import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/n
 })
 export class Last10PortCallsComponent implements OnInit, OnDestroy {
 
-  @Input() portCallList: SecurityPreviousPortOfCallModel[];
-  portCallTableList: SecurityPreviousPortOfCallModel[] = [];
-  locationFound = false;
+  @Input() portCallList: SecurityPreviousPortOfCallModel[]; // List containing the port calls registered in the security form
+  portCallListDeepCopy: SecurityPreviousPortOfCallModel[] = []; // Deep copy of portCallList, used as input in last-10-port-calls-table component
+  locationFound = false;  // boolean used for switching between search-location component and info table for selected location
   locationData = new LocationProperties().getPropertyList();
-  portCallModel: SecurityPreviousPortOfCallModel = new SecurityPreviousPortOfCallModel();
+  formModel: SecurityPreviousPortOfCallModel = new SecurityPreviousPortOfCallModel(); // model that is built using the form before it is added to the table
+  securityLevelList: SecurityLevelModel[];
+  getSecurityLevelListSubscription: Subscription;
 
+  /* DateTime is a custom interface used in the date-picker and date-time-picker components */
   arrivalModel: DateTime = {
     date: null,
     time: new NgbTime(0, 0, 0)
@@ -31,14 +33,11 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     time: new NgbTime(0, 0, 0)
   };
 
-  arrivalIsAfterDepartureError = false;
-  arrivalOverlapError = false;
-  departureOverlapError = false;
-  entryArrivalOverlapError = false;
-  entryDepartureOverlapError = false;
-
-  securityLevelList: SecurityLevelModel[];
-  getSecurityLevelListSubscription: Subscription;
+  arrivalIsAfterDepartureError = false; // formModel's arrival time is after its departure time
+  arrivalOverlapError = false;  // formModel's arrival time is between the arrival and departure times of an existing table entry
+  departureOverlapError = false;  // formModel's departure time is between arrival and departure times of an existing table entry
+  entryArrivalOverlapError = false; // The arrival and departure times of the formModel overlaps with the arrival time of an existing table entry
+  entryDepartureOverlapError = false; // The arrival and departure times of the formModel overlaps with the departure time of an existing table entry
 
   constructor(
     private securityService: FalSecurityService
@@ -46,7 +45,7 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.validateData();
-    this.portCallTableList = JSON.parse(JSON.stringify(this.portCallList));
+    this.portCallListDeepCopy = JSON.parse(JSON.stringify(this.portCallList)); // deep copying
     this.getSecurityLevelListSubscription = this.securityService.getSecurityLevelList().subscribe(
       data => {
         this.securityLevelList = data;
@@ -60,23 +59,24 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     this.getSecurityLevelListSubscription.unsubscribe();
   }
 
-
-  addPortCallEntry() {
+  addTableEntry() {
     this.validateDateTime();
-    const portCallCopy = JSON.parse(JSON.stringify(this.portCallModel));
-    this.portCallList.push(portCallCopy);
+    const formModelCopy = JSON.parse(JSON.stringify(this.formModel)); // deep copy to avoid problems when formModel is reset
+    this.portCallList.push(formModelCopy);
     this.touchData();
     this.resetModel();
   }
 
-  onDeletePortCall(row) {
-    const index = this.portCallList.findIndex(entry => entry.sequenceNumber === row.portCall.sequenceNumber);
+  /** Called on (delete) output from last-10-port-calls-table component */
+  onRemoveTableEntry(row) {
+    const index = this.portCallList.findIndex(entry => entry.sequenceNumber === row.portCall.sequenceNumber); // consider replacing with better check
     if (index !== -1) {
-      this.portCallList.splice(index, 1);
+      this.portCallList.splice(index, 1); // remove entry from list
     }
     this.touchData();
   }
 
+  /** Sorts list by arrival time (most recent first) and sets sequence numbers in that order */
   setSequenceNumbers() {
     if (this.portCallList.length > 0) {
       this.portCallList.sort((entry1, entry2) => {
@@ -90,29 +90,28 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onLocationResult(location) {
-    this.portCallModel.location = location;
-    this.portCallModel.locationId = location.locationId;
-    LocationProperties.setLocationData(this.locationData, this.portCallModel.location);
-    if (this.portCallModel.location.country) {
-      const twoCharCode = this.portCallModel.location.country.twoCharCode.toLowerCase() || 'xx';
+    this.formModel.location = location;
+    this.formModel.locationId = location.locationId;
+    LocationProperties.setLocationData(this.locationData, this.formModel.location);
+    if (this.formModel.location.country) {
+      const twoCharCode = this.formModel.location.country.twoCharCode.toLowerCase() || 'xx';
       const countryFlag = twoCharCode + '.png';
-      LocationProperties.setCountry(this.locationData, this.portCallModel.location.country.name, countryFlag);
+      LocationProperties.setCountry(this.locationData, this.formModel.location.country.name, countryFlag);
     }
     this.locationFound = true;
   }
 
   deselectLocation() {
     this.locationFound = false;
-    this.portCallModel.location = null;
-    this.portCallModel.locationId = null;
+    this.formModel.location = null;
+    this.formModel.locationId = null;
   }
 
   onArrivalResult(arrivalResult) {
     if (arrivalResult) {
       this.arrivalModel = arrivalResult;
-      this.portCallModel.arrivalDateTime = new Date(this.arrivalModel.date.year, this.arrivalModel.date.month - 1, this.arrivalModel.date.day, this.arrivalModel.time.hour, this.arrivalModel.time.minute);
+      this.formModel.arrivalDateTime = new Date(this.arrivalModel.date.year, this.arrivalModel.date.month - 1, this.arrivalModel.date.day, this.arrivalModel.time.hour, this.arrivalModel.time.minute);
     }
     this.validateDateTime();
   }
@@ -120,16 +119,16 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
   onDepartureResult(departureResult) {
     if (departureResult) {
       this.departureModel = departureResult;
-      this.portCallModel.departureDateTime = new Date(this.departureModel.date.year, this.departureModel.date.month - 1, this.departureModel.date.day, this.departureModel.time.hour, this.departureModel.time.minute);
+      this.formModel.departureDateTime = new Date(this.departureModel.date.year, this.departureModel.date.month - 1, this.departureModel.date.day, this.departureModel.time.hour, this.departureModel.time.minute);
     }
     this.validateDateTime();
   }
 
   onSecurityLevelResult(securityLevelResult) {
-    this.portCallModel.securityLevelId = securityLevelResult.securityLevelId;
+    this.formModel.securityLevelId = securityLevelResult.securityLevelId;
   }
 
-
+  /** Checks for consistency errors in the arrival/departure times of the formModel and existing table entries. */
   private validateDateTime() {
     if (this.arrivalModel && this.arrivalModel.date && this.departureModel && this.departureModel.date) {
       this.arrivalIsAfterDepartureError = this.isAfter(this.arrivalModel, this.departureModel);
@@ -166,6 +165,7 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Converts dates in string format to DateTime format */
   private dateStringToDateTime(dateString) {
     const date = new Date(dateString);
     const dateTime: DateTime = {
@@ -175,6 +175,7 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     return dateTime;
   }
 
+  /** Checks if one DateTime (dt1) is after another (dt2) */
   private isAfter(dt1: DateTime, dt2: DateTime) {
     if (dt1.date && dt2.date) {
       const dt1Date = new NgbDate(dt1.date.year, dt1.date.month, dt1.date.day);
@@ -191,6 +192,7 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  /** Resets formModel so input fields are cleared. Called whenever a table entry is added. */
   private resetModel() {
     this.locationFound = false;
     this.arrivalModel = {
@@ -201,16 +203,18 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
       date: null,
       time: new NgbTime(0, 0, 0)
     };
-    this.portCallModel = new SecurityPreviousPortOfCallModel();
+    this.formModel = new SecurityPreviousPortOfCallModel();
   }
 
+  /** Called whenever a table entry is added or removed. */
   private touchData() {
     this.setSequenceNumbers();
-    this.portCallTableList = JSON.parse(JSON.stringify(this.portCallList));
+    this.portCallListDeepCopy = JSON.parse(JSON.stringify(this.portCallList));
     this.securityService.setPristineData(false);
     this.validateData();
   }
 
+  /** Checks that information required for saving is present. */
   private validateData() {
     this.securityService.setValidLast10PortCallsData(this.dataIsValid());
   }
