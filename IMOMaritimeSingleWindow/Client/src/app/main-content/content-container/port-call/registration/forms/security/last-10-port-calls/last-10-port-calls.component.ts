@@ -128,7 +128,7 @@ export class Last10PortCallsComponent implements OnInit, OnDestroy {
     this.formModel.securityLevelId = securityLevelResult.securityLevelId;
   }
 
-  /** Checks for consistency errors in the arrival/departure times of the formModel and existing table entries */
+  /** Checks for consistency errors in the arrival/departure times of the formModel and existing table entries. */
   private validateDateTime() {
     if (this.arrivalModel && this.arrivalModel.date && this.departureModel && this.departureModel.date) {
       this.arrivalIsAfterDepartureError = this.isAfter(this.arrivalModel, this.departureModel);

@@ -97,6 +97,7 @@ export class SaveSecurityComponent implements OnInit, OnDestroy {
     this.validShipToShipActivitySubscription.unsubscribe();
   }
 
+  /** Checks that all required information has been provided. */
   checkData() {
     this.allowSaving = !(this.securityIsPristine && this.isscIsPristine)
       && this.securityDetailsIsValid && this.csoIsValid
