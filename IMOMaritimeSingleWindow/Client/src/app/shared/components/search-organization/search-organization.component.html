@@ -5,18 +5,28 @@
   </ng-template>
 
   <div class="text-center">
-    <label for="search-organization">Search using organization name or organization number</label>
+    <label for="search-organization">{{ header }}</label>
     <div class="row">
       <div class="col-2"></div>
       <div class="col-8">
-        <div *ngIf="showDropdown">
+        <div *ngIf="showDropdown" class="input-group">
+          <div class="input-group-prepend">
+            <button disabled class="btn btn-sm btn-ssn">
+              <img src="assets/images/icons/128x128/white/search.png" height="20px">
+            </button>
+          </div>
           <input id="search-organization" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
             [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectOrganization($event)"
-            placeholder="Enter search here..." />
+            placeholder="Enter search here..." (focus)="onFocus($event)" />
         </div>
-        <div *ngIf="!showDropdown">
+        <div *ngIf="!showDropdown" class="input-group">
+          <div class="input-group-prepend">
+            <button disabled class="btn btn-sm btn-ssn">
+              <img src="assets/images/icons/128x128/white/search.png" height="20px">
+            </button>
+          </div>
           <input id="search-organization-no-dropdown" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
-            [ngbTypeahead]="search" placeholder="Enter search here..." />
+            [ngbTypeahead]="search" placeholder="Enter search here..." (focus)="onFocus($event)" />
         </div>
       </div>
       <div class="col-2">

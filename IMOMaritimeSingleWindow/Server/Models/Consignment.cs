@@ -14,8 +14,8 @@ namespace IMOMaritimeSingleWindow.Models
         public int? PortCallId { get; set; }
         public int? PortOfLoadingId { get; set; }
         public int? PortOfDischargeId { get; set; }
-        public string Name { get; set; }
         public string Remark { get; set; }
+        public string Name { get; set; }
 
         public PortCall PortCall { get; set; }
         public Location PortOfDischarge { get; set; }

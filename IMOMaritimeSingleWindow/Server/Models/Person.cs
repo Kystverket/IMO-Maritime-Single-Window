@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -32,7 +32,12 @@ namespace IMOMaritimeSingleWindow.Models
             Person o = (Person)obj;
             // Field equality
             return o.GivenName.Equals(GivenName) && o.Surname.Equals(Surname) &&
-                o.CompanyEmail.Equals(CompanyEmail) && o.CompanyPhoneNumber.Equals(CompanyPhoneNumber);
+                   o.CompanyEmail.Equals(CompanyEmail) && o.CompanyPhoneNumber.Equals(CompanyPhoneNumber);
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,0 +1,40 @@
+<div *ngIf="isInitialized">
+  <div class="row">
+    <div class="col">
+      <app-security-details [securityModel]="securityModel"></app-security-details>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-issc [isscModel]="shipModel.issc"></app-issc>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-company-security-officer [csoModel]="securityModel.companySecurityOfficer"></app-company-security-officer>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-last-10-port-calls [portCallList]="securityModel.securityPreviousPortOfCall"></app-last-10-port-calls>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-ship-to-ship-activity [shipToShipActivityList]="securityModel.shipToShipActivity"></app-ship-to-ship-activity>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <app-ssn-card [header]="'Save Security/ISPS'">
+        <div class="row">
+          <div class="col">
+            <div class="text-center">
+              <app-save-security [securityModel]="securityModel" [shipModel]="shipModel" [isscModel]="shipModel.issc" [portCallId]="portCallId"></app-save-security>
+            </div>
+          </div>
+        </div>
+      </app-ssn-card>
+    </div>
+  </div>
+</div>

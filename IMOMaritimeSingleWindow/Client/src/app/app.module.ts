@@ -22,6 +22,10 @@ import { ErrorGuard } from './guards/error.guard';
 import { ErrorModule } from './error/error.module';
 import { RootGuard } from './guards/root.guard';
 import { BLACKLISTED_ROUTES } from './shared/constants/blacklisted-routes';
+import { HeaderHomeComponent } from './main-content/header/header-home/header-home.component';
+import { RouterModule } from '@angular/router';
+import { HeaderModule } from './main-content/header/header.module';
+
 
 
 
@@ -42,11 +46,12 @@ import { BLACKLISTED_ROUTES } from './shared/constants/blacklisted-routes';
       }
     }),
     NgbModule.forRoot(),
+    RouterModule,
+    HeaderModule
   ],
   declarations: [
     AppComponent,
     FooterComponent,
-    HeaderComponent,
     routedComponents,
   ],
   providers: [

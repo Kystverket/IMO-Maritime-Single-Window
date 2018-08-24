@@ -1,18 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ViewCell } from 'ng2-smart-table';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { PortCallModel } from 'app/shared/models/port-call-model';
 import { AccountService } from 'app/shared/services/account.service';
 import { ConstantsService } from 'app/shared/services/constants.service';
 import { ContentService } from 'app/shared/services/content.service';
 import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { PrevAndNextPocService } from 'app/shared/services/prev-and-next-poc.service';
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { FalCargoService } from '../../../../../shared/services/fal-cargo.service';
+import { ViewCell } from 'ng2-smart-table';
+import { LoadPortCallService } from '../../load-port-call.service';
 
 @Component({
   selector: 'app-button-row',
@@ -26,6 +24,10 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   @Input() rowData: any;
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
+
+  @Output() portCallCancelled = new EventEmitter<number>();
+  @Output() portCallCompleted = new EventEmitter<number>();
+  @Output() portCallUncompleted = new EventEmitter<number>();
 
   overviewData: any[];
   draftOverviewData: any[];
@@ -43,9 +45,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private overviewService: PortCallOverviewService,
     private contentService: ContentService,
     private portCallService: PortCallService,
-    private prevAndNextService: PrevAndNextPocService,
-    private cargoService: FalCargoService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private loadPortCallService: LoadPortCallService
   ) { }
 
   ngOnInit() {
@@ -91,48 +92,38 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    this.setContent(CONTENT_NAMES.VIEW_PORT_CALL);
+    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.VIEW_PORT_CALL);
   }
 
   onEditClick() {
     this.contentService.setPortCallForm(CONTENT_NAMES.VOYAGES);
-    this.setContent(CONTENT_NAMES.REGISTER_PORT_CALL);
+    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
   onClearanceClick() {
-    this.setContent(CONTENT_NAMES.PORT_CALL_CLEARANCE);
+    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.PORT_CALL_CLEARANCE);
   }
 
   openModal(content: any) {
     this.modalService.open(content);
   }
 
-  onPortCallModelChange(portCallModel: PortCallModel) {
-    console.log(portCallModel);
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
-    this.rowData.overviewModel.status = portCallModel.portCallStatus.name;
-    this.portCallIsCleared = (this.rowData.overviewModel.status === PortCallStatusTypes.CLEARED);
-    this.portCallIsCompleted = (this.rowData.overviewModel.status === PortCallStatusTypes.COMPLETED);
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = portCallModel.portCallStatus.name;
-    this.overviewService.setOverviewData(this.overviewData);
-  }
-
-  onCompletePortCall() {
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
+  onCompletePortCall(portCallId) {
     this.rowData.overviewModel.status = PortCallStatusTypes.COMPLETED;
     this.portCallIsCleared = false;
     this.portCallIsCompleted = true;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.COMPLETED;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.COMPLETED;
     this.overviewService.setOverviewData(this.overviewData);
+    this.portCallCompleted.emit(portCallId);
   }
 
-  onUncompletePortCall() {
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
+  onUncompletePortCall(portCallId) {
     this.rowData.overviewModel.status = PortCallStatusTypes.CLEARED;
     this.portCallIsCleared = true;
     this.portCallIsCompleted = false;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = PortCallStatusTypes.CLEARED;
+    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.CLEARED;
     this.overviewService.setOverviewData(this.overviewData);
+    this.portCallUncompleted.emit(portCallId);
   }
 
   cancelPortCall() {
@@ -151,7 +142,11 @@ export class ButtonRowComponent implements ViewCell, OnInit {
       this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
-    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId);
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId).subscribe(
+      result => {
+        this.portCallCancelled.emit(pcId);
+      }
+    );
 
   }
 
@@ -193,74 +188,9 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     );
   }
 
-  private setContent(content: string) {  // NEW CLEANUP
-    this.setPortCall(content);
-  }
-
-  // NEW CLEANUP - Set methods
-  setPortCall(content) {
+  private setContent(portCallId: number, content: string) {
     this.overviewService.setLoadingPortCall(true);
     this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
-    this.overviewService.getOverview(this.rowData.overviewModel.portCall.portCallId).subscribe(
-      data => {
-        if (data) {
-          console.log(data);
-          this.portCallService.setPortCall(data);
-          this.prevAndNextService.setPrevPortOfCall(data.portCall.previousLocation);
-          this.prevAndNextService.setPrevPortOfCallEtd(data.portCall.previousLocationEtd);
-          this.prevAndNextService.setNextPortOfCall(data.portCall.nextLocation);
-          this.prevAndNextService.setNextPortOfCallEta(data.portCall.nextLocationEta);
-          this.prevAndNextService.setDataPristine(true);
-          this.cargoService.setConsignmentListData(data.portCall.consignment);
-          this.cargoService.setDataIsPristine(true);
-          this.setPurpose(content);
-        }
-      }
-    );
-  }
-  setPurpose(content) {
-    this.portCallService.getPurposeByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
-      purposeData => {
-        if (purposeData) {
-          if (purposeData.find(p => p.name === 'Other')) {
-            this.portCallService.getOtherName(this.rowData.overviewModel.portCall.portCallId).subscribe(
-              otherNameData => {
-                this.portCallService.setOtherPurposeName(otherNameData);
-                this.portCallService.setPortCallPurposeData(purposeData);
-                this.setDetails(content);
-              }
-            );
-          } else {
-            this.portCallService.setPortCallPurposeData(purposeData);
-            this.setDetails(content);
-          }
-        } else {
-          console.log('No purpose information has been registered for this port call.');
-        }
-      },
-      error => {
-        console.log('Get Purpose Error: ', error);
-      }
-    );
-  }
-  setDetails(content) {
-    this.portCallService.getDetailsByPortCallId(this.rowData.overviewModel.portCall.portCallId).subscribe(
-      detailsData => {
-        if (detailsData) {
-          this.portCallService.setDetails(detailsData);
-        } else {
-          console.log('No details information has been registered for this port call.');
-          const portCallDetails = new PortCallDetailsModel();
-          portCallDetails.portCallDetailsId = this.rowData.overviewModel.portCall.portCallId;
-          portCallDetails.portCallId = this.rowData.overviewModel.portCall.portCallId;
-          this.portCallService.setDetails(portCallDetails);
-        }
-        this.contentService.setContent(content);
-
-      },
-      error => {
-        console.log('Get Details Error: ', error);
-      }
-    );
+    this.loadPortCallService.setContent(portCallId, content);
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -16,15 +16,16 @@ export class ReportingComponent implements OnInit, OnDestroy {
     reportingShipStores: boolean,
     reportingCrew: boolean,
     reportingPax: boolean,
+    reportingSecurity: boolean
   };
   checkboxes: any = [];
 
   reportingForThisPortCallDataSubscription: Subscription;
 
-  constructor(private portCallService: PortCallService) { }
+  constructor(private portCallDetailsService: PortCallDetailsService) { }
 
   ngOnInit() {
-    this.reportingForThisPortCallDataSubscription = this.portCallService.reportingForThisPortCallData$.subscribe(
+    this.reportingForThisPortCallDataSubscription = this.portCallDetailsService.reportingForThisPortCallData$.subscribe(
       data => {
         if (data != null) {
           this.reportingModel = data;
@@ -36,6 +37,7 @@ export class ReportingComponent implements OnInit, OnDestroy {
             reportingShipStores: null,
             reportingCrew: null,
             reportingPax: null,
+            reportingSecurity: null
           };
         }
         this.checkboxes = [
@@ -43,7 +45,8 @@ export class ReportingComponent implements OnInit, OnDestroy {
           { name: 'Cargo', icon: 'cargo.png', checked: this.reportingModel.reportingCargo || false },
           { name: 'Ship Stores', icon: 'alcohol.png', checked: this.reportingModel.reportingShipStores || false },
           { name: 'Crew', icon: 'crew.png', checked: this.reportingModel.reportingCrew || false },
-          { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false }
+          { name: 'Pax', icon: 'pax.png', checked: this.reportingModel.reportingPax || false },
+          { name: 'Security', icon: 'security.png', checked: this.reportingModel.reportingSecurity || false }
         ];
       }
     );
@@ -71,9 +74,12 @@ export class ReportingComponent implements OnInit, OnDestroy {
       case 'Pax':
         this.reportingModel.reportingPax = checkboxModel.checked;
         break;
+      case 'Security':
+        this.reportingModel.reportingSecurity = checkboxModel.checked;
+        break;
       default:
         console.log('Oops. Something went wrong with the checkboxes.');
     }
-    this.portCallService.setReportingForThisPortCallData(this.reportingModel);
+    this.portCallDetailsService.setReportingForThisPortCallData(this.reportingModel);
   }
 }

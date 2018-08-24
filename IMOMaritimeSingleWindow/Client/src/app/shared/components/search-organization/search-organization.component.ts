@@ -17,6 +17,7 @@ import { SearchOrganizationService } from './search-organization.service';
 export class SearchOrganizationComponent implements OnInit {
 
   @Input() showDropdown = true;
+  @Input() header = 'Search using organization name or organization number';
 
   @Output() organizationResult = new EventEmitter<any>();
   @Output() organizationSearchResult = new EventEmitter<any>();
@@ -81,4 +82,11 @@ export class SearchOrganizationComponent implements OnInit {
     this.organizationResult.emit(this.organizationModel);
   }
 
+  onFocus(e: Event): void {
+    e.stopPropagation();
+    setTimeout(() => {
+      const inputEvent: Event = new Event('input');
+      e.target.dispatchEvent(inputEvent);
+    }, 0);
+  }
 }

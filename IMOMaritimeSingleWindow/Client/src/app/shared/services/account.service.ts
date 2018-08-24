@@ -1,5 +1,5 @@
 import { AuthRequest } from './auth.request.service';
-import { BaseRequest } from 'app/shared/utils/base.request';
+import { BaseRequest } from '../utils/base.request';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConfigService } from 'app/shared/utils/config.service';
 import {
@@ -81,12 +81,11 @@ export class AccountService extends BaseRequest {
 
   getDisplayName(): Observable<string> {
     return this.http.get(this.userNameUrl,
-    { responseType: 'text'});
+      { responseType: 'text' });
   }
 
   getUserByEmail(email: string): Observable<any> {
     const uri = [this.userUrl, email].join('/');
-
     return this.http.get(uri);
   }
 
@@ -137,6 +136,8 @@ export class AccountService extends BaseRequest {
   // Allow anonymous
   resetPassword(model: PasswordResetModel): Observable<any> {
     const uri = [this.passwordUrl, 'reset'].join('/');
-    return this.http.put(uri, model);
+    return this.http
+      .put(uri, model)
+      .catch(this.handleError);
   }
 }

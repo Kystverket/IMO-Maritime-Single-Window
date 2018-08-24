@@ -9,7 +9,15 @@
 </div>
 
 <app-ssn-card header="Location Search" icon="pax.png">
-  <app-search-location [showDropdown]=false (locationSearchResult)="onLocationSearchResult($event)"></app-search-location>
+  <div class="text-center">
+    <label for="search-location">Search using location name or UN/LOCODE code</label>
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8">
+        <app-search-location [showDropdown]=false (locationSearchResult)="onLocationSearchResult($event)"></app-search-location>
+      </div>
+    </div>
+  </div>
   <br>
   <div>
     <div class="mb-3">

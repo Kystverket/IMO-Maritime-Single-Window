@@ -2,17 +2,16 @@
   <nav class="navbar navbar-dark bg-ssn">
 
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" *ngIf="userMenuEntries.length > 1">
+      <li class="nav-item" *ngIf="(userMenuEntries.length > 1); else singleEntry">
+        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" >
           <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <button class="btn btn-sm btn-ssn" type="button" (click)="setContent(userMenuEntries[0].menuName)" *ngIf="userMenuEntries.length === 1">
-          <img src="{{iconPath}}home.png" height="16px">
         </button>
         <img src="/assets/images/logos/logo.png" height="32px" />
         <span class="text-center text-ssn">IMO Maritime Single Window</span>
       </li>
+      <ng-template #singleEntry>
+          <app-header-home [standAlone]="false" *ngIf="userMenuEntries.length === 1"></app-header-home>
+      </ng-template>
     </ul>
 
     <span class="badge badge-danger" *ngIf="!(online$ | async)">Internet connection lost</span>
@@ -21,14 +20,15 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item">
-        <form class="form-inline">
+          <span class="text-center text-ssn mx-3">Development Version. Deployed: 23.08.2018</span>
           <div class="btn-group">
-            <button routerLink="/auth/ChangePassword" routerLinkActive="active" class="btn btn-light btn-sm">{{userName}}</button>
+            <button routerLink="/auth/ChangePassword"  class="btn btn-light btn-sm">{{userName}}</button>
             <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
           </div>
-        </form>
       </li>
     </ul>
+
+
 
     <div class="collapse navbar-collapse" [ngbCollapse]="menuIsCollapsed">
       <div class="row">

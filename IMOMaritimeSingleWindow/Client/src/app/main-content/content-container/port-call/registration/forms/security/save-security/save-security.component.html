@@ -1,0 +1,11 @@
+<div class="alert alert-danger text-center" *ngIf="!(securityDetailsIsValid && isscIsValid && csoIsValid && last10PortCallsIsValid && shipToShipActivityIsValid)">
+  <div *ngIf="!securityDetailsIsValid">Error: information in 'Security Details' is incomplete.</div>
+  <div *ngIf="!isscIsValid">Error: information in 'International Ship Security Certificate' is incomplete.</div>
+  <div *ngIf="!csoIsValid">Error: information in 'Company Security Officer' is incomplete.</div>
+  <div *ngIf="!last10PortCallsIsValid">Error: information in 'Last 10 Port Calls' is incomplete.</div>
+  <div *ngIf="!shipToShipActivityIsValid">Error: information in 'Ship To Ship Activities' is incomplete.</div>
+</div>
+<div class="text-center" *ngIf="securityIsPristine && isscIsPristine">
+  There are no unsaved changes in this page.
+</div>
+<app-save-security-button [portCallId]="portCallId"></app-save-security-button>

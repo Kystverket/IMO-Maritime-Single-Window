@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -67,11 +70,14 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.CLEARANCE)]
         [HttpPut()]
         public IActionResult Save([FromBody] OrganizationPortCall organizationPortCall)
         {
             try
             {
+                var userId = this.GetUserId();
+                organizationPortCall.ClearedByUserId = Guid.Parse(userId);
                 if (_context.OrganizationPortCall.Any(opc => opc.OrganizationPortCallId == organizationPortCall.OrganizationPortCallId))
                 {
                     _context.OrganizationPortCall.Update(organizationPortCall);

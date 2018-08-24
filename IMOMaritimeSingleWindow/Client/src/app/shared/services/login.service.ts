@@ -80,11 +80,8 @@ export class LoginService extends BaseService {
           this._authNavStatusSource.next(false);
         }
         return jwtResponse;
-      }, error => {
-        console.log('error logging in', error);
       })
       .catch(this.handleError);
-      // .catch( (error: HttpErrorResponse) => this.handleError2(error) );
   }
 
   logout() {
@@ -105,14 +102,5 @@ export class LoginService extends BaseService {
     return !isExpired;
   }
 
-  private tryParseAsJson(error: any): boolean {
-    let response: any;
-    try {
-        response = error.json();
-    } catch (jsonError) {
-        return false;
-    }
-    return true;
-}
 
 }

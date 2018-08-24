@@ -1,0 +1,10 @@
+p {
+    margin-bottom: 0;
+    font-size: 0.875rem;
+    line-height: 0px;
+}
+
+.input-group-append {
+    display: flex;
+    align-items: center;
+}

@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PurposeService } from 'app/shared/services/purpose.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -24,7 +24,7 @@ export class PurposeComponent implements OnInit, OnDestroy {
   portCallPurposeDataSubscription: Subscription;
   otherPurposeNameSubscription: Subscription;
 
-  constructor(private purposeService: PurposeService, private portCallService: PortCallService) { }
+  constructor(private purposeService: PurposeService, private portCallDetailsService: PortCallDetailsService) { }
 
   ngOnInit() {
     this.getPurposesSubscription = this.purposeService.getPurposes().subscribe(
@@ -33,7 +33,7 @@ export class PurposeComponent implements OnInit, OnDestroy {
         this.amountOfPurposes = Object.keys(this.purposeList).length;
       }
     );
-    this.portCallPurposeDataSubscription = this.portCallService.portCallPurposeData$.subscribe(
+    this.portCallPurposeDataSubscription = this.portCallDetailsService.portCallPurposeData$.subscribe(
       data => {
         if (data) {
           this.selectedPurposes = data;
@@ -41,7 +41,7 @@ export class PurposeComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.otherPurposeNameSubscription = this.portCallService.otherPurposeName$.subscribe(
+    this.otherPurposeNameSubscription = this.portCallDetailsService.otherPurposeName$.subscribe(
       data => {
         this.otherPurposeName = data;
       }
@@ -55,7 +55,7 @@ export class PurposeComponent implements OnInit, OnDestroy {
   }
 
   purposeSelected() {
-    this.portCallService.setPortCallPurposeData(this.selectedPurposes);
+    this.portCallDetailsService.setPortCallPurposeData(this.selectedPurposes);
     console.log('SELECTED: ', this.selectedPurposes);
     if (this.otherPurposeSelected) {
       this.setOtherPurposeName();
@@ -63,6 +63,6 @@ export class PurposeComponent implements OnInit, OnDestroy {
   }
 
   setOtherPurposeName() {
-    this.portCallService.setOtherPurposeName(this.otherPurposeName);
+    this.portCallDetailsService.setOtherPurposeName(this.otherPurposeName);
   }
 }

@@ -1,0 +1,20 @@
+.modal-body ::ng-deep .ng-select-placeholder-sm, ::placeholder {
+  font-size: 0.875rem;
+  height: 31px;
+}
+
+.modal-body ::ng-deep .ng-placeholder, ::placeholder  {
+    color: gray !important;
+    font-style: italic;
+}
+
+.modal-body ::ng-deep .ng-input {
+  height: 21px;
+}
+
+.modal-body ::ng-deep .ng-select .ng-select-container {
+  min-height: 31px;
+  height: 31px;
+  border-radius: .2rem;
+  border-color: #ced4da;
+}

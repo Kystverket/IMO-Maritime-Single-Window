@@ -11,12 +11,22 @@
   <div class="row">
     <div class="col-2"></div>
     <div class="col-8">
-      <div *ngIf="showDropdown">
+      <div *ngIf="showDropdown" class="input-group">
+        <div class="input-group-prepend">
+          <button disabled class="btn btn-sm btn-ssn">
+            <img src="assets/images/icons/128x128/white/search.png" height="20px">
+          </button>
+        </div>
         <input id="search-ship" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipModel" [ngbTypeahead]="search"
           [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectShip($event)" placeholder="Enter search here..."
         />
       </div>
-      <div *ngIf="!showDropdown">
+      <div *ngIf="!showDropdown" class="input-group">
+        <div class="input-group-prepend">
+          <button disabled class="btn btn-sm btn-ssn">
+            <img src="assets/images/icons/128x128/white/search.png" height="20px">
+          </button>
+        </div>
         <input id="search-ship-no-dropdown" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="shipModel" [ngbTypeahead]="search"
           placeholder="Enter search here..." />
       </div>

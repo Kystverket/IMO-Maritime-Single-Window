@@ -21,8 +21,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
-        [HttpPost("list")]
-        public IActionResult AddList([FromBody] List<FalShipStores> shipStoresList)
+        [HttpPut("{portCallId}/list")]
+        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList, int portCallId)
         {
             if (!ModelState.IsValid)
             {
@@ -30,12 +30,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
-                _context.FalShipStores.RemoveRange(removeList);
+                _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(st => st.PortCallId == portCallId));
                 _context.FalShipStores.AddRange(shipStoresList);
                 _context.SaveChanges();
-                return Ok(true);
+                return Json(shipStoresList);
             }
             catch (Exception e)
             {
@@ -43,8 +41,9 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
+        // moved to PortCallController
         [HttpPut("list")]
-        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList)
+        public IActionResult UpdateList([FromBody] List<FalShipStores> shipStoresList, long portCallId)
         {
             if (!ModelState.IsValid)
             {
@@ -52,18 +51,26 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                var oldList = _context.FalShipStores.Where(s => shipStoresList.Any(shipStoresEntity => shipStoresEntity.PortCallId == s.PortCallId));
-                var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId));
-                _context.FalShipStores.RemoveRange(removeList);
-                foreach (FalShipStores shipStoresEntity in shipStoresList)
+                if (!shipStoresList.Any())
                 {
-                    if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                    _context.FalShipStores.RemoveRange(_context.FalShipStores.Where(s => s.PortCallId == portCallId));
+                }
+                else
+                {
+                    var oldList = _context.FalShipStores.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
+                    var removeList = oldList.Where(s => !shipStoresList.Any(shipStoresEntity => shipStoresEntity.FalShipStoresId == s.FalShipStoresId)).ToList();
+                    _context.FalShipStores.RemoveRange(removeList);
+
+                    foreach (FalShipStores shipStoresEntity in shipStoresList)
                     {
-                        _context.Update(shipStoresEntity);
-                    }
-                    else
-                    {
-                        _context.Add(shipStoresEntity);
+                        if (_context.FalShipStores.Any(s => s.FalShipStoresId == shipStoresEntity.FalShipStoresId))
+                        {
+                            _context.FalShipStores.Update(shipStoresEntity);
+                        }
+                        else
+                        {
+                            _context.FalShipStores.Add(shipStoresEntity);
+                        }
                     }
                 }
                 _context.SaveChanges();
