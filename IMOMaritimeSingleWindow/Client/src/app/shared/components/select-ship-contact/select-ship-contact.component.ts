@@ -63,6 +63,11 @@ export class SelectShipContactComponent implements OnInit, OnDestroy {
     }
   }
 
+  onClear() {
+    this.selectedContactModelList = [];
+    this.contactModelListResult.emit(this.selectedContactModelList);
+  }
+
   preferredSet(selectedContactModel: ShipContactModel) {
     const updatedContactModelList = this.selectedContactModelList.map(
       contactModel => {
