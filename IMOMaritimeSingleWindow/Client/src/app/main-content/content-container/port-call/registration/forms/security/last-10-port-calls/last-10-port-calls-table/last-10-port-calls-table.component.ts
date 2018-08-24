@@ -74,7 +74,7 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Called whenever a change is made to the tableEntryList input */
+  /** Called whenever a change is made to the tableEntryList input. */
   ngOnChanges(changes: SimpleChanges) {
     if (this.tableEntryList && this.tableEntryList.length > 0) {
       const rows = this.generateRows();
@@ -84,12 +84,12 @@ export class Last10PortCallsTableComponent implements OnInit, OnChanges {
     }
   }
 
-  /** Emits event to parent component telling it to remove an entry from the table */
+  /** Emits event to parent component telling it to remove an entry from the table. */
   deletePortCall(row) {
     this.delete.emit(row);
   }
 
-  /** Maps content of tableEntryList to a format compatible with tableSettings */
+  /** Maps content of tableEntryList to a format compatible with tableSettings. */
   generateRows() {
     const rowData = this.tableEntryList.map(pc => {
       return {

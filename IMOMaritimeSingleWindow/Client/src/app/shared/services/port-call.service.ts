@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { LocationModel } from '../models/location-model';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { PortCallModel } from '../models/port-call-model';
 import { PortCallDetailsService } from './port-call-details.service';
@@ -11,7 +10,10 @@ import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
 
-
+/**
+ * To future developers:
+ * Sorry about the mess.
+ */
 @Injectable()
 export class PortCallService {
   // Global port call
@@ -87,11 +89,6 @@ export class PortCallService {
     private portCallDetailsService: PortCallDetailsService
   ) { }
 
-  //
-  // READ IMPORTANT 17.08.2018
-  // Trying a new pattern for port call registration forms
-  // See: security-component for usage
-  //
   private portCallDataSource = new BehaviorSubject<PortCallModel>(null);
   portCallData$ = this.portCallDataSource.asObservable();
 
