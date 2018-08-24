@@ -237,14 +237,10 @@ export class PortCallService {
     return this.http.post(uri, null);
   }
   // Set port call status to cancelled
-  updatePortCallStatusCancelled(portCallId: number) {
+  updatePortCallStatusCancelled(portCallId: number): Observable<any> {
     const uri = [this.updatePortCallStatusCancelledUrl, portCallId].join('/');
     console.log('Updating port call status to cancelled...');
-    this.http
-      .post(uri, null)
-      .subscribe(updateStatusResponse => {
-        console.log('Port call successfully cancelled.');
-      });
+    return this.http.post(uri, null);
   }
   // Set port call status to draft
   updatePortCallStatusDraft(portCallId: number) {
