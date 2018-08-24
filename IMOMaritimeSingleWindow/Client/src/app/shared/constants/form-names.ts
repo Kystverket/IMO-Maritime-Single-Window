@@ -6,7 +6,7 @@ const FORM_NAMES = {
     CARGO: 'Cargo',
     SHIP_STORES: 'Ship Stores',
     CREW: 'Crew',
-    PAX: 'Passenger List',
+    PAX: 'Pax',
     SECURITY: 'Security'
 };
 
