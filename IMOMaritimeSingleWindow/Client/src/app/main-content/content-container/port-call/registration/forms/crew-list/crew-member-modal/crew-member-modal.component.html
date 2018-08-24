@@ -145,12 +145,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputCrewModel.givenName" type="text" name="givenName"
-            alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="givenName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            required>
           <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
             <li>
               <small>This field is required.</small>
@@ -162,12 +157,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
         <div class="col my-auto">
           <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputCrewModel.familyName" type="text" name="familyName"
-            alphaNumericValidator required>
-          <div class="alert alert-danger" *ngIf="familyName.hasError('invalidAlphaNumeric')">
-            <li>
-              <small>Only alphanumeric characters allowed.</small>
-            </li>
-          </div>
+            required>
           <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
             <li>
               <small>This field is required.</small>
