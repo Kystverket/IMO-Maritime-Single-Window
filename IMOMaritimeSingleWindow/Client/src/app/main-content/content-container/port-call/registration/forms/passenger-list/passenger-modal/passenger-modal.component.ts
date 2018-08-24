@@ -144,7 +144,7 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = date;
     const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
-    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+    if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.issueDateAfterExpiryDateError = true;
       this.validDocumentDates = false;
     } else {
@@ -165,7 +165,7 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = date;
     const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
-    if (this.validateDateTimeService.checkDocumentDates(issueDate, expiryDate)) {
+    if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.expiryDateBeforeExpiryDateError = true;
       this.validDocumentDates = false;
     } else {

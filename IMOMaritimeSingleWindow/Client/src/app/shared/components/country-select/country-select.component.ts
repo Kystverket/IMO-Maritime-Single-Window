@@ -30,8 +30,6 @@ export class CountrySelectComponent implements OnInit {
   }
 
   countryChanged(country) {
-    console.log(country);
-    console.log(this.countryModel);
     this.countryResult.emit(this.countryModel);
   }
 

@@ -76,6 +76,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.securityService.resetServiceData();
     this.portCallSubscription = this.portCallService.portCallData$.subscribe(
       portCallData => {
         if (portCallData) {
@@ -84,7 +85,6 @@ export class FormsComponent implements OnInit, OnDestroy {
           this.setSecurityForPortCall(this.portCallModel.portCallId);
           this.shipService.getShip(this.portCallModel.shipId).subscribe(
             data => {
-              console.log(data);
               if (data) {
                 this.securityShipModel = data;
               }

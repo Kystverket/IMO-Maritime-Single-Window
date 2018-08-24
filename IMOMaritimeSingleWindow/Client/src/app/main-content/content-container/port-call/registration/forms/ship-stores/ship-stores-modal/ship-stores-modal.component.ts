@@ -63,7 +63,12 @@ export class ShipStoresModalComponent implements OnInit {
   }
 
   setMeasurementType($event) {
-    this.inputShipStoresModel.measurementType = $event;
-    this.inputShipStoresModel.measurementTypeId = $event.measurementTypeId;
+    if (typeof $event !== 'undefined') {
+      this.inputShipStoresModel.measurementType = $event;
+      this.inputShipStoresModel.measurementTypeId = $event.measurementTypeId;
+    } else {
+      this.inputShipStoresModel.measurementType = null;
+      this.inputShipStoresModel.measurementTypeId = null;
+    }
   }
 }

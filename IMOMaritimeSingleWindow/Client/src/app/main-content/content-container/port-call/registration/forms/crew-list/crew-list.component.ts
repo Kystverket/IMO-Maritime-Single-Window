@@ -254,8 +254,8 @@ export class CrewListComponent implements OnInit {
   }
 
   setDateOfBirth($event) {
-    if ($event.date) {
-      const date: Date = new Date($event.date.year, $event.date.month -  1, $event.date.day);
+    if ($event) {
+      const date: Date = new Date($event.year, $event.month -  1, $event.day);
       this.portCallCrewModel.dateOfBirth = date;
     } else {
       this.portCallCrewModel.dateOfBirth = null;

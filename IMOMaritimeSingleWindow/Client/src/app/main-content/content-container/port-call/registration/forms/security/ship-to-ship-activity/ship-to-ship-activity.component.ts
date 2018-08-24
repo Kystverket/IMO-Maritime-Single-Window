@@ -8,6 +8,7 @@ import { Subscription } from '../../../../../../../../../node_modules/rxjs';
 import { PortCallService } from '../../../../../../../shared/services/port-call.service';
 import { PurposeService } from '../../../../../../../shared/services/purpose.service';
 import { LocationProperties } from '../../../../../../../shared/constants/location-properties';
+import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
 
 @Component({
   selector: 'app-ship-to-ship-activity',
@@ -38,11 +39,13 @@ export class ShipToShipActivityComponent implements OnInit {
   fromDateIsAfterToDateError = false;
 
   constructor(
+    private securityService: FalSecurityService,
     private purposeService: PurposeService
   ) { }
 
   ngOnInit() {
-    this.touchData();
+    this.validateData();
+    this.tableList = JSON.parse(JSON.stringify(this.shipToShipActivityList));
     this.activityTypeListSubscription = this.purposeService.getPurposes().subscribe(
       result => {
         this.activityTypeList = result;
@@ -50,11 +53,6 @@ export class ShipToShipActivityComponent implements OnInit {
         console.log(error);
       }
     );
-  }
-
-  private touchData() {
-    this.sortList();
-    this.tableList = JSON.parse(JSON.stringify(this.shipToShipActivityList));
   }
 
   sortList() {
@@ -73,19 +71,6 @@ export class ShipToShipActivityComponent implements OnInit {
     this.shipToShipActivityList.push(shipToShipActivityCopy);
     this.touchData();
     this.resetModel();
-  }
-
-  private resetModel() {
-    this.locationFound = false;
-    this.fromDateModel = {
-      date: null,
-      time: new NgbTime(0, 0, 0)
-    };
-    this.toDateModel = {
-      date: null,
-      time: new NgbTime(0, 0, 0)
-    };
-    this.shipToShipActivityModel = new ShipToShipActivityModel();
   }
 
   onDeleteShipToShipActivity(row) {
@@ -113,12 +98,10 @@ export class ShipToShipActivityComponent implements OnInit {
   }
 
   onLatitudeInput(latitudeResult) {
-    console.log(latitudeResult);
     this.shipToShipActivityModel.latitude = latitudeResult * this.latitudeDirection;
   }
 
   onLongitudeInput(longitudeResult) {
-    console.log(longitudeResult);
     this.shipToShipActivityModel.longitude = longitudeResult * this.longitudeDirection;
   }
 
@@ -145,6 +128,18 @@ export class ShipToShipActivityComponent implements OnInit {
     this.shipToShipActivityModel.activityTypeId = activityType.portCallPurposeId;
   }
 
+  private resetModel() {
+    this.locationFound = false;
+    this.fromDateModel = {
+      date: null,
+      time: new NgbTime(0, 0, 0)
+    };
+    this.toDateModel = {
+      date: null,
+      time: new NgbTime(0, 0, 0)
+    };
+    this.shipToShipActivityModel = new ShipToShipActivityModel();
+  }
 
   private validateDateTime() {
     if (this.fromDateModel && this.fromDateModel.date && this.toDateModel && this.toDateModel.date) {
@@ -177,6 +172,21 @@ export class ShipToShipActivityComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  private touchData() {
+    this.sortList();
+    this.tableList = JSON.parse(JSON.stringify(this.shipToShipActivityList));
+    this.securityService.setPristineData(false);
+    this.validateData();
+  }
+
+  private validateData() {
+    this.securityService.setValidShipToShipActivityData(this.dataIsValid());
+  }
+
+  private dataIsValid() {
+    return true; // can potentially be replaced with 'this.shipToShipActivityList.length >= 10'
   }
 
 }

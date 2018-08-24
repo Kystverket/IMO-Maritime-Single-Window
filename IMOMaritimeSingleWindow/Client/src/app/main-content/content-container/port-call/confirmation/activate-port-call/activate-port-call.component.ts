@@ -13,6 +13,7 @@ import { PortCallDetailsService } from 'app/shared/services/port-call-details.se
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
+import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -32,11 +33,14 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   cargoDataIsPristine = true;
   passengerDataIsPristine: Boolean = true;
   crewDataIsPristine: Boolean = true;
+  securityIsPristine = true;
 
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
   passengerListIsChecked = false;
   crewListIsChecked = false;
+  securityIsChecked = false;
+
 
   voyagesErrors = false;
 
@@ -81,6 +85,10 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   crewDataSubscription: Subscription;
   crewListIsPristineSubscription: Subscription;
   crewListIsCheckedSubscription: Subscription;
+  securityIsCheckedSubscription: Subscription;
+  securityIsPristineSubscription: Subscription;
+  allowSavingSecuritySubscription: Subscription;
+  allowSavingSecurity = false;
 
   constructor(
     private contentService: ContentService,
@@ -89,7 +97,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private modalService: NgbModal,
-    private personOnBoardService: PortCallFalPersonOnBoardService
+    private personOnBoardService: PortCallFalPersonOnBoardService,
+    private securityService: FalSecurityService
   ) { }
 
   ngOnInit() {
@@ -103,7 +112,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     );
     this.voyagesErrorSubscription = this.portCallService.voyagesErrors$.subscribe(
       hasError => {
-          this.voyagesErrors = hasError;
+        this.voyagesErrors = hasError;
       }
     );
     //
@@ -122,7 +131,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
-          console.log(cpadData);
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }
@@ -234,6 +242,26 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.crewListIsChecked = isChecked;
       }
     );
+
+    //
+    // Security
+    //
+    this.securityIsPristineSubscription = this.securityService.pristineData$.subscribe(
+      pristineData => {
+        this.securityIsPristine = pristineData;
+      }
+    );
+    this.securityIsCheckedSubscription = this.securityService.securityIsCheckedData$.subscribe(
+      isChecked => {
+        this.securityIsChecked = isChecked;
+      }
+    );
+    this.allowSavingSecuritySubscription = this.securityService.allowSavingData$.subscribe(
+      allowSavingData => {
+        this.allowSavingSecurity = allowSavingData;
+      }
+    );
+
 
     //
     // Status

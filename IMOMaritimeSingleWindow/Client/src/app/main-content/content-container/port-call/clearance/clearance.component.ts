@@ -63,7 +63,8 @@ export class ClearanceComponent implements OnInit, OnDestroy {
   }
 
   saveClearance() {
-    console.log(this.clearanceModel);
+    this.clearanceModel.portCall = null;
+    // this.clearanceModel.organization = null;
     this.clearanceModel.remark = this.clearanceText;
     this.clearanceModel.cleared = this.givingClearance;
     this.portCallService.saveClearance(this.clearanceModel);
@@ -82,7 +83,6 @@ export class ClearanceComponent implements OnInit, OnDestroy {
           if (allCleared) {
             this.portCallService.updatePortCallStatusCleared(this.clearanceModel.portCallId).subscribe(
               res => {
-                console.log(res);
                 console.log('Status set to cleared.');
               },
               err => console.log(err)
@@ -94,7 +94,6 @@ export class ClearanceComponent implements OnInit, OnDestroy {
       console.log('Setting status to AC...');
       this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(
         res => {
-          console.log(res);
           console.log('Status set to awaiting clearance');
         },
         err => console.log(err)

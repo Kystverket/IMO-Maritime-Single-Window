@@ -9,4 +9,6 @@ export class ClearanceModel {
   clearedByUserId: string;
   // models
   clearedByUser: any;
+  portCall: any;
+  organization: any;
 }

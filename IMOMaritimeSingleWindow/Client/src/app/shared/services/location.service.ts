@@ -53,7 +53,6 @@ export class LocationService {
 
   getLocationById(locationId: number) {
     const uri = [this.locationUrl, locationId].join('/');
-    console.log(uri);
     return this.http.get(uri);
   }
 

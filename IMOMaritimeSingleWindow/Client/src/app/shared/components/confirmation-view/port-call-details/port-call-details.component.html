@@ -8,8 +8,8 @@
               <small>{{entry.description}}</small>
             </tr>
             <tr>
-              <div *ngIf="entry.data">{{ entry.data }}</div>
-              <div *ngIf="!entry.data" class="font-italic">Not provided.</div>
+              <div *ngIf="entry.data != null">{{ entry.data }}</div>
+              <div *ngIf="entry.data == null" class="font-italic">Not provided.</div>
             </tr>
           </td>
         </tr>
