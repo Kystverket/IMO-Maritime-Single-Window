@@ -17,11 +17,11 @@
     <div class="col-md-6">
       <div class="mb-2">
         <label class="col-form-label-sm no-wrap mb-0" for="security_level_select">Ship Security Level</label>
-        <ng-select id="security_level_select" name="security_level_select" [items]="securityLevelList" bindLabel="name" [(ngModel)]="portCallModel.securityLevel"
+        <ng-select id="security_level_select" name="security_level_select" [items]="securityLevelList" bindLabel="name" [(ngModel)]="formModel.securityLevel"
           placeholder="Select security level..." (change)="onSecurityLevelResult($event)"></ng-select>
       </div>
       <label class="col-form-label-sm no-wrap mb-0" for="additional_security_measures">(Optional) Additional security measures</label>
-      <textarea [(ngModel)]="portCallModel.additionalSecurityMeasures" class="form-control form-control-sm" id="additional_security_measures"
+      <textarea [(ngModel)]="formModel.additionalSecurityMeasures" class="form-control form-control-sm" id="additional_security_measures"
         name="additional_security_measures" rows="6" placeholder="Please describe any special or additional security measures, beyond those in the approved SSP."></textarea>
     </div>
   </div>
@@ -40,12 +40,12 @@
 
   <div class="row text-center mb-1">
     <div class="col">
-      <div *ngIf="locationFound && portCallModel.securityLevelId && portCallModel.securityLevel && portCallModel.arrivalDateTime && portCallModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError">
-        <button class="btn btn-ssn" (click)="addPortCallEntry()">
+      <div *ngIf="locationFound && formModel.securityLevelId && formModel.securityLevel && formModel.arrivalDateTime && formModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError">
+        <button class="btn btn-ssn" (click)="addTableEntry()">
           <span> Add Entry</span>
         </button>
       </div>
-      <div *ngIf="!(locationFound && portCallModel.securityLevelId && portCallModel.securityLevel && portCallModel.arrivalDateTime && portCallModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError)">
+      <div *ngIf="!(locationFound && formModel.securityLevelId && formModel.securityLevel && formModel.arrivalDateTime && formModel.departureDateTime && !arrivalIsAfterDepartureError && !arrivalOverlapError && !departureOverlapError && !entryArrivalOverlapError && !entryDepartureOverlapError)">
         <button class="btn btn-ssn" disabled>
           <span> Add Entry</span>
         </button>
@@ -56,7 +56,7 @@
 
   <div class="row">
     <div class="col">
-      <app-last-10-port-calls-table [portCallList]="portCallTableList" (delete)="onDeletePortCall($event)"></app-last-10-port-calls-table>
+      <app-last-10-port-calls-table [portCallList]="portCallListDeepCopy" (delete)="onRemoveTableEntry($event)"></app-last-10-port-calls-table>
     </div>
   </div>
 

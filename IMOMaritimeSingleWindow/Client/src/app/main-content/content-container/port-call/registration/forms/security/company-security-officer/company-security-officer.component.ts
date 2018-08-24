@@ -1,10 +1,5 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { LocalDataSource } from '../../../../../../../../../node_modules/ng2-smart-table';
-import { Subscription } from '../../../../../../../../../node_modules/rxjs';
-import { OrganizationService } from '../../../../../../../shared/services/organization.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { CompanySecurityOfficerModel } from '../../../../../../../shared/models/company-security-officer-model';
-import { OrganizationModel } from 'app/shared/models/organization-model';
-import { NgbModalRef, NgbModal } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap';
 import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
 
 @Component({
@@ -35,11 +30,13 @@ export class CompanySecurityOfficerComponent implements OnInit {
     this.touchData();
   }
 
+  /** Called whenever changes are made to the form */
   touchData() {
     this.securityService.setPristineData(false);
     this.validateData();
   }
 
+  /** Checks that information required for saving is present */
   private validateData() {
     this.securityService.setValidCompanySecurityOfficerData(this.dataIsValid());
   }
