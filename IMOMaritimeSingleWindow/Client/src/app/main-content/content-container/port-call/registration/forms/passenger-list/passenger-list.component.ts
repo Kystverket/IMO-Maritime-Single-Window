@@ -179,6 +179,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     // Add
     this.passengerList.push(this.portCallPassengerModel);
     this.persistData();
+
     // Reset
     this.clearForm();
   }
