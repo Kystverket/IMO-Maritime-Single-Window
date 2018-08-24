@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FalSecurityModel } from '../../../../../../../../shared/models/fal-security-model';
 import { InternationalShipSecurityCertificateModel } from '../../../../../../../../shared/models/international-ship-security-certificate-model';
 import { ShipModel } from '../../../../../../../../shared/models/ship-model';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: './save-security-button.component.html',
   styleUrls: ['./save-security-button.component.css']
 })
-export class SaveSecurityButtonComponent implements OnInit {
+export class SaveSecurityButtonComponent implements OnInit, OnDestroy {
   @Input() portCallId: number;
   securityModel: FalSecurityModel;
   isscModel: InternationalShipSecurityCertificateModel;
@@ -53,6 +53,13 @@ export class SaveSecurityButtonComponent implements OnInit {
         this.allowSaving = data;
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.saveSecurityModelSubscription.unsubscribe();
+    this.saveIsscModelSubscription.unsubscribe();
+    this.saveShipModelSubscription.unsubscribe();
+    this.allowSavingSubscription.unsubscribe();
   }
 
   saveSecurity() {
