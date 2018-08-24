@@ -131,7 +131,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.crewPassengersAndDimensionsDataSubscription = this.portCallDetailsService.crewPassengersAndDimensionsData$.subscribe(
       cpadData => {
         if (cpadData) {
-          console.log(cpadData);
           this.crewPassengersAndDimensionsModel = cpadData;
         }
       }

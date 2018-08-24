@@ -131,7 +131,6 @@ export class PortCallService {
 
   // setPortCall: sets values for: Ship, Location, ETA/ETD, and Clearance list
   setPortCall(overview: any) {
-    console.log(overview);
     this.setPortCallIdData(overview.portCall.portCallId);
     // Ship Location Time
     this.setShipData(overview.ship);
@@ -271,7 +270,6 @@ export class PortCallService {
 
   // SAVE DETAILS
   saveDetails(details: PortCallDetailsModel, purposes: any, otherName: string): Observable<PortCallDetailsModel> {
-    console.log(details);
     console.log('Saving port call details...');
     return this.http.post<PortCallDetailsModel>(this.detailsUrl, details);
   }

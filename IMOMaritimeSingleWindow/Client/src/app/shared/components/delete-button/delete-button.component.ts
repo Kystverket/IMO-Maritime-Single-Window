@@ -45,7 +45,6 @@ export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {
   }
 
   deleteItem() {
-    console.log(this.rowData);
     this.delete.emit(this.rowData);
   }
 
