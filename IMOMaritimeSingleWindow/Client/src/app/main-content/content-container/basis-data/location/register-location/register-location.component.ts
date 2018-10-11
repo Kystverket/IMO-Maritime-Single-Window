@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService, LocationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { CountryModel, LocationModel } from '../../../../../shared/models';
+import { LocationModel } from '../../../../../shared/models';
 const RESULT_SUCCESS = 'Location was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
 
@@ -25,9 +25,9 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   selectedLocationType: any;
   locationTypeDropdownString = 'Select location type';
 
-  countryList: CountryModel[];
+  countryList: any[];
   countrySelected = false;
-  selectedCountry: CountryModel;
+  selectedCountry: any;
   countrySearchFailed = false;
 
   locationDataSubscription: Subscription;
