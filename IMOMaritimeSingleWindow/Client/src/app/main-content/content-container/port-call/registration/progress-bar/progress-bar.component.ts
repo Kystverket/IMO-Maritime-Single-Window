@@ -1,14 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallService, PortCallFalPersonOnBoardService, FalSecurityService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
-
 
 @Component({
   selector: 'app-progress-bar',

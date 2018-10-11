@@ -1,11 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { GenderModel } from 'app/shared/models/gender-model';
-import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
+import { Injectable } from '@angular/core';
+import { GenderModel, IdentityDocumentModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { IdentityDocumentModel } from '../models/identity-document-model';
+import { Observable } from 'rxjs/Observable';
 import { catchError, retry } from 'rxjs/operators';
 
 @Injectable()

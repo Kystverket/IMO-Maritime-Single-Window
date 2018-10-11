@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
-import { UserModel } from '../../../../../shared/models/user-model';
+import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { Subscription } from 'rxjs/Subscription';
+import { OrganizationModel, UserModel } from '../../../../../shared/models/';
 
 const RESULT_SUCCESS = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';

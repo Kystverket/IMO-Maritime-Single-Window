@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { AccountService, ContentService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 import { FORM_NAMES } from '../../../shared/constants/form-names';
 

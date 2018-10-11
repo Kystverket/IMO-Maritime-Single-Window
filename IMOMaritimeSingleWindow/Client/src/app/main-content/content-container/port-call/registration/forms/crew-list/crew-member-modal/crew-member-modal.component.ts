@@ -1,11 +1,7 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { IdentityDocumentTypeModel } from 'app/shared/models/identity-document-type-model';
-import { GenderModel } from 'app/shared/models/gender-model';
+import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
-import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-crew-member-modal',

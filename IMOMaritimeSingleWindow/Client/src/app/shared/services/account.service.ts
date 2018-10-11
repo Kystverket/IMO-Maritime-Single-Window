@@ -35,7 +35,7 @@ export class AccountService extends BaseRequest {
   constructor(private http: HttpClient, configService: ConfigService) {
     super(configService);
     this.actionUrl = this.baseUrl + this.accountBaseUrl;  /* /api/account/account             */
-    this.userUrl = this.actionUrl + '/user'               /* /api/account/user                */
+    this.userUrl = this.actionUrl + '/user';               /* /api/account/user                */
     this.rolesUrl = this.actionUrl + '/roles';            /* /api/account/roles               */
     this.userClaimsUrl = this.userUrl + '/claims';        /* /api/account/claims              */
     this.userNameUrl = this.userUrl + '/displayName';     /* /api/account/user/displayName    */

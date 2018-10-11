@@ -1,7 +1,4 @@
-import { OrganizationModel } from './organization-model';
-import { ShipFlagCodeModel } from './ship-flag-code-model';
-import { CertificateOfRegistryModel } from './certificate-of-registry-model';
-import { InternationalShipSecurityCertificateModel } from './international-ship-security-certificate-model';
+import {CertificateOfRegistryModel, InternationalShipSecurityCertificateModel, OrganizationModel, ShipFlagCodeModel } from './';
 
 export class ShipModel {
     shipId: number;

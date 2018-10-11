@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TokenQueryModel } from '../../shared/models/token-query-model';
-import { AccountService } from '../../shared/services/account.service';
-import { UriQueryService } from '../../shared/services/uri-query.service';
+import { AccountService, UriQueryService } from '../../shared/services/';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PasswordResetModel } from '../../shared/models/password-reset-model';
 import { PasswordChangeModel } from '../../shared/models/password-change-model';

@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ContentService } from 'app/shared/services/content.service';
-import { ShipService } from 'app/shared/services/ship.service';
+import { ContentService, ShipService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-ship-button-row',

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SearchOrganizationService } from './search-organization.service';
+import { OrganizationModel } from '../../models/organization-model';
 
 @Component({
   selector: 'app-search-organization',

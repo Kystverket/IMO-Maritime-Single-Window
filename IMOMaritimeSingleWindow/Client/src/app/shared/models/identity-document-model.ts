@@ -1,4 +1,4 @@
-import { IdentityDocumentTypeModel } from './identity-document-type-model';
+import {CountryModel, IdentityDocumentTypeModel } from './';
 
 export class IdentityDocumentModel {
     identityDocumentId: number;

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { LocationProperties } from 'app/shared/constants/location-properties';
-import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
+import { CertificateOfRegistryModel } from 'app/shared/models/';
 
 @Component({
   selector: 'app-certificate-of-registry',

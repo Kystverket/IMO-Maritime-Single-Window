@@ -1,12 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
-import { Observable } from 'rxjs/Observable';
-import { SecurityLevelModel } from '../models/security-level-model';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from '../../../../node_modules/rxjs';
-import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
-import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
-import { ShipModel } from 'app/shared/models/ship-model';
+import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, SecurityLevelModel, ShipModel  } from '../models/';
 
 @Injectable()
 export class FalSecurityService {

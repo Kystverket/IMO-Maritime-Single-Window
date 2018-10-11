@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
+import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallService, PortCallOverviewService } from 'app/shared/services/';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
@@ -84,7 +79,6 @@ export class LoadPortCallService {
         } else {
           console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
-          // portCallDetails.portCallDetailsId = this.portCallId;
           portCallDetails.portCallId = this.portCallId;
           this.portCallDetailsService.setDetails(portCallDetails);
         }

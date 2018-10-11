@@ -4,13 +4,8 @@ import { ConfirmationModalComponent } from 'app/shared/components/confirmation-m
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
-import { CertificateOfRegistryModel } from 'app/shared/models/certificate-of-registry-model';
-import { OrganizationModel } from 'app/shared/models/organization-model';
-import { ShipContactModel } from 'app/shared/models/ship-contact-model';
-import { ShipFlagCodeModel } from 'app/shared/models/ship-flag-code-model';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { ShipService } from 'app/shared/services/ship.service';
+import { CertificateOfRegistryModel, OrganizationModel, ShipContactModel, ShipFlagCodeModel, ShipModel } from 'app/shared/models';
+import { ContentService, ShipService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';

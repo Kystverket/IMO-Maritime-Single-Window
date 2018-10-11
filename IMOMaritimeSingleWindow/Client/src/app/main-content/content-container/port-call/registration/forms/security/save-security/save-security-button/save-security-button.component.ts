@@ -5,8 +5,7 @@ import { ShipModel } from '../../../../../../../../shared/models/ship-model';
 import { SecurityPreviousPortOfCallModel } from '../../../../../../../../shared/models/security-previous-port-of-call-model';
 import { ShipToShipActivityModel } from '../../../../../../../../shared/models/ship-to-ship-activity-model';
 import { CompanySecurityOfficerModel } from '../../../../../../../../shared/models/company-security-officer-model';
-import { FalSecurityService } from '../../../../../../../../shared/services/fal-security.service';
-import { ShipService } from '../../../../../../../../shared/services/ship.service';
+import { ShipService, FalSecurityService } from '../../../../../../../../shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

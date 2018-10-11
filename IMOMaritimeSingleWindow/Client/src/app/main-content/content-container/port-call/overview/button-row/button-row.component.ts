@@ -3,12 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { AccountService } from 'app/shared/services/account.service';
-import { ConstantsService } from 'app/shared/services/constants.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { PortCallModel } from 'app/shared/models/';
+import { AccountService, ConstantsService, ContentService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
 import { LoadPortCallService } from '../../load-port-call.service';
 

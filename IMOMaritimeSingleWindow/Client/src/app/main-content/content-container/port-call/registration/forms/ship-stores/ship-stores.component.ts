@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MeasurementTypeModel } from 'app/shared/models/measurement-type-model';
-import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
+import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs/Observable';

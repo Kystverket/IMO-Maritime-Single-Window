@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
 import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { SecurityLevelModel } from 'app/shared/models/security-level-model';
+import { SecurityLevelModel, FalSecurityModel } from 'app/shared/models/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

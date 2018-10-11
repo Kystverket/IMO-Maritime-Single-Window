@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from './shared/services/content.service';
+import { ContentService } from './shared/services/';
 import { LoadingScreen } from './shared/interfaces/loading-screen.interface';
 
 @Component({

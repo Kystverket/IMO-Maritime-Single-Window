@@ -2,9 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { OrganizationModel } from 'app/shared/models/organization-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
+import { OrganizationModel } from 'app/shared/models';
+import { ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 const RESULT_SUCCESS = 'Organization was successfully saved to the database.';
