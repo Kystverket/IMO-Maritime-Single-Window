@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AccountService } from '../../../../shared/services/account.service';
+import { AccountService } from '../../../../shared/services/';
 
 @Component({
   selector: 'app-account-overview',
@@ -8,7 +8,6 @@ import { AccountService } from '../../../../shared/services/account.service';
   styleUrls: ['./account-overview.component.css']
 })
 export class AccountOverviewComponent implements OnInit, OnDestroy {
-  
   private accountOverviewSubscription: Subscription;
   userDetails: any;
   userLabels: string[] = [];

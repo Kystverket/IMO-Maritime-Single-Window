@@ -3,16 +3,13 @@ import { Router } from '@angular/router';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
-import { AccountService } from '../../shared/services/account.service';
-import { ContentService } from '../../shared/services/content.service';
-import { LoginService } from '../../shared/services/login.service';
+import { AccountService, ContentService, LoginService, DbConnectionService } from '../../shared/services/';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { merge } from 'rxjs/observable/merge';
 import { of } from 'rxjs/observable/of';
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { mapTo } from 'rxjs/operators/mapTo';
-import { DbConnectionService } from '../../shared/services/db-connection.service';
 
 @Component({
   selector: 'app-header',

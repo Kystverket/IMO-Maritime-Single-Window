@@ -1,8 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
-import { ConstantsService } from 'app/shared/services/constants.service';
+import { ConstantsService, ContentService } from 'app/shared/services/';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ContentService } from 'app/shared/services/content.service';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { Subscription } from 'rxjs/Subscription';
 

@@ -1,5 +1,4 @@
-import { FalSecurityModel } from './fal-security-model';
-import { SecurityPreviousPortOfCallModel } from './security-previous-port-of-call-model';
+import {FalSecurityModel, SecurityPreviousPortOfCallModel} from './';
 
 export class SecurityLevelModel {
   securityLevelId: number;

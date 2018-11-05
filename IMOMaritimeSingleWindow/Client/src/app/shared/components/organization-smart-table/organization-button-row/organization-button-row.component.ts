@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ViewCell } from 'ng2-smart-table';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ConstantsService } from 'app/shared/services/constants.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
+import { ConstantsService, ContentService, OrganizationService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-organization-button-row',

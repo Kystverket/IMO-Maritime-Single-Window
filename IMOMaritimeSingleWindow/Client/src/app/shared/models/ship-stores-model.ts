@@ -1,5 +1,4 @@
-import { MeasurementTypeModel } from 'app/shared/models/measurement-type-model';
-import { PortCallModel } from './port-call-model';
+import {PortCallModel, MeasurementTypeModel } from './';
 
 export class ShipStoresModel {
     falShipStoresId: number;

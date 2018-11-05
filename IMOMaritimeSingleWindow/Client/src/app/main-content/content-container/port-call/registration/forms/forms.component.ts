@@ -1,22 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { LocationModel } from 'app/shared/models/location-model';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { ShipService } from 'app/shared/services/ship.service';
+import { ConsignmentModel, LocationModel, PersonOnBoardModel, ShipModel, ShipStoresModel, PortCallModel, FalSecurityModel, CompanySecurityOfficerModel } from 'app/shared/models/';
+import { ContentService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallFalPersonOnBoardService, PortCallService, ShipService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
-import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
 
 
 @Component({

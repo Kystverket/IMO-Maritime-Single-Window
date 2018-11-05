@@ -1,11 +1,8 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { LocationModel } from 'app/shared/models/location-model';
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { LocationModel, PortCallModel, ShipModel } from 'app/shared/models/';
+import { PortCallDetailsService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 
 const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';

@@ -1,5 +1,5 @@
-import { OrganizationModel } from 'app/shared/models/organization-model';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
+import {FalSecurityModel, OrganizationModel  } from './';
+
 
 export class CompanySecurityOfficerModel {
   companySecurityOfficerId: number;

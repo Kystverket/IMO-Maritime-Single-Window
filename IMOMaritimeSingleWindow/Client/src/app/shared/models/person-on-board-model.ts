@@ -1,7 +1,4 @@
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
-import { GenderModel } from 'app/shared/models/gender-model';
-import { IdentityDocumentModel } from './identity-document-model';
+import { GenderModel, IdentityDocumentModel, PersonOnBoardTypeModel, PortCallModel } from 'app/shared/models/';
 
 export class PersonOnBoardModel {
     personOnBoardId: number;

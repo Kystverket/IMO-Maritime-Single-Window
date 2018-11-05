@@ -7,12 +7,9 @@ import {
   CanLoad
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from 'app/shared/services/auth-service';
-import { LoginService } from 'app/shared/services/login.service';
+import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
 import { HttpErrorResponse } from '@angular/common/http';
-import { BaseService } from '../shared/services/base.service';
 import { BaseGuard } from '../shared/interfaces/base-guard.interface';
-import { ErrorService } from '../shared/services/error.service';
 import { Route } from '@angular/compiler/src/core';
 
 @Injectable()

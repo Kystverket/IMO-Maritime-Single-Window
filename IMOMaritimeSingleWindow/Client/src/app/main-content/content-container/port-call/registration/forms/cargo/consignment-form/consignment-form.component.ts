@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { LocationModel } from 'app/shared/models/location-model';
+import { ConsignmentModel, LocationModel } from 'app/shared/models/';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { Subscription } from 'rxjs/Subscription';
 import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';

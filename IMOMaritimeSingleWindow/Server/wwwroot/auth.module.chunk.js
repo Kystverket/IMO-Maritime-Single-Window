@@ -272,8 +272,7 @@ module.exports = "<app-header-home></app-header-home>\r\n<div class=\"container 
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EmailConfirmationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -318,7 +317,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
 
 
 
@@ -439,8 +437,8 @@ var EmailConfirmationComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_3__shared_services_uri_query_service__["a" /* UriQueryService */]])
+            __WEBPACK_IMPORTED_MODULE_2__shared_services___["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_services___["v" /* UriQueryService */]])
     ], EmailConfirmationComponent);
     return EmailConfirmationComponent;
 }());
@@ -540,11 +538,8 @@ var EmailConfirmationGuard = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_services_base_service__ = __webpack_require__("./src/app/shared/services/base.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -564,9 +559,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
-
 
 
 
@@ -603,7 +595,7 @@ var LoginGuard = /** @class */ (function (_super) {
     };
     LoginGuard.prototype.navigateByError = function (error) {
         // Redirects user to correct page according to the error
-        if (error instanceof __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["d" /* HttpErrorResponse */]) {
+        if (error instanceof __WEBPACK_IMPORTED_MODULE_3__angular_common_http__["d" /* HttpErrorResponse */]) {
             var httpError = error;
             if (httpError.status >= 500) {
                 this.errorService.setDefaultHTTPError(error);
@@ -631,12 +623,12 @@ var LoginGuard = /** @class */ (function (_super) {
     LoginGuard = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_login_service__["a" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_6__shared_services_error_service__["a" /* ErrorService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["c" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["n" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["h" /* ErrorService */]])
     ], LoginGuard);
     return LoginGuard;
-}(__WEBPACK_IMPORTED_MODULE_4__shared_services_base_service__["a" /* BaseService */]));
+}(__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["d" /* BaseService */]));
 
 
 
@@ -721,12 +713,9 @@ module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__ = __webpack_require__("./src/app/shared/services/content.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__password_service__ = __webpack_require__("./src/app/auth/password.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__shared_constants_menu_claims__ = __webpack_require__("./src/app/shared/constants/menu-claims.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_services_auth_service__ = __webpack_require__("./src/app/shared/services/auth-service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__password_service__ = __webpack_require__("./src/app/auth/password.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared_constants_menu_claims__ = __webpack_require__("./src/app/shared/constants/menu-claims.ts");
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -772,9 +761,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
-
-
 
 
 
@@ -852,8 +838,8 @@ var LoginComponent = /** @class */ (function () {
     };
     LoginComponent.prototype.hasPortCallMenuClaim = function (claims) {
         return claims
-            .filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_7__shared_constants_menu_claims__["a" /* MenuClaims */].TYPE; })
-            .some(function (claim) { return claim.value === __WEBPACK_IMPORTED_MODULE_7__shared_constants_menu_claims__["a" /* MenuClaims */].PORT_CALL; });
+            .filter(function (claim) { return claim.type === __WEBPACK_IMPORTED_MODULE_5__shared_constants_menu_claims__["a" /* MenuClaims */].TYPE; })
+            .some(function (claim) { return claim.value === __WEBPACK_IMPORTED_MODULE_5__shared_constants_menu_claims__["a" /* MenuClaims */].PORT_CALL; });
     };
     LoginComponent.prototype.setResetRequested = function () {
         this.passwordService.setResetRequested(true);
@@ -873,13 +859,13 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/auth/login/login.component.html"),
             styles: [__webpack_require__("./src/app/auth/login/login.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_login_service__["a" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services_content_service__["a" /* ContentService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["n" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_8__shared_services_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_6__password_service__["a" /* PasswordService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["c" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_4__password_service__["a" /* PasswordService */]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -1124,10 +1110,9 @@ module.exports = "\r\n    <app-ssn-card header=\"Password {{purpose | lowercase}
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services_account_service__ = __webpack_require__("./src/app/shared/services/account.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_services_uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__ = __webpack_require__("./src/app/shared/constants/password-component-types.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__ = __webpack_require__("./src/app/shared/constants/password-component-types.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1137,7 +1122,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -1164,7 +1148,7 @@ var PasswordComponent = /** @class */ (function () {
         this.passwordMatch = this.checkPasswordsMatch();
     };
     PasswordComponent.prototype.checkFieldsFilled = function () {
-        if (this.componentType === __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].CHANGE) {
+        if (this.componentType === __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].CHANGE) {
             return (this.inputOne !== '' &&
                 this.inputTwo !== '' &&
                 this.currentPassword !== '');
@@ -1179,13 +1163,13 @@ var PasswordComponent = /** @class */ (function () {
     };
     PasswordComponent.prototype.editPassword = function () {
         switch (this.componentType) {
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].CHANGE:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].CHANGE:
                 this.changePassword();
                 break;
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].RESET:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].RESET:
                 this.resetPassword();
                 break;
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].SET:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */].SET:
                 this.setPassword();
                 break;
         }
@@ -1258,21 +1242,21 @@ var PasswordComponent = /** @class */ (function () {
         var _this = this;
         var purpose = this.purpose.toUpperCase();
         switch (purpose) {
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].CHANGE:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].CHANGE:
                 // this.componentName = PASSWORD_COMPONENT_NAME.CHANGE;
                 this.isChangeComponent = true;
                 this.componentType =
-                    __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].CHANGE];
+                    __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].CHANGE];
                 break;
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].RESET:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].RESET:
                 // this.componentName = PASSWORD_COMPONENT_NAME.RESET;
                 this.componentType =
-                    __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].RESET];
+                    __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].RESET];
                 break;
-            case __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].SET:
+            case __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].SET:
                 // this.componentName = PASSWORD_COMPONENT_NAME.SET;
                 this.componentType =
-                    __WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_4__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].SET];
+                    __WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["b" /* PASSWORD_COMPONENT_TYPE */][__WEBPACK_IMPORTED_MODULE_3__shared_constants_password_component_types__["a" /* PASSWORD_COMPONENT_NAME */].SET];
                 this.uriQueryService.tokenQueryModelData$.subscribe(function (token) {
                     _this.passwordResetToken = token.token;
                 });
@@ -1292,10 +1276,10 @@ var PasswordComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/auth/password/password.component.html"),
             styles: [__webpack_require__("./src/app/auth/password/password.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services_account_service__["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services_uri_query_service__["a" /* UriQueryService */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__shared_services___["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_1__shared_services___["v" /* UriQueryService */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]])
     ], PasswordComponent);
     return PasswordComponent;
 }());
@@ -1321,105 +1305,6 @@ var PASSWORD_COMPONENT_TYPE;
     PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_TYPE["RESET"] = 1] = "RESET";
     PASSWORD_COMPONENT_TYPE[PASSWORD_COMPONENT_TYPE["CHANGE"] = 2] = "CHANGE";
 })(PASSWORD_COMPONENT_TYPE || (PASSWORD_COMPONENT_TYPE = {}));
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/models/feedback.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FeedBack; });
-var FeedBack = /** @class */ (function () {
-    function FeedBack() {
-        this.successMessage = '';
-        this.started = false;
-    }
-    FeedBack.prototype.reportSuccess = function (message) {
-        // this.properties.started = true;
-        // this.properties.actionSucceeded = true;
-        // this.properties.successMessage = message;
-        this.started = true;
-        this.actionSucceeded = true;
-        this.successMessage = message;
-    };
-    FeedBack.prototype.reportError = function (error, message) {
-        // this.properties.started = true;
-        // this.properties.actionSucceeded = false;
-        // this.properties.errors = error;
-        // this.properties.errorDescription = message;
-        this.started = true;
-        this.actionSucceeded = false;
-        this.errors = error;
-        this.errorDescription = message;
-    };
-    return FeedBack;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/shared/services/uri-query.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UriQueryService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__ = __webpack_require__("./src/app/shared/models/token-query-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs__ = __webpack_require__("./node_modules/rxjs/Rx.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var UriQueryService = /** @class */ (function () {
-    function UriQueryService() {
-        this.tokenQueryModelDataSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs__["BehaviorSubject"](null);
-        this.tokenQueryModelData$ = this.tokenQueryModelDataSource.asObservable();
-    }
-    UriQueryService.prototype.setTokenQueryModel = function (tokenQueryModel) {
-        this.tokenQueryModelDataSource.next(tokenQueryModel);
-    };
-    UriQueryService.prototype.getTokenQueryModel = function (queryParams) {
-        // console.log({hasProperties: this.hasProperties(queryParams)});
-        if (this.hasProperties(queryParams) && !this.anyParamsNull(queryParams)) {
-            return new __WEBPACK_IMPORTED_MODULE_1__models_token_query_model__["a" /* TokenQueryModel */](queryParams['userId'], queryParams['token']);
-        }
-        return null;
-    };
-    UriQueryService.prototype.anyParamsNull = function (queryParams) {
-        return this.paramNull(queryParams.userId) && this.paramNull(queryParams.token);
-    };
-    UriQueryService.prototype.paramNull = function (param) {
-        return !param || param === '';
-    };
-    UriQueryService.prototype.hasProperties = function (queryParams) {
-        /* console.log({
-          'userId': queryParams['userId'],
-          'token': queryParams['token']
-        });
-        console.log({
-          'hasUserId': !!queryParams['userId'],
-          'hasToken': !!queryParams['token']
-        }); */
-        return !!queryParams['userId'] && !!queryParams['token'];
-    };
-    UriQueryService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], UriQueryService);
-    return UriQueryService;
-}());
 
 
 

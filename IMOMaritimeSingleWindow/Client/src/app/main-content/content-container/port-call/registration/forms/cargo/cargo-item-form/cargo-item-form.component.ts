@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PackageTypeModel } from 'app/shared/models/package-type-model';
+import { CargoItemModel, PackageTypeModel } from 'app/shared/models/';
 import { Subscription } from 'rxjs/Subscription';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { CargoItemModel } from 'app/shared/models/cargo-item-model';
 
 @Component({
   selector: 'app-cargo-item-form',

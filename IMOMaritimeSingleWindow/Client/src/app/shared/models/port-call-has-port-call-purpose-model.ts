@@ -1,5 +1,4 @@
-import { PortCallPurposeModel } from 'app/shared/models/port-call-purpose-model';
-import { PortCallModel } from 'app/shared/models/port-call-model';
+import {PortCallPurposeModel, PortCallModel} from './';
 
 export class PortCallHasPortCallPurposeModel {
   portCallHasPortCallPurposeId: number;

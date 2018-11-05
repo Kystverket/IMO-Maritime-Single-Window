@@ -16,10 +16,7 @@
     },
     "eofline": true,
     "forin": true,
-    "import-blacklist": [
-      true,
-      "rxjs"
-    ],
+
     "import-spacing": true,
     "indent": [
       true,
@@ -137,6 +134,10 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+    "ordered-imports": true,
+    "import-blacklist": [
+      true,
+      "rxjs"]
   }
 }

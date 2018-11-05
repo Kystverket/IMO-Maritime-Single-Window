@@ -1,19 +1,14 @@
 import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { PersonOnBoardModel, GenderModel, IdentityDocumentModel, PersonOnBoardTypeModel, LocationModel } from 'app/shared/models/';
 import { SmartTableModel } from './smartTableModel';
-import { GenderModel } from 'app/shared/models/gender-model';
-import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
 import { Subscription } from 'rxjs/Subscription';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
-import { LocationModel } from 'app/shared/models/location-model';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-passenger-list',

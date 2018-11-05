@@ -1,9 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
-import { InternationalShipSecurityCertificateModel } from 'app/shared/models/international-ship-security-certificate-model';
-
-import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
-import { ShipModel } from 'app/shared/models/ship-model';
+import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, ShipModel } from 'app/shared/models/';
 
 @Component({
   selector: 'app-security',
