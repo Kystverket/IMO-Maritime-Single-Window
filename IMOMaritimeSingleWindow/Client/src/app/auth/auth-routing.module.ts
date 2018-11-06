@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { PasswordResetGuard } from './guards/password-reset.guard';
+import { RouterModule, Routes } from '@angular/router';
 import { AuthHomeComponent } from './auth-home/auth-home.component';
 import { EmailConfirmationComponent } from './email-confirmation/email-confirmation.component';
-import { EmailConfirmationGuard } from './guards/email-confirmation.guard';
-import { PasswordChangeComponent } from './password-change/password-change.component';
-import { LoginComponent } from './login/login.component';
-import { LoginGuard } from './guards/login.guard';
 import { AuthHomeGuard } from './guards/auth-home.guard';
+import { EmailConfirmationGuard } from './guards/email-confirmation.guard';
+import { LoginGuard } from './guards/login.guard';
+import { PasswordResetGuard } from './guards/password-reset.guard';
+import { LoginComponent } from './login/login.component';
+import { PasswordChangeComponent } from './password-change/password-change.component';
 import { PasswordForgottenComponent } from './password-forgotten/password-forgotten.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 const authRoutes: Routes = [
   {

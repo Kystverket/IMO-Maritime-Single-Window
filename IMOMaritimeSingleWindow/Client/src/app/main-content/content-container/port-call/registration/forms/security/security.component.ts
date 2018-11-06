@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, ShipModel } from 'app/shared/models/';
 
 @Component({

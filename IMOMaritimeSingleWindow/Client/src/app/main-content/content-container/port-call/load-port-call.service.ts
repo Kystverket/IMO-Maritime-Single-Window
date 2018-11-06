@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallService, PortCallOverviewService } from 'app/shared/services/';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()

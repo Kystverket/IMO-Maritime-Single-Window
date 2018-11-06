@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { LocationProperties } from 'app/shared/constants/location-properties';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { SecurityPreviousPortOfCallModel, SecurityLevelModel } from 'app/shared/models/';
-import { Subscription } from 'rxjs/Subscription';
-import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { DateTime } from 'app/shared/interfaces/dateTime.interface';
+import { SecurityLevelModel, SecurityPreviousPortOfCallModel } from 'app/shared/models/';
+import { FalSecurityService } from 'app/shared/services/fal-security.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-last-10-port-calls',

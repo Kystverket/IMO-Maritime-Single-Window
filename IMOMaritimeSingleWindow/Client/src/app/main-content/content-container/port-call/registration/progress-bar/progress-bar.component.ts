@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
-import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallService, PortCallFalPersonOnBoardService, FalSecurityService } from 'app/shared/services/';
+import { ContentService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

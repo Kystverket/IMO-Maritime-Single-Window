@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { FalShipStoresService, PortCallService } from 'app/shared/services/';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
+import { FalShipStoresService, PortCallService } from 'app/shared/services/';
 
 import { Subscription } from 'rxjs/Subscription';
 

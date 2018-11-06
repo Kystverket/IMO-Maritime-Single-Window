@@ -1,4 +1,4 @@
-import {PortCallModel, LocationModel, CargoItemModel } from './';
+import {CargoItemModel, LocationModel, PortCallModel } from './';
 
 
 export class ConsignmentModel {

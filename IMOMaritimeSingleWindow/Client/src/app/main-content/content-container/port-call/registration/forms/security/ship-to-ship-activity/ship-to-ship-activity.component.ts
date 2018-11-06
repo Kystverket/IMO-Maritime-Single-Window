@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship-to-ship-activity-model';
-import { DateTime } from '../../../../../../../shared/interfaces/dateTime.interface';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
 import { NgbTime } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
-import { PortCallPurposeModel } from '../../../../../../../shared/models/port-call-purpose-model';
 import { Subscription } from '../../../../../../../../../node_modules/rxjs';
-import { FalSecurityService, PurposeService,  } from '../../../../../../../shared/services/';
 import { LocationProperties } from '../../../../../../../shared/constants/location-properties';
+import { DateTime } from '../../../../../../../shared/interfaces/dateTime.interface';
+import { PortCallPurposeModel } from '../../../../../../../shared/models/port-call-purpose-model';
+import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship-to-ship-activity-model';
+import { FalSecurityService, PurposeService,  } from '../../../../../../../shared/services/';
 
 @Component({
   selector: 'app-ship-to-ship-activity',

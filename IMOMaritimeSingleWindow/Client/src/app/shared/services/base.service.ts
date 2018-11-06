@@ -1,7 +1,7 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/base.service.ts
 
-import { Observable } from 'rxjs/Observable';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export abstract class BaseService {
   constructor() {}

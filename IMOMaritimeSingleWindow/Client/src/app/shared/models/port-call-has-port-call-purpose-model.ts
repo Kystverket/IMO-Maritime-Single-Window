@@ -1,4 +1,4 @@
-import {PortCallPurposeModel, PortCallModel} from './';
+import {PortCallModel, PortCallPurposeModel} from './';
 
 export class PortCallHasPortCallPurposeModel {
   portCallHasPortCallPurposeId: number;

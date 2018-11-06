@@ -1,15 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import { mapTo } from 'rxjs/operators/mapTo';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
-import { AccountService, ContentService, LoginService, DbConnectionService } from '../../shared/services/';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
-import { merge } from 'rxjs/observable/merge';
-import { of } from 'rxjs/observable/of';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { mapTo } from 'rxjs/operators/mapTo';
+import { AccountService, ContentService, DbConnectionService, LoginService } from '../../shared/services/';
 
 @Component({
   selector: 'app-header',

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
-import { ViewCell } from 'ng2-smart-table';
-import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FORM_NAMES } from 'app/shared/constants/form-names';
+import { ViewCell } from 'ng2-smart-table';
 
 @Component({
   selector: 'app-action-buttons',
