@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 import { OrganizationModel, UserModel } from '../../../../../shared/models/';
 

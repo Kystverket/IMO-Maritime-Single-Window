@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-cargo-info-table',

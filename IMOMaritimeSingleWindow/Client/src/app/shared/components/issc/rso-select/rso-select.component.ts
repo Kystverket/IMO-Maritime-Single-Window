@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { OrganizationService } from '../../../services/organization.service';
 import { OrganizationModel } from '../../../models/organization-model';
+import { OrganizationService } from '../../../services/organization.service';
 
 @Component({
   selector: 'app-rso-select',

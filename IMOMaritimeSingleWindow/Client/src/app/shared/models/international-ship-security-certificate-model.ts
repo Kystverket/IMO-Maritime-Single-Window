@@ -1,4 +1,4 @@
-import {CountryModel, ShipModel, OrganizationModel } from './';
+import {CountryModel, OrganizationModel, ShipModel } from './';
 
 export class InternationalShipSecurityCertificateModel {
   isscId: number;

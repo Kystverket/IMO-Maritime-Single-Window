@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-save-crew-list',

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { PortCallService, PortCallDetailsService } from 'app/shared/services/';
+import { PortCallDetailsService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page.';

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-passenger-info-table',

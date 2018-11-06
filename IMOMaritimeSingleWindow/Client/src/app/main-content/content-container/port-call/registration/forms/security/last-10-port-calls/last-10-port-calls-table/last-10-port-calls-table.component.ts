@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
 import { DatePipe } from '@angular/common';
-import { LocalDataSource } from 'ng2-smart-table';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
+import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
+import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
   selector: 'app-last-10-port-calls-table',

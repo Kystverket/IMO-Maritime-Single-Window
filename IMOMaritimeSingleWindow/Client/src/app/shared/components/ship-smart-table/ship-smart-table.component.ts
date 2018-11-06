@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ShipService } from 'app/shared/services/ship.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { ShipButtonRowComponent } from './ship-button-row/ship-button-row.component';
 import { Subscription } from 'rxjs/Subscription';
+import { ShipButtonRowComponent } from './ship-button-row/ship-button-row.component';
 
 @Component({
   selector: 'app-ship-smart-table',

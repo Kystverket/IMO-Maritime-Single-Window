@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-ship-stores-info-table',

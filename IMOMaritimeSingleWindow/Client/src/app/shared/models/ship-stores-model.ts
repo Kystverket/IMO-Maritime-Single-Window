@@ -1,4 +1,4 @@
-import {PortCallModel, MeasurementTypeModel } from './';
+import {MeasurementTypeModel, PortCallModel } from './';
 
 export class ShipStoresModel {
     falShipStoresId: number;

@@ -1,4 +1,4 @@
-import {ShipToShipActivityModel, PortCallHasPortCallPurposeModel} from './';
+import {PortCallHasPortCallPurposeModel, ShipToShipActivityModel} from './';
 
 export class PortCallPurposeModel {
   portCallPurposeId: number;

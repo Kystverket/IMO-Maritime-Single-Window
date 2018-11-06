@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { Credentials } from 'app/shared/interfaces/credentials.interface';
 import { AccountService, AuthService, ContentService, LoginService } from 'app/shared/services/';
-import { PasswordService } from '../password.service';
 import { MenuClaims } from '../../shared/constants/menu-claims';
+import { PasswordService } from '../password.service';
 
 @Component({
   selector: 'app-login',

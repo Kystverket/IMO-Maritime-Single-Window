@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ship-stores-modal',

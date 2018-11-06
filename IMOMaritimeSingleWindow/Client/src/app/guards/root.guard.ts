@@ -1,16 +1,16 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Route } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 import {
-  CanActivate,
   ActivatedRouteSnapshot,
-  RouterStateSnapshot,
+  CanActivate,
+  CanLoad,
   Router,
-  CanLoad
+  RouterStateSnapshot
 } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { BaseGuard } from '../shared/interfaces/base-guard.interface';
-import { Route } from '@angular/compiler/src/core';
 
 @Injectable()
 export class RootGuard extends BaseService implements CanActivate, CanLoad, BaseGuard {

@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
-import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({

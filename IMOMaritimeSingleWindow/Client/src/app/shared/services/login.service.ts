@@ -1,13 +1,13 @@
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ConfigService } from '../utils/config.service';
-import { BaseService } from './base.service';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Credentials } from '../interfaces/credentials.interface';
 import { JWTResponse } from '../interfaces/jwt-response.interface';
+import { ConfigService } from '../utils/config.service';
+import { BaseService } from './base.service';
 
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/user.service.ts
 

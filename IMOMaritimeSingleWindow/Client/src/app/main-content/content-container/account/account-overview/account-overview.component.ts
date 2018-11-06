@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccountService } from '../../../../shared/services/';
 
@@ -69,7 +69,7 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
     this.userLabels = this.labels
       .filter(label => !this.affiliationLabels
         .some(affiliationLabel => affiliationLabel === label));
-    
+
     this.userValues = this.values
       .filter(value => !this.affiliationValues
         .some(affiliationValue => affiliationValue === value));
@@ -79,8 +79,8 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
     const camel2title = (camelCase: string) => {
       return camelCase
       .replace(/([A-Z])/g, (match) => ` ${match}`)
-      .replace(/^./, (match) => match.toUpperCase()); 
-    }
+      .replace(/^./, (match) => match.toUpperCase());
+    };
 
     for (let index = 0; index < this.userLabels.length; index++) {
       const label = this.userLabels[index];

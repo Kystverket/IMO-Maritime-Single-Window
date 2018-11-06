@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -5,10 +6,9 @@ import {
   Router,
   RouterStateSnapshot
 } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
+import { Observable } from 'rxjs/Observable';
 import { BaseGuard } from '../../shared/interfaces/base-guard.interface';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class LoginGuard extends BaseService implements CanActivate, BaseGuard {

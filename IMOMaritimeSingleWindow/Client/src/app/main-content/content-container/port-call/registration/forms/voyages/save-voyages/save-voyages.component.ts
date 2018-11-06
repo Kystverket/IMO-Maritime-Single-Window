@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel, PortCallModel, ShipModel } from 'app/shared/models/';
 import { PortCallDetailsService, PortCallService } from 'app/shared/services/';

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CompanySecurityOfficerModel } from '../../../../../../../shared/models/company-security-officer-model';
 import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
 

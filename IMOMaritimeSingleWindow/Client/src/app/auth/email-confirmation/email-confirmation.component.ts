@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AccountService, UriQueryService } from '../../shared/services/';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenQueryModel } from '../../shared/models/token-query-model';
+import { AccountService, UriQueryService } from '../../shared/services/';
 
 @Component({
   selector: 'app-email-confirmation',
