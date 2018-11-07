@@ -6,10 +6,14 @@ import { Observable } from 'rxjs/Observable';
 export class SearchService {
   constructor(private http: HttpClient) { }
 
-  public search(baseUrl: string, term: string, amount = 10): Observable<any> {
+  public search(baseUrl: string, term: string, amount = 10, typeId = -1): Observable<any> {
     const encodedTerm: string = encodeURIComponent(term);
-    const uri: string = [baseUrl, encodedTerm, amount].join('/');
-
+    let uri = '';
+    if (typeId < 0) {
+      uri = [baseUrl, encodedTerm, amount].join('/');
+    } else {
+      uri = [baseUrl, encodedTerm, amount, typeId].join('/');
+    }
     return this.http.get(uri);
   }
 }

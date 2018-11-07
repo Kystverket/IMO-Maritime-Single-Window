@@ -323,8 +323,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Name)
-
                     .HasColumnName("name");
+
+                entity.Property(e => e.ShortName)
+                .IsRequired()
+                .HasColumnName("ShortName");
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>

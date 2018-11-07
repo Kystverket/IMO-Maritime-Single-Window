@@ -10,6 +10,7 @@ import { ShipStoresComponent } from 'app/main-content/content-container/port-cal
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { DpgService } from 'app/shared/services/';
 import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
@@ -36,6 +37,7 @@ import { ConsignmentFormComponent } from './registration/forms/cargo/consignment
 import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
 import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
 import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
+import { DpgComponent } from './registration/forms/dpg/dpg.component';
 import { FormsComponent } from './registration/forms/forms.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
@@ -124,7 +126,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ActivatePortCallComponent,
     ConfirmationComponent,
     SaveCrewListComponent,
-    ShipStoresModalComponent
+    ShipStoresModalComponent,
+    DpgComponent
   ],
   exports: [
     ClearanceComponent,
@@ -144,7 +147,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ValidateDateTimeService,
     PortCallFalPersonOnBoardService,
     FalSecurityService,
-    PortCallOverviewService
+    PortCallOverviewService,
+    DpgService
   ]
 })
 export class PortCallModule { }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
+import { PersonOnBoardModel } from 'app/shared/models/';
 import { PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
 
 @Component({

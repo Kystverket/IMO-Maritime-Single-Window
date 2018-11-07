@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { ContentService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
+import { ContentService, DpgService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -19,7 +19,8 @@ export class LoadPortCallService {
     private contentService: ContentService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private portCallDetailsService: PortCallDetailsService
+    private portCallDetailsService: PortCallDetailsService,
+    private dpgService: DpgService,
   ) { }
 
   setContent(portCallId: number, content: string = CONTENT_NAMES.REGISTER_PORT_CALL) {
@@ -41,6 +42,7 @@ export class LoadPortCallService {
           this.cargoService.setDataIsPristine(true);
           this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
           this.shipStoresService.setDataIsPristine(true);
+          this.dpgService.setDataIsPristine(true);
           this.setPurpose();
         }
       }

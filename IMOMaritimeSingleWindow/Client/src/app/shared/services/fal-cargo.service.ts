@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { CargoItemModel } from '../models/cargo-item-model';
-import { ConsignmentModel } from '../models/consignment-model';
-import { PackageTypeModel } from '../models/package-type-model';
+import { CargoItemModel, ConsignmentModel, PackageTypeModel } from '../models/';
 
 @Injectable()
 export class FalCargoService {

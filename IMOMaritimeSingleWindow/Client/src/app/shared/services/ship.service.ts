@@ -4,8 +4,7 @@ import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
-import { ShipContactModel } from '../models/ship-contact-model';
+import { InternationalShipSecurityCertificateModel, ShipContactModel } from '../models/';
 import { AuthRequest } from './auth.request.service';
 
 @Injectable()

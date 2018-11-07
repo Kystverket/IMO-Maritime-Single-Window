@@ -27,6 +27,9 @@
     <div *ngSwitchCase="'Pax'" class="col">
       <app-passenger-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-info-table>
     </div>
+    <div *ngSwitchCase="'DPG'" class="col">
+        <app-dpg-confirmation-view [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-confirmation-view>
+      </div>
     <div *ngSwitchCase="'Security'" class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
         <div class="text-center my-3">

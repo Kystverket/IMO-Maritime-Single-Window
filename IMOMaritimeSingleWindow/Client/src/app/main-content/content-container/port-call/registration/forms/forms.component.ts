@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { CompanySecurityOfficerModel, ConsignmentModel, FalSecurityModel, LocationModel, PersonOnBoardModel, PortCallModel, ShipModel, ShipStoresModel } from 'app/shared/models/';
-import { ContentService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallFalPersonOnBoardService, PortCallService, ShipService } from 'app/shared/services/';
+import { CompanySecurityOfficerModel, ConsignmentModel, DpgOnBoardModel, FalSecurityModel, LocationModel,
+  PersonOnBoardModel, PortCallModel, ShipModel, ShipStoresModel } from 'app/shared/models/';
+import { ContentService, DpgService, FalCargoService, FalSecurityService,
+  FalShipStoresService, PortCallFalPersonOnBoardService, PortCallService, ShipService,  } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 
@@ -59,7 +61,8 @@ export class FormsComponent implements OnInit, OnDestroy {
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
     private securityService: FalSecurityService,
-    private personOnBoardService: PortCallFalPersonOnBoardService
+    private personOnBoardService: PortCallFalPersonOnBoardService,
+    private dpgService: DpgService,
   ) { }
 
   ngOnInit() {
@@ -174,6 +177,13 @@ export class FormsComponent implements OnInit, OnDestroy {
                 this.personOnBoardService.setCrewList(crewList);
                 this.personOnBoardService.setCrewDataIsPristine(true);
               }
+            }
+          );
+
+          this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId).subscribe(
+            dpgOnBoardList => {
+              this.dpgService.setDpgOnBoardList(dpgOnBoardList);
+              this.dpgService.setDataIsPristine(true);
             }
           );
         }

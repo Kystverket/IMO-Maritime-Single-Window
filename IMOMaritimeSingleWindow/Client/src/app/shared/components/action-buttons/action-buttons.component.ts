@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ViewCell } from 'ng2-smart-table';
@@ -8,7 +8,7 @@ import { ViewCell } from 'ng2-smart-table';
   templateUrl: './action-buttons.component.html',
   styleUrls: ['./action-buttons.component.css']
 })
-export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
+export class ActionButtonsComponent implements OnInit, ViewCell {
 
   @Input() value: string | number;
   @Input() rowData: any;
@@ -28,9 +28,6 @@ export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
     this.formNames = FORM_NAMES;
   }
 
-  ngOnDestroy() {
-  }
-
   openModal(content: any) {
     this.modalService.open(content);
   }
@@ -46,5 +43,4 @@ export class ActionButtonsComponent implements OnInit, OnDestroy, ViewCell {
   onDeleteClick() {
     this.delete.emit(this.rowData);
   }
-
 }

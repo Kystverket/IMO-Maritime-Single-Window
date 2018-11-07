@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { FalCargoService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

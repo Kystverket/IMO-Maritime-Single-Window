@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
-import { AccountService, ContentService, DbConnectionService, LoginService } from '../../shared/services/';
+import { AccountService, ContentService, DbConnectionService, LoginService, } from '../../shared/services/';
 
 @Component({
   selector: 'app-header',

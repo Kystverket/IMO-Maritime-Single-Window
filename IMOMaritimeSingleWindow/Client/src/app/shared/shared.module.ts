@@ -9,6 +9,7 @@ import { CargoInfoTableComponent } from './components/confirmation-view/cargo-in
 import { ClearancesComponent } from './components/confirmation-view/clearances/clearances.component';
 import { ConfirmationViewComponent } from './components/confirmation-view/confirmation-view.component';
 import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
+import { DpgConfirmationViewComponent } from './components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component';
 import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
@@ -106,6 +107,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     CountrySelectComponent,
     RsoSelectComponent,
     OrganizationInfoTableComponent,
+    DpgConfirmationViewComponent,
   ],
   exports: [
     ExtendedAlphaNumericValidator,

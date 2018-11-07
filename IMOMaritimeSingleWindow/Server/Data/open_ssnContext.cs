@@ -482,6 +482,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.ShortName)
+                .IsRequired()
+                .HasColumnName("ShortName");
+
             });
 
             modelBuilder.Entity<FalSecurity>(entity =>

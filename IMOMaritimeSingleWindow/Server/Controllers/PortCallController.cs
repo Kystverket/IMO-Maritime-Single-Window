@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -18,9 +19,9 @@ namespace IMOMaritimeSingleWindow.Controllers
     {
         readonly IDbContext _context;
 
-        public PortCallController(IDbContext context)
+		public PortCallController(IDbContext context)
         {
-            _context = context;
+			_context = context;
         }
 
         [HttpGet("{portCallId}/falShipStores")]
