@@ -22,7 +22,8 @@
       <app-ship-stores-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-ship-stores-info-table>
     </div>
     <div *ngSwitchCase="'Crew'" class="col">
-      <app-crew-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-crew-info-table>
+      <!-- <app-crew-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-crew-info-table> -->
+      <app-crew-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-crew-listing-table>
     </div>
     <div *ngSwitchCase="'Pax'" class="col">
       <app-passenger-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-info-table>
