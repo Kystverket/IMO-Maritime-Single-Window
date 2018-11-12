@@ -24,7 +24,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var dpg = _context.DpgOnBoard.FirstOrDefault(d => d.DpgOnBoardId == id);
+            var dpg = _context.DpgOnBoard
+                .Include(mt => mt.MeasurementType)
+                .Include(x => x.Dpg)
+                .Include(x => x.Dpg.DpgType)
+                .FirstOrDefault(d => d.DpgOnBoardId == id);
             if (dpg == null)
             {
                 return NotFound();
@@ -35,7 +39,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            List<DpgOnBoard> resultList = _context.DpgOnBoard.OrderBy(d => d.DpgOnBoardId).ToList();
+            List<DpgOnBoard> resultList = _context.DpgOnBoard
+                .OrderBy(d => d.DpgOnBoardId)
+                .Include(mt => mt.MeasurementType)
+                .ToList();
             return Json(resultList);
         }
 
@@ -46,6 +53,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 .Where(d => d.PortCallId == portCallId)
                 .Include(x => x.Dpg)
                 .Include(x => x.Dpg.DpgType)
+                .Include(mt => mt.MeasurementType)
                 .ToList();
             if (dpgOnBoardList == null)
             {
@@ -67,6 +75,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 _context.DpgOnBoard.RemoveRange(_context.DpgOnBoard.Where(dpg => dpg.PortCallId == portCallId));
                 _context.DpgOnBoard.AddRange(dpgOnBoardList);
+                _context.MeasurementType.AsNoTracking();
                 _context.SaveChanges();
                 return Json(dpgOnBoardList);
             }

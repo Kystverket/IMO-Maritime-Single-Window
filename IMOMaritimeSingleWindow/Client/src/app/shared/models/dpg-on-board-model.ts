@@ -12,4 +12,7 @@ export class DpgOnBoardModel {
     netWeight: number;
     dpg: DpgModel;
     placedInContainerStr: string;
+    measurementTypeId: number;
+    measurementType: any;
+    measurementStr: string;
 }

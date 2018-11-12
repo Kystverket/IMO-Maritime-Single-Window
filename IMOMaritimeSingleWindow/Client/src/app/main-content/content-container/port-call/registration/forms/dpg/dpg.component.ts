@@ -47,7 +47,7 @@ export class DpgComponent implements OnInit {
   validDpgModel = true;
   validMsg: string[] = [];
   measurementTypes: MeasurementTypeModel[] = [];
-  selectedMeasurementType: MeasurementTypeModel;
+  selectedMeasurementType: any;
   measurementStr = 'Weight (Kg)';
 
   // Bools for GUI
@@ -106,10 +106,10 @@ export class DpgComponent implements OnInit {
         title: 'Name'
       },
       grossWeight: {
-        title: 'Gross Weight'
+        title: 'Gross Weight/Volume'
       },
       netWeight: {
-        title: 'Net Weight'
+        title: 'Net Weight/Volume'
       },
       locationOnBoard: {
         title: 'Location on Board'
@@ -214,6 +214,7 @@ export class DpgComponent implements OnInit {
     });
 
     this.measurementTypes = filteredArray;
+    console.log(this.measurementTypes);
   }
 
   setEditOrViewDpg(sequenceNo: number, isEditing: boolean) {
@@ -358,8 +359,8 @@ export class DpgComponent implements OnInit {
         const row = {
           classification: dpgOnBoard.dpg.dpgType.shortName,
           dpgOnBoardModel: dpgOnBoard,
-          grossWeight: dpgOnBoard.grossWeight,
-          netWeight: dpgOnBoard.netWeight,
+          grossWeight: dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name,
+          netWeight: dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name,
           locationOnBoard: dpgOnBoard.locationOnBoard,
           placedInContainer: dpgOnBoard.placedInContainer ? 'Yes' : 'No',
           transportUnitIdentification: dpgOnBoard.transportUnitIdentification,
@@ -382,8 +383,8 @@ export class DpgComponent implements OnInit {
         const row = {
           classification: dpgOnBoard.dpg.dpgType.shortName,
           dpgOnBoardModel: dpgOnBoard,
-          grossWeight: dpgOnBoard.grossWeight,
-          netWeight: dpgOnBoard.netWeight,
+          grossWeight: dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name,
+          netWeight: dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name,
           locationOnBoard: dpgOnBoard.locationOnBoard,
           placedInContainer: dpgOnBoard.placedInContainer ? 'Yes' : 'No',
           transportUnitIdentification: dpgOnBoard.transportUnitIdentification,
@@ -413,11 +414,10 @@ export class DpgComponent implements OnInit {
         res => {
           this.listIsPristine = true;
           this.dpgService.setDataIsPristine(this.listIsPristine);
-        },
-        error => {
-          console.log(error);
         }
-      );
+      ), error => {
+        console.log(error);
+      }
   }
 
   reloadData() {
@@ -437,11 +437,17 @@ export class DpgComponent implements OnInit {
         dpg => dpg.sequenceNo === this.dpgOnBoardModel.sequenceNo
       );
       if (indexToUpdate > -1) {
+        this.dpgOnBoardModel.measurementStr = this.selectedMeasurementType.name;
+        this.dpgOnBoardModel.measurementType = this.selectedMeasurementType;
+        this.dpgOnBoardModel.measurementTypeId = this.selectedMeasurementType.measurementTypeId;
         this.dpgOnBoardList[indexToUpdate] = this.dpgOnBoardModel;
       }
     } else {
       this.dpgOnBoardModel.dpg = this.selectedDpg;
       this.dpgOnBoardModel.dpgId = this.dpgOnBoardModel.dpg.dpgId;
+      this.dpgOnBoardModel.measurementStr = this.selectedMeasurementType.name;
+      this.dpgOnBoardModel.measurementType = this.selectedMeasurementType;
+      this.dpgOnBoardModel.measurementTypeId = this.selectedMeasurementType.measurementTypeId;
       this.dpgOnBoardList.push(this.dpgOnBoardModel);
     }
     this.persistData();
@@ -456,27 +462,26 @@ export class DpgComponent implements OnInit {
 
     if (model.placedInContainer && !model.transportUnitIdentification) {
       this.validMsg.push(
-        'Trans Unit ID is required when DPG is placed in container'
+        'Transportation Unit ID is required when DPG is placed in container'
       );
     }
 
-    if (model.netWeight <= 0 && model.grossWeight <= 0) {
-      this.validMsg.push('Either Gross Mass or Net Mass is required');
+    const netGrossDefined = (model.netWeight == null && model.grossWeight == null)
+    || (model.netWeight === undefined && model.grossWeight === undefined);
+
+    if ((model.netWeight <= 0 && model.grossWeight <= 0) || netGrossDefined)  {
+      this.validMsg.push('Either Gross '  + this.measurementStr + ' or Net ' + this.measurementStr + ' is required');
     }
 
-    if (model.grossWeight < model.netWeight) {
+    if (!netGrossDefined && (model.grossWeight < model.netWeight)) {
       this.validMsg.push(
-        'Gross Mass must be greater than or equal to Net Mass'
+        'Gross ' + this.measurementStr + ' must be greater than or equal to Net ' + this.measurementStr
       );
     }
 
     if (this.validMsg.length === 0) {
       this.validDpgModel = true;
-      if (!isUpdate) {
-        this.saveDpgOnBoard(false);
-      } else {
-        this.saveDpgOnBoard(true);
-      }
+      this.saveDpgOnBoard(isUpdate);
     } else {
       this.validDpgModel = false;
     }

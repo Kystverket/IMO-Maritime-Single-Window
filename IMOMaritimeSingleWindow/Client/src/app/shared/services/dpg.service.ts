@@ -81,11 +81,13 @@ export class DpgService {
                     const formattedDpg = new DpgOnBoardModel();
                     formattedDpg.portCallId = portCallId;
                     formattedDpg.dpgId = item.dpgId;
+                    formattedDpg.dpgOnBoardId = item.dpgOnBoardId;
                     formattedDpg.grossWeight = item.grossWeight;
                     formattedDpg.locationOnBoard = item.locationOnBoard;
                     formattedDpg.netWeight = item.netWeight;
                     formattedDpg.placedInContainer = item.placedInContainer;
                     formattedDpg.transportUnitIdentification = item.transportUnitIdentification;
+                    formattedDpg.measurementTypeId = item.measurementTypeId;
                     return formattedDpg;
                 }
             );

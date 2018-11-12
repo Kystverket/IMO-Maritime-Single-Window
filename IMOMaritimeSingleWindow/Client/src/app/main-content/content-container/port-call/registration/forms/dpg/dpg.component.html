@@ -156,20 +156,19 @@
     </div>
     <div class="col-lg-12">
       <div class="form-group">
-          <button [disabled]="!(form.valid)" type="submit" class="btn btn-ssn mt-2" (click)="checkDpgModel()">
-            <span>Submit</span>
-          </button>
+        <button [disabled]="!(form.valid)" type="submit" class="btn btn-ssn mt-2" (click)="checkDpgModel()">
+          <span>Submit</span>
+        </button>
 
-          <button *ngIf="isViewing || isEditing" type="cancel" class="btn btn-ssn mt-2" (click)="resetData()">
-            <span>Cancel</span>
-          </button>
-          
-          <button type="submit" class="btn btn-ssn mt-2" (click)="save()">
-            <span>Save</span>
-          </button>
+        <button *ngIf="isViewing || isEditing" type="cancel" class="btn btn-ssn mt-2" (click)="resetData()">
+          <span>Cancel</span>
+        </button>
 
-          <button type="submit" class="btn mt-2 btn-danger float-right" [disabled]="!(dpgOnBoardList?.length > 0)" (click)="deleteAllDpgs()">
-            <span>Delete all ship stores</span>
+
+
+        <button type="submit" class="btn mt-2 btn-danger float-right" [disabled]="!(dpgOnBoardList?.length > 0)"
+          (click)="deleteAllDpgs()">
+          <span>Delete all DPGs</span>
         </button>
       </div>
 
@@ -181,6 +180,12 @@
             </div>
           </app-ssn-card>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-ssn mt-2" (click)="save()">
+          <img src="assets/images/icons/128x128/white/save.png" height="20px">
+          <span>Save all DPGs</span>
+        </button>
       </div>
     </div>
   </form>
