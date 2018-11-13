@@ -32,6 +32,7 @@ export class FormsComponent implements OnInit, OnDestroy {
   shipStoresData: ShipStoresModel[];
   passengerData: PersonOnBoardModel[];
   crewData: PersonOnBoardModel[];
+  dpgData: DpgOnBoardModel[];
 
   formNames: any;
 
@@ -182,6 +183,7 @@ export class FormsComponent implements OnInit, OnDestroy {
 
           this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId).subscribe(
             dpgOnBoardList => {
+              this.dpgData = dpgOnBoardList;
               this.dpgService.setDpgOnBoardList(dpgOnBoardList);
               this.dpgService.setDataIsPristine(true);
             }

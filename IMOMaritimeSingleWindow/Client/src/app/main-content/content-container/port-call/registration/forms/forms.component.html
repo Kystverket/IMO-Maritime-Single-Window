@@ -24,7 +24,7 @@
     <app-security *ngSwitchCase="formNames.SECURITY" [portCallId]="portCallId" [shipModel]="securityShipModel" [securityModel]="securityData"></app-security>
     <app-passenger-list *ngSwitchCase="formNames.PAX" [portCallId]="portCallId" [passengerList]="passengerData"></app-passenger-list>
     <app-crew-list *ngSwitchCase="formNames.CREW" [portCallId]="portCallId" [crewList]="crewData"></app-crew-list>
-    <app-dpg *ngSwitchCase="formNames.DPG" [portCallId]="portCallId" ></app-dpg>
+    <app-dpg *ngSwitchCase="formNames.DPG" [portCallId]="portCallId" [dpgOnBoardList]="dpgData"></app-dpg>
     <app-confirmation *ngSwitchCase="'Confirm and Activate'"></app-confirmation>
     <div *ngSwitchDefault class="alert alert-danger" role="alert">
         This page is not implemented yet.

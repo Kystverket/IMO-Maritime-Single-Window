@@ -189,6 +189,7 @@ export class DpgComponent implements OnInit {
         this.dpgTypes = res;
       });
 
+    // Making sure all submodels are defined
     if (
       this.dpgOnBoardModel.dpg == null ||
       this.dpgOnBoardModel.dpg === undefined
@@ -202,9 +203,16 @@ export class DpgComponent implements OnInit {
     ) {
       this.dpgOnBoardModel.dpg.dpgType = new DpgTypeModel();
     }
-    this.loadDataFromService();
+    // Check service once more if list is empty in case of poorly synched earlier.
+    if (!this.dpgOnBoardList) {
+      this.loadDataFromService();
+    } else {
+      this.setSequenceNo();
+      this.reloadTable();
+    }
   }
 
+  // Only kilograms and liters are defined in the FAL form as measurement types
   filterMeasurementTypes() {
     const filteredArray = [];
 
