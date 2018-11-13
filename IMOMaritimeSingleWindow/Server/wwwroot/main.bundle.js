@@ -267,7 +267,7 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_19__shared_services___["f" /* ContentService */],
                 __WEBPACK_IMPORTED_MODULE_12__guards_error_guard__["a" /* ErrorGuard */],
                 __WEBPACK_IMPORTED_MODULE_6__auth0_angular_jwt__["a" /* JwtHelperService */],
-                __WEBPACK_IMPORTED_MODULE_19__shared_services___["n" /* LoginService */],
+                __WEBPACK_IMPORTED_MODULE_19__shared_services___["o" /* LoginService */],
                 __WEBPACK_IMPORTED_MODULE_13__guards_root_guard__["a" /* RootGuard */]
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */]]
@@ -533,8 +533,8 @@ var RootGuard = /** @class */ (function (_super) {
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["c" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["n" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["h" /* ErrorService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["o" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["i" /* ErrorService */]])
     ], RootGuard);
     return RootGuard;
 }(__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["d" /* BaseService */]));
@@ -833,9 +833,9 @@ var BasisDataModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_11__location_view_location_info_view_location_info_component__["a" /* ViewLocationInfoComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["m" /* LocationService */],
-                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["o" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["u" /* ShipService */]
+                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["n" /* LocationService */],
+                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["p" /* OrganizationService */],
+                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["v" /* ShipService */]
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_10__location_view_location_info_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */]
@@ -999,11 +999,11 @@ var RegisterLocationComponent = /** @class */ (function () {
             selector: 'app-register-location',
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/location/register-location/register-location.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/location/register-location/register-location.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5__shared_models__["i" /* LocationModel */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_5__shared_models__["l" /* LocationModel */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__shared_models__["i" /* LocationModel */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__shared_models__["l" /* LocationModel */],
             __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["m" /* LocationService */],
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["n" /* LocationService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], RegisterLocationComponent);
     return RegisterLocationComponent;
@@ -1085,7 +1085,7 @@ var LocationButtonRowComponent = /** @class */ (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["e" /* ConstantsService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["m" /* LocationService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["n" /* LocationService */]])
     ], LocationButtonRowComponent);
     return LocationButtonRowComponent;
 }());
@@ -1213,7 +1213,7 @@ var ViewLocationInfoComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/location/view-location-info/view-location-info.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["m" /* LocationService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["n" /* LocationService */]])
     ], ViewLocationInfoComponent);
     return ViewLocationInfoComponent;
 }());
@@ -1357,10 +1357,10 @@ var RegisterOrganizationComponent = /** @class */ (function () {
             selector: 'app-register-organization',
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_4_app_shared_models__["j" /* OrganizationModel */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_4_app_shared_models__["m" /* OrganizationModel */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_models__["j" /* OrganizationModel */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["o" /* OrganizationService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_models__["m" /* OrganizationModel */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* OrganizationService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], RegisterOrganizationComponent);
@@ -1424,7 +1424,7 @@ var ViewOrganizationInfoComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/organization/view-organization-info/view-organization-info.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/organization/view-organization-info/view-organization-info.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["o" /* OrganizationService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* OrganizationService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
     ], ViewOrganizationInfoComponent);
     return ViewOrganizationInfoComponent;
@@ -1604,7 +1604,7 @@ var RegisterShipComponent = /** @class */ (function () {
         this.shipService = shipService;
         this.contentService = contentService;
         this.modalService = modalService;
-        this.shipModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["p" /* ShipModel */]();
+        this.shipModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["s" /* ShipModel */]();
         this.newShip = false;
         this.hullTypeSelected = false;
         this.lengthTypeSelected = false;
@@ -1843,7 +1843,7 @@ var RegisterShipComponent = /** @class */ (function () {
             this.shipService.registerShip(this.shipModel).subscribe(function (result) {
                 _this.shipModel.shipId = result.shipId;
                 var shipContactList = _this.selectedContactModelList.map(function (contactModel) {
-                    var shipContact = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["o" /* ShipContactModel */]();
+                    var shipContact = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["r" /* ShipContactModel */]();
                     shipContact.shipId = _this.shipModel.shipId;
                     shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
                     shipContact.contactValue = contactModel.contactValue;
@@ -1872,7 +1872,7 @@ var RegisterShipComponent = /** @class */ (function () {
             // update
             this.shipService.updateShip(this.shipModel).subscribe(function (result) {
                 var shipContactList = _this.selectedContactModelList.map(function (contactModel) {
-                    var shipContact = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["o" /* ShipContactModel */]();
+                    var shipContact = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["r" /* ShipContactModel */]();
                     shipContact.shipId = _this.shipModel.shipId;
                     shipContact.contactMediumId = contactModel.contactMedium.contactMediumId;
                     shipContact.contactValue = contactModel.contactValue;
@@ -1938,7 +1938,7 @@ var RegisterShipComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/ship/register-ship/register-ship.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/ship/register-ship/register-ship.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_app_shared_services___["u" /* ShipService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_app_shared_services___["v" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_7_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], RegisterShipComponent);
@@ -2002,7 +2002,7 @@ var ViewShipInfoComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/ship/view-ship-info/view-ship-info.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/ship/view-ship-info/view-ship-info.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["u" /* ShipService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
     ], ViewShipInfoComponent);
     return ViewShipInfoComponent;
@@ -2158,7 +2158,7 @@ var RegisterUserComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["o" /* OrganizationService */]])
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* OrganizationService */]])
     ], RegisterUserComponent);
     return RegisterUserComponent;
 }());
@@ -2396,8 +2396,8 @@ var ClearanceComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["u" /* ShipService */]])
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_4_app_shared_services___["v" /* ShipService */]])
     ], ClearanceComponent);
     return ClearanceComponent;
 }());
@@ -2416,7 +2416,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"numberOfCrewError\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Crew information does not correspond to number of crew specified.</span>\r\n          <br>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"numberOfPassengersError\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Passenger information does not correspond to number of passengers specified.</span>\r\n          <br>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!voyagesIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"!voyagesErrors\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveVoyages()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"voyagesErrors\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!cargoDataIsPristine && cargoIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Cargo data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveCargo()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Cargo\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && reportingShipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!passengerDataIsPristine && passengerListIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Passenger data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePassengerList()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Passenger List\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!crewDataIsPristine && crewListIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Crew list data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveCrewList()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Crew List\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"allowSavingSecurity\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Security data is unsaved.</span>\r\n          <br>\r\n          <app-save-security-button [portCallId]=\"portCallId\"></app-save-security-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine && !numberOfCrewError && !numberOfPassengersError\"\r\n        class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine) || (numberOfCrewError || numberOfPassengersError)\"\r\n        class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card header=\"Activate Port Call\" icon=\"save.png\" class=\"text-center\">\r\n  <div class=\"text-center\">\r\n\r\n    <div *ngIf=\"numberOfCrewError\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Crew information does not correspond to number of crew specified.</span>\r\n          <br>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"numberOfPassengersError\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Passenger information does not correspond to number of passengers specified.</span>\r\n          <br>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!voyagesIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"!voyagesErrors\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Voyages are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveVoyages()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"voyagesErrors\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Voyages contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Voyages</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!detailsDataIsPristine\" class=\"row\">\r\n\r\n      <div *ngIf=\"detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Port Call Details are unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDetails()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"!detailsMeta.valid\" class=\"col\">\r\n        <div class=\"alert alert-danger\">\r\n          <span>Error: Port Call Details contains invalid data.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Details</button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!cargoDataIsPristine && cargoIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Cargo data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveCargo()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Cargo\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!shipStoresDataIsPristine && reportingShipStoresIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Ship Stores data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveShipStores()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Ship Stores\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!passengerDataIsPristine && passengerListIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Passenger data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"savePassengerList()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Passenger List\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!crewDataIsPristine && crewListIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Crew list data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveCrewList()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save Crew List\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"allowSavingSecurity\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: Security data is unsaved.</span>\r\n          <br>\r\n          <app-save-security-button [portCallId]=\"portCallId\"></app-save-security-button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div *ngIf=\"!dpgDataIsPristine && dpgIsChecked\" class=\"row\">\r\n      <div class=\"col\">\r\n        <div class=\"alert alert-warning\">\r\n          <span>Warning: DPG data is unsaved.</span>\r\n          <br>\r\n          <button class=\"btn btn-ssn mt-2\" (click)=\"saveDpgOnBoardList()\">\r\n            <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Save DPG List\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"row\" *ngIf=\"portCallIsDraft\">\r\n      <div *ngIf=\"(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine && !numberOfCrewError && !numberOfPassengersError\"\r\n        class=\"col\">\r\n        <p class=\"mb-0\">After activating the port call, it will no longer be a draft, and will be visible for\r\n          authorities to review.</p>\r\n        <button class=\"btn btn-ssn\" (click)=\"send()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n      <div *ngIf=\"!((detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine) || (numberOfCrewError || numberOfPassengersError)\"\r\n        class=\"col\">\r\n        <button class=\"btn btn-ssn\" disabled>\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\"> Activate</button>\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -2449,7 +2449,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 var RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
 var ActivatePortCallComponent = /** @class */ (function () {
-    function ActivatePortCallComponent(contentService, portCallService, portCallDetailsService, shipStoresService, cargoService, modalService, personOnBoardService, securityService) {
+    function ActivatePortCallComponent(contentService, portCallService, portCallDetailsService, shipStoresService, cargoService, modalService, personOnBoardService, securityService, dpgService) {
         this.contentService = contentService;
         this.portCallService = portCallService;
         this.portCallDetailsService = portCallDetailsService;
@@ -2458,6 +2458,7 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.modalService = modalService;
         this.personOnBoardService = personOnBoardService;
         this.securityService = securityService;
+        this.dpgService = dpgService;
         this.voyagesIsPristine = true;
         this.detailsDataIsPristine = true;
         this.shipStoresDataIsPristine = true;
@@ -2465,14 +2466,16 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.passengerDataIsPristine = true;
         this.crewDataIsPristine = true;
         this.securityIsPristine = true;
+        this.dpgDataIsPristine = true;
         this.reportingShipStoresIsChecked = false;
         this.cargoIsChecked = false;
         this.passengerListIsChecked = false;
         this.crewListIsChecked = false;
         this.securityIsChecked = false;
+        this.dpgIsChecked = false;
         this.voyagesErrors = false;
         this.otherPurposeName = '';
-        this.detailsModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* PortCallDetailsModel */]();
+        this.detailsModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["o" /* PortCallDetailsModel */]();
         this.portCallIsDraft = false;
         this.STATUS_DRAFT = 'Draft';
         this.numberOfCrewError = false;
@@ -2482,7 +2485,7 @@ var ActivatePortCallComponent = /** @class */ (function () {
     ActivatePortCallComponent.prototype.ngOnInit = function () {
         var _this = this;
         //
-        // Voyages
+        // PortCalls
         //
         this.voyagesIsPristineSubscription = this.portCallService.voyagesIsPristine$.subscribe(function (pristineData) {
             _this.voyagesIsPristine = pristineData;
@@ -2586,6 +2589,21 @@ var ActivatePortCallComponent = /** @class */ (function () {
         });
         this.crewListIsCheckedSubscription = this.personOnBoardService.crewListIsChecked$.subscribe(function (isChecked) {
             _this.crewListIsChecked = isChecked;
+        });
+        //
+        // Dpg on Board
+        //
+        this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(function (dpgData) {
+            console.log(dpgData);
+            _this.dpgOnBoardList = dpgData;
+        });
+        this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (pristineData) {
+            console.log(pristineData);
+            _this.dpgDataIsPristine = pristineData;
+        });
+        this.dpgIsCheckedSubscription = this.dpgService.dpgIsChecked$.subscribe(function (isChecked) {
+            console.log(isChecked);
+            _this.dpgIsChecked = isChecked;
         });
         //
         // Security
@@ -2699,6 +2717,15 @@ var ActivatePortCallComponent = /** @class */ (function () {
             console.log(error);
         });
     };
+    ActivatePortCallComponent.prototype.saveDpgOnBoardList = function () {
+        var _this = this;
+        this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(function (res) {
+            _this.dpgService.setDataIsPristine(true);
+            console.log('Dpg on board successfully saved. \n', res);
+        }, function (error) {
+            console.log(error);
+        });
+    };
     ActivatePortCallComponent.prototype.send = function () {
         var _this = this;
         this.portCallService
@@ -2736,13 +2763,14 @@ var ActivatePortCallComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* PortCallDetailsService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["k" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["i" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["q" /* PortCallDetailsService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["j" /* FalCargoService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["q" /* PortCallFalPersonOnBoardService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["j" /* FalSecurityService */]])
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["h" /* DpgService */]])
     ], ActivatePortCallComponent);
     return ActivatePortCallComponent;
 }());
@@ -2825,13 +2853,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LoadPortCallService = /** @class */ (function () {
-    function LoadPortCallService(overviewService, portCallService, contentService, cargoService, shipStoresService, portCallDetailsService) {
+    function LoadPortCallService(overviewService, portCallService, contentService, cargoService, shipStoresService, portCallDetailsService, dpgService) {
         this.overviewService = overviewService;
         this.portCallService = portCallService;
         this.contentService = contentService;
         this.cargoService = cargoService;
         this.shipStoresService = shipStoresService;
         this.portCallDetailsService = portCallDetailsService;
+        this.dpgService = dpgService;
         this.isLoadingSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.isLoading$ = this.isLoadingSource.asObservable();
     }
@@ -2854,6 +2883,7 @@ var LoadPortCallService = /** @class */ (function () {
                 _this.cargoService.setDataIsPristine(true);
                 _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
                 _this.shipStoresService.setDataIsPristine(true);
+                _this.dpgService.setDataIsPristine(true);
                 _this.setPurpose();
             }
         });
@@ -2905,12 +2935,13 @@ var LoadPortCallService = /** @class */ (function () {
     };
     LoadPortCallService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["r" /* PortCallOverviewService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["s" /* PortCallService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["s" /* PortCallOverviewService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["t" /* PortCallService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["i" /* FalCargoService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["k" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["p" /* PortCallDetailsService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["j" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* PortCallDetailsService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["h" /* DpgService */]])
     ], LoadPortCallService);
     return LoadPortCallService;
 }());
@@ -3134,9 +3165,9 @@ var ButtonRowComponent = /** @class */ (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["e" /* ConstantsService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["r" /* PortCallOverviewService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["s" /* PortCallOverviewService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["s" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["t" /* PortCallService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
             __WEBPACK_IMPORTED_MODULE_6__load_port_call_service__["a" /* LoadPortCallService */]])
     ], ButtonRowComponent);
@@ -3555,14 +3586,14 @@ var OverviewComponent = /** @class */ (function () {
             selector: 'app-overview',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["o" /* OrganizationService */], __WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* OrganizationService */], __WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common__["d" /* DatePipe */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["o" /* OrganizationService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* OrganizationService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["r" /* PortCallOverviewService */]])
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["s" /* PortCallOverviewService */]])
     ], OverviewComponent);
     return OverviewComponent;
 }());
@@ -3855,7 +3886,7 @@ var PortCallComponent = /** @class */ (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["s" /* PortCallService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["t" /* PortCallService */]])
     ], PortCallComponent);
     return PortCallComponent;
 }());
@@ -3881,66 +3912,70 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__ = __webpack_require__("./src/app/shared/components/delete-button/delete-button.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_dpg_dpg_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -4016,81 +4051,83 @@ var PortCallModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_21_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_22_ng2_smart_table__["b" /* Ng2SmartTableModule */],
                 __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
                 __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_20_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_21_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_28__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_29__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_30__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */]],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__registration_forms_forms_component__["a" /* FormsComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__overview_overview_component__["a" /* OverviewComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_63__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
-                __WEBPACK_IMPORTED_MODULE_64__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__registration_forms_forms_component__["a" /* FormsComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__overview_overview_component__["a" /* OverviewComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_65__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
+                __WEBPACK_IMPORTED_MODULE_66__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
                 __WEBPACK_IMPORTED_MODULE_8_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__["a" /* ShipStoresComponent */],
                 __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_65__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
+                __WEBPACK_IMPORTED_MODULE_67__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
                 __WEBPACK_IMPORTED_MODULE_7_app_main_content_content_container_port_call_registration_forms_cargo_cargo_table_cargo_table_component__["a" /* CargoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
                 __WEBPACK_IMPORTED_MODULE_6_app_main_content_content_container_port_call_registration_forms_cargo_cargo_item_form_cargo_item_form_component__["a" /* CargoItemFormComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__["a" /* IdentityDocumentComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_62__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_61__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_60__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_security_component__["a" /* SecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
-                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_59__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */]
+                __WEBPACK_IMPORTED_MODULE_42__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_64__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_63__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_62__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_security_component__["a" /* SecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_61__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__registration_forms_dpg_dpg_component__["a" /* DpgComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_24__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_64__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_65__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
+                __WEBPACK_IMPORTED_MODULE_25__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_66__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_67__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_service__["a" /* PortCallService */],
-                __WEBPACK_IMPORTED_MODULE_27__load_port_call_service__["a" /* LoadPortCallService */],
-                __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
-                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
-                __WEBPACK_IMPORTED_MODULE_12_app_shared_services_country_service__["a" /* CountryService */],
-                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
-                __WEBPACK_IMPORTED_MODULE_13_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
-                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
-                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
-                __WEBPACK_IMPORTED_MODULE_22__shared_services_fal_security_service__["a" /* FalSecurityService */],
-                __WEBPACK_IMPORTED_MODULE_23__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */]
+                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_service__["a" /* PortCallService */],
+                __WEBPACK_IMPORTED_MODULE_28__load_port_call_service__["a" /* LoadPortCallService */],
+                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
+                __WEBPACK_IMPORTED_MODULE_13_app_shared_services_country_service__["a" /* CountryService */],
+                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+                __WEBPACK_IMPORTED_MODULE_14_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+                __WEBPACK_IMPORTED_MODULE_20_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
+                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
+                __WEBPACK_IMPORTED_MODULE_23__shared_services_fal_security_service__["a" /* FalSecurityService */],
+                __WEBPACK_IMPORTED_MODULE_24__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
+                __WEBPACK_IMPORTED_MODULE_12_app_shared_services___["h" /* DpgService */]
             ]
         })
     ], PortCallModule);
@@ -4673,7 +4710,7 @@ module.exports = "<app-ssn-card header=\"Add New Crew Member\" icon=\"crew.png\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__passenger_list_smartTableModel__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/smartTableModel.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
@@ -4702,9 +4739,9 @@ var CrewListComponent = /** @class */ (function () {
         this.personOnBoardService = personOnBoardService;
         this.modalService = modalService;
         this.crewList = [];
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
-        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         this.booleanList = ['Yes', 'No'];
         this.booleanModel = {
@@ -4783,8 +4820,8 @@ var CrewListComponent = /** @class */ (function () {
         // Load in crew list in smart table
         this.crewListDataSource.load(this.generateSmartTable());
         // Initiate models
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get gender list
         if (!this.genderList) {
             this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(function (results) {
@@ -4851,8 +4888,8 @@ var CrewListComponent = /** @class */ (function () {
         this.personOnBoardService.setCrewDataIsPristine(false);
     };
     CrewListComponent.prototype.clearForm = function () {
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
         this.resetDateOfBirth();
         this.identityDocumentComponent.resetForm();
     };
@@ -4861,7 +4898,7 @@ var CrewListComponent = /** @class */ (function () {
         this.crewListDataSource.load(rows);
     };
     CrewListComponent.prototype.makeLocationModel = function ($event) {
-        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["i" /* LocationModel */](), $event);
+        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */](), $event);
         return tempLocationModel;
     };
     // Setters
@@ -5057,7 +5094,7 @@ var CrewListComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], CrewListComponent);
     return CrewListComponent;
@@ -5109,7 +5146,7 @@ var CrewMemberModalComponent = /** @class */ (function () {
         this.identityDocumentService = identityDocumentService;
         this.personOnBoardService = personOnBoardService;
         this.validateDateTimeService = validateDateTimeService;
-        this.crewModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.crewModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.outputCrewModel = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.dirtyForm = false;
         this.identityDocumentTypes = [];
@@ -5129,7 +5166,7 @@ var CrewMemberModalComponent = /** @class */ (function () {
     }
     CrewMemberModalComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.inputCrewModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.inputCrewModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.identityDocumentService.getIdentityDocumentTypes().subscribe(function (res) {
             _this.identityDocumentTypes = res;
         });
@@ -5348,9 +5385,9 @@ var CrewMemberModalComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["l" /* IdentityDocumentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* PortCallFalPersonOnBoardService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["w" /* ValidateDateTimeService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["m" /* IdentityDocumentService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["x" /* ValidateDateTimeService */]])
     ], CrewMemberModalComponent);
     return CrewMemberModalComponent;
 }());
@@ -5379,7 +5416,7 @@ module.exports = "<app-ssn-card header=\"Save Crew List\" icon=\"save.png\">\r\n
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SaveCrewListComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models_person_on_board_model__ = __webpack_require__("./src/app/shared/models/person-on-board-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -5398,7 +5435,7 @@ var SaveCrewListComponent = /** @class */ (function () {
         this.personOnBoardService = personOnBoardService;
         this.portCallService = portCallService;
         this.crewList = [];
-        this.crewModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models_person_on_board_model__["a" /* PersonOnBoardModel */]();
+        this.crewModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         // @Input() passengerList: PersonOnBoardModel[];
         this.save = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
@@ -5436,10 +5473,523 @@ var SaveCrewListComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallFalPersonOnBoardService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */]])
     ], SaveCrewListComponent);
     return SaveCrewListComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ td.ng2-smart-actions a {\r\n    color:  #003EF9;\r\n    text-decoration: underline;\r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<ng-template #rt let-r=\"result\" let-t=\"term\">\r\n  <strong *ngIf=\"r.textualReference\">Textual Reference: </strong> {{ r.textualReference }}\r\n  <strong *ngIf=\"r.unNumber\"> UN Number: </strong> {{ r.unNumber }}\r\n</ng-template>\r\n\r\n<app-ssn-card header=\"Dangerous Goods\" icon=\"hazard.png\">\r\n\r\n  <form id=\"formGroup\" name=\"formGroup\">\r\n    <div class=\"row\" *ngIf=\"!isLoading\">\r\n      <div class=\"col-md-6 col-lg-6\">\r\n\r\n        <div class=\"col\">\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col my-auto\">\r\n              <label for=\"classification\" class=\"col-form-label-sm no-wrap mb-0\">Classification *</label>\r\n              <div class=\"card pt-2\" id=\"dpg_classification\">\r\n                <div class=\"checkbox row\">\r\n                  <ng-container *ngFor=\"let dpgType of dpgTypes\" class=\"col-12\">\r\n                    <label class=\"col-form-label-sm no-wrap mb-0 col-auto\">\r\n                      <input type=\"radio\" value=\"true\" (change)=\"setDpgType(dpgType)\" [checked]=\"(hasSelectedType && (selectedDpgType.shortName === dpgType.shortName))\"\r\n                        name=\"classification\" [disabled]=\"isViewing\">\r\n                      {{dpgType.shortName}}\r\n                    </label>\r\n                  </ng-container>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\" *ngIf=\"!dpgSelected && !isViewing\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"search-dpg\">Un No/Name: *</label>\r\n                  <input required id=\"search-dpg\" [(ngModel)]=\"selectedDpg\" name=\"selectedDpg\" type=\"text\" class=\"form-control form-control-sm mx-auto\"\r\n                    [ngbTypeahead]=\"search\" [resultTemplate]=\"rt\" [inputFormatter]=\"formatter\" (selectItem)=\"setDpg($event)\"\r\n                    placeholder=\"Enter search here...\" [disabled]=\"!hasSelectedType || isViewing\" />\r\n                </div>\r\n              </div>\r\n              <div class=\"form-group row\" *ngIf=\"dpgSelected || isViewing\">\r\n                <div class=\"col\">\r\n\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"selected-dpg\">Un No/Name:</label>\r\n                  <input required id=\"selected-dpg\" [(ngModel)]=\"dpgSelectedStr\" name=\"selectedDpg\" type=\"search\" class=\"form-control form-control-sm mx-auto\"\r\n                    (onchange)=\"removeDpg()\" disabled />\r\n                  <ng-container *ngIf=!isViewing>\r\n                    <button type=\"button\" class=\"btn btn-danger\" style=\"padding: 1px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px\"\r\n                      (click)=\"removeDpg()\">\r\n                      Remove\r\n                    </button>\r\n                  </ng-container>\r\n\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"loc_on_board\">Location Onboard: *</label>\r\n                  <input name=\"locationOnBoard\" [(ngModel)]=\"dpgOnBoardModel.locationOnBoard\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"loc_on_board\" placeholder=\"Location on board\" required [disabled]=\"!hasSelectedType || isViewing\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"measurement_type\">Measurement Type: *</label>\r\n                  <select id=\"measurement_type\" [(ngModel)]=\"selectedMeasurementType\" name=\"selectMeasurementType\"\r\n                    (ngModelChange)=\"toggleNetGross()\" class=\"form-control form-control-sm\" [disabled]=\"!hasSelectedType || isViewing\">\r\n                    <option name=\"measurementType\" *ngFor=\"let measurementType of measurementTypes\" [ngValue]=\"measurementType\">\r\n                      {{measurementType.name}}\r\n                    </option>\r\n                  </select>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"net_weight\">Net {{measurementStr}}:</label>\r\n                  <input #netWeight=\"ngModel\" [(ngModel)]=\"dpgOnBoardModel.netWeight\" name=\"netWeight\" type=\"number\"\r\n                    class=\"form-control form-control-sm\" positiveNumberValidator id=\"net_weight\" placeholder=\"{{measurementStr}}\"\r\n                    [disabled]=\"!hasSelectedType || isViewing\" />\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"gross_weight\">Gross {{measurementStr}}:</label>\r\n                  <input #grossWeight=\"ngModel\" [(ngModel)]=\"dpgOnBoardModel.grossWeight\" name=\"grossWeight\" type=\"number\"\r\n                    class=\"form-control form-control-sm\" positiveNumberValidator id=\"gross_weight\" placeholder=\"{{measurementStr}}\"\r\n                    [disabled]=\"!hasSelectedType || isViewing\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\">\r\n                    <input [(ngModel)]=\"dpgOnBoardModel.placedInContainer\" (ngModelChange)=\"toggleTransUnitID(dpgOnBoardModel.placedInContainer)\"\r\n                      name=\"placedInContainer\" type=\"checkbox\" id=\"placed_in_container\" [disabled]=\"!hasSelectedType || isViewing\">\r\n                    Placed in Container\r\n                  </label>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"col-12\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"trans_unit_id\">Transportation Unit ID:</label>\r\n                  <input [(ngModel)]=\"dpgOnBoardModel.transportUnitIdentification\" name=\"transUnit\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"trans_unit_id\" placeholder=\"Transportation Unit ID\" [disabled]=\"!placedInContainer || isViewing\" />\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <ng-container *ngIf=\"hasSelectedType && !isViewing\">\r\n          <ng-container *ngIf=\"!validDpgModel\">\r\n            <ng-container *ngFor=\"let msg of validMsg\">\r\n              <div class=\"alert alert-danger\">\r\n                <li>\r\n                  <small>{{msg}}</small>\r\n                </li>\r\n              </div>\r\n            </ng-container>\r\n          </ng-container>\r\n          <div *ngIf=\"!netWeight.valid\" class=\"alert alert-danger\">\r\n            <li *ngIf=\"netWeight.hasError('notPositiveNumberError')\">\r\n              <small>The net mass/volume specified must be a positive number.</small>\r\n            </li>\r\n          </div>\r\n          <div *ngIf=\"!grossWeight.valid\" class=\"alert alert-danger\">\r\n            <li *ngIf=\"grossWeight.hasError('notPositiveNumberError')\">\r\n              <small>The gross mass/volume specified must be a positive number.</small>\r\n            </li>\r\n          </div>\r\n        </ng-container>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-12\">\r\n      <div class=\"form-group\">\r\n        <button [disabled]=\"!(form.valid)\" type=\"submit\" class=\"btn btn-ssn mt-2\" (click)=\"checkDpgModel()\">\r\n          <span>Submit</span>\r\n        </button>\r\n\r\n        <button *ngIf=\"isViewing || isEditing\" type=\"cancel\" class=\"btn btn-ssn mt-2\" (click)=\"resetData()\">\r\n          <span>Cancel</span>\r\n        </button>\r\n\r\n\r\n\r\n        <button type=\"submit\" class=\"btn mt-2 btn-danger float-right\" [disabled]=\"!(dpgOnBoardList?.length > 0)\"\r\n          (click)=\"deleteAllDpgs()\">\r\n          <span>Delete all DPGs</span>\r\n        </button>\r\n      </div>\r\n\r\n      <div class=\"mb-3\">\r\n        <div class=\"table-responsive\">\r\n          <app-ssn-card header=\"Details\" icon=\"hazard.png\">\r\n            <div class=\"table-responsive\">\r\n              <ng2-smart-table [settings]=\"settings\" [source]=\"dpgSource\"></ng2-smart-table>\r\n            </div>\r\n          </app-ssn-card>\r\n        </div>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"submit\" class=\"btn btn-ssn mt-2\" (click)=\"save()\">\r\n          <img src=\"assets/images/icons/128x128/white/save.png\" height=\"20px\">\r\n          <span>Save all DPGs</span>\r\n        </button>\r\n        <span *ngIf=\"saving\">Saving...</span>\r\n        <span class=\"badge badge-success\" *ngIf=\"saved\">Your changes have been saved.</span>\r\n        <span class=\"badge badge-danger\" *ngIf=\"saveError\">An error occured when trying to save.</span>\r\n      </div>\r\n    </div>\r\n  </form>\r\n</app-ssn-card>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models__ = __webpack_require__("./src/app/shared/models/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services__ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__shared_constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+var DpgComponent = /** @class */ (function () {
+    function DpgComponent(dpgService, shipStoresService, modalService) {
+        var _this = this;
+        this.dpgService = dpgService;
+        this.shipStoresService = shipStoresService;
+        this.modalService = modalService;
+        this.dpgOnBoardList = [];
+        this.dpgModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["f" /* DpgModel */]();
+        this.selectedDpgType = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["h" /* DpgTypeModel */]();
+        this.dpgOnBoardModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["g" /* DpgOnBoardModel */]();
+        this.validDpgModel = true;
+        this.validMsg = [];
+        this.measurementTypes = [];
+        this.measurementStr = 'Weight (Kg)';
+        this.errorModalMsg = '';
+        // Bools for GUI
+        this.placedInContainer = false;
+        this.dpgSelected = false;
+        this.hasSelectedType = false;
+        this.listIsPristine = true;
+        this.saving = false;
+        this.saved = false;
+        this.saveError = false;
+        // Search
+        this.showDropdown = true;
+        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_11__shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
+        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_11__shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
+        this.searching = false;
+        this.searchFailed = false;
+        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_8_rxjs_Observable__["a" /* Observable */](function () { return function () {
+            return (_this.searching = false);
+        }; });
+        // Table settings
+        this.settings = {
+            actions: {
+                add: false,
+                edit: false,
+                delete: false,
+                position: 'right'
+            },
+            attr: {
+                class: 'table table-bordered'
+            },
+            editor: {
+                config: {
+                    completer: {
+                        descriptionField: 'Search here'
+                    }
+                }
+            },
+            noDataMessage: 'There are no DPGs in this list.',
+            columns: {
+                classification: {
+                    title: 'Classification'
+                },
+                unNr: {
+                    title: 'Un No/Name'
+                },
+                textualReference: {
+                    title: 'Name'
+                },
+                grossWeight: {
+                    title: 'Gross Weight/Volume'
+                },
+                netWeight: {
+                    title: 'Net Weight/Volume'
+                },
+                locationOnBoard: {
+                    title: 'Location on Board'
+                },
+                transportUnitIdentification: {
+                    title: 'Trans Unit ID'
+                },
+                placedInContainer: {
+                    title: 'Placed in Container',
+                    filter: false
+                },
+                delete: {
+                    title: 'Actions',
+                    type: 'custom',
+                    filter: false,
+                    sort: false,
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_3_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */],
+                    onComponentInitFunction: function (instance) {
+                        instance.view.subscribe(function (row) {
+                            var sequenceNo = row.dpgOnBoardModel.sequenceNo;
+                            if (sequenceNo != null &&
+                                sequenceNo !== undefined &&
+                                sequenceNo >= 0) {
+                                _this.setEditOrViewDpg(sequenceNo, false);
+                            }
+                        });
+                        instance.edit.subscribe(function (row) {
+                            var sequenceNo = row.dpgOnBoardModel.sequenceNo;
+                            if (sequenceNo != null &&
+                                sequenceNo !== undefined &&
+                                sequenceNo >= 0) {
+                                _this.setEditOrViewDpg(sequenceNo, true);
+                            }
+                        });
+                        instance.delete.subscribe(function (row) {
+                            var sequenceNo = row.dpgOnBoardModel.sequenceNo;
+                            if (sequenceNo != null &&
+                                sequenceNo !== undefined &&
+                                sequenceNo >= 0) {
+                                _this.onDeleteConfirm(sequenceNo);
+                            }
+                        });
+                    }
+                }
+            }
+        };
+        // Search-Function for DPG after selecting DPG-Type
+        this.search = function (text$) {
+            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["tap"])(function (term) {
+                _this.searchFailed = false;
+                _this.searching = term.length >= 2;
+            }), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["switchMap"])(function (term) {
+                return _this.showDropdown
+                    ? _this.dpgService
+                        .search(_this.selectedDpgType.dpgTypeId, term, _this.resultsDropdown)
+                        .pipe(Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["tap"])(function () {
+                        _this.searchFailed = false;
+                    }), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["catchError"])(function () {
+                        _this.searchFailed = true;
+                        return Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["a" /* of */])([]);
+                    }))
+                    : Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_observable_of__["a" /* of */])([]);
+            }), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["tap"])(function (res) {
+                if (_this.showDropdown) {
+                    _this.searching = false;
+                    _this.searchFailed = _this.selectedDpg.length >= 2 && res.length === 0;
+                }
+                else {
+                    _this.dpgService
+                        .search(_this.selectedDpgType.dpgTypeId, _this.selectedDpg, _this.resultsWithoutDropdown)
+                        .subscribe(function (data) {
+                        _this.searchFailed =
+                            _this.selectedDpg.length >= 2 && data.length === 0;
+                        _this.searchResultDpg = data;
+                        _this.searching = false;
+                    });
+                }
+            }), Object(__WEBPACK_IMPORTED_MODULE_10_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
+        };
+        this.formatter = function (x) { return ''; };
+        this.dpgSource = new __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__["a" /* LocalDataSource */](this.dpgOnBoardList);
+    }
+    DpgComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.isLoading = true;
+        this.dpgService
+            .getDpgTypes()
+            .finally(function () {
+            _this.shipStoresService
+                .getMeasurementTypeList()
+                .finally(function () {
+                _this.filterMeasurementTypes();
+                _this.isLoading = false;
+            })
+                .subscribe(function (measurementTypes) {
+                _this.measurementTypes = measurementTypes;
+            });
+        })
+            .subscribe(function (res) {
+            _this.dpgTypes = res;
+        });
+        if (this.dpgOnBoardModel.dpg == null ||
+            this.dpgOnBoardModel.dpg === undefined) {
+            this.dpgOnBoardModel.dpg = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["f" /* DpgModel */]();
+        }
+        if (this.dpgOnBoardModel.dpg.dpgType == null ||
+            this.dpgOnBoardModel.dpg.dpgType === undefined) {
+            this.dpgOnBoardModel.dpg.dpgType = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["h" /* DpgTypeModel */]();
+        }
+        this.loadDataFromService();
+    };
+    DpgComponent.prototype.filterMeasurementTypes = function () {
+        var _this = this;
+        var filteredArray = [];
+        this.measurementTypes.forEach(function (mt) {
+            if (mt.name.toLowerCase().indexOf('(l)') >= 0) {
+                filteredArray.push(mt);
+            }
+            if (mt.name.toLowerCase().indexOf('(kg)') >= 0) {
+                _this.selectedMeasurementType = mt;
+                filteredArray.push(mt);
+            }
+        });
+        this.measurementTypes = filteredArray;
+    };
+    DpgComponent.prototype.setEditOrViewDpg = function (sequenceNo, isEditing) {
+        var indexToView = this.dpgOnBoardList.findIndex(function (dpg) { return dpg.sequenceNo === sequenceNo; });
+        if (indexToView > -1) {
+            this.isViewing = !isEditing;
+            this.isEditing = isEditing;
+            var dpgToEdit = this.dpgOnBoardList[indexToView];
+            this.dpgOnBoardModel = dpgToEdit;
+            this.selectedDpgType = this.dpgOnBoardModel.dpg.dpgType;
+            this.selectDpg(false);
+            this.setDpgType(this.dpgOnBoardModel.dpg.dpgType, false);
+            this.dpgSelected = isEditing;
+            var enableTransUnitId = isEditing && this.dpgOnBoardModel.placedInContainer;
+            this.toggleTransUnitID(enableTransUnitId);
+        }
+    };
+    DpgComponent.prototype.onDeleteConfirm = function (sequenceNo) {
+        if (window.confirm('Are you sure you want to delete?')) {
+            var indexToDelete = this.dpgOnBoardList.findIndex(function (dpg) { return dpg.sequenceNo === sequenceNo; });
+            if (indexToDelete > -1) {
+                this.dpgOnBoardList.splice(indexToDelete, 1);
+                this.persistData();
+            }
+        }
+    };
+    DpgComponent.prototype.deleteAllDpgs = function () {
+        if (window.confirm('Are you sure you want to delete all DPG\'s?')) {
+            this.dpgOnBoardList = [];
+            this.listIsPristine = false;
+            this.persistData();
+        }
+    };
+    DpgComponent.prototype.loadDataFromService = function () {
+        var _this = this;
+        this.dpgService
+            .getDpgOnBoardListByPortCallId(this.portCallId)
+            .finally(function () {
+            _this.setSequenceNo();
+            _this.reloadTable();
+        })
+            .subscribe(function (res) {
+            _this.dpgOnBoardList = res;
+        });
+    };
+    DpgComponent.prototype.toggleNetGross = function () {
+        if (this.selectedMeasurementType != null &&
+            this.selectedMeasurementType !== undefined) {
+            if (this.selectedMeasurementType.name != null &&
+                this.selectedMeasurementType.name !== undefined) {
+                if (this.selectedMeasurementType.name.toLowerCase().indexOf('(kg)') >= 0) {
+                    this.measurementStr = 'Weight (Kg)';
+                }
+                if (this.selectedMeasurementType.name.toLowerCase().indexOf('(l)') >= 0) {
+                    this.measurementStr = 'Volume (L)';
+                }
+            }
+        }
+    };
+    DpgComponent.prototype.reloadTable = function () {
+        var rows = [];
+        rows = this.generateRows();
+        this.dpgSource.load(rows);
+    };
+    DpgComponent.prototype.toggleTransUnitID = function (toggleValue) {
+        this.placedInContainer = toggleValue;
+    };
+    // Generate list that will be sent to dpgSource that is connected to the smart table
+    DpgComponent.prototype.generateRows = function () {
+        var rowData = [];
+        if (this.dpgOnBoardList) {
+            rowData = this.dpgOnBoardList.map(function (dpgOnBoard) {
+                var row = {
+                    classification: dpgOnBoard.dpg.dpgType.shortName,
+                    dpgOnBoardModel: dpgOnBoard,
+                    grossWeight: dpgOnBoard.grossWeight ? dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name : ' ',
+                    netWeight: dpgOnBoard.netWeight ? dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name : ' ',
+                    locationOnBoard: dpgOnBoard.locationOnBoard,
+                    placedInContainer: dpgOnBoard.placedInContainer ? 'Yes' : 'No',
+                    transportUnitIdentification: dpgOnBoard.transportUnitIdentification,
+                    textualReference: dpgOnBoard.dpg
+                        ? dpgOnBoard.dpg.textualReference
+                        : '',
+                    unNr: dpgOnBoard.dpg ? dpgOnBoard.dpg.unNumber : ''
+                };
+                return row;
+            });
+        }
+        return rowData;
+    };
+    DpgComponent.prototype.save = function () {
+        var _this = this;
+        this.saving = true;
+        this.saved = false;
+        this.saveError = false;
+        var formattedDpgList = this.dpgService.formatDpgOnBoard(this.dpgOnBoardList, this.portCallId);
+        this.dpgService
+            .saveDpgOnBoard(formattedDpgList, this.portCallId)
+            .finally(function () {
+            _this.saving = false;
+            _this.reloadData();
+        })
+            .subscribe(function (res) {
+            _this.saved = true;
+            _this.listIsPristine = true;
+            _this.dpgService.setDataIsPristine(_this.listIsPristine);
+        }, function (err) {
+            _this.saveError = true;
+            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, 'An error occured while saving. Please try again later.');
+        });
+    };
+    DpgComponent.prototype.reloadData = function () {
+        var _this = this;
+        this.dpgService
+            .getDpgOnBoardListByPortCallId(this.portCallId)
+            .subscribe(function (dpgOnBoardList) {
+            _this.dpgOnBoardList = dpgOnBoardList;
+            _this.dpgService.setDpgOnBoardList(dpgOnBoardList);
+            _this.dpgService.setDataIsPristine(true);
+        });
+    };
+    DpgComponent.prototype.saveDpgOnBoard = function (isUpdate) {
+        var _this = this;
+        if (isUpdate === void 0) { isUpdate = false; }
+        this.listIsPristine = false;
+        if (isUpdate) {
+            var indexToUpdate = this.dpgOnBoardList.findIndex(function (dpg) { return dpg.sequenceNo === _this.dpgOnBoardModel.sequenceNo; });
+            if (indexToUpdate > -1) {
+                this.dpgOnBoardModel.measurementStr = this.selectedMeasurementType.name;
+                this.dpgOnBoardModel.measurementType = this.selectedMeasurementType;
+                this.dpgOnBoardModel.measurementTypeId = this.selectedMeasurementType.measurementTypeId;
+                this.dpgOnBoardList[indexToUpdate] = this.dpgOnBoardModel;
+            }
+        }
+        else {
+            this.dpgOnBoardModel.dpg = this.selectedDpg;
+            this.dpgOnBoardModel.dpgId = this.dpgOnBoardModel.dpg.dpgId;
+            this.dpgOnBoardModel.measurementStr = this.selectedMeasurementType.name;
+            this.dpgOnBoardModel.measurementType = this.selectedMeasurementType;
+            this.dpgOnBoardModel.measurementTypeId = this.selectedMeasurementType.measurementTypeId;
+            this.dpgOnBoardList.push(this.dpgOnBoardModel);
+        }
+        this.persistData();
+        this.form.reset();
+    };
+    DpgComponent.prototype.checkDpgModel = function () {
+        var isUpdate = this.dpgOnBoardModel.sequenceNo !== undefined;
+        this.validMsg = [];
+        var model = this.dpgOnBoardModel;
+        if (model.placedInContainer && !model.transportUnitIdentification) {
+            this.validMsg.push('Transportation Unit ID is required when DPG is placed in container');
+        }
+        var netGrossDefined = (model.netWeight == null && model.grossWeight == null)
+            || (model.netWeight === undefined && model.grossWeight === undefined);
+        if ((model.netWeight <= 0 && model.grossWeight <= 0) || netGrossDefined) {
+            this.validMsg.push('Either Gross ' + this.measurementStr + ' or Net ' + this.measurementStr + ' is required');
+        }
+        if (!netGrossDefined && (model.grossWeight < model.netWeight)) {
+            this.validMsg.push('Gross ' + this.measurementStr + ' must be greater than or equal to Net ' + this.measurementStr);
+        }
+        if (this.validMsg.length === 0) {
+            this.validDpgModel = true;
+            this.saveDpgOnBoard(isUpdate);
+        }
+        else {
+            this.validDpgModel = false;
+        }
+    };
+    DpgComponent.prototype.resetData = function () {
+        this.dpgOnBoardModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["g" /* DpgOnBoardModel */]();
+        this.dpgSelected = false;
+        this.selectedDpg = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["f" /* DpgModel */]();
+        this.isViewing = false;
+        this.isEditing = false;
+        var measurementType = this.measurementTypes.findIndex(function (mt) { return mt.name.toLowerCase().indexOf('(kg)') >= 0; });
+        if (measurementType >= 0) {
+            this.selectedMeasurementType = this.measurementTypes[measurementType];
+        }
+        else {
+            this.selectedMeasurementType = this.measurementTypes[0];
+        }
+    };
+    DpgComponent.prototype.setDpgType = function (dpgType, newDpg) {
+        if (newDpg === void 0) { newDpg = true; }
+        this.selectedDpgType = dpgType;
+        this.hasSelectedType = true;
+        if (newDpg) {
+            this.removeDpg();
+        }
+    };
+    DpgComponent.prototype.setDpg = function ($event) {
+        if ($event === void 0) { $event = null; }
+        this.selectedDpg = $event.item;
+        this.selectDpg();
+    };
+    DpgComponent.prototype.selectDpg = function (setDpg) {
+        if (setDpg === void 0) { setDpg = true; }
+        this.dpgSelectedStr = '';
+        this.dpgSelected = true;
+        if (setDpg) {
+            this.dpgOnBoardModel.dpg = this.selectedDpg;
+        }
+        else {
+            this.selectedDpg = this.dpgOnBoardModel.dpg;
+        }
+        this.dpgOnBoardModel.dpg.dpgType = this.selectedDpgType;
+        if (this.selectedDpg.textualReference != null &&
+            this.selectedDpg.textualReference !== undefined) {
+            this.dpgSelectedStr += this.selectedDpg.textualReference;
+        }
+        if (this.selectedDpg.unNumber != null &&
+            this.selectedDpg.unNumber !== undefined) {
+            this.dpgSelectedStr += ' Un Nr: ' + this.selectedDpg.unNumber;
+        }
+    };
+    DpgComponent.prototype.persistData = function () {
+        this.dpgService.setDpgOnBoardList(this.dpgOnBoardList);
+        this.touchData();
+        this.setSequenceNo();
+        this.reloadTable();
+        this.resetData();
+    };
+    DpgComponent.prototype.setSequenceNo = function () {
+        var sequenceNo = 0;
+        this.dpgOnBoardList.forEach(function (dpgOnBoard) {
+            dpgOnBoard.sequenceNo = sequenceNo;
+            sequenceNo++;
+        });
+    };
+    DpgComponent.prototype.touchData = function () {
+        this.dpgService.setDataIsPristine(this.listIsPristine);
+    };
+    DpgComponent.prototype.removeDpg = function () {
+        this.dpgSelected = false;
+        this.selectedDpg = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["f" /* DpgModel */]();
+        this.dpgSelectedStr = '';
+    };
+    DpgComponent.prototype.openConfirmationModal = function (modalType, bodyText) {
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
+        modalRef.componentInstance.modalType = modalType;
+        modalRef.componentInstance.bodyText = bodyText;
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], DpgComponent.prototype, "portCallId", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Array)
+    ], DpgComponent.prototype, "dpgOnBoardList", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* NgForm */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* NgForm */])
+    ], DpgComponent.prototype, "form", void 0);
+    DpgComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-dpg',
+            template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.css")],
+            providers: [__WEBPACK_IMPORTED_MODULE_6_app_shared_services__["h" /* DpgService */]]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services__["h" /* DpgService */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services__["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], DpgComponent);
+    return DpgComponent;
 }());
 
 
@@ -5456,7 +6006,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/forms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-progress-bar *ngIf=\"portCallId != null\"></app-progress-bar>\r\n\r\n<div *ngIf=\"selectedComponent !== formNames.VOYAGES\">\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-ship-info-table></app-ship-info-table>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-location-time-info-table></app-location-time-info-table>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-voyages *ngSwitchCase=\"formNames.VOYAGES\" [portCallId]=\"portCallId\" [shipModel]=\"shipModel\" [locationModel]=\"locationModel\"\r\n        [etaModel]=\"etaModel\" [etdModel]=\"etdModel\" [prevLocationModel]=\"prevLocationModel\" [prevEtdModel]=\"prevEtdModel\" [nextLocationModel]=\"nextLocationModel\"\r\n        [nextEtaModel]=\"nextEtaModel\"></app-voyages>\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\" [portCallId]=\"portCallId\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\" [portCallId]=\"portCallId\" [shipStoresList]=\"shipStoresData\"></app-ship-stores>\r\n    <app-cargo *ngSwitchCase=\"formNames.CARGO\" [portCallId]=\"portCallId\" [cargoData]=\"cargoData\"></app-cargo>\r\n    <app-security *ngSwitchCase=\"formNames.SECURITY\" [portCallId]=\"portCallId\" [shipModel]=\"securityShipModel\" [securityModel]=\"securityData\"></app-security>\r\n    <app-passenger-list *ngSwitchCase=\"formNames.PAX\" [portCallId]=\"portCallId\" [passengerList]=\"passengerData\"></app-passenger-list>\r\n    <app-crew-list *ngSwitchCase=\"formNames.CREW\" [portCallId]=\"portCallId\" [crewList]=\"crewData\"></app-crew-list>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
+module.exports = "<app-progress-bar *ngIf=\"portCallId != null\"></app-progress-bar>\r\n\r\n<div *ngIf=\"selectedComponent !== formNames.VOYAGES\">\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-ship-info-table></app-ship-info-table>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-location-time-info-table></app-location-time-info-table>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-voyages *ngSwitchCase=\"formNames.VOYAGES\" [portCallId]=\"portCallId\" [shipModel]=\"shipModel\" [locationModel]=\"locationModel\"\r\n        [etaModel]=\"etaModel\" [etdModel]=\"etdModel\" [prevLocationModel]=\"prevLocationModel\" [prevEtdModel]=\"prevEtdModel\" [nextLocationModel]=\"nextLocationModel\"\r\n        [nextEtaModel]=\"nextEtaModel\"></app-voyages>\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\" [portCallId]=\"portCallId\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\" [portCallId]=\"portCallId\" [shipStoresList]=\"shipStoresData\"></app-ship-stores>\r\n    <app-cargo *ngSwitchCase=\"formNames.CARGO\" [portCallId]=\"portCallId\" [cargoData]=\"cargoData\"></app-cargo>\r\n    <app-security *ngSwitchCase=\"formNames.SECURITY\" [portCallId]=\"portCallId\" [shipModel]=\"securityShipModel\" [securityModel]=\"securityData\"></app-security>\r\n    <app-passenger-list *ngSwitchCase=\"formNames.PAX\" [portCallId]=\"portCallId\" [passengerList]=\"passengerData\"></app-passenger-list>\r\n    <app-crew-list *ngSwitchCase=\"formNames.CREW\" [portCallId]=\"portCallId\" [crewList]=\"crewData\"></app-crew-list>\r\n    <app-dpg *ngSwitchCase=\"formNames.DPG\" [portCallId]=\"portCallId\" ></app-dpg>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -5483,7 +6033,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var FormsComponent = /** @class */ (function () {
-    function FormsComponent(contentService, portCallService, shipService, cargoService, shipStoresService, securityService, personOnBoardService) {
+    function FormsComponent(contentService, portCallService, shipService, cargoService, shipStoresService, securityService, personOnBoardService, dpgService) {
         this.contentService = contentService;
         this.portCallService = portCallService;
         this.shipService = shipService;
@@ -5491,6 +6041,7 @@ var FormsComponent = /** @class */ (function () {
         this.shipStoresService = shipStoresService;
         this.securityService = securityService;
         this.personOnBoardService = personOnBoardService;
+        this.dpgService = dpgService;
     }
     FormsComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -5512,7 +6063,7 @@ var FormsComponent = /** @class */ (function () {
                 _this.securityData = data;
             }
             else {
-                _this.securityData = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["f" /* FalSecurityModel */]();
+                _this.securityData = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["i" /* FalSecurityModel */]();
                 _this.securityData.companySecurityOfficer = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["d" /* CompanySecurityOfficerModel */]();
             }
         });
@@ -5569,6 +6120,10 @@ var FormsComponent = /** @class */ (function () {
                         _this.personOnBoardService.setCrewDataIsPristine(true);
                     }
                 });
+                _this.dpgService.getDpgOnBoardListByPortCallId(_this.portCallId).subscribe(function (dpgOnBoardList) {
+                    _this.dpgService.setDpgOnBoardList(dpgOnBoardList);
+                    _this.dpgService.setDataIsPristine(true);
+                });
             }
             _this.shipStoresService.shipStoresList$.subscribe(function (data) {
                 _this.shipStoresData = data;
@@ -5620,12 +6175,13 @@ var FormsComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["u" /* ShipService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["i" /* FalCargoService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["k" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["j" /* FalSecurityService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* PortCallFalPersonOnBoardService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["v" /* ShipService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["j" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["h" /* DpgService */]])
     ], FormsComponent);
     return FormsComponent;
 }());
@@ -5689,9 +6245,9 @@ var PassengerListComponent = /** @class */ (function () {
         this.personOnBoardService = personOnBoardService;
         this.passengerList = [];
         this.identityDocumentList = [];
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
-        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         this.booleanList = ['Yes', 'No'];
         this.booleanModel = {
@@ -5773,8 +6329,8 @@ var PassengerListComponent = /** @class */ (function () {
         // Load in passenger list in smart table
         this.passengerListDataSource.load(this.generateSmartTable());
         // Initiate models
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get gender list
         if (!this.genderList) {
             this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(function (results) {
@@ -5841,8 +6397,8 @@ var PassengerListComponent = /** @class */ (function () {
         this.personOnBoardService.setPassengerDataIsPristine(false);
     };
     PassengerListComponent.prototype.clearForm = function () {
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["k" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["g" /* IdentityDocumentModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
         this.resetDateOfBirth();
         this.identityDocumentComponent.resetForm();
     };
@@ -5851,7 +6407,7 @@ var PassengerListComponent = /** @class */ (function () {
         this.passengerListDataSource.load(rows);
     };
     PassengerListComponent.prototype.makeLocationModel = function ($event) {
-        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["i" /* LocationModel */](), $event);
+        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */](), $event);
         return tempLocationModel;
     };
     // Setters
@@ -6043,7 +6599,7 @@ var PassengerListComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["q" /* PortCallFalPersonOnBoardService */]])
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["r" /* PortCallFalPersonOnBoardService */]])
     ], PassengerListComponent);
     return PassengerListComponent;
 }());
@@ -6094,7 +6650,7 @@ var PassengerModalComponent = /** @class */ (function () {
         this.identityDocumentService = identityDocumentService;
         this.validateDateTimeService = validateDateTimeService;
         this.personOnBoardService = personOnBoardService;
-        this.passengerModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.passengerModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.outputPassengerModel = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.dirtyForm = false;
         this.identityDocumentTypes = [];
@@ -6114,7 +6670,7 @@ var PassengerModalComponent = /** @class */ (function () {
     }
     PassengerModalComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.inputPassengerModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["k" /* PersonOnBoardModel */]();
+        this.inputPassengerModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.identityDocumentService.getIdentityDocumentTypes().subscribe(function (res) {
             _this.identityDocumentTypes = res;
         });
@@ -6337,9 +6893,9 @@ var PassengerModalComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["l" /* IdentityDocumentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["w" /* ValidateDateTimeService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* PortCallFalPersonOnBoardService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["m" /* IdentityDocumentService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["x" /* ValidateDateTimeService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["r" /* PortCallFalPersonOnBoardService */]])
     ], PassengerModalComponent);
     return PassengerModalComponent;
 }());
@@ -6732,9 +7288,9 @@ var PurposeComponent = /** @class */ (function () {
             selector: 'app-purpose',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["t" /* PurposeService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["u" /* PurposeService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["t" /* PurposeService */], __WEBPACK_IMPORTED_MODULE_1_app_shared_services___["p" /* PortCallDetailsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["u" /* PurposeService */], __WEBPACK_IMPORTED_MODULE_1_app_shared_services___["q" /* PortCallDetailsService */]])
     ], PurposeComponent);
     return PurposeComponent;
 }());
@@ -6982,7 +7538,7 @@ var SaveDetailsComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* PortCallDetailsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallDetailsService */]])
     ], SaveDetailsComponent);
     return SaveDetailsComponent;
 }());
@@ -7281,7 +7837,7 @@ var Last10PortCallsComponent = /** @class */ (function () {
         this.portCallListDeepCopy = []; // Deep copy of portCallList, used as input in last-10-port-calls-table component
         this.locationFound = false; // boolean used for switching between search-location component and info table for selected location
         this.locationData = new __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
-        this.formModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["n" /* SecurityPreviousPortOfCallModel */](); // model that is built using the form before it is added to the table
+        this.formModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["q" /* SecurityPreviousPortOfCallModel */](); // model that is built using the form before it is added to the table
         /* DateTime is a custom interface used in the date-picker and date-time-picker components */
         this.arrivalModel = {
             date: null,
@@ -7443,7 +7999,7 @@ var Last10PortCallsComponent = /** @class */ (function () {
             date: null,
             time: new __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__["a" /* NgbTime */](0, 0, 0)
         };
-        this.formModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["n" /* SecurityPreviousPortOfCallModel */]();
+        this.formModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["q" /* SecurityPreviousPortOfCallModel */]();
     };
     /** Called whenever a table entry is added or removed. */
     Last10PortCallsComponent.prototype.touchData = function () {
@@ -7635,8 +8191,8 @@ var SaveSecurityButtonComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__shared_services___["j" /* FalSecurityService */],
-            __WEBPACK_IMPORTED_MODULE_6__shared_services___["u" /* ShipService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_6__shared_services___["v" /* ShipService */]])
     ], SaveSecurityButtonComponent);
     return SaveSecurityButtonComponent;
 }());
@@ -7738,15 +8294,15 @@ var SaveSecurityComponent = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["f" /* FalSecurityModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["i" /* FalSecurityModel */])
     ], SaveSecurityComponent.prototype, "securityModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["h" /* InternationalShipSecurityCertificateModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["k" /* InternationalShipSecurityCertificateModel */])
     ], SaveSecurityComponent.prototype, "isscModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["p" /* ShipModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["s" /* ShipModel */])
     ], SaveSecurityComponent.prototype, "shipModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -7758,8 +8314,8 @@ var SaveSecurityComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["j" /* FalSecurityService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["u" /* ShipService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */]])
     ], SaveSecurityComponent);
     return SaveSecurityComponent;
 }());
@@ -7833,7 +8389,7 @@ var SecurityDetailsComponent = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["f" /* FalSecurityModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["i" /* FalSecurityModel */])
     ], SecurityDetailsComponent.prototype, "formModel", void 0);
     SecurityDetailsComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -7884,7 +8440,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var SecurityComponent = /** @class */ (function () {
     function SecurityComponent() {
-        this.securityModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["f" /* FalSecurityModel */]();
+        this.securityModel = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["i" /* FalSecurityModel */]();
         this.isInitialized = false;
     }
     SecurityComponent.prototype.ngOnInit = function () {
@@ -7899,7 +8455,7 @@ var SecurityComponent = /** @class */ (function () {
             this.securityModel.shipToShipActivity = [];
         }
         if (!this.shipModel.issc) {
-            this.shipModel.issc = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["h" /* InternationalShipSecurityCertificateModel */]();
+            this.shipModel.issc = new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["k" /* InternationalShipSecurityCertificateModel */]();
         }
         this.isInitialized = true;
     };
@@ -7907,11 +8463,11 @@ var SecurityComponent = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["f" /* FalSecurityModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["i" /* FalSecurityModel */])
     ], SecurityComponent.prototype, "securityModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["p" /* ShipModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["s" /* ShipModel */])
     ], SecurityComponent.prototype, "shipModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -8295,10 +8851,10 @@ var ShipToShipActivityComponent = /** @class */ (function () {
             selector: 'app-ship-to-ship-activity',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services___["t" /* PurposeService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_5__shared_services___["u" /* PurposeService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__shared_services___["j" /* FalSecurityService */],
-            __WEBPACK_IMPORTED_MODULE_5__shared_services___["t" /* PurposeService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_5__shared_services___["u" /* PurposeService */]])
     ], ShipToShipActivityComponent);
     return ShipToShipActivityComponent;
 }());
@@ -8484,8 +9040,8 @@ var SaveShipStoresComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["k" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */]])
     ], SaveShipStoresComponent);
     return SaveShipStoresComponent;
 }());
@@ -8534,13 +9090,13 @@ var ShipStoresModalComponent = /** @class */ (function () {
     function ShipStoresModalComponent(modalService, shipStoresService) {
         this.modalService = modalService;
         this.shipStoresService = shipStoresService;
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["q" /* ShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["t" /* ShipStoresModel */]();
         this.outputShipStoresModel = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.dirtyForm = false;
     }
     ShipStoresModalComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.inputShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["q" /* ShipStoresModel */]();
+        this.inputShipStoresModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["t" /* ShipStoresModel */]();
         this.shipStoresService.getMeasurementTypeList().subscribe(function (measurementTypes) {
             _this.measurementTypeList = measurementTypes;
         });
@@ -8653,7 +9209,7 @@ var ShipStoresComponent = /** @class */ (function () {
         var _this = this;
         this.shipStoresService = shipStoresService;
         this.modalService = modalService;
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["q" /* ShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["t" /* ShipStoresModel */]();
         this.listIsPristine = true;
         this.shipStoresDataSource = new __WEBPACK_IMPORTED_MODULE_6_ng2_smart_table__["a" /* LocalDataSource */]();
         this.tableSettings = {
@@ -8774,7 +9330,7 @@ var ShipStoresComponent = /** @class */ (function () {
         this.shipStoresService.setDataIsPristine(false);
     };
     ShipStoresComponent.prototype.clearForm = function () {
-        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["q" /* ShipStoresModel */]();
+        this.shipStoresModel = new __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["t" /* ShipStoresModel */]();
     };
     ShipStoresComponent.prototype.reloadTable = function () {
         var rows = this.generateRows();
@@ -8970,7 +9526,7 @@ var SaveNewPortCallComponent = /** @class */ (function () {
     };
     SaveNewPortCallComponent.prototype.buildPortCallModel = function (oldPortCallModel) {
         if (oldPortCallModel === void 0) { oldPortCallModel = null; }
-        var portCallModel = !!oldPortCallModel ? oldPortCallModel : new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["m" /* PortCallModel */]();
+        var portCallModel = !!oldPortCallModel ? oldPortCallModel : new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["p" /* PortCallModel */]();
         portCallModel.shipId = this.shipModel.shipId;
         portCallModel.locationId = this.locationModel.locationId;
         portCallModel.locationEta = this.formatDateTime(this.etaModel);
@@ -9002,8 +9558,8 @@ var SaveNewPortCallComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* PortCallDetailsService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallDetailsService */],
             __WEBPACK_IMPORTED_MODULE_3__load_port_call_service__["a" /* LoadPortCallService */]])
     ], SaveNewPortCallComponent);
     return SaveNewPortCallComponent;
@@ -9123,7 +9679,7 @@ var SaveVoyagesComponent = /** @class */ (function () {
     };
     SaveVoyagesComponent.prototype.buildPortCallModel = function (oldPortCallModel) {
         if (oldPortCallModel === void 0) { oldPortCallModel = null; }
-        var portCallModel = !!oldPortCallModel ? oldPortCallModel : new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["m" /* PortCallModel */]();
+        var portCallModel = !!oldPortCallModel ? oldPortCallModel : new __WEBPACK_IMPORTED_MODULE_1_app_shared_models___["p" /* PortCallModel */]();
         portCallModel.shipId = this.shipModel.shipId;
         portCallModel.locationId = this.locationModel.locationId;
         portCallModel.locationEta = this.formatDateTime(this.etaModel);
@@ -9162,7 +9718,7 @@ var SaveVoyagesComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* PortCallDetailsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallDetailsService */]])
     ], SaveVoyagesComponent);
     return SaveVoyagesComponent;
 }());
@@ -9393,11 +9949,11 @@ var VoyagesComponent = /** @class */ (function () {
     ], VoyagesComponent.prototype, "portCallId", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["p" /* ShipModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["s" /* ShipModel */])
     ], VoyagesComponent.prototype, "shipModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["i" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "locationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -9409,11 +9965,11 @@ var VoyagesComponent = /** @class */ (function () {
     ], VoyagesComponent.prototype, "etdModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["i" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "prevLocationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["i" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "nextLocationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -9473,7 +10029,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ProgressBarComponent = /** @class */ (function () {
-    function ProgressBarComponent(portCallService, portCallDetailsService, contentService, shipStoresService, cargoService, personOnBoardService, securityService) {
+    function ProgressBarComponent(portCallService, portCallDetailsService, contentService, shipStoresService, cargoService, personOnBoardService, securityService, dpgService) {
         this.portCallService = portCallService;
         this.portCallDetailsService = portCallDetailsService;
         this.contentService = contentService;
@@ -9481,6 +10037,7 @@ var ProgressBarComponent = /** @class */ (function () {
         this.cargoService = cargoService;
         this.personOnBoardService = personOnBoardService;
         this.securityService = securityService;
+        this.dpgService = dpgService;
         this.iconPath = 'assets/images/icons/128x128/white/';
         this.baseMenuEntries = [
             {
@@ -9511,6 +10068,7 @@ var ProgressBarComponent = /** @class */ (function () {
         this.shipStoresIsPristine = true;
         this.passengerListIsPristine = true;
         this.crewListIsPristine = true;
+        this.dpgListIsPristine = true;
     }
     ProgressBarComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -9569,6 +10127,7 @@ var ProgressBarComponent = /** @class */ (function () {
                 _this.personOnBoardService.setPassengerCheckedInProgressBar(reportingData.reportingPax);
                 _this.personOnBoardService.setCrewCheckedInProgressBar(reportingData.reportingCrew);
                 _this.securityService.setSecurityIsCheckedData(reportingData.reportingSecurity);
+                _this.dpgService.setDpgCheckedInProgressBar(reportingData.reportingDpg);
             }
         });
         this.portCallFormNameSubscription = this.contentService.portCallFormName$.subscribe(function (portCallFormName) {
@@ -9614,6 +10173,13 @@ var ProgressBarComponent = /** @class */ (function () {
                 crew.hasUnsavedData = !crewDataIsPristine;
             }
         });
+        this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (dpgDataIsPristine) {
+            _this.dpgListIsPristine = dpgDataIsPristine;
+            var dpg = _this.menuEntries.find(function (p) { return p.name === __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].DPG; });
+            if (dpg) {
+                dpg.hasUnsavedData = !dpgDataIsPristine;
+            }
+        });
     };
     ProgressBarComponent.prototype.ngOnDestroy = function () {
         this.reportingForThisPortCallDataSubscription.unsubscribe();
@@ -9633,13 +10199,14 @@ var ProgressBarComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* PortCallDetailsService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallDetailsService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["k" /* FalShipStoresService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["i" /* FalCargoService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["q" /* PortCallFalPersonOnBoardService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["j" /* FalSecurityService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["l" /* FalShipStoresService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["j" /* FalCargoService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["k" /* FalSecurityService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["h" /* DpgService */]])
     ], ProgressBarComponent);
     return ProgressBarComponent;
 }());
@@ -9768,8 +10335,8 @@ var ViewPortCallComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["s" /* PortCallService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["u" /* ShipService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["t" /* PortCallService */],
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */]])
     ], ViewPortCallComponent);
     return ViewPortCallComponent;
 }());
@@ -9901,7 +10468,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\">\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 24.08.2018</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 24.08.2018</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -10066,7 +10633,7 @@ var HeaderComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/header/header.component.css")],
             providers: []
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_9__shared_services___["n" /* LoginService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_9__shared_services___["o" /* LoginService */],
             __WEBPACK_IMPORTED_MODULE_9__shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_9__shared_services___["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_9__shared_services___["g" /* DbConnectionService */],
@@ -10264,8 +10831,6 @@ var ActionButtonsComponent = /** @class */ (function () {
     ActionButtonsComponent.prototype.ngOnInit = function () {
         this.formNames = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_form_names__["a" /* FORM_NAMES */];
     };
-    ActionButtonsComponent.prototype.ngOnDestroy = function () {
-    };
     ActionButtonsComponent.prototype.openModal = function (content) {
         this.modalService.open(content);
     };
@@ -10402,7 +10967,7 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CargoInfoTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10460,7 +11025,7 @@ var CargoInfoTableComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/cargo-info-table/cargo-info-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_cargo_service__["a" /* FalCargoService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["j" /* FalCargoService */]])
     ], CargoInfoTableComponent);
     return CargoInfoTableComponent;
 }());
@@ -10542,7 +11107,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -10696,6 +11261,99 @@ var CrewInfoTableComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], CrewInfoTableComponent);
     return CrewInfoTableComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"DPG\" icon=\"hazard.png\" collapsible=true>\r\n\r\n      <ng-container\r\n        *ngIf=\"numberOfDpgsOnBoard > 0 && !isLoading; then dpgDataExists; else noDpgData\">\r\n      </ng-container>\r\n\r\n      <ng-template #dpgDataExists>\r\n        <tbody>\r\n          <tr>\r\n            <td>\r\n              <small>#</small>\r\n            </td>\r\n            <td>\r\n              <small>Classification</small>\r\n            </td>\r\n            <td>\r\n              <small>Un No/Name</small>\r\n            </td>\r\n            <td>\r\n              <small>Name</small>\r\n            </td>\r\n            <td>\r\n              <small>Gross Weight</small>\r\n            </td>\r\n            <td>\r\n              <small>Net Weight</small>\r\n            </td>\r\n            <td>\r\n              <small>Location on Board</small>\r\n            </td>\r\n            <td>\r\n              <small>Trans Unit ID</small>\r\n            </td>\r\n            <td>\r\n              <small>Placed in Container</small>\r\n            </td>\r\n          </tr>\r\n          <tr *ngFor=\"let dpg of dpgData\">\r\n            <td>\r\n              {{dpg.sequenceNo}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.dpgType.shortName}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.unNumber}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.textualReference}}\r\n            </td>\r\n            <td>\r\n              {{dpg.grossWeight}}\r\n            </td>\r\n            <td>\r\n              {{dpg.netWeight}}\r\n            </td>\r\n            <td>\r\n              {{dpg.locationOnBoard}}\r\n            </td>\r\n            <td>\r\n              {{dpg.transportUnitIdentification}}\r\n            </td>\r\n            <td>\r\n              {{ dpg.placedInContainerStr}}\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </ng-template>\r\n\r\n      <ng-template #noDpgData>\r\n        <div class=\"text-center my-3\" >\r\n          <img *ngIf=\"iconPath\" src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">DPG information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </ng-template>\r\n    </app-table-card>\r\n  </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgConfirmationViewComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table_lib_data_source_local_local_data_source__ = __webpack_require__("./node_modules/ng2-smart-table/lib/data-source/local/local.data-source.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var DpgConfirmationViewComponent = /** @class */ (function () {
+    function DpgConfirmationViewComponent(dpgService) {
+        this.dpgService = dpgService;
+        this.numberOfDpgsOnBoard = 0;
+        this.dpgData = [];
+        this.isLoading = false;
+        this.dpgSource = new __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table_lib_data_source_local_local_data_source__["a" /* LocalDataSource */](this.dpgData);
+    }
+    DpgConfirmationViewComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.portCallId) {
+            this.isLoading = true;
+            this.dpgDataSubscription = this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId)
+                .finally(function () {
+                _this.isLoading = false;
+                _this.setSequenceNo();
+            })
+                .subscribe(function (data) {
+                if (data) {
+                    _this.dpgData = data;
+                    _this.numberOfDpgsOnBoard = data.length;
+                    console.log(_this.dpgData);
+                }
+            });
+        }
+    };
+    DpgConfirmationViewComponent.prototype.setSequenceNo = function () {
+        var tmpSeq = 1;
+        this.dpgData.map(function (dpg) {
+            dpg.sequenceNo = tmpSeq;
+            dpg.placedInContainerStr = dpg.placedInContainer ? 'Yes' : 'No';
+            tmpSeq++;
+        });
+    };
+    DpgConfirmationViewComponent.prototype.ngOnDestroy = function () {
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], DpgConfirmationViewComponent.prototype, "iconPath", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], DpgConfirmationViewComponent.prototype, "portCallId", void 0);
+    DpgConfirmationViewComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-dpg-confirmation-view',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["h" /* DpgService */]])
+    ], DpgConfirmationViewComponent);
+    return DpgConfirmationViewComponent;
 }());
 
 
@@ -10936,10 +11594,10 @@ var SelectedPurposesComponent = /** @class */ (function () {
             selector: 'app-selected-purposes',
             template: __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["t" /* PurposeService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["u" /* PurposeService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["t" /* PurposeService */],
-            __WEBPACK_IMPORTED_MODULE_1_app_shared_services___["p" /* PortCallDetailsService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["u" /* PurposeService */],
+            __WEBPACK_IMPORTED_MODULE_1_app_shared_services___["q" /* PortCallDetailsService */]])
     ], SelectedPurposesComponent);
     return SelectedPurposesComponent;
 }());
@@ -11661,7 +12319,7 @@ module.exports = "<form>\r\n  <app-ssn-card header=\"Identity Document Informati
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IdentityDocumentComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("./node_modules/@angular/forms/esm5/forms.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models_identity_document_model__ = __webpack_require__("./src/app/shared/models/identity-document-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -11690,7 +12348,7 @@ var IdentityDocumentComponent = /** @class */ (function () {
     }
     IdentityDocumentComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_identity_document_model__["a" /* IdentityDocumentModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get identity document types list
         this.identityDocumentService.getIdentityDocumentTypes().subscribe(function (results) {
             _this.identityDocTypeList = results;
@@ -11767,7 +12425,7 @@ var IdentityDocumentComponent = /** @class */ (function () {
         this.identityDocumentModelChanged();
     };
     IdentityDocumentComponent.prototype.resetForm = function () {
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_identity_document_model__["a" /* IdentityDocumentModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */]();
         this.resetIdentityDocumentIssueDate();
         this.resetIdentityDocumentExpiryDate();
     };
@@ -11830,8 +12488,8 @@ var IdentityDocumentComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/identity-document/identity-document.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["l" /* IdentityDocumentService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["w" /* ValidateDateTimeService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["m" /* IdentityDocumentService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["x" /* ValidateDateTimeService */]])
     ], IdentityDocumentComponent);
     return IdentityDocumentComponent;
 }());
@@ -12339,7 +12997,7 @@ var OrganizationButtonRowComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.css")],
             providers: [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["e" /* ConstantsService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["o" /* OrganizationService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["p" /* OrganizationService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
     ], OrganizationButtonRowComponent);
     return OrganizationButtonRowComponent;
@@ -13665,7 +14323,7 @@ var ShipInfoTableComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["u" /* ShipService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["e" /* ConstantsService */]])
     ], ShipInfoTableComponent);
     return ShipInfoTableComponent;
@@ -13750,7 +14408,7 @@ var ShipButtonRowComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["u" /* ShipService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */],
             __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
     ], ShipButtonRowComponent);
     return ShipButtonRowComponent;
@@ -14899,6 +15557,51 @@ var CountryModel = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/models/dpg-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgModel; });
+var DpgModel = /** @class */ (function () {
+    function DpgModel() {
+    }
+    return DpgModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/dpg-on-board-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgOnBoardModel; });
+var DpgOnBoardModel = /** @class */ (function () {
+    function DpgOnBoardModel() {
+    }
+    return DpgOnBoardModel;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/models/dpg-type-model.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgTypeModel; });
+var DpgTypeModel = /** @class */ (function () {
+    function DpgTypeModel() {
+    }
+    return DpgTypeModel;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/models/fal-security-model.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -15015,23 +15718,23 @@ var IdentityDocumentTypeModel = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__country_model__ = __webpack_require__("./src/app/shared/models/country-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__fal_security_model__ = __webpack_require__("./src/app/shared/models/fal-security-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_8__fal_security_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_8__fal_security_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__feedback__ = __webpack_require__("./src/app/shared/models/feedback.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__gender_model__ = __webpack_require__("./src/app/shared/models/gender-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__identity_document_model__ = __webpack_require__("./src/app/shared/models/identity-document-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_11__identity_document_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_11__identity_document_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__identity_document_type_model__ = __webpack_require__("./src/app/shared/models/identity-document-type-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__international_ship_security_certificate_model__ = __webpack_require__("./src/app/shared/models/international-ship-security-certificate-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_13__international_ship_security_certificate_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_13__international_ship_security_certificate_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__location_model__ = __webpack_require__("./src/app/shared/models/location-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_14__location_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_14__location_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__measurement_type_model__ = __webpack_require__("./src/app/shared/models/measurement-type-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__organization_model__ = __webpack_require__("./src/app/shared/models/organization-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_16__organization_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_16__organization_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__package_type_model__ = __webpack_require__("./src/app/shared/models/package-type-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__password_change_model__ = __webpack_require__("./src/app/shared/models/password-change-model.ts");
@@ -15039,37 +15742,46 @@ var IdentityDocumentTypeModel = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__password_reset_model__ = __webpack_require__("./src/app/shared/models/password-reset-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__person_on_board_model__ = __webpack_require__("./src/app/shared/models/person-on-board-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_20__person_on_board_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_20__person_on_board_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__person_on_board_type_model__ = __webpack_require__("./src/app/shared/models/person-on-board-type-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__port_call_details_model__ = __webpack_require__("./src/app/shared/models/port-call-details-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_22__port_call_details_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_22__port_call_details_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__port_call_has_port_call_purpose_model__ = __webpack_require__("./src/app/shared/models/port-call-has-port-call-purpose-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_24__port_call_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_24__port_call_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__port_call_purpose_model__ = __webpack_require__("./src/app/shared/models/port-call-purpose-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__security_level_model__ = __webpack_require__("./src/app/shared/models/security-level-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__security_previous_port_of_call_model__ = __webpack_require__("./src/app/shared/models/security-previous-port-of-call-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_27__security_previous_port_of_call_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_27__security_previous_port_of_call_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__ship_contact_model__ = __webpack_require__("./src/app/shared/models/ship-contact-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_28__ship_contact_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_28__ship_contact_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__ship_flag_code_model__ = __webpack_require__("./src/app/shared/models/ship-flag-code-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ship_model__ = __webpack_require__("./src/app/shared/models/ship-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_30__ship_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_30__ship_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ship_overview_model__ = __webpack_require__("./src/app/shared/models/ship-overview-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ship_stores_model__ = __webpack_require__("./src/app/shared/models/ship-stores-model.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_32__ship_stores_model__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_32__ship_stores_model__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ship_to_ship_activity_model__ = __webpack_require__("./src/app/shared/models/ship-to-ship-activity-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__token_query_model__ = __webpack_require__("./src/app/shared/models/token-query-model.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__user_model__ = __webpack_require__("./src/app/shared/models/user-model.ts");
 /* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__dpg_model__ = __webpack_require__("./src/app/shared/models/dpg-model.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_36__dpg_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__dpg_type_model__ = __webpack_require__("./src/app/shared/models/dpg-type-model.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_37__dpg_type_model__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__dpg_on_board_model__ = __webpack_require__("./src/app/shared/models/dpg-on-board-model.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_38__dpg_on_board_model__["a"]; });
+
+
+
 
 
 
@@ -16028,6 +16740,119 @@ var DbConnectionService = /** @class */ (function (_super) {
 
 /***/ }),
 
+/***/ "./src/app/shared/services/dpg.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models__ = __webpack_require__("./src/app/shared/models/index.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var DpgService = /** @class */ (function () {
+    function DpgService(http, httpClient) {
+        this.http = http;
+        this.httpClient = httpClient;
+        this.dpgTypeUrl = 'api/dpgType';
+        this.dpgUrl = 'api/dpg';
+        this.searchUrl = 'api/dpg/search';
+        this.dpgOnBoardUrl = 'api/dpgOnBoard';
+        this.dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
+        this.measurementTypeFilterUrl = 'api/measurementType/filter';
+        this.dpgOnBoardSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.dpgOnBoardList$ = this.dpgOnBoardSource.asObservable();
+        this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.dataIsPristine$ = this.dataIsPristine.asObservable();
+        this.dpgIsChecked = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.dpgIsChecked$ = this.dpgIsChecked.asObservable();
+        this.searchService = new __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__["a" /* SearchService */](this.httpClient);
+    }
+    DpgService.prototype.setDpgOnBoardList = function (data) {
+        this.dpgOnBoardSource.next(data);
+    };
+    DpgService.prototype.setDataIsPristine = function (isPristine) {
+        this.dataIsPristine.next(isPristine);
+    };
+    DpgService.prototype.setDpgCheckedInProgressBar = function (checked) {
+        this.dpgIsChecked.next(checked);
+    };
+    // Http
+    DpgService.prototype.getDpgTypes = function () {
+        var uri = this.dpgTypeUrl + '/all';
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    DpgService.prototype.getDpgById = function (DpgId) {
+        var uri = [this.dpgUrl, DpgId].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    DpgService.prototype.getDpgOnBoardListByPortCallId = function (portCallId) {
+        var uri = [this.dpgOnBoardByPortCallUrl, portCallId].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    DpgService.prototype.getMeasurementTypeList = function (filter) {
+        var uri = this.measurementTypeFilterUrl;
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    DpgService.prototype.search = function (dpgType, term, amount) {
+        if (amount === void 0) { amount = 10; }
+        if (term.length < 2) {
+            return __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__["a" /* Observable */].of([]);
+        }
+        return this.searchService.search(this.searchUrl, term, amount, dpgType);
+    };
+    DpgService.prototype.saveDpgOnBoard = function (dpgOnBoardList, portCallId) {
+        var uri = [this.dpgOnBoardUrl, portCallId, '/list'].join('/');
+        return this.http.put(uri, dpgOnBoardList);
+    };
+    DpgService.prototype.formatDpgOnBoard = function (dpgOnBoardList, portCallId) {
+        var formattedList = [];
+        if (dpgOnBoardList && dpgOnBoardList.length > 0) {
+            formattedList = dpgOnBoardList.map(function (item) {
+                var formattedDpg = new __WEBPACK_IMPORTED_MODULE_6__models__["g" /* DpgOnBoardModel */]();
+                formattedDpg.portCallId = portCallId;
+                formattedDpg.dpgId = item.dpgId;
+                formattedDpg.dpgOnBoardId = item.dpgOnBoardId;
+                formattedDpg.grossWeight = item.grossWeight;
+                formattedDpg.locationOnBoard = item.locationOnBoard;
+                formattedDpg.netWeight = item.netWeight;
+                formattedDpg.placedInContainer = item.placedInContainer;
+                formattedDpg.transportUnitIdentification = item.transportUnitIdentification;
+                formattedDpg.measurementTypeId = item.measurementTypeId;
+                return formattedDpg;
+            });
+        }
+        return formattedList;
+    };
+    DpgService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */], __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */]])
+    ], DpgService);
+    return DpgService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/services/error.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -16090,8 +16915,7 @@ var ErrorService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_cargo_item_model__ = __webpack_require__("./src/app/shared/models/cargo-item-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_consignment_model__ = __webpack_require__("./src/app/shared/models/consignment-model.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models___ = __webpack_require__("./src/app/shared/models/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -16101,7 +16925,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -16139,7 +16962,7 @@ var FalCargoService = /** @class */ (function () {
         var formattedList = [];
         if (consignmentList && consignmentList.length > 0) {
             formattedList = consignmentList.map(function (entry) {
-                var formattedConsignment = new __WEBPACK_IMPORTED_MODULE_4__models_consignment_model__["a" /* ConsignmentModel */]();
+                var formattedConsignment = new __WEBPACK_IMPORTED_MODULE_3__models___["e" /* ConsignmentModel */]();
                 formattedConsignment.portCallId = entry.portCallId;
                 formattedConsignment.name = entry.name;
                 formattedConsignment.portOfLoadingId = entry.portOfLoadingId;
@@ -16147,7 +16970,7 @@ var FalCargoService = /** @class */ (function () {
                 formattedConsignment.remark = entry.remark;
                 if (entry.cargoItem && entry.cargoItem.length > 0) {
                     formattedConsignment.cargoItem = entry.cargoItem.map(function (item) {
-                        var formattedCargoItem = new __WEBPACK_IMPORTED_MODULE_3__models_cargo_item_model__["a" /* CargoItemModel */]();
+                        var formattedCargoItem = new __WEBPACK_IMPORTED_MODULE_3__models___["a" /* CargoItemModel */]();
                         formattedCargoItem.shippingMarks = item.shippingMarks;
                         formattedCargoItem.containerIdentification = item.containerIdentification;
                         formattedCargoItem.description = item.description;
@@ -16541,41 +17364,44 @@ var IdentityDocumentService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_7__db_connection_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_8__error_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_8__error_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_9__fal_cargo_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_9__fal_cargo_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_10__fal_security_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_10__fal_security_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_11__fal_ship_stores_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_11__fal_ship_stores_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__gender_service__ = __webpack_require__("./src/app/shared/services/gender.service.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "l", function() { return __WEBPACK_IMPORTED_MODULE_13__identtity_document_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_13__identtity_document_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "m", function() { return __WEBPACK_IMPORTED_MODULE_14__location_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_14__location_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__login_service__ = __webpack_require__("./src/app/shared/services/login.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "n", function() { return __WEBPACK_IMPORTED_MODULE_15__login_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_15__login_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "o", function() { return __WEBPACK_IMPORTED_MODULE_16__organization_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_16__organization_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "p", function() { return __WEBPACK_IMPORTED_MODULE_17__port_call_details_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_17__port_call_details_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "q", function() { return __WEBPACK_IMPORTED_MODULE_18__port_call_fal_person_on_board_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_18__port_call_fal_person_on_board_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "r", function() { return __WEBPACK_IMPORTED_MODULE_19__port_call_overview_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_19__port_call_overview_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "s", function() { return __WEBPACK_IMPORTED_MODULE_20__port_call_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_20__port_call_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__purpose_service__ = __webpack_require__("./src/app/shared/services/purpose.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "t", function() { return __WEBPACK_IMPORTED_MODULE_21__purpose_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "u", function() { return __WEBPACK_IMPORTED_MODULE_21__purpose_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__search_service__ = __webpack_require__("./src/app/shared/services/search.service.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "u", function() { return __WEBPACK_IMPORTED_MODULE_23__ship_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "v", function() { return __WEBPACK_IMPORTED_MODULE_23__ship_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__uri_query_service__ = __webpack_require__("./src/app/shared/services/uri-query.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "v", function() { return __WEBPACK_IMPORTED_MODULE_24__uri_query_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "w", function() { return __WEBPACK_IMPORTED_MODULE_24__uri_query_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "w", function() { return __WEBPACK_IMPORTED_MODULE_25__validate_date_time_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "x", function() { return __WEBPACK_IMPORTED_MODULE_25__validate_date_time_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__dpg_service__ = __webpack_require__("./src/app/shared/services/dpg.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_26__dpg_service__["a"]; });
+
 
 
 
@@ -17168,7 +17994,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         var cleanedPersonOnBoardList = [];
         if (personOnBoardList) {
             personOnBoardList.map(function (personOnBoard) {
-                var cleanedPersonOnBoard = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["k" /* PersonOnBoardModel */](), personOnBoard);
+                var cleanedPersonOnBoard = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */](), personOnBoard);
                 if (personOnBoard.dateOfBirth) {
                     cleanedPersonOnBoard.dateOfBirth = new Date(Date.UTC(personOnBoard.dateOfBirth.getFullYear(), personOnBoard.dateOfBirth.getMonth(), personOnBoard.dateOfBirth.getDate()));
                 }
@@ -17182,7 +18008,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
                 // Identity Documents
                 cleanedPersonOnBoard.identityDocument = [];
                 personOnBoard.identityDocument.forEach(function (identityDocument, index) {
-                    var cleanedIdentityDocument = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["g" /* IdentityDocumentModel */](), identityDocument);
+                    var cleanedIdentityDocument = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */](), identityDocument);
                     if (identityDocument.identityDocumentIssueDate) {
                         cleanedIdentityDocument.identityDocumentIssueDate = new Date(Date.UTC(identityDocument.identityDocumentIssueDate.getFullYear(), identityDocument.identityDocumentIssueDate.getMonth(), identityDocument.identityDocumentIssueDate.getDate()));
                     }
@@ -17741,10 +18567,17 @@ var SearchService = /** @class */ (function () {
     function SearchService(http) {
         this.http = http;
     }
-    SearchService.prototype.search = function (baseUrl, term, amount) {
+    SearchService.prototype.search = function (baseUrl, term, amount, typeId) {
         if (amount === void 0) { amount = 10; }
+        if (typeId === void 0) { typeId = -1; }
         var encodedTerm = encodeURIComponent(term);
-        var uri = [baseUrl, encodedTerm, amount].join('/');
+        var uri = '';
+        if (typeId < 0) {
+            uri = [baseUrl, encodedTerm, amount].join('/');
+        }
+        else {
+            uri = [baseUrl, encodedTerm, amount, typeId].join('/');
+        }
         return this.http.get(uri);
     };
     SearchService = __decorate([
@@ -18025,53 +18858,55 @@ var ValidateDateTimeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_clearances_clearances_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/clearances/clearances.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_crew_info_table_crew_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/crew-info-table/crew-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_passenger_info_table_passenger_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-info-table/passenger-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_dpg_confirmation_view_dpg_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_passenger_info_table_passenger_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-info-table/passenger-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -18137,100 +18972,101 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_48__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_clearances_clearances_component__["a" /* ClearancesComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_23__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_26__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_28__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_24__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_29__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__["a" /* FeedbackComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__["a" /* ShipStoresInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__["a" /* ShipStoresInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_crew_info_table_crew_info_table_component__["a" /* CrewInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_passenger_info_table_passenger_info_table_component__["a" /* PassengerInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_22__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_passenger_info_table_passenger_info_table_component__["a" /* PassengerInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_dpg_confirmation_view_dpg_confirmation_view_component__["a" /* DpgConfirmationViewComponent */],
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_48__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_23__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_28__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_17__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_24__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_28__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_29__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_45__services_location_service__["a" /* LocationService */],
-                __WEBPACK_IMPORTED_MODULE_46__services_organization_service__["a" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_47__services_ship_service__["a" /* ShipService */],
-                __WEBPACK_IMPORTED_MODULE_43__services_db_connection_service__["a" /* DbConnectionService */],
-                __WEBPACK_IMPORTED_MODULE_44__services_error_service__["a" /* ErrorService */]
+                __WEBPACK_IMPORTED_MODULE_46__services_location_service__["a" /* LocationService */],
+                __WEBPACK_IMPORTED_MODULE_47__services_organization_service__["a" /* OrganizationService */],
+                __WEBPACK_IMPORTED_MODULE_48__services_ship_service__["a" /* ShipService */],
+                __WEBPACK_IMPORTED_MODULE_44__services_db_connection_service__["a" /* DbConnectionService */],
+                __WEBPACK_IMPORTED_MODULE_45__services_error_service__["a" /* ErrorService */]
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
             ]
         })
     ], SharedModule);
@@ -18547,7 +19383,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-// sweet global way to handle 401s - works in tandem with existing AuthGuard route checks
+// Nicolas Henneaux - edited Dec 4 '17 at 20:54
 // http://stackoverflow.com/questions/34934009/handling-401s-globally-with-angular-2
 var AuthenticateXHRBackend = /** @class */ (function (_super) {
     __extends(AuthenticateXHRBackend, _super);
