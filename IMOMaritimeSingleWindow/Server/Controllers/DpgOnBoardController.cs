@@ -63,9 +63,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(dpgOnBoardList);
         }
 
-
         [HttpPut("{portCallId}/list")]
-        public IActionResult UpdateList([FromBody] List<DpgOnBoard> dpgOnBoardList, int portCallId)
+        public IActionResult UpdateList([FromBody] List<DpgOnBoard> dpgOnBoardList, long portCallId)
         {
             if (!ModelState.IsValid)
             {
@@ -73,11 +72,30 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             try
             {
-                _context.DpgOnBoard.RemoveRange(_context.DpgOnBoard.Where(dpg => dpg.PortCallId == portCallId));
-                _context.DpgOnBoard.AddRange(dpgOnBoardList);
-                _context.MeasurementType.AsNoTracking();
+                if (!dpgOnBoardList.Any())
+                {
+                    _context.DpgOnBoard.RemoveRange(_context.DpgOnBoard.Where(s => s.PortCallId == portCallId));
+                }
+                else
+                {
+                    var oldList = _context.DpgOnBoard.AsNoTracking().Where(s => s.PortCallId == portCallId).ToList();
+                    var removeList = oldList.Where(dpg => !dpgOnBoardList.Any(dpgEntity => dpgEntity.DpgOnBoardId == dpg.DpgOnBoardId)).ToList();
+                    _context.DpgOnBoard.RemoveRange(removeList);
+
+                    foreach (var dpgOnBoard in dpgOnBoardList)
+                    {
+                        if (_context.DpgOnBoard.Any(dpg => dpg.DpgOnBoardId == dpgOnBoard.DpgOnBoardId))
+                        {
+                            _context.DpgOnBoard.Update(dpgOnBoard);
+                        }
+                        else
+                        {
+                            _context.DpgOnBoard.Add(dpgOnBoard);
+                        }
+                    }
+                }
                 _context.SaveChanges();
-                return Json(dpgOnBoardList);
+                return Ok(true);
             }
             catch (Exception e)
             {

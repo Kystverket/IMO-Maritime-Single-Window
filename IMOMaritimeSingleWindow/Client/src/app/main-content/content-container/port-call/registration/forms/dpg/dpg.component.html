@@ -88,7 +88,7 @@
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="net_weight">Net {{measurementStr}}:</label>
                   <input #netWeight="ngModel" [(ngModel)]="dpgOnBoardModel.netWeight" name="netWeight" type="number"
-                    class="form-control form-control-sm" positiveNumberValidator id="net_weight" placeholder="Net {{measurementStr}}"
+                    class="form-control form-control-sm" positiveNumberValidator id="net_weight" placeholder="{{measurementStr}}"
                     [disabled]="!hasSelectedType || isViewing" />
                 </div>
               </div>
@@ -99,7 +99,7 @@
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="gross_weight">Gross {{measurementStr}}:</label>
                   <input #grossWeight="ngModel" [(ngModel)]="dpgOnBoardModel.grossWeight" name="grossWeight" type="number"
-                    class="form-control form-control-sm" positiveNumberValidator id="gross_weight" placeholder="Gross {{measurementStr}}"
+                    class="form-control form-control-sm" positiveNumberValidator id="gross_weight" placeholder="{{measurementStr}}"
                     [disabled]="!hasSelectedType || isViewing">
                 </div>
               </div>
@@ -186,6 +186,10 @@
           <img src="assets/images/icons/128x128/white/save.png" height="20px">
           <span>Save all DPGs</span>
         </button>
+        <span *ngIf="saving">Saving...</span>
+        <span class="badge badge-success" *ngIf="saved">Your changes have been saved.</span>
+        <span class="badge badge-danger" *ngIf="saveError">An error occured when trying to save.</span>
       </div>
     </div>
   </form>
+</app-ssn-card>

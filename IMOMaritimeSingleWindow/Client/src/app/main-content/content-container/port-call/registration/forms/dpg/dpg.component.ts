@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import {
   DpgModel,
   DpgOnBoardModel,
@@ -49,6 +51,7 @@ export class DpgComponent implements OnInit {
   measurementTypes: MeasurementTypeModel[] = [];
   selectedMeasurementType: any;
   measurementStr = 'Weight (Kg)';
+  errorModalMsg = '';
 
   // Bools for GUI
   placedInContainer = false;
@@ -58,6 +61,9 @@ export class DpgComponent implements OnInit {
   isLoading: boolean;
   isViewing: boolean;
   isEditing: boolean;
+  saving = false;
+  saved = false;
+  saveError = false;
 
   // Search
   showDropdown = true;
@@ -71,7 +77,8 @@ export class DpgComponent implements OnInit {
 
   constructor(
     private dpgService: DpgService,
-    private shipStoresService: FalShipStoresService
+    private shipStoresService: FalShipStoresService,
+    private modalService: NgbModal,
   ) {
     this.dpgSource = new LocalDataSource(this.dpgOnBoardList);
   }
@@ -123,7 +130,6 @@ export class DpgComponent implements OnInit {
       },
       delete: {
         title: 'Actions',
-        // deleteButtonContent: 'Delete',
         type: 'custom',
         filter: false,
         sort: false,
@@ -148,7 +154,6 @@ export class DpgComponent implements OnInit {
             ) {
               this.setEditOrViewDpg(sequenceNo, true);
             }
-            // this.openEditCrewMemberModal(row);
           });
           instance.delete.subscribe(row => {
             const sequenceNo = row.dpgOnBoardModel.sequenceNo;
@@ -209,12 +214,12 @@ export class DpgComponent implements OnInit {
       }
 
       if (mt.name.toLowerCase().indexOf('(kg)') >= 0) {
+        this.selectedMeasurementType = mt;
         filteredArray.push(mt);
       }
     });
 
     this.measurementTypes = filteredArray;
-    console.log(this.measurementTypes);
   }
 
   setEditOrViewDpg(sequenceNo: number, isEditing: boolean) {
@@ -226,6 +231,7 @@ export class DpgComponent implements OnInit {
       this.isEditing = isEditing;
       const dpgToEdit = this.dpgOnBoardList[indexToView];
       this.dpgOnBoardModel = dpgToEdit;
+      this.selectedDpgType = this.dpgOnBoardModel.dpg.dpgType;
       this.selectDpg(false);
       this.setDpgType(this.dpgOnBoardModel.dpg.dpgType, false);
       this.dpgSelected = isEditing;
@@ -304,20 +310,20 @@ export class DpgComponent implements OnInit {
         term =>
           this.showDropdown
             ? this.dpgService
-                .search(
-                  this.selectedDpgType.dpgTypeId,
-                  term,
-                  this.resultsDropdown
-                )
-                .pipe(
-                  tap(() => {
-                    this.searchFailed = false;
-                  }),
-                  catchError(() => {
-                    this.searchFailed = true;
-                    return of([]);
-                  })
-                )
+              .search(
+                this.selectedDpgType.dpgTypeId,
+                term,
+                this.resultsDropdown
+              )
+              .pipe(
+                tap(() => {
+                  this.searchFailed = false;
+                }),
+                catchError(() => {
+                  this.searchFailed = true;
+                  return of([]);
+                })
+              )
             : of([])
       ),
       tap(res => {
@@ -352,29 +358,6 @@ export class DpgComponent implements OnInit {
     this.placedInContainer = toggleValue;
   }
 
-  generateRowsInitialLoad(): any[] {
-    let rowData = [];
-    if (this.dpgOnBoardList) {
-      rowData = this.dpgOnBoardList.map(dpgOnBoard => {
-        const row = {
-          classification: dpgOnBoard.dpg.dpgType.shortName,
-          dpgOnBoardModel: dpgOnBoard,
-          grossWeight: dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name,
-          netWeight: dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name,
-          locationOnBoard: dpgOnBoard.locationOnBoard,
-          placedInContainer: dpgOnBoard.placedInContainer ? 'Yes' : 'No',
-          transportUnitIdentification: dpgOnBoard.transportUnitIdentification,
-          textualReference: dpgOnBoard.dpg
-            ? dpgOnBoard.dpg.textualReference
-            : '',
-          unNr: dpgOnBoard.dpg ? dpgOnBoard.dpg.unNumber : ''
-        };
-        return row;
-      });
-    }
-    return rowData;
-  }
-
   // Generate list that will be sent to dpgSource that is connected to the smart table
   generateRows(): any[] {
     let rowData = [];
@@ -383,8 +366,8 @@ export class DpgComponent implements OnInit {
         const row = {
           classification: dpgOnBoard.dpg.dpgType.shortName,
           dpgOnBoardModel: dpgOnBoard,
-          grossWeight: dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name,
-          netWeight: dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name,
+          grossWeight: dpgOnBoard.grossWeight ? dpgOnBoard.grossWeight + ' ' + dpgOnBoard.measurementType.name : ' ',
+          netWeight: dpgOnBoard.netWeight ? dpgOnBoard.netWeight + ' ' + dpgOnBoard.measurementType.name : ' ',
           locationOnBoard: dpgOnBoard.locationOnBoard,
           placedInContainer: dpgOnBoard.placedInContainer ? 'Yes' : 'No',
           transportUnitIdentification: dpgOnBoard.transportUnitIdentification,
@@ -400,6 +383,10 @@ export class DpgComponent implements OnInit {
   }
 
   save() {
+    this.saving = true;
+    this.saved = false;
+    this.saveError = false;
+
     const formattedDpgList = this.dpgService.formatDpgOnBoard(
       this.dpgOnBoardList,
       this.portCallId
@@ -408,16 +395,19 @@ export class DpgComponent implements OnInit {
     this.dpgService
       .saveDpgOnBoard(formattedDpgList, this.portCallId)
       .finally(() => {
+        this.saving = false;
         this.reloadData();
       })
       .subscribe(
         res => {
+          this.saved = true;
           this.listIsPristine = true;
           this.dpgService.setDataIsPristine(this.listIsPristine);
+        }, err => {
+          this.saveError = true;
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, 'An error occured while saving. Please try again later.');
         }
-      ), error => {
-        console.log(error);
-      }
+      );
   }
 
   reloadData() {
@@ -467,10 +457,10 @@ export class DpgComponent implements OnInit {
     }
 
     const netGrossDefined = (model.netWeight == null && model.grossWeight == null)
-    || (model.netWeight === undefined && model.grossWeight === undefined);
+      || (model.netWeight === undefined && model.grossWeight === undefined);
 
-    if ((model.netWeight <= 0 && model.grossWeight <= 0) || netGrossDefined)  {
-      this.validMsg.push('Either Gross '  + this.measurementStr + ' or Net ' + this.measurementStr + ' is required');
+    if ((model.netWeight <= 0 && model.grossWeight <= 0) || netGrossDefined) {
+      this.validMsg.push('Either Gross ' + this.measurementStr + ' or Net ' + this.measurementStr + ' is required');
     }
 
     if (!netGrossDefined && (model.grossWeight < model.netWeight)) {
@@ -493,6 +483,14 @@ export class DpgComponent implements OnInit {
     this.selectedDpg = new DpgModel();
     this.isViewing = false;
     this.isEditing = false;
+    const measurementType = this.measurementTypes.findIndex(
+      mt => mt.name.toLowerCase().indexOf('(kg)') >= 0
+    );
+    if (measurementType >= 0) {
+      this.selectedMeasurementType = this.measurementTypes[measurementType];
+    } else {
+      this.selectedMeasurementType = this.measurementTypes[0];
+    }
   }
 
   setDpgType(dpgType: any, newDpg: boolean = true) {
@@ -561,4 +559,10 @@ export class DpgComponent implements OnInit {
   }
 
   formatter = (x: { DpgId: string }) => '';
+
+  private openConfirmationModal(modalType: string, bodyText: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.modalType = modalType;
+    modalRef.componentInstance.bodyText = bodyText;
+  }
 }
