@@ -81,7 +81,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
               icon: 'hazard.png',
               checked: reportingData.reportingDpg || false,
               hasError: false,
-              hasUnsavedData: false
+              hasUnsavedData: !this.dpgListIsPristine
             },
             {
               name: FORM_NAMES.CARGO,

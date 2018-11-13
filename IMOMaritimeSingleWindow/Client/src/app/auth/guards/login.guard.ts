@@ -25,7 +25,6 @@ export class LoginGuard extends BaseService implements CanActivate, BaseGuard {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('login guard');
     if (!this.authService.hasToken()) {
       return true;
     } else {
