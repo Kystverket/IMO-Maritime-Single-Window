@@ -5576,7 +5576,7 @@ var DpgComponent = /** @class */ (function () {
                 position: 'right'
             },
             attr: {
-                class: 'table table-bordered'
+                class: 'table table-striped'
             },
             editor: {
                 config: {
@@ -5702,6 +5702,7 @@ var DpgComponent = /** @class */ (function () {
             .subscribe(function (res) {
             _this.dpgTypes = res;
         });
+        // Making sure all submodels are defined
         if (this.dpgOnBoardModel.dpg == null ||
             this.dpgOnBoardModel.dpg === undefined) {
             this.dpgOnBoardModel.dpg = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["f" /* DpgModel */]();
@@ -5710,8 +5711,16 @@ var DpgComponent = /** @class */ (function () {
             this.dpgOnBoardModel.dpg.dpgType === undefined) {
             this.dpgOnBoardModel.dpg.dpgType = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models__["h" /* DpgTypeModel */]();
         }
-        this.loadDataFromService();
+        // Check service once more if list is empty in case of poorly synched earlier.
+        if (!this.dpgOnBoardList) {
+            this.loadDataFromService();
+        }
+        else {
+            this.setSequenceNo();
+            this.reloadTable();
+        }
     };
+    // Only kilograms and liters are defined in the FAL form as measurement types
     DpgComponent.prototype.filterMeasurementTypes = function () {
         var _this = this;
         var filteredArray = [];
@@ -6006,7 +6015,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/forms.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-progress-bar *ngIf=\"portCallId != null\"></app-progress-bar>\r\n\r\n<div *ngIf=\"selectedComponent !== formNames.VOYAGES\">\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-ship-info-table></app-ship-info-table>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-location-time-info-table></app-location-time-info-table>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-voyages *ngSwitchCase=\"formNames.VOYAGES\" [portCallId]=\"portCallId\" [shipModel]=\"shipModel\" [locationModel]=\"locationModel\"\r\n        [etaModel]=\"etaModel\" [etdModel]=\"etdModel\" [prevLocationModel]=\"prevLocationModel\" [prevEtdModel]=\"prevEtdModel\" [nextLocationModel]=\"nextLocationModel\"\r\n        [nextEtaModel]=\"nextEtaModel\"></app-voyages>\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\" [portCallId]=\"portCallId\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\" [portCallId]=\"portCallId\" [shipStoresList]=\"shipStoresData\"></app-ship-stores>\r\n    <app-cargo *ngSwitchCase=\"formNames.CARGO\" [portCallId]=\"portCallId\" [cargoData]=\"cargoData\"></app-cargo>\r\n    <app-security *ngSwitchCase=\"formNames.SECURITY\" [portCallId]=\"portCallId\" [shipModel]=\"securityShipModel\" [securityModel]=\"securityData\"></app-security>\r\n    <app-passenger-list *ngSwitchCase=\"formNames.PAX\" [portCallId]=\"portCallId\" [passengerList]=\"passengerData\"></app-passenger-list>\r\n    <app-crew-list *ngSwitchCase=\"formNames.CREW\" [portCallId]=\"portCallId\" [crewList]=\"crewData\"></app-crew-list>\r\n    <app-dpg *ngSwitchCase=\"formNames.DPG\" [portCallId]=\"portCallId\" ></app-dpg>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
+module.exports = "<app-progress-bar *ngIf=\"portCallId != null\"></app-progress-bar>\r\n\r\n<div *ngIf=\"selectedComponent !== formNames.VOYAGES\">\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-ship-info-table></app-ship-info-table>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"row mb-3\">\r\n        <div class=\"col\">\r\n            <app-location-time-info-table></app-location-time-info-table>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div [ngSwitch]=\"selectedComponent\">\r\n    <app-voyages *ngSwitchCase=\"formNames.VOYAGES\" [portCallId]=\"portCallId\" [shipModel]=\"shipModel\" [locationModel]=\"locationModel\"\r\n        [etaModel]=\"etaModel\" [etdModel]=\"etdModel\" [prevLocationModel]=\"prevLocationModel\" [prevEtdModel]=\"prevEtdModel\" [nextLocationModel]=\"nextLocationModel\"\r\n        [nextEtaModel]=\"nextEtaModel\"></app-voyages>\r\n    <app-port-call-details *ngSwitchCase=\"formNames.PORT_CALL_DETAILS\" [portCallId]=\"portCallId\"></app-port-call-details>\r\n    <app-ship-stores *ngSwitchCase=\"formNames.SHIP_STORES\" [portCallId]=\"portCallId\" [shipStoresList]=\"shipStoresData\"></app-ship-stores>\r\n    <app-cargo *ngSwitchCase=\"formNames.CARGO\" [portCallId]=\"portCallId\" [cargoData]=\"cargoData\"></app-cargo>\r\n    <app-security *ngSwitchCase=\"formNames.SECURITY\" [portCallId]=\"portCallId\" [shipModel]=\"securityShipModel\" [securityModel]=\"securityData\"></app-security>\r\n    <app-passenger-list *ngSwitchCase=\"formNames.PAX\" [portCallId]=\"portCallId\" [passengerList]=\"passengerData\"></app-passenger-list>\r\n    <app-crew-list *ngSwitchCase=\"formNames.CREW\" [portCallId]=\"portCallId\" [crewList]=\"crewData\"></app-crew-list>\r\n    <app-dpg *ngSwitchCase=\"formNames.DPG\" [portCallId]=\"portCallId\" [dpgOnBoardList]=\"dpgData\"></app-dpg>\r\n    <app-confirmation *ngSwitchCase=\"'Confirm and Activate'\"></app-confirmation>\r\n    <div *ngSwitchDefault class=\"alert alert-danger\" role=\"alert\">\r\n        This page is not implemented yet.\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -6121,6 +6130,7 @@ var FormsComponent = /** @class */ (function () {
                     }
                 });
                 _this.dpgService.getDpgOnBoardListByPortCallId(_this.portCallId).subscribe(function (dpgOnBoardList) {
+                    _this.dpgData = dpgOnBoardList;
                     _this.dpgService.setDpgOnBoardList(dpgOnBoardList);
                     _this.dpgService.setDataIsPristine(true);
                 });
@@ -10081,7 +10091,7 @@ var ProgressBarComponent = /** @class */ (function () {
                         icon: 'hazard.png',
                         checked: reportingData.reportingDpg || false,
                         hasError: false,
-                        hasUnsavedData: false
+                        hasUnsavedData: !_this.dpgListIsPristine
                     },
                     {
                         name: __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].CARGO,

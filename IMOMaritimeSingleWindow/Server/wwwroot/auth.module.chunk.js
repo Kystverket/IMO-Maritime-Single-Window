@@ -575,7 +575,6 @@ var LoginGuard = /** @class */ (function (_super) {
     }
     LoginGuard.prototype.canActivate = function (next, state) {
         var _this = this;
-        console.log('login guard');
         if (!this.authService.hasToken()) {
             return true;
         }
