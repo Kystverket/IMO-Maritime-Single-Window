@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IMOMaritimeSingleWindow.Models
 {
@@ -13,6 +14,8 @@ namespace IMOMaritimeSingleWindow.Models
         public int DpgTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [MaxLength(100)]
+        public string ShortName { get; set; }
 
         public ICollection<Dpg> Dpg { get; set; }
     }

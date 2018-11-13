@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TokenQueryModel } from '../../shared/models/token-query-model';
+import { ActivatedRoute, Router  } from '@angular/router';
+import { TokenQueryModel } from '../../shared/models/';
 import { AccountService, UriQueryService } from '../../shared/services/';
 
 @Component({

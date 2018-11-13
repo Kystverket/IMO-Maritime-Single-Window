@@ -34,4 +34,6 @@ export * from './ship-stores-model';
 export * from './ship-to-ship-activity-model';
 export * from './token-query-model';
 export * from './user-model';
-
+export * from './dpg-model';
+export * from './dpg-type-model';
+export * from './dpg-on-board-model';

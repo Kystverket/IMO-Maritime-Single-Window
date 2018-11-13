@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IMOMaritimeSingleWindow.Models
 {
@@ -16,5 +17,9 @@ namespace IMOMaritimeSingleWindow.Models
 
         public Dpg Dpg { get; set; }
         public PortCall PortCall { get; set; }
+
+        [ForeignKey("MeasurementTypeId")]
+        public MeasurementType MeasurementType { get; set; }
+        public int MeasurementTypeId { get; set; }
     }
 }

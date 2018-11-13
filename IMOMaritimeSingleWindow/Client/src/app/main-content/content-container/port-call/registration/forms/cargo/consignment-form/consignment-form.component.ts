@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit  } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { ConsignmentModel, LocationModel } from 'app/shared/models/';
 import { Subscription } from 'rxjs/Subscription';

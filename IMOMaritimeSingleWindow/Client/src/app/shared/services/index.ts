@@ -24,3 +24,5 @@ export * from './search.service';
 export * from './ship.service';
 export * from './uri-query.service';
 export * from './validate-date-time.service';
+export * from './dpg.service';
+
