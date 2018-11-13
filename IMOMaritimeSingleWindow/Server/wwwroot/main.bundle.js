@@ -255,7 +255,7 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__main_content_footer_footer_component__["a" /* FooterComponent */],
-                __WEBPACK_IMPORTED_MODULE_9__app_routing_module__["b" /* routedComponents */],
+                __WEBPACK_IMPORTED_MODULE_9__app_routing_module__["b" /* routedComponents */]
             ],
             providers: [
                 { provide: __WEBPACK_IMPORTED_MODULE_3__angular_http__["f" /* XHRBackend */], useClass: __WEBPACK_IMPORTED_MODULE_8__authenticate_xhr_backend__["a" /* AuthenticateXHRBackend */] },
@@ -11117,7 +11117,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -11277,28 +11277,27 @@ var CrewInfoTableComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.css":
+/***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
 
 /***/ }),
 
-/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.html":
+/***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"DPG\" icon=\"hazard.png\" collapsible=true>\r\n\r\n      <ng-container\r\n        *ngIf=\"numberOfDpgsOnBoard > 0 && !isLoading; then dpgDataExists; else noDpgData\">\r\n      </ng-container>\r\n\r\n      <ng-template #dpgDataExists>\r\n        <tbody>\r\n          <tr>\r\n            <td>\r\n              <small>#</small>\r\n            </td>\r\n            <td>\r\n              <small>Classification</small>\r\n            </td>\r\n            <td>\r\n              <small>Un No/Name</small>\r\n            </td>\r\n            <td>\r\n              <small>Name</small>\r\n            </td>\r\n            <td>\r\n              <small>Gross Weight</small>\r\n            </td>\r\n            <td>\r\n              <small>Net Weight</small>\r\n            </td>\r\n            <td>\r\n              <small>Location on Board</small>\r\n            </td>\r\n            <td>\r\n              <small>Trans Unit ID</small>\r\n            </td>\r\n            <td>\r\n              <small>Placed in Container</small>\r\n            </td>\r\n          </tr>\r\n          <tr *ngFor=\"let dpg of dpgData\">\r\n            <td>\r\n              {{dpg.sequenceNo}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.dpgType.shortName}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.unNumber}}\r\n            </td>\r\n            <td>\r\n              {{dpg.dpg.textualReference}}\r\n            </td>\r\n            <td>\r\n              {{dpg.grossWeight}}\r\n            </td>\r\n            <td>\r\n              {{dpg.netWeight}}\r\n            </td>\r\n            <td>\r\n              {{dpg.locationOnBoard}}\r\n            </td>\r\n            <td>\r\n              {{dpg.transportUnitIdentification}}\r\n            </td>\r\n            <td>\r\n              {{ dpg.placedInContainerStr}}\r\n            </td>\r\n          </tr>\r\n        </tbody>\r\n      </ng-template>\r\n\r\n      <ng-template #noDpgData>\r\n        <div class=\"text-center my-3\" >\r\n          <img *ngIf=\"iconPath\" src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">DPG information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </ng-template>\r\n    </app-table-card>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\n  <div class=\"col\">\n    <app-table-card header=\"Crew\" icon=\"crew.png\" collapsible=true>\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\n    </app-table-card>\n  </div>\n</div>\n"
 
 /***/ }),
 
-/***/ "./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.ts":
+/***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DpgConfirmationViewComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CrewListingTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table_lib_data_source_local_local_data_source__ = __webpack_require__("./node_modules/ng2-smart-table/lib/data-source/local/local.data-source.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11310,60 +11309,79 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-
-var DpgConfirmationViewComponent = /** @class */ (function () {
-    function DpgConfirmationViewComponent(dpgService) {
-        this.dpgService = dpgService;
-        this.numberOfDpgsOnBoard = 0;
-        this.dpgData = [];
-        this.isLoading = false;
-        this.dpgSource = new __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table_lib_data_source_local_local_data_source__["a" /* LocalDataSource */](this.dpgData);
+var CrewListingTableComponent = /** @class */ (function () {
+    function CrewListingTableComponent(personOnBoardService) {
+        this.personOnBoardService = personOnBoardService;
+        this.crew = [];
+        // Smart table
+        this.tableSettings = {
+            mode: 'external',
+            actions: false,
+            attr: {
+                class: 'table table-bordered'
+            },
+            columns: {
+                familyName: {
+                    title: 'Family Name'
+                },
+                givenName: {
+                    title: 'Given Name'
+                },
+                rankName: {
+                    title: 'Rank or Rating'
+                },
+                nationality: {
+                    title: 'Nationality',
+                    valuePrepareFunction: function (value) { return value.name; },
+                },
+                dateOfBirth: {
+                    title: 'Date of Birth',
+                    valuePrepareFunction: function (value) { return new Date(value).toDateString(); }
+                },
+                placeOfBirth: {
+                    title: 'Place of Birth'
+                },
+                identityDocument: {
+                    title: 'ID Type and Number',
+                    valuePrepareFunction: function (value) {
+                        return value[0].identityDocumentType.description + ' : ' + value[0].identityDocumentId;
+                    }
+                },
+            }
+        };
     }
-    DpgConfirmationViewComponent.prototype.ngOnInit = function () {
+    CrewListingTableComponent.prototype.ngOnInit = function () {
+        // console.log('portCallId => ', this.portCallId);
         var _this = this;
         if (this.portCallId) {
-            this.isLoading = true;
-            this.dpgDataSubscription = this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId)
-                .finally(function () {
-                _this.isLoading = false;
-                _this.setSequenceNo();
-            })
-                .subscribe(function (data) {
-                if (data) {
-                    _this.dpgData = data;
-                    _this.numberOfDpgsOnBoard = data.length;
-                    console.log(_this.dpgData);
+            this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(function (crewList) {
+                if (crewList) {
+                    console.log('crewlist => ', crewList);
+                    _this.crew = crewList;
                 }
             });
         }
     };
-    DpgConfirmationViewComponent.prototype.setSequenceNo = function () {
-        var tmpSeq = 1;
-        this.dpgData.map(function (dpg) {
-            dpg.sequenceNo = tmpSeq;
-            dpg.placedInContainerStr = dpg.placedInContainer ? 'Yes' : 'No';
-            tmpSeq++;
-        });
-    };
-    DpgConfirmationViewComponent.prototype.ngOnDestroy = function () {
+    CrewListingTableComponent.prototype.ngOnDestroy = function () {
+        this.crewDataSubscription.unsubscribe();
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", String)
-    ], DpgConfirmationViewComponent.prototype, "iconPath", void 0);
+    ], CrewListingTableComponent.prototype, "iconPath", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Number)
-    ], DpgConfirmationViewComponent.prototype, "portCallId", void 0);
-    DpgConfirmationViewComponent = __decorate([
+    ], CrewListingTableComponent.prototype, "portCallId", void 0);
+    CrewListingTableComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-            selector: 'app-dpg-confirmation-view',
-            template: __webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.html"),
-            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.css")]
+            selector: 'app-crew-listing-table',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["h" /* DpgService */]])
-    ], DpgConfirmationViewComponent);
-    return DpgConfirmationViewComponent;
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+    ], CrewListingTableComponent);
+    return CrewListingTableComponent;
 }());
 
 
@@ -18868,7 +18886,7 @@ var ValidateDateTimeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_clearances_clearances_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/clearances/clearances.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_crew_info_table_crew_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/crew-info-table/crew-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_dpg_confirmation_view_dpg_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_listing_table_crew_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_passenger_info_table_passenger_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-info-table/passenger-info-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
@@ -19028,7 +19046,7 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_18__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
                 __WEBPACK_IMPORTED_MODULE_23__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
                 __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_dpg_confirmation_view_dpg_confirmation_view_component__["a" /* DpgConfirmationViewComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_49__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
@@ -19064,7 +19082,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__["a" /* FeedbackComponent */],
                 __WEBPACK_IMPORTED_MODULE_21__components_feedback_feedback_component__["a" /* FeedbackComponent */],
                 __WEBPACK_IMPORTED_MODULE_22__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_26__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */]
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_46__services_location_service__["a" /* LocationService */],

@@ -49,7 +49,7 @@ import { ConfigService } from './shared/utils/config.service';
   declarations: [
     AppComponent,
     FooterComponent,
-    routedComponents,
+    routedComponents
   ],
   providers: [
     { provide: XHRBackend, useClass: AuthenticateXHRBackend },
