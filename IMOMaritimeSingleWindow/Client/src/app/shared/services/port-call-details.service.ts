@@ -51,7 +51,6 @@ export class PortCallDetailsService extends BaseService {
   }
 
   setDetails(details: PortCallDetailsModel) {
-    console.log('Details received in PortCallDetailsService:', details);
     this.setPortCallDetailsId(details.portCallDetailsId);
     this.setCrewPassengersAndDimensionsData(details);
     this.setReportingForThisPortCallData(details);

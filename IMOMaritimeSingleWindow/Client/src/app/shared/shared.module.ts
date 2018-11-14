@@ -6,12 +6,14 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { CargoInfoTableComponent } from './components/confirmation-view/cargo-info-table/cargo-info-table.component';
+import { CargoListingTableComponent } from './components/confirmation-view/cargo-listing-table/cargo-listing-table.component';
 import { ClearancesComponent } from './components/confirmation-view/clearances/clearances.component';
 import { ConfirmationViewComponent } from './components/confirmation-view/confirmation-view.component';
 import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
-import { DpgConfirmationViewComponent } from './components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component';
 import { CrewListingTableComponent } from './components/confirmation-view/crew-listing-table/crew-listing-table.component';
+import { DpgConfirmationViewComponent } from './components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component';
 import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
+import { PassengerListingTableComponent } from './components/confirmation-view/passenger-listing-table/passenger-listing-table.component';
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
@@ -109,7 +111,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     RsoSelectComponent,
     OrganizationInfoTableComponent,
     DpgConfirmationViewComponent,
-    CrewListingTableComponent
+    CrewListingTableComponent,
+    CargoListingTableComponent,
+    PassengerListingTableComponent
   ],
   exports: [
     ExtendedAlphaNumericValidator,
@@ -146,7 +150,9 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     FeedbackComponent,
     IsscComponent,
     OrganizationInfoTableComponent,
-    CrewListingTableComponent
+    CrewListingTableComponent,
+    CargoListingTableComponent,
+    PassengerListingTableComponent
   ],
   providers: [
     LocationService,
