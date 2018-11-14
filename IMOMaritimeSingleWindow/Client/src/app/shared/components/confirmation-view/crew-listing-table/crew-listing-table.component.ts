@@ -58,8 +58,6 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    // console.log('portCallId => ', this.portCallId);
-
     if (this.portCallId) {
       this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
         crewList => {
