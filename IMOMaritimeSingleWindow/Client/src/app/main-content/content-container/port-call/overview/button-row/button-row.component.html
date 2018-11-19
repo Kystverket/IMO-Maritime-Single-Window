@@ -40,7 +40,7 @@
         </button>
       </div>
       <app-set-actual-time
-        [portCallModel]="rowData.overviewModel.portCall"
+        [portCallModel]="rowData.overviewModel"
         (portCallCompleted)="onCompletePortCall($event)"
         (portCallCleared)="onUncompletePortCall($event)"  
         *ngIf="portCallIsCleared || portCallIsCompleted"

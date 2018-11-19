@@ -88,16 +88,16 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   onViewClick() {
-    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.VIEW_PORT_CALL);
+    this.setContent(this.rowData.overviewModel.portCallId, CONTENT_NAMES.VIEW_PORT_CALL);
   }
 
   onEditClick() {
     this.contentService.setPortCallForm(CONTENT_NAMES.VOYAGES);
-    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.REGISTER_PORT_CALL);
+    this.setContent(this.rowData.overviewModel.portCallId, CONTENT_NAMES.REGISTER_PORT_CALL);
   }
 
   onClearanceClick() {
-    this.setContent(this.rowData.overviewModel.portCall.portCallId, CONTENT_NAMES.PORT_CALL_CLEARANCE);
+    this.setContent(this.rowData.overviewModel.portCallId, CONTENT_NAMES.PORT_CALL_CLEARANCE);
   }
 
   openModal(content: any) {
@@ -108,7 +108,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.rowData.overviewModel.status = PortCallStatusTypes.COMPLETED;
     this.portCallIsCleared = false;
     this.portCallIsCompleted = true;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.COMPLETED;
+    this.overviewData.find(r => r.overviewModel.portcallId === portCallId).status = PortCallStatusTypes.COMPLETED;
     this.overviewService.setOverviewData(this.overviewData);
     this.portCallCompleted.emit(portCallId);
   }
@@ -117,28 +117,28 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     this.rowData.overviewModel.status = PortCallStatusTypes.CLEARED;
     this.portCallIsCleared = true;
     this.portCallIsCompleted = false;
-    this.overviewData.find(r => r.overviewModel.portCall.portCallId === portCallId).status = PortCallStatusTypes.CLEARED;
+    this.overviewData.find(r => r.overviewModel.portcallId === portCallId).status = PortCallStatusTypes.CLEARED;
     this.overviewService.setOverviewData(this.overviewData);
     this.portCallUncompleted.emit(portCallId);
   }
 
   cancelPortCall() {
-    const pcId = this.rowData.overviewModel.portCall.portCallId;
+    const pcId = this.rowData.overviewModel.portCallId;
     this.rowData.overviewModel.status = PortCallStatusTypes.CANCELLED;
     const htmlStatus = `<div class="text-danger">` + this.rowData.overviewModel.status + `</div>`;
-    if (this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId)) {
-      this.overviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
+    if (this.overviewData.find(r => r.overviewModel.portcallId === pcId)) {
+      this.overviewData.find(r => r.overviewModel.portcallId === pcId).status = htmlStatus;
       this.overviewService.setOverviewData(this.overviewData);
     }
-    if (this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId)) {
-      this.draftOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
+    if (this.draftOverviewData.find(r => r.overviewModel.portcallId === pcId)) {
+      this.draftOverviewData.find(r => r.overviewModel.portcallId === pcId).status = htmlStatus;
       this.overviewService.setDraftData(this.draftOverviewData);
     }
-    if (this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId)) {
-      this.clearedOverviewData.find(r => r.overviewModel.portCall.portCallId === pcId).status = htmlStatus;
+    if (this.clearedOverviewData.find(r => r.overviewModel.portcallId === pcId)) {
+      this.clearedOverviewData.find(r => r.overviewModel.portcallId === pcId).status = htmlStatus;
       this.overviewService.setClearedData(this.clearedOverviewData);
     }
-    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCallId).subscribe(
       result => {
         this.portCallCancelled.emit(pcId);
       }
@@ -156,7 +156,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.overviewService.setOverviewData(newOverviewData);
           this.overviewService.setDraftData(newDraftData);
           this.overviewService.setClearedData(newClearedData);
-          console.log(deleteResponse);
         }
       }, error => {
         console.log(error);
@@ -165,7 +164,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   editAwaitingClearancePortCall() {
-    this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCall.portCallId).subscribe(
+    this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCallId).subscribe(
       draftResponse => {
         if (draftResponse) {
           const newAwaitingClearanceData = this.overviewData.filter(row => row !== this.rowData);
