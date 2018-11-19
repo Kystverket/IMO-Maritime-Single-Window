@@ -247,19 +247,16 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     //
     this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(
       dpgData => {
-        console.log(dpgData);
         this.dpgOnBoardList = dpgData;
       }
     );
     this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
       pristineData => {
-        console.log(pristineData);
         this.dpgDataIsPristine = pristineData;
       }
     );
     this.dpgIsCheckedSubscription = this.dpgService.dpgIsChecked$.subscribe(
       isChecked => {
-        console.log(isChecked);
         this.dpgIsChecked = isChecked;
       }
     );
