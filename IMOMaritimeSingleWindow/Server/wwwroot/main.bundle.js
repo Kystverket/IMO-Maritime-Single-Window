@@ -2960,7 +2960,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <div ngbTooltip=\"You cannot edit a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"openModal(editModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"portCallIsDraft\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}\" *ngIf=\"portCallIsCancelled || portCallIsAwaitingClearance\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n      <app-set-actual-time\r\n        [portCallModel]=\"rowData.overviewModel.portCall\"\r\n        (portCallCompleted)=\"onCompletePortCall($event)\"\r\n        (portCallCleared)=\"onUncompletePortCall($event)\"  \r\n        *ngIf=\"portCallIsCleared || portCallIsCompleted\"\r\n      ></app-set-actual-time>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <div ngbTooltip=\"You cannot clear a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled && !portCallIsCompleted\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"openModal(cancelModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"openModal(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">WARNING</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>To edit this port call, you must revert it back to a draft.</span>\r\n      <br>\r\n      <span>Any active clearances for the port call will be reset.</span>\r\n      <br>\r\n      <span>The port call must be reactivated to receive new clearances.</span>\r\n      <br>\r\n      <br>\r\n      <span>Are you sure you wish to edit this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"editAwaitingClearancePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/warning.png\" height=\"20px\">\r\n      <span>Reset Clearance & Edit Port Call as Draft</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <div ngbTooltip=\"You cannot edit a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"openModal(editModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"portCallIsDraft\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}\" *ngIf=\"portCallIsCancelled || portCallIsAwaitingClearance\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n      <app-set-actual-time\r\n        [portCallModel]=\"rowData.overviewModel\"\r\n        (portCallCompleted)=\"onCompletePortCall($event)\"\r\n        (portCallCleared)=\"onUncompletePortCall($event)\"  \r\n        *ngIf=\"portCallIsCleared || portCallIsCompleted\"\r\n      ></app-set-actual-time>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <div ngbTooltip=\"You cannot clear a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled && !portCallIsCompleted\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"openModal(cancelModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"openModal(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">WARNING</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>To edit this port call, you must revert it back to a draft.</span>\r\n      <br>\r\n      <span>Any active clearances for the port call will be reset.</span>\r\n      <br>\r\n      <span>The port call must be reactivated to receive new clearances.</span>\r\n      <br>\r\n      <br>\r\n      <span>Are you sure you wish to edit this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"editAwaitingClearancePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/warning.png\" height=\"20px\">\r\n      <span>Reset Clearance & Edit Port Call as Draft</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -3045,14 +3045,14 @@ var ButtonRowComponent = /** @class */ (function () {
         });
     };
     ButtonRowComponent.prototype.onViewClick = function () {
-        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALL);
+        this.setContent(this.rowData.overviewModel.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALL);
     };
     ButtonRowComponent.prototype.onEditClick = function () {
         this.contentService.setPortCallForm(__WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VOYAGES);
-        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL);
+        this.setContent(this.rowData.overviewModel.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_PORT_CALL);
     };
     ButtonRowComponent.prototype.onClearanceClick = function () {
-        this.setContent(this.rowData.overviewModel.portCall.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].PORT_CALL_CLEARANCE);
+        this.setContent(this.rowData.overviewModel.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].PORT_CALL_CLEARANCE);
     };
     ButtonRowComponent.prototype.openModal = function (content) {
         this.modalService.open(content);
@@ -3061,7 +3061,7 @@ var ButtonRowComponent = /** @class */ (function () {
         this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED;
         this.portCallIsCleared = false;
         this.portCallIsCompleted = true;
-        this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === portCallId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED;
+        this.overviewData.find(function (r) { return r.overviewModel.portcallId === portCallId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED;
         this.overviewService.setOverviewData(this.overviewData);
         this.portCallCompleted.emit(portCallId);
     };
@@ -3069,28 +3069,28 @@ var ButtonRowComponent = /** @class */ (function () {
         this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED;
         this.portCallIsCleared = true;
         this.portCallIsCompleted = false;
-        this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === portCallId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED;
+        this.overviewData.find(function (r) { return r.overviewModel.portcallId === portCallId; }).status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CLEARED;
         this.overviewService.setOverviewData(this.overviewData);
         this.portCallUncompleted.emit(portCallId);
     };
     ButtonRowComponent.prototype.cancelPortCall = function () {
         var _this = this;
-        var pcId = this.rowData.overviewModel.portCall.portCallId;
+        var pcId = this.rowData.overviewModel.portCallId;
         this.rowData.overviewModel.status = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED;
         var htmlStatus = "<div class=\"text-danger\">" + this.rowData.overviewModel.status + "</div>";
-        if (this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; })) {
-            this.overviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
+        if (this.overviewData.find(function (r) { return r.overviewModel.portcallId === pcId; })) {
+            this.overviewData.find(function (r) { return r.overviewModel.portcallId === pcId; }).status = htmlStatus;
             this.overviewService.setOverviewData(this.overviewData);
         }
-        if (this.draftOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; })) {
-            this.draftOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
+        if (this.draftOverviewData.find(function (r) { return r.overviewModel.portcallId === pcId; })) {
+            this.draftOverviewData.find(function (r) { return r.overviewModel.portcallId === pcId; }).status = htmlStatus;
             this.overviewService.setDraftData(this.draftOverviewData);
         }
-        if (this.clearedOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; })) {
-            this.clearedOverviewData.find(function (r) { return r.overviewModel.portCall.portCallId === pcId; }).status = htmlStatus;
+        if (this.clearedOverviewData.find(function (r) { return r.overviewModel.portcallId === pcId; })) {
+            this.clearedOverviewData.find(function (r) { return r.overviewModel.portcallId === pcId; }).status = htmlStatus;
             this.overviewService.setClearedData(this.clearedOverviewData);
         }
-        this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCall.portCallId).subscribe(function (result) {
+        this.portCallService.updatePortCallStatusCancelled(this.rowData.overviewModel.portCallId).subscribe(function (result) {
             _this.portCallCancelled.emit(pcId);
         });
     };
@@ -3112,7 +3112,7 @@ var ButtonRowComponent = /** @class */ (function () {
     };
     ButtonRowComponent.prototype.editAwaitingClearancePortCall = function () {
         var _this = this;
-        this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCall.portCallId).subscribe(function (draftResponse) {
+        this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCallId).subscribe(function (draftResponse) {
             if (draftResponse) {
                 var newAwaitingClearanceData = _this.overviewData.filter(function (row) { return row !== _this.rowData; });
                 var newClearedData = _this.clearedOverviewData.filter(function (row) { return row !== _this.rowData; });
@@ -3129,6 +3129,7 @@ var ButtonRowComponent = /** @class */ (function () {
         });
     };
     ButtonRowComponent.prototype.setContent = function (portCallId, content) {
+        console.log('setContent');
         this.overviewService.setLoadingPortCall(true);
         this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
         this.loadPortCallService.setContent(portCallId, content);
@@ -3188,7 +3189,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"no-wrap\">\r\n  <span *ngFor=\"let clearance of clearanceList\">\r\n    <span class=\"badge badge-warning\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsNullString }}\"\r\n      *ngIf=\"clearance.cleared === null\">\r\n      <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-success\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsTrueString }}\"\r\n      *ngIf=\"clearance.cleared === true\">\r\n      <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-danger\" ngbTooltip=\"{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsFalseString }}\"\r\n      *ngIf=\"clearance.cleared === false\">\r\n      <img src=\"assets/images/icons/128x128/white/rejected.png\" height=\"16px\">\r\n    </span>\r\n  </span>\r\n</div>"
+module.exports = "<div class=\"no-wrap\">\r\n  <span *ngFor=\"let clearance of clearanceList\">\r\n    <span class=\"badge badge-warning\" ngbTooltip=\"{{ clearance.name }}: {{ clearance.clearanceIsNullString }}\"\r\n      *ngIf=\"clearance.cleared === null\">\r\n      <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-success\" ngbTooltip=\"{{ clearance.name }}: {{ clearance.clearanceIsTrueString }}\"\r\n      *ngIf=\"clearance.cleared === true\">\r\n      <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"16px\">\r\n    </span>\r\n    <span class=\"badge badge-danger\" ngbTooltip=\"{{ clearance.name }}: {{ clearance.clearanceIsFalseString }}\"\r\n      *ngIf=\"clearance.cleared === false\">\r\n      <img src=\"assets/images/icons/128x128/white/rejected.png\" height=\"16px\">\r\n    </span>\r\n  </span>\r\n</div>"
 
 /***/ }),
 
@@ -3419,7 +3420,9 @@ var OverviewComponent = /** @class */ (function () {
                 });
             }
         });
-        this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser().subscribe(function (organizationResult) {
+        this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser()
+            .finally(function () { return _this.loadOverview(); })
+            .subscribe(function (organizationResult) {
             if (organizationResult) {
                 _this.userIsGovernmentAgency =
                     organizationResult.organizationType &&
@@ -3430,7 +3433,6 @@ var OverviewComponent = /** @class */ (function () {
                 }
             }
             _this.userOrganization = organizationResult;
-            _this.loadOverview();
         });
     };
     OverviewComponent.prototype.ngOnDestroy = function () {
@@ -3440,31 +3442,32 @@ var OverviewComponent = /** @class */ (function () {
     OverviewComponent.prototype.overviewRow = function (ov) {
         var row = {
             overviewModel: ov,
+            portCallId: ov.portCallId,
             shipName: "<div class=\"no-wrap\"><div hidden>" +
-                ov.ship.name + // ugly fix for alphabetical sorting but it works
+                ov.shipName + // ugly fix for alphabetical sorting but it works
                 "</div> <div> <img src='assets/images/flags/128x128/" +
-                ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
+                ov.shipTwoCharCode.toLowerCase() +
                 ".png' height='20px'/> " +
-                ov.ship.name +
+                ov.shipName +
                 "</div></div>",
-            callSign: ov.ship.callSign ||
+            callSign: ov.callSign ||
                 "<span class=\"font-italic no-wrap\">Not provided.</span>",
             locationName: "<div hidden>" +
-                ov.location.name + // same ugly fix as ship name
+                ov.locationName + // same ugly fix as ship name
                 "</div> <div> <img src='assets/images/flags/128x128/" +
-                ov.location.country.twoCharCode.toLowerCase() +
+                ov.locationTwoCharCode.toLowerCase() +
                 ".png' height='20px'/> " +
-                ov.location.name +
+                ov.locationName +
                 "</div>",
             eta: "<span class=\"no-wrap\">" +
-                this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+                this.datePipe.transform(ov.eta, 'yyyy-MM-dd') +
                 "</span> <span class=\"no-wrap\">" +
-                this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+                this.datePipe.transform(ov.eta, 'HH:mm') +
                 "</span>",
             etd: "<span class=\"no-wrap\">" +
-                this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+                this.datePipe.transform(ov.etd, 'yyyy-MM-dd') +
                 "</span> <span class=\"no-wrap\">" +
-                this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+                this.datePipe.transform(ov.etd, 'HH:mm') +
                 "</span>",
             status: ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED
                 ? "<div class=\"text-danger\">" + ov.status + "</div>"
@@ -3503,50 +3506,42 @@ var OverviewComponent = /** @class */ (function () {
                 }
             });
         }
-        this.overviewService.getPortCalls().subscribe(function (pcData) {
-            if (pcData) {
-                _this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
-                if (pcData.length === 0) {
-                    _this.contentService.setLoadingScreen(false, null, null);
-                }
-                else {
-                    var index_1 = 0;
-                    var finalIndex_1 = pcData.length - 1;
-                    pcData.forEach(function (pc) {
-                        _this.overviewService.getPartialOverview(pc.portCallId).subscribe(function (ov) {
-                            if (ov) {
-                                var row = _this.overviewRow(ov);
-                                // Case: port call is incomplete (status: draft)
-                                if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].DRAFT) {
-                                    _this.draftOverviewList.push(row);
-                                }
-                                else if (_this.userIsGovernmentAgency &&
-                                    ov.clearanceList &&
-                                    ov.clearanceList.some(function (clearance) { return clearance.organizationId === _this.userOrganization.organizationId && clearance.cleared != null; })) {
-                                    _this.clearedByUserAgencyOverviewList.push(row);
-                                }
-                                else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED) {
-                                    _this.cancelledOverviewList.push(row);
-                                }
-                                else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED) {
-                                    _this.completedOverviewList.push(row);
-                                }
-                                else {
-                                    _this.overviewList.push(row);
-                                }
-                                _this.overviewService.setOverviewData(_this.overviewList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
-                                _this.overviewService.setDraftData(_this.draftOverviewList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
-                                _this.overviewService.setClearedData(_this.clearedByUserAgencyOverviewList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
-                            }
-                        }, function (error) { return console.log(error); }, function () {
-                            if (index_1++ >= finalIndex_1) {
-                                _this.contentService.setLoadingScreen(false, null, null);
-                            }
-                        });
-                    });
-                }
+        this.overviewService.getOverviewsByUser()
+            .finally(function () {
+            _this.sortOverView();
+        })
+            .subscribe(function (ovs) {
+            if (ovs) {
+                ovs.forEach(function (ov) {
+                    var row = _this.overviewRow(ov);
+                    // Case: port call is incomplete (status: draft)
+                    if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].DRAFT) {
+                        _this.draftOverviewList.push(row);
+                    }
+                    else if (_this.userIsGovernmentAgency &&
+                        ov.clearanceList &&
+                        ov.clearanceList.some(function (clearance) { return clearance.organizationId === _this.userOrganization.organizationId && clearance.cleared != null; })) {
+                        _this.clearedByUserAgencyOverviewList.push(row);
+                    }
+                    else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].CANCELLED) {
+                        _this.cancelledOverviewList.push(row);
+                    }
+                    else if (ov.status === __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_port_call_status_types__["a" /* PortCallStatusTypes */].COMPLETED) {
+                        _this.completedOverviewList.push(row);
+                    }
+                    else {
+                        _this.overviewList.push(row);
+                    }
+                });
             }
-        }, function (error) { return console.log(error); });
+        }, function (error) { return console.log(error); }, function () {
+        });
+    };
+    OverviewComponent.prototype.sortOverView = function () {
+        this.overviewService.setOverviewData(this.overviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
+        this.overviewService.setDraftData(this.draftOverviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
+        this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
+        this.rerenderList();
     };
     OverviewComponent.prototype.rerenderList = function () {
         var portCallList = this.overviewList;
@@ -3625,8 +3620,7 @@ module.exports = "<button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Set actual t
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap_timepicker_ngb_time__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_model__ = __webpack_require__("./src/app/shared/models/port-call-model.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3636,7 +3630,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -3784,7 +3777,7 @@ var SetActualTimeComponent = /** @class */ (function () {
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models_port_call_model__["a" /* PortCallModel */])
+        __metadata("design:type", Object)
     ], SetActualTimeComponent.prototype, "portCallModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
@@ -3804,7 +3797,7 @@ var SetActualTimeComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_4_app_shared_services_port_call_service__["a" /* PortCallService */], __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], SetActualTimeComponent);
     return SetActualTimeComponent;
 }());
@@ -18224,8 +18217,9 @@ var PortCallOverviewService = /** @class */ (function (_super) {
         _this.loadingPortCall$ = _this.loadingPortCallSource.asObservable();
         _this.portCallUrl = 'api/portcall';
         _this.partialOverviewUrl = _this.portCallUrl + '/partialOverview';
-        _this.overviewUrl = _this.portCallUrl + '/overview';
         _this.portCallUserUrl = _this.portCallUrl + '/user';
+        _this.overviewByUserUrl = _this.portCallUrl + '/user/overview';
+        _this.overviewUrl = _this.portCallUrl + '/overview';
         return _this;
     }
     PortCallOverviewService.prototype.setLoadingPortCall = function (data) {
@@ -18261,8 +18255,8 @@ var PortCallOverviewService = /** @class */ (function (_super) {
         var uri = this.portCallUserUrl;
         return this.http.get(uri);
     };
-    PortCallOverviewService.prototype.getOverviews = function () {
-        var uri = this.overviewUrl;
+    PortCallOverviewService.prototype.getOverviewsByUser = function () {
+        var uri = this.overviewByUserUrl;
         return this.http.get(uri);
     };
     PortCallOverviewService = __decorate([

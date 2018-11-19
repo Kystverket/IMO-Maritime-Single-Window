@@ -13,6 +13,7 @@ export class PortCallOverviewService extends BaseRequest {
     private portCallUserUrl: string;
     private partialOverviewUrl: string;
     private overviewByUserUrl: string;
+    private overviewUrl: string;
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
@@ -44,6 +45,7 @@ export class PortCallOverviewService extends BaseRequest {
         this.partialOverviewUrl = this.portCallUrl + '/partialOverview';
         this.portCallUserUrl = this.portCallUrl + '/user';
         this.overviewByUserUrl = this.portCallUrl + '/user/overview';
+        this.overviewUrl = this.portCallUrl + '/overview';
     }
 
     setLoadingPortCall(data: boolean) {
