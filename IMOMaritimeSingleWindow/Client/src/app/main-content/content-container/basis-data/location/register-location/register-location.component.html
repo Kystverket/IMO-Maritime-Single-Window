@@ -11,9 +11,11 @@
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="location_type_dropdown">Location Type</label>
                   <div ngbDropdown>
-                    <button class="btn btn-sm btn-ssn" id="location_type_dropdown" ngbDropdownToggle> {{ locationTypeDropdownString }}</button>
+                    <button class="btn btn-sm btn-ssn" id="location_type_dropdown" ngbDropdownToggle> {{
+                      locationTypeDropdownString }}</button>
                     <div ngbDropdownMenu aria-labelledby="location_type_dropdown">
-                      <button class="dropdown-item" *ngFor="let locationType of locationTypeList" (click)="selectLocationType(locationType)">{{ locationType.name }}</button>
+                      <button class="dropdown-item" *ngFor="let locationType of locationTypeList" (click)="selectLocationType(locationType)">{{
+                        locationType.name }}</button>
                     </div>
                   </div>
                 </div>
@@ -25,19 +27,24 @@
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
                 <div class="col">
-                  <label class="col-form-label-sm no-wrap mb-0" for="location_name">Location Name</label>
-                  <input [(ngModel)]="locationModel.name" name="locationName" type="text" class="form-control form-control-sm" id="location_name"
-                    placeholder="Enter location name" />
+                  <label class="col-form-label-sm no-wrap mb-0" for="locationName">Location Name</label>
+                  <input [(ngModel)]="locationModel.name" name="locationName" type="text" class="form-control form-control-sm"
+                    id="location_name" placeholder="Enter location name" />
                 </div>
               </div>
             </div>
 
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <div class="col">
+                <div class="col-1">
+                    <label class="col-form-label-sm no-wrap mb-0" for="finalLocationCode">Country Code</label>
+                    <input [(ngModel)]="selectedTwoCharCode" name="finalLocationCode" type="text" class="form-control form-control-sm"
+                      id="final_loc_code" disabled />
+                </div>
+                <div class="col-6">
                   <label class="col-form-label-sm no-wrap mb-0" for="location_code">Location Code</label>
-                  <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm" id="location_code"
-                    placeholder="Enter location code" />
+                  <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm"
+                    id="location_code" placeholder="Enter location code" maxlength="3"/>
                 </div>
               </div>
             </div>
@@ -48,8 +55,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="country_select">Country</label>
-                  <ng-select id="country_select" name="country_select" [items]="countryList" [multiple]="false" [closeOnSelect]="true" bindLabel="name"
-                    placeholder="Select country" [(ngModel)]="selectedCountry" (change)="selectCountry($event)"></ng-select>
+                  <ng-select id="country_select" name="country_select" [items]="countryList" [multiple]="false"
+                    [closeOnSelect]="true" bindLabel="name" placeholder="Select country" [(ngModel)]="selectedCountry"
+                    (change)="selectCountry($event)"></ng-select>
                 </div>
               </div>
             </div>
@@ -58,8 +66,8 @@
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="country">Country</label>
                   <div class="input-group">
-                    <input id="country" name="country" type="text" class="form-control form-control-sm" [ngModel]="selectedCountry.name" disabled="true"
-                    />
+                    <input id="country" name="country" type="text" class="form-control form-control-sm" [ngModel]="selectedCountry.name"
+                      disabled="true" />
                     <div class="input-group-append">
                       <button class="btn btn-sm btn-ssn" (click)="deselectCountry()">
                         <img src="assets/images/icons/128x128/white/cancel.png" height="16px">
@@ -73,8 +81,8 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="location_post_code">Post Code</label>
-                  <input [(ngModel)]="locationModel.postCode" name="locationPostCode" type="text" class="form-control form-control-sm" id="location_post_code"
-                    placeholder="Enter location post code" />
+                  <input [(ngModel)]="locationModel.postCode" name="locationPostCode" type="text" class="form-control form-control-sm"
+                    id="location_post_code" placeholder="Enter location post code if applicable" />
                 </div>
               </div>
             </div>
@@ -97,7 +105,7 @@
               <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
           <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected">
-            <button class="btn btn-ssn" (click)="registerLocation()">
+            <button class="btn btn-ssn" (click)="updateAndSaveModel()">
               <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
         </app-ssn-card>

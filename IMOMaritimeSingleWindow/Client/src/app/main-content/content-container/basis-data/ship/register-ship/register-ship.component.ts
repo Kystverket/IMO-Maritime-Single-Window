@@ -84,30 +84,6 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
     private modalService: NgbModal
   ) { }
 
-  // for development purposes, remove before prod
-  setInfoShortcut() {
-    this.shipModel.name = 'TJOHEI';
-    this.shipModel.callSign = 'tjo123';
-    this.shipModel.imoNo = 1234567;
-    this.shipModel.mmsiNo = 7654321;
-    // this.selectShipType(this.shipTypeList[0]);
-    this.shipModel.yearOfBuild = 1234;
-    this.selectLengthType(this.lengthTypeList[0]);
-    this.shipModel.length = 100;
-    this.selectBreadthType(this.breadthTypeList[0]);
-    this.shipModel.breadth = 50;
-    this.selectPowerType(this.powerTypeList[0]);
-    this.shipModel.power = 1000;
-    this.selectHullType(this.hullTypeList[0]);
-    this.selectShipStatus(this.shipStatusList[0]);
-    this.shipModel.height = 20;
-    this.shipModel.draught = 10;
-    this.shipModel.grossTonnage = 500;
-    this.shipModel.deadweightTonnage = 600;
-    this.shipModel.hasSideThrusters = true;
-    this.shipModel.remark = 'Remark';
-  }
-
   ngOnInit() {
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.certificateModel = new CertificateOfRegistryModel();

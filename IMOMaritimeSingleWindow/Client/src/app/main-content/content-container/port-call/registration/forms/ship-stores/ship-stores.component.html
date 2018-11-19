@@ -6,8 +6,8 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="articleName" class="col-form-label-sm no-wrap mb-0">Article Name *</label>
-                        <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel" placeholder="Article Name" class="form-control form-control-sm"
-                            name="articleName">
+                        <input type="text" required [(ngModel)]="shipStoresModel.articleName" #articleName="ngModel"
+                            placeholder="Article Name" class="form-control form-control-sm" name="articleName">
                     </div>
                 </div>
                 <div *ngIf="articleName.hasError('required') && articleName.touched" class="alert alert-danger">
@@ -18,18 +18,19 @@
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                        <label for="articleCode" class="col-form-label-sm no-wrap mb-0">Article Code</label>
-                        <input type="text" [(ngModel)]="shipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code" class="form-control form-control-sm"
-                            name="articleCode">
+                        <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type</label>
+                        <ng-select id="measurementTypes" [items]="measurementTypeList" [ngModel]="shipStoresModel.measurementType"
+                            name="measurementType" [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type"
+                            (change)="selectMeasurementType($event)">
+                        </ng-select>
                     </div>
                 </div>
 
                 <div class="form-group row">
                     <div class="col my-auto">
-                        <label for="measurementType" class="col-form-label-sm no-wrap mb-0">Measurement Type</label>
-                        <ng-select id="measurementTypes" [items]="measurementTypeList" [ngModel]="shipStoresModel.measurementType" name="measurementType"
-                            [closeOnSelect]="true" bindLabel="name" placeholder="Measurement Type" (change)="selectMeasurementType($event)">
-                        </ng-select>
+                        <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code</label>
+                        <input type="text" [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel"
+                            placeholder="Location on Board Code" class="form-control form-control-sm" name="locationOnBoardCode">
                     </div>
                 </div>
 
@@ -39,8 +40,8 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="quantity" class="col-form-label-sm no-wrap mb-0">Quantity</label>
-                        <input type="number" [(ngModel)]="shipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity" class="form-control form-control-sm"
-                            integerValidator positiveNumberValidator name="quantity">
+                        <input type="number" [(ngModel)]="shipStoresModel.quantity" #quantity="ngModel" placeholder="Quantity"
+                            class="form-control form-control-sm" integerValidator positiveNumberValidator name="quantity">
                     </div>
                 </div>
 
@@ -56,19 +57,12 @@
                 <div class="form-group row">
                     <div class="col my-auto">
                         <label for="locationOnBoard" class="col-form-label-sm no-wrap mb-0">Location on Board</label>
-                        <textarea type="text" [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel" placeholder="Location on Board"
-                            class="form-control form-control-sm" name="locationOnBoard">
+                        <textarea type="text" [(ngModel)]="shipStoresModel.locationOnBoard" #locationOnBoard="ngModel"
+                            placeholder="Location on Board" class="form-control form-control-sm" name="locationOnBoard">
                         </textarea>
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <div class="col my-auto">
-                        <label for="locationOnBoardCode" class="col-form-label-sm no-wrap mb-0">Location on Board Code</label>
-                        <input type="text" [(ngModel)]="shipStoresModel.locationOnBoardCode" #locationOnBoardCode="ngModel" placeholder="Location on Board Code"
-                            class="form-control form-control-sm" name="locationOnBoardCode">
-                    </div>
-                </div>
             </div>
         </div>
     </form>
@@ -85,7 +79,8 @@
                 <button *ngIf="shipStoresList.length > 0" type="submit" class="btn mt-2 btn-danger float-right" (click)=openWarningModal(warningModal)>
                     <span>Delete all ship stores</span>
                 </button>
-                <button *ngIf="shipStoresList.length === 0" type="submit" class="btn mt-2 btn-danger float-right" disabled>
+                <button *ngIf="shipStoresList.length === 0" type="submit" class="btn mt-2 btn-danger float-right"
+                    disabled>
                     <span>Delete all ship stores</span>
                 </button>
             </div>

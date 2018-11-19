@@ -24,6 +24,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   locationTypeSelected: boolean;
   selectedLocationType: any;
   locationTypeDropdownString = 'Select location type';
+  selectedTwoCharCode: string;
 
   countryList: any[];
   countrySelected = false;
@@ -90,11 +91,13 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   selectCountry($event) {
     this.selectedCountry = $event;
     this.locationModel.countryId = $event.countryId;
+    this.selectedTwoCharCode = this.selectedCountry.twoCharCode;
     this.countrySelected = true;
   }
 
   deselectCountry() {
     this.selectedCountry = null;
+    this.selectedTwoCharCode = '';
     this.locationModel.country = null;
     this.locationModel.countryId = null;
     this.selectedCountry = null;
@@ -106,6 +109,12 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
     this.selectedLocationType = locationType;
     this.locationTypeDropdownString = locationType.name;
     this.locationTypeSelected = true;
+  }
+
+  updateAndSaveModel() {
+    const newLoCode = this.selectedTwoCharCode + this.locationModel.locationCode;
+    this.locationModel.locationCode = newLoCode;
+    this.registerLocation();
   }
 
   registerLocation() {
