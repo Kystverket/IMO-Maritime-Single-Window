@@ -1,14 +1,14 @@
 <div class="no-wrap">
   <span *ngFor="let clearance of clearanceList">
-    <span class="badge badge-warning" ngbTooltip="{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsNullString }}"
+    <span class="badge badge-warning" ngbTooltip="{{ clearance.name }}: {{ clearance.clearanceIsNullString }}"
       *ngIf="clearance.cleared === null">
       <img src="assets/images/icons/128x128/white/stamp.png" height="16px">
     </span>
-    <span class="badge badge-success" ngbTooltip="{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsTrueString }}"
+    <span class="badge badge-success" ngbTooltip="{{ clearance.name }}: {{ clearance.clearanceIsTrueString }}"
       *ngIf="clearance.cleared === true">
       <img src="assets/images/icons/128x128/white/checkmark.png" height="16px">
     </span>
-    <span class="badge badge-danger" ngbTooltip="{{ clearance.organization.name }}: {{ clearance.organization.clearanceIsFalseString }}"
+    <span class="badge badge-danger" ngbTooltip="{{ clearance.name }}: {{ clearance.clearanceIsFalseString }}"
       *ngIf="clearance.cleared === false">
       <img src="assets/images/icons/128x128/white/rejected.png" height="16px">
     </span>
