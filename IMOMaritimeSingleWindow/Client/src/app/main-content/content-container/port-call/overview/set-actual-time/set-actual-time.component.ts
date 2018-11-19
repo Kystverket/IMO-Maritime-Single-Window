@@ -13,7 +13,7 @@ import { PortCallService } from 'app/shared/services/port-call.service';
 })
 export class SetActualTimeComponent implements OnInit {
 
-  @Input() portCallModel: PortCallModel;
+  @Input() portCallModel: any;
 
   @Output() portCallModelChange = new EventEmitter<PortCallModel>();
 
