@@ -4,18 +4,18 @@ import { Subscription } from 'rxjs/Subscription';
 
 
 @Component({
-  selector: 'app-crew-listing-table',
-  templateUrl: './crew-listing-table.component.html',
-  styleUrls: ['./crew-listing-table.component.css']
+  selector: 'app-passenger-listing-table',
+  templateUrl: './passenger-listing-table.component.html',
+  styleUrls: ['./passenger-listing-table.component.css']
 })
-export class CrewListingTableComponent implements OnInit, OnDestroy {
+export class PassengerListingTableComponent implements OnInit, OnDestroy {
 
   @Input() iconPath: string;
   @Input() portCallId: number;
 
-  crewDataSubscription: Subscription;
+  passengerDataSubscription: Subscription;
 
-  public crew: any = [];
+  public passengers: any = [];
 
   // Smart table
   tableSettings = {
@@ -30,9 +30,6 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
       },
       givenName: {
         title: 'Given Name'
-      },
-      rankName: {
-        title: 'Rank or Rating'
       },
       nationality: {
         title: 'Nationality',
@@ -59,10 +56,10 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     if (this.portCallId) {
-      this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
-        crewList => {
-          if (crewList) {
-            this.crew = crewList;
+      this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+        passengerList => {
+          if (passengerList) {
+            this.passengers = passengerList;
           }
         }
       );
@@ -70,7 +67,7 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.crewDataSubscription.unsubscribe();
+    this.passengerDataSubscription.unsubscribe();
   }
 
 }
