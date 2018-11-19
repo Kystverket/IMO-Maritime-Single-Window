@@ -3104,7 +3104,6 @@ var ButtonRowComponent = /** @class */ (function () {
                 _this.overviewService.setOverviewData(newOverviewData);
                 _this.overviewService.setDraftData(newDraftData);
                 _this.overviewService.setClearedData(newClearedData);
-                console.log(deleteResponse);
             }
         }, function (error) {
             console.log(error);
@@ -3129,7 +3128,6 @@ var ButtonRowComponent = /** @class */ (function () {
         });
     };
     ButtonRowComponent.prototype.setContent = function (portCallId, content) {
-        console.log('setContent');
         this.overviewService.setLoadingPortCall(true);
         this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
         this.loadPortCallService.setContent(portCallId, content);

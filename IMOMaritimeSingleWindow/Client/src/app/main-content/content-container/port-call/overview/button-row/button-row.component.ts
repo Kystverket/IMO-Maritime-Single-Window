@@ -156,7 +156,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
           this.overviewService.setOverviewData(newOverviewData);
           this.overviewService.setDraftData(newDraftData);
           this.overviewService.setClearedData(newClearedData);
-          console.log(deleteResponse);
         }
       }, error => {
         console.log(error);
@@ -185,7 +184,6 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   private setContent(portCallId: number, content: string) {
-    console.log('setContent');
     this.overviewService.setLoadingPortCall(true);
     this.contentService.setLoadingScreen(true, 'portcall.gif', 'Loading');
     this.loadPortCallService.setContent(portCallId, content);
