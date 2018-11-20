@@ -36,15 +36,20 @@
 
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
-                <div class="col-1">
+                <div class="col-1" style="margin-right: 25px">
                     <label class="col-form-label-sm no-wrap mb-0" for="finalLocationCode">Country Code</label>
                     <input [(ngModel)]="selectedTwoCharCode" name="finalLocationCode" type="text" class="form-control form-control-sm"
                       id="final_loc_code" disabled />
                 </div>
                 <div class="col-6">
                   <label class="col-form-label-sm no-wrap mb-0" for="location_code">Location Code</label>
-                  <input [(ngModel)]="locationModel.locationCode" name="locationCode" type="text" class="form-control form-control-sm"
-                    id="location_code" placeholder="Enter location code" maxlength="3"/>
+                  <input [(ngModel)]="threeCharLoCode" name="locationCode" type="text" class="form-control form-control-sm"
+                    id="location_code" placeholder="Enter location code" maxlength="3" minlength="3" #threeCarCode="ngModel"/>
+                    <div *ngIf="!threeCarCode.valid" class="alert alert-danger">
+                      <li *ngIf="threeCarCode.hasError('minlength')">
+                        <small>Location code must be a country code followed by 3 characters.</small>
+                      </li>
+                    </div>
                 </div>
               </div>
             </div>

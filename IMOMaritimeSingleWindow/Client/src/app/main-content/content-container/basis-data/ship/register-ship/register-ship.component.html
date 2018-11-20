@@ -35,12 +35,12 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="imo_no">IMO Number</label>
-                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="touchData()" name="imoNo" type="number" class="form-control form-control-sm"
+                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="validImoNumber()" name="imoNo" type="number" class="form-control form-control-sm"
                     id="imo_no" placeholder="Enter IMO number" #imoNo="ngModel" numberValidator integerValidator
                     positiveNumberValidator />
                 </div>
               </div>
-              <div *ngIf="!imoNo.valid" class="alert alert-danger">
+              <div *ngIf="!imoNo.valid || !imoValid" class="alert alert-danger">
                 <li *ngIf="imoNo.hasError('notNumberError')">
                   <small>IMO number must be a valid number.</small>
                 </li>
@@ -50,6 +50,9 @@
                 <li *ngIf="imoNo.hasError('notPositiveNumberError')">
                   <small>IMO number must be a positive number.</small>
                 </li>
+                <li *ngIf="!imoValid">
+                  <small>{{imoErrorString}}</small>
+                </li>
               </div>
             </div>
 
@@ -57,17 +60,26 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="mmsi_no">MMSI Number</label>
-                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="touchData()" name="mmsiNo" type="number" class="form-control form-control-sm"
-                    id="mmsi_no" placeholder="Enter MMSI number" #mmsiNo="ngModel" integerValidator
-                    positiveNumberValidator />
+                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="validMmsiNumber()" name="mmsiNo" type="number" class="form-control form-control-sm"
+                    id="mmsi_no" placeholder="Enter MMSI number" #mmsiNo="ngModel" integerValidator minlength="9"
+                    maxlength="9" positiveNumberValidator />
                 </div>
               </div>
-              <div *ngIf="!mmsiNo.valid" class="alert alert-danger">
+              <div *ngIf="!mmsiNo.valid || !mmsiValid" class="alert alert-danger">
                 <li *ngIf="mmsiNo.hasError('notIntegerError')">
                   <small>MMSI number must be an integer.</small>
                 </li>
                 <li *ngIf="mmsiNo.hasError('notPositiveNumberError')">
                   <small>MMSI number must be a positive number.</small>
+                </li>
+                <li *ngIf="mmsiNo.hasError('minlength')">
+                    <small>MMSI Number must be 9 numbers.</small>
+                </li>
+                <li *ngIf="mmsiNo.hasError('maxlength')">
+                    <small>MMSI Number must be 9 numbers.</small>
+                </li>
+                <li *ngIf="!mmsiValid">
+                  <small>{{mmsiErrorString}}</small>
                 </li>
               </div>
             </div>
@@ -476,6 +488,8 @@
             <p class="no-wrap mb-0" *ngIf="!shipModel.name">Ship name not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.callSign">Call sign not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.imoNo">IMO number not set.</p>
+            <p class="no-wrap mb-0" *ngIf="!imoValid">IMO number not valid.</p>
+            <p class="no-wrap mb-0" *ngIf="!mmsiValid">MMSI number not valid.</p>
             <p class="no-wrap mb-0" *ngIf="!shipTypeSelected">Ship type not selected.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.yearOfBuild">Year of build not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.length || !lengthTypeSelected">Ship length not set.</p>
@@ -500,7 +514,7 @@
                         && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
                         && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
                         && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
-                        && organizationSelected && certificateSelected && shipStatusSelected">
+                        && organizationSelected && certificateSelected && shipStatusSelected && imoValid && mmsiValid">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>

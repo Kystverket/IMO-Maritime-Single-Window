@@ -25,6 +25,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   selectedLocationType: any;
   locationTypeDropdownString = 'Select location type';
   selectedTwoCharCode: string;
+  threeCharLoCode: string;
 
   countryList: any[];
   countrySelected = false;
@@ -64,7 +65,8 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.locationTypesSubscription = this.locationService.getLocationTypes().subscribe(
+    this.locationTypesSubscription = this.locationService.getLocationTypes()
+    .subscribe(
       results => {
         this.locationTypeList = results;
       },
@@ -112,7 +114,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   }
 
   updateAndSaveModel() {
-    const newLoCode = this.selectedTwoCharCode + this.locationModel.locationCode;
+    const newLoCode = this.selectedTwoCharCode + this.threeCharLoCode;
     this.locationModel.locationCode = newLoCode;
     this.registerLocation();
   }
@@ -124,7 +126,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
         }, error => {
           console.log(error);
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, error.error);
         }
       );
     } else {

@@ -50,6 +50,10 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   breadthTypeDropdownString = 'Select type';
   powerTypeDropdownString = 'Select type';
   shipStatusDropdownString = 'Select status';
+  mmsiErrorString = '';
+  imoErrorString = '';
+  mmsiValid = true;
+  imoValid = true;
 
   shipFlagCodeSelected: boolean;
   shipFlagCodeModel: ShipFlagCodeModel;
@@ -403,6 +407,71 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
       return '0' + number;
     } else {
       return number;
+    }
+  }
+
+  validMmsiNumber() {
+    this.mmsiValid = true;
+    this.mmsiErrorString = '';
+    const mmsi = this.shipModel.mmsiNo;
+    if (mmsi == null || mmsi === undefined) {
+      return;
+    }
+    if (mmsi.toString().length !== 9) {
+      this.mmsiErrorString = 'MMSI number must be 9 characters';
+      this.mmsiValid = false;
+      return;
+    }
+    if (mmsi < 200000000 || mmsi > 799999999) {
+      this.mmsiErrorString = 'MMSI number must be between 200000000 and 799999999';
+      this.mmsiValid = false;
+      return;
+    }
+    this.touchData();
+  }
+
+  validImoNumber() {
+    this.imoValid = true;
+    this.imoErrorString = '';
+    const Imo = this.shipModel.imoNo.toString();
+    if (Imo == null || Imo === undefined) {
+      this.imoValid = true;
+      this.imoErrorString = '';
+      return;
+    }
+    if (Imo.length !== 7) {
+      this.imoErrorString = 'IMO number must be 7 characters';
+      this.imoValid = false;
+      return;
+    }
+    const imoNumberInt = parseInt(Imo, 10);
+
+    const c1 = Math.floor((imoNumberInt / 1000000));
+    const c2 = Math.floor((imoNumberInt / 100000));
+    const c3 = Math.floor((imoNumberInt / 10000));
+    const c4 = Math.floor((imoNumberInt / 1000));
+    const c5 = Math.floor((imoNumberInt / 100));
+    const c6 = Math.floor((imoNumberInt / 10));
+
+    const d1 = Math.floor(c1);
+    const d2 = Math.floor(c2 - (c1 * 10));
+    const d3 = Math.floor(c3 - (c2 * 10));
+    const d4 = Math.floor(c4 - (c3 * 10));
+    const d5 = Math.floor(c5 - (c4 * 10));
+    const d6 = Math.floor(c6 - (c5 * 10));
+    const d7 = Math.floor(imoNumberInt - (c6 * 10));
+
+
+    const CheckSum = (d1 * 7 + d2 * 6 + d3 * 5 + d4 * 4 + d5 * 3 + d6 * 2) % 10;
+
+    if (CheckSum === d7) {
+      this.imoValid = true;
+      this.touchData();
+      return;
+    } else {
+      this.imoErrorString = 'This is not a valid IMO number';
+      this.imoValid = false;
+      return;
     }
   }
 
