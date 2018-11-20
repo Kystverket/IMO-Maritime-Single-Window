@@ -58,6 +58,11 @@
                 <small>Identity document issue date must be before the expiry date.</small>
               </li>
             </div>
+            <div *ngIf="identityDatesRequired && !identityIssueDateSet" class="alert alert-danger form-control-sm" role="alert">
+              <li>
+                <small>This field is required when identity document is supplied.</small>
+              </li>
+            </div>
           </div>
         </div>
 
@@ -68,6 +73,11 @@
             <div *ngIf="expiryDateBeforeIssueDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
               <li>
                 <small>Identity document expiry date must be after the issue date.</small>
+              </li>
+            </div>
+            <div *ngIf="identityDatesRequired && !identityExpiryDateSet" class="alert alert-danger form-control-sm" role="alert">
+              <li>
+                <small>This field is required when identity document is supplied.</small>
               </li>
             </div>
           </div>
