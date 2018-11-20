@@ -106,10 +106,11 @@
             <p *ngIf="!locationTypeSelected" class="no-wrap mb-0">Location type not selected.</p>
             <p *ngIf="!locationModel.name" class="no-wrap mb-0">Location name not set.</p>
             <p *ngIf="!countrySelected" class="no-wrap">Country not selected.</p>
+            <p *ngIf="!threeCarCode.valid" class="no-wrap">Location Code not valid.</p>
             <button class="btn btn-ssn" disabled>
               <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
-          <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected">
+          <div class="text-center" *ngIf="locationTypeSelected && locationModel.name && countrySelected && threeCarCode.valid">
             <button class="btn btn-ssn" (click)="updateAndSaveModel()">
               <img src="assets/images/icons/128x128/white/checkmark.png" height="24px" /> {{ confirmButtonTitle }}</button>
           </div>
