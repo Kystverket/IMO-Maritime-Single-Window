@@ -18,6 +18,12 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
 
+
+  newUser = false;
+  userHeader: string;
+  confirmHeader: string;
+  confirmButtonTitle: string;
+
   user: UserModel = {
     email: '',
     phoneNumber: '',
@@ -39,6 +45,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   selectedRole: any;
 
   getAllRolesSubscription: Subscription;
+  userDataSubscription: Subscription;
 
   registrationSuccessful: boolean;
   emailConfirmationLink: string;
@@ -56,6 +63,18 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       data => this.roleList = data
     );
 
+    this.userDataSubscription = this.accountService.userData$.subscribe(data => {
+      
+      if (data) {
+        this.setAllValues(data);
+      } else if (!this.newUser) {
+        // this.newShip = true;
+        // this.shipHeader = 'Register New Ship';
+        // this.confirmHeader = 'Confirm Ship Registration';
+        // this.confirmButtonTitle = 'Register Ship';
+      }
+    });
+
     this.organizationService.setOrganizationData(null);
     this.organizationService.organizationData$.subscribe(
       data => {
@@ -68,6 +87,14 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  setAllValues(user: UserModel) {
+    this.newUser = false;
+    this.userHeader = 'Edit Ship';
+    this.confirmHeader = 'Confirm Ship Changes';
+    this.confirmButtonTitle = 'Apply Changes';
+    this.user = user;
   }
 
   ngOnDestroy() {

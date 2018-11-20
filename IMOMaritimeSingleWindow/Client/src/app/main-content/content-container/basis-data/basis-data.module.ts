@@ -16,6 +16,7 @@ import { CertificateOfRegistryComponent } from './ship/register-ship/certificate
 import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
+import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
   ],
   declarations: [
     RegisterUserComponent,
+    ViewUserInfoComponent,
     RegisterShipComponent,
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
@@ -40,6 +42,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
   ],
   exports: [
     RegisterUserComponent,
+    ViewUserInfoComponent,
     ViewShipInfoComponent,
     RegisterShipComponent,
     RegisterLocationComponent,
