@@ -112,6 +112,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.startDbConnectionCheck();
   }
 
+  whatsNew() {
+    this.contentService.setContent(CONTENT_NAMES.WHATS_NEW);
+  }
+
   ngOnDestroy() {
     // prevent memory leak by unsubscribing
     this.subscription.unsubscribe();
