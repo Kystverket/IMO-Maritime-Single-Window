@@ -22,6 +22,7 @@ const CONTENT_NAMES = {
   PASSENGER_LIST: 'Passenger List',
   // Account
   ACCOUNT_HOME: 'ACCOUNT_HOME',
+  WHATS_NEW: 'Whats new'
 };
 
 export { CONTENT_NAMES };
