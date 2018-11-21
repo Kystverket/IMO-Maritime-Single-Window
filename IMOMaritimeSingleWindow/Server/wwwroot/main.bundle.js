@@ -11179,7 +11179,7 @@ var CargoListingTableComponent = /** @class */ (function () {
                 },
                 packageType: {
                     title: 'Package Types',
-                    valuePrepareFunction: function (value) { return value.name; }
+                    valuePrepareFunction: function (value) { return (value) ? value.name : ''; }
                 }
             }
         };
@@ -11510,11 +11510,11 @@ var CrewListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) { return value.name; },
+                    valuePrepareFunction: function (value) { return (value) ? value.name : 'N/A'; }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) { return new Date(value).toDateString(); }
+                    valuePrepareFunction: function (value) { return (value) ? new Date(value).toDateString() : ''; }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth'
@@ -11522,7 +11522,9 @@ var CrewListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        return value[0].identityDocumentType.description + ' : ' + value[0].identityDocumentId;
+                        if (!value)
+                            return 'N/A';
+                        return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
                     }
                 },
             }
@@ -11619,7 +11621,6 @@ var DpgConfirmationViewComponent = /** @class */ (function () {
                 if (data) {
                     _this.dpgData = data;
                     _this.numberOfDpgsOnBoard = data.length;
-                    console.log(_this.dpgData);
                 }
             });
         }
@@ -11788,11 +11789,11 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) { return value.name; },
+                    valuePrepareFunction: function (value) { return (value) ? value.name : ''; }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) { return new Date(value).toDateString(); }
+                    valuePrepareFunction: function (value) { return (value) ? new Date(value).toDateString() : ''; }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth'
@@ -11800,7 +11801,9 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        return value[0].identityDocumentType.description + ' : ' + value[0].identityDocumentId;
+                        if (!value)
+                            return 'N/A';
+                        return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
                     }
                 },
             }

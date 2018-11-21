@@ -38,7 +38,6 @@ export class DpgConfirmationViewComponent implements OnInit, OnDestroy {
             if (data) {
               this.dpgData = data;
               this.numberOfDpgsOnBoard = data.length;
-              console.log(this.dpgData);
             }
           });
     }
