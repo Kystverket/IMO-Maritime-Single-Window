@@ -28,6 +28,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
 
+
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
 
@@ -46,6 +47,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   formValid = true;
   validDocumentDates = true;
+  issueDateRequiredError = false;
+  expiryDateRequiredError = false;
 
   crewListDataSource: LocalDataSource = new LocalDataSource();
   smartTableList = [];
@@ -231,7 +234,13 @@ export class CrewListComponent implements OnInit, OnDestroy {
   // Setters
   setIdentityDocumentModel($event) {
     this.identityDocumentModel = $event.identityDocumentModel;
-    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError
+    || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+
+    this.issueDateRequiredError = $event.validDocumentDates.issueDateRequiredError;
+    this.expiryDateRequiredError = $event.validDocumentDates.expiryDateRequiredError;
+
+    this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
   }
 
   setPortOfEmbarkation($event) {

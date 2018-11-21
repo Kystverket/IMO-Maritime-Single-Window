@@ -16,18 +16,11 @@
         <div class="form-group row">
           <div class="col my-auto">
             <label for="numberOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
-            <input #numberOfIdentityDoc="ngModel" type="number" [(ngModel)]="identityDocumentModel.identityDocumentNumber" placeholder="Number of Identity Document"
-              class="form-control form-control-sm" name="numberOfIdentityDoc" integerValidator positiveNumberValidator (ngModelChange)="setNumberOfIdentityDoc($event)">
+            <input #numberOfIdentityDoc="ngModel" type="text" [(ngModel)]="identityDocumentModel.identityDocumentNumber" placeholder="Number of Identity Document"
+              class="form-control form-control-sm" name="numberOfIdentityDoc" (ngModelChange)="setNumberOfIdentityDoc($event)">
           </div>
         </div>
-        <div class="alert alert-danger" *ngIf="!numberOfIdentityDoc.valid && numberOfIdentityDoc.touched">
-          <li *ngIf="numberOfIdentityDoc.hasError('notIntegerError')">
-            <small>Identity document number must be an integer.</small>
-          </li>
-          <li *ngIf="numberOfIdentityDoc.hasError('notPositiveNumberError')">
-            <small>Identity document number must be a positive number.</small>
-          </li>
-        </div>
+
 
         <div class="form-group row">
           <div class="col my-auto">
@@ -65,16 +58,26 @@
                 <small>Identity document issue date must be before the expiry date.</small>
               </li>
             </div>
+            <div *ngIf="identityDatesRequired && !identityIssueDateSet" class="alert alert-danger form-control-sm" role="alert">
+              <li>
+                <small>This field is required when identity document is supplied.</small>
+              </li>
+            </div>
           </div>
         </div>
 
         <div class="form-group row">
           <div class="col my-auto">
-            <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identiy Document Expiry Date</label>
+            <label for="app-date-picker" class="col-form-label-sm no-wrap mb-0">Identity Document Expiry Date</label>
             <app-date-picker #selectExpiryDate (dateResult)="setIdentityDocumentExpiryDate($event)" [dateInput]="getNgbDateFormat(identityDocumentModel.identityDocumentExpiryDate)"></app-date-picker>
             <div *ngIf="expiryDateBeforeIssueDateError && expiryDateValid && issueDateValid" class="alert alert-danger" role="alert">
               <li>
                 <small>Identity document expiry date must be after the issue date.</small>
+              </li>
+            </div>
+            <div *ngIf="identityDatesRequired && !identityExpiryDateSet" class="alert alert-danger form-control-sm" role="alert">
+              <li>
+                <small>This field is required when identity document is supplied.</small>
               </li>
             </div>
           </div>
@@ -84,18 +87,10 @@
           <div class="form-group row">
             <div class="col my-auto">
               <label for="visaOrResidenceNumber" class="col-form-label-sm no-wrap mb-0">Visa or Residence Permit Number</label>
-              <input #visaOrResidencePermitNumber="ngModel" type="number" [(ngModel)]="identityDocumentModel.visaOrResidencePermitNumber"
+              <input #visaOrResidencePermitNumber="ngModel" type="text" [(ngModel)]="identityDocumentModel.visaOrResidencePermitNumber"
                 placeholder="Visa or Residence Permit Number" class="form-control form-control-sm" name="visaOrResidenceNumber"
-                integerValidator positiveNumberValidator (ngModelChange)="setVisaOrPermitNumber($event)">
+                (ngModelChange)="setVisaOrPermitNumber($event)">
             </div>
-          </div>
-          <div class="alert alert-danger" *ngIf="!visaOrResidencePermitNumber.valid && visaOrResidencePermitNumber.touched">
-            <li *ngIf="visaOrResidencePermitNumber.hasError('notIntegerError')">
-              <small>Visa/permit number must be an integer.</small>
-            </li>
-            <li *ngIf="visaOrResidencePermitNumber.hasError('notPositiveNumberError')">
-              <small>Visa/permit number number must be a positive number.</small>
-            </li>
           </div>
         </div>
       </div>

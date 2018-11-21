@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./user-info-table.component.css']
 })
 export class UserInfoTableComponent implements OnInit, OnDestroy {
+  @Input() header: string;
+
   createdByUserData: any;
   createdByUserProperties = new UserProperties().getPropertyList();
   createdByUserDataSubscription: Subscription;
