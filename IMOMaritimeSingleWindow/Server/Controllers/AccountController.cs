@@ -134,6 +134,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 // map the fields and update the record in the underlying data store
                 var applicationUser = _mapper.Map<ApplicationUser>(model);
+                applicationUser.SecurityStamp = new Guid().ToString();
                 var result = await _userManager.UpdateAsync(applicationUser);
 
                 // retrieve the record by email field
