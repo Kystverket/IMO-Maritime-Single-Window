@@ -29,16 +29,25 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 return BadRequest(ModelState);
             }
-            try
+
+            if (!_context.Location.Any(x => x.LocationCode == newLocation.LocationCode))
             {
-                _context.Location.Add(newLocation);
-                _context.SaveChanges();
+
+
+                try
+                {
+                    _context.Location.Add(newLocation);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e);
+                }
+                return Json(newLocation);
             }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-            return Json(newLocation);
+
+            return BadRequest("Location Code not unique.");
+
         }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
