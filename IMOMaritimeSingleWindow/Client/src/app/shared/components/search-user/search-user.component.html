@@ -1,0 +1,50 @@
+<ng-template #rt let-r="result" let-t="term">
+  <img src="assets/images/flags/128x128/{{r.shipFlagCode.country.twoCharCode.toLowerCase()}}.png" height="16px" />
+  <strong *ngIf="r.name">Name: </strong> {{ r.name }}
+  <strong *ngIf="r.callSign"> Call sign: </strong> {{ r.callSign }}
+  <strong *ngIf="r.imoNo"> IMO number: </strong> {{ r.imoNo }}
+  <strong *ngIf="r.mmsiNo"> MMSI number: </strong> {{ r.mmsiNo }}
+</ng-template>
+
+<div class="text-center">
+  <label for="search-ship">Search using username or full name</label>
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+      <div *ngIf="showDropdown" class="input-group">
+        <div class="input-group-prepend">
+          <button disabled class="btn btn-sm btn-ssn">
+            <img src="assets/images/icons/128x128/white/search.png" height="20px">
+          </button>
+        </div>
+        <input id="search-ship" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="userModel" [ngbTypeahead]="search"
+          [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectUser($event)" placeholder="Enter search here..."
+        />
+      </div>
+      <div *ngIf="!showDropdown" class="input-group">
+        <div class="input-group-prepend">
+          <button disabled class="btn btn-sm btn-ssn">
+            <img src="assets/images/icons/128x128/white/search.png" height="20px">
+          </button>
+        </div>
+        <input id="search-ship-no-dropdown" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="userModel" [ngbTypeahead]="search"
+          placeholder="Enter search here..." />
+      </div>
+    </div>
+    <div class="col-2">
+      <div *ngIf="searching">
+        <img class="mx-auto" src="assets/images/animations/ship.gif" height="32px">
+        <p>Searching</p>
+      </div>
+      <div *ngIf="searchFailed">
+        <img class="mx-auto" src="assets/images/icons/128x128/cancel.png" height="32px">
+        <p>No results</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="userSelected" class="text-center">
+  <img class="mx-auto" src="assets/images/animations/ship.gif" height="32px">
+  <p>Loading user...</p>
+</div>

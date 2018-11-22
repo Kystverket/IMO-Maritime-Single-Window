@@ -36,6 +36,7 @@ import { SearchLocationComponent } from './components/search-location/search-loc
 import { SearchOrganizationComponent } from './components/search-organization/search-organization.component';
 import { SearchShipFlagCodeComponent } from './components/search-ship-flag-code/search-ship-flag-code.component';
 import { SearchShipComponent } from './components/search-ship/search-ship.component';
+import { SearchUserComponent } from './components/search-user/search-user.component';
 import { SelectShipContactComponent } from './components/select-ship-contact/select-ship-contact.component';
 import { SelectedContactMediumsComponent } from './components/selected-contact-mediums/selected-contact-mediums.component';
 import { ShipInfoTableComponent } from './components/ship-info-table/ship-info-table.component';
@@ -45,6 +46,8 @@ import { SsnBgComponent } from './components/ssn-bg/ssn-bg.component';
 import { SsnCardComponent } from './components/ssn-card/ssn-card.component';
 import { SsnTableComponent } from './components/ssn-table/ssn-table.component';
 import { TableCardComponent } from './components/table-card/table-card.component';
+import { UserButtonRowComponent } from './components/user-smart-table/user-button-row/user-button-row.component';
+import { UserSmartTableComponent } from './components/user-smart-table/user-smart-table.component';
 import { DbConnectionService } from './services/db-connection.service';
 import { ErrorService } from './services/error.service';
 import { LocationService } from './services/location.service';
@@ -83,13 +86,16 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchUserComponent,
     SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectedPurposesComponent,
     SelectShipContactComponent,
     ShipButtonRowComponent,
+    UserButtonRowComponent,
     ShipInfoTableComponent,
     ShipSmartTableComponent,
+    UserSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
     SsnTableComponent,
@@ -132,11 +138,13 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SearchLocationComponent,
     SearchOrganizationComponent,
     SearchShipComponent,
+    SearchUserComponent,
     SearchShipFlagCodeComponent,
     SelectedContactMediumsComponent,
     SelectShipContactComponent,
     ShipInfoTableComponent,
     ShipSmartTableComponent,
+    UserSmartTableComponent,
     SsnBgComponent,
     SsnCardComponent,
     SsnTableComponent,
@@ -164,6 +172,7 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
   entryComponents: [
     ConfirmationModalComponent,
     ShipButtonRowComponent,
+    UserButtonRowComponent,
     OrganizationButtonRowComponent,
   ]
 })

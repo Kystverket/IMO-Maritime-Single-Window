@@ -33,11 +33,11 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) =>  value.name,
+        valuePrepareFunction: (value) =>  (value) ? value.name : ''
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) =>  new Date(value).toDateString()
+        valuePrepareFunction: (value) =>  (value) ? new Date(value).toDateString() : ''
       },
       placeOfBirth: {
         title: 'Place of Birth'
@@ -45,7 +45,10 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
       identityDocument: {
         title: 'ID Type and Number',
         valuePrepareFunction: (value) =>  {
-           return value[0].identityDocumentType.description + ' : ' + value[0].identityDocumentId;
+           if (!value) {
+             return 'N/A';
+           }
+           return (value[0].identityDocumentType) ? value[0].identityDocumentType.description : '' + ' : ' + (value[0].identityDocumentId) ? value[0].identityDocumentId : '';
          }
       },
     }

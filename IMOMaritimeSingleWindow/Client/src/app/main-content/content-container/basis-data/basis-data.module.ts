@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { LocationService, OrganizationService, ShipService } from 'app/shared/services/';
+import { AccountService, LocationService, OrganizationService, ShipService } from 'app/shared/services/';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { RegisterLocationComponent } from './location/register-location/register-location.component';
@@ -16,6 +16,7 @@ import { CertificateOfRegistryComponent } from './ship/register-ship/certificate
 import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
+import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
   ],
   declarations: [
     RegisterUserComponent,
+    ViewUserInfoComponent,
     RegisterShipComponent,
     ViewShipInfoComponent,
     RegisterOrganizationComponent,
@@ -40,6 +42,7 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
   ],
   exports: [
     RegisterUserComponent,
+    ViewUserInfoComponent,
     ViewShipInfoComponent,
     RegisterShipComponent,
     RegisterLocationComponent,
@@ -50,7 +53,8 @@ import { RegisterUserComponent } from './user/register-user/register-user.compon
   providers: [
     LocationService,
     OrganizationService,
-    ShipService
+    ShipService,
+    AccountService
   ],
   entryComponents: [
     LocationButtonRowComponent

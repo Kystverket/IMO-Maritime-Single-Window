@@ -43,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {
       title: 'USERS',
       iconPath: this.iconPath + 'user.png',
-      menuName: CONTENT_NAMES.REGISTER_USER
+      menuName: CONTENT_NAMES.VIEW_USERS
     },
     {
       title: 'SHIPS',

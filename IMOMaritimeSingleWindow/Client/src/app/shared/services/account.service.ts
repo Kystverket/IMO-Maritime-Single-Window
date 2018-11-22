@@ -32,6 +32,12 @@ export class AccountService extends BaseRequest {
   private userOrganizationDataSource = new BehaviorSubject<any>(null);
   userOrganizationData$ = this.userOrganizationDataSource.asObservable();
 
+  private userSearchDataSource = new BehaviorSubject<any>(null);
+  userSearchData$ = this.userSearchDataSource.asObservable();
+
+  private userDataSource = new BehaviorSubject<any>(null);
+  userData$ = this.userDataSource.asObservable();
+
   constructor(private http: HttpClient, configService: ConfigService) {
     super(configService);
     this.actionUrl = this.baseUrl + this.accountBaseUrl;  /* /api/account/account             */
@@ -62,8 +68,20 @@ export class AccountService extends BaseRequest {
     localStorage.setItem('user_claims', JSON.stringify(data));
   }
 
+  setUserSearchData(data) {
+    this.userSearchDataSource.next(data);
+  }
+
+  setUserData(data) {
+    this.userDataSource.next(data);
+  }
+
   registerUser(newUser: UserModel): Observable<any> {
     return this.http.post(this.userUrl, newUser);
+  }
+
+  updateUser(existingUser: UserModel): Observable<any> {
+    return this.http.put(this.userUrl + '/update', existingUser);
   }
 
   getDisplayName(): Observable<string> {

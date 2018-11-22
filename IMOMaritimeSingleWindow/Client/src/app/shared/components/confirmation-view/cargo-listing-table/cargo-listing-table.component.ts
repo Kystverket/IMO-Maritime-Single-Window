@@ -42,7 +42,7 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
       },
       packageType: {
         title: 'Package Types',
-        valuePrepareFunction: (value) => value.name
+        valuePrepareFunction: (value) => (value) ? value.name : ''
       }
     }
   };

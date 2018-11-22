@@ -7,4 +7,5 @@ export class UserModel {
   organizationId: string;
   companyPhoneNumber: string;
   companyEmail: string;
+  id: string;
 }
