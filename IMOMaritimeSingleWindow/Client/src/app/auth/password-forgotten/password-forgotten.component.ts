@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { AccountService } from '../../shared/services/account.service';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FeedBack } from '../../shared/models/feedback';
+import { AccountService } from '../../shared/services/account.service';
 
 @Component({
   selector: 'app-password-forgotten',

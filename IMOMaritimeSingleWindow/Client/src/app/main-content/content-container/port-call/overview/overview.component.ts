@@ -1,17 +1,13 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { AccountService, ContentService, OrganizationService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Subscription } from 'rxjs/Subscription';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
-import { Subscription } from 'rxjs/Subscription';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
 
 @Component({
   selector: 'app-overview',
@@ -161,7 +157,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser().subscribe(organizationResult => {
+    this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser()
+    .finally(() => this.loadOverview())
+    .subscribe(organizationResult => {
       if (organizationResult) {
         this.userIsGovernmentAgency =
           organizationResult.organizationType &&
@@ -172,7 +170,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
         }
       }
       this.userOrganization = organizationResult;
-      this.loadOverview();
     });
   }
 
@@ -184,36 +181,37 @@ export class OverviewComponent implements OnInit, OnDestroy {
   overviewRow(ov) {
     const row = {
       overviewModel: ov,
+      portCallId: ov.portCallId,
       shipName:
         `<div class="no-wrap"><div hidden>` +
-        ov.ship.name + // ugly fix for alphabetical sorting but it works
+        ov.shipName + // ugly fix for alphabetical sorting but it works
         `</div> <div> <img src='assets/images/flags/128x128/` +
-        ov.ship.shipFlagCode.country.twoCharCode.toLowerCase() +
+        ov.shipTwoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
-        ov.ship.name +
+        ov.shipName +
         `</div></div>`,
       callSign:
-        ov.ship.callSign ||
+        ov.callSign ||
         `<span class="font-italic no-wrap">Not provided.</span>`,
       locationName:
         `<div hidden>` +
-        ov.location.name + // same ugly fix as ship name
+        ov.locationName + // same ugly fix as ship name
         `</div> <div> <img src='assets/images/flags/128x128/` +
-        ov.location.country.twoCharCode.toLowerCase() +
+        ov.locationTwoCharCode.toLowerCase() +
         `.png' height='20px'/> ` +
-        ov.location.name +
+        ov.locationName +
         `</div>`,
       eta:
         `<span class="no-wrap">` +
-        this.datePipe.transform(ov.portCall.locationEta, 'yyyy-MM-dd') +
+        this.datePipe.transform(ov.eta, 'yyyy-MM-dd') +
         `</span> <span class="no-wrap">` +
-        this.datePipe.transform(ov.portCall.locationEta, 'HH:mm') +
+        this.datePipe.transform(ov.eta, 'HH:mm') +
         `</span>`,
       etd:
         `<span class="no-wrap">` +
-        this.datePipe.transform(ov.portCall.locationEtd, 'yyyy-MM-dd') +
+        this.datePipe.transform(ov.etd, 'yyyy-MM-dd') +
         `</span> <span class="no-wrap">` +
-        this.datePipe.transform(ov.portCall.locationEtd, 'HH:mm') +
+        this.datePipe.transform(ov.etd, 'HH:mm') +
         `</span>`,
       status:
         ov.status === PortCallStatusTypes.CANCELLED
@@ -254,62 +252,54 @@ export class OverviewComponent implements OnInit, OnDestroy {
       });
     }
 
-    this.overviewService.getPortCalls().subscribe(
-      pcData => {
-        if (pcData) {
-          this.contentService.setLoadingScreen(true, 'portcall.gif', 'LOADING PORT CALLS');
-          if (pcData.length === 0) {
-            this.contentService.setLoadingScreen(false, null, null);
-          } else {
-            let index = 0;
-            const finalIndex = pcData.length - 1;
-            pcData.forEach(pc => {
-              this.overviewService.getPartialOverview(pc.portCallId).subscribe(
-                ov => {
-                  if (ov) {
-                    const row = this.overviewRow(ov);
-                    // Case: port call is incomplete (status: draft)
-                    if (ov.status === PortCallStatusTypes.DRAFT) {
-                      this.draftOverviewList.push(row);
-                    } else if (
-                      this.userIsGovernmentAgency &&
-                      ov.clearanceList &&
-                      ov.clearanceList.some(
-                        clearance => clearance.organizationId === this.userOrganization.organizationId && clearance.cleared != null
-                      )
-                    ) {
-                      this.clearedByUserAgencyOverviewList.push(row);
-                    } else if (ov.status === PortCallStatusTypes.CANCELLED) {
-                      this.cancelledOverviewList.push(row);
-                    } else if (ov.status === PortCallStatusTypes.COMPLETED) {
-                      this.completedOverviewList.push(row);
-                    } else {
-                      this.overviewList.push(row);
-                    }
-                    this.overviewService.setOverviewData(this.overviewList.sort(
-                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
-                    ));
-                    this.overviewService.setDraftData(this.draftOverviewList.sort(
-                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
-                    ));
-                    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(
-                      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
-                    ));
-                  }
-                },
-                error => console.log(error),
-                () => {
-                  if (index++ >= finalIndex) {
-                    this.contentService.setLoadingScreen(false, null, null);
-                  }
-                }
-              );
+    this.overviewService.getOverviewsByUser()
+      .finally(() => {
+        this.sortOverView();
+      })
+      .subscribe(
+        ovs => {
+          if (ovs) {
+            ovs.forEach(ov => {
+              const row = this.overviewRow(ov);
+              // Case: port call is incomplete (status: draft)
+              if (ov.status === PortCallStatusTypes.DRAFT) {
+                this.draftOverviewList.push(row);
+              } else if (
+                this.userIsGovernmentAgency &&
+                ov.clearanceList &&
+                ov.clearanceList.some(
+                  clearance => clearance.organizationId === this.userOrganization.organizationId && clearance.cleared != null
+                )
+              ) {
+                this.clearedByUserAgencyOverviewList.push(row);
+              } else if (ov.status === PortCallStatusTypes.CANCELLED) {
+                this.cancelledOverviewList.push(row);
+              } else if (ov.status === PortCallStatusTypes.COMPLETED) {
+                this.completedOverviewList.push(row);
+              } else {
+                this.overviewList.push(row);
+              }
+
             });
           }
+        },
+        error => console.log(error),
+        () => {
         }
-      },
-      error => console.log(error)
-    );
+      );
+  }
+
+  private sortOverView() {
+    this.overviewService.setOverviewData(this.overviewList.sort(
+      (row1, row2) => row2.portCallId - row1.portCallId
+    ));
+    this.overviewService.setDraftData(this.draftOverviewList.sort(
+      (row1, row2) => row2.portCallId - row1.portCallId
+    ));
+    this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(
+      (row1, row2) => row2.portCallId - row1.portCallId
+    ));
+    this.rerenderList();
   }
 
   private rerenderList() {

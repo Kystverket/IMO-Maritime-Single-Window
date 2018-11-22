@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
-import { ConstantsService } from 'app/shared/services/constants.service';
-import { ShipService } from 'app/shared/services/ship.service';
+import { ConstantsService, ShipService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

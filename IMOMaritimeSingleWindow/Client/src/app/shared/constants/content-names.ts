@@ -1,10 +1,15 @@
+// Users, ships, locations, organizations
 const CONTENT_NAMES = {
-  // Users, ships, locations, organizations
-  REGISTER_USER: 'USERS',
+  // users
+  REGISTER_USER: 'Register User',
+  VIEW_USERS: 'USERS',
+  // ships
   VIEW_SHIPS: 'SHIPS',
   REGISTER_SHIP: 'Register Ship',
+  // locations
   LOCATIONS: 'LOCATIONS',
   REGISTER_LOCATION: 'Register Location',
+  // organizations
   VIEW_ORGANIZATIONS: 'ORGANIZATIONS',
   REGISTER_ORGANIZATION: 'Register Organization',
   // Port calls
@@ -22,6 +27,7 @@ const CONTENT_NAMES = {
   PASSENGER_LIST: 'Passenger List',
   // Account
   ACCOUNT_HOME: 'ACCOUNT_HOME',
+  WHATS_NEW: 'Whats new'
 };
 
 export { CONTENT_NAMES };

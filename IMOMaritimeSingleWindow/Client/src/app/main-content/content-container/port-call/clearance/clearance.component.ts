@@ -1,10 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ClearanceModel } from 'app/shared/models/clearance-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { ShipService } from 'app/shared/services/ship.service';
+import { ClearanceModel } from 'app/shared/models/';
+import { ContentService, PortCallService, ShipService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ContentService } from 'app/shared/services/content.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ContentService } from 'app/shared/services/content.service';
 
 @Component({
   selector: 'app-header-home',

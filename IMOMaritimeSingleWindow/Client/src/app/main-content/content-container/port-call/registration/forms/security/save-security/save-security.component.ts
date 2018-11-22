@@ -1,12 +1,6 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { FalSecurityModel } from 'app/shared/models/fal-security-model';
-import { InternationalShipSecurityCertificateModel } from 'app/shared/models/international-ship-security-certificate-model';
-import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
-import { ShipToShipActivityModel } from 'app/shared/models/ship-to-ship-activity-model';
-import { CompanySecurityOfficerModel } from 'app/shared/models/company-security-officer-model';
-import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { ShipService } from 'app/shared/services/ship.service';
-import { ShipModel } from 'app/shared/models/ship-model';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, SecurityPreviousPortOfCallModel, ShipModel, ShipToShipActivityModel } from 'app/shared/models/';
+import { FalSecurityService, ShipService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

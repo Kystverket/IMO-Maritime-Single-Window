@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -18,9 +19,9 @@ namespace IMOMaritimeSingleWindow.Controllers
     {
         readonly IDbContext _context;
 
-        public PortCallController(IDbContext context)
+		public PortCallController(IDbContext context)
         {
-            _context = context;
+			_context = context;
         }
 
         [HttpGet("{portCallId}/falShipStores")]
@@ -307,12 +308,127 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(overview);
         }
 
+        [Authorize]
+        [HttpGet("user/overview")]
+        public IActionResult GetPortCallOverviewByUser()
+        {
+            var orgList = _context.Organization.Where(o => o.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY).Select(x => x.OrganizationId).ToList();
+
+            var portCalls = GetPortCalls();
+
+            var result = portCalls.Select(pc => new
+            {
+                ShipName = pc.Ship.Name,
+                pc.PortCallId,
+                pc.Ship.CallSign,
+                ShipTwoCharCode = pc.Ship.ShipFlagCode.Country.TwoCharCode,
+                LocationTwoCharCode = pc.Location.Country.TwoCharCode,
+                Eta = pc.LocationEta,
+                Etd = pc.LocationEtd,
+                LocationAta = pc.LocationAta,
+                LocationAtd = pc.LocationAtd,
+                LocationName = pc.Location.Name,
+                Status = pc.PortCallStatus.Name,
+                ClearanceList = pc.OrganizationPortCall.Where(x => orgList.Contains(x.OrganizationId))
+                .Select(x => new
+                {
+                    x.OrganizationId,
+                    x.Cleared,
+                    x.Organization?.Name,
+                    x.Organization?.ClearanceIsNullString,
+                    x.Organization?.ClearanceIsFalseString,
+                    x.Organization?.ClearanceIsTrueString
+                }).ToList()
+            }).ToList();
+
+            return Json(result);
+        }
+
+        public List<PortCall> GetPortCalls()
+        {
+            var portCalls = new List<PortCall>();
+            var userId = this.GetUserId();
+            var userRole = this.GetUserRoleName();
+
+            var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
+                                    .Include(u => u.Organization.OrganizationType)
+                                    .FirstOrDefault();
+
+            switch (userRole)
+            {
+                // Super Admin & Admin
+                case Constants.Strings.UserRoles.SuperAdmin:
+                case Constants.Strings.UserRoles.Admin:
+                    portCalls = _context.PortCall.Where(pc =>
+                                                    pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                    .Include(pc => pc.Ship)
+                                                    .Include(pc => pc.Ship.ShipFlagCode.Country)
+                                                    .Include(pc => pc.Location)
+                                                    .Include(pc => pc.Location.Country)
+                                                    .Include(pc => pc.OrganizationPortCall)
+                                                    .ThenInclude(pc => pc.Organization)
+                                                    .Include(pc => pc.PortCallStatus)
+                                                    .ToList();
+                    break;
+
+                // Agent
+                case Constants.Strings.UserRoles.Agent:
+                    portCalls = _context.PortCall.Where(
+                                                    pc => pc.User.OrganizationId == dbUser.OrganizationId && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                    .Include(pc => pc.Ship)
+                                                    .Include(pc => pc.Ship.ShipFlagCode.Country)
+                                                    .Include(pc => pc.Location)
+                                                    .Include(pc => pc.Location.Country)
+                                                    .Include(pc => pc.OrganizationPortCall)
+                                                    .ThenInclude(pc => pc.Organization)
+                                                    .Include(pc => pc.PortCallStatus)
+                                                    .ToList();
+                    break;
+                // Customs & Health Agency
+                case Constants.Strings.UserRoles.Customs:
+                case Constants.Strings.UserRoles.HealthAgency:
+                    portCalls = _context.PortCall.Where(pc =>
+                                            pc.OrganizationPortCall.Any(x => x.OrganizationId == dbUser.OrganizationId)
+                                            && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                            && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                                .Include(pc => pc.Ship)
+                                                .Include(pc => pc.Ship.ShipFlagCode.Country)
+                                                .Include(pc => pc.Location)
+                                                .Include(pc => pc.Location.Country)
+                                                .Include(pc => pc.OrganizationPortCall)
+                                                .ThenInclude(pc => pc.Organization)
+                                                .Include(pc => pc.PortCallStatus)
+                                                .ToList();
+                    break;
+                
+                // Other authorities not listed in Constants.Strings.UserRoles
+                default:
+                    if (dbUser.Organization.OrganizationTypeId == Constants.Integers.DatabaseTableIds.ORGANIZATION_TYPE_GOVERNMENT_AGENCY)
+                    {
+
+                        portCalls = _context.PortCall.Where(pc =>
+                                pc.OrganizationPortCall.Any(x => x.OrganizationId == dbUser.OrganizationId)
+                                && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT
+                                && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                                    .Include(pc => pc.Ship)
+                                    .Include(pc => pc.Ship.ShipFlagCode.Country)
+                                    .Include(pc => pc.Location)
+                                    .Include(pc => pc.Location.Country)
+                                    .Include(pc => pc.OrganizationPortCall)
+                                    .ThenInclude(pc => pc.Organization)
+                                    .Include(pc => pc.PortCallStatus)
+                                    .ToList();
+                    }
+                    break;
+            }
+            return portCalls;
+        }
 
         [Authorize]
         [HttpGet("user")]
         public IActionResult GetPortCallsByUser()
         {
-            List<PortCall> portCallList = new List<PortCall>();
+            var portCallList = new List<PortCall>();
             var userId = this.GetUserId();
             var userRole = this.GetUserRoleName();
 
@@ -330,8 +446,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                     break;
                 // Admin
                 case Constants.Strings.UserRoles.Admin:
-                    portCallList = _context.PortCall.Where(
-                                                    pc => pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                    portCallList = _context.PortCall.Where(pc =>
+                                                    pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
                                                     .ToList();
                     break;
                 // Agent
@@ -434,7 +550,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
-                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED;
                 _context.Update(portCall);
                 _context.SaveChanges();
@@ -459,7 +575,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
-                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
+                var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_COMPLETED;
                 _context.Update(portCall);
                 _context.SaveChanges();
@@ -484,7 +600,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
-                PortCall portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == portCallId);
+                var portCall = _context.PortCall.FirstOrDefault(pc => pc.PortCallId == portCallId);
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CANCELLED;
                 _context.Update(portCall);
                 _context.SaveChanges();
@@ -506,7 +622,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     return NotFound("Port call with id: " + portCallId + " could not be found in database.");
                 }
-                PortCall portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).Include(pc => pc.OrganizationPortCall).FirstOrDefault();
+                var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).Include(pc => pc.OrganizationPortCall).FirstOrDefault();
                 portCall.PortCallStatusId = Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DRAFT;
                 foreach (OrganizationPortCall opc in portCall.OrganizationPortCall)
                 {

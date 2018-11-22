@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationService } from 'app/shared/services/location.service';
 import { Subscription } from 'rxjs/Subscription';

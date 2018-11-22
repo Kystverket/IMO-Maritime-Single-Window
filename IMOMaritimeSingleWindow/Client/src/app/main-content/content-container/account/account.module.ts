@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { AccountRoutingModule } from './account-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../../../shared/shared.module';
 import { AccountOverviewComponent } from './account-overview/account-overview.component';
+import { AccountRoutingModule } from './account-routing.module';
 
 @NgModule({
   imports: [

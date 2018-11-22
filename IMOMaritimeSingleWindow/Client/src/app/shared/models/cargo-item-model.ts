@@ -1,5 +1,4 @@
-import { ConsignmentModel } from './consignment-model';
-import { PackageTypeModel } from './package-type-model';
+import {ConsignmentModel, PackageTypeModel } from './';
 
 export class CargoItemModel {
     cargoItemId: number;

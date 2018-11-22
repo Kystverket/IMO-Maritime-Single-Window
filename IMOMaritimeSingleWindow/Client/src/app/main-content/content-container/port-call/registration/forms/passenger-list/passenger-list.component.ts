@@ -1,19 +1,14 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LocalDataSource } from 'ng2-smart-table';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { SmartTableModel } from './smartTableModel';
-import { GenderModel } from 'app/shared/models/gender-model';
-import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
-import { Subscription } from 'rxjs/Subscription';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
-import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
-import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
-import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PersonOnBoardTypeModel } from 'app/shared/models/person-on-board-type-model';
-import { LocationModel } from 'app/shared/models/location-model';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
+import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
+import { IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
+import { LocalDataSource } from 'ng2-smart-table';
+import { Subscription } from 'rxjs/Subscription';
+import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
+import { SmartTableModel } from './smartTableModel';
 
 @Component({
   selector: 'app-passenger-list',
@@ -52,6 +47,8 @@ export class PassengerListComponent implements OnInit, OnDestroy {
 
   formValid = true;
   validDocumentDates = true;
+  issueDateRequiredError = false;
+  expiryDateRequiredError = false;
 
   passengerListDataSource: LocalDataSource = new LocalDataSource();
   smartTableList = [];
@@ -239,7 +236,13 @@ export class PassengerListComponent implements OnInit, OnDestroy {
   // Setters
   setIdentityDocumentModel($event) {
     this.identityDocumentModel = $event.identityDocumentModel;
-    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError
+    || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+
+    this.issueDateRequiredError = $event.validDocumentDates.issueDateRequiredError;
+    this.expiryDateRequiredError = $event.validDocumentDates.expiryDateRequiredError;
+
+    this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
   }
 
   setPortOfEmbarkation($event) {

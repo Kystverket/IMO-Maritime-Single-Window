@@ -1,6 +1,7 @@
 <div [ngSwitch]="selectedComponent">
   <app-account-overview *ngSwitchCase="cn.ACCOUNT_HOME"></app-account-overview>
   <app-register-user *ngSwitchCase="cn.REGISTER_USER"></app-register-user>
+  <app-view-user-info *ngSwitchCase="cn.VIEW_USERS"></app-view-user-info>
   <app-view-ship-info *ngSwitchCase="cn.VIEW_SHIPS"></app-view-ship-info>
   <app-register-ship *ngSwitchCase="cn.REGISTER_SHIP"></app-register-ship>
   <app-view-location-info *ngSwitchCase="cn.LOCATIONS"></app-view-location-info>
@@ -11,5 +12,6 @@
   <app-registration *ngSwitchCase="cn.REGISTER_PORT_CALL"></app-registration>
   <app-view-port-call *ngSwitchCase="cn.VIEW_PORT_CALL"></app-view-port-call>
   <app-clearance *ngSwitchCase="cn.PORT_CALL_CLEARANCE"></app-clearance>
+  <app-whats-new *ngSwitchCase="cn.WHATS_NEW"></app-whats-new>
   <div class="alert alert-danger" *ngSwitchDefault>Oops, something went wrong. Please reload the page.</div>
 </div>

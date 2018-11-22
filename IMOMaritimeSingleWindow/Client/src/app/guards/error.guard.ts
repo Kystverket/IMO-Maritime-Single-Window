@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ErrorService } from '../shared/services/error.service';
 
@@ -14,7 +14,7 @@ export class ErrorGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      if(state.url !== '/error') {
+      if (state.url !== '/error') {
         this.errorService.setErrorReason('Page not found');
         this.errorService.setErrorMessage('The page you requested could not be found.');
         this.router.navigate(['/error']);

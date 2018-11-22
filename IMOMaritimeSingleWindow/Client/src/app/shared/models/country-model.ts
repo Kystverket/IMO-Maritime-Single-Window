@@ -1,6 +1,5 @@
-import { InternationalShipSecurityCertificateModel } from './international-ship-security-certificate-model';
-import { LocationModel } from 'app/shared/models/location-model';
-import { ShipFlagCodeModel } from './ship-flag-code-model';
+import {InternationalShipSecurityCertificateModel, LocationModel, ShipFlagCodeModel } from './';
+
 
 export class CountryModel {
   countryId: number;

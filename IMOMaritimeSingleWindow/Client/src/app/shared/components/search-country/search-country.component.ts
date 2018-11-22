@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
+import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import { CountryService } from 'app/shared/services/country.service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
-import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
+import { LocationModel } from '../../models/location-model';
 
 @Component({
   selector: 'app-search-country',

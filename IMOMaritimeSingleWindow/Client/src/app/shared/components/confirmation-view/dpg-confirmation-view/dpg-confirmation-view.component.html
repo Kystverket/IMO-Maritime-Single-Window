@@ -1,0 +1,82 @@
+<div class="row mb-3">
+  <div class="col">
+    <app-table-card header="DPG" icon="hazard.png" collapsible=true>
+
+      <ng-container
+        *ngIf="numberOfDpgsOnBoard > 0 && !isLoading; then dpgDataExists; else noDpgData">
+      </ng-container>
+
+      <ng-template #dpgDataExists>
+        <tbody>
+          <tr>
+            <td>
+              <small>#</small>
+            </td>
+            <td>
+              <small>Classification</small>
+            </td>
+            <td>
+              <small>Un No/Name</small>
+            </td>
+            <td>
+              <small>Name</small>
+            </td>
+            <td>
+              <small>Gross Weight</small>
+            </td>
+            <td>
+              <small>Net Weight</small>
+            </td>
+            <td>
+              <small>Location on Board</small>
+            </td>
+            <td>
+              <small>Trans Unit ID</small>
+            </td>
+            <td>
+              <small>Placed in Container</small>
+            </td>
+          </tr>
+          <tr *ngFor="let dpg of dpgData">
+            <td>
+              {{dpg.sequenceNo}}
+            </td>
+            <td>
+              {{dpg.dpg.dpgType.shortName}}
+            </td>
+            <td>
+              {{dpg.dpg.unNumber}}
+            </td>
+            <td>
+              {{dpg.dpg.textualReference}}
+            </td>
+            <td>
+              {{dpg.grossWeight}}
+            </td>
+            <td>
+              {{dpg.netWeight}}
+            </td>
+            <td>
+              {{dpg.locationOnBoard}}
+            </td>
+            <td>
+              {{dpg.transportUnitIdentification}}
+            </td>
+            <td>
+              {{ dpg.placedInContainerStr}}
+            </td>
+          </tr>
+        </tbody>
+      </ng-template>
+
+      <ng-template #noDpgData>
+        <div class="text-center my-3" >
+          <img *ngIf="iconPath" src="{{iconPath}}warning.png" height="24px" />
+          <span class="no-wrap">DPG information</span>
+          <span class="no-wrap">is marked for delivery,</span>
+          <span class="no-wrap">but no information is provided.</span>
+        </div>
+      </ng-template>
+    </app-table-card>
+  </div>
+</div>

@@ -1,18 +1,19 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
-import { AuthRequest } from './auth.request.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class PortCallOverviewService extends BaseRequest {
 
     private portCallUrl: string;
     private portCallUserUrl: string;
-    private overviewUrl: string;
     private partialOverviewUrl: string;
+    private overviewByUserUrl: string;
+    private overviewUrl: string;
 
     private overviewDataSource = new BehaviorSubject<any>(null);
     overviewData$ = this.overviewDataSource.asObservable();
@@ -42,8 +43,9 @@ export class PortCallOverviewService extends BaseRequest {
         super(configService);
         this.portCallUrl = 'api/portcall';
         this.partialOverviewUrl = this.portCallUrl + '/partialOverview';
-        this.overviewUrl = this.portCallUrl + '/overview';
         this.portCallUserUrl = this.portCallUrl + '/user';
+        this.overviewByUserUrl = this.portCallUrl + '/user/overview';
+        this.overviewUrl = this.portCallUrl + '/overview';
     }
 
     setLoadingPortCall(data: boolean) {
@@ -89,8 +91,8 @@ export class PortCallOverviewService extends BaseRequest {
         return this.http.get(uri);
     }
 
-    getOverviews(): Observable<any> {
-        const uri = this.overviewUrl;
-        return this.http.get(uri);
+    getOverviewsByUser(): Observable<any[]> {
+        const uri = this.overviewByUserUrl;
+        return this.http.get<any[]>(uri);
     }
 }

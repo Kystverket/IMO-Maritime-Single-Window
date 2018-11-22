@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ViewCell } from 'ng2-smart-table';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ConstantsService } from 'app/shared/services/constants.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { LocationService } from 'app/shared/services/location.service';
+import { ConstantsService, ContentService, LocationService} from 'app/shared/services/';
+import { ViewCell } from 'ng2-smart-table';
 
 @Component({
   selector: 'app-location-button-row',

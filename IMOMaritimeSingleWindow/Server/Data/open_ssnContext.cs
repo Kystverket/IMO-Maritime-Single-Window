@@ -469,6 +469,18 @@ namespace IMOMaritimeSingleWindow.Data
                     .HasForeignKey(d => d.PortCallId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dpg_on_board_port_call_id_fkey");
+
+                entity.HasOne(d => d.MeasurementType)
+                    .WithMany(p => p.DpgOnBoard)
+                    .HasForeignKey(d => d.MeasurementTypeId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("dpg_on_board_measurement_type_id_fkey");
+
+                entity.Property(e => e.MeasurementTypeId).HasColumnName("MeasurementTypeId");
+
+                entity.HasIndex(e => e.MeasurementTypeId)
+                    .HasName("dpg_on_board_measurement_type_id_fkey");
+
             });
 
             modelBuilder.Entity<DpgType>(entity =>
@@ -482,6 +494,11 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.ShortName)
+                .IsRequired()
+                .HasColumnName("ShortName");
+
             });
 
             modelBuilder.Entity<FalSecurity>(entity =>

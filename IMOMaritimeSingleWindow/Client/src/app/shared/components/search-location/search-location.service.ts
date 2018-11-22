@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class SearchLocationService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { TokenQueryModel } from '../models/token-query-model';
 import { Params } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { TokenQueryModel } from '../models/token-query-model';
 
 @Injectable()
 export class UriQueryService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { GenderModel } from 'app/shared/models/gender-model';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class GenderService {

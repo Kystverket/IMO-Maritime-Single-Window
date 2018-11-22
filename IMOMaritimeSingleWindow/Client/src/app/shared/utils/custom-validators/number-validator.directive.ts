@@ -1,5 +1,5 @@
-import { Directive, forwardRef, Attribute } from '@angular/core';
-import { Validator, NG_VALIDATORS, AbstractControl } from '@angular/forms';
+import { Attribute, Directive, forwardRef } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
   selector:

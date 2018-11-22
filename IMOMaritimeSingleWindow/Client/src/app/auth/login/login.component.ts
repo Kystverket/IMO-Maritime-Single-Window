@@ -4,12 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { Credentials } from 'app/shared/interfaces/credentials.interface';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { LoginService } from 'app/shared/services/login.service';
-import { PasswordService } from '../password.service';
+import { AccountService, AuthService, ContentService, LoginService } from 'app/shared/services/';
 import { MenuClaims } from '../../shared/constants/menu-claims';
-import { AuthService } from '../../shared/services/auth-service';
+import { PasswordService } from '../password.service';
 
 @Component({
   selector: 'app-login',

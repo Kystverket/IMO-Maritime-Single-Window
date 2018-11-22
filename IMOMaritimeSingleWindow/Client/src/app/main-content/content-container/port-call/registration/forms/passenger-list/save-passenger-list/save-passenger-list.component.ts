@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallService } from 'app/shared/services/port-call.service';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-save-passenger-list',

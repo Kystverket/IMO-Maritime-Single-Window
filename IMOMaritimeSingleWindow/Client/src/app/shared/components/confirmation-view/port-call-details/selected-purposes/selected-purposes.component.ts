@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PurposeService } from 'app/shared/services/purpose.service';
+import { PortCallDetailsService, PurposeService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 
 const OTHER_PURPOSE_ID = '100249';

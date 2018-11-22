@@ -1,6 +1,4 @@
-import { LocationModel } from 'app/shared/models/location-model';
-import { SecurityLevelModel } from './security-level-model';
-import { FalSecurityModel } from './fal-security-model';
+import { FalSecurityModel, LocationModel, SecurityLevelModel } from './';
 
 export class SecurityPreviousPortOfCallModel {
   securityPreviousPortOfCallId: number;
