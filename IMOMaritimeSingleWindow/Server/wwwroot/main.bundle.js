@@ -2225,7 +2225,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/content-container.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [ngSwitch]=\"selectedComponent\">\r\n  <app-account-overview *ngSwitchCase=\"cn.ACCOUNT_HOME\"></app-account-overview>\r\n  <app-register-user *ngSwitchCase=\"cn.REGISTER_USER\"></app-register-user>\r\n  <app-view-ship-info *ngSwitchCase=\"cn.VIEW_SHIPS\"></app-view-ship-info>\r\n  <app-register-ship *ngSwitchCase=\"cn.REGISTER_SHIP\"></app-register-ship>\r\n  <app-view-location-info *ngSwitchCase=\"cn.LOCATIONS\"></app-view-location-info>\r\n  <app-register-location *ngSwitchCase=\"cn.REGISTER_LOCATION\"></app-register-location>\r\n  <app-view-organization-info *ngSwitchCase=\"cn.VIEW_ORGANIZATIONS\"></app-view-organization-info>\r\n  <app-register-organization *ngSwitchCase=\"cn.REGISTER_ORGANIZATION\"></app-register-organization>\r\n  <app-port-call *ngSwitchCase=\"cn.VIEW_PORT_CALLS\"></app-port-call>\r\n  <app-registration *ngSwitchCase=\"cn.REGISTER_PORT_CALL\"></app-registration>\r\n  <app-view-port-call *ngSwitchCase=\"cn.VIEW_PORT_CALL\"></app-view-port-call>\r\n  <app-clearance *ngSwitchCase=\"cn.PORT_CALL_CLEARANCE\"></app-clearance>\r\n  <div class=\"alert alert-danger\" *ngSwitchDefault>Oops, something went wrong. Please reload the page.</div>\r\n</div>"
+module.exports = "<div [ngSwitch]=\"selectedComponent\">\r\n  <app-account-overview *ngSwitchCase=\"cn.ACCOUNT_HOME\"></app-account-overview>\r\n  <app-register-user *ngSwitchCase=\"cn.REGISTER_USER\"></app-register-user>\r\n  <app-view-ship-info *ngSwitchCase=\"cn.VIEW_SHIPS\"></app-view-ship-info>\r\n  <app-register-ship *ngSwitchCase=\"cn.REGISTER_SHIP\"></app-register-ship>\r\n  <app-view-location-info *ngSwitchCase=\"cn.LOCATIONS\"></app-view-location-info>\r\n  <app-register-location *ngSwitchCase=\"cn.REGISTER_LOCATION\"></app-register-location>\r\n  <app-view-organization-info *ngSwitchCase=\"cn.VIEW_ORGANIZATIONS\"></app-view-organization-info>\r\n  <app-register-organization *ngSwitchCase=\"cn.REGISTER_ORGANIZATION\"></app-register-organization>\r\n  <app-port-call *ngSwitchCase=\"cn.VIEW_PORT_CALLS\"></app-port-call>\r\n  <app-registration *ngSwitchCase=\"cn.REGISTER_PORT_CALL\"></app-registration>\r\n  <app-view-port-call *ngSwitchCase=\"cn.VIEW_PORT_CALL\"></app-view-port-call>\r\n  <app-clearance *ngSwitchCase=\"cn.PORT_CALL_CLEARANCE\"></app-clearance>\r\n  <app-whats-new *ngSwitchCase=\"cn.WHATS_NEW\"></app-whats-new>\r\n  <div class=\"alert alert-danger\" *ngSwitchDefault>Oops, something went wrong. Please reload the page.</div>\r\n</div>"
 
 /***/ }),
 
@@ -2287,16 +2287,18 @@ var ContentContainerComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__account_account_module__ = __webpack_require__("./src/app/main-content/content-container/account/account.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__basis_data_basis_data_module__ = __webpack_require__("./src/app/main-content/content-container/basis-data/basis-data.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__content_container_component__ = __webpack_require__("./src/app/main-content/content-container/content-container.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__port_call_port_call_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_header_module__ = __webpack_require__("./src/app/main-content/header/header.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__account_account_module__ = __webpack_require__("./src/app/main-content/content-container/account/account.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__basis_data_basis_data_module__ = __webpack_require__("./src/app/main-content/content-container/basis-data/basis-data.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__content_container_component__ = __webpack_require__("./src/app/main-content/content-container/content-container.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__port_call_port_call_module__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.module.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2313,13 +2315,14 @@ var ContentContainerModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
                 __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_7__port_call_port_call_module__["a" /* PortCallModule */],
-                __WEBPACK_IMPORTED_MODULE_5__basis_data_basis_data_module__["a" /* BasisDataModule */],
+                __WEBPACK_IMPORTED_MODULE_8__port_call_port_call_module__["a" /* PortCallModule */],
+                __WEBPACK_IMPORTED_MODULE_6__basis_data_basis_data_module__["a" /* BasisDataModule */],
                 __WEBPACK_IMPORTED_MODULE_3_app_shared_shared_module__["a" /* SharedModule */],
-                __WEBPACK_IMPORTED_MODULE_4__account_account_module__["a" /* AccountModule */],
+                __WEBPACK_IMPORTED_MODULE_5__account_account_module__["a" /* AccountModule */],
+                __WEBPACK_IMPORTED_MODULE_4__header_header_module__["a" /* HeaderModule */]
             ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_6__content_container_component__["a" /* ContentContainerComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_6__content_container_component__["a" /* ContentContainerComponent */]]
+            declarations: [__WEBPACK_IMPORTED_MODULE_7__content_container_component__["a" /* ContentContainerComponent */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_7__content_container_component__["a" /* ContentContainerComponent */]]
         })
     ], ContentContainerModule);
     return ContentContainerModule;
@@ -10526,7 +10529,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 24.08.2018</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 22.11.2018</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"whatsNew()\">What's new?</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -10630,6 +10633,9 @@ var HeaderComponent = /** @class */ (function () {
         }
         this.startDbConnectionCheck();
     };
+    HeaderComponent.prototype.whatsNew = function () {
+        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_7__shared_constants_content_names__["a" /* CONTENT_NAMES */].WHATS_NEW);
+    };
     HeaderComponent.prototype.ngOnDestroy = function () {
         // prevent memory leak by unsubscribing
         this.subscription.unsubscribe();
@@ -10715,12 +10721,14 @@ var HeaderComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__header_home_header_home_component__ = __webpack_require__("./src/app/main-content/header/header-home/header-home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__header_component__ = __webpack_require__("./src/app/main-content/header/header.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__whats_new_whats_new_component__ = __webpack_require__("./src/app/main-content/header/whats-new/whats-new.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -10739,15 +10747,67 @@ var HeaderModule = /** @class */ (function () {
             ],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_5__header_component__["a" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_4__header_home_header_home_component__["a" /* HeaderHomeComponent */]
+                __WEBPACK_IMPORTED_MODULE_4__header_home_header_home_component__["a" /* HeaderHomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__whats_new_whats_new_component__["a" /* WhatsNewComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_5__header_component__["a" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_4__header_home_header_home_component__["a" /* HeaderHomeComponent */]
+                __WEBPACK_IMPORTED_MODULE_4__header_home_header_home_component__["a" /* HeaderHomeComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__whats_new_whats_new_component__["a" /* WhatsNewComponent */]
             ]
         })
     ], HeaderModule);
     return HeaderModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/main-content/header/whats-new/whats-new.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ".whatsNew {\r\n    margin: auto;\r\n    width: 50%;\r\n    padding: 10px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/main-content/header/whats-new/whats-new.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"whatsNew\">\r\n\r\n    <h1>What's New (current version is x.x)</h1>\r\n\r\n    <h3>Version x.x)</h3>\r\n\r\n    <div>\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li>Placeholder\r\n                <ul>\r\n                    <li>Placeholder\r\n                        <ul>\r\n                            <li>Placeholder.</li>\r\n                            <li>Placeholder:\r\n                                <ul>\r\n                                    <li>Placeholder</li>\r\n                                    <li>Placeholder</li>\r\n                                    <li>Placeholder.</li>\r\n                                </ul>\r\n                            </li>\r\n                        </ul>\r\n                    </li>\r\n                    <li>Placeholder <span style=\"color: red\">Placeholder</span>.</li>\r\n                    <li>Placeholder</li>\r\n                    <li>Placeholder</li>\r\n                </ul>\r\n            </li>\r\n            <li>Placeholder</li>\r\n            <li>Placeholder</li>\r\n        </ol>\r\n    </div>\r\n\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/header/whats-new/whats-new.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WhatsNewComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var WhatsNewComponent = /** @class */ (function () {
+    function WhatsNewComponent() {
+    }
+    WhatsNewComponent.prototype.ngOnInit = function () {
+    };
+    WhatsNewComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-whats-new',
+            template: __webpack_require__("./src/app/main-content/header/whats-new/whats-new.component.html"),
+            styles: [__webpack_require__("./src/app/main-content/header/whats-new/whats-new.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], WhatsNewComponent);
+    return WhatsNewComponent;
 }());
 
 
@@ -15254,6 +15314,7 @@ var CONTENT_NAMES = {
     PASSENGER_LIST: 'Passenger List',
     // Account
     ACCOUNT_HOME: 'ACCOUNT_HOME',
+    WHATS_NEW: 'Whats new'
 };
 
 
