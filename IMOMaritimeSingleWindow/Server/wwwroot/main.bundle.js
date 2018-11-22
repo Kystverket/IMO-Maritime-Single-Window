@@ -2125,7 +2125,8 @@ var RegisterUserComponent = /** @class */ (function () {
             roleName: '',
             organizationId: '',
             companyEmail: '',
-            companyPhoneNumber: ''
+            companyPhoneNumber: '',
+            id: ''
         };
         this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
     }

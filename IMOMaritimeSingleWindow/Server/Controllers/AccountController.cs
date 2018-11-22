@@ -142,9 +142,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 
                 // map the role.
                 result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
-                    if (!result.Succeeded)
-                        return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
-
+                    // if (!result.Succeeded)
+                        // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             }
             catch (Exception e)
             {

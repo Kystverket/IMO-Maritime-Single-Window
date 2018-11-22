@@ -31,7 +31,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     organizationId: '',
     companyEmail: '',
     companyPhoneNumber: '',
-    id: ''
+    id:''
   };
   emailTaken: boolean;
   emailChecked: boolean;
