@@ -31,13 +31,17 @@ export class UserButtonRowComponent implements ViewCell, OnInit {
   }
 
   setUser(content) {
-    this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
+    // this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
+    this.accountService.setUserData(this.rowData.userModel);
+    this.contentService.setContent(content);
+    /*
     this.accountService.getUserByEmail(this.rowData.userModel.email).subscribe(data => {
       if (data) {
-        this.accountService.setUserData(data);
+        this.accountService.setUserData(this.rowData.userModel);
         this.contentService.setContent(content);
       }
     });
+    */
   }
 
 }

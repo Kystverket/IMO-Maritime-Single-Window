@@ -80,6 +80,10 @@ export class AccountService extends BaseRequest {
     return this.http.post(this.userUrl, newUser);
   }
 
+  updateUser(existingUser: UserModel): Observable<any> {
+    return this.http.put(this.userUrl + '/update', existingUser);
+  }
+
   getDisplayName(): Observable<string> {
     return this.http.get(this.userNameUrl,
       { responseType: 'text' });

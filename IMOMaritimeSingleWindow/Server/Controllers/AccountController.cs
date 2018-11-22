@@ -122,6 +122,36 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok();
         }
 
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/update")]
+        public async Task<IActionResult> UpdateUser([FromBody]RegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                // map the fields and update the record in the underlying data store
+                var applicationUser = _mapper.Map<ApplicationUser>(model);
+                var result = await _userManager.UpdateAsync(applicationUser);
+
+                // retrieve the record by email field
+                var addedUser = await _userManager.FindByEmailAsync(model.Email);
+                
+                // map the role.
+                result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
+                    if (!result.Succeeded)
+                        return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok();
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -371,12 +401,14 @@ namespace IMOMaritimeSingleWindow.Controllers
                     usr.Person.GivenName,
                     usr.Person.Surname,
                     Organization = usr.Organization.Name,
+                    OrganizationId = usr.Organization.OrganizationId,
                     OrganizationType = usr.Organization.OrganizationType.Name,
                     Role = usr.Role.Name,
                     usr.PhoneNumber,
                     usr.Person.CompanyPhoneNumber,
                     usr.Person.CompanyEmail,
-                    usr.Email
+                    usr.Email,
+                    Id = usr.UserId
                 })
                 .ToArrayAsync();
 

@@ -13,16 +13,14 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
-  styleUrls: ['./register-user.component.css'],
-  providers: [AccountService]
+  styleUrls: ['./register-user.component.css']
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
 
-
-  newUser = false;
-  userHeader: string;
-  confirmHeader: string;
-  confirmButtonTitle: string;
+  newUser = true;
+  userHeader = 'REGISTER USER';
+  confirmHeader = 'Confirm User Registration';
+  confirmButtonTitle = 'Register User';
 
   user: UserModel = {
     email: '',
@@ -64,14 +62,9 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     );
 
     this.userDataSubscription = this.accountService.userData$.subscribe(data => {
-      
       if (data) {
+        data.roleName = data.role;
         this.setAllValues(data);
-      } else if (!this.newUser) {
-        // this.newShip = true;
-        // this.shipHeader = 'Register New Ship';
-        // this.confirmHeader = 'Confirm Ship Registration';
-        // this.confirmButtonTitle = 'Register Ship';
       }
     });
 
@@ -91,9 +84,19 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   setAllValues(user: UserModel) {
     this.newUser = false;
-    this.userHeader = 'Edit Ship';
-    this.confirmHeader = 'Confirm Ship Changes';
+    this.userHeader = 'EDIT USER';
+    this.confirmHeader = 'Confirm User Changes';
     this.confirmButtonTitle = 'Apply Changes';
+
+    // get and set the associated organization.
+    this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(data => {
+      this.organizationService.setOrganizationData(data);
+      this.setOrganization(data);
+    });
+
+    // this.emailTaken = false;
+    this.emailChecked = true;
+
     this.user = user;
   }
 
@@ -102,26 +105,48 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
   userExists(emailValid: boolean) {
     if (emailValid) {
-      return this.accountService.emailTaken(this.user.email)
+
+      if (this.newUser) {
+
+        return this.accountService.emailTaken(this.user.email)
         .subscribe(result => {
           this.emailTaken = result;
           this.emailChecked = true;
         });
+      } else {
+        this.emailTaken = false;
+        // this.emailChecked = true;
+      }
     }
   }
 
   registerUser() {
-    this.accountService.registerUser(this.user)
-    .subscribe(
-      result => {
+
+    if (this.newUser) {
+
+      this.accountService.registerUser(this.user)
+      .subscribe(
+        result => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+            // this.openCustomModal(template, true);  // SUCCESS
+        },
+        error => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+          // this.openCustomModal(template, false);  // FAILURE
+        }
+      );
+
+    } else {
+
+      this.accountService.updateUser(this.user).subscribe(result => {
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-          // this.openCustomModal(template, true);  // SUCCESS
       },
       error => {
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
         // this.openCustomModal(template, false);  // FAILURE
-      }
-    );
+      });
+    }
+
   }
 
   onOrganizationResult(organizationResult) {

@@ -839,7 +839,8 @@ var BasisDataModule = /** @class */ (function () {
             providers: [
                 __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["n" /* LocationService */],
                 __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["p" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["v" /* ShipService */]
+                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["v" /* ShipService */],
+                __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["a" /* AccountService */]
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_10__location_view_location_info_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */]
@@ -2026,7 +2027,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"REGISTER USER\" icon=\"user.png\">\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personalia\" icon=\"user-info.png\" id=\"personalia\">\n        <form #f=\"ngForm\" novalidate>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\n                    tmFocus validateEmail>\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\n                  <div *ngIf=\"emailChecked && !emailTaken\">\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\n                    <small class=\"text-success\">email available</small>\n                  </div>\n                  <div *ngIf=\"emailChecked && emailTaken\">\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\n                    <small class=\"text-danger\">email is already in use</small>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\n                    placeholder=\"Enter your company phone number\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\n                </div>\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\n              </div>\n            </div>\n          </div>\n\n        </form>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\n        <div *ngIf=\"!organizationSelected\">\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\n        </div>\n\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\n          <div class=\"table-responsive\">\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\n          </div>\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\n        <div class=\"form-group\">\n          <div class=\"text-center\">\n            <span class=\"no-wrap\">Select a role for this user</span>\n          </div>\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\n            [(ngModel)]=\"user.roleName\">\n          </ng-select>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"Confirm User Registration\">\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\n          <div class=\"mb-3\">\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\n          </div>\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\n        </div>\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered\">\n              <thead>\n                <tr class=\"bg-ssn text-ssn\">\n                  <th *ngIf=\"user.givenName\">Given name</th>\n                  <th *ngIf=\"user.surname\">Surname</th>\n                  <th>Email</th>\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\n                  <th>Organization</th>\n                  <th>Role</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr>\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\n                  <td> {{ user.email }} </td>\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\n                  <td>{{ organizationModel.name }}</td>\n                  <td>{{ user.roleName }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">Register User</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n</app-ssn-bg>\n\n\n\n<!-- <ng-template #template let-close=\"close()\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">User registration result</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div *ngIf=\"registrationSuccessful\">\n      <span>User registered successfully.</span>\n      <br>\n      <span>Please click the link below to set a new password for the user:</span>\n      <br>\n      <span><a href={{emailConfirmationLink}}>link</a></span>\n    </div>\n    <div *ngIf=\"!registrationSuccessful\">\n      <span>Something went wrong while attempting to register the user!</span>\n    </div>\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\n        <span>Close</span>\n      </button>\n  </div>\n</ng-template> -->"
+module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personal Details\" icon=\"user-info.png\" id=\"personalia\">\n        <form #f=\"ngForm\" novalidate>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\n                    tmFocus validateEmail>\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\n                  <div *ngIf=\"emailChecked && !emailTaken\">\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\n                    <small class=\"text-success\">email available</small>\n                  </div>\n                  <div *ngIf=\"emailChecked && emailTaken\">\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\n                    <small class=\"text-danger\">email is already in use</small>\n                  </div>\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\n                    placeholder=\"Enter your company phone number\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\n                </div>\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\n              </div>\n            </div>\n          </div>\n\n        </form>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\n        <div *ngIf=\"!organizationSelected\">\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\n        </div>\n\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\n          <div class=\"table-responsive\">\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\n          </div>\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\n        <div class=\"form-group\">\n          <div class=\"text-center\">\n            <span class=\"no-wrap\">Select a role for this user</span>\n          </div>\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\n            [(ngModel)]=\"user.roleName\">\n          </ng-select>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"{{confirmHeader}}\">\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\n          <div class=\"mb-3\">\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\n          </div>\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\n        </div>\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\n          <div class=\"table-responsive\">\n            <table class=\"table table-bordered\">\n              <thead>\n                <tr class=\"bg-ssn text-ssn\">\n                  <th *ngIf=\"user.givenName\">Given name</th>\n                  <th *ngIf=\"user.surname\">Surname</th>\n                  <th>Email</th>\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\n                  <th>Organization</th>\n                  <th>Role</th>\n                </tr>\n              </thead>\n              <tbody>\n                <tr>\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\n                  <td> {{ user.email }} </td>\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\n                  <td>{{ organizationModel.name }}</td>\n                  <td>{{ user.roleName }}</td>\n                </tr>\n              </tbody>\n            </table>\n          </div>\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">{{confirmButtonTitle}}</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n</app-ssn-bg>\n\n\n\n<!-- <ng-template #template let-close=\"close()\">\n  <div class=\"modal-header\">\n    <h4 class=\"modal-title\">User registration result</h4>\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n  <div class=\"modal-body\">\n    <div *ngIf=\"registrationSuccessful\">\n      <span>User registered successfully.</span>\n      <br>\n      <span>Please click the link below to set a new password for the user:</span>\n      <br>\n      <span><a href={{emailConfirmationLink}}>link</a></span>\n    </div>\n    <div *ngIf=\"!registrationSuccessful\">\n      <span>Something went wrong while attempting to register the user!</span>\n    </div>\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\n        <span>Close</span>\n      </button>\n  </div>\n</ng-template> -->"
 
 /***/ }),
 
@@ -2064,7 +2065,10 @@ var RegisterUserComponent = /** @class */ (function () {
         this.contentService = contentService;
         this.modalService = modalService;
         this.organizationService = organizationService;
-        this.newUser = false;
+        this.newUser = true;
+        this.userHeader = 'REGISTER USER';
+        this.confirmHeader = 'Confirm User Registration';
+        this.confirmButtonTitle = 'Register User';
         this.user = {
             email: '',
             phoneNumber: '',
@@ -2083,13 +2087,8 @@ var RegisterUserComponent = /** @class */ (function () {
             .subscribe(function (data) { return _this.roleList = data; });
         this.userDataSubscription = this.accountService.userData$.subscribe(function (data) {
             if (data) {
+                data.roleName = data.role;
                 _this.setAllValues(data);
-            }
-            else if (!_this.newUser) {
-                // this.newShip = true;
-                // this.shipHeader = 'Register New Ship';
-                // this.confirmHeader = 'Confirm Ship Registration';
-                // this.confirmButtonTitle = 'Register Ship';
             }
         });
         this.organizationService.setOrganizationData(null);
@@ -2105,10 +2104,18 @@ var RegisterUserComponent = /** @class */ (function () {
         });
     };
     RegisterUserComponent.prototype.setAllValues = function (user) {
+        var _this = this;
         this.newUser = false;
-        this.userHeader = 'Edit Ship';
-        this.confirmHeader = 'Confirm Ship Changes';
+        this.userHeader = 'EDIT USER';
+        this.confirmHeader = 'Confirm User Changes';
         this.confirmButtonTitle = 'Apply Changes';
+        // get and set the associated organization.
+        this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(function (data) {
+            _this.organizationService.setOrganizationData(data);
+            _this.setOrganization(data);
+        });
+        // this.emailTaken = false;
+        this.emailChecked = true;
         this.user = user;
     };
     RegisterUserComponent.prototype.ngOnDestroy = function () {
@@ -2117,23 +2124,39 @@ var RegisterUserComponent = /** @class */ (function () {
     RegisterUserComponent.prototype.userExists = function (emailValid) {
         var _this = this;
         if (emailValid) {
-            return this.accountService.emailTaken(this.user.email)
-                .subscribe(function (result) {
-                _this.emailTaken = result;
-                _this.emailChecked = true;
-            });
+            if (this.newUser) {
+                return this.accountService.emailTaken(this.user.email)
+                    .subscribe(function (result) {
+                    _this.emailTaken = result;
+                    _this.emailChecked = true;
+                });
+            }
+            else {
+                this.emailTaken = false;
+                // this.emailChecked = true;
+            }
         }
     };
     RegisterUserComponent.prototype.registerUser = function () {
         var _this = this;
-        this.accountService.registerUser(this.user)
-            .subscribe(function (result) {
-            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
-            // this.openCustomModal(template, true);  // SUCCESS
-        }, function (error) {
-            _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
-            // this.openCustomModal(template, false);  // FAILURE
-        });
+        if (this.newUser) {
+            this.accountService.registerUser(this.user)
+                .subscribe(function (result) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
+                // this.openCustomModal(template, true);  // SUCCESS
+            }, function (error) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+                // this.openCustomModal(template, false);  // FAILURE
+            });
+        }
+        else {
+            this.accountService.updateUser(this.user).subscribe(function (result) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
+            }, function (error) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+                // this.openCustomModal(template, false);  // FAILURE
+            });
+        }
     };
     RegisterUserComponent.prototype.onOrganizationResult = function (organizationResult) {
         this.setOrganization(organizationResult);
@@ -2175,8 +2198,7 @@ var RegisterUserComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-register-user',
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html"),
-            styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */]]
+            styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
@@ -11522,8 +11544,9 @@ var CrewListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value)
+                        if (!value) {
                             return 'N/A';
+                        }
                         return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
                     }
                 },
@@ -11801,8 +11824,9 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value)
+                        if (!value) {
                             return 'N/A';
+                        }
                         return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
                     }
                 },
@@ -15442,14 +15466,17 @@ var UserButtonRowComponent = /** @class */ (function () {
         this.setUser(content);
     };
     UserButtonRowComponent.prototype.setUser = function (content) {
-        var _this = this;
-        this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
-        this.accountService.getUserByEmail(this.rowData.userModel.email).subscribe(function (data) {
-            if (data) {
-                _this.accountService.setUserData(data);
-                _this.contentService.setContent(content);
-            }
+        // this.contentService.setLoadingScreen(true, 'ship.gif', 'Loading');
+        this.accountService.setUserData(this.rowData.userModel);
+        this.contentService.setContent(content);
+        /*
+        this.accountService.getUserByEmail(this.rowData.userModel.email).subscribe(data => {
+          if (data) {
+            this.accountService.setUserData(this.rowData.userModel);
+            this.contentService.setContent(content);
+          }
         });
+        */
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -17057,6 +17084,9 @@ var AccountService = /** @class */ (function (_super) {
     };
     AccountService.prototype.registerUser = function (newUser) {
         return this.http.post(this.userUrl, newUser);
+    };
+    AccountService.prototype.updateUser = function (existingUser) {
+        return this.http.put(this.userUrl + '/update', existingUser);
     };
     AccountService.prototype.getDisplayName = function () {
         return this.http.get(this.userNameUrl, { responseType: 'text' });

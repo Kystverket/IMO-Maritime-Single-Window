@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { LocationService, OrganizationService, ShipService } from 'app/shared/services/';
+import { AccountService, LocationService, OrganizationService, ShipService } from 'app/shared/services/';
 import { SharedModule } from 'app/shared/shared.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { RegisterLocationComponent } from './location/register-location/register-location.component';
@@ -53,7 +53,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
   providers: [
     LocationService,
     OrganizationService,
-    ShipService
+    ShipService,
+    AccountService
   ],
   entryComponents: [
     LocationButtonRowComponent
