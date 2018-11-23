@@ -5897,6 +5897,7 @@ var DpgComponent = /** @class */ (function () {
             var dpgToEdit = this.dpgOnBoardList[indexToView];
             this.dpgOnBoardModel = dpgToEdit;
             this.selectedDpgType = this.dpgOnBoardModel.dpg.dpgType;
+            this.selectedMeasurementType = this.dpgOnBoardModel.measurementType;
             this.selectDpg(false);
             this.setDpgType(this.dpgOnBoardModel.dpg.dpgType, false);
             this.dpgSelected = isEditing;
