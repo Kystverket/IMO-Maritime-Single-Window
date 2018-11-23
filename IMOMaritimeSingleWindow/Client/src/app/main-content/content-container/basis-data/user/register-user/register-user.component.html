@@ -1,7 +1,7 @@
-<app-ssn-bg header="REGISTER USER" icon="user.png">
+<app-ssn-bg header="{{userHeader}}" icon="user.png">
   <div class="row">
     <div class="col">
-      <app-ssn-card *ngIf="!isDrafted" header="Personalia" icon="user-info.png" id="personalia">
+      <app-ssn-card *ngIf="!isDrafted" header="Personal Details" icon="user-info.png" id="personalia">
         <form #f="ngForm" novalidate>
 
           <div class="row">
@@ -118,7 +118,7 @@
 
   <div class="row">
     <div class="col">
-      <app-ssn-card header="Confirm User Registration">
+      <app-ssn-card header="{{confirmHeader}}">
         <div class="text-center" *ngIf="!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)">
           <div class="mb-3">
             <p class="mb-0" *ngIf="!user.email">Email not set.</p>
@@ -153,7 +153,7 @@
               </tbody>
             </table>
           </div>
-          <button class="btn btn-ssn" (click)="registerUser()">Register User</button>
+          <button class="btn btn-ssn" (click)="registerUser()">{{confirmButtonTitle}}</button>
         </div>
       </app-ssn-card>
     </div>

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ContentService } from 'app/shared/services/content.service';
-import { LocationService } from 'app/shared/services/location.service';
+import { ContentService, LocationService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table/lib/data-source/local/local.data-source';
 import { LocationButtonRowComponent } from './location-button-row/location-button-row.component';
 

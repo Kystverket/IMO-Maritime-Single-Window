@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-4">
+    <app-ssn-card header="Register New User" icon="user.png">
+      <div class="text-center">
+        <button class="btn btn-ssn" (click)="registerNewUser()">Register New User</button>
+      </div>
+    </app-ssn-card>
+  </div>
+</div>
+
+<app-ssn-card header="User Search" icon="user.png">
+  <app-search-user [showDropdown]=false (userSearchResult)="onUserSearchResult($event)"></app-search-user>
+  <br>
+  <div>
+    <app-user-smart-table></app-user-smart-table>
+  </div>
+</app-ssn-card>

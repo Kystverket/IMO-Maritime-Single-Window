@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ShipProperties } from 'app/shared/constants/ship-properties';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { LocationProperties } from 'app/shared/constants/location-properties';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { LocationProperties } from 'app/shared/constants/location-properties';
+import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { LocationModel } from 'app/shared/models/location-model';
+import { LocationModel, ShipModel } from 'app/shared/models/';
+import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
   selector: 'app-voyages',

@@ -1,9 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, Input } from '@angular/core';
-import { IdentityDocumentModel } from 'app/shared/models/identity-document-model';
-import { Observable } from 'rxjs/Observable';
-import { IdentityDocumentService } from 'app/shared/services/identtity-document.service';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ValidateDateTimeService } from 'app/shared/services/validate-date-time.service';
+import { IdentityDocumentModel } from 'app/shared/models/';
+import { IdentityDocumentService, ValidateDateTimeService} from 'app/shared/services/';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-identity-document',
@@ -27,9 +26,14 @@ export class IdentityDocumentComponent implements OnInit {
 
   issueDateAfterExpiryDateError = false;
   expiryDateBeforeIssueDateError = false;
+  issueDateRequiredError = false;
+  expiryDateRequiredError = false;
 
   issueDateValid = true;
   expiryDateValid = true;
+  identityDatesRequired = false;
+  identityExpiryDateSet = false;
+  identityIssueDateSet = false;
 
   constructor(
     private identityDocumentService: IdentityDocumentService,
@@ -46,12 +50,19 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   identityDocumentModelChanged() {
+    this.identityIssueDateSet = (this.identityDocumentModel.identityDocumentIssueDate != null
+      && this.identityDocumentModel.identityDocumentIssueDate !== undefined);
+    this.identityExpiryDateSet = (this.identityDocumentModel.identityDocumentExpiryDate != null
+      && this.identityDocumentModel.identityDocumentExpiryDate !== undefined);
+
     this.changeIdentityDocumentModel.emit(
       {
         identityDocumentModel: this.identityDocumentModel,
         validDocumentDates: {
           issueDateAfterExpiryDateError: this.issueDateAfterExpiryDateError,
-          expiryDateBeforeExpiryDateError: this.expiryDateBeforeIssueDateError
+          expiryDateBeforeExpiryDateError: this.expiryDateBeforeIssueDateError,
+          expiryDateRequiredError : this.identityExpiryDateSet && this.identityDatesRequired,
+          issueDateRequiredError : this.identityIssueDateSet && this.identityDatesRequired,
         }
       });
   }
@@ -73,6 +84,7 @@ export class IdentityDocumentComponent implements OnInit {
   }
 
   setIdentityDocumentType($event) {
+    this.identityDatesRequired = ($event != null && $event !== undefined);
     $event ? this.identityDocumentModel.identityDocumentType = $event : this.identityDocumentModel.identityDocumentType = null;
     $event ? this.identityDocumentModel.identityDocumentTypeId = $event.id : this.identityDocumentModel.identityDocumentTypeId = null;
     this.identityDocumentModelChanged();

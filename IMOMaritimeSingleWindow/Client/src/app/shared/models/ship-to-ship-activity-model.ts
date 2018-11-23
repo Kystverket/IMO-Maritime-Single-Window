@@ -1,6 +1,4 @@
-import { FalSecurityModel } from './fal-security-model';
-import { LocationModel } from './location-model';
-import { PortCallPurposeModel } from './port-call-purpose-model';
+import {FalSecurityModel, LocationModel, PortCallPurposeModel } from './';
 
 export class ShipToShipActivityModel {
   shipToShipActivityId: number;

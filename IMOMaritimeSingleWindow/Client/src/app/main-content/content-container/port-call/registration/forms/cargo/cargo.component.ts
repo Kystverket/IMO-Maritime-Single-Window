@@ -1,11 +1,9 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LocationProperties } from 'app/shared/constants/location-properties';
-import { LocationModel } from 'app/shared/models/location-model';
-import { CargoItemModel } from 'app/shared/models/cargo-item-model';
+import { CargoItemModel, ConsignmentModel, LocationModel } from 'app/shared/models/';
+import { FalCargoService } from 'app/shared/services/fal-cargo.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-cargo',

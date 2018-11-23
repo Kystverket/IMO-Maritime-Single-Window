@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -5,13 +6,9 @@ import {
   Router,
   RouterStateSnapshot
 } from '@angular/router';
+import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from 'app/shared/services/auth-service';
-import { LoginService } from 'app/shared/services/login.service';
-import { BaseService } from '../../shared/services/base.service';
 import { BaseGuard } from '../../shared/interfaces/base-guard.interface';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorService } from '../../shared/services/error.service';
 
 @Injectable()
 export class LoginGuard extends BaseService implements CanActivate, BaseGuard {
@@ -28,7 +25,6 @@ export class LoginGuard extends BaseService implements CanActivate, BaseGuard {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('login guard');
     if (!this.authService.hasToken()) {
       return true;
     } else {

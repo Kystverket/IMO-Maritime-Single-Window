@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { PortCallOverviewService } from 'app/shared/services/port-call-overview.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
+import { ContentService, DpgService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -24,7 +19,8 @@ export class LoadPortCallService {
     private contentService: ContentService,
     private cargoService: FalCargoService,
     private shipStoresService: FalShipStoresService,
-    private portCallDetailsService: PortCallDetailsService
+    private portCallDetailsService: PortCallDetailsService,
+    private dpgService: DpgService,
   ) { }
 
   setContent(portCallId: number, content: string = CONTENT_NAMES.REGISTER_PORT_CALL) {
@@ -46,6 +42,7 @@ export class LoadPortCallService {
           this.cargoService.setDataIsPristine(true);
           this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
           this.shipStoresService.setDataIsPristine(true);
+          this.dpgService.setDataIsPristine(true);
           this.setPurpose();
         }
       }
@@ -84,7 +81,6 @@ export class LoadPortCallService {
         } else {
           console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
-          // portCallDetails.portCallDetailsId = this.portCallId;
           portCallDetails.portCallId = this.portCallId;
           this.portCallDetailsService.setDetails(portCallDetails);
         }

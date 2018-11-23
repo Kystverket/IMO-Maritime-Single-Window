@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ContentService } from '../../../../shared/services/content.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ContentService } from '../../../../shared/services/content.service';
 
 @Component({
   selector: 'app-registration',

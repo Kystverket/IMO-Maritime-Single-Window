@@ -119,11 +119,23 @@
       </div>
     </div>
 
+    <div *ngIf="!dpgDataIsPristine && dpgIsChecked" class="row">
+      <div class="col">
+        <div class="alert alert-warning">
+          <span>Warning: DPG data is unsaved.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" (click)="saveDpgOnBoardList()">
+            <img src="assets/images/icons/128x128/white/save.png" height="24px"> Save DPG List
+          </button>
+        </div>
+      </div>
+    </div>
 
     <div class="row" *ngIf="portCallIsDraft">
       <div *ngIf="(detailsDataIsPristine && detailsMeta.valid) && voyagesIsPristine && !numberOfCrewError && !numberOfPassengersError"
         class="col">
-        <p class="mb-0">After activating the port call, it will no longer be a draft, and will be visible for authorities to review.</p>
+        <p class="mb-0">After activating the port call, it will no longer be a draft, and will be visible for
+          authorities to review.</p>
         <button class="btn btn-ssn" (click)="send()">
           <img src="assets/images/icons/128x128/white/save.png" height="24px"> Activate</button>
       </div>

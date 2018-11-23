@@ -1,6 +1,4 @@
-import { OrganizationModel } from 'app/shared/models/organization-model';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { CountryModel } from './country-model';
+import {CountryModel, OrganizationModel, ShipModel } from './';
 
 export class InternationalShipSecurityCertificateModel {
   isscId: number;

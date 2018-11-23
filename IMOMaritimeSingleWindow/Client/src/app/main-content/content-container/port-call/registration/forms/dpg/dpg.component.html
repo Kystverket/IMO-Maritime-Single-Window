@@ -1,0 +1,195 @@
+<ng-template #rt let-r="result" let-t="term">
+  <strong *ngIf="r.textualReference">Textual Reference: </strong> {{ r.textualReference }}
+  <strong *ngIf="r.unNumber"> UN Number: </strong> {{ r.unNumber }}
+</ng-template>
+
+<app-ssn-card header="Dangerous Goods" icon="hazard.png">
+
+  <form id="formGroup" name="formGroup">
+    <div class="row" *ngIf="!isLoading">
+      <div class="col-md-6 col-lg-6">
+
+        <div class="col">
+
+          <div class="row">
+            <div class="col my-auto">
+              <label for="classification" class="col-form-label-sm no-wrap mb-0">Classification *</label>
+              <div class="card pt-2" id="dpg_classification">
+                <div class="checkbox row">
+                  <ng-container *ngFor="let dpgType of dpgTypes" class="col-12">
+                    <label class="col-form-label-sm no-wrap mb-0 col-auto">
+                      <input type="radio" value="true" (change)="setDpgType(dpgType)" [checked]="(hasSelectedType && (selectedDpgType.shortName === dpgType.shortName))"
+                        name="classification" [disabled]="isViewing">
+                      {{dpgType.shortName}}
+                    </label>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row" *ngIf="!dpgSelected && !isViewing">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="search-dpg">Un No/Name: *</label>
+                  <input required id="search-dpg" [(ngModel)]="selectedDpg" name="selectedDpg" type="text" class="form-control form-control-sm mx-auto"
+                    [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="setDpg($event)"
+                    placeholder="Enter search here..." [disabled]="!hasSelectedType || isViewing" />
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="dpgSelected || isViewing">
+                <div class="col">
+
+                  <label class="col-form-label-sm no-wrap mb-0" for="selected-dpg">Un No/Name:</label>
+                  <input required id="selected-dpg" [(ngModel)]="dpgSelectedStr" name="selectedDpg" type="search" class="form-control form-control-sm mx-auto"
+                    (onchange)="removeDpg()" disabled />
+                  <ng-container *ngIf=!isViewing>
+                    <button type="button" class="btn btn-danger" style="padding: 1px 5px; font-size: 12px; line-height: 1.5; border-radius: 3px"
+                      (click)="removeDpg()">
+                      Remove
+                    </button>
+                  </ng-container>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="loc_on_board">Location Onboard: *</label>
+                  <input name="locationOnBoard" [(ngModel)]="dpgOnBoardModel.locationOnBoard" type="text" class="form-control form-control-sm"
+                    id="loc_on_board" placeholder="Location on board" required [disabled]="!hasSelectedType || isViewing">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
+
+                  <label class="col-form-label-sm no-wrap mb-0" for="measurement_type">Measurement Type: *</label>
+                  <select id="measurement_type" [(ngModel)]="selectedMeasurementType" name="selectMeasurementType"
+                    (ngModelChange)="toggleNetGross()" class="form-control form-control-sm" [disabled]="!hasSelectedType || isViewing">
+                    <option name="measurementType" *ngFor="let measurementType of measurementTypes" [ngValue]="measurementType">
+                      {{measurementType.name}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="net_weight">Net {{measurementStr}}:</label>
+                  <input #netWeight="ngModel" [(ngModel)]="dpgOnBoardModel.netWeight" name="netWeight" type="number"
+                    class="form-control form-control-sm" positiveNumberValidator id="net_weight" placeholder="{{measurementStr}}"
+                    [disabled]="!hasSelectedType || isViewing" />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="gross_weight">Gross {{measurementStr}}:</label>
+                  <input #grossWeight="ngModel" [(ngModel)]="dpgOnBoardModel.grossWeight" name="grossWeight" type="number"
+                    class="form-control form-control-sm" positiveNumberValidator id="gross_weight" placeholder="{{measurementStr}}"
+                    [disabled]="!hasSelectedType || isViewing">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0">
+                    <input [(ngModel)]="dpgOnBoardModel.placedInContainer" (ngModelChange)="toggleTransUnitID(dpgOnBoardModel.placedInContainer)"
+                      name="placedInContainer" type="checkbox" id="placed_in_container" [disabled]="!hasSelectedType || isViewing">
+                    Placed in Container
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="trans_unit_id">Transportation Unit ID:</label>
+                  <input [(ngModel)]="dpgOnBoardModel.transportUnitIdentification" name="transUnit" type="text" class="form-control form-control-sm"
+                    id="trans_unit_id" placeholder="Transportation Unit ID" [disabled]="!placedInContainer || isViewing" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-container *ngIf="hasSelectedType && !isViewing">
+          <ng-container *ngIf="!validDpgModel">
+            <ng-container *ngFor="let msg of validMsg">
+              <div class="alert alert-danger">
+                <li>
+                  <small>{{msg}}</small>
+                </li>
+              </div>
+            </ng-container>
+          </ng-container>
+          <div *ngIf="!netWeight.valid" class="alert alert-danger">
+            <li *ngIf="netWeight.hasError('notPositiveNumberError')">
+              <small>The net mass/volume specified must be a positive number.</small>
+            </li>
+          </div>
+          <div *ngIf="!grossWeight.valid" class="alert alert-danger">
+            <li *ngIf="grossWeight.hasError('notPositiveNumberError')">
+              <small>The gross mass/volume specified must be a positive number.</small>
+            </li>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="form-group">
+        <button [disabled]="!(form.valid)" type="submit" class="btn btn-ssn mt-2" (click)="checkDpgModel()">
+          <span>Submit</span>
+        </button>
+
+        <button *ngIf="isViewing || isEditing" type="cancel" class="btn btn-ssn mt-2" (click)="resetData()">
+          <span>Cancel</span>
+        </button>
+
+
+
+        <button type="submit" class="btn mt-2 btn-danger float-right" [disabled]="!(dpgOnBoardList?.length > 0)"
+          (click)="deleteAllDpgs()">
+          <span>Delete all DPGs</span>
+        </button>
+      </div>
+
+      <div class="mb-3">
+        <div class="table-responsive">
+          <app-ssn-card header="Details" icon="hazard.png">
+            <div class="table-responsive">
+              <ng2-smart-table [settings]="settings" [source]="dpgSource"></ng2-smart-table>
+            </div>
+          </app-ssn-card>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-ssn mt-2" (click)="save()">
+          <img src="assets/images/icons/128x128/white/save.png" height="20px">
+          <span>Save all DPGs</span>
+        </button>
+        <span *ngIf="saving">Saving...</span>
+        <span class="badge badge-success" *ngIf="saved">Your changes have been saved.</span>
+        <span class="badge badge-danger" *ngIf="saveError">An error occured when trying to save.</span>
+      </div>
+    </div>
+  </form>
+</app-ssn-card>

@@ -1,14 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { ContentService, DpgService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
-
 
 @Component({
   selector: 'app-progress-bar',
@@ -49,6 +42,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   shipStoresIsPristine = true;
   passengerListIsPristine = true;
   crewListIsPristine = true;
+  dpgListIsPristine = true;
 
   selectedPortCallForm: string;
 
@@ -62,6 +56,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   cargoDataIsPristineSubscription: Subscription;
   passengerDataIsPristineSubscription: Subscription;
   crewDataIsPristineSubscription: Subscription;
+  dpgDataIsPristineSubscription: Subscription;
 
   constructor(
     private portCallService: PortCallService,
@@ -70,7 +65,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
     private shipStoresService: FalShipStoresService,
     private cargoService: FalCargoService,
     private personOnBoardService: PortCallFalPersonOnBoardService,
-    private securityService: FalSecurityService
+    private securityService: FalSecurityService,
+    private dpgService: DpgService
   ) { }
 
   ngOnInit() {
@@ -85,7 +81,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
               icon: 'hazard.png',
               checked: reportingData.reportingDpg || false,
               hasError: false,
-              hasUnsavedData: false
+              hasUnsavedData: !this.dpgListIsPristine
             },
             {
               name: FORM_NAMES.CARGO,
@@ -132,6 +128,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           this.personOnBoardService.setPassengerCheckedInProgressBar(reportingData.reportingPax);
           this.personOnBoardService.setCrewCheckedInProgressBar(reportingData.reportingCrew);
           this.securityService.setSecurityIsCheckedData(reportingData.reportingSecurity);
+          this.dpgService.setDpgCheckedInProgressBar(reportingData.reportingDpg);
         }
       }
     );
@@ -220,6 +217,17 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
+      dpgDataIsPristine => {
+        this.dpgListIsPristine = dpgDataIsPristine;
+        const dpg = this.menuEntries.find(
+          p => p.name === FORM_NAMES.DPG
+        );
+        if (dpg) {
+          dpg.hasUnsavedData = !dpgDataIsPristine;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {

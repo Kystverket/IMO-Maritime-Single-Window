@@ -17,9 +17,15 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="call_sign">Call Sign</label>
-                  <input [(ngModel)]="shipModel.callSign" (ngModelChange)="touchData()" name="callSign" type="text" class="form-control form-control-sm"
-                    id="call_sign" placeholder="Enter call sign">
+                  <input [(ngModel)]="shipModel.callSign" (ngModelChange)="touchData()" name="callSign" type="text"
+                    class="form-control form-control-sm" id="call_sign" placeholder="Enter call sign" minlength="4"
+                    maxlength="8" #callSign="ngModel">
                 </div>
+              </div>
+              <div *ngIf="!callSign.valid" class="alert alert-danger">
+                <li *ngIf="callSign.hasError('minlength')">
+                  <small>Callsign number must be between 4 and 8 characters.</small>
+                </li>
               </div>
             </div>
           </div>
@@ -29,12 +35,12 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="imo_no">IMO Number</label>
-                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="touchData()" name="imoNo" type="number" class="form-control form-control-sm"
-                    id="imo_no" placeholder="Enter IMO number" #imoNo="ngModel" numberValidator integerValidator positiveNumberValidator
-                  />
+                  <input [(ngModel)]="shipModel.imoNo" (ngModelChange)="validImoNumber()" name="imoNo" type="number" class="form-control form-control-sm"
+                    id="imo_no" placeholder="Enter IMO number" #imoNo="ngModel" numberValidator integerValidator
+                    positiveNumberValidator />
                 </div>
               </div>
-              <div *ngIf="!imoNo.valid" class="alert alert-danger">
+              <div *ngIf="!imoNo.valid || !imoValid" class="alert alert-danger">
                 <li *ngIf="imoNo.hasError('notNumberError')">
                   <small>IMO number must be a valid number.</small>
                 </li>
@@ -44,6 +50,9 @@
                 <li *ngIf="imoNo.hasError('notPositiveNumberError')">
                   <small>IMO number must be a positive number.</small>
                 </li>
+                <li *ngIf="!imoValid">
+                  <small>{{imoErrorString}}</small>
+                </li>
               </div>
             </div>
 
@@ -51,17 +60,26 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="mmsi_no">MMSI Number</label>
-                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="touchData()" name="mmsiNo" type="number" class="form-control form-control-sm"
-                    id="mmsi_no" placeholder="Enter MMSI number" #mmsiNo="ngModel" integerValidator positiveNumberValidator
-                  />
+                  <input [(ngModel)]="shipModel.mmsiNo" (ngModelChange)="validMmsiNumber()" name="mmsiNo" type="number" class="form-control form-control-sm"
+                    id="mmsi_no" placeholder="Enter MMSI number" #mmsiNo="ngModel" integerValidator minlength="9"
+                    maxlength="9" positiveNumberValidator />
                 </div>
               </div>
-              <div *ngIf="!mmsiNo.valid" class="alert alert-danger">
+              <div *ngIf="!mmsiNo.valid || !mmsiValid" class="alert alert-danger">
                 <li *ngIf="mmsiNo.hasError('notIntegerError')">
                   <small>MMSI number must be an integer.</small>
                 </li>
                 <li *ngIf="mmsiNo.hasError('notPositiveNumberError')">
                   <small>MMSI number must be a positive number.</small>
+                </li>
+                <li *ngIf="mmsiNo.hasError('minlength')">
+                    <small>MMSI Number must be 9 numbers.</small>
+                </li>
+                <li *ngIf="mmsiNo.hasError('maxlength')">
+                    <small>MMSI Number must be 9 numbers.</small>
+                </li>
+                <li *ngIf="!mmsiValid">
+                  <small>{{mmsiErrorString}}</small>
                 </li>
               </div>
             </div>
@@ -78,8 +96,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_type_select">Ship Type</label>
-                  <ng-select id="ship_type_select" name="ship_type_select" [items]="shipTypeList" [multiple]="false" [closeOnSelect]="true"
-                    bindLabel="name" placeholder="Select ship type" [(ngModel)]="selectedShipType" (change)="selectShipType($event)"></ng-select>
+                  <ng-select id="ship_type_select" name="ship_type_select" [items]="shipTypeList" [multiple]="false"
+                    [closeOnSelect]="true" bindLabel="name" placeholder="Select ship type" [(ngModel)]="selectedShipType"
+                    (change)="selectShipType($event)"></ng-select>
                 </div>
               </div>
             </div>
@@ -103,9 +122,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="year_of_build">Year of Build</label>
-                  <input [(ngModel)]="shipModel.yearOfBuild" (ngModelChange)="touchData()" name="yearOfBuild" type="number" class="form-control form-control-sm"
-                    id="year_of_build" placeholder="Enter year of build" #yearOfBuild="ngModel" numberValidator integerValidator
-                    positiveNumberValidator />
+                  <input [(ngModel)]="shipModel.yearOfBuild" (ngModelChange)="touchData()" name="yearOfBuild" type="number"
+                    class="form-control form-control-sm" id="year_of_build" placeholder="Enter year of build"
+                    #yearOfBuild="ngModel" numberValidator integerValidator positiveNumberValidator />
                 </div>
               </div>
               <div *ngIf="!yearOfBuild.valid" class="alert alert-danger">
@@ -129,16 +148,17 @@
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_length">Length</label>
                   <div class="input-group">
                     <div ngbDropdown class="input-group-prepend">
-                      <button class="btn btn-sm btn-ssn" id="lengthTypeDropdown" ngbDropdownToggle> {{ lengthTypeDropdownString
+                      <button class="btn btn-sm btn-ssn" id="lengthTypeDropdown" ngbDropdownToggle> {{
+                        lengthTypeDropdownString
                         }} </button>
                       <div ngbDropdownMenu aria-labelledby="lengthTypeDropdown">
                         <button class="dropdown-item" *ngFor="let lengthType of lengthTypeList" (click)="selectLengthType(lengthType)">{{
                           lengthType.name }}</button>
                       </div>
                     </div>
-                    <input [(ngModel)]="shipModel.length" (ngModelChange)="touchData()" name="shipLength" type="number" class="form-control form-control-sm"
-                      id="ship_length" placeholder="Enter ship length" [disabled]="!lengthTypeSelected" #shipLength="ngModel"
-                      numberValidator positiveNumberValidator />
+                    <input [(ngModel)]="shipModel.length" (ngModelChange)="touchData()" name="shipLength" type="number"
+                      class="form-control form-control-sm" id="ship_length" placeholder="Enter ship length" [disabled]="!lengthTypeSelected"
+                      #shipLength="ngModel" numberValidator positiveNumberValidator />
                   </div>
                 </div>
               </div>
@@ -158,16 +178,17 @@
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_breadth">Breadth</label>
                   <div class="input-group">
                     <div ngbDropdown class="input-group-prepend">
-                      <button class="btn btn-sm btn-ssn" id="breadthTypeDropdown" ngbDropdownToggle> {{ breadthTypeDropdownString
+                      <button class="btn btn-sm btn-ssn" id="breadthTypeDropdown" ngbDropdownToggle> {{
+                        breadthTypeDropdownString
                         }} </button>
                       <div ngbDropdownMenu aria-labelledby="breadthTypeDropdown">
                         <button class="dropdown-item" *ngFor="let breadthType of breadthTypeList" (click)="selectBreadthType(breadthType)">{{
                           breadthType.name }}</button>
                       </div>
                     </div>
-                    <input [(ngModel)]="shipModel.breadth" (ngModelChange)="touchData()" name="breadth" type="number" class="form-control form-control-sm"
-                      id="ship_breadth" placeholder="Enter ship breadth" [disabled]="!breadthTypeSelected" #shipBreadth="ngModel"
-                      numberValidator positiveNumberValidator />
+                    <input [(ngModel)]="shipModel.breadth" (ngModelChange)="touchData()" name="breadth" type="number"
+                      class="form-control form-control-sm" id="ship_breadth" placeholder="Enter ship breadth"
+                      [disabled]="!breadthTypeSelected" #shipBreadth="ngModel" numberValidator positiveNumberValidator />
                   </div>
                 </div>
               </div>
@@ -189,7 +210,8 @@
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_power">Power</label>
                   <div class="input-group">
                     <div ngbDropdown class="input-group-prepend">
-                      <button class="btn btn-sm btn-ssn" id="powerTypeDropdown" ngbDropdownToggle> {{ powerTypeDropdownString
+                      <button class="btn btn-sm btn-ssn" id="powerTypeDropdown" ngbDropdownToggle> {{
+                        powerTypeDropdownString
                         }} </button>
                       <div ngbDropdownMenu aria-labelledby="powerTypeDropdown">
                         <button class="dropdown-item" *ngFor="let powerType of powerTypeList" (click)="selectPowerType(powerType)">{{
@@ -197,8 +219,8 @@
                       </div>
                     </div>
                     <input [(ngModel)]="shipModel.power" (ngModelChange)="touchData()" name="power" type="number" class="form-control form-control-sm"
-                      id="ship_power" placeholder="Enter ship power" [disabled]="!powerTypeSelected" #shipPower="ngModel" numberValidator
-                      integerValidator positiveNumberValidator />
+                      id="ship_power" placeholder="Enter ship power" [disabled]="!powerTypeSelected" #shipPower="ngModel"
+                      numberValidator integerValidator positiveNumberValidator />
                   </div>
                 </div>
               </div>
@@ -214,31 +236,13 @@
                 </li>
               </div>
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6 col-lg-6">
-              <div class="form-group row">
-                <div class="col">
-                  <label class="col-form-label-sm no-wrap mb-0" for="hull_type_dropdown">Hull Type</label>
-                  <div ngbDropdown>
-                    <button class="btn btn-sm btn-ssn" id="hull_type_dropdown" ngbDropdownToggle> {{ hullTypeDropdownString
-                      }}
-                    </button>
-                    <div ngbDropdownMenu aria-labelledby="hull_type_dropdown">
-                      <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{
-                        hullType.name }}</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-1 col-lg-1">
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_status_dropdown">Ship Status</label>
                   <div ngbDropdown>
-                    <button class="btn btn-sm btn-ssn" id="ship_status_dropdown" ngbDropdownToggle> {{ shipStatusDropdownString
+                    <button class="btn btn-sm btn-ssn" id="ship_status_dropdown" ngbDropdownToggle> {{
+                      shipStatusDropdownString
                       }}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="ship_status_dropdown">
@@ -249,16 +253,35 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-1 col-lg-1">
+              <div class="form-group row">
+                <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="hull_type_dropdown">Hull Type</label>
+                  <div ngbDropdown>
+                    <button class="btn btn-sm btn-ssn" id="hull_type_dropdown" ngbDropdownToggle> {{
+                      hullTypeDropdownString
+                      }}
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="hull_type_dropdown">
+                      <button class="dropdown-item" *ngFor="let hullType of hullTypeList" (click)="selectHullType(hullType)">{{
+                        hullType.name }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
+
 
           <div class="row">
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_height">Height</label>
-                  <input [(ngModel)]="shipModel.height" (ngModelChange)="touchData()" #shipHeight="ngModel" numberValidator positiveNumberValidator
-                    name="height" type="number" class="form-control form-control-sm" id="height" placeholder="Enter ship height"
-                  />
+                  <input [(ngModel)]="shipModel.height" (ngModelChange)="touchData()" #shipHeight="ngModel"
+                    numberValidator positiveNumberValidator name="height" type="number" class="form-control form-control-sm"
+                    id="height" placeholder="Enter ship height" />
                 </div>
               </div>
               <div *ngIf="!shipHeight.valid" class="alert alert-danger">
@@ -275,9 +298,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="ship_draught">Draught</label>
-                  <input [(ngModel)]="shipModel.draught" (ngModelChange)="touchData()" name="draught" type="number" class="form-control form-control-sm"
-                    id="ship_draught" placeholder="Enter ship draught" #shipDraught="ngModel" numberValidator positiveNumberValidator
-                  />
+                  <input [(ngModel)]="shipModel.draught" (ngModelChange)="touchData()" name="draught" type="number"
+                    class="form-control form-control-sm" id="ship_draught" placeholder="Enter ship draught"
+                    #shipDraught="ngModel" numberValidator positiveNumberValidator />
                 </div>
               </div>
               <div *ngIf="!shipDraught.valid" class="alert alert-danger">
@@ -296,9 +319,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0">Gross Tonnage</label>
-                  <input [(ngModel)]="shipModel.grossTonnage" (ngModelChange)="touchData()" name="grossTonnage" type="number" class="form-control form-control-sm"
-                    id="gross_tonnage" placeholder="Enter gross tonnage" #grossTonnage="ngModel" numberValidator integerValidator
-                    positiveNumberValidator />
+                  <input [(ngModel)]="shipModel.grossTonnage" (ngModelChange)="touchData()" name="grossTonnage" type="number"
+                    class="form-control form-control-sm" id="gross_tonnage" placeholder="Enter gross tonnage"
+                    #grossTonnage="ngModel" numberValidator integerValidator positiveNumberValidator />
                 </div>
               </div>
               <div *ngIf="!grossTonnage.valid" class="alert alert-danger">
@@ -318,9 +341,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0">Deadweight Tonnage</label>
-                  <input [(ngModel)]="shipModel.deadweightTonnage" (ngModelChange)="touchData()" name="deadweightTonnage" type="number" class="form-control form-control-sm"
-                    id="deadweight_tonnage" placeholder="Enter deadweight tonnage" #dwt="ngModel" numberValidator integerValidator
-                    positiveNumberValidator />
+                  <input [(ngModel)]="shipModel.deadweightTonnage" (ngModelChange)="touchData()" name="deadweightTonnage"
+                    type="number" class="form-control form-control-sm" id="deadweight_tonnage" placeholder="Enter deadweight tonnage"
+                    #dwt="ngModel" numberValidator integerValidator positiveNumberValidator />
                 </div>
               </div>
               <div *ngIf="!dwt.valid" class="alert alert-danger">
@@ -342,9 +365,9 @@
               <div class="form-group row">
                 <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0">Net Tonnage</label>
-                  <input [(ngModel)]="shipModel.netTonnage" (ngModelChange)="touchData()" name="netTonnage" type="number" class="form-control form-control-sm"
-                    id="net_tonnage" placeholder="Enter net tonnage" #netTonnage="ngModel" numberValidator integerValidator
-                    positiveNumberValidator />
+                  <input [(ngModel)]="shipModel.netTonnage" (ngModelChange)="touchData()" name="netTonnage" type="number"
+                    class="form-control form-control-sm" id="net_tonnage" placeholder="Enter net tonnage" #netTonnage="ngModel"
+                    numberValidator integerValidator positiveNumberValidator />
                 </div>
               </div>
               <div *ngIf="!netTonnage.valid" class="alert alert-danger">
@@ -360,30 +383,29 @@
               </div>
             </div>
           </div>
-
           <div class="form-group">
             <label class="col-form-label-sm no-wrap mb-0" for="has_side_thrusters">Side thrusters</label>
             <div class="card pt-2" id="has_side_thrusters">
               <div class="checkbox row">
                 <div class="col ml-2">
                   <label class="col-form-label-sm no-wrap mb-0">
-                    <input [(ngModel)]="shipModel.hasSideThrusters" (ngModelChange)="touchData()" name="hasSideThrusters" type="checkbox" value="">                    Side
-                    thrusters
+                    <input [(ngModel)]="shipModel.hasSideThrustersBack" (ngModelChange)="touchData()" name="hasSideThrustersBack"
+                      type="checkbox" value=""> Back side thrusters</label>
+                </div>
+              </div>
+              <div class="checkbox row">
+                <div class="col ml-2">
+                  <label class="col-form-label-sm no-wrap mb-0">
+                    <input [(ngModel)]="shipModel.hasSideThrustersFront" (ngModelChange)="touchData()" name="hasSideThrustersFront"
+                      type="checkbox" value=""> Front side thrusters</label>
+                </div>
+              </div>
+              <div class="checkbox row">
+                <div class="col ml-2">
+                  <label class="col-form-label-sm no-wrap mb-0">
+                    <input [(ngModel)]="shipModel.hasSideThrusters" (ngModelChange)="touchData()" name="hasSideThrusters"
+                      type="checkbox" value=""> Side thrusters
                   </label>
-                </div>
-              </div>
-              <div class="checkbox row">
-                <div class="col ml-2">
-                  <label class="col-form-label-sm no-wrap mb-0">
-                    <input [(ngModel)]="shipModel.hasSideThrustersFront" (ngModelChange)="touchData()" name="hasSideThrustersFront" type="checkbox"
-                      value=""> Front side thrusters</label>
-                </div>
-              </div>
-              <div class="checkbox row">
-                <div class="col ml-2">
-                  <label class="col-form-label-sm no-wrap mb-0">
-                    <input [(ngModel)]="shipModel.hasSideThrustersBack" (ngModelChange)="touchData()" name="hasSideThrustersBack" type="checkbox"
-                      value=""> Back side thrusters</label>
                 </div>
               </div>
             </div>
@@ -425,7 +447,7 @@
 
   <div class="row">
     <div class="col">
-      <app-ssn-card header="Organization" icon="pax.png">
+      <app-ssn-card header="Owner" icon="pax.png">
         <div *ngIf="!organizationSelected">
           <app-search-organization (organizationResult)="onOrganizationResult($event)"></app-search-organization>
         </div>
@@ -466,6 +488,8 @@
             <p class="no-wrap mb-0" *ngIf="!shipModel.name">Ship name not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.callSign">Call sign not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.imoNo">IMO number not set.</p>
+            <p class="no-wrap mb-0" *ngIf="!imoValid">IMO number not valid.</p>
+            <p class="no-wrap mb-0" *ngIf="!mmsiValid">MMSI number not valid.</p>
             <p class="no-wrap mb-0" *ngIf="!shipTypeSelected">Ship type not selected.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.yearOfBuild">Year of build not set.</p>
             <p class="no-wrap mb-0" *ngIf="!shipModel.length || !lengthTypeSelected">Ship length not set.</p>
@@ -490,7 +514,7 @@
                         && shipModel.yearOfBuild && shipModel.length && lengthTypeSelected && shipModel.breadth && breadthTypeSelected
                         && shipModel.power && powerTypeSelected && hullTypeSelected && shipModel.height && shipModel.draught
                         && shipModel.grossTonnage && shipModel.deadweightTonnage && shipFlagCodeSelected && contactSelected
-                        && organizationSelected && certificateSelected && shipStatusSelected">
+                        && organizationSelected && certificateSelected && shipStatusSelected && imoValid && mmsiValid">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>

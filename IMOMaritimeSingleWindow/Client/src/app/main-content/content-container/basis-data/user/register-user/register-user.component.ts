@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { AccountService } from 'app/shared/services/account.service';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
-import { UserModel } from '../../../../../shared/models/user-model';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
+import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
+import { OrganizationModel, UserModel } from '../../../../../shared/models/';
 
 const RESULT_SUCCESS = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -15,10 +13,14 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
-  styleUrls: ['./register-user.component.css'],
-  providers: [AccountService]
+  styleUrls: ['./register-user.component.css']
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
+
+  newUser = true;
+  userHeader = 'REGISTER USER';
+  confirmHeader = 'Confirm User Registration';
+  confirmButtonTitle = 'Register User';
 
   user: UserModel = {
     email: '',
@@ -28,7 +30,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     roleName: '',
     organizationId: '',
     companyEmail: '',
-    companyPhoneNumber: ''
+    companyPhoneNumber: '',
+    id:''
   };
   emailTaken: boolean;
   emailChecked: boolean;
@@ -41,6 +44,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   selectedRole: any;
 
   getAllRolesSubscription: Subscription;
+  userDataSubscription: Subscription;
 
   registrationSuccessful: boolean;
   emailConfirmationLink: string;
@@ -58,6 +62,13 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       data => this.roleList = data
     );
 
+    this.userDataSubscription = this.accountService.userData$.subscribe(data => {
+      if (data) {
+        data.roleName = data.role;
+        this.setAllValues(data);
+      }
+    });
+
     this.organizationService.setOrganizationData(null);
     this.organizationService.organizationData$.subscribe(
       data => {
@@ -72,31 +83,71 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     );
   }
 
+  setAllValues(user: UserModel) {
+    this.newUser = false;
+    this.userHeader = 'EDIT USER';
+    this.confirmHeader = 'Confirm User Changes';
+    this.confirmButtonTitle = 'Apply Changes';
+
+    // get and set the associated organization.
+    this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(data => {
+      this.organizationService.setOrganizationData(data);
+      this.setOrganization(data);
+    });
+
+    // this.emailTaken = false;
+    this.emailChecked = true;
+
+    this.user = user;
+  }
+
   ngOnDestroy() {
     this.getAllRolesSubscription.unsubscribe();
   }
   userExists(emailValid: boolean) {
     if (emailValid) {
-      return this.accountService.emailTaken(this.user.email)
+
+      if (this.newUser) {
+
+        return this.accountService.emailTaken(this.user.email)
         .subscribe(result => {
           this.emailTaken = result;
           this.emailChecked = true;
         });
+      } else {
+        this.emailTaken = false;
+        // this.emailChecked = true;
+      }
     }
   }
 
   registerUser() {
-    this.accountService.registerUser(this.user)
-    .subscribe(
-      result => {
+
+    if (this.newUser) {
+
+      this.accountService.registerUser(this.user)
+      .subscribe(
+        result => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
+            // this.openCustomModal(template, true);  // SUCCESS
+        },
+        error => {
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+          // this.openCustomModal(template, false);  // FAILURE
+        }
+      );
+
+    } else {
+
+      this.accountService.updateUser(this.user).subscribe(result => {
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
-          // this.openCustomModal(template, true);  // SUCCESS
       },
       error => {
         this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
         // this.openCustomModal(template, false);  // FAILURE
-      }
-    );
+      });
+    }
+
   }
 
   onOrganizationResult(organizationResult) {

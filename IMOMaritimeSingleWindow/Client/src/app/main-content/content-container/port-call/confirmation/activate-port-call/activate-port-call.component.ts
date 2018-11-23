@@ -3,17 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
-import { ConsignmentModel } from 'app/shared/models/consignment-model';
-import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
-import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { ConsignmentModel, DpgOnBoardModel, PersonOnBoardModel, PortCallDetailsModel } from 'app/shared/models/';
+import { ContentService, DpgService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-import { FalSecurityService } from '../../../../../shared/services/fal-security.service';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';
@@ -34,12 +26,14 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   passengerDataIsPristine: Boolean = true;
   crewDataIsPristine: Boolean = true;
   securityIsPristine = true;
+  dpgDataIsPristine = true;
 
   reportingShipStoresIsChecked = false;
   cargoIsChecked = false;
   passengerListIsChecked = false;
   crewListIsChecked = false;
   securityIsChecked = false;
+  dpgIsChecked = false;
 
 
   voyagesErrors = false;
@@ -55,6 +49,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   shipStoresList: any[];
   passengerList: PersonOnBoardModel[];
   crewList: PersonOnBoardModel[];
+  dpgOnBoardList: DpgOnBoardModel[];
 
   portCallStatus: string;
   portCallIsDraft = false;
@@ -88,6 +83,9 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   securityIsCheckedSubscription: Subscription;
   securityIsPristineSubscription: Subscription;
   allowSavingSecuritySubscription: Subscription;
+  dpgDataSubscription: Subscription;
+  dpgListIsPristineSubscription: Subscription;
+  dpgIsCheckedSubscription: Subscription;
   allowSavingSecurity = false;
 
   constructor(
@@ -98,12 +96,13 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     private cargoService: FalCargoService,
     private modalService: NgbModal,
     private personOnBoardService: PortCallFalPersonOnBoardService,
-    private securityService: FalSecurityService
+    private securityService: FalSecurityService,
+    private dpgService: DpgService
   ) { }
 
   ngOnInit() {
     //
-    // Voyages
+    // PortCalls
     //
     this.voyagesIsPristineSubscription = this.portCallService.voyagesIsPristine$.subscribe(
       pristineData => {
@@ -244,6 +243,26 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     );
 
     //
+    // Dpg on Board
+    //
+    this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(
+      dpgData => {
+        this.dpgOnBoardList = dpgData;
+      }
+    );
+    this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
+      pristineData => {
+        this.dpgDataIsPristine = pristineData;
+      }
+    );
+    this.dpgIsCheckedSubscription = this.dpgService.dpgIsChecked$.subscribe(
+      isChecked => {
+        this.dpgIsChecked = isChecked;
+      }
+    );
+
+
+    //
     // Security
     //
     this.securityIsPristineSubscription = this.securityService.pristineData$.subscribe(
@@ -261,7 +280,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.allowSavingSecurity = allowSavingData;
       }
     );
-
 
     //
     // Status
@@ -372,6 +390,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       res => {
         this.personOnBoardService.setCrewDataIsPristine(true);
         console.log('Crew list successfully saved.\n', res);
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
+
+  saveDpgOnBoardList() {
+    this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(
+      res => {
+        this.dpgService.setDataIsPristine(true);
+        console.log('Dpg on board successfully saved. \n', res);
       }, error => {
         console.log(error);
       }

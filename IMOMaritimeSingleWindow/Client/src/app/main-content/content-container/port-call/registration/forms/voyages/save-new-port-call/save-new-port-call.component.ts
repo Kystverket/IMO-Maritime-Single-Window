@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
-import { LocationModel } from 'app/shared/models/location-model';
-import { PortCallModel } from 'app/shared/models/port-call-model';
-import { ShipModel } from 'app/shared/models/ship-model';
-import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { PortCallService } from 'app/shared/services/port-call.service';
+import { LocationModel, PortCallModel, ShipModel } from 'app/shared/models/';
+import { PortCallDetailsService, PortCallService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 import { LoadPortCallService } from '../../../../load-port-call.service';
 

@@ -1,8 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
+import { FalShipStoresService, PortCallService } from 'app/shared/services/';
 
-import { PortCallService } from 'app/shared/services/port-call.service';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({

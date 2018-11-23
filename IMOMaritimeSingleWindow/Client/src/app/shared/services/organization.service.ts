@@ -1,10 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 import { OrganizationModel } from '../models/organization-model';
 import { SearchService } from './search.service';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
-import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 
 @Injectable()
 export class OrganizationService {

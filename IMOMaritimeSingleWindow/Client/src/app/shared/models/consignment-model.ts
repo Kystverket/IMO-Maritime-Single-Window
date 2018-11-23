@@ -1,6 +1,5 @@
-import { PortCallModel } from './port-call-model';
-import { LocationModel } from './location-model';
-import { CargoItemModel } from './cargo-item-model';
+import {CargoItemModel, LocationModel, PortCallModel } from './';
+
 
 export class ConsignmentModel {
     consignmentId: number;

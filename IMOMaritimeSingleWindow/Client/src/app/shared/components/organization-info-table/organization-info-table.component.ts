@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { OrganizationModel } from 'app/shared/models/organization-model';
 

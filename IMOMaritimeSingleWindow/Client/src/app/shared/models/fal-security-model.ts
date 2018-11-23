@@ -1,8 +1,4 @@
-import { PortCallModel } from './port-call-model';
-import { CompanySecurityOfficerModel } from './company-security-officer-model';
-import { SecurityLevelModel } from './security-level-model';
-import { ShipToShipActivityModel } from './ship-to-ship-activity-model';
-import { SecurityPreviousPortOfCallModel } from './security-previous-port-of-call-model';
+import {CompanySecurityOfficerModel, PortCallModel, SecurityLevelModel, SecurityPreviousPortOfCallModel, ShipToShipActivityModel } from './';
 
 export class FalSecurityModel {
   falSecurityId: number;

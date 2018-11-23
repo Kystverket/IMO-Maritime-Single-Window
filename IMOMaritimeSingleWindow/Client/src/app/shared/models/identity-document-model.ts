@@ -1,13 +1,13 @@
-import { IdentityDocumentTypeModel } from './identity-document-type-model';
+import {CountryModel, IdentityDocumentTypeModel } from './';
 
 export class IdentityDocumentModel {
     identityDocumentId: number;
     identityDocumentTypeId: number;
     issuingNationId: number;
-    visaOrResidencePermitNumber: number;
+    visaOrResidencePermitNumber: string;
     identityDocumentIssueDate: any;
     identityDocumentExpiryDate: any;
-    identityDocumentNumber: number;
+    identityDocumentNumber: string;
     personOnBoardId: number;
 
     identityDocumentType: IdentityDocumentTypeModel;

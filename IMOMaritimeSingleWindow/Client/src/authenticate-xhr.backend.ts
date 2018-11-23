@@ -1,10 +1,10 @@
-import { Request, XHRBackend, BrowserXhr, ResponseOptions, XSRFStrategy, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
 import { Injectable } from '@angular/core';
+import { BrowserXhr, Request, Response, ResponseOptions, XHRBackend, XSRFStrategy } from '@angular/http';
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs/Observable';
 
-// sweet global way to handle 401s - works in tandem with existing AuthGuard route checks
+// Nicolas Henneaux - edited Dec 4 '17 at 20:54
 // http://stackoverflow.com/questions/34934009/handling-401s-globally-with-angular-2
 @Injectable()
 export class AuthenticateXHRBackend extends XHRBackend {

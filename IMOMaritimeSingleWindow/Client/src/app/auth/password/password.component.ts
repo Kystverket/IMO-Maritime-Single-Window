@@ -1,14 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { TokenQueryModel } from '../../shared/models/token-query-model';
-import { AccountService } from '../../shared/services/account.service';
-import { UriQueryService } from '../../shared/services/uri-query.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { PasswordResetModel } from '../../shared/models/password-reset-model';
-import { PasswordChangeModel } from '../../shared/models/password-change-model';
 import {
   PASSWORD_COMPONENT_NAME,
   PASSWORD_COMPONENT_TYPE
 } from '../../shared/constants/password-component-types';
+import { PasswordChangeModel } from '../../shared/models/password-change-model';
+import { PasswordResetModel } from '../../shared/models/password-reset-model';
+import { TokenQueryModel } from '../../shared/models/token-query-model';
+import { AccountService, UriQueryService } from '../../shared/services/';
 
 @Component({
   selector: 'app-password',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { ContentService } from 'app/shared/services/content.service';
-import { OrganizationService } from 'app/shared/services/organization.service';
+import { ContentService, OrganizationService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-view-organization-info',

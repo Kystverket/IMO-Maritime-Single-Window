@@ -1,18 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import { merge } from 'rxjs/observable/merge';
+import { of } from 'rxjs/observable/of';
+import { mapTo } from 'rxjs/operators/mapTo';
+import { Observable } from 'rxjs/Rx';
+import { Subscription } from 'rxjs/Subscription';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
-import { AccountService } from '../../shared/services/account.service';
-import { ContentService } from '../../shared/services/content.service';
-import { LoginService } from '../../shared/services/login.service';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
-import { merge } from 'rxjs/observable/merge';
-import { of } from 'rxjs/observable/of';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { mapTo } from 'rxjs/operators/mapTo';
-import { DbConnectionService } from '../../shared/services/db-connection.service';
+import { AccountService, ContentService, DbConnectionService, LoginService, } from '../../shared/services/';
 
 @Component({
   selector: 'app-header',
@@ -46,7 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     {
       title: 'USERS',
       iconPath: this.iconPath + 'user.png',
-      menuName: CONTENT_NAMES.REGISTER_USER
+      menuName: CONTENT_NAMES.VIEW_USERS
     },
     {
       title: 'SHIPS',
@@ -113,6 +110,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     this.startDbConnectionCheck();
+  }
+
+  whatsNew() {
+    this.contentService.setContent(CONTENT_NAMES.WHATS_NEW);
   }
 
   ngOnDestroy() {

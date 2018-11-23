@@ -1,12 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
-import { LocationModel } from 'app/shared/models/location-model';
-import { ContentService } from 'app/shared/services/content.service';
-import { LocationService } from 'app/shared/services/location.service';
+import { ContentService, LocationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
-
+import { LocationModel } from '../../../../../shared/models';
 const RESULT_SUCCESS = 'Location was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
 
@@ -26,6 +24,8 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   locationTypeSelected: boolean;
   selectedLocationType: any;
   locationTypeDropdownString = 'Select location type';
+  selectedTwoCharCode: string;
+  threeCharLoCode: string;
 
   countryList: any[];
   countrySelected = false;
@@ -65,7 +65,8 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.locationTypesSubscription = this.locationService.getLocationTypes().subscribe(
+    this.locationTypesSubscription = this.locationService.getLocationTypes()
+    .subscribe(
       results => {
         this.locationTypeList = results;
       },
@@ -92,11 +93,13 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   selectCountry($event) {
     this.selectedCountry = $event;
     this.locationModel.countryId = $event.countryId;
+    this.selectedTwoCharCode = this.selectedCountry.twoCharCode;
     this.countrySelected = true;
   }
 
   deselectCountry() {
     this.selectedCountry = null;
+    this.selectedTwoCharCode = '';
     this.locationModel.country = null;
     this.locationModel.countryId = null;
     this.selectedCountry = null;
@@ -110,6 +113,12 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
     this.locationTypeSelected = true;
   }
 
+  updateAndSaveModel() {
+    const newLoCode = this.selectedTwoCharCode + this.threeCharLoCode;
+    this.locationModel.locationCode = newLoCode;
+    this.registerLocation();
+  }
+
   registerLocation() {
     if (this.newLocation) {
       this.locationService.registerLocation(this.locationModel).subscribe(
@@ -117,7 +126,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_SUCCESS, RESULT_SUCCESS);
         }, error => {
           console.log(error);
-          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, RESULT_FAILURE);
+          this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, error.error);
         }
       );
     } else {

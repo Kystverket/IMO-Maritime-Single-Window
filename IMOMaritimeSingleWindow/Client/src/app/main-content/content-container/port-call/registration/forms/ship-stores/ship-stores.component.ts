@@ -1,14 +1,13 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MeasurementTypeModel } from 'app/shared/models/measurement-type-model';
-import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
+import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ship-stores',

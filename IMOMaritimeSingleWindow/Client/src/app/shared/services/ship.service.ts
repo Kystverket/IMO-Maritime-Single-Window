@@ -1,12 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ShipContactModel } from '../models/ship-contact-model';
-import { AuthRequest } from './auth.request.service';
 import 'rxjs/add/observable/of';
-import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { InternationalShipSecurityCertificateModel } from '../models/international-ship-security-certificate-model';
+import { InternationalShipSecurityCertificateModel, ShipContactModel } from '../models/';
+import { AuthRequest } from './auth.request.service';
 
 @Injectable()
 export class ShipService {

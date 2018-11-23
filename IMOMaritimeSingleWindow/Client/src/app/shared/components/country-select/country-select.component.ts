@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subscription } from '../../../../../node_modules/rxjs';
 import { CountryModel } from '../../models/country-model';
 import { CountryService } from '../../services/country.service';
-import { Subscription } from '../../../../../node_modules/rxjs';
 
 @Component({
   selector: 'app-country-select',

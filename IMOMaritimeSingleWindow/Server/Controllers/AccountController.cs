@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -118,6 +119,36 @@ namespace IMOMaritimeSingleWindow.Controllers
             _logger.LogDebug($"Email sent to {model.Email}");
 
             _logger.LogDebug($"Account created. Confirmation link sent to {model.Email}");
+            return Ok();
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/update")]
+        public async Task<IActionResult> UpdateUser([FromBody]RegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                // map the fields and update the record in the underlying data store
+                var applicationUser = _mapper.Map<ApplicationUser>(model);
+                applicationUser.SecurityStamp = new Guid().ToString();
+                var result = await _userManager.UpdateAsync(applicationUser);
+
+                // retrieve the record by email field
+                var addedUser = await _userManager.FindByEmailAsync(model.Email);
+                
+                // map the role.
+                result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
+                    // if (!result.Succeeded)
+                        // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
             return Ok();
         }
 
@@ -316,6 +347,73 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             return Json(user);
+        }
+
+        /// <summary>
+        /// Retrieve users given a search term which can be an email address or user's fullname (given + sir name)
+        /// </summary>
+        /// <param name="searchTerm">Query string</param>
+        /// <param name="amount">Limit on the amount of records to return</param>
+        /// <returns></returns>
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
+        [HttpGet("user/search/{searchTerm}/{amount}")]
+        public async Task<IActionResult> SearchUserJson(string searchTerm, int amount)
+        {
+            IQueryable<IMOMaritimeSingleWindow.Models.User> queryableUser = null; 
+
+            // check to see if the search term is an email
+            var isEmail = Regex.IsMatch(searchTerm,
+                @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
+                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+
+            // if the qry string is an email
+            // we check the user email and company email fields for a match
+            if(isEmail) {
+
+                queryableUser = _context.User.Where(usr => usr.Email == searchTerm.ToLower() || usr.Person.CompanyEmail == searchTerm.ToLower());
+                        
+            } 
+            // we anticipate perhaps the user is searching by full name
+            // and try to match the given and sir name combination
+            else {
+
+                // seperate the first and last name
+                var parts = searchTerm.ToLower().Split(" ");
+
+                // if the length is 1 we probably only got the first name
+                if(parts.Length == 1)
+                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]));
+                else if(parts.Length == 2)
+                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) && usr.Person.Surname.ToLower().Contains(parts[1]));
+            }
+
+            // include fields
+            queryableUser = queryableUser.Select(usr => usr)
+                            .Include(usr => usr.Organization)
+                            .Include(usr => usr.Organization.OrganizationType)
+                            .Include(usr => usr.Person)
+                            .Include(usr => usr.Role);
+
+            // transform return records
+            var viewModel = await queryableUser.Select(usr => 
+                new {
+                    usr.Person.GivenName,
+                    usr.Person.Surname,
+                    Organization = usr.Organization.Name,
+                    OrganizationId = usr.Organization.OrganizationId,
+                    OrganizationType = usr.Organization.OrganizationType.Name,
+                    Role = usr.Role.Name,
+                    usr.PhoneNumber,
+                    usr.Person.CompanyPhoneNumber,
+                    usr.Person.CompanyEmail,
+                    usr.Email,
+                    Id = usr.UserId
+                })
+                .ToArrayAsync();
+
+            //List<Location> results = SearchLocation(searchTerm, false, amount);
+            return Json(viewModel);
         }
 
         /// <summary>
