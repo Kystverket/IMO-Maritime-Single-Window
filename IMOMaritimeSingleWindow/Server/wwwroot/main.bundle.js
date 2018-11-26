@@ -1651,6 +1651,9 @@ var RegisterShipComponent = /** @class */ (function () {
     }
     RegisterShipComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.shipSourceSubscription = this.shipService.getInternalShipSource().subscribe(function (res) {
+            _this.shipSource = res;
+        });
         this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
         this.certificateModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models__["b" /* CertificateOfRegistryModel */]();
         this.shipDataSubscription = this.shipService.shipData$.subscribe(function (data) {
@@ -1843,6 +1846,7 @@ var RegisterShipComponent = /** @class */ (function () {
         var _this = this;
         this.updateCertificate();
         if (this.newShip) {
+            this.shipModel.shipSourceId = this.shipSource.shipSourceId;
             this.shipService.registerShip(this.shipModel).subscribe(function (result) {
                 _this.shipModel.shipId = result.shipId;
                 var shipContactList = _this.selectedContactModelList.map(function (contactModel) {
@@ -19638,7 +19642,7 @@ var ShipService = /** @class */ (function () {
         this.lengthTypeUrl = 'api/shiplengthtype';
         this.breadthTypeUrl = 'api/shipbreadthtype';
         this.powerTypeUrl = 'api/shippowertype';
-        this.shipSourceUrl = 'api/shipsource';
+        this.shipSourceInternalUrl = 'api/shipsource/shipSourceInternal';
         this.shipStatusListUrl = 'api/shipstatus';
         this.contactListShipUrl = 'api/shipcontact/ship';
         this.shipContactListUrl = 'api/shipcontact/list';
@@ -19701,8 +19705,8 @@ var ShipService = /** @class */ (function () {
     ShipService.prototype.getPowerTypes = function () {
         return this.http.get(this.powerTypeUrl);
     };
-    ShipService.prototype.getShipSources = function () {
-        return this.http.get(this.shipSourceUrl);
+    ShipService.prototype.getInternalShipSource = function () {
+        return this.http.get(this.shipSourceInternalUrl);
     };
     ShipService.prototype.getShipStatusList = function () {
         return this.http.get(this.shipStatusListUrl);
