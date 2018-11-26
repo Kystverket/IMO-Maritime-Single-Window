@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
@@ -21,6 +22,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   userHeader = 'REGISTER USER';
   confirmHeader = 'Confirm User Registration';
   confirmButtonTitle = 'Register User';
+  filterOrganization = ORGANIZATION_TYPES.AGENT_COMPANY;
 
   user: UserModel = {
     email: '',
@@ -31,7 +33,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     organizationId: '',
     companyEmail: '',
     companyPhoneNumber: '',
-    id:''
+    id: ''
   };
   emailTaken: boolean;
   emailChecked: boolean;

@@ -23,7 +23,12 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
-
+        public enum ORGANIZATION_TYPE_ENUM
+        {
+            AUTHORITY,
+            RSO,
+            AGENT_COMPANY
+        }
 
         [Authorize]
         [HttpGet("user")]
@@ -84,10 +89,28 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                                 .Take(amount).ToList();
         }
 
+        public List<Organization> SearchByOrganizationType(ORGANIZATION_TYPE_ENUM EnumValue, string searchTerm, int amount = 10)
+        {
+            return _context.Organization.Where(org => EF.Functions
+            .ILike(org.Name, searchTerm + '%')
+            || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
+            .Select(org => org)
+            .Include(org => org.OrganizationType)
+            .Where(x => x.OrganizationType.EnumValue == EnumValue.ToString())
+            .Take(amount).ToList();
+        }
+
         [HttpGet("search/{searchTerm}/{amount}")]
         public IActionResult SearchOrganizationJson(int amount, string searchTerm)
         {
             var organizations = SearchOrganization(searchTerm, amount);
+            return Json(organizations);
+        }
+
+        [HttpGet("search/{searchTerm}/{amount}/{EnumValue}")]
+        public IActionResult SearchOrganizationByTypeJson(int amount, string searchTerm, ORGANIZATION_TYPE_ENUM EnumValue)
+        {
+            var organizations = SearchByOrganizationType(EnumValue, searchTerm, amount);
             return Json(organizations);
         }
 
