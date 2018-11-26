@@ -604,7 +604,6 @@ var AccountOverviewComponent = /** @class */ (function () {
             _this.setAffiliationFields();
             _this.setUserDetails();
             _this.formatLabels();
-            console.log(_this);
         });
     };
     AccountOverviewComponent.prototype.ngOnDestroy = function () {
@@ -2530,18 +2529,14 @@ var ClearanceComponent = /** @class */ (function () {
                         allCleared = false;
                     }
                 });
-                console.log('All cleared: ', allCleared);
                 if (allCleared) {
                     _this.portCallService.updatePortCallStatusCleared(_this.clearanceModel.portCallId).subscribe(function (res) {
-                        console.log('Status set to cleared.');
                     }, function (err) { return console.log(err); });
                 }
             });
         }
         else {
-            console.log('Setting status to AC...');
             this.portCallService.updatePortCallStatusAwaitingClearance(this.clearanceModel.portCallId).subscribe(function (res) {
-                console.log('Status set to awaiting clearance');
             }, function (err) { return console.log(err); });
         }
     };
@@ -2831,7 +2826,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.detailsModel.reportingSecurity = this.reportingModel.reportingSecurity;
         this.detailsModel.reportingShipStores = this.reportingModel.reportingShipStores;
         this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName).subscribe(function (detailsResponse) {
-            console.log('Successfully saved port call details:', detailsResponse);
             _this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
             _this.portCallService.savePurposesForPortCall(_this.portCallId, _this.purposeModel, _this.otherPurposeName);
         });
@@ -2841,7 +2835,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         var formattedShipStoresList = this.shipStoresService.formatShipStores(this.shipStoresList);
         this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(function (res) {
             _this.shipStoresService.setDataIsPristine(true);
-            console.log(res);
         }, function (error) {
             console.log(error);
         });
@@ -2851,7 +2844,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         var formattedCargoData = this.cargoService.formatConsignment(this.cargoData);
         this.cargoService.saveConsignmentListForPortCall(formattedCargoData, this.portCallId).subscribe(function (res) {
             _this.cargoService.setDataIsPristine(true);
-            console.log('Cargo successfully saved.\n', res);
         }, function (error) {
             console.error(error);
         });
@@ -2860,7 +2852,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         var _this = this;
         this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, 2).subscribe(function (res) {
             _this.personOnBoardService.setPassengerDataIsPristine(true);
-            console.log('Passengers successfully saved.\n', res);
         }, function (error) {
             console.log(error);
         });
@@ -2869,7 +2860,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         var _this = this;
         this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, 1).subscribe(function (res) {
             _this.personOnBoardService.setCrewDataIsPristine(true);
-            console.log('Crew list successfully saved.\n', res);
         }, function (error) {
             console.log(error);
         });
@@ -2878,7 +2868,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         var _this = this;
         this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(function (res) {
             _this.dpgService.setDataIsPristine(true);
-            console.log('Dpg on board successfully saved. \n', res);
         }, function (error) {
             console.log(error);
         });
@@ -2888,7 +2877,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         this.portCallService
             .updatePortCallStatusAwaitingClearance(this.portCallId)
             .subscribe(function (updateStatusResponse) {
-            console.log('Status successfully updated.');
             _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCES);
         }, function (error) {
             console.log(error);
@@ -3062,7 +3050,6 @@ var LoadPortCallService = /** @class */ (function () {
                 }
             }
             else {
-                console.log('No purpose information has been registered for this port call.');
             }
         }, function (error) {
             console.log('Get Purpose Error: ', error);
@@ -3075,7 +3062,6 @@ var LoadPortCallService = /** @class */ (function () {
                 _this.portCallDetailsService.setDetails(detailsData);
             }
             else {
-                console.log('No details information has been registered for this port call.');
                 var portCallDetails = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models_port_call_details_model__["a" /* PortCallDetailsModel */]();
                 portCallDetails.portCallId = _this.portCallId;
                 _this.portCallDetailsService.setDetails(portCallDetails);
@@ -3897,7 +3883,6 @@ var SetActualTimeComponent = /** @class */ (function () {
                     _this.portCallModel = res;
                     _this.portCallCompleted.emit(result.portCallId);
                     _this.modalRef.close();
-                    console.log('Status set to completed.');
                 }, function (err) { return console.log(err); });
             }
             else {
@@ -3905,7 +3890,6 @@ var SetActualTimeComponent = /** @class */ (function () {
                     _this.portCallModel = res;
                     _this.portCallCleared.emit(result.portCallId);
                     _this.modalRef.close();
-                    console.log('Status set to cleared.');
                 }, function (err) { return console.log(err); });
             }
         }, function (error) {
@@ -3928,7 +3912,6 @@ var SetActualTimeComponent = /** @class */ (function () {
         });
     };
     SetActualTimeComponent.prototype.modalClosed = function () {
-        console.log('modal closed');
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -5184,7 +5167,6 @@ var CrewListComponent = /** @class */ (function () {
         this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(function (res) {
             _this.listIsPristine = true;
             _this.personOnBoardService.setCrewDataIsPristine(true);
-            console.log('Saved crew members.');
         });
     };
     // Helper methods
@@ -6710,7 +6692,6 @@ var PassengerListComponent = /** @class */ (function () {
         this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(function (res) {
             _this.listIsPristine = true;
             _this.personOnBoardService.setPassengerDataIsPristine(true);
-            console.log('Saved passengers.');
         });
     };
     // Helper methods
@@ -7446,7 +7427,6 @@ var PurposeComponent = /** @class */ (function () {
     };
     PurposeComponent.prototype.purposeSelected = function () {
         this.portCallDetailsService.setPortCallPurposeData(this.selectedPurposes);
-        console.log('SELECTED: ', this.selectedPurposes);
         if (this.otherPurposeSelected) {
             this.setOtherPurposeName();
         }
@@ -7559,7 +7539,6 @@ var ReportingComponent = /** @class */ (function () {
                 this.reportingModel.reportingSecurity = checkboxModel.checked;
                 break;
             default:
-                console.log('Oops. Something went wrong with the checkboxes.');
         }
         this.portCallDetailsService.setReportingForThisPortCallData(this.reportingModel);
     };
@@ -7692,7 +7671,6 @@ var SaveDetailsComponent = /** @class */ (function () {
             this.detailsModel.airDraught = this.crewPassengersAndDimensionsModel.airDraught;
             this.detailsModel.actualDraught = this.crewPassengersAndDimensionsModel.actualDraught;
             this.portCallService.saveDetails(this.detailsModel, this.purposeModel, this.otherPurposeName).subscribe(function (detailsResponse) {
-                console.log('Successfully saved port call details:', detailsResponse);
                 _this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
                 _this.portCallService.savePurposesForPortCall(_this.portCallId, _this.purposeModel, _this.otherPurposeName);
             });
@@ -8289,10 +8267,8 @@ var SaveSecurityButtonComponent = /** @class */ (function () {
         dbIssc.expiryDate = this.isscModel.expiryDate;
         dbIssc.issuedByGovernment = this.isscModel.issuedByGovernment;
         this.shipService.saveISSC(dbIssc).subscribe(function (isscResult) {
-            console.log('ISSC saved.');
             if (!_this.isscModel.isscId) {
                 _this.shipService.updateShipISSC(_this.shipModel.shipId, isscResult.isscId).subscribe(function (shipIsscResult) {
-                    console.log('Ship has been registered with ISSC.');
                 });
             }
         });
@@ -9195,7 +9171,6 @@ var SaveShipStoresComponent = /** @class */ (function () {
         this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(function (res) {
             _this.shipStoresService.setDataIsPristine(true);
             _this.saving = false;
-            console.log(res.json());
         }, function (error) {
             _this.saving = false;
             console.log(error);
@@ -9713,9 +9688,7 @@ var SaveNewPortCallComponent = /** @class */ (function () {
         this.creatingPortCall = true;
         var portCallModel = this.buildPortCallModel();
         this.portCallService.registerNewPortCall(portCallModel).subscribe(function (result) {
-            console.log('New port call successfully registered:', result);
             // add list of authorities for clearance
-            console.log('Registering authority clearance agencies to port call...');
             _this.portCallService.registerClearanceAgenciesForPortCall(result);
             _this.portCallDetailsService.wipeDetailsData();
             _this.loadPortCallService.setContent(result.portCallId);
@@ -9863,14 +9836,10 @@ var SaveVoyagesComponent = /** @class */ (function () {
     };
     SaveVoyagesComponent.prototype.savePortCall = function () {
         var _this = this;
-        console.log('Loading port call with id ' + this.portCallId);
         this.portCallService.getPortCallById(this.portCallId).subscribe(function (portCall) {
-            console.log('Loaded port call:', portCall);
             if (portCall) {
                 var portCallModel = _this.buildPortCallModel(portCall);
-                console.log(portCallModel);
                 _this.portCallService.updatePortCall(portCallModel).subscribe(function (result) {
-                    console.log('Port Call updated:', result);
                     _this.portCallService.setVoyagesIsPristine(true);
                     _this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
                 }, function (error) {
@@ -18142,7 +18111,6 @@ var FalShipStoresService = /** @class */ (function () {
     };
     // Save ship stores list to database
     FalShipStoresService.prototype.saveShipStores = function (shipStoresList, portCallId) {
-        console.log('Saving ship stores...');
         var uri = [this.shipStoresUrl, portCallId, this.shipStoresListString].join('/');
         return this.http.put(uri, shipStoresList);
     };
@@ -18288,12 +18256,10 @@ var IdentityDocumentService = /** @class */ (function () {
         return this.http.get(uri).map(function (res) { return res.json(); });
     };
     IdentityDocumentService.prototype.updateIdentityDocumentList = function (identityDocumentList) {
-        console.log('Updating identity documents for passengers...');
         var uri = this.identityDocumentListUrl;
         return this.http.put(uri, identityDocumentList).map(function (res) {
             res.json();
             if (res.status === 200) {
-                console.log('Identity documents for passengers successfully saved.');
             }
         });
     };
@@ -18931,7 +18897,6 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.updatePersonOnBoardList = function (portCallId, personOnBoardList, personOnBoardTypeId) {
-        console.log('Saving person on board list...');
         var cleanedPersonOnBoardList;
         cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
@@ -19269,7 +19234,6 @@ var PortCallService = /** @class */ (function () {
         this.setCreatedByUserData(overview.portCall.user);
     };
     PortCallService.prototype.updatePortCall = function (portCall) {
-        console.log('Updating port call...');
         return this.http.put(this.portCallUrl, portCall);
     };
     PortCallService.prototype.setPortCallIdData = function (data) {
@@ -19321,7 +19285,6 @@ var PortCallService = /** @class */ (function () {
     };
     // REGISTER NEW PORT CALL
     PortCallService.prototype.registerNewPortCall = function (portCall) {
-        console.log('Registering new port call...');
         var uri = this.portCallUrl;
         this.setPortCallStatus('Draft');
         return this.http.post(uri, portCall);
@@ -19332,38 +19295,32 @@ var PortCallService = /** @class */ (function () {
             this.updatePortCallStatusAwaitingClearanceUrl,
             portCallId
         ].join('/');
-        console.log('Updating port call status to awaiting clearance...');
         return this.http.post(uri, null);
     };
     // Set port call status to cleared
     PortCallService.prototype.updatePortCallStatusCleared = function (portCallId) {
         var uri = [this.updatePortCallStatusClearedUrl, portCallId].join('/');
-        console.log('Updating port call status to cleared...');
         return this.http.post(uri, null);
     };
     // Set port call status to completed
     PortCallService.prototype.updatePortCallStatusCompleted = function (portCallId) {
         var uri = [this.updatePortCallStatusCompletedUrl, portCallId].join('/');
-        console.log('Updating port call status to completed...');
         return this.http.post(uri, null);
     };
     // Set port call status to cancelled
     PortCallService.prototype.updatePortCallStatusCancelled = function (portCallId) {
         var uri = [this.updatePortCallStatusCancelledUrl, portCallId].join('/');
-        console.log('Updating port call status to cancelled...');
         return this.http.post(uri, null);
     };
     // Set port call status to draft
     PortCallService.prototype.updatePortCallStatusDraft = function (portCallId) {
         var uri = [this.updatePortCallStatusDraftUrl, portCallId].join('/');
-        console.log('Updating port call status to draft...');
         return this.http
             .put(uri, null)
             .map(function (res) { return res; });
     };
     // Sets port call status to deleted
     PortCallService.prototype.deletePortCallDraft = function (portCall) {
-        console.log('Deleting port call...');
         var uri = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
         return this.http.put(uri, null);
     };
@@ -19378,7 +19335,6 @@ var PortCallService = /** @class */ (function () {
     };
     // SAVE DETAILS
     PortCallService.prototype.saveDetails = function (details, purposes, otherName) {
-        console.log('Saving port call details...');
         return this.http.post(this.detailsUrl, details);
     };
     PortCallService.prototype.savePurposesForPortCall = function (pcId, purposes, otherName) {
@@ -19401,14 +19357,12 @@ var PortCallService = /** @class */ (function () {
                     purposeIfUnknown: p.name === 'Other' ? otherName : null
                 };
             });
-            console.log('Saving port call purposes to database...');
             this.http
                 .put(this.purposePortCallUrl, pcHasPurposeList)
                 .subscribe(function (purposeResponse) {
                 if (purposeResponse) {
                     _this.portCallDetailsService.setDetailsPristine(true);
                 }
-                console.log('Purposes successfully saved.');
             });
         }
     };
@@ -19425,11 +19379,9 @@ var PortCallService = /** @class */ (function () {
         this.clearanceListDataSource.next(data);
     };
     PortCallService.prototype.saveClearance = function (clearanceModel) {
-        console.log('Saving clearance to database...');
         this.http
             .put(this.clearanceUrl, clearanceModel)
             .subscribe(function (data) {
-            console.log('Clearance saved successfully.');
         }, function (error) {
             console.log('ERROR: ', error);
         });
@@ -19444,7 +19396,6 @@ var PortCallService = /** @class */ (function () {
         this.http
             .post(this.clearanceUrl, portCall)
             .subscribe(function (clearanceData) {
-            console.log('Clearance agency information successfully added to port call.');
             _this.clearanceListDataSource.next(clearanceData);
         });
     };
@@ -20387,7 +20338,6 @@ var AuthenticateXHRBackend = /** @class */ (function (_super) {
         var xhrConnection = _super.prototype.createConnection.call(this, request);
         xhrConnection.response = xhrConnection.response.catch(function (error) {
             if ((error.status === 401 || error.status === 403) && (window.location.href.match(/\?/g) || []).length < 2) {
-                console.log('The authentication session expired or the user is not authorized. Force refresh of the current page.');
                 /* Great solution for bundling with Auth Guard!
                 1. Auth Guard checks authorized user (e.g. by looking into LocalStorage).
                 2. On 401/403 response you clean authorized user for the Guard (e.g. by removing coresponding parameters in LocalStorage).
@@ -20479,7 +20429,6 @@ var SelectivePreloadingStrategy = /** @class */ (function () {
             // add the route path to the preloaded module array
             this.preloadedModules.push(route.path);
             // log the route path to the console
-            console.log('Preloaded: ' + route.path);
             return load();
         }
         else {

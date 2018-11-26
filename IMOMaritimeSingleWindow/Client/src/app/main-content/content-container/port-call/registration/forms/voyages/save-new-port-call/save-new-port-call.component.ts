@@ -143,9 +143,7 @@ export class SaveNewPortCallComponent implements OnInit, OnDestroy {
     const portCallModel = this.buildPortCallModel();
     this.portCallService.registerNewPortCall(portCallModel).subscribe(
       result => {
-        console.log('New port call successfully registered:', result);
         // add list of authorities for clearance
-        console.log('Registering authority clearance agencies to port call...');
         this.portCallService.registerClearanceAgenciesForPortCall(result);
 
         this.portCallDetailsService.wipeDetailsData();

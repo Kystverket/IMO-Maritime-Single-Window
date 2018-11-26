@@ -378,7 +378,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
       this.listIsPristine = true;
       this.personOnBoardService.setCrewDataIsPristine(true);
-      console.log('Saved crew members.');
     });
   }
 
