@@ -289,8 +289,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = await roleMan.GetAllRoles();
-            roleNames.Remove(Constants.Strings.UserRoles.SuperAdmin);
-            return Ok(roleNames);
+            roleNames.Remove(roleNames.Single(r => r.Name == Constants.Strings.UserRoles.SuperAdmin));
+            var roleNamesString = roleNames.Select(rn => rn.Description);
+            return Ok(roleNamesString);
         }
 
         [Authorize]
