@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -19,6 +20,7 @@ export class SearchOrganizationComponent implements OnInit {
 
   @Input() showDropdown = true;
   @Input() header = 'Search using organization name or organization number';
+  @Input() filter: ORGANIZATION_TYPES;
 
   @Output() organizationResult = new EventEmitter<any>();
   @Output() organizationSearchResult = new EventEmitter<any>();
@@ -50,7 +52,7 @@ export class SearchOrganizationComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.searchOrganizationService.search(term, this.resultsDropdown).pipe(
+        this.searchOrganizationService.search(this.filter, term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -65,7 +67,7 @@ export class SearchOrganizationComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.organizationModel.length >= 2 && res.length === 0;
         } else {
-          this.searchOrganizationService.search(this.organizationModel, this.resultsWithoutDropdown).subscribe(
+          this.searchOrganizationService.search(this.filter, this.organizationModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.organizationModel.length >= 2 && data.length === 0;
               this.organizationSearchResult.emit(data);

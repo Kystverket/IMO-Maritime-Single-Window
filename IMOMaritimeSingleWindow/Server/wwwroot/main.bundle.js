@@ -2078,7 +2078,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personal Details\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Organization\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"{{confirmHeader}}\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">{{confirmButtonTitle}}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
+module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personal Details\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Agent Company\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization [filter]=\"filterOrganization\" (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"{{confirmHeader}}\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>Register User</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">{{confirmButtonTitle}}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
 
 /***/ }),
 
@@ -2091,8 +2091,9 @@ module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_organization_properties__ = __webpack_require__("./src/app/shared/constants/organization-properties.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_organization_properties__ = __webpack_require__("./src/app/shared/constants/organization-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2102,6 +2103,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2120,6 +2122,7 @@ var RegisterUserComponent = /** @class */ (function () {
         this.userHeader = 'REGISTER USER';
         this.confirmHeader = 'Confirm User Registration';
         this.confirmButtonTitle = 'Register User';
+        this.filterOrganization = __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_enumValues__["a" /* ORGANIZATION_TYPES */].AGENT_COMPANY;
         this.user = {
             email: '',
             phoneNumber: '',
@@ -2131,7 +2134,7 @@ var RegisterUserComponent = /** @class */ (function () {
             companyPhoneNumber: '',
             id: ''
         };
-        this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
+        this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
     }
     RegisterUserComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -2217,7 +2220,7 @@ var RegisterUserComponent = /** @class */ (function () {
         this.organizationModel = organizationData;
         this.user.organizationId = organizationData.organizationId;
         this.organizationSelected = true;
-        __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_organization_properties__["a" /* OrganizationProperties */].setOrganizationData(this.organizationProperties, this.organizationModel);
+        __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_organization_properties__["a" /* OrganizationProperties */].setOrganizationData(this.organizationProperties, this.organizationModel);
     };
     RegisterUserComponent.prototype.deselectOrganization = function () {
         this.organizationModel = null;
@@ -2252,10 +2255,10 @@ var RegisterUserComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services___["a" /* AccountService */],
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["p" /* OrganizationService */]])
+            __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["p" /* OrganizationService */]])
     ], RegisterUserComponent);
     return RegisterUserComponent;
 }());
@@ -4967,7 +4970,7 @@ var CrewListComponent = /** @class */ (function () {
                 _this.genderList = results;
             });
         }
-        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].CREW).subscribe(function (personOnBoardType) {
+        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW).subscribe(function (personOnBoardType) {
             _this.personOnBoardType = personOnBoardType;
         });
         // Set in service
@@ -6494,7 +6497,7 @@ var PassengerListComponent = /** @class */ (function () {
             });
         }
         // Get passenger person on board type (id 2)
-        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].PAX).subscribe(function (personOnBoardType) {
+        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].PAX).subscribe(function (personOnBoardType) {
             _this.personOnBoardType = personOnBoardType;
         });
         this.personOnBoardService.setPassengersList(this.passengerList);
@@ -14118,14 +14121,15 @@ module.exports = "<div class=\"card-body\">\r\n  <ng-template #rt let-r=\"result
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchOrganizationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_debounceTime__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/debounceTime.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/distinctUntilChanged.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__search_organization_service__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_debounceTime__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/debounceTime.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__search_organization_service__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14144,6 +14148,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SearchOrganizationComponent = /** @class */ (function () {
     function SearchOrganizationComponent(searchOrganizationService) {
         var _this = this;
@@ -14152,36 +14157,36 @@ var SearchOrganizationComponent = /** @class */ (function () {
         this.header = 'Search using organization name or organization number';
         this.organizationResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.organizationSearchResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
-        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
-        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
+        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
+        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
         this.searching = false;
         this.searchFailed = false;
-        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__["a" /* Observable */](function () { return function () {
+        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["a" /* Observable */](function () { return function () {
             return (_this.searching = false);
         }; });
         this.search = function (text$) {
-            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["tap"])(function (term) {
+            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function (term) {
                 _this.searchFailed = false;
                 _this.searching = (term.length >= 2);
-            }), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
-                _this.searchOrganizationService.search(term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["tap"])(function () {
+            }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
+                _this.searchOrganizationService.search(_this.filter, term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function () {
                     _this.searchFailed = false;
-                }), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["catchError"])(function () {
+                }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["catchError"])(function () {
                     _this.searchFailed = true;
-                    return Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_observable_of__["a" /* of */])([]);
-                })) : Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["tap"])(function (res) {
+                    return Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__["a" /* of */])([]);
+                })) : Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function (res) {
                 if (_this.showDropdown) {
                     _this.searching = false;
                     _this.searchFailed = _this.organizationModel.length >= 2 && res.length === 0;
                 }
                 else {
-                    _this.searchOrganizationService.search(_this.organizationModel, _this.resultsWithoutDropdown).subscribe(function (data) {
+                    _this.searchOrganizationService.search(_this.filter, _this.organizationModel, _this.resultsWithoutDropdown).subscribe(function (data) {
                         _this.searchFailed = _this.organizationModel.length >= 2 && data.length === 0;
                         _this.organizationSearchResult.emit(data);
                         _this.searching = false;
                     });
                 }
-            }), Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
+            }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
         };
         this.formatter = function (x) { return x.organizationId; };
     }
@@ -14209,6 +14214,10 @@ var SearchOrganizationComponent = /** @class */ (function () {
         __metadata("design:type", Object)
     ], SearchOrganizationComponent.prototype, "header", void 0);
     __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SearchOrganizationComponent.prototype, "filter", void 0);
+    __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
         __metadata("design:type", Object)
     ], SearchOrganizationComponent.prototype, "organizationResult", void 0);
@@ -14221,9 +14230,9 @@ var SearchOrganizationComponent = /** @class */ (function () {
             selector: 'app-search-organization',
             template: __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/search-organization/search-organization.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_8__search_organization_service__["a" /* SearchOrganizationService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_9__search_organization_service__["a" /* SearchOrganizationService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_8__search_organization_service__["a" /* SearchOrganizationService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_9__search_organization_service__["a" /* SearchOrganizationService */]])
     ], SearchOrganizationComponent);
     return SearchOrganizationComponent;
 }());
@@ -14263,12 +14272,19 @@ var SearchOrganizationService = /** @class */ (function () {
         this.searchUrl = 'api/organization/search';
         this.organizationUrl = 'api/organization';
     }
-    SearchOrganizationService.prototype.search = function (term, amount) {
+    SearchOrganizationService.prototype.search = function (type, term, amount) {
+        if (type === void 0) { type = null; }
         if (amount === void 0) { amount = 10; }
         if (term.length < 2) {
             return __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["a" /* Observable */].of([]);
         }
-        return this.searchService.search(this.searchUrl, term, amount);
+        if (type == null || type === undefined) {
+            return this.searchService.search(this.searchUrl, term, amount);
+        }
+        else {
+            var uri = [this.searchUrl, term, amount, type].join('/');
+            return this.http.get(uri);
+        }
     };
     SearchOrganizationService.prototype.getorganization = function (id) {
         var uri = [this.organizationUrl, id].join('/');
@@ -15803,8 +15819,8 @@ var CONTENT_NAMES = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PERSON_ON_BOARD_TYPES; });
-/* unused harmony export ORGANIZATION_TYPES */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PERSON_ON_BOARD_TYPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ORGANIZATION_TYPES; });
 var PERSON_ON_BOARD_TYPES;
 (function (PERSON_ON_BOARD_TYPES) {
     PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["CREW"] = 0] = "CREW";
@@ -18912,12 +18928,12 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     };
     PortCallFalPersonOnBoardService.prototype.getPassengerListByPortCallId = function (portCallId) {
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].PAX].join('/');
+        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].PAX].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getCrewListByPortCallId = function (portCallId) {
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].CREW].join('/');
+        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getGenderList = function () {

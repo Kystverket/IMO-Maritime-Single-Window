@@ -85,9 +85,9 @@
 
   <div class="row">
     <div class="col">
-      <app-ssn-card header="Select Organization" icon="pax.png">
+      <app-ssn-card header="Select Agent Company" icon="pax.png">
         <div *ngIf="!organizationSelected">
-          <app-search-organization (organizationResult)="onOrganizationResult($event)"></app-search-organization>
+          <app-search-organization [filter]="filterOrganization" (organizationResult)="onOrganizationResult($event)"></app-search-organization>
         </div>
 
         <div *ngIf="organizationSelected" class="text-center">
