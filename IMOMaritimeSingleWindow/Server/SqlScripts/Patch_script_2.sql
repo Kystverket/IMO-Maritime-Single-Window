@@ -30,3 +30,14 @@ UPDATE public.organization_type
 UPDATE public.organization_type
     SET "EnumValue"='AGENT_COMPANY'
     WHERE "name"='Agent Company';
+
+ALTER TABLE public.location_source
+	ADD COLUMN "EnumValue" varchar(50);
+
+INSERT INTO public.location_source(
+	name, description, "EnumValue")
+	VALUES ('IMO Internal', 'Information origin is IMO, Internal', 'IMO_INTERNAL');
+	
+INSERT INTO public.location_source(
+	name, description, "EnumValue")
+	VALUES ('IMO External', 'Information origin is IMO, External', 'IMO_EXTERNAL');

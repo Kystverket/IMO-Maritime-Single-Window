@@ -14,6 +14,7 @@ export class LocationService {
   private countryUrl: string;
   private searchUrl: string;
   private searchHarbourUrl: string;
+  private locationSourceUrl: string;
 
   constructor(private http: HttpClient) {
     this.locationUrl = 'api/location';
@@ -22,6 +23,7 @@ export class LocationService {
     this.searchService = new SearchService(http);
     this.searchUrl = 'api/location/search';
     this.searchHarbourUrl = 'api/location/harbour/search';
+    this.locationSourceUrl = 'api/location/locationSourceInternal';
   }
 
   private locationDataSource = new BehaviorSubject<any>(null);
@@ -75,5 +77,9 @@ export class LocationService {
 
   public getCountries(): Observable<any> {
     return this.http.get(this.countryUrl);
+  }
+
+  public getInternalLocationSource(): Observable<any> {
+    return this.http.get(this.locationSourceUrl);
   }
 }
