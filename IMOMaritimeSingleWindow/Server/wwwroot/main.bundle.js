@@ -907,6 +907,10 @@ var RegisterLocationComponent = /** @class */ (function () {
     }
     RegisterLocationComponent.prototype.ngOnInit = function () {
         var _this = this;
+        this.locationSourceSubscription = this.locationService.getInternalLocationSource()
+            .subscribe(function (res) {
+            _this.locationSource = res;
+        });
         this.locationDataSubscription = this.locationService.locationData$.subscribe(function (data) {
             if (data) {
                 _this.newLocation = false;
@@ -943,6 +947,7 @@ var RegisterLocationComponent = /** @class */ (function () {
         this.locationDataSubscription.unsubscribe();
         this.locationTypesSubscription.unsubscribe();
         this.countriesSubscription.unsubscribe();
+        this.locationSourceSubscription.unsubscribe();
     };
     RegisterLocationComponent.prototype.selectCountry = function ($event) {
         this.selectedCountry = $event;
@@ -971,6 +976,7 @@ var RegisterLocationComponent = /** @class */ (function () {
     };
     RegisterLocationComponent.prototype.registerLocation = function () {
         var _this = this;
+        this.locationModel.locationSourceId = this.locationSource.locationSourceId;
         if (this.newLocation) {
             this.locationService.registerLocation(this.locationModel).subscribe(function (result) {
                 _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
@@ -15865,6 +15871,11 @@ var ORGANIZATION_TYPES;
     ORGANIZATION_TYPES[ORGANIZATION_TYPES["RSO"] = 1] = "RSO";
     ORGANIZATION_TYPES[ORGANIZATION_TYPES["AGENT_COMPANY"] = 2] = "AGENT_COMPANY";
 })(ORGANIZATION_TYPES || (ORGANIZATION_TYPES = {}));
+var LOCATION_SOURCES;
+(function (LOCATION_SOURCES) {
+    LOCATION_SOURCES[LOCATION_SOURCES["IMO_INTERNAL"] = 0] = "IMO_INTERNAL";
+    LOCATION_SOURCES[LOCATION_SOURCES["IMO_EXTERNAL"] = 1] = "IMO_EXTERNAL";
+})(LOCATION_SOURCES || (LOCATION_SOURCES = {}));
 
 
 
@@ -18484,6 +18495,7 @@ var LocationService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](http);
         this.searchUrl = 'api/location/search';
         this.searchHarbourUrl = 'api/location/harbour/search';
+        this.locationSourceUrl = 'api/location/locationSourceInternal';
     }
     LocationService.prototype.setLocationSearchData = function (data) {
         this.locationSearchDataSource.next(data);
@@ -18522,6 +18534,9 @@ var LocationService = /** @class */ (function () {
     };
     LocationService.prototype.getCountries = function () {
         return this.http.get(this.countryUrl);
+    };
+    LocationService.prototype.getInternalLocationSource = function () {
+        return this.http.get(this.locationSourceUrl);
     };
     LocationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
