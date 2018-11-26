@@ -13652,7 +13652,7 @@ var OrganizationSmartTableComponent = /** @class */ (function () {
         var row = {
             organizationModel: organization,
             name: organization.name,
-            type: organization.organizationType.name,
+            type: organization.organizationType ? organization.organizationType.name : "<div class=\"font-italic\">Not available.</div>",
             organizationNumber: organization.organizationNo || "<div class=\"font-italic\">Not provided.</div>",
             description: organization.description || "<div class=\"font-italic\">Not provided.</div>",
             actions: 'btn'
@@ -14006,7 +14006,12 @@ var SearchLocationComponent = /** @class */ (function () {
         };
         this.locationSelected = false;
     }
-    SearchLocationComponent.prototype.ngOnInit = function () { };
+    SearchLocationComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.locationSearchService.getPlaceHolderData().subscribe(function (res) {
+            _this.locationSearchResult.emit(res);
+        });
+    };
     SearchLocationComponent.prototype.selectLocation = function ($event) {
         this.locationModel = $event.item;
         this.locationSelected = true;
@@ -14081,6 +14086,7 @@ var SearchLocationService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](this.http);
         this.searchUrl = 'api/location/search';
         this.searchHarbourUrl = 'api/location/harbour/search';
+        this.placeholderLocationDataUrl = '/api/location/placeholder';
     }
     SearchLocationService.prototype.search = function (term, restrictTypeHarbour, amount) {
         if (amount === void 0) { amount = 10; }
@@ -14089,6 +14095,9 @@ var SearchLocationService = /** @class */ (function () {
         }
         var uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
         return this.searchService.search(uri, term, amount) /* .map(response => response.json().items) */;
+    };
+    SearchLocationService.prototype.getPlaceHolderData = function () {
+        return this.http.get(this.placeholderLocationDataUrl);
     };
     SearchLocationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
@@ -14191,7 +14200,11 @@ var SearchOrganizationComponent = /** @class */ (function () {
         this.formatter = function (x) { return x.organizationId; };
     }
     SearchOrganizationComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.organizationSelected = false;
+        this.searchOrganizationService.getPlaceHolderData().subscribe(function (res) {
+            _this.organizationSearchResult.emit(res);
+        });
     };
     SearchOrganizationComponent.prototype.selectOrganization = function ($event) {
         this.organizationSelected = true;
@@ -14271,6 +14284,7 @@ var SearchOrganizationService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](this.http);
         this.searchUrl = 'api/organization/search';
         this.organizationUrl = 'api/organization';
+        this.organizationPlaceholderDataUrl = 'api/organization/placeholder';
     }
     SearchOrganizationService.prototype.search = function (type, term, amount) {
         if (type === void 0) { type = null; }
@@ -14289,6 +14303,9 @@ var SearchOrganizationService = /** @class */ (function () {
     SearchOrganizationService.prototype.getorganization = function (id) {
         var uri = [this.organizationUrl, id].join('/');
         return this.http.get(uri);
+    };
+    SearchOrganizationService.prototype.getPlaceHolderData = function () {
+        return this.http.get(this.organizationPlaceholderDataUrl);
     };
     SearchOrganizationService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
@@ -14528,7 +14545,11 @@ var SearchShipComponent = /** @class */ (function () {
         this.formatter = function (x) { return ''; };
     }
     SearchShipComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.shipSelected = false;
+        this.searchShipService.getPlaceHolderData().subscribe(function (res) {
+            _this.shipSearchResult.emit(res);
+        });
     };
     SearchShipComponent.prototype.selectShip = function ($event) {
         var _this = this;
@@ -14598,6 +14619,7 @@ var SearchShipService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](this.http);
         this.searchUrl = 'api/ship/search';
         this.shipUrl = 'api/ship';
+        this.placeholderShipDataUrl = '/api/ship/placeholder';
     }
     SearchShipService.prototype.search = function (term, amount) {
         if (amount === void 0) { amount = 10; }
@@ -14609,6 +14631,9 @@ var SearchShipService = /** @class */ (function () {
     SearchShipService.prototype.getShip = function (id) {
         var uri = [this.shipUrl, id].join('/');
         return this.http.get(uri);
+    };
+    SearchShipService.prototype.getPlaceHolderData = function () {
+        return this.http.get(this.placeholderShipDataUrl);
     };
     SearchShipService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
@@ -14702,7 +14727,11 @@ var SearchUserComponent = /** @class */ (function () {
         this.formatter = function (x) { return ''; };
     }
     SearchUserComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.userSelected = false;
+        this.searchUserService.getPlaceHolderData().subscribe(function (res) {
+            _this.userSearchResult.emit(res);
+        });
     };
     SearchUserComponent.prototype.selectUser = function ($event) {
         var _this = this;
@@ -14772,6 +14801,7 @@ var SearchUserService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_2_app_shared_services_search_service__["a" /* SearchService */](this.http);
         this.searchUrl = 'api/account/user/search';
         this.userUrl = 'api/account/user';
+        this.placeholderUserDataUrl = 'api/account/placeholder';
     }
     SearchUserService.prototype.search = function (term, amount) {
         if (amount === void 0) { amount = 25; }
@@ -14783,6 +14813,9 @@ var SearchUserService = /** @class */ (function () {
     SearchUserService.prototype.getUser = function (email) {
         var uri = [this.userUrl, email].join('/');
         return this.http.get(uri);
+    };
+    SearchUserService.prototype.getPlaceHolderData = function () {
+        return this.http.get(this.placeholderUserDataUrl);
     };
     SearchUserService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
