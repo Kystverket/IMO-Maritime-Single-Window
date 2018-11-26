@@ -62,7 +62,6 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
           this.selectedOrganizationType = this.organizationTypeList.find(
             type => type.name === 'Authority'
           );
-          this.organizationTypeSelected = true;
         }
       }
     );
@@ -114,11 +113,16 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
   }
 
   selectOrganizationType(organizationType: any) {
-    this.organizationModel.organizationTypeId =
-      organizationType.organizationTypeId;
-    this.organizationTypeDropdownString = organizationType.name;
     this.selectedOrganizationType = organizationType;
+
+    if (organizationType === undefined || organizationType == null) {
+    this.organizationModel.organizationTypeId = null;
+    this.organizationTypeSelected = false;
+    } else {
+    this.organizationTypeDropdownString = organizationType.name;
+    this.organizationModel.organizationTypeId = organizationType.organizationTypeId;
     this.organizationTypeSelected = true;
+    }
   }
 
   private goBack() {
