@@ -41,3 +41,10 @@ INSERT INTO public.location_source(
 INSERT INTO public.location_source(
 	name, description, "EnumValue")
 	VALUES ('IMO External', 'Information origin is IMO, External', 'IMO_EXTERNAL');
+
+ALTER TABLE public.ship_source
+    ADD COLUMN "EnumValue"  varchar(50);
+
+INSERT INTO public.ship_source(
+	name, description, "EnumValue")
+	VALUES ('IMO Internal', 'Information origin is IMO, Internal', 'IMO_INTERNAL');
