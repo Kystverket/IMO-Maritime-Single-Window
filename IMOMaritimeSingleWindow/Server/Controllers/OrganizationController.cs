@@ -154,5 +154,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(organization);
         }
 
+        [HttpGet("placeholder")]
+        public JsonResult GetPlaceholderData()
+        {
+            var placeholderShips = _context.Organization.
+                OrderByDescending(org => org.OrganizationId)
+                .Include(org => org.OrganizationType)
+                .Take(10)
+                .ToList();
+
+            return Json(placeholderShips);
+        }
+
     }
 }

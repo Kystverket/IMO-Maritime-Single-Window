@@ -11,11 +11,13 @@ export class SearchOrganizationService {
   private searchService: SearchService;
   private searchUrl: string;
   private organizationUrl: string;
+  private organizationPlaceholderDataUrl: string;
 
   constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/organization/search';
     this.organizationUrl = 'api/organization';
+    this.organizationPlaceholderDataUrl = 'api/organization/placeholder';
   }
 
   search(type: ORGANIZATION_TYPES = null, term: string, amount = 10) {
@@ -34,5 +36,9 @@ export class SearchOrganizationService {
   getorganization(id: number): Observable<OrganizationModel> {
     const uri = [this.organizationUrl, id].join('/');
     return this.http.get<OrganizationModel>(uri);
+  }
+
+  getPlaceHolderData() {
+    return this.http.get(this.organizationPlaceholderDataUrl);
   }
 }

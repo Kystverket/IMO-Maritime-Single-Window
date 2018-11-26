@@ -445,6 +445,38 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(claims);
         }
 
+        [HttpGet("placeholder")]
+        public JsonResult GetPlaceholderData()
+        {
+            var placeholderUsers = _context.User.
+                OrderByDescending(s => s.UserId)
+                .Include(usr => usr.Organization)
+                .Include(usr => usr.Organization.OrganizationType)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Role)
+                .Take(10)
+                .ToList();
+
+            var viewModel = placeholderUsers.Select(usr =>
+            new
+            {
+                usr.Person.GivenName,
+                usr.Person.Surname,
+                Organization = usr.Organization.Name,
+                usr.Organization.OrganizationId,
+                OrganizationType = usr.Organization.OrganizationType?.Name,
+                Role = usr.Role.Name,
+                usr.PhoneNumber,
+                usr.Person.CompanyPhoneNumber,
+                usr.Person.CompanyEmail,
+                usr.Email,
+                Id = usr.UserId
+            }).ToList();
+
+
+            return Json(viewModel);
+        }
+
 
         #region Helper methods
 
