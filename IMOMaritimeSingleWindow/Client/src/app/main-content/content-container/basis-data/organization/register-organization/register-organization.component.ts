@@ -54,7 +54,7 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.organizationTypesSubscription = this.organizationService.getOrganizationTypes().subscribe(
+    this.organizationTypesSubscription = this.organizationService.getValidOrganizationTypes().subscribe(
       organizationTypesData => {
         this.organizationTypeList = organizationTypesData;
         // Temporary until we add more organization types (certificate issuer)

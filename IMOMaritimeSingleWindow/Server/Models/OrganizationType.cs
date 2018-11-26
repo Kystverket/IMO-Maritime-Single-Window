@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
@@ -13,6 +13,7 @@ namespace IMOMaritimeSingleWindow.Models
         public int OrganizationTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string EnumValue { get; set; }
 
         public ICollection<Organization> Organization { get; set; }
     }

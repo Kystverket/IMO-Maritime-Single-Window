@@ -8,18 +8,21 @@
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
                 <div class="col">
-                  <label class="col-form-label-sm no-wrap mb-0" for="organization_name">Organization Name</label>
-                  <input [(ngModel)]="organizationModel.name" name="organizationName" type="text" class="form-control form-control-sm" id="organization_name"
-                    placeholder="Enter organization name" />
+                  <label class="col-form-label-sm no-wrap mb-0" for="organization_type_select">Organization Type</label>
+                  <ng-select id="organization_type_select" name="organization_type_select" [items]="organizationTypeList" [multiple]="false"
+                  [closeOnSelect]="true" bindLabel="name" placeholder="Select Organization Type" [(ngModel)]="selectedOrganizationType"
+                  (change)="selectOrganizationType($event)">
+                  </ng-select>
+                  
                 </div>
               </div>
             </div>
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
                 <div class="col">
-                  <label class="col-form-label-sm no-wrap mb-0" for="organization_no">Organization Number</label>
-                  <input [(ngModel)]="organizationModel.organizationNo" name="organizationNo" type="text" class="form-control form-control-sm"
-                    id="organization_no" placeholder="Enter organization number">
+                  <label class="col-form-label-sm no-wrap mb-0" for="organization_name">Organization Name</label>
+                  <input [(ngModel)]="organizationModel.name" name="organizationName" type="text" class="form-control form-control-sm"
+                    id="organization_name" placeholder="Enter organization name" />
                 </div>
               </div>
             </div>
@@ -29,9 +32,18 @@
             <div class="col-md-6 col-lg-6">
               <div class="form-group row">
                 <div class="col">
+                  <label class="col-form-label-sm no-wrap mb-0" for="organization_no">Organization Number</label>
+                  <input [(ngModel)]="organizationModel.organizationNo" name="organizationNo" type="text" class="form-control form-control-sm"
+                    id="organization_no" placeholder="Enter organization number">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <div class="form-group row">
+                <div class="col">
                   <label class="col-form-label-sm no-wrap mb-0" for="description">Description</label>
-                  <input [(ngModel)]="organizationModel.description" name="description" type="text" class="form-control form-control-sm" id="description"
-                    placeholder="Enter description">
+                  <input [(ngModel)]="organizationModel.description" name="description" type="text" class="form-control form-control-sm"
+                    id="description" placeholder="Enter description">
                 </div>
               </div>
             </div>
