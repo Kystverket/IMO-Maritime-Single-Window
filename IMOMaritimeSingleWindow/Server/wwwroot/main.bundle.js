@@ -1244,7 +1244,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"{{ organizationHeader }}\" icon=\"pax.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Organization Information\" icon=\"pax.png\">\r\n        <form>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_name\">Organization Name</label>\r\n                  <input [(ngModel)]=\"organizationModel.name\" name=\"organizationName\" type=\"text\" class=\"form-control form-control-sm\" id=\"organization_name\"\r\n                    placeholder=\"Enter organization name\" />\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_no\">Organization Number</label>\r\n                  <input [(ngModel)]=\"organizationModel.organizationNo\" name=\"organizationNo\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"organization_no\" placeholder=\"Enter organization number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"description\">Description</label>\r\n                  <input [(ngModel)]=\"organizationModel.description\" name=\"description\" type=\"text\" class=\"form-control form-control-sm\" id=\"description\"\r\n                    placeholder=\"Enter description\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header='{{ confirmHeader }}' icon=\"checkmark.png\">\r\n        <div *ngIf=\"!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo\" class=\"text-center\">\r\n          <div class=\"mb-3\">\r\n            <p *ngIf=\"!organizationTypeSelected\" class=\"no-wrap mb-0\">No organization type selected.</p>\r\n            <p *ngIf=\"!organizationModel.name\" class=\"no-wrap mb-0\">Organization name not set.</p>\r\n            <p *ngIf=\"!organizationModel.organizationNo\" class=\"no-wrap mb-0\">Organization number not set.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationTypeSelected && organizationModel.name && organizationModel.organizationNo\" class=\"text-center\">\r\n          <button class=\"btn btn-ssn\" (click)=\"registerOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>"
+module.exports = "<app-ssn-bg header=\"{{ organizationHeader }}\" icon=\"pax.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Organization Information\" icon=\"pax.png\">\r\n        <form>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_type_select\">Organization Type</label>\r\n                  <ng-select id=\"organization_type_select\" name=\"organization_type_select\" [items]=\"organizationTypeList\" [multiple]=\"false\"\r\n                  [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select Organization Type\" [(ngModel)]=\"selectedOrganizationType\"\r\n                  (change)=\"selectOrganizationType($event)\">\r\n                  </ng-select>\r\n                  \r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_name\">Organization Name</label>\r\n                  <input [(ngModel)]=\"organizationModel.name\" name=\"organizationName\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"organization_name\" placeholder=\"Enter organization name\" />\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_no\">Organization Number</label>\r\n                  <input [(ngModel)]=\"organizationModel.organizationNo\" name=\"organizationNo\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"organization_no\" placeholder=\"Enter organization number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"description\">Description</label>\r\n                  <input [(ngModel)]=\"organizationModel.description\" name=\"description\" type=\"text\" class=\"form-control form-control-sm\"\r\n                    id=\"description\" placeholder=\"Enter description\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header='{{ confirmHeader }}' icon=\"checkmark.png\">\r\n        <div *ngIf=\"!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo\" class=\"text-center\">\r\n          <div class=\"mb-3\">\r\n            <p *ngIf=\"!organizationTypeSelected\" class=\"no-wrap mb-0\">No organization type selected.</p>\r\n            <p *ngIf=\"!organizationModel.name\" class=\"no-wrap mb-0\">Organization name not set.</p>\r\n            <p *ngIf=\"!organizationModel.organizationNo\" class=\"no-wrap mb-0\">Organization number not set.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>\r\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationTypeSelected && organizationModel.name && organizationModel.organizationNo\" class=\"text-center\">\r\n          <button class=\"btn btn-ssn\" (click)=\"registerOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>"
 
 /***/ }),
 
@@ -1303,12 +1303,11 @@ var RegisterOrganizationComponent = /** @class */ (function () {
                 _this.confirmButtonTitle = 'Register Organization';
             }
         });
-        this.organizationTypesSubscription = this.organizationService.getOrganizationTypes().subscribe(function (organizationTypesData) {
+        this.organizationTypesSubscription = this.organizationService.getValidOrganizationTypes().subscribe(function (organizationTypesData) {
             _this.organizationTypeList = organizationTypesData;
             // Temporary until we add more organization types (certificate issuer)
             if (_this.newOrganization) {
                 _this.selectedOrganizationType = _this.organizationTypeList.find(function (type) { return type.name === 'Authority'; });
-                _this.organizationTypeSelected = true;
             }
         });
     };
@@ -1340,11 +1339,16 @@ var RegisterOrganizationComponent = /** @class */ (function () {
         }
     };
     RegisterOrganizationComponent.prototype.selectOrganizationType = function (organizationType) {
-        this.organizationModel.organizationTypeId =
-            organizationType.organizationTypeId;
-        this.organizationTypeDropdownString = organizationType.name;
         this.selectedOrganizationType = organizationType;
-        this.organizationTypeSelected = true;
+        if (organizationType === undefined || organizationType == null) {
+            this.organizationModel.organizationTypeId = null;
+            this.organizationTypeSelected = false;
+        }
+        else {
+            this.organizationTypeDropdownString = organizationType.name;
+            this.organizationModel.organizationTypeId = organizationType.organizationTypeId;
+            this.organizationTypeSelected = true;
+        }
     };
     RegisterOrganizationComponent.prototype.goBack = function () {
         this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_ORGANIZATIONS);
@@ -15800,11 +15804,18 @@ var CONTENT_NAMES = {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PERSON_ON_BOARD_TYPES; });
+/* unused harmony export ORGANIZATION_TYPES */
 var PERSON_ON_BOARD_TYPES;
 (function (PERSON_ON_BOARD_TYPES) {
     PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["CREW"] = 0] = "CREW";
     PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["PAX"] = 1] = "PAX";
 })(PERSON_ON_BOARD_TYPES || (PERSON_ON_BOARD_TYPES = {}));
+var ORGANIZATION_TYPES;
+(function (ORGANIZATION_TYPES) {
+    ORGANIZATION_TYPES[ORGANIZATION_TYPES["AUTHORITY"] = 0] = "AUTHORITY";
+    ORGANIZATION_TYPES[ORGANIZATION_TYPES["RSO"] = 1] = "RSO";
+    ORGANIZATION_TYPES[ORGANIZATION_TYPES["AGENT_COMPANY"] = 2] = "AGENT_COMPANY";
+})(ORGANIZATION_TYPES || (ORGANIZATION_TYPES = {}));
 
 
 
@@ -18641,6 +18652,7 @@ var OrganizationService = /** @class */ (function () {
         this.searchService = new __WEBPACK_IMPORTED_MODULE_4__search_service__["a" /* SearchService */](http);
         this.organizationUrl = 'api/organization';
         this.organizationTypeUrl = 'api/organizationtype';
+        this.validOrganizationTypesUrl = 'api/organizationtype/ValidTypes';
         this.organizationUserUrl = this.organizationUrl + '/user';
         this.searchOrganizationUrl = this.organizationUrl + '/search';
     }
@@ -18665,8 +18677,8 @@ var OrganizationService = /** @class */ (function () {
         }
         return this.searchService.search(this.searchOrganizationUrl, term, amount);
     };
-    OrganizationService.prototype.getOrganizationTypes = function () {
-        return this.http.get(this.organizationTypeUrl);
+    OrganizationService.prototype.getValidOrganizationTypes = function () {
+        return this.http.get(this.validOrganizationTypesUrl);
     };
     OrganizationService.prototype.getOrganizationForUser = function () {
         var uri = this.organizationUserUrl;
