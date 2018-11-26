@@ -15,7 +15,7 @@ export class ShipService {
   private lengthTypeUrl = 'api/shiplengthtype';
   private breadthTypeUrl = 'api/shipbreadthtype';
   private powerTypeUrl = 'api/shippowertype';
-  private shipSourceUrl = 'api/shipsource';
+  private shipSourceInternalUrl = 'api/shipsource/shipSourceInternal';
   private shipStatusListUrl = 'api/shipstatus';
   private contactListShipUrl = 'api/shipcontact/ship';
   private shipContactListUrl = 'api/shipcontact/list';
@@ -101,8 +101,8 @@ export class ShipService {
     return this.http.get(this.powerTypeUrl);
   }
 
-  getShipSources(): Observable<any> {
-    return this.http.get(this.shipSourceUrl);
+  getInternalShipSource(): Observable<any> {
+    return this.http.get(this.shipSourceInternalUrl);
   }
 
   getShipStatusList(): Observable<any> {
