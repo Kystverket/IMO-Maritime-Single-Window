@@ -1,0 +1,6 @@
+
+enum PERSON_ON_BOARD_TYPES {
+    CREW,
+    PAX
+}
+export { PERSON_ON_BOARD_TYPES };

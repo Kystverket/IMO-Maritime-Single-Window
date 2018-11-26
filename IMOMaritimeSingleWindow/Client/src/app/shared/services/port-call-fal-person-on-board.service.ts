@@ -1,9 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { catchError, retry } from 'rxjs/operators';
+
 
 @Injectable()
 export class PortCallFalPersonOnBoardService {
@@ -63,13 +65,13 @@ export class PortCallFalPersonOnBoardService {
 
   getPassengerListByPortCallId(portCallId: number) {
     // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', 2].join('/');
+    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.PAX].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getCrewListByPortCallId(portCallId: number) {
     // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', 1].join('/');
+    const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.CREW].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
@@ -78,8 +80,8 @@ export class PortCallFalPersonOnBoardService {
     return this.httpClient.get<GenderModel[]>(uri, {observe: 'body'});
   }
 
-  getPersonOnBoardType(personOnBoardTypeId: number) {
-    const uri = [this.personOnBoardTypeUrl, personOnBoardTypeId].join('/');
+  getPersonOnBoardTypeByEnum(personOnBoardTypeEnum: PERSON_ON_BOARD_TYPES) {
+    const uri = [this.personOnBoardTypeUrl, personOnBoardTypeEnum].join('/');
     return this.httpClient.get<PersonOnBoardTypeModel>(uri, {observe: 'body'});
   }
 

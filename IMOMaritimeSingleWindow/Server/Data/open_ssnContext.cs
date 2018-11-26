@@ -1071,6 +1071,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PersonOnBoardTypeId).HasColumnName("person_on_board_type_id");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
