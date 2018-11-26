@@ -20,6 +20,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        public enum LOCATION_SOURCES
+        {
+            IMO_INTERNAL,
+            IMO_EXTERNAL
+        }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
         [HttpPost()]
@@ -129,6 +134,14 @@ namespace IMOMaritimeSingleWindow.Controllers
                 .ToList();
 
             return Json(placeholderLocations);
+        }
+
+        [HttpGet("locationSourceInternal")]
+        public IActionResult GetLocationSource()
+        {
+            var locationSource = _context.LocationSource.FirstOrDefault(ls => ls.EnumValue == LOCATION_SOURCES.IMO_INTERNAL.ToString());
+
+            return Json(locationSource);
         }
     }
 }
