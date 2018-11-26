@@ -117,5 +117,18 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return Json(location);
         }
+
+        [HttpGet("placeholder")]
+        public JsonResult GetPlaceholderData()
+        {
+            var placeholderLocations = _context.Location.
+                OrderByDescending(l => l.LocationId)
+                .Include(l => l.LocationType)
+                .Include(l => l.Country)
+                .Take(10)
+                .ToList();
+
+            return Json(placeholderLocations);
+        }
     }
 }

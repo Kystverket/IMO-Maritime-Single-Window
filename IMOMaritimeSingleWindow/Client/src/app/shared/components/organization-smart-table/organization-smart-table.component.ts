@@ -78,7 +78,7 @@ export class OrganizationSmartTableComponent implements OnInit, OnDestroy {
     const row = {
       organizationModel: organization,
       name: organization.name,
-      type: organization.organizationType.name,
+      type: organization.organizationType ?  organization.organizationType.name : `<div class="font-italic">Not available.</div>`,
       organizationNumber: organization.organizationNo || `<div class="font-italic">Not provided.</div>`,
       description: organization.description || `<div class="font-italic">Not provided.</div>`,
       actions: 'btn'

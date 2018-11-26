@@ -9,11 +9,14 @@ export class SearchShipService {
   private searchService: SearchService;
   private searchUrl: string;
   private shipUrl: string;
+  private placeholderShipDataUrl: string;
+
 
   constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/ship/search';
     this.shipUrl = 'api/ship';
+    this.placeholderShipDataUrl = '/api/ship/placeholder';
   }
 
   search(term: string, amount = 10) {
@@ -26,5 +29,9 @@ export class SearchShipService {
   getShip(id: number) {
     const uri = [this.shipUrl, id].join('/');
     return this.http.get(uri);
+  }
+
+  getPlaceHolderData() {
+    return this.http.get(this.placeholderShipDataUrl);
   }
 }

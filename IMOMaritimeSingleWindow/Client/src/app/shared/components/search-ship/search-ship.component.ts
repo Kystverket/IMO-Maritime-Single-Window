@@ -34,6 +34,9 @@ export class SearchShipComponent implements OnInit {
 
   ngOnInit() {
     this.shipSelected = false;
+    this.searchShipService.getPlaceHolderData().subscribe(res => {
+      this.shipSearchResult.emit(res);
+    });
   }
 
   search = (text$: Observable<string>) =>

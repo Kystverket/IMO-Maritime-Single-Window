@@ -41,6 +41,9 @@ export class SearchOrganizationComponent implements OnInit {
 
   ngOnInit() {
     this.organizationSelected = false;
+    this.searchOrganizationService.getPlaceHolderData().subscribe(res => {
+      this.organizationSearchResult.emit(res);
+    });
   }
 
   search = (text$: Observable<string>) =>
