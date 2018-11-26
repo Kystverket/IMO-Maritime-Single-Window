@@ -4840,11 +4840,12 @@ module.exports = "<app-ssn-card header=\"Add New Crew Member\" icon=\"crew.png\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__passenger_list_smartTableModel__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/smartTableModel.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__passenger_list_smartTableModel__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/smartTableModel.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4864,15 +4865,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var CrewListComponent = /** @class */ (function () {
     function CrewListComponent(personOnBoardService, modalService) {
         var _this = this;
         this.personOnBoardService = personOnBoardService;
         this.modalService = modalService;
         this.crewList = [];
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
-        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.modalModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         this.booleanList = ['Yes', 'No'];
         this.booleanModel = {
@@ -4884,7 +4886,7 @@ var CrewListComponent = /** @class */ (function () {
         this.validDocumentDates = true;
         this.issueDateRequiredError = false;
         this.expiryDateRequiredError = false;
-        this.crewListDataSource = new __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.crewListDataSource = new __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__["a" /* LocalDataSource */]();
         this.smartTableList = [];
         this.tableSettings = {
             actions: false,
@@ -4953,16 +4955,15 @@ var CrewListComponent = /** @class */ (function () {
         // Load in crew list in smart table
         this.crewListDataSource.load(this.generateSmartTable());
         // Initiate models
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get gender list
         if (!this.genderList) {
             this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(function (results) {
                 _this.genderList = results;
             });
         }
-        // Get crew person on board type (id 1)
-        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardType(1).subscribe(function (personOnBoardType) {
+        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].CREW).subscribe(function (personOnBoardType) {
             _this.personOnBoardType = personOnBoardType;
         });
         // Set in service
@@ -4994,7 +4995,7 @@ var CrewListComponent = /** @class */ (function () {
         var newList = [];
         if (this.crewList) {
             this.crewList.forEach(function (crewMember) {
-                var modifiedPassenger = new __WEBPACK_IMPORTED_MODULE_8__passenger_list_smartTableModel__["a" /* SmartTableModel */]();
+                var modifiedPassenger = new __WEBPACK_IMPORTED_MODULE_9__passenger_list_smartTableModel__["a" /* SmartTableModel */]();
                 crewMember.personOnBoardId ? modifiedPassenger.personOnBoardId = crewMember.personOnBoardId : modifiedPassenger.personOnBoardId = null;
                 modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
                 modifiedPassenger.givenName = crewMember.givenName;
@@ -5021,8 +5022,8 @@ var CrewListComponent = /** @class */ (function () {
         this.personOnBoardService.setCrewDataIsPristine(false);
     };
     CrewListComponent.prototype.clearForm = function () {
-        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
         this.resetDateOfBirth();
         this.identityDocumentComponent.resetForm();
     };
@@ -5031,7 +5032,7 @@ var CrewListComponent = /** @class */ (function () {
         this.crewListDataSource.load(rows);
     };
     CrewListComponent.prototype.makeLocationModel = function ($event) {
-        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */](), $event);
+        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["l" /* LocationModel */](), $event);
         return tempLocationModel;
     };
     // Setters
@@ -5209,7 +5210,7 @@ var CrewListComponent = /** @class */ (function () {
         __metadata("design:type", Array)
     ], CrewListComponent.prototype, "crewList", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_9__crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_10__crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */]),
         __metadata("design:type", Object)
     ], CrewListComponent.prototype, "crewMemberModalComponent", void 0);
     __decorate([
@@ -5230,7 +5231,7 @@ var CrewListComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_7_app_shared_services___["r" /* PortCallFalPersonOnBoardService */],
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], CrewListComponent);
     return CrewListComponent;
@@ -6361,11 +6362,12 @@ module.exports = "<app-ssn-card header=\"Add New Passenger\" icon=\"pax.png\">\r
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__smartTableModel__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/smartTableModel.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__smartTableModel__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/smartTableModel.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -6385,6 +6387,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PassengerListComponent = /** @class */ (function () {
     function PassengerListComponent(modalService, personOnBoardService) {
         var _this = this;
@@ -6392,9 +6395,9 @@ var PassengerListComponent = /** @class */ (function () {
         this.personOnBoardService = personOnBoardService;
         this.passengerList = [];
         this.identityDocumentList = [];
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
-        this.modalModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.modalModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         this.booleanList = ['Yes', 'No'];
         this.booleanModel = {
@@ -6406,7 +6409,7 @@ var PassengerListComponent = /** @class */ (function () {
         this.validDocumentDates = true;
         this.issueDateRequiredError = false;
         this.expiryDateRequiredError = false;
-        this.passengerListDataSource = new __WEBPACK_IMPORTED_MODULE_7_ng2_smart_table__["a" /* LocalDataSource */]();
+        this.passengerListDataSource = new __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__["a" /* LocalDataSource */]();
         this.smartTableList = [];
         this.tableSettings = {
             actions: false,
@@ -6478,8 +6481,8 @@ var PassengerListComponent = /** @class */ (function () {
         // Load in passenger list in smart table
         this.passengerListDataSource.load(this.generateSmartTable());
         // Initiate models
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get gender list
         if (!this.genderList) {
             this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(function (results) {
@@ -6487,7 +6490,7 @@ var PassengerListComponent = /** @class */ (function () {
             });
         }
         // Get passenger person on board type (id 2)
-        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardType(2).subscribe(function (personOnBoardType) {
+        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].PAX).subscribe(function (personOnBoardType) {
             _this.personOnBoardType = personOnBoardType;
         });
         this.personOnBoardService.setPassengersList(this.passengerList);
@@ -6518,7 +6521,7 @@ var PassengerListComponent = /** @class */ (function () {
         var newList = [];
         if (this.passengerList) {
             this.passengerList.forEach(function (passenger) {
-                var modifiedPassenger = new __WEBPACK_IMPORTED_MODULE_9__smartTableModel__["a" /* SmartTableModel */]();
+                var modifiedPassenger = new __WEBPACK_IMPORTED_MODULE_10__smartTableModel__["a" /* SmartTableModel */]();
                 if (passenger.personOnBoardId) {
                     modifiedPassenger.personOnBoardId = passenger.personOnBoardId;
                 }
@@ -6546,8 +6549,8 @@ var PassengerListComponent = /** @class */ (function () {
         this.personOnBoardService.setPassengerDataIsPristine(false);
     };
     PassengerListComponent.prototype.clearForm = function () {
-        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["n" /* PersonOnBoardModel */]();
-        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.portCallPassengerModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
+        this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
         this.resetDateOfBirth();
         this.identityDocumentComponent.resetForm();
     };
@@ -6556,7 +6559,7 @@ var PassengerListComponent = /** @class */ (function () {
         this.passengerListDataSource.load(rows);
     };
     PassengerListComponent.prototype.makeLocationModel = function ($event) {
-        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */](), $event);
+        var tempLocationModel = Object.assign(new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["l" /* LocationModel */](), $event);
         return tempLocationModel;
     };
     // Setters
@@ -6729,7 +6732,7 @@ var PassengerListComponent = /** @class */ (function () {
         __metadata("design:type", Array)
     ], PassengerListComponent.prototype, "passengerList", void 0);
     __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_8__passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */]),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_9__passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */]),
         __metadata("design:type", Object)
     ], PassengerListComponent.prototype, "passengerModalComponent", void 0);
     __decorate([
@@ -6751,7 +6754,7 @@ var PassengerListComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_6_app_shared_services___["r" /* PortCallFalPersonOnBoardService */]])
+            __WEBPACK_IMPORTED_MODULE_7_app_shared_services___["r" /* PortCallFalPersonOnBoardService */]])
     ], PassengerListComponent);
     return PassengerListComponent;
 }());
@@ -15792,6 +15795,21 @@ var CONTENT_NAMES = {
 
 /***/ }),
 
+/***/ "./src/app/shared/constants/enumValues.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PERSON_ON_BOARD_TYPES; });
+var PERSON_ON_BOARD_TYPES;
+(function (PERSON_ON_BOARD_TYPES) {
+    PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["CREW"] = 0] = "CREW";
+    PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["PAX"] = 1] = "PAX";
+})(PERSON_ON_BOARD_TYPES || (PERSON_ON_BOARD_TYPES = {}));
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/constants/form-names.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -18823,10 +18841,11 @@ var PortCallDetailsService = /** @class */ (function (_super) {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PortCallFalPersonOnBoardService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__ = __webpack_require__("./node_modules/rxjs/_esm5/BehaviorSubject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18842,24 +18861,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PortCallFalPersonOnBoardService = /** @class */ (function () {
     function PortCallFalPersonOnBoardService(httpClient) {
         this.httpClient = httpClient;
-        this.passengerListSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.passengerListSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.passengerList$ = this.passengerListSource.asObservable();
-        this.passengerDataIsPristine = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.passengerDataIsPristine = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
         this.passengerDataIsPristine$ = this.passengerDataIsPristine.asObservable();
-        this.passengerSequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
+        this.passengerSequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
         this.sequenceNumber$ = this.passengerSequenceNumberSource.asObservable();
-        this.passengerListIsChecked = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.passengerListIsChecked = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.passengerListIsChecked$ = this.passengerListIsChecked.asObservable();
-        this.crewListSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
+        this.crewListSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.crewList$ = this.crewListSource.asObservable();
-        this.crewDataIsPristine = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
+        this.crewDataIsPristine = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
         this.crewDataIsPristine$ = this.crewDataIsPristine.asObservable();
-        this.crewSequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
+        this.crewSequenceNumberSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](1);
         this.crewSequenceNumber$ = this.crewSequenceNumberSource.asObservable();
-        this.crewListIsChecked = new __WEBPACK_IMPORTED_MODULE_3_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.crewListIsChecked = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.crewListIsChecked$ = this.crewListIsChecked.asObservable();
         this.genderUrl = 'api/gender';
         this.personOnBoardString = 'persononboard';
@@ -18880,20 +18900,20 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     };
     PortCallFalPersonOnBoardService.prototype.getPassengerListByPortCallId = function (portCallId) {
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', 2].join('/');
+        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].PAX].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getCrewListByPortCallId = function (portCallId) {
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
-        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', 1].join('/');
+        var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["a" /* PERSON_ON_BOARD_TYPES */].CREW].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getGenderList = function () {
         var uri = this.genderUrl;
         return this.httpClient.get(uri, { observe: 'body' });
     };
-    PortCallFalPersonOnBoardService.prototype.getPersonOnBoardType = function (personOnBoardTypeId) {
-        var uri = [this.personOnBoardTypeUrl, personOnBoardTypeId].join('/');
+    PortCallFalPersonOnBoardService.prototype.getPersonOnBoardTypeByEnum = function (personOnBoardTypeEnum) {
+        var uri = [this.personOnBoardTypeUrl, personOnBoardTypeEnum].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.updatePersonOnBoardList = function (portCallId, personOnBoardList, personOnBoardTypeId) {
@@ -18901,8 +18921,8 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
         // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
-        return this.httpClient.put(uri, cleanedPersonOnBoardList).pipe(Object(__WEBPACK_IMPORTED_MODULE_5_rxjs_operators__["retry"])(3), // retry a failed request up to 3 times
-        Object(__WEBPACK_IMPORTED_MODULE_5_rxjs_operators__["catchError"])(this.handleError));
+        return this.httpClient.put(uri, cleanedPersonOnBoardList).pipe(Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["retry"])(3), // retry a failed request up to 3 times
+        Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["catchError"])(this.handleError));
     };
     // Setters
     PortCallFalPersonOnBoardService.prototype.setPassengersList = function (data) {
@@ -18927,7 +18947,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         var cleanedPersonOnBoardList = [];
         if (personOnBoardList) {
             personOnBoardList.map(function (personOnBoard) {
-                var cleanedPersonOnBoard = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["n" /* PersonOnBoardModel */](), personOnBoard);
+                var cleanedPersonOnBoard = Object.assign(new __WEBPACK_IMPORTED_MODULE_3_app_shared_models___["n" /* PersonOnBoardModel */](), personOnBoard);
                 if (personOnBoard.dateOfBirth) {
                     cleanedPersonOnBoard.dateOfBirth = new Date(Date.UTC(personOnBoard.dateOfBirth.getFullYear(), personOnBoard.dateOfBirth.getMonth(), personOnBoard.dateOfBirth.getDate()));
                 }
@@ -18941,7 +18961,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
                 // Identity Documents
                 cleanedPersonOnBoard.identityDocument = [];
                 personOnBoard.identityDocument.forEach(function (identityDocument, index) {
-                    var cleanedIdentityDocument = Object.assign(new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */](), identityDocument);
+                    var cleanedIdentityDocument = Object.assign(new __WEBPACK_IMPORTED_MODULE_3_app_shared_models___["j" /* IdentityDocumentModel */](), identityDocument);
                     if (identityDocument.identityDocumentIssueDate) {
                         cleanedIdentityDocument.identityDocumentIssueDate = new Date(Date.UTC(identityDocument.identityDocumentIssueDate.getFullYear(), identityDocument.identityDocumentIssueDate.getMonth(), identityDocument.identityDocumentIssueDate.getDate()));
                     }
@@ -18969,7 +18989,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
                 ("body was: " + error.error));
         }
         // return an observable with a user-facing error message
-        return __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["a" /* Observable */].throw('Something bad happened; please try again later.');
+        return __WEBPACK_IMPORTED_MODULE_5_rxjs_Observable__["a" /* Observable */].throw('Something bad happened; please try again later.');
     };
     PortCallFalPersonOnBoardService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
