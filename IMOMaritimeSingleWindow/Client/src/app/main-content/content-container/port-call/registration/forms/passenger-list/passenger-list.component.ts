@@ -380,7 +380,6 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
         this.listIsPristine = true;
         this.personOnBoardService.setPassengerDataIsPristine(true);
-        console.log('Saved passengers.');
     });
   }
     // Helper methods

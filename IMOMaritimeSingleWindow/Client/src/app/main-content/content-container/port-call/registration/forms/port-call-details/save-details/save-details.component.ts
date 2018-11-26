@@ -125,7 +125,6 @@ export class SaveDetailsComponent implements OnInit, OnDestroy {
         this.purposeModel,
         this.otherPurposeName
       ).subscribe(detailsResponse => {
-        console.log('Successfully saved port call details:', detailsResponse);
         this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
         this.portCallService.savePurposesForPortCall(this.portCallId, this.purposeModel, this.otherPurposeName);
       });

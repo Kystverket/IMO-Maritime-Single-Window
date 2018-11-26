@@ -55,7 +55,6 @@ export class PurposeComponent implements OnInit, OnDestroy {
 
   purposeSelected() {
     this.portCallDetailsService.setPortCallPurposeData(this.selectedPurposes);
-    console.log('SELECTED: ', this.selectedPurposes);
     if (this.otherPurposeSelected) {
       this.setOtherPurposeName();
     }

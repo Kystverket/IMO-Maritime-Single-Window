@@ -65,7 +65,6 @@ export class LoadPortCallService {
             this.setDetails();
           }
         } else {
-          console.log('No purpose information has been registered for this port call.');
         }
       },
       error => {
@@ -79,7 +78,6 @@ export class LoadPortCallService {
         if (detailsData) {
           this.portCallDetailsService.setDetails(detailsData);
         } else {
-          console.log('No details information has been registered for this port call.');
           const portCallDetails = new PortCallDetailsModel();
           portCallDetails.portCallId = this.portCallId;
           this.portCallDetailsService.setDetails(portCallDetails);
