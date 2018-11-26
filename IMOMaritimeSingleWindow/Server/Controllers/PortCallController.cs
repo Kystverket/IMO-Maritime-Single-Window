@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using static IMOMaritimeSingleWindow.Controllers.PersonOnBoardTypeController;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -140,10 +141,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(personOnBoardList);
         }
 
-        [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}")]
-        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, int personOnBoardTypeId)
+        [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{EnumValue}")]
+        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, PERSON_ON_BOARD_TYPE_ENUM EnumValue)
         {
-            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId)
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardType.EnumValue == EnumValue.ToString())
             .Include(pob => pob.PortCall)
             .Include(pob => pob.Nationality)
             .Include(pob => pob.CountryOfBirth)

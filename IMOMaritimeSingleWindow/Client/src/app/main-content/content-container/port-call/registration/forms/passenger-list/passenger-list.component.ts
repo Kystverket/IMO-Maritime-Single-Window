@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -146,7 +147,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     }
 
     // Get passenger person on board type (id 2)
-    this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardType(2).subscribe(
+    this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(PERSON_ON_BOARD_TYPES.PAX).subscribe(
       personOnBoardType => {
         this.personOnBoardType = personOnBoardType;
     });
