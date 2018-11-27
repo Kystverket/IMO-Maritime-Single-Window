@@ -59,7 +59,6 @@ export class CrewMemberModalComponent implements OnInit {
   // Open modals
   openViewModal(crewModel: any) {
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
-    console.log(this.inputCrewModel);
     this.makeDates(this.inputCrewModel);
     this.inputCrewModel.identityDocument = crewModel.identityDocument;
     if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
@@ -73,7 +72,6 @@ export class CrewMemberModalComponent implements OnInit {
   openEditModal(crewModel: any) {
     // Set model to modify
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
-    console.log(this.inputCrewModel);
     this.makeDates(this.inputCrewModel);
     this.inputCrewModel.identityDocument = crewModel.identityDocument;
     if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null

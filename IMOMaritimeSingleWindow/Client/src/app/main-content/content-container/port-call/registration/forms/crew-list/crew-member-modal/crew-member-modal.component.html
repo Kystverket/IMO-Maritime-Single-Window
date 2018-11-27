@@ -45,7 +45,7 @@
         <div class="input-group input-group-sm" *ngIf="inputCrewModel.nationality">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharChode | lowercase}}.png" height="16px">
+              <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode | lowercase}}.png" height="16px">
             </span>
           </div>
           <input class="form-control" [ngModel]="inputCrewModel.nationality" readonly type="text" name="nationality">
