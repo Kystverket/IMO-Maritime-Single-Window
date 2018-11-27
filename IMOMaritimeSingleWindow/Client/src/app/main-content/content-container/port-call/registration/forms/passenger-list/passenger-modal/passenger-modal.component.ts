@@ -93,13 +93,15 @@ export class PassengerModalComponent implements OnInit {
 
   setNationality($event) {
     this.dirtyForm = true;
-    this.inputPassengerModel.nationality = $event.item;
+    this.inputPassengerModel.nationality = $event.item.name;
+    this.inputPassengerModel.nationalityTwoCharCode = $event.item.twoCharCode;
     this.inputPassengerModel.nationalityId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
     this.dirtyForm = true;
-    this.inputPassengerModel.countryOfBirth = $event.item;
+    this.inputPassengerModel.countryOfBirth = $event.item.name;
+    this.inputPassengerModel.countryOfBirthTwoCharCode = $event.item.twoCharCode;
     this.inputPassengerModel.countryOfBirthId = $event.item.countryId;
   }
 

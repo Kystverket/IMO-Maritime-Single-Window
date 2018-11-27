@@ -92,19 +92,21 @@ export class CrewMemberModalComponent implements OnInit {
 
   setNationality($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.nationality = $event.item;
+    this.inputCrewModel.nationality = $event.item.name;
+    this.inputCrewModel.nationalityTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.nationalityId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.countryOfBirth = $event.item;
+    this.inputCrewModel.countryOfBirth = $event.item.name;
+    this.inputCrewModel.countryOfBirthTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.countryOfBirthId = $event.item.countryId;
   }
 
   setIssuingNation($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.identityDocument[0].issuingNation = $event.item;
+    this.inputCrewModel.identityDocument[0].issuingNation = $event.item.name;
     this.inputCrewModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
 
