@@ -75,7 +75,6 @@ export class CrewMemberModalComponent implements OnInit {
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
     console.log(this.inputCrewModel);
     this.makeDates(this.inputCrewModel);
-    // Set model to fall back to
     this.inputCrewModel.identityDocument = crewModel.identityDocument;
     if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
       || this.inputCrewModel.identityDocument[0] === undefined || this.inputCrewModel.identityDocument[0] == null

@@ -198,6 +198,8 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         passenger.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
         passenger.nationality ? modifiedPassenger.nationality = passenger.nationality : modifiedPassenger.nationality = null;
         passenger.gender ? modifiedPassenger.gender = passenger.gender : modifiedPassenger.gender = null;
+        modifiedPassenger.countryOfBirthTwoCharChode = passenger.nationalityTwoCharCode;
+        modifiedPassenger.nationalityTwoCharChode = passenger.nationalityTwoCharChode;
 
         newList.push(modifiedPassenger);
       });

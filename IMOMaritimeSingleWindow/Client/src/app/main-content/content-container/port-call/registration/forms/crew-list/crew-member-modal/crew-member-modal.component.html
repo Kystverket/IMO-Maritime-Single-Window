@@ -79,9 +79,9 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
-        <input *ngIf="inputCrewModel.identityDocument[0]?.identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
+        <input *ngIf="inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
           readonly type="text" name="identityDocumentType">
-        <input *ngIf="!inputCrewModel.identityDocument[0]?.identityDocumentType" class="form-control form-control-sm" readonly type="text"
+        <input *ngIf="!inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" readonly type="text"
           name="identityDocumentType">
       </div>
     </div>
@@ -95,7 +95,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
       <div class="col my-auto">
-        <div class="input-group input-group-sm" *ngIf="inputCrewModel.identityDocument[0] ? inputCrewModel.identityDocument[0].issuingNation : false">
+        <div class="input-group input-group-sm" *ngIf="inputCrewModel.identityDocument[0].issuingNation">
           <div class="input-group-prepend">
             <span class="input-group-text">
               <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode | lowercase}}.png"
@@ -104,7 +104,7 @@
           </div>
           <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation.name" readonly type="text" name="issuingNation">
         </div>
-        <input *ngIf="!inputCrewModel.identityDocument[0]?.issuingNation" class="form-control form-control-sm" readonly type="text"
+        <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
           name="issuingNation">
       </div>
     </div>
@@ -199,7 +199,7 @@
           <div *ngIf="inputCrewModel.nationality" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharChode.toLowerCase() | lowercase}}.png" height="20px">
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png" height="20px">
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.name"
@@ -257,14 +257,14 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
         <div class="col my-auto">
-          <div *ngIf="inputCrewModel.identityDocument[0]?.issuingNation" class="input-group input-group-sm">
+          <div *ngIf="inputCrewModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
-            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.identityDocument[0].issuingNation.name"
+            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.identityDocument[0].issuingNation.nationality.name"
               name="issuingNation" />
             <div>
               <div class="input-group-append">
@@ -274,7 +274,7 @@
               </div>
             </div>
           </div>
-          <app-search-country *ngIf="!inputCrewModel.identityDocument[0]?.issuingNation" (selectCountry)="setIssuingNation($event)"
+          <app-search-country *ngIf="!inputCrewModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
             (deselectCountry)="resetIssuingNation()"></app-search-country>
         </div>
       </div>

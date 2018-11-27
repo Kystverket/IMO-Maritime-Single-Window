@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
+import { GenderModel, IdentityDocumentModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
@@ -10,10 +10,9 @@ import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateT
 })
 export class PassengerModalComponent implements OnInit {
 
-  inputPassengerModel: PersonOnBoardModel;
+  inputPassengerModel: any;
   startInputPassengerModel: PersonOnBoardModel;
 
-  passengerModel: PersonOnBoardModel = new PersonOnBoardModel();
   @Output() outputPassengerModel: EventEmitter<PersonOnBoardModel> = new EventEmitter();
 
   @ViewChild('viewModal') viewModal;
@@ -57,18 +56,30 @@ export class PassengerModalComponent implements OnInit {
   }
 
   // Open modals
-  openViewModal(passengerModel: PersonOnBoardModel) {
+  openViewModal(passengerModel: any) {
     this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
     this.makeDates(this.inputPassengerModel);
+    this.inputPassengerModel.identityDocument = passengerModel.identityDocument;
+
+    if (this.inputPassengerModel.identityDocument === undefined || this.inputPassengerModel.identityDocument == null
+      || this.inputPassengerModel.identityDocument[0] === undefined || this.inputPassengerModel.identityDocument[0] == null
+      ) {
+      this.inputPassengerModel.identityDocument[0] = new IdentityDocumentModel();
+    }
+
     this.modalService.open(this.viewModal);
   }
 
-  openEditModal(passengerModel: PersonOnBoardModel) {
+  openEditModal(passengerModel: any) {
     // Set model to modify
     this.inputPassengerModel = JSON.parse(JSON.stringify(passengerModel));
     this.makeDates(this.inputPassengerModel);
-    // Set model to fall back to
-    this.passengerModel = JSON.parse(JSON.stringify(passengerModel));
+
+    if (this.inputPassengerModel.identityDocument === undefined || this.inputPassengerModel.identityDocument == null
+      || this.inputPassengerModel.identityDocument[0] === undefined || this.inputPassengerModel.identityDocument[0] == null
+      ) {
+      this.inputPassengerModel.identityDocument[0] = new IdentityDocumentModel();
+    }
 
     this.modalService.open(this.editModal, {
       backdrop: 'static'
@@ -189,7 +200,6 @@ export class PassengerModalComponent implements OnInit {
   // Resetters
   resetInputPassengerModel($event: any) {
     this.resetForm();
-    this.inputPassengerModel = JSON.parse(JSON.stringify(this.passengerModel));
   }
 
   resetNationality() {
