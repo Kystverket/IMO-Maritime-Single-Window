@@ -19,7 +19,7 @@ import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.
 export class CrewListComponent implements OnInit, OnDestroy {
 
   @Input() portCallId: number;
-  @Input() crewList: PersonOnBoardModel[] = [];
+  @Input() crewList: any[] = [];
 
   portCallCrewModel: PersonOnBoardModel = new PersonOnBoardModel();
 
@@ -191,10 +191,10 @@ export class CrewListComponent implements OnInit, OnDestroy {
         modifiedPassenger.familyName = crewMember.familyName;
         modifiedPassenger.rankName = crewMember.rankName;
         crewMember.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        crewMember.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation.name : modifiedPassenger.portOfEmbarkation = null;
-        crewMember.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation.name : modifiedPassenger.portOfDisembarkation = null;
-        crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality.name : modifiedPassenger.nationality = null;
-        crewMember.gender ? modifiedPassenger.gender = crewMember.gender.description : modifiedPassenger.gender = null;
+        crewMember.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation : modifiedPassenger.portOfEmbarkation = null;
+        crewMember.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
+        crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
+        crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
 
         newList.push(modifiedPassenger);
       });

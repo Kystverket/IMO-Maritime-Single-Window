@@ -18,7 +18,7 @@ import { SmartTableModel } from './smartTableModel';
 })
 export class PassengerListComponent implements OnInit, OnDestroy {
   @Input() portCallId: number;
-  @Input() passengerList: PersonOnBoardModel[] = [];
+  @Input() passengerList: any[] = [];
 
   identityDocumentList: IdentityDocumentModel[] = [];
 
@@ -194,10 +194,10 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         modifiedPassenger.givenName = passenger.givenName;
         modifiedPassenger.familyName = passenger.familyName;
         passenger.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(passenger.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        passenger.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name : modifiedPassenger.portOfEmbarkation = null;
-        passenger.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name : modifiedPassenger.portOfDisembarkation = null;
-        passenger.nationality ? modifiedPassenger.nationality = passenger.nationality.name : modifiedPassenger.nationality = null;
-        passenger.gender ? modifiedPassenger.gender = passenger.gender.description : modifiedPassenger.gender = null;
+        passenger.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation : modifiedPassenger.portOfEmbarkation = null;
+        passenger.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
+        passenger.nationality ? modifiedPassenger.nationality = passenger.nationality : modifiedPassenger.nationality = null;
+        passenger.gender ? modifiedPassenger.gender = passenger.gender : modifiedPassenger.gender = null;
 
         newList.push(modifiedPassenger);
       });

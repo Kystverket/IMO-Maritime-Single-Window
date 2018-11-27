@@ -155,11 +155,45 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
             .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
+
             if (personOnBoardList == null)
             {
                 return NotFound();
             }
-            return Json(personOnBoardList);
+
+            var returnVal = personOnBoardList.Select(x => new
+            {
+                x.PersonOnBoardId,
+                x.GivenName,
+                x.FamilyName,
+                x.DateOfBirth,
+                x.PlaceOfBirth,
+                x.OccupationName,
+                x.OccupationCode,
+                x.RoleCode,
+                x.InTransit,
+                x.RankName,
+                x.RankCode,
+                x.SequenceNumber,
+
+                PortOfEmbarkation =  x.PortOfEmbarkation?.Name,
+                PortOfDisembarkation = x.PortOfDisembarkation?.Name,
+                Nationality = x.Nationality?.Name,
+                Gender = x.Gender?.Description,
+                CountryOfBirth = x.CountryOfBirth?.Name,
+
+
+                x.CountryOfBirthId,
+                x.NationalityId,
+                x.PersonOnBoardTypeId,
+                x.GenderId,
+                x.PortCallId,
+                x.PortOfEmbarkationId,
+                x.PortOfDisembarkationId,
+                x.IdentityDocument
+            }).ToList();
+
+            return Json(returnVal);
         }
 
         [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
