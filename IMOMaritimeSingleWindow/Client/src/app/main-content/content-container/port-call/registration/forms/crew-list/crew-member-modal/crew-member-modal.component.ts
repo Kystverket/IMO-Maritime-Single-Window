@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
+import { GenderModel, IdentityDocumentModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
@@ -10,10 +10,10 @@ import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateT
 })
 export class CrewMemberModalComponent implements OnInit {
 
-  inputCrewModel: PersonOnBoardModel;
+  inputCrewModel: any;
   startInputCrewModel: PersonOnBoardModel;
+  identityDocumentSet: boolean;
 
-  crewModel: PersonOnBoardModel = new PersonOnBoardModel();
   @Output() outputCrewModel: EventEmitter<PersonOnBoardModel> = new EventEmitter();
 
   @ViewChild('viewModal') viewModal;
@@ -57,18 +57,31 @@ export class CrewMemberModalComponent implements OnInit {
   }
 
   // Open modals
-  openViewModal(crewModel: PersonOnBoardModel) {
+  openViewModal(crewModel: any) {
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
+    console.log(this.inputCrewModel);
     this.makeDates(this.inputCrewModel);
+    this.inputCrewModel.identityDocument = crewModel.identityDocument;
+    if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
+      || this.inputCrewModel.identityDocument[0] === undefined || this.inputCrewModel.identityDocument[0] == null
+      ) {
+      this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
+    }
     this.modalService.open(this.viewModal);
   }
 
-  openEditModal(crewModel: PersonOnBoardModel) {
+  openEditModal(crewModel: any) {
     // Set model to modify
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
+    console.log(this.inputCrewModel);
     this.makeDates(this.inputCrewModel);
     // Set model to fall back to
-    this.crewModel = JSON.parse(JSON.stringify(crewModel));
+    this.inputCrewModel.identityDocument = crewModel.identityDocument;
+    if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
+      || this.inputCrewModel.identityDocument[0] === undefined || this.inputCrewModel.identityDocument[0] == null
+      ) {
+        this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
+      }
 
     this.modalService.open(this.editModal, {
       backdrop: 'static'
@@ -184,7 +197,6 @@ export class CrewMemberModalComponent implements OnInit {
   // Resetters
   resetInputCrewModel($event: any) {
     this.resetForm();
-    this.inputCrewModel = JSON.parse(JSON.stringify(this.crewModel));
   }
 
   resetNationality() {

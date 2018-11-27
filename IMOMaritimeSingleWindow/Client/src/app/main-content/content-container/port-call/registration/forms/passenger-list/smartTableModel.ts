@@ -9,4 +9,6 @@ export class SmartTableModel {
     portOfEmbarkation: string;
     portOfDisembarkation: string;
     rankName: string;
+    nationalityTwoCharChode: string;
+    countryOfBirthTwoCharChode: string;
 }

@@ -195,6 +195,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
         crewMember.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
         crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
         crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
+        modifiedPassenger.countryOfBirthTwoCharChode = crewMember.nationalityTwoCharCode;
+        modifiedPassenger.nationalityTwoCharChode = crewMember.nationalityTwoCharChode;
 
         newList.push(modifiedPassenger);
       });

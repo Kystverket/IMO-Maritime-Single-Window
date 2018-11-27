@@ -182,7 +182,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 Gender = x.Gender?.Description,
                 CountryOfBirth = x.CountryOfBirth?.Name,
 
-
+                NationalityTwoCharChode = x.Nationality?.TwoCharCode,
+                CountryOfBirthTwoCharChode = x.CountryOfBirth?.TwoCharCode,
                 x.CountryOfBirthId,
                 x.NationalityId,
                 x.PersonOnBoardTypeId,

@@ -31,10 +31,10 @@
         <div class="input-group input-group-sm" *ngIf="inputCrewModel.countryOfBirth">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirth.twoCharCode | lowercase}}.png" height="16px">
+              <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode | lowercase}}.png" height="16px">
             </span>
           </div>
-          <input class="form-control" [ngModel]="inputCrewModel.countryOfBirth.name" readonly type="text" name="countryOfBirth">
+          <input class="form-control" [ngModel]="inputCrewModel.countryOfBirth" readonly type="text" name="countryOfBirth">
         </div>
         <input *ngIf="!inputCrewModel.countryOfBirth" class="form-control form-control-sm" readonly type="text" name="countryOfBirth">
       </div>
@@ -45,10 +45,10 @@
         <div class="input-group input-group-sm" *ngIf="inputCrewModel.nationality">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputCrewModel.nationality.twoCharCode | lowercase}}.png" height="16px">
+              <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharChode | lowercase}}.png" height="16px">
             </span>
           </div>
-          <input class="form-control" [ngModel]="inputCrewModel.nationality.name" readonly type="text" name="nationality">
+          <input class="form-control" [ngModel]="inputCrewModel.nationality" readonly type="text" name="nationality">
         </div>
         <input *ngIf="!inputCrewModel.nationality" class="form-control form-control-sm" readonly type="text" name="nationality">
       </div>
@@ -56,7 +56,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
       <div class="col my-auto">
-        <input *ngIf="inputCrewModel.gender" class="form-control form-control-sm" [ngModel]="inputCrewModel.gender.description" readonly
+        <input *ngIf="inputCrewModel.gender" class="form-control form-control-sm" [ngModel]="inputCrewModel.gender" readonly
           type="text" name="gender">
         <input *ngIf="!inputCrewModel.gender" class="form-control form-control-sm" readonly type="text" name="gender">
       </div>
@@ -79,9 +79,9 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
-        <input *ngIf="inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
+        <input *ngIf="inputCrewModel.identityDocument[0]?.identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
           readonly type="text" name="identityDocumentType">
-        <input *ngIf="!inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" readonly type="text"
+        <input *ngIf="!inputCrewModel.identityDocument[0]?.identityDocumentType" class="form-control form-control-sm" readonly type="text"
           name="identityDocumentType">
       </div>
     </div>
@@ -95,7 +95,7 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
       <div class="col my-auto">
-        <div class="input-group input-group-sm" *ngIf="inputCrewModel.identityDocument[0].issuingNation">
+        <div class="input-group input-group-sm" *ngIf="inputCrewModel.identityDocument[0] ? inputCrewModel.identityDocument[0].issuingNation : false">
           <div class="input-group-prepend">
             <span class="input-group-text">
               <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode | lowercase}}.png"
@@ -104,7 +104,7 @@
           </div>
           <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation.name" readonly type="text" name="issuingNation">
         </div>
-        <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
+        <input *ngIf="!inputCrewModel.identityDocument[0]?.issuingNation" class="form-control form-control-sm" readonly type="text"
           name="issuingNation">
       </div>
     </div>
@@ -177,10 +177,10 @@
           <div *ngIf="inputCrewModel.countryOfBirth" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirth.twoCharCode.toLowerCase() | lowercase}}.png" height="20px">
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png" height="20px">
               </span>
             </div>
-            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.countryOfBirth.name"
+            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.countryOfBirth"
               name="countryOfBirth" />
             <div>
               <div class="input-group-append">
@@ -199,10 +199,10 @@
           <div *ngIf="inputCrewModel.nationality" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationality.twoCharCode.toLowerCase() | lowercase}}.png" height="20px">
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharChode.toLowerCase() | lowercase}}.png" height="20px">
               </span>
             </div>
-            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.nationality.name"
+            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.name"
               name="nationailty" />
             <div>
               <div class="input-group-append">
@@ -257,7 +257,7 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Issuing Nation</label>
         <div class="col my-auto">
-          <div *ngIf="inputCrewModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
+          <div *ngIf="inputCrewModel.identityDocument[0]?.issuingNation" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
@@ -274,7 +274,7 @@
               </div>
             </div>
           </div>
-          <app-search-country *ngIf="!inputCrewModel.identityDocument[0].issuingNation" (selectCountry)="setIssuingNation($event)"
+          <app-search-country *ngIf="!inputCrewModel.identityDocument[0]?.issuingNation" (selectCountry)="setIssuingNation($event)"
             (deselectCountry)="resetIssuingNation()"></app-search-country>
         </div>
       </div>
