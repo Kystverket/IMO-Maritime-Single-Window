@@ -66,6 +66,7 @@ export class CrewMemberModalComponent implements OnInit {
       ) {
       this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
     }
+
     this.modalService.open(this.viewModal);
   }
 
@@ -107,6 +108,7 @@ export class CrewMemberModalComponent implements OnInit {
   setIssuingNation($event) {
     this.dirtyForm = true;
     this.inputCrewModel.identityDocument[0].issuingNation = $event.item.name;
+    this.inputCrewModel.identityDocument[0].issuingNationTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
 
@@ -117,18 +119,6 @@ export class CrewMemberModalComponent implements OnInit {
     } else {
       this.resetIdentityDocumentType();
     }
-  }
-
-  setPortOfEmbarkation($event) {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfEmbarkation = $event;
-    this.inputCrewModel.portOfEmbarkationId = $event.locationId;
-  }
-
-  setPortOfDisembarkation($event) {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfDisembarkation = $event;
-    this.inputCrewModel.portOfDisembarkationId = $event.locationId;
   }
 
   setDateOfBirth($event) {
@@ -219,18 +209,6 @@ export class CrewMemberModalComponent implements OnInit {
   resetIdentityDocumentType() {
     this.inputCrewModel.identityDocument[0].identityDocumentType = null;
     this.inputCrewModel.identityDocument[0].identityDocumentTypeId = null;
-  }
-
-  resetPortOfEmbarkation() {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfEmbarkation = null;
-    this.inputCrewModel.portOfEmbarkationId = null;
-  }
-
-  resetPortOfDisembarkation() {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfDisembarkation = null;
-    this.inputCrewModel.portOfDisembarkationId = null;
   }
 
   resetForm() {

@@ -107,7 +107,8 @@ export class PassengerModalComponent implements OnInit {
 
   setIssuingNation($event) {
     this.dirtyForm = true;
-    this.inputPassengerModel.identityDocument[0].issuingNation = $event.item;
+    this.inputPassengerModel.identityDocument[0].issuingNation = $event.item.name;
+    this.inputPassengerModel.identityDocument[0].issuingNationTwoCharCode = $event.item.twoCharCode;
     this.inputPassengerModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
 
@@ -122,13 +123,15 @@ export class PassengerModalComponent implements OnInit {
 
   setPortOfEmbarkation($event) {
     this.dirtyForm = true;
-    this.inputPassengerModel.portOfEmbarkation = $event;
+    this.inputPassengerModel.portOfEmbarkation = $event.name;
+    this.inputPassengerModel.portOfEmbarkationTwoCharCode = $event.country.twoCharCode;
     this.inputPassengerModel.portOfEmbarkationId = $event.locationId;
   }
 
   setPortOfDisembarkation($event) {
     this.dirtyForm = true;
-    this.inputPassengerModel.portOfDisembarkation = $event;
+    this.inputPassengerModel.portOfDisembarkation = $event.name;
+    this.inputPassengerModel.portOfDisembarkationTwoCharCode = $event.country.twoCharCode;
     this.inputPassengerModel.portOfDisembarkationId = $event.locationId;
   }
 

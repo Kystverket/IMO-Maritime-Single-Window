@@ -145,7 +145,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, PERSON_ON_BOARD_TYPE_ENUM EnumValue)
         {
             var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardType.EnumValue == EnumValue.ToString())
-            .Include(pob => pob.PortCall)
             .Include(pob => pob.Nationality)
             .Include(pob => pob.CountryOfBirth)
             .Include(pob => pob.PersonOnBoardType)
@@ -155,6 +154,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
             .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
+
 
             if (personOnBoardList == null)
             {
@@ -177,6 +177,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 x.SequenceNumber,
 
                 PortOfEmbarkation =  x.PortOfEmbarkation?.Name,
+                PortOfEmbarkationTwoCharCode = x.PortOfEmbarkation?.Country?.TwoCharCode,
+                PortOfDisembarkationTwoCharCode = x.PortOfDisembarkation?.Country?.TwoCharCode,
                 PortOfDisembarkation = x.PortOfDisembarkation?.Name,
                 Nationality = x.Nationality?.Name,
                 Gender = x.Gender?.Description,
@@ -191,7 +193,19 @@ namespace IMOMaritimeSingleWindow.Controllers
                 x.PortCallId,
                 x.PortOfEmbarkationId,
                 x.PortOfDisembarkationId,
-                x.IdentityDocument
+                IdentityDocument = x.IdentityDocument?.Select(id => new
+                {
+                    id.IdentityDocumentExpiryDate,
+                    id.IdentityDocumentIssueDate,
+                    id.IdentityDocumentNumber,
+                    IssuingNation = id.IssuingNation?.Name,
+                    IssuingNationTwoCharCode = id.IssuingNation?.TwoCharCode,
+                    id.IssuingNationId,
+                    id.IdentityDocumentId,
+                    id.VisaOrResidencePermitNumber,
+                    IdentityDocumentTypeId = id.IdentityDocumentType?.Id,
+                    id.IdentityDocumentType
+                })
             }).ToList();
 
             return Json(returnVal);

@@ -191,8 +191,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
         modifiedPassenger.familyName = crewMember.familyName;
         modifiedPassenger.rankName = crewMember.rankName;
         crewMember.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        crewMember.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation : modifiedPassenger.portOfEmbarkation = null;
-        crewMember.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
         crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
         crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
         modifiedPassenger.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
@@ -245,16 +243,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
   }
 
-  setPortOfEmbarkation($event) {
-    this.portCallCrewModel.portOfEmbarkation = this.makeLocationModel($event);
-    this.portCallCrewModel.portOfEmbarkationId = $event.locationId;
-  }
-
-  setPortOfDisembarkation($event) {
-    this.portCallCrewModel.portOfDisembarkation = this.makeLocationModel($event);
-    this.portCallCrewModel.portOfDisembarkationId = $event.locationId;
-  }
-
   setDateOfBirth($event) {
     if ($event) {
       const date: Date = new Date($event.year, $event.month -  1, $event.day);
@@ -290,15 +278,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   // Resetters
-  resetPortOfDisembarkation() {
-    this.portCallCrewModel.portOfDisembarkation = null;
-    this.portCallCrewModel.portOfDisembarkationId = null;
-  }
-
-  resetPortOfEmbarkation() {
-    this.portCallCrewModel.portOfEmbarkation = null;
-    this.portCallCrewModel.portOfEmbarkationId = null;
-  }
 
   resetNationality() {
     this.portCallCrewModel.nationality = null;

@@ -624,10 +624,10 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.VisaOrResidencePermitNumber).HasColumnName("visa_or_residence_permit_number");
 
-                entity.HasOne(d => d.IdentityDocumentType)
-                    .WithMany(p => p.IdentityDocument)
-                    .HasForeignKey(d => d.IdentityDocumentTypeId)
-                    .HasConstraintName("identity_document_identity_document_type_id_fkey");
+                //entity.HasOne(d => d.IdentityDocumentType)
+                //    .WithMany(p => p.IdentityDocument)
+                //    .HasForeignKey(d => d.IdentityDocumentTypeId)
+                //    .HasConstraintName("identity_document_identity_document_type_id_fkey");
 
                 entity.HasOne(d => d.IssuingNation)
                     .WithMany(p => p.IdentityDocument)

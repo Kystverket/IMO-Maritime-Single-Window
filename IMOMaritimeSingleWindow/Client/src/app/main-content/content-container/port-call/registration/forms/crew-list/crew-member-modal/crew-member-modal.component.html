@@ -98,11 +98,11 @@
         <div class="input-group input-group-sm" *ngIf="inputCrewModel.identityDocument[0].issuingNation">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode | lowercase}}.png"
+              <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode | lowercase}}.png"
                 height="20px">
             </span>
           </div>
-          <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation.name" readonly type="text" name="issuingNation">
+          <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation" readonly type="text" name="issuingNation">
         </div>
         <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
           name="issuingNation">
@@ -260,11 +260,11 @@
           <div *ngIf="inputCrewModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNation.twoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
-            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.identityDocument[0].issuingNation.nationality.name"
+            <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.identityDocument[0].issuingNation"
               name="issuingNation" />
             <div>
               <div class="input-group-append">
