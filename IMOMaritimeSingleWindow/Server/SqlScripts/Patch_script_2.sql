@@ -52,3 +52,9 @@ ALTER TABLE public.ship_source
 INSERT INTO public.ship_source(
 	name, description, "EnumValue")
 	VALUES ('IMO Internal', 'Information origin is IMO, Internal', 'IMO_INTERNAL');
+
+
+CREATE INDEX ifk_fk_pob_port_call
+   ON public.person_on_board USING btree
+   (port_call_id ASC NULLS LAST)
+   TABLESPACE pg_default;

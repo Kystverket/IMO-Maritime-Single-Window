@@ -241,8 +241,8 @@ export class PortCallService {
   }
 
   // Sets port call status to deleted
-  deletePortCallDraft(portCall: PortCallModel): Observable<PortCallModel> {
-    const uri: string = [this.portCallUrl, 'delete', portCall.portCallId].join('/');
+  deletePortCallDraft(portCallId: number): Observable<PortCallModel> {
+    const uri: string = [this.portCallUrl, 'delete', portCallId].join('/');
     return this.http.put<PortCallModel>(uri, null);
   }
   // Get methods

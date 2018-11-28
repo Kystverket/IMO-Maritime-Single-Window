@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { GenderModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
+import { GenderModel, IdentityDocumentModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
@@ -10,10 +10,10 @@ import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateT
 })
 export class CrewMemberModalComponent implements OnInit {
 
-  inputCrewModel: PersonOnBoardModel;
+  inputCrewModel: any;
   startInputCrewModel: PersonOnBoardModel;
+  identityDocumentSet: boolean;
 
-  crewModel: PersonOnBoardModel = new PersonOnBoardModel();
   @Output() outputCrewModel: EventEmitter<PersonOnBoardModel> = new EventEmitter();
 
   @ViewChild('viewModal') viewModal;
@@ -57,18 +57,29 @@ export class CrewMemberModalComponent implements OnInit {
   }
 
   // Open modals
-  openViewModal(crewModel: PersonOnBoardModel) {
+  openViewModal(crewModel: any) {
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
     this.makeDates(this.inputCrewModel);
+    this.inputCrewModel.identityDocument = crewModel.identityDocument;
+    if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
+      || this.inputCrewModel.identityDocument[0] === undefined || this.inputCrewModel.identityDocument[0] == null
+      ) {
+      this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
+    }
+
     this.modalService.open(this.viewModal);
   }
 
-  openEditModal(crewModel: PersonOnBoardModel) {
+  openEditModal(crewModel: any) {
     // Set model to modify
     this.inputCrewModel = JSON.parse(JSON.stringify(crewModel));
     this.makeDates(this.inputCrewModel);
-    // Set model to fall back to
-    this.crewModel = JSON.parse(JSON.stringify(crewModel));
+    this.inputCrewModel.identityDocument = crewModel.identityDocument;
+    if (this.inputCrewModel.identityDocument === undefined || this.inputCrewModel.identityDocument == null
+      || this.inputCrewModel.identityDocument[0] === undefined || this.inputCrewModel.identityDocument[0] == null
+      ) {
+        this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
+      }
 
     this.modalService.open(this.editModal, {
       backdrop: 'static'
@@ -82,19 +93,22 @@ export class CrewMemberModalComponent implements OnInit {
 
   setNationality($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.nationality = $event.item;
+    this.inputCrewModel.nationality = $event.item.name;
+    this.inputCrewModel.nationalityTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.nationalityId = $event.item.countryId;
   }
 
   setCountryOfBirth($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.countryOfBirth = $event.item;
+    this.inputCrewModel.countryOfBirth = $event.item.name;
+    this.inputCrewModel.countryOfBirthTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.countryOfBirthId = $event.item.countryId;
   }
 
   setIssuingNation($event) {
     this.dirtyForm = true;
-    this.inputCrewModel.identityDocument[0].issuingNation = $event.item;
+    this.inputCrewModel.identityDocument[0].issuingNation = $event.item.name;
+    this.inputCrewModel.identityDocument[0].issuingNationTwoCharCode = $event.item.twoCharCode;
     this.inputCrewModel.identityDocument[0].issuingNationId = $event.item.countryId;
   }
 
@@ -105,18 +119,6 @@ export class CrewMemberModalComponent implements OnInit {
     } else {
       this.resetIdentityDocumentType();
     }
-  }
-
-  setPortOfEmbarkation($event) {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfEmbarkation = $event;
-    this.inputCrewModel.portOfEmbarkationId = $event.locationId;
-  }
-
-  setPortOfDisembarkation($event) {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfDisembarkation = $event;
-    this.inputCrewModel.portOfDisembarkationId = $event.locationId;
   }
 
   setDateOfBirth($event) {
@@ -184,7 +186,6 @@ export class CrewMemberModalComponent implements OnInit {
   // Resetters
   resetInputCrewModel($event: any) {
     this.resetForm();
-    this.inputCrewModel = JSON.parse(JSON.stringify(this.crewModel));
   }
 
   resetNationality() {
@@ -208,18 +209,6 @@ export class CrewMemberModalComponent implements OnInit {
   resetIdentityDocumentType() {
     this.inputCrewModel.identityDocument[0].identityDocumentType = null;
     this.inputCrewModel.identityDocument[0].identityDocumentTypeId = null;
-  }
-
-  resetPortOfEmbarkation() {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfEmbarkation = null;
-    this.inputCrewModel.portOfEmbarkationId = null;
-  }
-
-  resetPortOfDisembarkation() {
-    this.dirtyForm = true;
-    this.inputCrewModel.portOfDisembarkation = null;
-    this.inputCrewModel.portOfDisembarkationId = null;
   }
 
   resetForm() {
