@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { AccountService, ContentService } from 'app/shared/services/';
 
@@ -7,7 +7,7 @@ import { AccountService, ContentService } from 'app/shared/services/';
   templateUrl: './view-user-info.component.html',
   styleUrls: ['./view-user-info.component.css']
 })
-export class ViewUserInfoComponent implements OnInit {
+export class ViewUserInfoComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountService: AccountService,
@@ -23,5 +23,9 @@ export class ViewUserInfoComponent implements OnInit {
   registerNewUser() {
     this.accountService.setUserData(null);
     this.contentService.setContent(CONTENT_NAMES.REGISTER_USER);
+  }
+
+  ngOnDestroy() {
+    this.accountService.setUserSearchData([]);
   }
 }

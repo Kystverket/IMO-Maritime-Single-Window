@@ -225,6 +225,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   loadOverview() {
+    
     this.overviewService.showCancelledPortCalls$.subscribe(showCancelledPortCalls => {
       this.showCancelledPortCalls = showCancelledPortCalls;
       this.rerenderList();
@@ -251,7 +252,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
         }
       });
     }
-
+    
     this.overviewService.getOverviewsByUser()
       .finally(() => {
         this.sortOverView();
@@ -287,17 +288,19 @@ export class OverviewComponent implements OnInit, OnDestroy {
         () => {
         }
       );
+
   }
 
   private sortOverView() {
+
     this.overviewService.setOverviewData(this.overviewList.sort(
-      (row1, row2) => row2.portCallId - row1.portCallId
+      (row1, row2) => (row2 && row1) ? row2.portCallId - row1.portCallId : null
     ));
     this.overviewService.setDraftData(this.draftOverviewList.sort(
-      (row1, row2) => row2.portCallId - row1.portCallId
+      (row1, row2) => (row2 && row1) ? row2.portCallId - row1.portCallId : null
     ));
     this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(
-      (row1, row2) => row2.portCallId - row1.portCallId
+      (row1, row2) => (row2 && row1) ? row2.portCallId - row1.portCallId : null
     ));
     this.rerenderList();
   }
@@ -311,7 +314,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       portCallList = portCallList.concat(this.completedOverviewList);
     }
     this.overviewService.setOverviewData(portCallList.sort(
-      (row1, row2) => row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId
+      (row1, row2) => (row2.overviewModel.portCall && row1.overviewModel.portCall) ?  row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId : null
     ));
   }
 
