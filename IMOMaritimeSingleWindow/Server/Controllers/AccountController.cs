@@ -448,8 +448,8 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("placeholder")]
         public JsonResult GetPlaceholderData()
         {
-            var placeholderUsers = _context.User.
-                OrderByDescending(s => s.UserId)
+            var placeholderUsers = _context.User.Where(x => x.Person != null)
+                .OrderByDescending(s => s.UserId)
                 .Include(usr => usr.Organization)
                 .Include(usr => usr.Organization.OrganizationType)
                 .Include(usr => usr.Person)
