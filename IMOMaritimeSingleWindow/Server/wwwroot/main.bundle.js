@@ -2324,6 +2324,9 @@ var ViewUserInfoComponent = /** @class */ (function () {
         this.accountService.setUserData(null);
         this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_USER);
     };
+    ViewUserInfoComponent.prototype.ngOnDestroy = function () {
+        this.accountService.setUserSearchData([]);
+    };
     ViewUserInfoComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-view-user-info',
@@ -3696,9 +3699,9 @@ var OverviewComponent = /** @class */ (function () {
         });
     };
     OverviewComponent.prototype.sortOverView = function () {
-        this.overviewService.setOverviewData(this.overviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
-        this.overviewService.setDraftData(this.draftOverviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
-        this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(function (row1, row2) { return row2.portCallId - row1.portCallId; }));
+        this.overviewService.setOverviewData(this.overviewList.sort(function (row1, row2) { return (row2 && row1) ? row2.portCallId - row1.portCallId : null; }));
+        this.overviewService.setDraftData(this.draftOverviewList.sort(function (row1, row2) { return (row2 && row1) ? row2.portCallId - row1.portCallId : null; }));
+        this.overviewService.setClearedData(this.clearedByUserAgencyOverviewList.sort(function (row1, row2) { return (row2 && row1) ? row2.portCallId - row1.portCallId : null; }));
         this.rerenderList();
     };
     OverviewComponent.prototype.rerenderList = function () {
@@ -3709,7 +3712,7 @@ var OverviewComponent = /** @class */ (function () {
         if (this.showCompletedPortCalls) {
             portCallList = portCallList.concat(this.completedOverviewList);
         }
-        this.overviewService.setOverviewData(portCallList.sort(function (row1, row2) { return row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId; }));
+        this.overviewService.setOverviewData(portCallList.sort(function (row1, row2) { return (row2.overviewModel.portCall && row1.overviewModel.portCall) ? row2.overviewModel.portCall.portCallId - row1.overviewModel.portCall.portCallId : null; }));
     };
     OverviewComponent.prototype.onPortCallCancelled = function (portCallId) {
         this.movePortCallToList(portCallId, this.overviewList, this.cancelledOverviewList);
@@ -11413,7 +11416,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <!-- <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table> -->\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -11583,7 +11586,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew\" icon=\"crew.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew Listing\" icon=\"crew.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11975,7 +11978,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew, Passengers and Dimensions\" icon=\"crew.png\" collapsible=true>\r\n      <tbody>\r\n        <tr>\r\n          <td *ngFor=\"let entry of portCallDetailsInfo\" class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>{{entry.description}}</small>\r\n            </tr>\r\n            <tr>\r\n              <div *ngIf=\"entry.data != null\">{{ entry.data }}</div>\r\n              <div *ngIf=\"entry.data == null\" class=\"font-italic\">Not provided.</div>\r\n            </tr>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-selected-purposes></app-selected-purposes>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew, Passengers and Dimensions\" icon=\"crew.png\" collapsible=true>\r\n      <tbody>\r\n        <tr>\r\n          <td *ngFor=\"let entry of portCallDetailsInfo\" class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>{{entry.description}}</small>\r\n            </tr>\r\n            <tr>\r\n              <div *ngIf=\"entry.data != null\">{{ entry.data }}</div>\r\n              <div *ngIf=\"entry.data == null\" class=\"font-italic\">Not provided.</div>\r\n            </tr>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </app-table-card>\r\n    <br/>\r\n    <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-selected-purposes></app-selected-purposes>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -12024,6 +12027,11 @@ var PortCallDetailsComponent = /** @class */ (function () {
                 _this.portCallDetailsInfo.find(function (p) { return p.description === AIR_DRAUGHT; }).data =
                     data.airDraught;
             }
+        });
+        // get reporting data to gather portCallId of selected port call.
+        this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
+            if (reportingData != null)
+                _this.portCallId = reportingData.portCallId;
         });
     };
     PortCallDetailsComponent.prototype.ngOnDestroy = function () {
