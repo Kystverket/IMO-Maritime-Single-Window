@@ -100,7 +100,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 searchTerm += '%';
                 return _context.Ship.Where(s =>
                             EF.Functions.ILike(s.Name, searchTerm)
-                            || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
+                            || EF.Functions.ILike(s.Name, "% " + searchTerm + '%') //search for words in name
                             || EF.Functions.ILike(s.CallSign, searchTerm)
                             || EF.Functions.ILike(s.ImoNo.ToString(), searchTerm)
                             || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm))
@@ -112,7 +112,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             searchTerm += '%';
             return _context.Ship.Where(s =>
                         EF.Functions.ILike(s.Name, searchTerm)
-                        || EF.Functions.ILike(s.Name, "% " + searchTerm) //search for words in name
+                        || EF.Functions.ILike(s.Name, "% " + searchTerm + '%') //search for words in name
                         || EF.Functions.ILike(s.CallSign, searchTerm))
                         .Select(s => s)
                         .Include(s => s.ShipFlagCode.Country)
