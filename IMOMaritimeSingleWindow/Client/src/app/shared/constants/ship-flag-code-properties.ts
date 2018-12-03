@@ -13,7 +13,7 @@ export class ShipFlagCodeProperties {
   ];
 
   static setShipFlagCodeData(propertyList, shipFlagCodeModel: ShipFlagCodeModel) {
-    ShipFlagCodeProperties.setName(propertyList, shipFlagCodeModel.name);
+    ShipFlagCodeProperties.setName(propertyList, shipFlagCodeModel.country.threeCharCode);
     if (shipFlagCodeModel.country) {
       ShipFlagCodeProperties.setCountry(propertyList, shipFlagCodeModel.country.name);
     }
