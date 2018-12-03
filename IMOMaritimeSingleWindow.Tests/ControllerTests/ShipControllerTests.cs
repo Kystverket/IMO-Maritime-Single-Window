@@ -56,7 +56,7 @@ namespace IMOMaritimeSingleWindow.Tests.ControllerTests
                     var searchTerm = Ship.Name.Substring(0, 3);
 
                     // Act
-                    var result = controller.SearchShip(searchTerm);
+                    var result = controller.SearchShip(null, searchTerm);
 
                     // Assert
                     var listResult = Assert.IsType<List<Ship>>(result);
@@ -78,7 +78,7 @@ namespace IMOMaritimeSingleWindow.Tests.ControllerTests
                     var searchTerm = new Guid().ToString();  // Almost 100% guaranteed to not match any other string ever made
 
                     // Act
-                    var result = controller.SearchShip(searchTerm);
+                    var result = controller.SearchShip(null, searchTerm);
 
                     // Assert
                     var listResult = Assert.IsType<List<Ship>>(result);

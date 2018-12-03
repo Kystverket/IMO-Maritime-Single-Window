@@ -82,8 +82,8 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         public List<Organization> SearchOrganization(string searchTerm, int amount = 10)
         {
-            return _context.Organization.Where(org => EF.Functions.ILike(org.Name, searchTerm + '%')
-                                                                || EF.Functions.ILike(org.OrganizationNo, searchTerm + '%'))
+            return _context.Organization.Where(org => EF.Functions.ILike(org.Name, '%' + searchTerm + '%')
+                                                                || EF.Functions.ILike(org.OrganizationNo, '%' + searchTerm + '%'))
                                                                 .Select(org => org)
                                                                 .Include(org => org.OrganizationType)
                                                                 .Take(amount).ToList();

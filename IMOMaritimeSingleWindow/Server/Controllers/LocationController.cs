@@ -89,8 +89,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             else
             {
-                results = _context.Location.Where(loc => (EF.Functions.ILike(loc.Name, searchTerm + '%')
-                                                    || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')))
+                results = _context.Location.Where(loc => (EF.Functions.ILike(loc.Name, '%' + searchTerm + '%')
+                                                    || EF.Functions.ILike(loc.LocationCode, '%' + searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
                                                     .Take(amount).ToList();

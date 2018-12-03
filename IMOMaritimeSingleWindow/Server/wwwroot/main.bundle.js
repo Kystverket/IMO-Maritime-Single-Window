@@ -2175,6 +2175,7 @@ var RegisterUserComponent = /** @class */ (function () {
         this.confirmHeader = 'Confirm User Changes';
         this.confirmButtonTitle = 'Apply Changes';
         // get and set the associated organization.
+        // tslint:disable-next-line:radix
         this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(function (data) {
             _this.organizationService.setOrganizationData(data);
             _this.setOrganization(data);
@@ -9885,7 +9886,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card [header]=\"'Select Ship'\" [icon]=\"'ship.png'\">\r\n  <div *ngIf=\"!shipFound\">\r\n    <app-search-ship (shipResult)=\"onShipResult($event)\"></app-search-ship>\r\n  </div>\r\n\r\n  <div *ngIf=\"shipFound\" class=\"text-center\">\r\n    <div class=\"table-responsive\">\r\n      <app-ssn-table [entryData]=shipProperties></app-ssn-table>\r\n    </div>\r\n    <button class=\"btn btn-ssn\" (click)=\"deselectShip()\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Select Port of Call'\" [icon]=\"'location.png'\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-8\">\r\n      <div *ngIf=\"!locationFound\" class=\"text-center\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true [showDropdown]=true (locationResult)=\"onLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div *ngIf=\"locationFound\" class=\"text-center\">\r\n        <div class=\"table-responsive\">\r\n          <app-ssn-table [entryData]=\"locationProperties\"></app-ssn-table>\r\n        </div>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6\">\r\n      <app-date-time-picker [header]=\"'ETA'\" [dateTimeInput]=\"etaModel\" (dateTimeResult)=\"onEtaResult($event)\"></app-date-time-picker>\r\n    </div>\r\n    <div class=\"col-md-6\">\r\n      <app-date-time-picker [header]=\"'ETD'\" [dateTimeInput]=\"etdModel\" (dateTimeResult)=\"onEtdResult($event)\"></app-date-time-picker>\r\n    </div>\r\n  </div>\r\n  <div class=\"row justify-content-center\" *ngIf=\"etaIsAfterEtdError\">\r\n    <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n      <span>Departure must be after arrival.</span>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Previous Port of Call\" icon=\"location.png\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-7\">\r\n      <div class=\"text-center pt-lg-4\" *ngIf=\"!prevLocationFound\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true (locationResult)=\"onPrevLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div class=\"text-center\" *ngIf=\"prevLocationFound\">\r\n        <app-ssn-table [entryData]=\"prevLocationProperties\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectPrevLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-5\">\r\n      <app-date-time-picker header=\"ETD\" [dateTimeInput]=\"prevEtdModel\" (dateTimeResult)=\"onPrevEtdResult($event)\"></app-date-time-picker>\r\n    </div>\r\n\r\n    <div class=\"row justify-content-center\" *ngIf=\"prevEtdIsAfterCurrentEtaError\">\r\n      <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n        <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Next Port of Call\" icon=\"location.png\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-7\">\r\n      <div class=\"text-center pt-lg-4\" *ngIf=\"!nextLocationFound\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true (locationResult)=\"onNextLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div class=\"text-center\" *ngIf=\"nextLocationFound\">\r\n        <app-ssn-table [entryData]=\"nextLocationProperties\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectNextLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-5\">\r\n      <app-date-time-picker header=\"ETA\" [dateTimeInput]=\"nextEtaModel\" (dateTimeResult)=\"onNextEtaResult($event)\"></app-date-time-picker>\r\n    </div>\r\n\r\n    <div class=\"row justify-content-center\" *ngIf=\"nextEtaIsBeforeCurrentEtdError\">\r\n      <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n        <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Create Port Call Draft'\" [icon]=\"'save.png'\" *ngIf=\"portCallId == null\">\r\n  <app-save-new-port-call></app-save-new-port-call>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Save Voyages'\" [icon]=\"'save.png'\" *ngIf=\"portCallId != null\">\r\n  <app-save-voyages [portCallId]=\"portCallId\"></app-save-voyages>\r\n</app-ssn-card>"
+module.exports = "<app-ssn-card [header]=\"'Select Ship'\" [icon]=\"'ship.png'\">\r\n  <div *ngIf=\"!shipFound\">\r\n    <app-search-ship [filter]=\"shipFilter\" (shipResult)=\"onShipResult($event)\"></app-search-ship>\r\n  </div>\r\n\r\n  <div *ngIf=\"shipFound\" class=\"text-center\">\r\n    <div class=\"table-responsive\">\r\n      <app-ssn-table [entryData]=shipProperties></app-ssn-table>\r\n    </div>\r\n    <button class=\"btn btn-ssn\" (click)=\"deselectShip()\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Select Port of Call'\" [icon]=\"'location.png'\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-8\">\r\n      <div *ngIf=\"!locationFound\" class=\"text-center\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true [showDropdown]=true (locationResult)=\"onLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div *ngIf=\"locationFound\" class=\"text-center\">\r\n        <div class=\"table-responsive\">\r\n          <app-ssn-table [entryData]=\"locationProperties\"></app-ssn-table>\r\n        </div>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col-md-6\">\r\n      <app-date-time-picker [header]=\"'ETA'\" [dateTimeInput]=\"etaModel\" (dateTimeResult)=\"onEtaResult($event)\"></app-date-time-picker>\r\n    </div>\r\n    <div class=\"col-md-6\">\r\n      <app-date-time-picker [header]=\"'ETD'\" [dateTimeInput]=\"etdModel\" (dateTimeResult)=\"onEtdResult($event)\"></app-date-time-picker>\r\n    </div>\r\n  </div>\r\n  <div class=\"row justify-content-center\" *ngIf=\"etaIsAfterEtdError\">\r\n    <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n      <span>Departure must be after arrival.</span>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Previous Port of Call\" icon=\"location.png\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-7\">\r\n      <div class=\"text-center pt-lg-4\" *ngIf=\"!prevLocationFound\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true (locationResult)=\"onPrevLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div class=\"text-center\" *ngIf=\"prevLocationFound\">\r\n        <app-ssn-table [entryData]=\"prevLocationProperties\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectPrevLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-5\">\r\n      <app-date-time-picker header=\"ETD\" [dateTimeInput]=\"prevEtdModel\" (dateTimeResult)=\"onPrevEtdResult($event)\"></app-date-time-picker>\r\n    </div>\r\n\r\n    <div class=\"row justify-content-center\" *ngIf=\"prevEtdIsAfterCurrentEtaError\">\r\n      <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n        <span>ETD for previous Port of Call must be before ETA for current Port of Call.</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card header=\"Next Port of Call\" icon=\"location.png\">\r\n  <div class=\"row justify-content-center\">\r\n    <div class=\"col-lg-7\">\r\n      <div class=\"text-center pt-lg-4\" *ngIf=\"!nextLocationFound\">\r\n        <span>Search using location name or UN/LOCODE code</span>\r\n        <app-search-location [restrictTypeHarbour]=true (locationResult)=\"onNextLocationResult($event)\"></app-search-location>\r\n      </div>\r\n\r\n      <div class=\"text-center\" *ngIf=\"nextLocationFound\">\r\n        <app-ssn-table [entryData]=\"nextLocationProperties\"></app-ssn-table>\r\n        <button class=\"btn btn-ssn\" (click)=\"deselectNextLocation()\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n      </div>\r\n    </div>\r\n    <div class=\"col-lg-5\">\r\n      <app-date-time-picker header=\"ETA\" [dateTimeInput]=\"nextEtaModel\" (dateTimeResult)=\"onNextEtaResult($event)\"></app-date-time-picker>\r\n    </div>\r\n\r\n    <div class=\"row justify-content-center\" *ngIf=\"nextEtaIsBeforeCurrentEtdError\">\r\n      <div class=\"col-6 alert alert-danger\" role=\"alert\">\r\n        <span>ETA for next Port of Call must be after ETA for current Port of Call.</span>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Create Port Call Draft'\" [icon]=\"'save.png'\" *ngIf=\"portCallId == null\">\r\n  <app-save-new-port-call></app-save-new-port-call>\r\n</app-ssn-card>\r\n\r\n<app-ssn-card [header]=\"'Save Voyages'\" [icon]=\"'save.png'\" *ngIf=\"portCallId != null\">\r\n  <app-save-voyages [portCallId]=\"portCallId\"></app-save-voyages>\r\n</app-ssn-card>"
 
 /***/ }),
 
@@ -9896,10 +9897,11 @@ module.exports = "<app-ssn-card [header]=\"'Select Ship'\" [icon]=\"'ship.png'\"
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VoyagesComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_datepicker_ngb_date__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__ = __webpack_require__("./src/app/shared/constants/location-properties.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_ship_properties__ = __webpack_require__("./src/app/shared/constants/ship-properties.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__ = __webpack_require__("./src/app/shared/constants/location-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_ship_properties__ = __webpack_require__("./src/app/shared/constants/ship-properties.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_models___ = __webpack_require__("./src/app/shared/models/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9915,6 +9917,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var VoyagesComponent = /** @class */ (function () {
     function VoyagesComponent(portCallService) {
         this.portCallService = portCallService;
@@ -9922,10 +9925,11 @@ var VoyagesComponent = /** @class */ (function () {
         this.locationFound = false;
         this.prevLocationFound = false;
         this.nextLocationFound = false;
-        this.shipProperties = new __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_ship_properties__["a" /* ShipProperties */]().getPropertyList();
-        this.locationProperties = new __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
-        this.prevLocationProperties = new __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
-        this.nextLocationProperties = new __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+        this.shipFilter = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["c" /* SHIP_STATUSES */].ACTIVE;
+        this.shipProperties = new __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_ship_properties__["a" /* ShipProperties */]().getPropertyList();
+        this.locationProperties = new __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+        this.prevLocationProperties = new __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
+        this.nextLocationProperties = new __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */]().getPropertyList();
         this.etaIsAfterEtdError = false;
         this.prevEtdIsAfterCurrentEtaError = false;
         this.nextEtaIsBeforeCurrentEtdError = false;
@@ -10070,26 +10074,26 @@ var VoyagesComponent = /** @class */ (function () {
     VoyagesComponent.prototype.setShipData = function (shipData) {
         var twoCharCode = shipData.shipFlagCode.country.twoCharCode.toLowerCase() || 'xx';
         var countryFlag = twoCharCode + '.png';
-        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_ship_properties__["a" /* ShipProperties */].setShipData(this.shipProperties, shipData);
-        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_ship_properties__["a" /* ShipProperties */].setCountry(this.shipProperties, null, countryFlag);
+        __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_ship_properties__["a" /* ShipProperties */].setShipData(this.shipProperties, shipData);
+        __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_ship_properties__["a" /* ShipProperties */].setCountry(this.shipProperties, null, countryFlag);
     };
     VoyagesComponent.prototype.setLocationData = function (locationData) {
         var twoCharCode = locationData.country.twoCharCode.toLowerCase() || 'xx';
         var countryFlag = twoCharCode + '.png';
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.locationProperties, locationData);
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.locationProperties, locationData.country.name, countryFlag);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.locationProperties, locationData);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.locationProperties, locationData.country.name, countryFlag);
     };
     VoyagesComponent.prototype.setPrevLocationData = function (locationData) {
         var twoCharCode = locationData.country.twoCharCode.toLowerCase() || 'xx';
         var countryFlag = twoCharCode + '.png';
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.prevLocationProperties, locationData);
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.prevLocationProperties, locationData.country.name, countryFlag);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.prevLocationProperties, locationData);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.prevLocationProperties, locationData.country.name, countryFlag);
     };
     VoyagesComponent.prototype.setNextLocationData = function (locationData) {
         var twoCharCode = locationData.country.twoCharCode.toLowerCase() || 'xx';
         var countryFlag = twoCharCode + '.png';
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.nextLocationProperties, locationData);
-        __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.nextLocationProperties, locationData.country.name, countryFlag);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setLocationData(this.nextLocationProperties, locationData);
+        __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_location_properties__["a" /* LocationProperties */].setCountry(this.nextLocationProperties, locationData.country.name, countryFlag);
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -10097,11 +10101,11 @@ var VoyagesComponent = /** @class */ (function () {
     ], VoyagesComponent.prototype, "portCallId", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["s" /* ShipModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["s" /* ShipModel */])
     ], VoyagesComponent.prototype, "shipModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "locationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -10113,11 +10117,11 @@ var VoyagesComponent = /** @class */ (function () {
     ], VoyagesComponent.prototype, "etdModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "prevLocationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
-        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_4_app_shared_models___["l" /* LocationModel */])
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_5_app_shared_models___["l" /* LocationModel */])
     ], VoyagesComponent.prototype, "nextLocationModel", void 0);
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -10133,7 +10137,7 @@ var VoyagesComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services_port_call_service__["a" /* PortCallService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services_port_call_service__["a" /* PortCallService */]])
     ], VoyagesComponent);
     return VoyagesComponent;
 }());
@@ -14487,11 +14491,12 @@ module.exports = "<ng-template #rt let-r=\"result\" let-t=\"term\">\r\n  <img sr
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchShipComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__search_ship_service__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__search_ship_service__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14507,6 +14512,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var SearchShipComponent = /** @class */ (function () {
     function SearchShipComponent(searchShipService) {
         var _this = this;
@@ -14514,36 +14520,36 @@ var SearchShipComponent = /** @class */ (function () {
         this.showDropdown = true;
         this.shipResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.shipSearchResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
-        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_4__constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
-        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_4__constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
+        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_5__constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
+        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_5__constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
         this.searching = false;
         this.searchFailed = false;
-        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__["a" /* Observable */](function () { return function () {
+        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["a" /* Observable */](function () { return function () {
             return (_this.searching = false);
         }; });
         this.search = function (text$) {
-            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["tap"])(function (term) {
+            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["tap"])(function (term) {
                 _this.searchFailed = false;
                 _this.searching = (term.length >= 2);
-            }), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
-                _this.searchShipService.search(term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["tap"])(function () {
+            }), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
+                _this.searchShipService.search(_this.filter, term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["tap"])(function () {
                     _this.searchFailed = false;
-                }), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["catchError"])(function () {
+                }), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["catchError"])(function () {
                     _this.searchFailed = true;
-                    return Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_observable_of__["a" /* of */])([]);
-                })) : Object(__WEBPACK_IMPORTED_MODULE_2_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["tap"])(function (res) {
+                    return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])([]);
+                })) : Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["tap"])(function (res) {
                 if (_this.showDropdown) {
                     _this.searching = false;
                     _this.searchFailed = _this.shipModel.length >= 2 && res.length === 0;
                 }
                 else {
-                    _this.searchShipService.search(_this.shipModel, _this.resultsWithoutDropdown).subscribe(function (data) {
+                    _this.searchShipService.search(_this.filter, _this.shipModel, _this.resultsWithoutDropdown).subscribe(function (data) {
                         _this.searchFailed = _this.shipModel.length >= 2 && data.length === 0;
                         _this.shipSearchResult.emit(data);
                         _this.searching = false;
                     });
                 }
-            }), Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
+            }), Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
         };
         this.formatter = function (x) { return ''; };
     }
@@ -14569,6 +14575,10 @@ var SearchShipComponent = /** @class */ (function () {
         __metadata("design:type", Object)
     ], SearchShipComponent.prototype, "showDropdown", void 0);
     __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SearchShipComponent.prototype, "filter", void 0);
+    __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
         __metadata("design:type", Object)
     ], SearchShipComponent.prototype, "shipResult", void 0);
@@ -14581,9 +14591,9 @@ var SearchShipComponent = /** @class */ (function () {
             selector: 'app-search-ship',
             template: __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/search-ship/search-ship.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_5__search_ship_service__["a" /* SearchShipService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_6__search_ship_service__["a" /* SearchShipService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5__search_ship_service__["a" /* SearchShipService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__search_ship_service__["a" /* SearchShipService */]])
     ], SearchShipComponent);
     return SearchShipComponent;
 }());
@@ -14624,12 +14634,19 @@ var SearchShipService = /** @class */ (function () {
         this.shipUrl = 'api/ship';
         this.placeholderShipDataUrl = '/api/ship/placeholder';
     }
-    SearchShipService.prototype.search = function (term, amount) {
+    SearchShipService.prototype.search = function (type, term, amount) {
+        if (type === void 0) { type = null; }
         if (amount === void 0) { amount = 10; }
         if (term.length < 2) {
             return __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__["a" /* Observable */].of([]);
         }
-        return this.searchService.search(this.searchUrl, term, amount);
+        if (type == null || type === undefined) {
+            return this.searchService.search(this.searchUrl, term, amount);
+        }
+        else {
+            var uri = [this.searchUrl, term, amount, type].join('/');
+            return this.http.get(uri);
+        }
     };
     SearchShipService.prototype.getShip = function (id) {
         var uri = [this.shipUrl, id].join('/');
@@ -15858,6 +15875,7 @@ var CONTENT_NAMES = {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PERSON_ON_BOARD_TYPES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ORGANIZATION_TYPES; });
 /* unused harmony export LOCATION_SOURCES */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return SHIP_STATUSES; });
 var PERSON_ON_BOARD_TYPES;
 (function (PERSON_ON_BOARD_TYPES) {
     PERSON_ON_BOARD_TYPES[PERSON_ON_BOARD_TYPES["CREW"] = 0] = "CREW";
@@ -15874,6 +15892,12 @@ var LOCATION_SOURCES;
     LOCATION_SOURCES[LOCATION_SOURCES["IMO_INTERNAL"] = 0] = "IMO_INTERNAL";
     LOCATION_SOURCES[LOCATION_SOURCES["IMO_EXTERNAL"] = 1] = "IMO_EXTERNAL";
 })(LOCATION_SOURCES || (LOCATION_SOURCES = {}));
+var SHIP_STATUSES;
+(function (SHIP_STATUSES) {
+    SHIP_STATUSES[SHIP_STATUSES["TO_BE_PROCESSED"] = 0] = "TO_BE_PROCESSED";
+    SHIP_STATUSES[SHIP_STATUSES["INACTIVE"] = 1] = "INACTIVE";
+    SHIP_STATUSES[SHIP_STATUSES["ACTIVE"] = 2] = "ACTIVE";
+})(SHIP_STATUSES || (SHIP_STATUSES = {}));
 
 
 

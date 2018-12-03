@@ -53,8 +53,26 @@ INSERT INTO public.ship_source(
 	name, description, "EnumValue")
 	VALUES ('IMO Internal', 'Information origin is IMO, Internal', 'IMO_INTERNAL');
 
+-- Enum for Ship Status
+ALTER TABLE public.ship_status
+	ADD COLUMN "EnumValue" varchar(50);
+
+UPDATE public.ship_status
+    SET "EnumValue"='INACTIVE'
+    WHERE name = 'Inactive';
+
+UPDATE public.ship_status
+    SET"EnumValue"='TO_BE_PROCESSED'
+    WHERE name = 'To be processed';
+	
+UPDATE public.ship_status
+    SET"EnumValue"='ACTIVE'
+    WHERE name = 'Active';
+
 
 CREATE INDEX ifk_fk_pob_port_call
    ON public.person_on_board USING btree
    (port_call_id ASC NULLS LAST)
    TABLESPACE pg_default;
+
+
