@@ -76,3 +76,21 @@ CREATE INDEX ifk_fk_pob_port_call
    TABLESPACE pg_default;
 
 
+-- Prep script for deletion of company
+SELECT * 
+FROM Organization o
+WHERE NOT EXISTS --Get all org where there are no users connected to it
+(
+	SELECT * 
+	FROM "user" u
+	where u.organization_id = o.organization_id
+)
+AND 
+NOT EXISTS -- Get all org where there are no ships connected to it
+(
+	SELECT * 
+	FROM ship s
+	where s.organization_id = o.organization_id
+)
+AND
+o.organization_type_id = 2
