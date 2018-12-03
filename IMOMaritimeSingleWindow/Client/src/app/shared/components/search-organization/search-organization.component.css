@@ -10,3 +10,7 @@
  :-ms-input-placeholder {   
     font-style: italic;  
  }
+
+.btn-add-org {
+	margin-left: 1em;
+}

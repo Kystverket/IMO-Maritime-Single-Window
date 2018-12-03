@@ -9,6 +9,9 @@ import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { OrganizationModel } from '../../models/organization-model';
 import { SearchOrganizationService } from './search-organization.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterOrganizationComponent } from '../../../main-content/content-container/basis-data/organization/register-organization/register-organization.component';
+
 
 @Component({
   selector: 'app-search-organization',
@@ -37,7 +40,8 @@ export class SearchOrganizationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private searchOrganizationService: SearchOrganizationService) { }
+  constructor(private searchOrganizationService: SearchOrganizationService, 
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.organizationSelected = false;
@@ -94,5 +98,16 @@ export class SearchOrganizationComponent implements OnInit {
       const inputEvent: Event = new Event('input');
       e.target.dispatchEvent(inputEvent);
     }, 0);
+  }
+
+  addOrg():void {
+    const modalRef = this.modalService.open(RegisterOrganizationComponent, {size:'lg'});
+    modalRef.componentInstance.registered = (result) => {
+      console.log(result);
+      this.organizationSelected = true;
+      this.organizationModel = result;
+      this.organizationResult.emit(this.organizationModel);
+      modalRef.close();
+    }
   }
 }
