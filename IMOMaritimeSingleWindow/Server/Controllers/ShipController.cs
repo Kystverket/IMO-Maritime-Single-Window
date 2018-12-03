@@ -21,6 +21,12 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        public enum SHIP_STATUSES {
+            TO_BE_PROCESSED,
+            INACTIVE,
+            ACTIVE
+        }
+
         [HasClaim(Claims.Types.SHIP, Claims.Values.REGISTER)]
         [HttpPost()]
         public IActionResult RegisterShip([FromBody] Ship newShip)
@@ -93,12 +99,14 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Ok(isscId);
         }
 
-        public List<Ship> SearchShip(string searchTerm, int amount = 10)
+        public List<Ship> SearchShip(SHIP_STATUSES? EnumValue, string searchTerm, int amount = 10)
         {
+            var result = new List<Ship>();
+
             if (searchTerm.All(c => c >= '0' && c <= '9'))   // Checks if search only contains numbers
             {
                 searchTerm += '%';
-                return _context.Ship.Where(s =>
+                result = _context.Ship.Where(s =>
                             EF.Functions.ILike(s.Name, searchTerm)
                             || EF.Functions.ILike(s.Name, "% " + searchTerm + '%') //search for words in name
                             || EF.Functions.ILike(s.CallSign, searchTerm)
@@ -106,24 +114,41 @@ namespace IMOMaritimeSingleWindow.Controllers
                             || EF.Functions.ILike(s.MmsiNo.ToString(), searchTerm))
                             .Select(s => s)
                             .Include(s => s.ShipFlagCode.Country)
+                            .Include(s => s.ShipStatus)
                             .Take(amount)
                             .ToList();
             }
-            searchTerm += '%';
-            return _context.Ship.Where(s =>
-                        EF.Functions.ILike(s.Name, searchTerm)
-                        || EF.Functions.ILike(s.Name, "% " + searchTerm + '%') //search for words in name
-                        || EF.Functions.ILike(s.CallSign, searchTerm))
-                        .Select(s => s)
-                        .Include(s => s.ShipFlagCode.Country)
-                        .Take(amount)
-                        .ToList();
+            else
+            {
+                searchTerm += '%';
+                result = _context.Ship.Where(s =>
+                            EF.Functions.ILike(s.Name, searchTerm)
+                            || EF.Functions.ILike(s.Name, "% " + searchTerm + '%') //search for words in name
+                            || EF.Functions.ILike(s.CallSign, searchTerm))
+                            .Select(s => s)
+                            .Include(s => s.ShipFlagCode.Country)
+                            .Include(s => s.ShipStatus)
+                            .Take(amount)
+                            .ToList();
+            }
+
+            if(EnumValue != null)
+                result = result.Where(x => x.ShipStatus.EnumValue == EnumValue.ToString()).ToList();
+
+            return result;
         }
 
         [HttpGet("search/{searchTerm}/{amount}")]
         public JsonResult SearchShipJson(int amount, string searchTerm)
         {
-            List<Ship> results = SearchShip(searchTerm, amount);
+            List<Ship> results = SearchShip(null, searchTerm, amount);
+            return Json(results);
+        }
+
+        [HttpGet("search/{searchTerm}/{amount}/{EnumValue}")]
+        public IActionResult SearchShipByStatusJson(int amount, string searchTerm, SHIP_STATUSES? enumValue)
+        {
+            var results = SearchShip(enumValue, searchTerm, amount);
             return Json(results);
         }
 

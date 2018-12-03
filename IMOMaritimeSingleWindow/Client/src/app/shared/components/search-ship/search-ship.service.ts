@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
 import { SearchService } from 'app/shared/services/search.service';
 import 'rxjs/add/observable/of';
 import { Observable } from 'rxjs/Observable';
@@ -19,11 +20,16 @@ export class SearchShipService {
     this.placeholderShipDataUrl = '/api/ship/placeholder';
   }
 
-  search(term: string, amount = 10) {
+  search(type: SHIP_STATUSES = null, term: string, amount = 10) {
     if (term.length < 2) {
       return Observable.of([]);
     }
-    return this.searchService.search(this.searchUrl, term, amount);
+    if (type == null || type === undefined) {
+      return this.searchService.search(this.searchUrl, term, amount);
+    } else {
+      const uri = [this.searchUrl, term, amount, type].join('/');
+      return this.http.get(uri);
+    }
   }
 
   getShip(id: number) {

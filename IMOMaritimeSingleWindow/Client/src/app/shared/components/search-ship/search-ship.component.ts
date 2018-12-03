@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
@@ -14,6 +15,7 @@ import { SearchShipService } from './search-ship.service';
 export class SearchShipComponent implements OnInit {
 
   @Input() showDropdown = true;
+  @Input() filter: SHIP_STATUSES;
 
   @Output() shipResult = new EventEmitter<any>();
   @Output() shipSearchResult = new EventEmitter<any>();
@@ -48,7 +50,7 @@ export class SearchShipComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.searchShipService.search(term, this.resultsDropdown).pipe(
+        this.searchShipService.search(this.filter, term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -63,7 +65,7 @@ export class SearchShipComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.shipModel.length >= 2 && res.length === 0;
         } else {
-          this.searchShipService.search(this.shipModel, this.resultsWithoutDropdown).subscribe(
+          this.searchShipService.search(this.filter, this.shipModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.shipModel.length >= 2 && data.length === 0;
               this.shipSearchResult.emit(data);

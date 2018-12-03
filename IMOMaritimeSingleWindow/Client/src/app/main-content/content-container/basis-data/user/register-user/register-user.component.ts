@@ -92,6 +92,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.confirmButtonTitle = 'Apply Changes';
 
     // get and set the associated organization.
+    // tslint:disable-next-line:radix
     this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(data => {
       this.organizationService.setOrganizationData(data);
       this.setOrganization(data);
