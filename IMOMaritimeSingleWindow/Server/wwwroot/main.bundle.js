@@ -14242,7 +14242,6 @@ var SearchOrganizationComponent = /** @class */ (function () {
         var _this = this;
         var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_11__main_content_content_container_basis_data_organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */], { size: 'lg' });
         modalRef.componentInstance.registered = function (result) {
-            console.log(result);
             _this.organizationSelected = true;
             _this.organizationModel = result;
             _this.organizationResult.emit(_this.organizationModel);

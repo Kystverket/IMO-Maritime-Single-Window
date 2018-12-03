@@ -103,7 +103,6 @@ export class SearchOrganizationComponent implements OnInit {
   addOrg():void {
     const modalRef = this.modalService.open(RegisterOrganizationComponent, {size:'lg'});
     modalRef.componentInstance.registered = (result) => {
-      console.log(result);
       this.organizationSelected = true;
       this.organizationModel = result;
       this.organizationResult.emit(this.organizationModel);
