@@ -2142,7 +2142,7 @@ var RegisterUserComponent = /** @class */ (function () {
             organizationId: '',
             companyEmail: '',
             companyPhoneNumber: '',
-            id: ''
+            id: null
         };
         this.organizationProperties = new __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_organization_properties__["a" /* OrganizationProperties */]().getPropertyList();
     }
