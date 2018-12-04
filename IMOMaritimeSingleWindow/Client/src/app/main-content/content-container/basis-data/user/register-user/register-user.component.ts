@@ -171,7 +171,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   private goBack() {
-    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+    this.contentService.setContent(CONTENT_NAMES.VIEW_USERS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {
