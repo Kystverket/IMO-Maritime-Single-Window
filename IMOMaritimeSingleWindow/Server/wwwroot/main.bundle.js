@@ -15130,7 +15130,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Edit ship\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onEditClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Edit ship\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onEditClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Deactivate ship\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"openModal(deactivateModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #deactivateModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Deactivate Ship</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to deactivate this ship?</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"onDeactivateClick(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Deactivate Ship</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -15140,8 +15140,11 @@ module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n  
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipButtonRowComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15154,15 +15157,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+var RESULT_SUCCESS = 'Ship status was successfully updated.';
+var RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
 var ShipButtonRowComponent = /** @class */ (function () {
-    function ShipButtonRowComponent(shipService, contentService) {
+    function ShipButtonRowComponent(shipService, contentService, modalService) {
         this.shipService = shipService;
         this.contentService = contentService;
+        this.modalService = modalService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     ShipButtonRowComponent.prototype.ngOnInit = function () { };
     ShipButtonRowComponent.prototype.onEditClick = function () {
-        this.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
+        this.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_SHIP);
+    };
+    ShipButtonRowComponent.prototype.onDeactivateClick = function () {
+        var _this = this;
+        var shipModel = this.rowData.shipModel;
+        this.shipService.getShipStatusByEnum(__WEBPACK_IMPORTED_MODULE_4_app_shared_constants_enumValues__["c" /* SHIP_STATUSES */].INACTIVE)
+            .finally(function () {
+            _this.shipService.updateShip(shipModel).subscribe(function (res) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
+            }, function (error) {
+                _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
+            });
+        })
+            .subscribe(function (res) {
+            shipModel.shipStatusId = res.shipStatusId;
+        });
     };
     ShipButtonRowComponent.prototype.setContent = function (content) {
         this.setShip(content);
@@ -15174,6 +15198,27 @@ var ShipButtonRowComponent = /** @class */ (function () {
             if (data) {
                 _this.shipService.setShipData(data);
                 _this.contentService.setContent(content);
+            }
+        });
+    };
+    ShipButtonRowComponent.prototype.goBack = function () {
+        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_SHIPS);
+    };
+    ShipButtonRowComponent.prototype.openModal = function (content) {
+        this.modalService.open(content);
+    };
+    ShipButtonRowComponent.prototype.openConfirmationModal = function (modalType, bodyText) {
+        var _this = this;
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
+        modalRef.componentInstance.modalType = modalType;
+        modalRef.componentInstance.bodyText = bodyText;
+        modalRef.result.then(function (result) {
+            if (modalType !== __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
+                _this.goBack();
+            }
+        }, function (reason) {
+            if (modalType !== __WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE) {
+                _this.goBack();
             }
         });
     };
@@ -15195,8 +15240,9 @@ var ShipButtonRowComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["v" /* ShipService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_5_app_shared_services___["v" /* ShipService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], ShipButtonRowComponent);
     return ShipButtonRowComponent;
 }());
@@ -19731,6 +19777,10 @@ var ShipService = /** @class */ (function () {
     };
     ShipService.prototype.getContactList = function (shipId) {
         var uri = [this.contactListShipUrl, shipId].join('/');
+        return this.http.get(uri);
+    };
+    ShipService.prototype.getShipStatusByEnum = function (statusEnum) {
+        var uri = [this.shipStatusListUrl, 'enumValue', statusEnum].join('/');
         return this.http.get(uri);
     };
     ShipService = __decorate([
