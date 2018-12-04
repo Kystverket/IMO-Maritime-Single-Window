@@ -11647,7 +11647,7 @@ var CrewListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value) {
+                        if (!value[0]) {
                             return 'N/A';
                         }
                         return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
@@ -11927,7 +11927,7 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value) {
+                        if (!value[0]) {
                             return 'N/A';
                         }
                         return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';

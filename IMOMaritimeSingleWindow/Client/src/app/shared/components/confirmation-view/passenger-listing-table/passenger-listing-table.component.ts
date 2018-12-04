@@ -45,7 +45,7 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
       identityDocument: {
         title: 'ID Type and Number',
         valuePrepareFunction: (value) =>  {
-           if (!value) {
+           if (!value[0]) {
              return 'N/A';
            }
            return (value[0].identityDocumentType) ? value[0].identityDocumentType.description : '' + ' : ' + (value[0].identityDocumentId) ? value[0].identityDocumentId : '';
