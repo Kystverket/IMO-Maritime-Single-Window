@@ -2239,7 +2239,7 @@ var RegisterUserComponent = /** @class */ (function () {
         this.organizationSelected = false;
     };
     RegisterUserComponent.prototype.goBack = function () {
-        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_PORT_CALLS);
+        this.contentService.setContent(__WEBPACK_IMPORTED_MODULE_3_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].VIEW_USERS);
     };
     RegisterUserComponent.prototype.openConfirmationModal = function (modalType, bodyText) {
         var _this = this;
