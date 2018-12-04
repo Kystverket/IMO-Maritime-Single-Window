@@ -7,5 +7,35 @@
         </div>
       </button>
     </div>
+    <div class="d-table-cell pl-1" ngbTooltip="Deactivate ship">
+      <button class="btn btn-sm btn-ssn" (click)="openModal(deactivateModal)">
+        <div class="mx-auto">
+          <img src="assets/images/icons/128x128/white/cancel.png" height="20px" />
+        </div>
+      </button>
+    </div>
   </div>
 </div>
+
+<ng-template #deactivateModal let-close="close()">
+  <div class="modal-header">
+    <h4 class="modal-title">Deactivate Ship</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <span>Are you sure you wish to deactivate this ship?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" (click)="onDeactivateClick(); close">
+      <img src="assets/images/icons/128x128/white/cancel.png" height="20px">
+      <span>Deactivate Ship</span>
+    </button>
+    <button type="button" class="btn btn-ssn" (click)="close">
+      <span>Exit</span>
+    </button>
+  </div>
+</ng-template>
