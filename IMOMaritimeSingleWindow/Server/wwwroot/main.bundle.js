@@ -1251,7 +1251,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"{{ organizationHeader }}\" icon=\"pax.png\">\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"Organization Information\" icon=\"pax.png\">\n        <form>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_type_select\">Organization Type</label>\n                  <ng-select id=\"organization_type_select\" name=\"organization_type_select\" [items]=\"organizationTypeList\" [multiple]=\"false\"\n                  [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select Organization Type\" [(ngModel)]=\"selectedOrganizationType\"\n                  (change)=\"selectOrganizationType($event)\">\n                  </ng-select>\n                  \n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_name\">Organization Name</label>\n                  <input [(ngModel)]=\"organizationModel.name\" name=\"organizationName\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"organization_name\" placeholder=\"Enter organization name\" />\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_no\">Organization Number</label>\n                  <input [(ngModel)]=\"organizationModel.organizationNo\" name=\"organizationNo\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"organization_no\" placeholder=\"Enter organization number\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"description\">Description</label>\n                  <input [(ngModel)]=\"organizationModel.description\" name=\"description\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"description\" placeholder=\"Enter description\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </form>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header='{{ confirmHeader }}' icon=\"checkmark.png\">\n        <div *ngIf=\"!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo\" class=\"text-center\">\n          <div class=\"mb-3\">\n            <p *ngIf=\"!organizationTypeSelected\" class=\"no-wrap mb-0\">No organization type selected.</p>\n            <p *ngIf=\"!organizationModel.name\" class=\"no-wrap mb-0\">Organization name not set.</p>\n            <p *ngIf=\"!organizationModel.organizationNo\" class=\"no-wrap mb-0\">Organization number not set.</p>\n          </div>\n          <button class=\"btn btn-ssn\" disabled>\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\n        </div>\n\n        <div *ngIf=\"organizationTypeSelected && organizationModel.name && organizationModel.organizationNo\" class=\"text-center\">\n          <button class=\"btn btn-ssn\" (click)=\"registerOrganization()\">\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n</app-ssn-bg>"
+module.exports = "<app-ssn-bg header=\"{{ organizationHeader }}\" icon=\"pax.png\" shownAs=\"as-dialog\"  (closed)=\"close($event);\">\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header=\"Organization Information\" icon=\"pax.png\">\n        <form>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_type_select\">Organization Type</label>\n                  <ng-select id=\"organization_type_select\" name=\"organization_type_select\" [items]=\"organizationTypeList\" [multiple]=\"false\"\n                  [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select Organization Type\" [(ngModel)]=\"selectedOrganizationType\"\n                  (change)=\"selectOrganizationType($event)\">\n                  </ng-select>\n                  \n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_name\">Organization Name</label>\n                  <input [(ngModel)]=\"organizationModel.name\" name=\"organizationName\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"organization_name\" placeholder=\"Enter organization name\" />\n                </div>\n              </div>\n            </div>\n          </div>\n\n          <div class=\"row\">\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"organization_no\">Organization Number</label>\n                  <input [(ngModel)]=\"organizationModel.organizationNo\" name=\"organizationNo\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"organization_no\" placeholder=\"Enter organization number\">\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-6 col-lg-6\">\n              <div class=\"form-group row\">\n                <div class=\"col\">\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"description\">Description</label>\n                  <input [(ngModel)]=\"organizationModel.description\" name=\"description\" type=\"text\" class=\"form-control form-control-sm\"\n                    id=\"description\" placeholder=\"Enter description\">\n                </div>\n              </div>\n            </div>\n          </div>\n\n        </form>\n      </app-ssn-card>\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col\">\n      <app-ssn-card header='{{ confirmHeader }}' icon=\"checkmark.png\">\n        <div *ngIf=\"!organizationTypeSelected || !organizationModel.name || !organizationModel.organizationNo\" class=\"text-center\">\n          <div class=\"mb-3\">\n            <p *ngIf=\"!organizationTypeSelected\" class=\"no-wrap mb-0\">No organization type selected.</p>\n            <p *ngIf=\"!organizationModel.name\" class=\"no-wrap mb-0\">Organization name not set.</p>\n            <p *ngIf=\"!organizationModel.organizationNo\" class=\"no-wrap mb-0\">Organization number not set.</p>\n          </div>\n          <button class=\"btn btn-ssn\" disabled>\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\n        </div>\n\n        <div *ngIf=\"organizationTypeSelected && organizationModel.name && organizationModel.organizationNo\" class=\"text-center\">\n          <button class=\"btn btn-ssn\" (click)=\"registerOrganization()\">\n            <img src=\"assets/images/icons/128x128/white/checkmark.png\" height=\"24px\" /> {{ confirmButtonTitle }}</button>\n        </div>\n      </app-ssn-card>\n    </div>\n  </div>\n</app-ssn-bg>"
 
 /***/ }),
 
@@ -1330,8 +1330,9 @@ var RegisterOrganizationComponent = /** @class */ (function () {
                 .subscribe(function (result) {
                 _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_SUCCESS, RESULT_SUCCESS);
                 // if a call back is set call it.
-                if (_this.registered)
+                if (_this.registered) {
                     _this.registered(result);
+                }
             }, function (error) {
                 console.log(error);
                 _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_2_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, RESULT_FAILURE);
@@ -1378,10 +1379,19 @@ var RegisterOrganizationComponent = /** @class */ (function () {
             }
         });
     };
+    RegisterOrganizationComponent.prototype.close = function () {
+        if (this.closed) {
+            this.closed();
+        }
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Function)
     ], RegisterOrganizationComponent.prototype, "registered", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Function)
+    ], RegisterOrganizationComponent.prototype, "closed", void 0);
     RegisterOrganizationComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-register-organization',
@@ -12042,8 +12052,9 @@ var PortCallDetailsComponent = /** @class */ (function () {
         });
         // get reporting data to gather portCallId of selected port call.
         this.portCallDetailsService.reportingForThisPortCallData$.subscribe(function (reportingData) {
-            if (reportingData != null)
+            if (reportingData != null) {
                 _this.portCallId = reportingData.portCallId;
+            }
         });
     };
     PortCallDetailsComponent.prototype.ngOnDestroy = function () {
@@ -14128,7 +14139,7 @@ var SearchLocationService = /** @class */ (function () {
 /***/ "./src/app/shared/components/search-organization/search-organization.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "::-webkit-input-placeholder { \n    font-style: italic; \n } \n :-moz-placeholder { \n    font-style: italic;   \n } \n ::-moz-placeholder { \n    font-style: italic;   \n } \n :-ms-input-placeholder {   \n    font-style: italic;  \n } \n .btn-add-org {\n\tmargin-left: 1em;\n}"
+module.exports = "::-webkit-input-placeholder { \n    font-style: italic; \n } \n :-moz-placeholder { \n    font-style: italic;   \n } \n ::-moz-placeholder { \n    font-style: italic;   \n } \n :-ms-input-placeholder {   \n    font-style: italic;  \n } \n .btn-add-org {\n\tmargin-left: 1em;\n} \n @media only screen and (max-width : 425px) {\n\n\t.btn-add-org {\n\t\tmargin-top: 1em !important;\n\t}\n}"
 
 /***/ }),
 
@@ -14145,17 +14156,17 @@ module.exports = "<div class=\"card-body\">\n  <ng-template #rt let-r=\"result\"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchOrganizationComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_debounceTime__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/debounceTime.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/distinctUntilChanged.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__search_organization_service__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_content_content_container_basis_data_organization_register_organization_register_organization_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_search_amounts__ = __webpack_require__("./src/app/shared/constants/search-amounts.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_debounceTime__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/debounceTime.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_map__ = __webpack_require__("./node_modules/rxjs/_esm5/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__ = __webpack_require__("./node_modules/rxjs/_esm5/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_observable_of__ = __webpack_require__("./node_modules/rxjs/_esm5/observable/of.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_operators__ = __webpack_require__("./node_modules/rxjs/_esm5/operators.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__main_content_content_container_basis_data_organization_register_organization_register_organization_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/organization/register-organization/register-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__search_organization_service__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14186,24 +14197,24 @@ var SearchOrganizationComponent = /** @class */ (function () {
         this.header = 'Search using organization name or organization number';
         this.organizationResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.organizationSearchResult = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
-        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
-        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
+        this.resultsDropdown = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].DROPDOWN;
+        this.resultsWithoutDropdown = __WEBPACK_IMPORTED_MODULE_3_app_shared_constants_search_amounts__["a" /* SEARCH_AMOUNTS */].WITHOUT_DROPDOWN;
         this.searching = false;
         this.searchFailed = false;
-        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_6_rxjs_Observable__["a" /* Observable */](function () { return function () {
+        this.hideSearchingWhenUnsubscribed = new __WEBPACK_IMPORTED_MODULE_7_rxjs_Observable__["a" /* Observable */](function () { return function () {
             return (_this.searching = false);
         }; });
         this.search = function (text$) {
-            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function (term) {
+            return text$.pipe(Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["debounceTime"])(150), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["distinctUntilChanged"])(), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["tap"])(function (term) {
                 _this.searchFailed = false;
                 _this.searching = (term.length >= 2);
-            }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
-                _this.searchOrganizationService.search(_this.filter, term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function () {
+            }), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["switchMap"])(function (term) { return (_this.showDropdown) ?
+                _this.searchOrganizationService.search(_this.filter, term, _this.resultsDropdown).pipe(Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["tap"])(function () {
                     _this.searchFailed = false;
-                }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["catchError"])(function () {
+                }), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["catchError"])(function () {
                     _this.searchFailed = true;
-                    return Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__["a" /* of */])([]);
-                })) : Object(__WEBPACK_IMPORTED_MODULE_7_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["tap"])(function (res) {
+                    return Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_observable_of__["a" /* of */])([]);
+                })) : Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_observable_of__["a" /* of */])([]); }), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["tap"])(function (res) {
                 if (_this.showDropdown) {
                     _this.searching = false;
                     _this.searchFailed = _this.organizationModel.length >= 2 && res.length === 0;
@@ -14215,7 +14226,7 @@ var SearchOrganizationComponent = /** @class */ (function () {
                         _this.searching = false;
                     });
                 }
-            }), Object(__WEBPACK_IMPORTED_MODULE_8_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
+            }), Object(__WEBPACK_IMPORTED_MODULE_9_rxjs_operators__["merge"])(_this.hideSearchingWhenUnsubscribed));
         };
         this.formatter = function (x) { return x.organizationId; };
     }
@@ -14240,11 +14251,14 @@ var SearchOrganizationComponent = /** @class */ (function () {
     };
     SearchOrganizationComponent.prototype.addOrg = function () {
         var _this = this;
-        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_11__main_content_content_container_basis_data_organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */], { size: 'lg' });
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_10__main_content_content_container_basis_data_organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */], { size: 'lg', windowClass: 'app-org-dialog' });
         modalRef.componentInstance.registered = function (result) {
             _this.organizationSelected = true;
             _this.organizationModel = result;
             _this.organizationResult.emit(_this.organizationModel);
+            modalRef.close();
+        };
+        modalRef.componentInstance.closed = function () {
             modalRef.close();
         };
     };
@@ -14273,10 +14287,10 @@ var SearchOrganizationComponent = /** @class */ (function () {
             selector: 'app-search-organization',
             template: __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/search-organization/search-organization.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_9__search_organization_service__["a" /* SearchOrganizationService */]]
+            providers: [__WEBPACK_IMPORTED_MODULE_11__search_organization_service__["a" /* SearchOrganizationService */]]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_9__search_organization_service__["a" /* SearchOrganizationService */],
-            __WEBPACK_IMPORTED_MODULE_10__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_11__search_organization_service__["a" /* SearchOrganizationService */],
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], SearchOrganizationComponent);
     return SearchOrganizationComponent;
 }());
@@ -15353,14 +15367,14 @@ var ShipSmartTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/components/ssn-bg/ssn-bg.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".as-dialog {\n\tmargin-bottom:0 !important;\n}\n.close {\n\tcolor: #fff;\n\tright: 0;\n\tposition: fixed;\n\tpadding: .3em 1em;\n}"
 
 /***/ }),
 
 /***/ "./src/app/shared/components/ssn-bg/ssn-bg.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"jumbotron bg-ssn-light p-3\">\n\n  <div class=\"d-table-row\">\n    <div class=\"d-table-cell\" *ngIf=\"icon\">\n      <img src=\"{{iconPath}}{{icon}}\" class=\"mb-2\" height=\"32px\">\n    </div>\n    <div class=\"d-table-cell pl-2\">\n      <h3 class=\"text-ssn mb-0\">{{ header }}</h3>\n    </div>\n  </div>\n\n  <ng-content></ng-content>\n</div>"
+module.exports = "<div class=\"jumbotron bg-ssn-light p-3 {{shownAs}}\">\n\n  <div class=\"d-table-row\">\n    <div class=\"d-table-cell\" *ngIf=\"icon\">\n      <img src=\"{{iconPath}}{{icon}}\" class=\"mb-2\" height=\"32px\">\n    </div>\n    <div class=\"d-table-cell pl-2\">\n      <h3 class=\"text-ssn mb-0\">{{ header }}</h3>\n    </div>\n    <button *ngIf=\"shownAs === 'as-dialog'\" type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close()\">\n      <span aria-hidden=\"true\">&times;</span>\n    </button>\n  </div>\n\n  <ng-content></ng-content>\n</div>"
 
 /***/ }),
 
@@ -15383,8 +15397,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var SsnBgComponent = /** @class */ (function () {
     function SsnBgComponent() {
         this.iconPath = 'assets/images/icons/128x128/white/';
+        this.closed = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     SsnBgComponent.prototype.ngOnInit = function () {
+    };
+    SsnBgComponent.prototype.close = function () {
+        this.closed.emit(true);
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -15394,6 +15412,14 @@ var SsnBgComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", String)
     ], SsnBgComponent.prototype, "header", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], SsnBgComponent.prototype, "shownAs", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], SsnBgComponent.prototype, "closed", void 0);
     SsnBgComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-ssn-bg',

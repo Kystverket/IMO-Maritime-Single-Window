@@ -14,3 +14,10 @@
 .btn-add-org {
 	margin-left: 1em;
 }
+
+@media only screen and (max-width : 425px) {
+
+	.btn-add-org {
+		margin-top: 1em !important;
+	}
+}

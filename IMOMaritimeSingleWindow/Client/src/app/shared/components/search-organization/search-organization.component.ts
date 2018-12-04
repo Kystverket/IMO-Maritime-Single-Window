@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import 'rxjs/add/operator/debounceTime';
@@ -7,10 +8,9 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { RegisterOrganizationComponent } from '../../../main-content/content-container/basis-data/organization/register-organization/register-organization.component';
 import { OrganizationModel } from '../../models/organization-model';
 import { SearchOrganizationService } from './search-organization.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RegisterOrganizationComponent } from '../../../main-content/content-container/basis-data/organization/register-organization/register-organization.component';
 
 
 @Component({
@@ -40,7 +40,7 @@ export class SearchOrganizationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private searchOrganizationService: SearchOrganizationService, 
+  constructor(private searchOrganizationService: SearchOrganizationService,
               private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -100,13 +100,18 @@ export class SearchOrganizationComponent implements OnInit {
     }, 0);
   }
 
-  addOrg():void {
-    const modalRef = this.modalService.open(RegisterOrganizationComponent, {size:'lg'});
+  addOrg(): void {
+    const modalRef = this.modalService.open(RegisterOrganizationComponent, {size: 'lg', windowClass: 'app-org-dialog'});
+
     modalRef.componentInstance.registered = (result) => {
       this.organizationSelected = true;
       this.organizationModel = result;
       this.organizationResult.emit(this.organizationModel);
       modalRef.close();
-    }
+    };
+
+    modalRef.componentInstance.closed = () => {
+      modalRef.close();
+    };
   }
 }

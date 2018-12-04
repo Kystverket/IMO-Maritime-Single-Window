@@ -225,7 +225,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   loadOverview() {
-    
+
     this.overviewService.showCancelledPortCalls$.subscribe(showCancelledPortCalls => {
       this.showCancelledPortCalls = showCancelledPortCalls;
       this.rerenderList();
@@ -252,7 +252,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
         }
       });
     }
-    
+
     this.overviewService.getOverviewsByUser()
       .finally(() => {
         this.sortOverView();

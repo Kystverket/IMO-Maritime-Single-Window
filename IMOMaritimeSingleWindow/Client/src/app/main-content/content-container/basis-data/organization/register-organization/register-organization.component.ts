@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -28,7 +28,8 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
   organizationDataSubscription: Subscription;
   organizationTypesSubscription: Subscription;
 
-  @Input() registered:Function;
+  @Input() registered: Function;
+  @Input() closed: Function;
 
   constructor(
     public organizationModel: OrganizationModel,
@@ -86,8 +87,9 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
             );
 
             // if a call back is set call it.
-            if(this.registered)
+            if (this.registered) {
               this.registered(result);
+            }
           },
           error => {
             console.log(error);
@@ -151,5 +153,11 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
         }
       }
     );
+  }
+
+  close(): void {
+    if (this.closed) {
+      this.closed();
+    }
   }
 }

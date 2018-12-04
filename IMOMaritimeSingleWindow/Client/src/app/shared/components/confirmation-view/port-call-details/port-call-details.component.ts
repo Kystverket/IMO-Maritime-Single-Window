@@ -47,8 +47,9 @@ export class PortCallDetailsComponent implements OnInit, OnDestroy {
     // get reporting data to gather portCallId of selected port call.
     this.portCallDetailsService.reportingForThisPortCallData$.subscribe(reportingData => {
 
-      if (reportingData != null)
+      if (reportingData != null) {
         this.portCallId = reportingData.portCallId;
+      }
     });
   }
 
