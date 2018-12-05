@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -27,6 +27,9 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
 
   organizationDataSubscription: Subscription;
   organizationTypesSubscription: Subscription;
+
+  @Input() registered: Function;
+  @Input() closed: Function;
 
   constructor(
     public organizationModel: OrganizationModel,
@@ -82,6 +85,11 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
               ConfirmationModalComponent.TYPE_SUCCESS,
               RESULT_SUCCESS
             );
+
+            // if a call back is set call it.
+            if (this.registered) {
+              this.registered(result);
+            }
           },
           error => {
             console.log(error);
@@ -135,15 +143,21 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE && (!this.registered)) {
           this.goBack();
         }
       },
       reason => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE && (!this.registered)) {
           this.goBack();
         }
       }
     );
+  }
+
+  close(): void {
+    if (this.closed) {
+      this.closed();
+    }
   }
 }

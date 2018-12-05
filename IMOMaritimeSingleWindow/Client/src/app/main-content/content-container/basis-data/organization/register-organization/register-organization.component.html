@@ -1,4 +1,4 @@
-<app-ssn-bg header="{{ organizationHeader }}" icon="pax.png">
+<app-ssn-bg header="{{ organizationHeader }}" icon="pax.png" shownAs="as-dialog"  (closed)="close($event);">
   <div class="row">
     <div class="col">
       <app-ssn-card header="Organization Information" icon="pax.png">

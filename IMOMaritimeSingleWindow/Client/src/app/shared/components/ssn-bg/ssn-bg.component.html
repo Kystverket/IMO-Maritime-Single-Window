@@ -1,4 +1,4 @@
-<div class="jumbotron bg-ssn-light p-3">
+<div class="jumbotron bg-ssn-light p-3 {{shownAs}}">
 
   <div class="d-table-row">
     <div class="d-table-cell" *ngIf="icon">
@@ -7,6 +7,9 @@
     <div class="d-table-cell pl-2">
       <h3 class="text-ssn mb-0">{{ header }}</h3>
     </div>
+    <button *ngIf="shownAs === 'as-dialog'" type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 
   <ng-content></ng-content>
