@@ -27,7 +27,6 @@ import { SEARCH_AMOUNTS } from '../../../../../../shared/constants/search-amount
   selector: 'app-dpg',
   templateUrl: './dpg.component.html',
   styleUrls: ['./dpg.component.css'],
-  providers: [DpgService]
 })
 export class DpgComponent implements OnInit {
   @Input()
@@ -411,7 +410,7 @@ export class DpgComponent implements OnInit {
         res => {
           this.saved = true;
           this.listIsPristine = true;
-          this.dpgService.setDataIsPristine(this.listIsPristine);
+          this.dpgService.setDataIsPristineTrue();
         }, err => {
           this.saveError = true;
           this.openConfirmationModal(ConfirmationModalComponent.TYPE_FAILURE, 'An error occured while saving. Please try again later.');
@@ -425,7 +424,6 @@ export class DpgComponent implements OnInit {
       .subscribe(dpgOnBoardList => {
         this.dpgOnBoardList = dpgOnBoardList;
         this.dpgService.setDpgOnBoardList(dpgOnBoardList);
-        this.dpgService.setDataIsPristine(true);
       });
   }
 
@@ -549,16 +547,17 @@ export class DpgComponent implements OnInit {
     this.resetData();
   }
 
+  touchData() {
+    this.listIsPristine = false;
+    this.dpgService.setDataIsPristineFalse();
+  }
+
   setSequenceNo() {
     let sequenceNo = 0;
     this.dpgOnBoardList.forEach(dpgOnBoard => {
       dpgOnBoard.sequenceNo = sequenceNo;
       sequenceNo++;
     });
-  }
-
-  touchData() {
-    this.dpgService.setDataIsPristine(this.listIsPristine);
   }
 
   removeDpg() {

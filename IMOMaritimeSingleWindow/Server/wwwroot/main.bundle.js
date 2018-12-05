@@ -2788,6 +2788,7 @@ var ActivatePortCallComponent = /** @class */ (function () {
         // Dpg on Board
         //
         this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(function (dpgData) {
+            console.log(dpgData);
             _this.dpgOnBoardList = dpgData;
         });
         this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (pristineData) {
@@ -2906,7 +2907,7 @@ var ActivatePortCallComponent = /** @class */ (function () {
     ActivatePortCallComponent.prototype.saveDpgOnBoardList = function () {
         var _this = this;
         this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(function (res) {
-            _this.dpgService.setDataIsPristine(true);
+            _this.dpgService.setDataIsPristineTrue();
         }, function (error) {
             console.log(error);
         });
@@ -3067,7 +3068,7 @@ var LoadPortCallService = /** @class */ (function () {
                 _this.cargoService.setDataIsPristine(true);
                 _this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
                 _this.shipStoresService.setDataIsPristine(true);
-                _this.dpgService.setDataIsPristine(true);
+                _this.dpgService.setDataIsPristineTrue();
                 _this.setPurpose();
             }
         });
@@ -5988,7 +5989,7 @@ var DpgComponent = /** @class */ (function () {
             .subscribe(function (res) {
             _this.saved = true;
             _this.listIsPristine = true;
-            _this.dpgService.setDataIsPristine(_this.listIsPristine);
+            _this.dpgService.setDataIsPristineTrue();
         }, function (err) {
             _this.saveError = true;
             _this.openConfirmationModal(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].TYPE_FAILURE, 'An error occured while saving. Please try again later.');
@@ -6001,7 +6002,6 @@ var DpgComponent = /** @class */ (function () {
             .subscribe(function (dpgOnBoardList) {
             _this.dpgOnBoardList = dpgOnBoardList;
             _this.dpgService.setDpgOnBoardList(dpgOnBoardList);
-            _this.dpgService.setDataIsPristine(true);
         });
     };
     DpgComponent.prototype.saveDpgOnBoard = function (isUpdate) {
@@ -6105,15 +6105,16 @@ var DpgComponent = /** @class */ (function () {
         this.reloadTable();
         this.resetData();
     };
+    DpgComponent.prototype.touchData = function () {
+        this.listIsPristine = false;
+        this.dpgService.setDataIsPristineFalse();
+    };
     DpgComponent.prototype.setSequenceNo = function () {
         var sequenceNo = 0;
         this.dpgOnBoardList.forEach(function (dpgOnBoard) {
             dpgOnBoard.sequenceNo = sequenceNo;
             sequenceNo++;
         });
-    };
-    DpgComponent.prototype.touchData = function () {
-        this.dpgService.setDataIsPristine(this.listIsPristine);
     };
     DpgComponent.prototype.removeDpg = function () {
         this.dpgSelected = false;
@@ -6142,7 +6143,6 @@ var DpgComponent = /** @class */ (function () {
             selector: 'app-dpg',
             template: __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.html"),
             styles: [__webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.css")],
-            providers: [__WEBPACK_IMPORTED_MODULE_6_app_shared_services__["h" /* DpgService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6_app_shared_services__["h" /* DpgService */],
             __WEBPACK_IMPORTED_MODULE_6_app_shared_services__["l" /* FalShipStoresService */],
@@ -6282,7 +6282,7 @@ var FormsComponent = /** @class */ (function () {
                 _this.dpgService.getDpgOnBoardListByPortCallId(_this.portCallId).subscribe(function (dpgOnBoardList) {
                     _this.dpgData = dpgOnBoardList;
                     _this.dpgService.setDpgOnBoardList(dpgOnBoardList);
-                    _this.dpgService.setDataIsPristine(true);
+                    _this.dpgService.setDataIsPristineTrue();
                 });
             }
             _this.shipStoresService.shipStoresList$.subscribe(function (data) {
@@ -10322,6 +10322,13 @@ var ProgressBarComponent = /** @class */ (function () {
                 shipStores.hasUnsavedData = !shipStoresDataIsPristine;
             }
         });
+        this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (dpgDataIsPristine) {
+            _this.dpgListIsPristine = dpgDataIsPristine;
+            var dpg = _this.menuEntries.find(function (p) { return p.name === __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].DPG; });
+            if (dpg) {
+                dpg.hasUnsavedData = !dpgDataIsPristine;
+            }
+        });
         this.cargoDataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(function (cargoDataIsPristine) {
             _this.cargoIsPrisitne = cargoDataIsPristine;
             var cargo = _this.menuEntries.find(function (p) { return p.name === __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].CARGO; });
@@ -10336,18 +10343,12 @@ var ProgressBarComponent = /** @class */ (function () {
                 pax.hasUnsavedData = !passengerDataIsPristine;
             }
         });
-        this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(function (crewDataIsPristine) {
+        this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$
+            .subscribe(function (crewDataIsPristine) {
             _this.crewListIsPristine = crewDataIsPristine;
             var crew = _this.menuEntries.find(function (p) { return p.name === __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].CREW; });
             if (crew) {
                 crew.hasUnsavedData = !crewDataIsPristine;
-            }
-        });
-        this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (dpgDataIsPristine) {
-            _this.dpgListIsPristine = dpgDataIsPristine;
-            var dpg = _this.menuEntries.find(function (p) { return p.name === __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_form_names__["a" /* FORM_NAMES */].DPG; });
-            if (dpg) {
-                dpg.hasUnsavedData = !dpgDataIsPristine;
             }
         });
     };
@@ -17917,12 +17918,6 @@ var DpgService = /** @class */ (function () {
     function DpgService(http, httpClient) {
         this.http = http;
         this.httpClient = httpClient;
-        this.dpgTypeUrl = 'api/dpgType';
-        this.dpgUrl = 'api/dpg';
-        this.searchUrl = 'api/dpg/search';
-        this.dpgOnBoardUrl = 'api/dpgOnBoard';
-        this.dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
-        this.measurementTypeFilterUrl = 'api/measurementType/filter';
         this.dpgOnBoardSource = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.dpgOnBoardList$ = this.dpgOnBoardSource.asObservable();
         this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
@@ -17930,12 +17925,21 @@ var DpgService = /** @class */ (function () {
         this.dpgIsChecked = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.dpgIsChecked$ = this.dpgIsChecked.asObservable();
         this.searchService = new __WEBPACK_IMPORTED_MODULE_3_app_shared_services_search_service__["a" /* SearchService */](this.httpClient);
+        this.dpgTypeUrl = 'api/dpgType';
+        this.dpgUrl = 'api/dpg';
+        this.searchUrl = 'api/dpg/search';
+        this.dpgOnBoardUrl = 'api/dpgOnBoard';
+        this.dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
+        this.measurementTypeFilterUrl = 'api/measurementType/filter';
     }
     DpgService.prototype.setDpgOnBoardList = function (data) {
         this.dpgOnBoardSource.next(data);
     };
-    DpgService.prototype.setDataIsPristine = function (isPristine) {
-        this.dataIsPristine.next(isPristine);
+    DpgService.prototype.setDataIsPristineTrue = function () {
+        this.dataIsPristine.next(true);
+    };
+    DpgService.prototype.setDataIsPristineFalse = function () {
+        this.dataIsPristine.next(false);
     };
     DpgService.prototype.setDpgCheckedInProgressBar = function (checked) {
         this.dpgIsChecked.next(checked);
@@ -17965,7 +17969,7 @@ var DpgService = /** @class */ (function () {
         return this.searchService.search(this.searchUrl, term, amount, dpgType);
     };
     DpgService.prototype.saveDpgOnBoard = function (dpgOnBoardList, portCallId) {
-        var uri = [this.dpgOnBoardUrl, portCallId, '/list'].join('/');
+        var uri = [this.dpgOnBoardUrl, portCallId, 'list'].join('/');
         return this.http.put(uri, dpgOnBoardList);
     };
     DpgService.prototype.formatDpgOnBoard = function (dpgOnBoardList, portCallId) {

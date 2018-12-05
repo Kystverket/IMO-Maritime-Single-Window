@@ -23,8 +23,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
-  passengerDataIsPristine: Boolean = true;
-  crewDataIsPristine: Boolean = true;
+  passengerDataIsPristine = true;
+  crewDataIsPristine = true;
   securityIsPristine = true;
   dpgDataIsPristine = true;
 
@@ -247,14 +247,17 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     //
     this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(
       dpgData => {
+        console.log(dpgData);
         this.dpgOnBoardList = dpgData;
       }
     );
+
     this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
       pristineData => {
         this.dpgDataIsPristine = pristineData;
       }
     );
+
     this.dpgIsCheckedSubscription = this.dpgService.dpgIsChecked$.subscribe(
       isChecked => {
         this.dpgIsChecked = isChecked;
@@ -394,7 +397,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   saveDpgOnBoardList() {
     this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(
       res => {
-        this.dpgService.setDataIsPristine(true);
+        this.dpgService.setDataIsPristineTrue();
       }, error => {
         console.log(error);
       }
