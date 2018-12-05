@@ -4,6 +4,7 @@ import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { SHIP_STATUSES } from '../constants/enumValues';
 import { InternationalShipSecurityCertificateModel, ShipContactModel } from '../models/';
 import { AuthRequest } from './auth.request.service';
 
@@ -111,6 +112,11 @@ export class ShipService {
 
   getContactList(shipId: number): Observable<any> {
     const uri: string = [this.contactListShipUrl, shipId].join('/');
+    return this.http.get(uri);
+  }
+
+  getShipStatusByEnum(statusEnum: SHIP_STATUSES): Observable<any> {
+    const uri = [this.shipStatusListUrl, 'enumValue', statusEnum].join('/');
     return this.http.get(uri);
   }
 }
