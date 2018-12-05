@@ -9,16 +9,24 @@ import { DpgOnBoardModel } from '../models';
 
 @Injectable()
 export class DpgService {
-    private dpgTypeUrl = 'api/dpgType';
-    private dpgUrl = 'api/dpg';
-    private searchUrl = 'api/dpg/search';
-    private dpgOnBoardUrl = 'api/dpgOnBoard';
-    private dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
-    private measurementTypeFilterUrl = 'api/measurementType/filter';
+    private dpgTypeUrl: string;
+    private dpgUrl: string;
+    private searchUrl: string;
+    private dpgOnBoardUrl: string;
+    private dpgOnBoardByPortCallUrl: string;
+    private measurementTypeFilterUrl: string;
     private searchService: SearchService;
 
-    constructor(private http: Http, private httpClient: HttpClient) {
+    constructor(
+        private http: Http, private httpClient: HttpClient
+    ) {
         this.searchService = new SearchService(this.httpClient);
+        this.dpgTypeUrl = 'api/dpgType';
+        this.dpgUrl = 'api/dpg';
+        this.searchUrl = 'api/dpg/search';
+        this.dpgOnBoardUrl = 'api/dpgOnBoard';
+        this.dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
+        this.measurementTypeFilterUrl = 'api/measurementType/filter';
     }
 
     private dpgOnBoardSource = new BehaviorSubject<DpgOnBoardModel[]>(null);
@@ -33,8 +41,13 @@ export class DpgService {
     setDpgOnBoardList(data) {
         this.dpgOnBoardSource.next(data);
     }
-    setDataIsPristine(isPristine: boolean) {
-        this.dataIsPristine.next(isPristine);
+
+    setDataIsPristineTrue() {
+        this.dataIsPristine.next(true);
+    }
+
+    setDataIsPristineFalse() {
+        this.dataIsPristine.next(false);
     }
 
     setDpgCheckedInProgressBar(checked: boolean) {
@@ -59,7 +72,7 @@ export class DpgService {
     getMeasurementTypeList(filter: string) {
         const uri = this.measurementTypeFilterUrl;
         return this.http.get(uri).map(res => res.json());
-      }
+    }
 
     search(dpgType: number, term: string, amount = 10) {
         if (term.length < 2) {
@@ -69,7 +82,7 @@ export class DpgService {
     }
 
     saveDpgOnBoard(dpgOnBoardList: any[], portCallId: number) {
-        const uri = [this.dpgOnBoardUrl, portCallId, '/list'].join('/');
+        const uri = [this.dpgOnBoardUrl, portCallId, 'list'].join('/');
         return this.http.put(uri, dpgOnBoardList);
     }
 

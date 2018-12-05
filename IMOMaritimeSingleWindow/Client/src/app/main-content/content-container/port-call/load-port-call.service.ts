@@ -42,7 +42,7 @@ export class LoadPortCallService {
           this.cargoService.setDataIsPristine(true);
           this.shipStoresService.setShipStoresList(data.portCall.falShipStores);
           this.shipStoresService.setDataIsPristine(true);
-          this.dpgService.setDataIsPristine(true);
+          this.dpgService.setDataIsPristineTrue();
           this.setPurpose();
         }
       }
