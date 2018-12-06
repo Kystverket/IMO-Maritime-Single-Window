@@ -380,14 +380,22 @@ namespace IMOMaritimeSingleWindow.Controllers
             // and try to match the given and sir name combination
             else {
 
-                // seperate the first and last name
                 var parts = searchTerm.ToLower().Split(" ");
 
-                // if the length is 1 we probably only got the first name
-                if(parts.Length == 1)
-                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]));
-                else if(parts.Length == 2)
-                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) && usr.Person.Surname.ToLower().Contains(parts[1]));
+                if (parts.Length == 0)
+                {
+                    return BadRequest("No search parameters were supplied");
+                }
+
+                queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) || usr.Person.Surname.ToLower().Contains(parts[0]));
+
+                if(parts.Length > 1)
+                {
+                    for(var i = 1; i <= parts.Length; i++)
+                        queryableUser.Concat(_context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[i]) || usr.Person.Surname.ToLower().Contains(parts[i])));
+                }
+
+                queryableUser = queryableUser.Distinct();
             }
 
             // include fields
