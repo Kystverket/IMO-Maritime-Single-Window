@@ -327,7 +327,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.PortCallDetails)
             .Include(pc => pc.FalShipStores).ThenInclude(fss => fss.MeasurementType)
-            .Include(pc => pc.PersonOnBoard)
+            // .Include(pc => pc.PersonOnBoard)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.PreviousLocation.Country)
@@ -338,9 +338,12 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.User).ThenInclude(u => u.Organization)
             .FirstOrDefault();
 
+            // remove recursive list of ships store items inflating the resultset.
+            foreach (var mt in portCall.FalShipStores) {mt.MeasurementType.FalShipStores = null;}
+
             PortCallOverview overview = new PortCallOverview();
             overview.PortCall = portCall;
-
+            
             overview.Ship = portCall.Ship;
             overview.Location = portCall.Location;
             overview.Status = portCall.PortCallStatus.Name;
