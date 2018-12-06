@@ -470,12 +470,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dpg_on_board_port_call_id_fkey");
 
-                entity.HasOne(d => d.MeasurementType)
-                    .WithMany(p => p.DpgOnBoard)
-                    .HasForeignKey(d => d.MeasurementTypeId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("dpg_on_board_measurement_type_id_fkey");
-
                 entity.Property(e => e.MeasurementTypeId).HasColumnName("MeasurementTypeId");
 
                 entity.HasIndex(e => e.MeasurementTypeId)
@@ -575,12 +569,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
 
                 entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
-
-                entity.HasOne(d => d.MeasurementType)
-                    .WithMany(p => p.FalShipStores)
-                    .HasForeignKey(d => d.MeasurementTypeId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("fal_ship_stores_measurement_type_id_fkey");
 
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.FalShipStores)
