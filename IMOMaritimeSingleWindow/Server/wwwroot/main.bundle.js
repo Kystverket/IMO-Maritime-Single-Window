@@ -2788,7 +2788,6 @@ var ActivatePortCallComponent = /** @class */ (function () {
         // Dpg on Board
         //
         this.dpgDataSubscription = this.dpgService.dpgOnBoardList$.subscribe(function (dpgData) {
-            console.log(dpgData);
             _this.dpgOnBoardList = dpgData;
         });
         this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(function (pristineData) {
@@ -11666,10 +11665,20 @@ var CrewListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value[0]) {
+                        if (value[0] == null || value[0] === undefined || value.length === 0) {
                             return 'N/A';
                         }
-                        return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
+                        var returnVal = '';
+                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
+                            returnVal += value[0].identityDocumentType.description;
+                        }
+                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
+                            returnVal += ' : ' + value[0].identityDocumentNumber;
+                        }
+                        if (returnVal.trim().length === 0) {
+                            returnVal = 'N/A';
+                        }
+                        return returnVal;
                     }
                 },
             }
@@ -11946,10 +11955,20 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 identityDocument: {
                     title: 'ID Type and Number',
                     valuePrepareFunction: function (value) {
-                        if (!value[0]) {
+                        if (value[0] == null || value[0] === undefined || value.length === 0) {
                             return 'N/A';
                         }
-                        return (value[0].identityDocumentType) ? value[0].identityDocumentType.description :  true ? value[0].identityDocumentId : '';
+                        var returnVal = '';
+                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
+                            returnVal += value[0].identityDocumentType.description;
+                        }
+                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
+                            returnVal += ' : ' + value[0].identityDocumentNumber;
+                        }
+                        if (returnVal.trim().length === 0) {
+                            returnVal = 'N/A';
+                        }
+                        return returnVal;
                     }
                 },
             }
