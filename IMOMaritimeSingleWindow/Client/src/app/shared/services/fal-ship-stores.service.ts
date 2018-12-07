@@ -11,6 +11,8 @@ export class FalShipStoresService {
   private shipStoresListString = 'list';
   private shipStoresString = 'falShipStores';
   private measurementTypeUrl = 'api/measurementType';
+  private shipStoreOverviewUrl = 'overviewByPortCall';
+  private shipStoreSummaryByPortCallUrl = 'summaryByPortCall';
 
   constructor(private http: Http) { }
 
@@ -25,6 +27,16 @@ export class FalShipStoresService {
 
   private reportingShipStoresIsChecked = new BehaviorSubject<boolean>(false);
   reportingShipStoresIsChecked$ = this.reportingShipStoresIsChecked.asObservable();
+
+  getSummaryByPortCall(portCallId: number) {
+    const uri = [this.shipStoresUrl, this.shipStoreSummaryByPortCallUrl, portCallId].join('/');
+    return this.http.get(uri).map(res => res.json());
+  }
+
+  getOverviewByPortCall(portCallId: number) {
+    const uri = [this.shipStoresUrl, this.shipStoreOverviewUrl, portCallId].join('/');
+    return this.http.get(uri).map(res => res.json());
+  }
 
   // Get ship stores object by its primary key ID
   getShipStoresById(shipStoresId: number) {
@@ -82,7 +94,6 @@ export class FalShipStoresService {
           formattedShipStore.portCallId = item.portCallId;
           formattedShipStore.sequenceNumber = item.sequenceNumber;
           formattedShipStore.articleName = item.articleName;
-          formattedShipStore.articleCode = item.articleCode;
           formattedShipStore.quantity = item.quantity;
           formattedShipStore.locationOnBoardCode = item.locationOnBoardCode;
           formattedShipStore.locationOnBoard = item.locationOnBoard;

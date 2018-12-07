@@ -9232,7 +9232,7 @@ module.exports = ".modal-body ::ng-deep .ng-select-placeholder-sm, ::-webkit-inp
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputShipStoresModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"modal-body\" *ngIf=\"inputShipStoresModel\">\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Article Name *</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.articleName\" readonly name=\"articleName\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Article Code</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.articleCode\" readonly name=\"articleCode\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputShipStoresModel.measurementType\" class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.measurementType.name\"\r\n          readonly name=\"measurementType\">\r\n        <input *ngIf=\"!inputShipStoresModel.measurementType\" class=\"form-control form-control-sm\" type=\"text\" readonly name=\"measurementType\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.quantity\" readonly name=\"quantity\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.locationOnBoard\" readonly name=\"locationOnBoard\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.locationOnBoardCode\" readonly name=\"locationOnBoardCode\">\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputShipStoresModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\" class=\"modal fade\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputShipStoresModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"modal-body\" *ngIf=\"inputShipStoresModel\">\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Article Name *</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"text\" required [(ngModel)]=\"inputShipStoresModel.articleName\" #articleName=\"ngModel\" placeholder=\"Article Name\"\r\n            class=\"form-control form-control-sm\" name=\"articleName\">\r\n          <div *ngIf=\"articleName.hasError('required') && articleName.touched\" class=\"alert alert-danger\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Article Code</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"text\" [(ngModel)]=\"inputShipStoresModel.articleCode\" #articleCode=\"ngModel\" placeholder=\"Article Code\" class=\"form-control form-control-sm\"\r\n            name=\"articleCode\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"measurementTypeList\" [ngModel]=\"inputShipStoresModel.measurementType\"\r\n            name=\"measurementType\" bindLabel=\"name\" [closeOnSelect]=\"true\" placeholder=\"Measurement Type\" (change)=\"setMeasurementType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"number\" [(ngModel)]=\"inputShipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n            integerValidator positiveNumberValidator name=\"quantity\">\r\n          <div *ngIf=\"!quantity.valid && quantity.touched\" class=\"alert alert-danger\">\r\n            <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n              <small>The quantity specified must be an integer.</small>\r\n            </li>\r\n            <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n              <small>The quantity specified must be a positive number.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n        <div class=\"col my-auto\">\r\n          <textarea type=\"text\" [(ngModel)]=\"inputShipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\" placeholder=\"Location on Board\"\r\n            class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n          </textarea>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"text\" [(ngModel)]=\"inputShipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && editForm.form.dirty\" type=\"button\" class=\"btn btn-ssn\" (click)=\"editShipStoresItem(); editForm.reset(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !editForm.form.dirty\" type=\"button\" class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputShipStoresModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
+module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputShipStoresModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n\r\n  <div class=\"modal-body\" *ngIf=\"inputShipStoresModel\">\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Article Name *</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.articleName\" readonly name=\"articleName\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputShipStoresModel.measurementType\" class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.measurementType.name\"\r\n          readonly name=\"measurementType\">\r\n        <input *ngIf=\"!inputShipStoresModel.measurementType\" class=\"form-control form-control-sm\" type=\"text\" readonly name=\"measurementType\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.quantity\" readonly name=\"quantity\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.locationOnBoard\" readonly name=\"locationOnBoard\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" type=\"text\" [ngModel]=\"inputShipStoresModel.locationOnBoardCode\" readonly name=\"locationOnBoardCode\">\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputShipStoresModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\" class=\"modal fade\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputShipStoresModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"modal-body\" *ngIf=\"inputShipStoresModel\">\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Article Name *</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"text\" required [(ngModel)]=\"inputShipStoresModel.articleName\" #articleName=\"ngModel\" placeholder=\"Article Name\"\r\n            class=\"form-control form-control-sm\" name=\"articleName\">\r\n          <div *ngIf=\"articleName.hasError('required') && articleName.touched\" class=\"alert alert-danger\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Measurement Type</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"measurementTypeList\" [ngModel]=\"inputShipStoresModel.measurementType\"\r\n            name=\"measurementType\" bindLabel=\"name\" [closeOnSelect]=\"true\" placeholder=\"Measurement Type\" (change)=\"setMeasurementType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Quantity</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"number\" [(ngModel)]=\"inputShipStoresModel.quantity\" #quantity=\"ngModel\" placeholder=\"Quantity\" class=\"form-control form-control-sm\"\r\n            integerValidator positiveNumberValidator name=\"quantity\">\r\n          <div *ngIf=\"!quantity.valid && quantity.touched\" class=\"alert alert-danger\">\r\n            <li *ngIf=\"quantity.hasError('notIntegerError')\">\r\n              <small>The quantity specified must be an integer.</small>\r\n            </li>\r\n            <li *ngIf=\"quantity.hasError('notPositiveNumberError')\">\r\n              <small>The quantity specified must be a positive number.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board</label>\r\n        <div class=\"col my-auto\">\r\n          <textarea type=\"text\" [(ngModel)]=\"inputShipStoresModel.locationOnBoard\" #locationOnBoard=\"ngModel\" placeholder=\"Location on Board\"\r\n            class=\"form-control form-control-sm\" name=\"locationOnBoard\">\r\n          </textarea>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Location on Board Code</label>\r\n        <div class=\"col my-auto\">\r\n          <input type=\"text\" [(ngModel)]=\"inputShipStoresModel.locationOnBoardCode\" #locationOnBoardCode=\"ngModel\" placeholder=\"Location on Board Code\"\r\n            class=\"form-control form-control-sm\" name=\"locationOnBoardCode\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && editForm.form.dirty\" type=\"button\" class=\"btn btn-ssn\" (click)=\"editShipStoresItem(); editForm.reset(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !editForm.form.dirty\" type=\"button\" class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputShipStoresModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
 
 /***/ }),
 
@@ -9404,9 +9404,6 @@ var ShipStoresComponent = /** @class */ (function () {
                 articleName: {
                     title: 'Article Name'
                 },
-                articleCode: {
-                    title: 'Article Code'
-                },
                 quantity: {
                     title: 'Quantity'
                 },
@@ -9459,7 +9456,6 @@ var ShipStoresComponent = /** @class */ (function () {
                     shipStoresModel: shipStore,
                     sequenceNumber: shipStore.sequenceNumber,
                     articleName: shipStore.articleName,
-                    articleCode: shipStore.articleCode,
                     quantity: shipStore.quantity,
                     measurementType: shipStore.measurementType ? shipStore.measurementType.name : null,
                     locationOnBoard: shipStore.locationOnBoard,
@@ -11438,7 +11434,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <!-- <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table> -->\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table>\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <!-- <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table> -->\r\n      <app-ship-stores-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <!-- <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table> -->\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <!-- <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table> -->\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -11608,7 +11604,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew Listing\" icon=\"crew.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11618,7 +11614,8 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CrewListingTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11628,6 +11625,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 var CrewListingTableComponent = /** @class */ (function () {
@@ -11687,7 +11685,16 @@ var CrewListingTableComponent = /** @class */ (function () {
     CrewListingTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.portCallId) {
-            this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(function (crewList) {
+            this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+                .finally(function () {
+                _this.crewDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
+                    .subscribe(function (summary) {
+                    _this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
+                }, function (error) {
+                    _this.headerText = 'Crew Info';
+                });
+            })
+                .subscribe(function (crewList) {
                 if (crewList) {
                     _this.crew = crewList;
                 }
@@ -11711,7 +11718,7 @@ var CrewListingTableComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], CrewListingTableComponent);
     return CrewListingTableComponent;
 }());
@@ -11901,7 +11908,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Pax Listing\" icon=\"pax.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"passengers\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"pax.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"passengers\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11911,7 +11918,8 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PassengerListingTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11921,6 +11929,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 var PassengerListingTableComponent = /** @class */ (function () {
@@ -11977,7 +11986,16 @@ var PassengerListingTableComponent = /** @class */ (function () {
     PassengerListingTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.portCallId) {
-            this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(function (passengerList) {
+            this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+                .finally(function () {
+                _this.passengerDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].PAX)
+                    .subscribe(function (summary) {
+                    _this.headerText = 'Passenger Info - No. of Passengers: ' + summary.numberOfPobs + ' - No. of Passengers in Transit : ' + summary.numberInTransit;
+                }, function (error) {
+                    _this.headerText = 'Passenger Info';
+                });
+            })
+                .subscribe(function (passengerList) {
                 if (passengerList) {
                     _this.passengers = passengerList;
                 }
@@ -12001,7 +12019,7 @@ var PassengerListingTableComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], PassengerListingTableComponent);
     return PassengerListingTableComponent;
 }());
@@ -12272,6 +12290,130 @@ var ShipStoresInfoTableComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */]])
     ], ShipStoresInfoTableComponent);
     return ShipStoresInfoTableComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"alcohol.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"shipStores\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ShipStoresListingTableComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ShipStoresListingTableComponent = /** @class */ (function () {
+    function ShipStoresListingTableComponent(shipStoreService) {
+        this.shipStoreService = shipStoreService;
+        this.shipStores = [];
+        // Smart table
+        this.tableSettings = {
+            mode: 'external',
+            actions: false,
+            attr: {
+                class: 'table table-bordered'
+            },
+            columns: {
+                articleName: {
+                    title: 'Article Name',
+                    valuePrepareFunction: function (value) {
+                        return (value) ? value : 'N/A';
+                    }
+                },
+                quantity: {
+                    title: 'Quantity',
+                    valuePrepareFunction: function (value) {
+                        return (value) ? value : 'N/A';
+                    }
+                },
+                measurementType: {
+                    title: 'Measurement Type',
+                    valuePrepareFunction: function (value) {
+                        return (value) ? value : 'N/A';
+                    }
+                },
+                locationOnBoardAndCode: {
+                    title: 'Location on Board',
+                    valuePrepareFunction: function (value) {
+                        var returnVal = '';
+                        if (value.name != null && value.name !== undefined) {
+                            returnVal += value.name;
+                        }
+                        if (value.code != null && value.code !== undefined) {
+                            returnVal += ' (' + value.code + ')';
+                        }
+                        if (returnVal.trim().length === 0) {
+                            returnVal = 'N/A';
+                        }
+                        return returnVal;
+                    }
+                }
+            }
+        };
+    }
+    ShipStoresListingTableComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.portCallId) {
+            this.shipStoreDataSubscription = this.shipStoreService.getSummaryByPortCall(this.portCallId)
+                .finally(function () {
+                _this.shipStoreDataSubscription = _this.shipStoreService.getOverviewByPortCall(_this.portCallId).subscribe(function (res) {
+                    _this.headerText = 'Ship Stores List - Total Entries Reported: ' + res.amount
+                        + ' - Total weight : ' + res.totalWeight + ' - Total Volume: ' + res.totalVolume + ' - Total Units: ' + res.totalRegisteredUnits;
+                }, function (error) {
+                    _this.headerText = 'Ship Stores List';
+                });
+            })
+                .subscribe(function (summary) {
+                _this.shipStores = summary;
+            });
+        }
+    };
+    ShipStoresListingTableComponent.prototype.ngOnDestroy = function () {
+        this.shipStoreDataSubscription.unsubscribe();
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], ShipStoresListingTableComponent.prototype, "iconPath", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], ShipStoresListingTableComponent.prototype, "portCallId", void 0);
+    ShipStoresListingTableComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-ship-stores-listing-table',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["l" /* FalShipStoresService */]])
+    ], ShipStoresListingTableComponent);
+    return ShipStoresListingTableComponent;
 }());
 
 
@@ -18325,6 +18467,8 @@ var FalShipStoresService = /** @class */ (function () {
         this.shipStoresListString = 'list';
         this.shipStoresString = 'falShipStores';
         this.measurementTypeUrl = 'api/measurementType';
+        this.shipStoreOverviewUrl = 'overviewByPortCall';
+        this.shipStoreSummaryByPortCallUrl = 'summaryByPortCall';
         this.shipStoresListSource = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](null);
         this.shipStoresList$ = this.shipStoresListSource.asObservable();
         this.dataIsPristine = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](true);
@@ -18334,6 +18478,14 @@ var FalShipStoresService = /** @class */ (function () {
         this.reportingShipStoresIsChecked = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.reportingShipStoresIsChecked$ = this.reportingShipStoresIsChecked.asObservable();
     }
+    FalShipStoresService.prototype.getSummaryByPortCall = function (portCallId) {
+        var uri = [this.shipStoresUrl, this.shipStoreSummaryByPortCallUrl, portCallId].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
+    FalShipStoresService.prototype.getOverviewByPortCall = function (portCallId) {
+        var uri = [this.shipStoresUrl, this.shipStoreOverviewUrl, portCallId].join('/');
+        return this.http.get(uri).map(function (res) { return res.json(); });
+    };
     // Get ship stores object by its primary key ID
     FalShipStoresService.prototype.getShipStoresById = function (shipStoresId) {
         var uri = [this.shipStoresUrl, shipStoresId].join('/');
@@ -18381,7 +18533,6 @@ var FalShipStoresService = /** @class */ (function () {
                 formattedShipStore.portCallId = item.portCallId;
                 formattedShipStore.sequenceNumber = item.sequenceNumber;
                 formattedShipStore.articleName = item.articleName;
-                formattedShipStore.articleCode = item.articleCode;
                 formattedShipStore.quantity = item.quantity;
                 formattedShipStore.locationOnBoardCode = item.locationOnBoardCode;
                 formattedShipStore.locationOnBoard = item.locationOnBoard;
@@ -19103,6 +19254,7 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         this.portCallUrl = 'api/portcall';
         this.personOnBoardUrl = 'api/personOnBoard';
         this.personOnBoardTypeUrl = 'api/PersonOnBoardType';
+        this.overviewByPortCallUrl = 'overviewByPortCallEnum';
     }
     // Http
     PortCallFalPersonOnBoardService.prototype.getPersonOnBoardById = function (personOnBoardId) {
@@ -19140,6 +19292,10 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
         return this.httpClient.put(uri, cleanedPersonOnBoardList).pipe(Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["retry"])(3), // retry a failed request up to 3 times
         Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["catchError"])(this.handleError));
+    };
+    PortCallFalPersonOnBoardService.prototype.getOverviewByPortCall = function (portCallId, personOnBoardTypeEnum) {
+        var uri = [this.personOnBoardUrl, this.overviewByPortCallUrl, portCallId, personOnBoardTypeEnum].join('/');
+        return this.httpClient.get(uri, { observe: 'body' });
     };
     // Setters
     PortCallFalPersonOnBoardService.prototype.setPassengersList = function (data) {
@@ -20027,52 +20183,54 @@ var ValidateDateTimeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__ = __webpack_require__("./src/app/shared/components/search-user/search-user.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_search_user_search_user_component__ = __webpack_require__("./src/app/shared/components/search-user/search-user.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_button_row_user_button_row_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_smart_table_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -20145,113 +20303,114 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_clearances_clearances_component__["a" /* ClearancesComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_28__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__["a" /* SearchUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_33__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_search_user_search_user_component__["a" /* SearchUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_feedback_feedback_component__["a" /* FeedbackComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__["a" /* ShipStoresInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_info_table_crew_info_table_component__["a" /* CrewInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_info_table_passenger_info_table_component__["a" /* PassengerInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_22__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_dpg_confirmation_view_dpg_confirmation_view_component__["a" /* DpgConfirmationViewComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_cargo_listing_table_cargo_listing_table_component__["a" /* CargoListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__["a" /* ShipStoresListingTableComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__["a" /* SearchUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_28__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_33__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_search_user_search_user_component__["a" /* SearchUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_cargo_listing_table_cargo_listing_table_component__["a" /* CargoListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_52__services_location_service__["a" /* LocationService */],
-                __WEBPACK_IMPORTED_MODULE_53__services_organization_service__["a" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_54__services_ship_service__["a" /* ShipService */],
-                __WEBPACK_IMPORTED_MODULE_50__services_db_connection_service__["a" /* DbConnectionService */],
-                __WEBPACK_IMPORTED_MODULE_51__services_error_service__["a" /* ErrorService */]
+                __WEBPACK_IMPORTED_MODULE_53__services_location_service__["a" /* LocationService */],
+                __WEBPACK_IMPORTED_MODULE_54__services_organization_service__["a" /* OrganizationService */],
+                __WEBPACK_IMPORTED_MODULE_55__services_ship_service__["a" /* ShipService */],
+                __WEBPACK_IMPORTED_MODULE_51__services_db_connection_service__["a" /* DbConnectionService */],
+                __WEBPACK_IMPORTED_MODULE_52__services_error_service__["a" /* ErrorService */]
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
             ]
         })
     ], SharedModule);
