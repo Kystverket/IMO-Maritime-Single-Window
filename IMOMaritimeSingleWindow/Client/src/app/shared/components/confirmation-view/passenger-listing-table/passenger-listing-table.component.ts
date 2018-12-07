@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -16,6 +17,7 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
   passengerDataSubscription: Subscription;
 
   public passengers: any = [];
+  public headerText: string;
 
   // Smart table
   tableSettings = {
@@ -69,7 +71,16 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     if (this.portCallId) {
-      this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+      this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+      .finally(() => {
+        this.passengerDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.PAX)
+        .subscribe(summary => {
+          this.headerText = 'Passenger Info - No. of Passengers: ' + summary.numberOfPobs + ' - No. of Passengers in Transit : ' + summary.numberInTransit;
+        }, error => {
+          this.headerText = 'Passenger Info';
+        });
+      })
+      .subscribe(
         passengerList => {
           if (passengerList) {
             this.passengers = passengerList;

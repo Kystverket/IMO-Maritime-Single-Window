@@ -17,6 +17,7 @@ import { PassengerListingTableComponent } from './components/confirmation-view/p
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
 import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
+import { ShipStoresListingTableComponent } from './components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
 import { ContactSelectComponent } from './components/contact-select/contact-select.component';
 import { CountrySelectComponent } from './components/country-select/country-select.component';
@@ -119,7 +120,8 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     DpgConfirmationViewComponent,
     CrewListingTableComponent,
     CargoListingTableComponent,
-    PassengerListingTableComponent
+    PassengerListingTableComponent,
+    ShipStoresListingTableComponent
   ],
   exports: [
     ExtendedAlphaNumericValidator,

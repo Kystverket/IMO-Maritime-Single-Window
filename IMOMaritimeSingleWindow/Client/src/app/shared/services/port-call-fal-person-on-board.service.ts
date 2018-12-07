@@ -15,6 +15,7 @@ export class PortCallFalPersonOnBoardService {
   private portCallUrl: string;
   private personOnBoardUrl: string;
   private personOnBoardTypeUrl: string;
+  private overviewByPortCallUrl: string;
 
   response: Observable<any>;
 
@@ -24,6 +25,7 @@ export class PortCallFalPersonOnBoardService {
     this.portCallUrl = 'api/portcall';
     this.personOnBoardUrl = 'api/personOnBoard';
     this.personOnBoardTypeUrl = 'api/PersonOnBoardType';
+    this.overviewByPortCallUrl = 'overviewByPortCallEnum';
    }
 
   private passengerListSource = new BehaviorSubject<any>(null);
@@ -94,6 +96,11 @@ export class PortCallFalPersonOnBoardService {
       retry(3), // retry a failed request up to 3 times
       catchError(this.handleError)
     );
+  }
+
+  getOverviewByPortCall(portCallId: number, personOnBoardTypeEnum: PERSON_ON_BOARD_TYPES) {
+    const uri = [this.personOnBoardUrl, this.overviewByPortCallUrl, portCallId, personOnBoardTypeEnum].join('/');
+    return this.httpClient.get<any>(uri, {observe: 'body'});
   }
 
   // Setters

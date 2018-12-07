@@ -8,6 +8,7 @@ using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Helpers;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using static IMOMaritimeSingleWindow.Controllers.PersonOnBoardTypeController;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -57,6 +58,36 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return NotFound();
             }
             return Json(personOnBoard);
+        }
+
+        [HttpGet("overviewByPortCallEnum/{portcallId}/{enumValue}")]
+        public IActionResult GetOverviewByPortCall(int portCallId, PERSON_ON_BOARD_TYPE_ENUM enumValue)
+        {
+            var pobs = _context.PersonOnBoard.Where(
+                pob => pob.PortCallId == portCallId
+                && pob.PersonOnBoardType.EnumValue == enumValue.ToString())
+                .Include(pob => pob.PersonOnBoardType)
+                .ToList();
+
+            var numberOfPobs = pobs.Count();
+            
+
+            if (enumValue == PERSON_ON_BOARD_TYPE_ENUM.CREW)
+            {
+                var returnValCrew = new
+                {
+                    numberOfPobs,
+                };
+                return Json(returnValCrew);
+            } 
+
+            var numberInTransit = pobs.Count(p => p.InTransit.HasValue && p.InTransit.Value);
+            var returnValPax = new
+            {
+                numberOfPobs,
+                numberInTransit
+            };
+            return Json(returnValPax);
         }
 
         [HttpGet("{id}/identitydocument")]
