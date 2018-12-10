@@ -29,6 +29,7 @@ export class ShipStoresListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
+    noDataMessage: 'There are no Ship Stores reported.',
     columns: {
       articleName: {
         title: 'Article Name',

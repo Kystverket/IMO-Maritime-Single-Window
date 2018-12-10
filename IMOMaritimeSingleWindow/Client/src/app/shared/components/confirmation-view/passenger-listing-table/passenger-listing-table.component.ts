@@ -26,6 +26,7 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
+    noDataMessage: 'There are no passengers reported.',
     columns: {
       familyName: {
         title: 'Family Name'
