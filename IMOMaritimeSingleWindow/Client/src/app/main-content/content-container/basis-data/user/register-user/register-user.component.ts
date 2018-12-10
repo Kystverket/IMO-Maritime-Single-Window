@@ -24,6 +24,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   confirmButtonTitle = 'Register User';
   filterOrganization = ORGANIZATION_TYPES.AGENT_COMPANY;
 
+  preUpdateEmail = '';
+
   user: UserModel = {
     email: '',
     phoneNumber: '',
@@ -91,6 +93,8 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.confirmHeader = 'Confirm User Changes';
     this.confirmButtonTitle = 'Apply Changes';
 
+    this.preUpdateEmail = user.email;
+
     // get and set the associated organization.
     // tslint:disable-next-line:radix
     this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(data => {
@@ -108,9 +112,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.getAllRolesSubscription.unsubscribe();
   }
   userExists(emailValid: boolean) {
+
     if (emailValid) {
 
-      if (this.newUser) {
+      if (this.user.email != this.preUpdateEmail) {
 
         return this.accountService.emailTaken(this.user.email)
         .subscribe(result => {
@@ -119,7 +124,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         });
       } else {
         this.emailTaken = false;
-        // this.emailChecked = true;
+        this.emailChecked = true;
       }
     }
   }
