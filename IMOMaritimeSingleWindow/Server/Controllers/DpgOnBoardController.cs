@@ -115,22 +115,21 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var returnValue = dpgOnBoardList.Select(x => new
             {
-                MeasurementType = x.MeasurementType.Name,
                 PlacedInContainer = x.PlacedInContainer ? "Yes" : "No",
                 x.TransportUnitIdentification,
                 x.LocationOnBoard,
-                Classification = x.Dpg.DpgType.ShortName,
-                UnNoName = x.Dpg.UnNumber,
-                Name = x.Dpg.TextualReference,
+                Classification = x.Dpg?.DpgType?.ShortName,
+                UnNoName = x.Dpg?.UnNumber,
+                Name = x.Dpg?.TextualReference,
                 GrossWeightVolume = new
                 {
                     x.GrossWeight,
-                    x.MeasurementType.Name
+                    x.MeasurementType?.Name
                 },
                 NetWeightVolume = new
                 {
                     x.NetWeight,
-                    x.MeasurementType.Name
+                    x.MeasurementType?.Name
                 },
 
             }).ToList();
