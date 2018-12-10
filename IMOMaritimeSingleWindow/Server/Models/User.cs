@@ -29,7 +29,7 @@ namespace IMOMaritimeSingleWindow.Models
         public string ConcurrencyStamp { get; set; }
         public int AccessFailedCount { get; set; }
         public Guid? RoleId { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public Organization Organization { get; set; }
         public Password Password { get; set; }
