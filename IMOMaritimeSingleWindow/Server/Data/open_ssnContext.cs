@@ -1943,6 +1943,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
 
+                entity.Property(e => e.IsActive).HasColumnName("IsActive");
+
                 entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
 
                 entity.Property(e => e.NormalizedEmail).HasColumnName("normalized_email");

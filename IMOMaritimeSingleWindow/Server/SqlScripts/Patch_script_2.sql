@@ -94,3 +94,15 @@ NOT EXISTS -- Get all org where there are no ships connected to it
 )
 AND
 o.organization_type_id = 2
+
+ALTER TABLE public."user"
+	ADD COLUMN "IsActive" boolean;
+	
+UPDATE public."user"
+    SET "IsActive"=true;
+	
+ALTER TABLE public."user"
+    ALTER COLUMN "IsActive" SET NOT NULL;
+
+ALTER TABLE public."user"
+    ALTER COLUMN "IsActive" SET DEFAULT TRUE;
