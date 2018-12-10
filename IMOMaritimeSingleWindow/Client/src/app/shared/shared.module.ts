@@ -11,7 +11,6 @@ import { ClearancesComponent } from './components/confirmation-view/clearances/c
 import { ConfirmationViewComponent } from './components/confirmation-view/confirmation-view.component';
 import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
 import { CrewListingTableComponent } from './components/confirmation-view/crew-listing-table/crew-listing-table.component';
-import { DpgConfirmationViewComponent } from './components/confirmation-view/dpg-confirmation-view/dpg-confirmation-view.component';
 import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
 import { PassengerListingTableComponent } from './components/confirmation-view/passenger-listing-table/passenger-listing-table.component';
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
@@ -58,6 +57,7 @@ import { ExtendedAlphaNumericValidator } from './utils/custom-validators/extende
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
+import { DpgListingTableComponent } from './components/confirmation-view/dpg-listing-table/dpg-listing-table.component';
 
 @NgModule({
   imports: [
@@ -117,11 +117,11 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     CountrySelectComponent,
     RsoSelectComponent,
     OrganizationInfoTableComponent,
-    DpgConfirmationViewComponent,
     CrewListingTableComponent,
     CargoListingTableComponent,
     PassengerListingTableComponent,
-    ShipStoresListingTableComponent
+    ShipStoresListingTableComponent,
+    DpgListingTableComponent
   ],
   exports: [
     ExtendedAlphaNumericValidator,

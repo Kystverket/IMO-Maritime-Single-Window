@@ -16,6 +16,7 @@ export class DpgService {
     private dpgOnBoardByPortCallUrl: string;
     private measurementTypeFilterUrl: string;
     private searchService: SearchService;
+    private overviewUrl: string;
 
     constructor(
         private http: Http, private httpClient: HttpClient
@@ -27,6 +28,7 @@ export class DpgService {
         this.dpgOnBoardUrl = 'api/dpgOnBoard';
         this.dpgOnBoardByPortCallUrl = 'api/dpgOnBoard/portcall';
         this.measurementTypeFilterUrl = 'api/measurementType/filter';
+        this.overviewUrl = 'overviewByPortCall';
     }
 
     private dpgOnBoardSource = new BehaviorSubject<DpgOnBoardModel[]>(null);
@@ -54,6 +56,11 @@ export class DpgService {
         this.dpgIsChecked.next(checked);
     }
     // Http
+    getDpgOnBoardOverviewByPortCall(portCallId: number) {
+        const uri = [this.dpgOnBoardUrl, this.overviewUrl, portCallId].join('/');
+        return this.http.get(uri).map(res => res.json());
+    }
+
     getDpgTypes() {
         const uri = this.dpgTypeUrl + '/all';
         return this.http.get(uri).map(res => res.json());

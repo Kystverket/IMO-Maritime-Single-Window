@@ -73,10 +73,10 @@ export class ShipStoresListingTableComponent implements OnInit, OnDestroy {
       this.shipStoreDataSubscription = this.shipStoreService.getSummaryByPortCall(this.portCallId)
         .finally(() => {
           this.shipStoreDataSubscription = this.shipStoreService.getOverviewByPortCall(this.portCallId).subscribe(res => {
-            this.headerText = 'Ship Stores List - Total Entries Reported: ' + res.amount
+            this.headerText = 'Ship Stores Info - Total Entries Reported: ' + res.amount
               + ' - Total weight : ' + res.totalWeight + ' - Total Volume: ' + res.totalVolume + ' - Total Units: ' + res.totalRegisteredUnits;
           }, error => {
-            this.headerText = 'Ship Stores List';
+            this.headerText = 'Ship Stores Info';
           });
         })
         .subscribe(summary => {
