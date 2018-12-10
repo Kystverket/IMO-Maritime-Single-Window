@@ -23,6 +23,7 @@ export class DpgListingTableComponent implements OnInit, OnDestroy {
       attr: {
         class: 'table table-bordered'
       },
+      noDataMessage: 'There are no DPGs reported.',
       columns: {
         classification: {
           title: 'Classification'

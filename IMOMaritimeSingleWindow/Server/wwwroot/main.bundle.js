@@ -11300,6 +11300,7 @@ var CargoListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
+            noDataMessage: 'There is no cargo reported.',
             columns: {
                 description: {
                     title: 'Description'
@@ -11645,6 +11646,7 @@ var CrewListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
+            noDataMessage: 'There are no crew members reported.',
             columns: {
                 familyName: {
                     title: 'Family Name'
@@ -11743,7 +11745,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/dpg-listing-table/dpg-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\n  <div class=\"col\">\n    <app-table-card header=\"{{headerText}}\" icon=\"hazard.png\" collapsible=true collapsed=true>\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"dpg\"></ng2-smart-table>\n    </app-table-card>\n  </div>\n</div>\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"hazard.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"dpg\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11776,6 +11778,7 @@ var DpgListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
+            noDataMessage: 'There are no DPGs reported.',
             columns: {
                 classification: {
                     title: 'Classification'
@@ -11991,6 +11994,7 @@ var PassengerListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
+            noDataMessage: 'There are no passengers reported.',
             columns: {
                 familyName: {
                     title: 'Family Name'
@@ -12387,6 +12391,7 @@ var ShipStoresListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
+            noDataMessage: 'There are no Ship Stores reported.',
             columns: {
                 articleName: {
                     title: 'Article Name',
