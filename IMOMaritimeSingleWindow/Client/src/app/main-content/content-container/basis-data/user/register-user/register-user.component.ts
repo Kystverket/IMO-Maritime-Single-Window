@@ -115,7 +115,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     if (emailValid) {
 
-      if (this.user.email != this.preUpdateEmail) {
+      if (this.user.email !== this.preUpdateEmail) {
 
         return this.accountService.emailTaken(this.user.email)
         .subscribe(result => {

@@ -126,7 +126,7 @@
             <p class="mb-0" *ngIf="!organizationSelected">Organization not selected.</p>
             <p class="mb-0" *ngIf="!user.roleName">Role not assigned.</p>
           </div>
-          <button class="btn btn-ssn" disabled>Register User</button>
+          <button class="btn btn-ssn" disabled>{{confirmButtonTitle}}</button>
         </div>
         <div class="text-center" *ngIf="user.email && emailChecked && !emailTaken && organizationSelected && user.roleName">
           <div class="table-responsive">
