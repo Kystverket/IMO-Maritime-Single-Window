@@ -16,7 +16,7 @@
 <div *ngFor="let entry of falForms">
   <div *ngIf="entry.checked" [ngSwitch]="entry.name" class="row mb-3">
     <div *ngSwitchCase="'DPG'" class="col">
-      <app-dpg-confirmation-view [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-confirmation-view>
+      <app-dpg-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-listing-table>
     </div>
     <div *ngSwitchCase="'Cargo'" class="col">
       <app-cargo-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-cargo-listing-table>
