@@ -11267,7 +11267,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/cargo-listing-table/cargo-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Cargo Breakdown\" icon=\"cargo.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"cargo\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"cargo.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"cargo\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11326,7 +11326,13 @@ var CargoListingTableComponent = /** @class */ (function () {
     CargoListingTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.portCallId) {
-            this.cargoDataSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId).subscribe(function (cargoData) {
+            this.cargoDataSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId)
+                .finally(function () {
+                _this.cargoDataSubscription = _this.cargoService.getOverviewByPortCall(_this.portCallId).subscribe(function (summary) {
+                    _this.headerText = 'Cargo Breakdown - No. Of Consignments: ' + summary.noOfConsignments + ' - Total No. of Cargo Items: ' + summary.noOfCargoItems + ' - Total No of Packages: ' + summary.noOfPackages;
+                });
+            })
+                .subscribe(function (cargoData) {
                 if (cargoData) {
                     cargoData.forEach(function (item, idx, arr) {
                         _this.cargo = _this.cargo.concat(item.cargoItem);
@@ -11434,7 +11440,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-info-table>\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <!-- <app-ship-stores-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-info-table> -->\r\n      <app-ship-stores-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <!-- <app-crew-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-info-table> -->\r\n      <!-- <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table> -->\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <!-- <app-passenger-info-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-info-table> -->\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n        <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n      </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n      <app-dpg-confirmation-view [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-confirmation-view>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -11604,7 +11610,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -11908,7 +11914,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"pax.png\" collapsible=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"passengers\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"pax.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"passengers\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -12038,7 +12044,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew, Passengers and Dimensions\" icon=\"crew.png\" collapsible=true>\r\n      <tbody>\r\n        <tr>\r\n          <td *ngFor=\"let entry of portCallDetailsInfo\" class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>{{entry.description}}</small>\r\n            </tr>\r\n            <tr>\r\n              <div *ngIf=\"entry.data != null\">{{ entry.data }}</div>\r\n              <div *ngIf=\"entry.data == null\" class=\"font-italic\">Not provided.</div>\r\n            </tr>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </app-table-card>\r\n    <br/>\r\n    <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-selected-purposes></app-selected-purposes>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"Crew, Passengers and Dimensions\" icon=\"crew.png\" collapsible=true>\r\n      <tbody>\r\n        <tr>\r\n          <td *ngFor=\"let entry of portCallDetailsInfo\" class=\"no-wrap px-1 mx-1\">\r\n            <tr>\r\n              <small>{{entry.description}}</small>\r\n            </tr>\r\n            <tr>\r\n              <div *ngIf=\"entry.data != null\">{{ entry.data }}</div>\r\n              <div *ngIf=\"entry.data == null\" class=\"font-italic\">Not provided.</div>\r\n            </tr>\r\n          </td>\r\n        </tr>\r\n      </tbody>\r\n    </app-table-card>\r\n    <br/>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-selected-purposes></app-selected-purposes>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -18249,12 +18255,17 @@ var FalCargoService = /** @class */ (function () {
         this.portCallUrl = 'api/portCall';
         this.consignmentsString = 'consignments';
         this.packageTypeUrl = 'api/packageType';
+        this.overviewUrl = 'api/customsCargo/overviewByPortCall';
     }
     FalCargoService.prototype.setDataIsPristine = function (data) {
         this.dataIsPristineSource.next(data);
     };
     FalCargoService.prototype.setConsignmentListData = function (data) {
         this.consignmentListSource.next(data);
+    };
+    FalCargoService.prototype.getOverviewByPortCall = function (portCallId) {
+        var uri = [this.overviewUrl, portCallId].join('/');
+        return this.http.get(uri);
     };
     FalCargoService.prototype.getConsignmentListForPortCall = function (portCallId) {
         var uri = [this.portCallUrl, portCallId, this.consignmentsString].join('/');
