@@ -31,11 +31,12 @@ export class UserButtonRowComponent implements ViewCell, OnInit {
     this.setContent(CONTENT_NAMES.REGISTER_USER);
   }
 
-  onStatusToggleClick():void {
-    if(this.rowData.userModel.isActive)
-      this.openConfirmationModal('confirm', 'Diactivate selected user account?');
-    else
+  onStatusToggleClick(): void {
+    if (this.rowData.userModel.isActive) {
+      this.openConfirmationModal('confirm', 'Deactivate selected user account?');
+    } else {
       this.openConfirmationModal('confirm', 'Activate selected user account?');
+    }
   }
 
   private setContent(content: string) {
@@ -64,21 +65,20 @@ export class UserButtonRowComponent implements ViewCell, OnInit {
 
     modalRef.result.then(
       closeResult => {
-        if (closeResult == 'proceed') { 
+        if (closeResult === 'proceed') {
 
           let apiCall = null;
 
-          if(this.rowData.userModel.isActive)
+          if (this.rowData.userModel.isActive) {
             apiCall = this.accountService.deactivateUser(this.rowData.userModel.id);
-          else
+          } else {
             apiCall = this.accountService.activateUser(this.rowData.userModel.id);
+          }
 
           apiCall.subscribe((apiResult) => {
-            this.rowData.userModel.isActive = (!this.rowData.userModel.isActive);
             const resultModalRef = this.modalService.open(ConfirmationModalComponent);
-            resultModalRef.componentInstance.modalType = "Result";
-            resultModalRef.componentInstance.bodyText = (this.rowData.userModel.isActive) ? "User Account Deactivated" : "User Account Activated";
-
+            resultModalRef.componentInstance.modalType = 'Result';
+            resultModalRef.componentInstance.bodyText = (this.rowData.userModel.isActive) ? 'User Account Deactivated' : 'User Account Activated';
           });
         }
       }

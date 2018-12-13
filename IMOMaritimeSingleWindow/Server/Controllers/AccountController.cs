@@ -541,7 +541,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 usr.Person.CompanyPhoneNumber,
                 usr.Person.CompanyEmail,
                 usr.Email,
-                Id = usr.UserId
+                Id = usr.UserId,
+                usr.IsActive
             }).ToList();
 
 
