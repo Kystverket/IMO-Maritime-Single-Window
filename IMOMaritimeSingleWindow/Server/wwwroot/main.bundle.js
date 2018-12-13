@@ -15972,10 +15972,10 @@ var UserButtonRowComponent = /** @class */ (function () {
     };
     UserButtonRowComponent.prototype.onStatusToggleClick = function () {
         if (this.rowData.userModel.isActive) {
-            this.openConfirmationModal('confirm', 'Deactivate selected user account?');
+            this.openConfirmationModal('Confirm', 'Deactivate selected user account?');
         }
         else {
-            this.openConfirmationModal('confirm', 'Activate selected user account?');
+            this.openConfirmationModal('Confirm', 'Activate selected user account?');
         }
     };
     UserButtonRowComponent.prototype.setContent = function (content) {
