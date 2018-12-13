@@ -86,6 +86,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                 case (int)Constants.LoginStates.LockedOut:
                     _logger.LogWarning("User account is locked out.");
                     return StatusCode(StatusCodes.Status403Forbidden, ModelState);
+                case (int)Constants.LoginStates.Disabled:
+                    _logger.LogWarning("User Account Disabled");
+                    return BadRequest(Errors.AddErrorToModelState("login_failure", "Account has been disabled. Please contact Administrator.", ModelState));
                 default:
                     return Forbid();
             }
@@ -118,6 +121,13 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 _logger.LogDebug("User is null");
                 return (int)Constants.LoginStates.InvalidCredentials;
+            }
+
+            // check to see if the user account is active.
+            if(_user != null && (!_user.IsActive)) {
+
+                _logger.LogDebug("User Account Diabled");
+                return (int)Constants.LoginStates.Disabled;
             }
 
             // Verify username and password match

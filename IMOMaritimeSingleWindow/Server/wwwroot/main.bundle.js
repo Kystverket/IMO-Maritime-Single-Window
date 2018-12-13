@@ -11113,7 +11113,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/confirmation-modal/confirmation-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\r\n  <h4 class=\"modal-title\">{{ headerText }}</h4>\r\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\r\n    <span aria-hidden=\"true\">&times;</span>\r\n  </button>\r\n</div>\r\n<div class=\"modal-body\">\r\n  {{ bodyText }}\r\n</div>\r\n<div class=\"modal-footer\">\r\n  <button type=\"button\" class=\"btn btn-ssn\" (click)=\"activeModal.close('Close click')\">Close</button>\r\n</div>"
+module.exports = "<div class=\"modal-header\">\r\n  <h4 class=\"modal-title\">{{ headerText }}</h4>\r\n  <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"activeModal.dismiss('Cross click')\">\r\n    <span aria-hidden=\"true\">&times;</span>\r\n  </button>\r\n</div>\r\n<div class=\"modal-body\">\r\n  {{ bodyText }}\r\n</div>\r\n<div class=\"modal-footer\">\r\n  <div *ngIf=\"modalStyle == 'CONFIRM_MODAL'\">\r\n  \t<button type=\"button\" class=\"btn btn-ssn\" (click)=\"activeModal.close('proceed')\">Yes</button>\r\n  \t<button type=\"button\" class=\"btn btn-ssn\" (click)=\"activeModal.close('stop')\">No</button>\r\n  </div>\r\n  <button type=\"button\" class=\"btn btn-ssn\" (click)=\"activeModal.close('Close click')\" *ngIf=\"modalStyle != 'CONFIRM_MODAL'\">Close</button>\r\n</div>"
 
 /***/ }),
 
@@ -11145,6 +11145,8 @@ var ConfirmationModalComponent = /** @class */ (function () {
     ConfirmationModalComponent.TYPE_SUCCESS = 'SUCCESS';
     ConfirmationModalComponent.TYPE_WARNING = 'WARNING';
     ConfirmationModalComponent.TYPE_FAILURE = 'FAILURE';
+    ConfirmationModalComponent.CONFIRM_MODAL = "CONFIRM_MODAL";
+    ConfirmationModalComponent.ALERT_MODAL = "ALERT_MODAL";
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", String)
@@ -11157,6 +11159,10 @@ var ConfirmationModalComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", String)
     ], ConfirmationModalComponent.prototype, "modalType", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", String)
+    ], ConfirmationModalComponent.prototype, "modalStyle", void 0);
     ConfirmationModalComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-confirmation-modal',
@@ -15924,7 +15930,7 @@ module.exports = ""
 /***/ "./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Edit user\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onEditClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Edit user\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onEditClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Toggle User Status\">\r\n    \t<button class=\"btn btn-sm btn-ssn\" (click)=\"onStatusToggleClick()\">\r\n\t        <div class=\"mx-auto\">\r\n\t          <img src=\"assets/images/icons/128x128/white/rejected.png\" height=\"20px\" />\r\n\t        </div>\r\n      </button>\r\n    </div>\r\n\r\n\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -15936,6 +15942,8 @@ module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__ = __webpack_require__("./src/app/shared/constants/content-names.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__ = __webpack_require__("./src/app/shared/components/confirmation-modal/confirmation-modal.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -15948,15 +15956,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var UserButtonRowComponent = /** @class */ (function () {
-    function UserButtonRowComponent(accountService, contentService) {
+    function UserButtonRowComponent(accountService, contentService, modalService) {
         this.accountService = accountService;
         this.contentService = contentService;
+        this.modalService = modalService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.statusChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
     }
     UserButtonRowComponent.prototype.ngOnInit = function () { };
     UserButtonRowComponent.prototype.onEditClick = function () {
         this.setContent(__WEBPACK_IMPORTED_MODULE_1_app_shared_constants_content_names__["a" /* CONTENT_NAMES */].REGISTER_USER);
+    };
+    UserButtonRowComponent.prototype.onStatusToggleClick = function () {
+        if (this.rowData.userModel.isActive) {
+            this.openConfirmationModal('Confirm', 'Deactivate selected user account?');
+        }
+        else {
+            this.openConfirmationModal('Confirm', 'Activate selected user account?');
+        }
     };
     UserButtonRowComponent.prototype.setContent = function (content) {
         this.setUser(content);
@@ -15974,6 +15994,29 @@ var UserButtonRowComponent = /** @class */ (function () {
         });
         */
     };
+    UserButtonRowComponent.prototype.openConfirmationModal = function (modalType, bodyText) {
+        var _this = this;
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
+        modalRef.componentInstance.modalType = modalType;
+        modalRef.componentInstance.bodyText = bodyText;
+        modalRef.componentInstance.modalStyle = __WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */].CONFIRM_MODAL;
+        modalRef.result.then(function (closeResult) {
+            if (closeResult === 'proceed') {
+                var apiCall = null;
+                if (_this.rowData.userModel.isActive) {
+                    apiCall = _this.accountService.deactivateUser(_this.rowData.userModel.id);
+                }
+                else {
+                    apiCall = _this.accountService.activateUser(_this.rowData.userModel.id);
+                }
+                apiCall.subscribe(function (apiResult) {
+                    var resultModalRef = _this.modalService.open(__WEBPACK_IMPORTED_MODULE_4_app_shared_components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */]);
+                    resultModalRef.componentInstance.modalType = 'Result';
+                    resultModalRef.componentInstance.bodyText = (_this.rowData.userModel.isActive) ? 'User Account Deactivated' : 'User Account Activated';
+                });
+            }
+        });
+    };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Object)
@@ -15986,6 +16029,10 @@ var UserButtonRowComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */])
     ], UserButtonRowComponent.prototype, "edit", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */])
+    ], UserButtonRowComponent.prototype, "statusChange", void 0);
     UserButtonRowComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-user-button-row',
@@ -15993,7 +16040,8 @@ var UserButtonRowComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */]])
+            __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["f" /* ContentService */],
+            __WEBPACK_IMPORTED_MODULE_3__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
     ], UserButtonRowComponent);
     return UserButtonRowComponent;
 }());
@@ -16067,6 +16115,10 @@ var UserSmartTableComponent = /** @class */ (function () {
                     title: 'Email',
                     type: 'html'
                 },
+                isActive: {
+                    title: 'Account Status',
+                    type: 'html'
+                },
                 actions: {
                     title: 'Actions',
                     type: 'custom',
@@ -16103,6 +16155,7 @@ var UserSmartTableComponent = /** @class */ (function () {
             organization: (user.organization) ? user.organization : 'N/A',
             role: user.role,
             email: user.email,
+            isActive: (user.isActive) ? "Active" : "Deactivated",
             actions: 'btn'
         };
         return row;
@@ -17620,6 +17673,12 @@ var AccountService = /** @class */ (function (_super) {
     AccountService.prototype.updateUser = function (existingUser) {
         return this.http.put(this.userUrl + '/update', existingUser);
     };
+    AccountService.prototype.deactivateUser = function (userId) {
+        return this.http.put(this.userUrl + '/deactivate/' + userId, null);
+    };
+    AccountService.prototype.activateUser = function (userId) {
+        return this.http.put(this.userUrl + '/activate/' + userId, null);
+    };
     AccountService.prototype.getDisplayName = function () {
         return this.http.get(this.userNameUrl, { responseType: 'text' });
     };
@@ -18978,7 +19037,7 @@ var LoginService = /** @class */ (function (_super) {
                 errMsg = ERROR.status + " " + ERROR.statusText;
             }
             else if (ERROR.status >= 400) {
-                errMsg = 'Login failed';
+                errMsg = 'Login failed: ' + error.error.login_failure;
             }
             else if (ERROR.error.error instanceof SyntaxError) {
                 errMsg = 'Application error';

@@ -34,6 +34,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -144,6 +145,67 @@ namespace IMOMaritimeSingleWindow.Controllers
                 result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
                     // if (!result.Succeeded)
                         // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok();
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/deactivate/{userId}")]
+        public async Task<IActionResult> DeactivateUser(string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var id = Guid.Parse(userId);
+
+                User user = (from usr in _context.User
+                                where usr.UserId == id
+                                select usr).SingleOrDefault();
+
+                if(user != null) {
+
+                    user.IsActive = false;
+
+                    _context.SaveChanges();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok();
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/activate/{userId}")]
+        public async Task<IActionResult> ActivateUser(string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var id = Guid.Parse(userId);
+
+                User user = (from usr in _context.User
+                                where usr.UserId == id
+                                select usr).SingleOrDefault();
+
+                if(user != null) {
+
+                    user.IsActive = true; 
+
+                    _context.SaveChanges();
+                }
             }
             catch (Exception e)
             {
@@ -418,7 +480,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                     usr.Person.CompanyPhoneNumber,
                     usr.Person.CompanyEmail,
                     usr.Email,
-                    Id = usr.UserId
+                    Id = usr.UserId,
+                    IsActive = usr.IsActive
                 })
                 .ToArrayAsync();
 
@@ -478,7 +541,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 usr.Person.CompanyPhoneNumber,
                 usr.Person.CompanyEmail,
                 usr.Email,
-                Id = usr.UserId
+                Id = usr.UserId,
+                usr.IsActive
             }).ToList();
 
 

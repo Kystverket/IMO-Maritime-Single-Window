@@ -803,7 +803,7 @@ var LoginComponent = /** @class */ (function () {
                                     return jwt;
                                 }
                                 // Login failed
-                            }, function (error) { return _this.logError(error); })];
+                            }, function (error) { _this.logError(error); console.log(error); })];
                     case 1:
                         jwtResponse = _a.sent();
                         if (!!this.errors) return [3 /*break*/, 3];
