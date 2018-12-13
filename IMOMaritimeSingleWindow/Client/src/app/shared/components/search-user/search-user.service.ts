@@ -9,11 +9,13 @@ export class SearchUserService {
   private searchService: SearchService;
   private searchUrl: string;
   private userUrl: string;
+  private placeholderUserDataUrl: string;
 
   constructor(private http: HttpClient) {
     this.searchService = new SearchService(this.http);
     this.searchUrl = 'api/account/user/search';
     this.userUrl = 'api/account/user';
+    this.placeholderUserDataUrl = 'api/account/placeholder';
   }
 
   search(term: string, amount = 25) {
@@ -27,5 +29,9 @@ export class SearchUserService {
   getUser(email: string) {
     const uri = [this.userUrl, email].join('/');
     return this.http.get(uri);
+  }
+
+  getPlaceHolderData() {
+    return this.http.get(this.placeholderUserDataUrl);
   }
 }

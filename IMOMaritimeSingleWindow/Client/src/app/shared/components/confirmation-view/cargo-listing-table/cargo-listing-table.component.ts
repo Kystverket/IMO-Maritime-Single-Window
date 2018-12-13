@@ -16,6 +16,7 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
   cargoDataSubscription: Subscription;
 
   public cargo: any = [];
+  public headerText: string;
 
   // Smart table
   tableSettings = {
@@ -24,6 +25,7 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
+    noDataMessage: 'There is no cargo reported.',
     columns: {
       description: {
         title: 'Description'
@@ -51,7 +53,13 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.portCallId) {
-      this.cargoDataSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId).subscribe(
+      this.cargoDataSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId)
+      .finally(() => {
+        this.cargoDataSubscription = this.cargoService.getOverviewByPortCall(this.portCallId).subscribe(summary => {
+          this.headerText = 'Cargo Breakdown - No. Of Consignments: ' + summary.noOfConsignments + ' - Total No. of Cargo Items: ' + summary.noOfCargoItems + ' - Total No of Packages: ' + summary.noOfPackages;
+        });
+      })
+      .subscribe(
         cargoData => {
           if (cargoData) {
             cargoData.forEach((item, idx, arr) => {

@@ -4,6 +4,7 @@ import { Http, RequestOptions } from '@angular/http';
 import 'rxjs/add/observable/of';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { SHIP_STATUSES } from '../constants/enumValues';
 import { InternationalShipSecurityCertificateModel, ShipContactModel } from '../models/';
 import { AuthRequest } from './auth.request.service';
 
@@ -15,7 +16,7 @@ export class ShipService {
   private lengthTypeUrl = 'api/shiplengthtype';
   private breadthTypeUrl = 'api/shipbreadthtype';
   private powerTypeUrl = 'api/shippowertype';
-  private shipSourceUrl = 'api/shipsource';
+  private shipSourceInternalUrl = 'api/shipsource/shipSourceInternal';
   private shipStatusListUrl = 'api/shipstatus';
   private contactListShipUrl = 'api/shipcontact/ship';
   private shipContactListUrl = 'api/shipcontact/list';
@@ -101,8 +102,8 @@ export class ShipService {
     return this.http.get(this.powerTypeUrl);
   }
 
-  getShipSources(): Observable<any> {
-    return this.http.get(this.shipSourceUrl);
+  getInternalShipSource(): Observable<any> {
+    return this.http.get(this.shipSourceInternalUrl);
   }
 
   getShipStatusList(): Observable<any> {
@@ -111,6 +112,11 @@ export class ShipService {
 
   getContactList(shipId: number): Observable<any> {
     const uri: string = [this.contactListShipUrl, shipId].join('/');
+    return this.http.get(uri);
+  }
+
+  getShipStatusByEnum(statusEnum: SHIP_STATUSES): Observable<any> {
+    const uri = [this.shipStatusListUrl, 'enumValue', statusEnum].join('/');
     return this.http.get(uri);
   }
 }

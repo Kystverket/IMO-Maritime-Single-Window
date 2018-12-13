@@ -34,6 +34,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -144,6 +145,67 @@ namespace IMOMaritimeSingleWindow.Controllers
                 result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
                     // if (!result.Succeeded)
                         // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok();
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/deactivate/{userId}")]
+        public async Task<IActionResult> DeactivateUser(string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var id = Guid.Parse(userId);
+
+                User user = (from usr in _context.User
+                                where usr.UserId == id
+                                select usr).SingleOrDefault();
+
+                if(user != null) {
+
+                    user.IsActive = false;
+
+                    _context.SaveChanges();
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return Ok();
+        }
+
+        [HasClaim(Claims.Types.USER, Claims.Values.REGISTER)]
+        [HttpPut("user/activate/{userId}")]
+        public async Task<IActionResult> ActivateUser(string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var id = Guid.Parse(userId);
+
+                User user = (from usr in _context.User
+                                where usr.UserId == id
+                                select usr).SingleOrDefault();
+
+                if(user != null) {
+
+                    user.IsActive = true; 
+
+                    _context.SaveChanges();
+                }
             }
             catch (Exception e)
             {
@@ -289,8 +351,9 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             var roleMan = _roleManager as ApplicationRoleManager;
             var roleNames = await roleMan.GetAllRoles();
-            roleNames.Remove(Constants.Strings.UserRoles.SuperAdmin);
-            return Ok(roleNames);
+            roleNames.Remove(roleNames.Single(r => r.Name == Constants.Strings.UserRoles.SuperAdmin));
+            var roleNamesString = roleNames.Select(rn => rn.Description);
+            return Ok(roleNamesString);
         }
 
         [Authorize]
@@ -359,9 +422,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("user/search/{searchTerm}/{amount}")]
         public async Task<IActionResult> SearchUserJson(string searchTerm, int amount)
         {
-            IQueryable<IMOMaritimeSingleWindow.Models.User> queryableUser = null; 
+            IQueryable<IMOMaritimeSingleWindow.Models.User> queryableUser = null;
 
             // check to see if the search term is an email
+            // https://emailregex.com/ 
             var isEmail = Regex.IsMatch(searchTerm,
                 @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
                 @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
@@ -378,14 +442,22 @@ namespace IMOMaritimeSingleWindow.Controllers
             // and try to match the given and sir name combination
             else {
 
-                // seperate the first and last name
                 var parts = searchTerm.ToLower().Split(" ");
 
-                // if the length is 1 we probably only got the first name
-                if(parts.Length == 1)
-                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]));
-                else if(parts.Length == 2)
-                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) && usr.Person.Surname.ToLower().Contains(parts[1]));
+                if (parts.Length == 0)
+                {
+                    return BadRequest("No search parameters were supplied");
+                }
+
+                queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) || usr.Person.Surname.ToLower().Contains(parts[0]));
+
+                if(parts.Length > 1)
+                {
+                    for(var i = 1; i <= parts.Length; i++)
+                        queryableUser.Concat(_context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[i]) || usr.Person.Surname.ToLower().Contains(parts[i])));
+                }
+
+                queryableUser = queryableUser.Distinct();
             }
 
             // include fields
@@ -408,7 +480,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                     usr.Person.CompanyPhoneNumber,
                     usr.Person.CompanyEmail,
                     usr.Email,
-                    Id = usr.UserId
+                    Id = usr.UserId,
+                    IsActive = usr.IsActive
                 })
                 .ToArrayAsync();
 
@@ -441,6 +514,39 @@ namespace IMOMaritimeSingleWindow.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             var claims = await _userManager.GetClaimsAsync(user);
             return Json(claims);
+        }
+
+        [HttpGet("placeholder")]
+        public JsonResult GetPlaceholderData()
+        {
+            var placeholderUsers = _context.User.Where(x => x.Person != null)
+                .OrderByDescending(s => s.UserId)
+                .Include(usr => usr.Organization)
+                .Include(usr => usr.Organization.OrganizationType)
+                .Include(usr => usr.Person)
+                .Include(usr => usr.Role)
+                .Take(10)
+                .ToList();
+
+            var viewModel = placeholderUsers.Select(usr =>
+            new
+            {
+                usr.Person.GivenName,
+                usr.Person.Surname,
+                Organization = usr.Organization.Name,
+                usr.Organization.OrganizationId,
+                OrganizationType = usr.Organization.OrganizationType?.Name,
+                Role = usr.Role.Name,
+                usr.PhoneNumber,
+                usr.Person.CompanyPhoneNumber,
+                usr.Person.CompanyEmail,
+                usr.Email,
+                Id = usr.UserId,
+                usr.IsActive
+            }).ToList();
+
+
+            return Json(viewModel);
         }
 
 

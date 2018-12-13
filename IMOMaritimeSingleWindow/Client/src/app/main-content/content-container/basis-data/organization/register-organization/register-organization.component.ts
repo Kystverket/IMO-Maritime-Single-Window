@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -28,6 +28,9 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
   organizationDataSubscription: Subscription;
   organizationTypesSubscription: Subscription;
 
+  @Input() registered: Function;
+  @Input() closed: Function;
+
   constructor(
     public organizationModel: OrganizationModel,
     private organizationService: OrganizationService,
@@ -54,7 +57,7 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.organizationTypesSubscription = this.organizationService.getOrganizationTypes().subscribe(
+    this.organizationTypesSubscription = this.organizationService.getValidOrganizationTypes().subscribe(
       organizationTypesData => {
         this.organizationTypeList = organizationTypesData;
         // Temporary until we add more organization types (certificate issuer)
@@ -62,7 +65,6 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
           this.selectedOrganizationType = this.organizationTypeList.find(
             type => type.name === 'Authority'
           );
-          this.organizationTypeSelected = true;
         }
       }
     );
@@ -83,6 +85,11 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
               ConfirmationModalComponent.TYPE_SUCCESS,
               RESULT_SUCCESS
             );
+
+            // if a call back is set call it.
+            if (this.registered) {
+              this.registered(result);
+            }
           },
           error => {
             console.log(error);
@@ -114,11 +121,16 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
   }
 
   selectOrganizationType(organizationType: any) {
-    this.organizationModel.organizationTypeId =
-      organizationType.organizationTypeId;
-    this.organizationTypeDropdownString = organizationType.name;
     this.selectedOrganizationType = organizationType;
+
+    if (organizationType === undefined || organizationType == null) {
+    this.organizationModel.organizationTypeId = null;
+    this.organizationTypeSelected = false;
+    } else {
+    this.organizationTypeDropdownString = organizationType.name;
+    this.organizationModel.organizationTypeId = organizationType.organizationTypeId;
     this.organizationTypeSelected = true;
+    }
   }
 
   private goBack() {
@@ -131,15 +143,21 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.bodyText = bodyText;
     modalRef.result.then(
       result => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE && (!this.registered)) {
           this.goBack();
         }
       },
       reason => {
-        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE) {
+        if (modalType !== ConfirmationModalComponent.TYPE_FAILURE && (!this.registered)) {
           this.goBack();
         }
       }
     );
+  }
+
+  close(): void {
+    if (this.closed) {
+      this.closed();
+    }
   }
 }

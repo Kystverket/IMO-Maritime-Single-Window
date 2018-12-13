@@ -38,6 +38,10 @@ export class UserSmartTableComponent implements OnInit, OnDestroy {
         title: 'Email',
         type: 'html'
       },
+      isActive: {
+        title:'Account Status',
+        type:'html'
+      },
       actions: {
         title: 'Actions',
         type: 'custom',
@@ -56,7 +60,6 @@ export class UserSmartTableComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSearchDataSubscription = this.accountService.userSearchData$.subscribe(data => {
-
       if (data) {
         if (data.length !== 0) {
           const rowList = [];
@@ -82,6 +85,7 @@ export class UserSmartTableComponent implements OnInit, OnDestroy {
       organization: (user.organization) ? user.organization : 'N/A',
       role: user.role,
       email: user.email,
+      isActive: (user.isActive) ? "Active" : "Deactivated",
       actions: 'btn'
     };
     return row;

@@ -14,6 +14,10 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        enum SHIP_SOURCES
+        {
+            IMO_INTERNAL,
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -31,6 +35,14 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             List<ShipSource> resultList = _context.ShipSource.ToList();
             return Json(resultList);
+        }
+
+        [HttpGet("shipSourceInternal")]
+        public IActionResult GetShipSource()
+        {
+            var locationSource = _context.ShipSource.FirstOrDefault(ls => ls.EnumValue == SHIP_SOURCES.IMO_INTERNAL.ToString());
+
+            return Json(locationSource);
         }
     }
 }

@@ -15,24 +15,21 @@
 <!-- FAL forms -->
 <div *ngFor="let entry of falForms">
   <div *ngIf="entry.checked" [ngSwitch]="entry.name" class="row mb-3">
+    <div *ngSwitchCase="'DPG'" class="col">
+      <app-dpg-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-listing-table>
+    </div>
     <div *ngSwitchCase="'Cargo'" class="col">
-      <app-cargo-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-cargo-info-table>
       <app-cargo-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-cargo-listing-table>
     </div>
     <div *ngSwitchCase="'Ship Stores'" class="col">
-      <app-ship-stores-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-ship-stores-info-table>
+      <app-ship-stores-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-ship-stores-listing-table>
     </div>
     <div *ngSwitchCase="'Crew'" class="col">
-      <!-- <app-crew-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-crew-info-table> -->
       <app-crew-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-crew-listing-table>
     </div>
     <div *ngSwitchCase="'Pax'" class="col">
-      <app-passenger-info-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-info-table>
       <app-passenger-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-listing-table>
     </div>
-    <div *ngSwitchCase="'DPG'" class="col">
-        <app-dpg-confirmation-view [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-confirmation-view>
-      </div>
     <div *ngSwitchCase="'Security'" class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
         <div class="text-center my-3">

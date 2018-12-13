@@ -57,7 +57,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
     AccountService
   ],
   entryComponents: [
-    LocationButtonRowComponent
+    LocationButtonRowComponent,
+    RegisterOrganizationComponent
   ]
 })
 export class BasisDataModule { }

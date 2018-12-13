@@ -1,0 +1,9 @@
+.as-dialog {
+	margin-bottom:0 !important;
+}
+.close {
+	color: #fff;
+	right: 0;
+	position: fixed;
+	padding: .3em 1em;
+}

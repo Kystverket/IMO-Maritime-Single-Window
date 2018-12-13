@@ -1,6 +1,7 @@
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -24,6 +25,43 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return NotFound();
             }
             return Json(cargo);
+        }
+
+        [HttpGet("overviewByPortCall/{portCallId}")]
+        public IActionResult GetOverviewByPortCall(int portCallId)
+        {
+            var consignments = _context.Consignment.Where(consignment => consignment.PortCallId == portCallId)
+                                                   .Include(consignment => consignment.CargoItem)
+                                                   .ToList();
+            var NoOfCargoItems = 0;
+            var NoOfPackages = 0;
+
+            foreach (var consignment in consignments)
+            {
+                if (consignment.CargoItem != null && consignment.CargoItem.Any())
+                {
+                    var cargoItems = consignment.CargoItem;
+                    NoOfCargoItems += cargoItems.Count();
+
+                    foreach (var cargoItem in cargoItems)
+                    {
+                        if (cargoItem.NumberOfPackages.HasValue)
+                        {
+                            NoOfPackages += cargoItem.NumberOfPackages.Value;
+                        }
+                    }
+                }
+            }
+
+            var NoOfConsignments = consignments.Count();
+
+            var returnVal = new
+            {
+                NoOfConsignments,
+                NoOfPackages,
+                NoOfCargoItems
+            };
+            return Json(returnVal);
         }
 
         [HttpPost("add")]

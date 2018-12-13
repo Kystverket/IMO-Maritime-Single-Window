@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
@@ -27,6 +28,7 @@ export class VoyagesComponent implements OnInit {
   locationFound = false;
   prevLocationFound = false;
   nextLocationFound = false;
+  shipFilter = SHIP_STATUSES.ACTIVE;
 
   shipProperties = new ShipProperties().getPropertyList();
   locationProperties = new LocationProperties().getPropertyList();

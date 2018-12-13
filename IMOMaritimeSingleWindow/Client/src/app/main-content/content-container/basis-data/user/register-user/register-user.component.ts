@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
+import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
@@ -21,6 +22,9 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   userHeader = 'REGISTER USER';
   confirmHeader = 'Confirm User Registration';
   confirmButtonTitle = 'Register User';
+  filterOrganization = ORGANIZATION_TYPES.AGENT_COMPANY;
+
+  preUpdateEmail = '';
 
   user: UserModel = {
     email: '',
@@ -31,7 +35,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     organizationId: '',
     companyEmail: '',
     companyPhoneNumber: '',
-    id:''
+    id: null
   };
   emailTaken: boolean;
   emailChecked: boolean;
@@ -89,7 +93,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.confirmHeader = 'Confirm User Changes';
     this.confirmButtonTitle = 'Apply Changes';
 
+    this.preUpdateEmail = user.email;
+
     // get and set the associated organization.
+    // tslint:disable-next-line:radix
     this.organizationService.getOrganizationById(parseInt(user.organizationId)).subscribe(data => {
       this.organizationService.setOrganizationData(data);
       this.setOrganization(data);
@@ -105,9 +112,10 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
     this.getAllRolesSubscription.unsubscribe();
   }
   userExists(emailValid: boolean) {
+
     if (emailValid) {
 
-      if (this.newUser) {
+      if (this.user.email !== this.preUpdateEmail) {
 
         return this.accountService.emailTaken(this.user.email)
         .subscribe(result => {
@@ -116,7 +124,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
         });
       } else {
         this.emailTaken = false;
-        // this.emailChecked = true;
+        this.emailChecked = true;
       }
     }
   }
@@ -168,7 +176,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
   }
 
   private goBack() {
-    this.contentService.setContent(CONTENT_NAMES.VIEW_PORT_CALLS);
+    this.contentService.setContent(CONTENT_NAMES.VIEW_USERS);
   }
 
   private openConfirmationModal(modalType: string, bodyText: string) {

@@ -23,8 +23,8 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   detailsDataIsPristine = true;
   shipStoresDataIsPristine = true;
   cargoDataIsPristine = true;
-  passengerDataIsPristine: Boolean = true;
-  crewDataIsPristine: Boolean = true;
+  passengerDataIsPristine = true;
+  crewDataIsPristine = true;
   securityIsPristine = true;
   dpgDataIsPristine = true;
 
@@ -250,11 +250,13 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
         this.dpgOnBoardList = dpgData;
       }
     );
+
     this.dpgListIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
       pristineData => {
         this.dpgDataIsPristine = pristineData;
       }
     );
+
     this.dpgIsCheckedSubscription = this.dpgService.dpgIsChecked$.subscribe(
       isChecked => {
         this.dpgIsChecked = isChecked;
@@ -343,7 +345,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       this.purposeModel,
       this.otherPurposeName
     ).subscribe(detailsResponse => {
-      console.log('Successfully saved port call details:', detailsResponse);
       this.portCallDetailsService.setPortCallDetailsId(detailsResponse.portCallDetailsId);
       this.portCallService.savePurposesForPortCall(this.portCallId, this.purposeModel, this.otherPurposeName);
     });
@@ -354,7 +355,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.shipStoresService.saveShipStores(formattedShipStoresList, this.portCallId).subscribe(
       res => {
         this.shipStoresService.setDataIsPristine(true);
-        console.log(res);
       },
       error => {
         console.log(error);
@@ -367,7 +367,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.cargoService.saveConsignmentListForPortCall(formattedCargoData, this.portCallId).subscribe(
       res => {
         this.cargoService.setDataIsPristine(true);
-        console.log('Cargo successfully saved.\n', res);
       }, error => {
         console.error(error);
       }
@@ -378,7 +377,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, 2).subscribe(
       res => {
         this.personOnBoardService.setPassengerDataIsPristine(true);
-        console.log('Passengers successfully saved.\n', res);
       }, error => {
         console.log(error);
       }
@@ -389,7 +387,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, 1).subscribe(
       res => {
         this.personOnBoardService.setCrewDataIsPristine(true);
-        console.log('Crew list successfully saved.\n', res);
       }, error => {
         console.log(error);
       }
@@ -399,8 +396,7 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
   saveDpgOnBoardList() {
     this.dpgService.saveDpgOnBoard(this.dpgOnBoardList, this.portCallId).subscribe(
       res => {
-        this.dpgService.setDataIsPristine(true);
-        console.log('Dpg on board successfully saved. \n', res);
+        this.dpgService.setDataIsPristineTrue();
       }, error => {
         console.log(error);
       }
@@ -412,7 +408,6 @@ export class ActivatePortCallComponent implements OnInit, OnDestroy {
       .updatePortCallStatusAwaitingClearance(this.portCallId)
       .subscribe(
         updateStatusResponse => {
-          console.log('Status successfully updated.');
           this.openConfirmationModal(
             ConfirmationModalComponent.TYPE_SUCCESS,
             RESULT_SUCCES

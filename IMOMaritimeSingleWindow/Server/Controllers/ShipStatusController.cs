@@ -3,6 +3,7 @@ using IMOMaritimeSingleWindow.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using static IMOMaritimeSingleWindow.Controllers.ShipController;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -20,6 +21,18 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             List<ShipStatus> resultList = _context.ShipStatus.ToList();
             return Json(resultList);
+        }
+
+        [HttpGet("enumValue/{enumValue}")]
+        public IActionResult GetByEnum(SHIP_STATUSES enumValue)
+        {
+            var shipStatus = _context.ShipStatus.Where(x => x.EnumValue == enumValue.ToString()).FirstOrDefault();
+
+            if(shipStatus != null)
+            {
+                return Json(shipStatus);
+            }
+            return BadRequest("Could not find ship status by enumvalue: " + enumValue);
         }
     }
 }

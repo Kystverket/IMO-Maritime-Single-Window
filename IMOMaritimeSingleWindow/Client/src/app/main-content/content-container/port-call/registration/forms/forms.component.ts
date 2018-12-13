@@ -185,7 +185,7 @@ export class FormsComponent implements OnInit, OnDestroy {
             dpgOnBoardList => {
               this.dpgData = dpgOnBoardList;
               this.dpgService.setDpgOnBoardList(dpgOnBoardList);
-              this.dpgService.setDataIsPristine(true);
+              this.dpgService.setDataIsPristineTrue();
             }
           );
         }
