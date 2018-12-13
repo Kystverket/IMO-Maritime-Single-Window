@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WhatsNewComponent implements OnInit {
 
+  toggle2311 = false;
   constructor() { }
 
   ngOnInit() {
   }
 
+  toggle2311ChangeSet() {
+    this.toggle2311 = !this.toggle2311;
+  }
 }
