@@ -102,5 +102,39 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpGet("overviewByPortCall/{portCallId}")]
+        public IActionResult GetOverviewByPortCall(int portCallId)
+        {
+            var dpgOnBoardList = _context.DpgOnBoard
+               .Where(d => d.PortCallId == portCallId)
+               .Include(x => x.Dpg)
+               .Include(x => x.Dpg.DpgType)
+               .Include(mt => mt.MeasurementType)
+               .ToList();
+
+            var returnValue = dpgOnBoardList.Select(x => new
+            {
+                PlacedInContainer = x.PlacedInContainer ? "Yes" : "No",
+                x.TransportUnitIdentification,
+                x.LocationOnBoard,
+                Classification = x.Dpg?.DpgType?.ShortName,
+                UnNoName = x.Dpg?.UnNumber,
+                Name = x.Dpg?.TextualReference,
+                GrossWeightVolume = new
+                {
+                    x.GrossWeight,
+                    x.MeasurementType?.Name
+                },
+                NetWeightVolume = new
+                {
+                    x.NetWeight,
+                    x.MeasurementType?.Name
+                },
+
+            }).ToList();
+
+            return Json(returnValue);
+        }
     }
 }

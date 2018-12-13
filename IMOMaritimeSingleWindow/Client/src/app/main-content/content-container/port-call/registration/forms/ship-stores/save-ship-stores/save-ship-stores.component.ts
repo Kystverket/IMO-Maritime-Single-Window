@@ -54,7 +54,6 @@ export class SaveShipStoresComponent implements OnInit, OnDestroy {
       res => {
         this.shipStoresService.setDataIsPristine(true);
         this.saving = false;
-        console.log(res.json());
       },
       error => {
         this.saving = false;

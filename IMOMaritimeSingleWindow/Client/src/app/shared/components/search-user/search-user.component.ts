@@ -34,6 +34,9 @@ export class SearchUserComponent implements OnInit {
 
   ngOnInit() {
     this.userSelected = false;
+    this.searchUserService.getPlaceHolderData().subscribe(res => {
+      this.userSearchResult.emit(res);
+    });
   }
 
   search = (text$: Observable<string>) =>

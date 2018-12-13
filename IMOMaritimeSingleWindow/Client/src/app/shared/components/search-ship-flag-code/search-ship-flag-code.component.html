@@ -1,6 +1,6 @@
 <ng-template #rt let-r="result" let-t="term">
   <img *ngIf="r.country.twoCharCode" src="assets/images/flags/{{ r.country.twoCharCode | lowercase }}.png" height="16px" />
-  <strong *ngIf="r.name">Code: </strong> {{ r.name }}
+  <strong *ngIf="r.country.threeCharCode">Code: </strong> {{ r.country.threeCharCode }}
   <strong *ngIf="r.country.name">Country: </strong> {{ r.country.name }}
 </ng-template>
 

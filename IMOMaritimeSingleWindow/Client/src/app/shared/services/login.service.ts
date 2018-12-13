@@ -48,7 +48,7 @@ export class LoginService extends BaseService {
       if (ERROR.status >= 500) {
         errMsg = `${ERROR.status} ${ERROR.statusText}`;
       } else if (ERROR.status >= 400) {
-        errMsg = 'Login failed';
+        errMsg = 'Login failed: ' + error.error.login_failure;
       } else if (ERROR.error.error instanceof SyntaxError) {
         errMsg = 'Application error';
       } else {

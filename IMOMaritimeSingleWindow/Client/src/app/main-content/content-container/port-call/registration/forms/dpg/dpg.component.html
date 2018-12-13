@@ -181,7 +181,7 @@
           </app-ssn-card>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" *ngIf="!listIsPristine">
         <button type="submit" class="btn btn-ssn mt-2" (click)="save()">
           <img src="assets/images/icons/128x128/white/save.png" height="20px">
           <span>Save all DPGs</span>
@@ -190,6 +190,17 @@
         <span class="badge badge-success" *ngIf="saved">Your changes have been saved.</span>
         <span class="badge badge-danger" *ngIf="saveError">An error occured when trying to save.</span>
       </div>
+
+      <div class="modal-footer" *ngIf="listIsPristine">
+          <span>There is nothing to save.</span>
+          <br>
+          <button class="btn btn-ssn mt-2" disabled>
+            <img src="assets/images/icons/128x128/white/save.png" height="24px">
+            <span>Save all DPGs</span>
+          </button>
+      </div>
+
+
     </div>
   </form>
 </app-ssn-card>

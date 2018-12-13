@@ -1,6 +1,6 @@
 <div class="row mb-3">
   <div class="col">
-    <app-table-card header="Cargo Breakdown" icon="cargo.png" collapsible=true>
+    <app-table-card header="{{headerText}}" icon="cargo.png" collapsible=true collapsed=true>
       <ng2-smart-table [settings]="tableSettings" [source]="cargo"></ng2-smart-table>
     </app-table-card>
   </div>

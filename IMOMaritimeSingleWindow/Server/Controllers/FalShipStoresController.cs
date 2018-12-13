@@ -93,6 +93,74 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(shipStores);
         }
 
+        [HttpGet("overviewByPortCall/{portcallId}")]
+        public IActionResult GetOverviewByPortCall(int portCallId)
+        {
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId)
+                       .Include(shipStore => shipStore.MeasurementType)
+                       .ToList();
+
+            var amount = shipStores.Count();
+
+            var totalWeight = 0f;
+            var totalVolume = 0f;
+            var totalRegisteredUnits = 0f;
+
+            foreach(var shipStore in shipStores)
+            {
+                if(shipStore.MeasurementType.Name.ToLower().Contains("(kg)") && shipStore.Quantity.HasValue)
+                {
+                    totalWeight += shipStore.Quantity.Value;
+                } else if (shipStore.MeasurementType.Name.ToLower().Contains("(t)") && shipStore.Quantity.HasValue)
+                {
+                    totalWeight += (shipStore.Quantity.Value * 1000);
+                } else if (shipStore.MeasurementType.Name.ToLower().Contains("(l)") && shipStore.Quantity.HasValue)
+                {
+                    totalVolume += shipStore.Quantity.Value;
+                }
+                else if (shipStore.MeasurementType.Name.ToLower().Contains("(m3)") && shipStore.Quantity.HasValue)
+                {
+                    totalVolume += shipStore.Quantity.Value;
+                }
+                else if (shipStore.MeasurementType.Name.ToLower().Contains("(u)") && shipStore.Quantity.HasValue)
+                {
+                    totalRegisteredUnits += shipStore.Quantity.Value;
+                }
+            }
+
+            var returnVal = new
+            {
+                amount,
+                totalWeight,
+                totalVolume,
+                totalRegisteredUnits,
+            };
+
+            return Json(returnVal);
+        }
+
+        [HttpGet("summaryByPortCall/{portcallId}")]
+        public IActionResult GetSummaryListingShipStore(int portCallId)
+        {
+            var shipStores = _context.FalShipStores.Where(s => s.PortCallId == portCallId)
+                       .Include(shipStore => shipStore.MeasurementType)
+                       .ToList();
+
+            var returnVal = shipStores.Select(x => new
+            {
+                x.ArticleName,
+                x.Quantity,
+                MeasurementType = x.MeasurementType.Name,
+                LocationOnBoardAndCode = new
+                {
+                    Name = x.LocationOnBoard,
+                    Code = x.LocationOnBoardCode
+                },
+            });
+
+            return Json(returnVal);
+        }
+
         [HttpGet("")]
         public IActionResult GetAll()
         {

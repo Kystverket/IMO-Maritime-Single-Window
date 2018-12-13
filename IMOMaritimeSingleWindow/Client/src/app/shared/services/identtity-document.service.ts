@@ -28,12 +28,10 @@ export class IdentityDocumentService {
     }
 
     updateIdentityDocumentList(identityDocumentList: any[]) {
-        console.log('Updating identity documents for passengers...');
         const uri = this.identityDocumentListUrl;
         return this.http.put(uri, identityDocumentList).map(res => {
           res.json();
           if (res.status === 200) {
-            console.log('Identity documents for passengers successfully saved.');
           }
         });
     }

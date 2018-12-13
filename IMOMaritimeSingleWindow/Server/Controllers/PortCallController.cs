@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
+using static IMOMaritimeSingleWindow.Controllers.PersonOnBoardTypeController;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -140,11 +141,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(personOnBoardList);
         }
 
-        [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}")]
-        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, int personOnBoardTypeId)
+        [HttpGet("{portCallId}/personOnBoard/personOnBoardType/{EnumValue}")]
+        public IActionResult GetAllPersonOnBoardByPortCallAndPersonOnBoardType(int portCallId, PERSON_ON_BOARD_TYPE_ENUM EnumValue)
         {
-            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardTypeId == personOnBoardTypeId)
-            .Include(pob => pob.PortCall)
+            var personOnBoardList = _context.PersonOnBoard.Where(s => s.PortCallId == portCallId && s.PersonOnBoardType.EnumValue == EnumValue.ToString())
             .Include(pob => pob.Nationality)
             .Include(pob => pob.CountryOfBirth)
             .Include(pob => pob.PersonOnBoardType)
@@ -154,11 +154,61 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pob => pob.IdentityDocument).ThenInclude(i => i.IssuingNation)
             .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
+
+
             if (personOnBoardList == null)
             {
                 return NotFound();
             }
-            return Json(personOnBoardList);
+
+            var returnVal = personOnBoardList.Select(x => new
+            {
+                x.PersonOnBoardId,
+                x.GivenName,
+                x.FamilyName,
+                x.DateOfBirth,
+                x.PlaceOfBirth,
+                x.OccupationName,
+                x.OccupationCode,
+                x.RoleCode,
+                x.InTransit,
+                x.RankName,
+                x.RankCode,
+                x.SequenceNumber,
+
+                PortOfEmbarkation =  x.PortOfEmbarkation?.Name,
+                PortOfEmbarkationTwoCharCode = x.PortOfEmbarkation?.Country?.TwoCharCode,
+                PortOfDisembarkationTwoCharCode = x.PortOfDisembarkation?.Country?.TwoCharCode,
+                PortOfDisembarkation = x.PortOfDisembarkation?.Name,
+                Nationality = x.Nationality?.Name,
+                Gender = x.Gender?.Description,
+                CountryOfBirth = x.CountryOfBirth?.Name,
+
+                NationalityTwoCharCode = x.Nationality?.TwoCharCode,
+                CountryOfBirthTwoCharCode = x.CountryOfBirth?.TwoCharCode,
+                x.CountryOfBirthId,
+                x.NationalityId,
+                x.PersonOnBoardTypeId,
+                x.GenderId,
+                x.PortCallId,
+                x.PortOfEmbarkationId,
+                x.PortOfDisembarkationId,
+                IdentityDocument = x.IdentityDocument?.Select(id => new
+                {
+                    id.IdentityDocumentExpiryDate,
+                    id.IdentityDocumentIssueDate,
+                    id.IdentityDocumentNumber,
+                    IssuingNation = id.IssuingNation?.Name,
+                    IssuingNationTwoCharCode = id.IssuingNation?.TwoCharCode,
+                    id.IssuingNationId,
+                    id.IdentityDocumentId,
+                    id.VisaOrResidencePermitNumber,
+                    IdentityDocumentTypeId = id.IdentityDocumentType?.Id,
+                    id.IdentityDocumentType
+                })
+            }).ToList();
+
+            return Json(returnVal);
         }
 
         [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
@@ -277,7 +327,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(pc => pc.Location.LocationType)
             .Include(pc => pc.PortCallDetails)
             .Include(pc => pc.FalShipStores).ThenInclude(fss => fss.MeasurementType)
-            .Include(pc => pc.PersonOnBoard)
+            //.Include(pc => pc.PersonOnBoard)
             .Include(pc => pc.PreviousLocation)
             .Include(pc => pc.NextLocation)
             .Include(pc => pc.PreviousLocation.Country)

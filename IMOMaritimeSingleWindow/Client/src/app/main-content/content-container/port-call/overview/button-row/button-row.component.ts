@@ -147,7 +147,7 @@ export class ButtonRowComponent implements ViewCell, OnInit {
   }
 
   deletePortCall() {
-    this.portCallService.deletePortCallDraft(this.rowData.overviewModel.portCall).subscribe(
+    this.portCallService.deletePortCallDraft(this.rowData.overviewModel.portCallId).subscribe(
       deleteResponse => {
         if (deleteResponse) {
           const newOverviewData = this.overviewData.filter(row => row !== this.rowData);

@@ -15,8 +15,8 @@ namespace IMOMaritimeSingleWindow.Repositories
 
         public Role GetByNormalizedName(string normalizedRoleName)
         {
-            return DbSet
-                .Where(role => role.NormalizedName == normalizedRoleName)
+            return DbSet.Where(role =>
+                role.Description.ToLower() == normalizedRoleName.ToLower())
                 .FirstOrDefault();
         }
 

@@ -26,6 +26,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   locationTypeDropdownString = 'Select location type';
   selectedTwoCharCode: string;
   threeCharLoCode: string;
+  locationSource: any;
 
   countryList: any[];
   countrySelected = false;
@@ -35,6 +36,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   locationDataSubscription: Subscription;
   locationTypesSubscription: Subscription;
   countriesSubscription: Subscription;
+  locationSourceSubscription: Subscription;
 
   constructor(
     public locationModel: LocationModel,
@@ -44,6 +46,13 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.locationSourceSubscription = this.locationService.getInternalLocationSource()
+    .subscribe(res => {
+      this.locationSource = res;
+    });
+
+
     this.locationDataSubscription = this.locationService.locationData$.subscribe(
       data => {
         if (data) {
@@ -88,6 +97,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
     this.locationDataSubscription.unsubscribe();
     this.locationTypesSubscription.unsubscribe();
     this.countriesSubscription.unsubscribe();
+    this.locationSourceSubscription.unsubscribe();
   }
 
   selectCountry($event) {
@@ -120,6 +130,7 @@ export class RegisterLocationComponent implements OnInit, OnDestroy {
   }
 
   registerLocation() {
+    this.locationModel.locationSourceId = this.locationSource.locationSourceId;
     if (this.newLocation) {
       this.locationService.registerLocation(this.locationModel).subscribe(
         result => {

@@ -20,6 +20,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        public enum LOCATION_SOURCES
+        {
+            IMO_INTERNAL,
+            IMO_EXTERNAL
+        }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
         [HttpPost()]
@@ -84,8 +89,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             else
             {
-                results = _context.Location.Where(loc => (EF.Functions.ILike(loc.Name, searchTerm + '%')
-                                                    || EF.Functions.ILike(loc.LocationCode, searchTerm + '%')))
+                results = _context.Location.Where(loc => (EF.Functions.ILike(loc.Name, '%' + searchTerm + '%')
+                                                    || EF.Functions.ILike(loc.LocationCode, '%' + searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
                                                     .Take(40).ToList();
@@ -116,6 +121,27 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return BadRequest();
             }
             return Json(location);
+        }
+
+        [HttpGet("placeholder")]
+        public JsonResult GetPlaceholderData()
+        {
+            var placeholderLocations = _context.Location.
+                OrderByDescending(l => l.LocationId)
+                .Include(l => l.LocationType)
+                .Include(l => l.Country)
+                .Take(10)
+                .ToList();
+
+            return Json(placeholderLocations);
+        }
+
+        [HttpGet("locationSourceInternal")]
+        public IActionResult GetLocationSource()
+        {
+            var locationSource = _context.LocationSource.FirstOrDefault(ls => ls.EnumValue == LOCATION_SOURCES.IMO_INTERNAL.ToString());
+
+            return Json(locationSource);
         }
     }
 }

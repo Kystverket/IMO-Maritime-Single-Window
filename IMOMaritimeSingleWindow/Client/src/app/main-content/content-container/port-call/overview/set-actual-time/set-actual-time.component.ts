@@ -143,7 +143,6 @@ export class SetActualTimeComponent implements OnInit {
               this.portCallModel = res;
               this.portCallCompleted.emit(result.portCallId);
               this.modalRef.close();
-              console.log('Status set to completed.');
 
             },
             err => console.log(err)
@@ -154,7 +153,6 @@ export class SetActualTimeComponent implements OnInit {
               this.portCallModel = res;
               this.portCallCleared.emit(result.portCallId);
               this.modalRef.close();
-              console.log('Status set to cleared.');
             },
             err => console.log(err)
           );
@@ -185,7 +183,6 @@ export class SetActualTimeComponent implements OnInit {
   }
 
   modalClosed() {
-    console.log('modal closed');
   }
 
 }

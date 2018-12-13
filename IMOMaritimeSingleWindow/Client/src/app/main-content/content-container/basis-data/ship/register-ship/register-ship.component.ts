@@ -22,6 +22,7 @@ const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 export class RegisterShipComponent implements OnInit, OnDestroy {
 
   shipModel = new ShipModel();
+  shipSource: any;
 
   newShip = false;
   shipHeader: string;
@@ -81,6 +82,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   breadthTypesSubscription: Subscription;
   powerTypesSubscription: Subscription;
   shipStatusListSubscription: Subscription;
+  shipSourceSubscription: Subscription;
 
   constructor(
     private shipService: ShipService,
@@ -89,6 +91,11 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.shipSourceSubscription = this.shipService.getInternalShipSource().subscribe(res => {
+      this.shipSource = res;
+    });
+
     this.dataIsPristineText = INITIAL_DATA_IS_PRISTINE_TEXT;
     this.certificateModel = new CertificateOfRegistryModel();
     this.shipDataSubscription = this.shipService.shipData$.subscribe(data => {
@@ -304,6 +311,7 @@ export class RegisterShipComponent implements OnInit, OnDestroy {
   registerShip() {
     this.updateCertificate();
     if (this.newShip) {
+      this.shipModel.shipSourceId = this.shipSource.shipSourceId;
       this.shipService.registerShip(this.shipModel).subscribe(
         result => {
           this.shipModel.shipId = result.shipId;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,11 +11,17 @@ export class ConfirmationModalComponent implements OnInit {
   static TYPE_WARNING = 'WARNING';
   static TYPE_FAILURE = 'FAILURE';
 
+  static CONFIRM_MODAL = "CONFIRM_MODAL";
+  static ALERT_MODAL = "ALERT_MODAL";
+
   @Input() headerText: string;
 
   @Input() bodyText: string;
 
   @Input() modalType: string;
+
+  @Input() modalStyle: string;
+
 
   constructor(public activeModal: NgbActiveModal) {}
 

@@ -78,7 +78,6 @@ export class ReportingComponent implements OnInit, OnDestroy {
         this.reportingModel.reportingSecurity = checkboxModel.checked;
         break;
       default:
-        console.log('Oops. Something went wrong with the checkboxes.');
     }
     this.portCallDetailsService.setReportingForThisPortCallData(this.reportingModel);
   }
