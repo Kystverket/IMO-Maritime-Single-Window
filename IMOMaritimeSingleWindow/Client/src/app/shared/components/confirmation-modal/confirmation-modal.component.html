@@ -8,5 +8,9 @@
   {{ bodyText }}
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-ssn" (click)="activeModal.close('Close click')">Close</button>
+  <div *ngIf="modalStyle == 'CONFIRM_MODAL'">
+  	<button type="button" class="btn btn-ssn" (click)="activeModal.close('proceed')">Yes</button>
+  	<button type="button" class="btn btn-ssn" (click)="activeModal.close('stop')">No</button>
+  </div>
+  <button type="button" class="btn btn-ssn" (click)="activeModal.close('Close click')" *ngIf="modalStyle != 'CONFIRM_MODAL'">Close</button>
 </div>
