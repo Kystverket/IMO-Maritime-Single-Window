@@ -5,6 +5,7 @@ using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
 using System.Threading.Tasks;
 using System.Linq;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Identity
 {
@@ -24,17 +25,13 @@ namespace IMOMaritimeSingleWindow.Identity
         /// Gets the names of all possible roles in the system
         /// </summary>
         /// <returns>A list of rolenames</returns>
-        public async Task<IList<string>> GetAllRoles()
+        public async Task<IList<Role>> GetAllRoles()
         {
             var roleStore = Store as RoleStore;
 
             var roles = await roleStore.GetAllRoles();
-            List<string> roleNames = new List<string>();
-            foreach (var role in roles)
-            {
-                roleNames.Add(role.Name);
-            }
-            return roleNames;
+
+            return roles;
         }
 
     }

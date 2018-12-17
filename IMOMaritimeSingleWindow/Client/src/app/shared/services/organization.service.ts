@@ -12,12 +12,14 @@ export class OrganizationService {
   private searchOrganizationUrl: string;
   private organizationUrl: string;
   private organizationTypeUrl: string;
+  private validOrganizationTypesUrl: string;
   private organizationUserUrl: string;
 
   constructor(private http: HttpClient) {
     this.searchService = new SearchService(http);
     this.organizationUrl = 'api/organization';
     this.organizationTypeUrl = 'api/organizationtype';
+    this.validOrganizationTypesUrl = 'api/organizationtype/ValidTypes';
     this.organizationUserUrl = this.organizationUrl + '/user';
     this.searchOrganizationUrl = this.organizationUrl + '/search';
   }
@@ -53,8 +55,8 @@ export class OrganizationService {
     return this.searchService.search(this.searchOrganizationUrl, term, amount);
   }
 
-  public getOrganizationTypes(): Observable<any> {
-    return this.http.get(this.organizationTypeUrl);
+  public getValidOrganizationTypes(): Observable<any> {
+    return this.http.get(this.validOrganizationTypesUrl);
   }
 
   public getOrganizationForUser(): Observable<any> {

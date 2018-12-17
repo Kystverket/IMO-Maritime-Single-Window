@@ -94,7 +94,8 @@ namespace IMOMaritimeSingleWindow.Helpers
             OK,
             InvalidCredentials,
             LockedOut,
-            Requires2FA //To be implemented?
+            Requires2FA, //To be implemented?,
+            Disabled
         }
     }
 }

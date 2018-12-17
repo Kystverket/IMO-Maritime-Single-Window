@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -18,7 +19,7 @@ import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.
 export class CrewListComponent implements OnInit, OnDestroy {
 
   @Input() portCallId: number;
-  @Input() crewList: PersonOnBoardModel[] = [];
+  @Input() crewList: any[] = [];
 
   portCallCrewModel: PersonOnBoardModel = new PersonOnBoardModel();
 
@@ -141,8 +142,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Get crew person on board type (id 1)
-  this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardType(1).subscribe(
+  this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(PERSON_ON_BOARD_TYPES.CREW).subscribe(
     personOnBoardType => {
       this.personOnBoardType = personOnBoardType;
   });
@@ -191,10 +191,10 @@ export class CrewListComponent implements OnInit, OnDestroy {
         modifiedPassenger.familyName = crewMember.familyName;
         modifiedPassenger.rankName = crewMember.rankName;
         crewMember.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        crewMember.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = crewMember.portOfEmbarkation.name : modifiedPassenger.portOfEmbarkation = null;
-        crewMember.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = crewMember.portOfDisembarkation.name : modifiedPassenger.portOfDisembarkation = null;
-        crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality.name : modifiedPassenger.nationality = null;
-        crewMember.gender ? modifiedPassenger.gender = crewMember.gender.description : modifiedPassenger.gender = null;
+        crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
+        crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
+        modifiedPassenger.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
+        modifiedPassenger.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
 
         newList.push(modifiedPassenger);
       });
@@ -243,16 +243,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
   }
 
-  setPortOfEmbarkation($event) {
-    this.portCallCrewModel.portOfEmbarkation = this.makeLocationModel($event);
-    this.portCallCrewModel.portOfEmbarkationId = $event.locationId;
-  }
-
-  setPortOfDisembarkation($event) {
-    this.portCallCrewModel.portOfDisembarkation = this.makeLocationModel($event);
-    this.portCallCrewModel.portOfDisembarkationId = $event.locationId;
-  }
-
   setDateOfBirth($event) {
     if ($event) {
       const date: Date = new Date($event.year, $event.month -  1, $event.day);
@@ -288,15 +278,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   // Resetters
-  resetPortOfDisembarkation() {
-    this.portCallCrewModel.portOfDisembarkation = null;
-    this.portCallCrewModel.portOfDisembarkationId = null;
-  }
-
-  resetPortOfEmbarkation() {
-    this.portCallCrewModel.portOfEmbarkation = null;
-    this.portCallCrewModel.portOfEmbarkationId = null;
-  }
 
   resetNationality() {
     this.portCallCrewModel.nationality = null;
@@ -378,7 +359,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
       this.listIsPristine = true;
       this.personOnBoardService.setCrewDataIsPristine(true);
-      console.log('Saved crew members.');
     });
   }
 

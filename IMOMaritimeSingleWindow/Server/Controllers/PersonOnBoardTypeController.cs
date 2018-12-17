@@ -20,11 +20,29 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        public enum PERSON_ON_BOARD_TYPE_ENUM
+        {
+            CREW,
+            PAX,
+        }
 
-        [HttpGet("{id}")]
+        [HttpGet("id/{id}")]
         public IActionResult Get(int id)
         {
             PersonOnBoardType personOnBoardType = _context.PersonOnBoardType.FirstOrDefault(s => s.PersonOnBoardTypeId == id);
+            if (personOnBoardType == null)
+            {
+                return NotFound();
+            }
+            return Json(personOnBoardType);
+        }
+
+        [HttpGet("{EnumValue}")]
+        public IActionResult GetByEnum(PERSON_ON_BOARD_TYPE_ENUM EnumValue)
+        {
+            var test = _context.PersonOnBoardType.ToList();
+
+            PersonOnBoardType personOnBoardType = _context.PersonOnBoardType.FirstOrDefault(s => s.EnumValue == EnumValue.ToString());
             if (personOnBoardType == null)
             {
                 return NotFound();

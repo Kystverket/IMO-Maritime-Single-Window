@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -17,7 +18,7 @@ import { SmartTableModel } from './smartTableModel';
 })
 export class PassengerListComponent implements OnInit, OnDestroy {
   @Input() portCallId: number;
-  @Input() passengerList: PersonOnBoardModel[] = [];
+  @Input() passengerList: any[] = [];
 
   identityDocumentList: IdentityDocumentModel[] = [];
 
@@ -146,7 +147,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     }
 
     // Get passenger person on board type (id 2)
-    this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardType(2).subscribe(
+    this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(PERSON_ON_BOARD_TYPES.PAX).subscribe(
       personOnBoardType => {
         this.personOnBoardType = personOnBoardType;
     });
@@ -193,10 +194,12 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         modifiedPassenger.givenName = passenger.givenName;
         modifiedPassenger.familyName = passenger.familyName;
         passenger.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(passenger.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        passenger.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation.name : modifiedPassenger.portOfEmbarkation = null;
-        passenger.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation.name : modifiedPassenger.portOfDisembarkation = null;
-        passenger.nationality ? modifiedPassenger.nationality = passenger.nationality.name : modifiedPassenger.nationality = null;
-        passenger.gender ? modifiedPassenger.gender = passenger.gender.description : modifiedPassenger.gender = null;
+        passenger.portOfEmbarkation ? modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation : modifiedPassenger.portOfEmbarkation = null;
+        passenger.portOfDisembarkation ? modifiedPassenger.portOfDisembarkation = passenger.portOfDisembarkation : modifiedPassenger.portOfDisembarkation = null;
+        passenger.nationality ? modifiedPassenger.nationality = passenger.nationality : modifiedPassenger.nationality = null;
+        passenger.gender ? modifiedPassenger.gender = passenger.gender : modifiedPassenger.gender = null;
+        modifiedPassenger.countryOfBirthTwoCharCode = passenger.nationalityTwoCharCode;
+        modifiedPassenger.nationalityTwoCharCode = passenger.nationalityTwoCharCode;
 
         newList.push(modifiedPassenger);
       });
@@ -380,7 +383,6 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.passengerList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
         this.listIsPristine = true;
         this.personOnBoardService.setPassengerDataIsPristine(true);
-        console.log('Saved passengers.');
     });
   }
     // Helper methods

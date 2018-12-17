@@ -3,6 +3,9 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { AccountService, ContentService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
+
 @Component({
   selector: 'app-user-button-row',
   templateUrl: './user-button-row.component.html',
@@ -14,16 +17,26 @@ export class UserButtonRowComponent implements ViewCell, OnInit {
   @Input() rowData: any;
 
   @Output() edit: EventEmitter<any> = new EventEmitter();
+  @Output() statusChange: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private accountService: AccountService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() { }
 
   onEditClick() {
     this.setContent(CONTENT_NAMES.REGISTER_USER);
+  }
+
+  onStatusToggleClick(): void {
+    if (this.rowData.userModel.isActive) {
+      this.openConfirmationModal('Confirm', 'Deactivate selected user account?');
+    } else {
+      this.openConfirmationModal('Confirm', 'Activate selected user account?');
+    }
   }
 
   private setContent(content: string) {
@@ -42,6 +55,34 @@ export class UserButtonRowComponent implements ViewCell, OnInit {
       }
     });
     */
+  }
+
+  private openConfirmationModal(modalType: string, bodyText: string) {
+    const modalRef = this.modalService.open(ConfirmationModalComponent);
+    modalRef.componentInstance.modalType = modalType;
+    modalRef.componentInstance.bodyText = bodyText;
+    modalRef.componentInstance.modalStyle = ConfirmationModalComponent.CONFIRM_MODAL;
+
+    modalRef.result.then(
+      closeResult => {
+        if (closeResult === 'proceed') {
+
+          let apiCall = null;
+
+          if (this.rowData.userModel.isActive) {
+            apiCall = this.accountService.deactivateUser(this.rowData.userModel.id);
+          } else {
+            apiCall = this.accountService.activateUser(this.rowData.userModel.id);
+          }
+
+          apiCall.subscribe((apiResult) => {
+            const resultModalRef = this.modalService.open(ConfirmationModalComponent);
+            resultModalRef.componentInstance.modalType = 'Result';
+            resultModalRef.componentInstance.bodyText = (this.rowData.userModel.isActive) ? 'User Account Deactivated' : 'User Account Activated';
+          });
+        }
+      }
+    );
   }
 
 }

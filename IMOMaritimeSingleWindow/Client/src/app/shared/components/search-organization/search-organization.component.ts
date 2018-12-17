@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -6,8 +8,10 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { RegisterOrganizationComponent } from '../../../main-content/content-container/basis-data/organization/register-organization/register-organization.component';
 import { OrganizationModel } from '../../models/organization-model';
 import { SearchOrganizationService } from './search-organization.service';
+
 
 @Component({
   selector: 'app-search-organization',
@@ -19,6 +23,7 @@ export class SearchOrganizationComponent implements OnInit {
 
   @Input() showDropdown = true;
   @Input() header = 'Search using organization name or organization number';
+  @Input() filter: ORGANIZATION_TYPES;
 
   @Output() organizationResult = new EventEmitter<any>();
   @Output() organizationSearchResult = new EventEmitter<any>();
@@ -35,10 +40,14 @@ export class SearchOrganizationComponent implements OnInit {
     (this.searching = false)
   );
 
-  constructor(private searchOrganizationService: SearchOrganizationService) { }
+  constructor(private searchOrganizationService: SearchOrganizationService,
+              private modalService: NgbModal) { }
 
   ngOnInit() {
     this.organizationSelected = false;
+    this.searchOrganizationService.getPlaceHolderData().subscribe(res => {
+      this.organizationSearchResult.emit(res);
+    });
   }
 
   search = (text$: Observable<string>) =>
@@ -50,7 +59,7 @@ export class SearchOrganizationComponent implements OnInit {
         this.searching = (term.length >= 2);
       }),
       switchMap(term => (this.showDropdown) ?
-        this.searchOrganizationService.search(term, this.resultsDropdown).pipe(
+        this.searchOrganizationService.search(this.filter, term, this.resultsDropdown).pipe(
           tap(() => {
             this.searchFailed = false;
           }),
@@ -65,7 +74,7 @@ export class SearchOrganizationComponent implements OnInit {
           this.searching = false;
           this.searchFailed = this.organizationModel.length >= 2 && res.length === 0;
         } else {
-          this.searchOrganizationService.search(this.organizationModel, this.resultsWithoutDropdown).subscribe(
+          this.searchOrganizationService.search(this.filter, this.organizationModel, this.resultsWithoutDropdown).subscribe(
             data => {
               this.searchFailed = this.organizationModel.length >= 2 && data.length === 0;
               this.organizationSearchResult.emit(data);
@@ -89,5 +98,20 @@ export class SearchOrganizationComponent implements OnInit {
       const inputEvent: Event = new Event('input');
       e.target.dispatchEvent(inputEvent);
     }, 0);
+  }
+
+  addOrg(): void {
+    const modalRef = this.modalService.open(RegisterOrganizationComponent, {size: 'lg', windowClass: 'app-org-dialog'});
+
+    modalRef.componentInstance.registered = (result) => {
+      this.organizationSelected = true;
+      this.organizationModel = result;
+      this.organizationResult.emit(this.organizationModel);
+      modalRef.close();
+    };
+
+    modalRef.componentInstance.closed = () => {
+      modalRef.close();
+    };
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -16,6 +17,7 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
   crewDataSubscription: Subscription;
 
   public crew: any = [];
+  public headerText: string;
 
   // Smart table
   tableSettings = {
@@ -24,6 +26,7 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
+    noDataMessage: 'There are no crew members reported.',
     columns: {
       familyName: {
         title: 'Family Name'
@@ -36,23 +39,33 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) =>  (value) ? value.name : 'N/A'
+        valuePrepareFunction: (value) => (value) ? value.name : 'N/A'
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) =>  (value) ? new Date(value).toDateString() : ''
+        valuePrepareFunction: (value) => (value) ? new Date(value).toDateString() : ''
       },
       placeOfBirth: {
         title: 'Place of Birth'
       },
       identityDocument: {
         title: 'ID Type and Number',
-        valuePrepareFunction: (value) =>  {
-           if (!value) {
-             return 'N/A';
-           }
-           return (value[0].identityDocumentType) ? value[0].identityDocumentType.description : '' + ' : ' + (value[0].identityDocumentId) ? value[0].identityDocumentId : '';
-         }
+        valuePrepareFunction: (value) => {
+          if (value[0] == null || value[0] === undefined || value.length === 0) {
+            return 'N/A';
+          }
+          let returnVal = '';
+          if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
+            returnVal += value[0].identityDocumentType.description;
+          }
+          if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
+            returnVal += ' : ' + value[0].identityDocumentNumber;
+          }
+          if (returnVal.trim().length === 0) {
+            returnVal = 'N/A';
+          }
+          return returnVal;
+        }
       },
     }
   };
@@ -62,7 +75,16 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     if (this.portCallId) {
-      this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+      this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+      .finally(() => {
+        this.crewDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.CREW)
+        .subscribe(summary => {
+          this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
+        }, error => {
+          this.headerText = 'Crew Info';
+        });
+      })
+      .subscribe(
         crewList => {
           if (crewList) {
             this.crew = crewList;

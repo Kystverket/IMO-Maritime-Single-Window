@@ -18,6 +18,10 @@
           <input id="search-organization" type="text" class="form-control form-control-sm mx-auto" [(ngModel)]="organizationModel"
             [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter" (selectItem)="selectOrganization($event)"
             placeholder="Enter search here..." (focus)="onFocus($event)" />
+            <button (click)="addOrg()" class="btn btn-sm btn-ssn btn-add-org">
+              <img src="assets/images/icons/128x128/white/pax.png" height="20px" />
+              Add Organization
+            </button>
         </div>
         <div *ngIf="!showDropdown" class="input-group">
           <div class="input-group-prepend">
