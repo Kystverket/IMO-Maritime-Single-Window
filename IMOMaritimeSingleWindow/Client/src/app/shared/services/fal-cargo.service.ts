@@ -10,11 +10,13 @@ export class FalCargoService {
     private portCallUrl: string;
     private consignmentsString: string;
     private packageTypeUrl: string;
+    private overviewUrl: string;
 
     constructor(private http: HttpClient) {
         this.portCallUrl = 'api/portCall';
         this.consignmentsString = 'consignments';
         this.packageTypeUrl = 'api/packageType';
+        this.overviewUrl = 'api/customsCargo/overviewByPortCall';
     }
 
     private consignmentListSource = new BehaviorSubject<ConsignmentModel[]>(null);
@@ -29,6 +31,11 @@ export class FalCargoService {
 
     setConsignmentListData(data: ConsignmentModel[]) {
         this.consignmentListSource.next(data);
+    }
+
+    getOverviewByPortCall(portCallId: number): Observable<any> {
+        const uri = [this.overviewUrl, portCallId].join('/');
+        return this.http.get<any>(uri);
     }
 
     getConsignmentListForPortCall(portCallId: number): Observable<ConsignmentModel[]> {

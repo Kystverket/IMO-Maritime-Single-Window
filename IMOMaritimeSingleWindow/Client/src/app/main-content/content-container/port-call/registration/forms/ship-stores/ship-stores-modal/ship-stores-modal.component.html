@@ -16,13 +16,6 @@
     </div>
 
     <div class="form-group row">
-      <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
-      <div class="col my-auto">
-        <input class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.articleCode" readonly name="articleCode">
-      </div>
-    </div>
-
-    <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>
       <div class="col my-auto">
         <input *ngIf="inputShipStoresModel.measurementType" class="form-control form-control-sm" type="text" [ngModel]="inputShipStoresModel.measurementType.name"
@@ -85,13 +78,6 @@
         </div>
       </div>
 
-      <div class="form-group row">
-        <label class="col col-form-label-sm no-wrap mb-0">Article Code</label>
-        <div class="col my-auto">
-          <input type="text" [(ngModel)]="inputShipStoresModel.articleCode" #articleCode="ngModel" placeholder="Article Code" class="form-control form-control-sm"
-            name="articleCode">
-        </div>
-      </div>
 
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Measurement Type</label>

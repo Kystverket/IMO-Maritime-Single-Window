@@ -20,6 +20,8 @@ export class PortCallDetailsComponent implements OnInit, OnDestroy {
     { description: AIR_DRAUGHT, data: null }
   ];
 
+  portCallId: number;
+
   crewPassengersAndDimensionsDataSubscription: Subscription;
 
   constructor(private portCallDetailsService: PortCallDetailsService) {}
@@ -39,6 +41,14 @@ export class PortCallDetailsComponent implements OnInit, OnDestroy {
           data.actualDraught;
         this.portCallDetailsInfo.find(p => p.description === AIR_DRAUGHT).data =
           data.airDraught;
+      }
+    });
+
+    // get reporting data to gather portCallId of selected port call.
+    this.portCallDetailsService.reportingForThisPortCallData$.subscribe(reportingData => {
+
+      if (reportingData != null) {
+        this.portCallId = reportingData.portCallId;
       }
     });
   }

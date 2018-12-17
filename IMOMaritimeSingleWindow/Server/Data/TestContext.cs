@@ -608,7 +608,7 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");
 
-                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_dpg");
+                entity.Property(e => e.ReportingDpg).HasColumnName("reporting_hazmat");
 
                 entity.Property(e => e.ReportingPax).HasColumnName("reporting_pax");
 

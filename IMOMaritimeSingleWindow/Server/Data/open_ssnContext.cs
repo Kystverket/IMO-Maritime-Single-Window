@@ -470,12 +470,6 @@ namespace IMOMaritimeSingleWindow.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("dpg_on_board_port_call_id_fkey");
 
-                entity.HasOne(d => d.MeasurementType)
-                    .WithMany(p => p.DpgOnBoard)
-                    .HasForeignKey(d => d.MeasurementTypeId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("dpg_on_board_measurement_type_id_fkey");
-
                 entity.Property(e => e.MeasurementTypeId).HasColumnName("MeasurementTypeId");
 
                 entity.HasIndex(e => e.MeasurementTypeId)
@@ -576,12 +570,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
 
-                entity.HasOne(d => d.MeasurementType)
-                    .WithMany(p => p.FalShipStores)
-                    .HasForeignKey(d => d.MeasurementTypeId)
-                    .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("fal_ship_stores_measurement_type_id_fkey");
-
                 entity.HasOne(d => d.PortCall)
                     .WithMany(p => p.FalShipStores)
                     .HasForeignKey(d => d.PortCallId)
@@ -624,10 +612,10 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.VisaOrResidencePermitNumber).HasColumnName("visa_or_residence_permit_number");
 
-                entity.HasOne(d => d.IdentityDocumentType)
-                    .WithMany(p => p.IdentityDocument)
-                    .HasForeignKey(d => d.IdentityDocumentTypeId)
-                    .HasConstraintName("identity_document_identity_document_type_id_fkey");
+                //entity.HasOne(d => d.IdentityDocumentType)
+                //    .WithMany(p => p.IdentityDocument)
+                //    .HasForeignKey(d => d.IdentityDocumentTypeId)
+                //    .HasConstraintName("identity_document_identity_document_type_id_fkey");
 
                 entity.HasOne(d => d.IssuingNation)
                     .WithMany(p => p.IdentityDocument)
@@ -781,6 +769,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<LocationType>(entity =>
@@ -939,6 +929,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
+
             });
 
             modelBuilder.Entity<PackageType>(entity =>
@@ -1071,6 +1064,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.PersonOnBoardTypeId).HasColumnName("person_on_board_type_id");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<PortCall>(entity =>
@@ -1183,8 +1178,6 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.NumberOfPassengers).HasColumnName("number_of_passengers");
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
-
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
 
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
@@ -1819,6 +1812,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<ShipStatus>(entity =>
@@ -1834,6 +1829,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<ShipToShipActivity>(entity =>
@@ -1943,6 +1940,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.EmailConfirmed).HasColumnName("email_confirmed");
 
                 entity.Property(e => e.LockoutEnabled).HasColumnName("lockout_enabled");
+
+                entity.Property(e => e.IsActive).HasColumnName("IsActive");
 
                 entity.Property(e => e.LockoutEnd).HasColumnName("lockout_end");
 

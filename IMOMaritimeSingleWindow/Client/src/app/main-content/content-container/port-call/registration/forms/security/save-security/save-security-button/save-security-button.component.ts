@@ -75,11 +75,9 @@ export class SaveSecurityButtonComponent implements OnInit, OnDestroy {
     dbIssc.issuedByGovernment = this.isscModel.issuedByGovernment;
     this.shipService.saveISSC(dbIssc).subscribe(
       isscResult => {
-        console.log('ISSC saved.');
         if (!this.isscModel.isscId) {
           this.shipService.updateShipISSC(this.shipModel.shipId, isscResult.isscId).subscribe(
             shipIsscResult => {
-              console.log('Ship has been registered with ISSC.');
             }
           );
         }

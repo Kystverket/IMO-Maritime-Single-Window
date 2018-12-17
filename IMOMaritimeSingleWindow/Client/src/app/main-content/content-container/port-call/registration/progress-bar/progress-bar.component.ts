@@ -53,6 +53,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   voyagesErrorSubscription: Subscription;
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
+  dpgDataIsPristineSubscription: Subscription;
   cargoDataIsPristineSubscription: Subscription;
   passengerDataIsPristineSubscription: Subscription;
   crewDataIsPristineSubscription: Subscription;
@@ -181,6 +182,17 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     });
 
+    this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
+      dpgDataIsPristine => {
+      this.dpgListIsPristine = dpgDataIsPristine;
+      const dpg = this.menuEntries.find(
+        p => p.name === FORM_NAMES.DPG
+      );
+      if (dpg) {
+        dpg.hasUnsavedData = !dpgDataIsPristine;
+      }
+    });
+
     this.cargoDataIsPristineSubscription = this.cargoService.dataIsPristine$.subscribe(
       cargoDataIsPristine => {
         this.cargoIsPrisitne = cargoDataIsPristine;
@@ -205,7 +217,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
+    this.crewDataIsPristineSubscription = this.personOnBoardService.crewDataIsPristine$
+    .subscribe(
       crewDataIsPristine => {
         this.crewListIsPristine = crewDataIsPristine;
         const crew = this.menuEntries.find(
@@ -213,18 +226,6 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
         );
         if (crew) {
           crew.hasUnsavedData = !crewDataIsPristine;
-        }
-      }
-    );
-
-    this.dpgDataIsPristineSubscription = this.dpgService.dataIsPristine$.subscribe(
-      dpgDataIsPristine => {
-        this.dpgListIsPristine = dpgDataIsPristine;
-        const dpg = this.menuEntries.find(
-          p => p.name === FORM_NAMES.DPG
-        );
-        if (dpg) {
-          dpg.hasUnsavedData = !dpgDataIsPristine;
         }
       }
     );

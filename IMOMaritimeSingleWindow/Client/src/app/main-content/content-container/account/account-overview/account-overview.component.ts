@@ -39,7 +39,6 @@ export class AccountOverviewComponent implements OnInit, OnDestroy {
         this.setAffiliationFields();
         this.setUserDetails();
         this.formatLabels();
-        console.log(this);
       });
   }
 

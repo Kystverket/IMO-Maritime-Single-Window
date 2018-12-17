@@ -50,9 +50,6 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
       articleName: {
         title: 'Article Name'
       },
-      articleCode: {
-        title: 'Article Code'
-      },
       quantity: {
         title: 'Quantity'
       },
@@ -115,7 +112,6 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
           shipStoresModel: shipStore,
           sequenceNumber: shipStore.sequenceNumber,
           articleName: shipStore.articleName,
-          articleCode: shipStore.articleCode,
           quantity: shipStore.quantity,
           measurementType: shipStore.measurementType ? shipStore.measurementType.name : null,
           locationOnBoard: shipStore.locationOnBoard,

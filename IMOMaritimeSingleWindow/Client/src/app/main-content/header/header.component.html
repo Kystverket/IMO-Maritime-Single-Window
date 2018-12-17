@@ -3,14 +3,14 @@
 
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" *ngIf="(userMenuEntries.length > 1); else singleEntry">
-        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed" >
+        <button class="btn btn-sm btn-ssn" type="button" (click)="menuIsCollapsed = !menuIsCollapsed">
           <span class="navbar-toggler-icon"></span>
         </button>
         <img src="/assets/images/logos/logo.png" height="32px" />
         <span class="text-center text-ssn">IMO Maritime Single Window</span>
       </li>
       <ng-template #singleEntry>
-          <app-header-home [standAlone]="false" *ngIf="userMenuEntries.length === 1"></app-header-home>
+        <app-header-home [standAlone]="false" *ngIf="userMenuEntries.length === 1"></app-header-home>
       </ng-template>
     </ul>
 
@@ -20,7 +20,7 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item" >
-          <span class="text-center text-ssn mx-3">Development Version. Deployed: 22.11.2018</span>
+          <span class="text-center text-ssn mx-3">Development Version. Deployed: 13.12.2018</span>
           <div class="btn-group">
             <button (click)="navigateToMyAccountPage()" class="btn btn-light btn-sm">My account</button>
           </div>

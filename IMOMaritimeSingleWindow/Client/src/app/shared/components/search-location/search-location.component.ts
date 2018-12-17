@@ -38,7 +38,11 @@ export class SearchLocationComponent implements OnInit {
     this.locationSelected = false;
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.locationSearchService.getPlaceHolderData().subscribe(res => {
+      this.locationSearchResult.emit(res);
+    });
+   }
 
   formatter = (x: { locationId: string }) => '';
 

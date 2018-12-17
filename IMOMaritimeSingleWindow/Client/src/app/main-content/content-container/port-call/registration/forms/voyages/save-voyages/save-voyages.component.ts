@@ -142,16 +142,12 @@ export class SaveVoyagesComponent implements OnInit, OnDestroy {
   }
 
   savePortCall() {
-    console.log('Loading port call with id ' + this.portCallId);
     this.portCallService.getPortCallById(this.portCallId).subscribe(
       portCall => {
-        console.log('Loaded port call:', portCall);
         if (portCall) {
           const portCallModel = this.buildPortCallModel(portCall);
-          console.log(portCallModel);
           this.portCallService.updatePortCall(portCallModel).subscribe(
             result => {
-              console.log('Port Call updated:', result);
               this.portCallService.setVoyagesIsPristine(true);
               this.dataIsPristineText = UPDATED_DATA_IS_PRISTINE_TEXT;
             },

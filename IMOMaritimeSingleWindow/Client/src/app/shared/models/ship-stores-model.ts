@@ -4,7 +4,6 @@ export class ShipStoresModel {
     falShipStoresId: number;
     sequenceNumber: number;
     articleName: string;
-    articleCode: string;
     quantity: number;
     locationOnBoardCode: string;
     locationOnBoard: string;

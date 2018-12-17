@@ -84,6 +84,14 @@ export class AccountService extends BaseRequest {
     return this.http.put(this.userUrl + '/update', existingUser);
   }
 
+  deactivateUser(userId:string): Observable<any> {
+    return this.http.put(this.userUrl + '/deactivate/' + userId, null);
+  }
+
+  activateUser(userId:string): Observable<any> {
+    return this.http.put(this.userUrl + '/activate/' + userId, null);
+  }
+
   getDisplayName(): Observable<string> {
     return this.http.get(this.userNameUrl,
       { responseType: 'text' });
