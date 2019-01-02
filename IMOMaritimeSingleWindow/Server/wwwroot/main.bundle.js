@@ -11315,7 +11315,15 @@ var CargoListingTableComponent = /** @class */ (function () {
             noDataMessage: 'There is no cargo reported.',
             columns: {
                 description: {
-                    title: 'Description'
+                    title: 'Description',
+                    valuePrepareFunction: function (value) {
+                        if (value != null) {
+                            return value;
+                        }
+                        else {
+                            return 'N/A';
+                        }
+                    }
                 },
                 grossVolume: {
                     title: 'Gross Volume'
