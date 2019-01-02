@@ -31,7 +31,8 @@
         <div class="input-group input-group-sm" *ngIf="inputCrewModel.countryOfBirth">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode | lowercase}}.png" height="16px">
+              <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode | lowercase}}.png"
+                height="16px">
             </span>
           </div>
           <input class="form-control" [ngModel]="inputCrewModel.countryOfBirth" readonly type="text" name="countryOfBirth">
@@ -53,11 +54,19 @@
         <input *ngIf="!inputCrewModel.nationality" class="form-control form-control-sm" readonly type="text" name="nationality">
       </div>
     </div>
+
+    <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Place of Birth</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" [ngModel]="inputCrewModel.placeOfBirth" readonly type="text" name="placeOfBirth">
+      </div>
+    </div>
+
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
       <div class="col my-auto">
-        <input *ngIf="inputCrewModel.gender" class="form-control form-control-sm" [ngModel]="inputCrewModel.gender" readonly
-          type="text" name="gender">
+        <input *ngIf="inputCrewModel.gender" class="form-control form-control-sm" [ngModel]="inputCrewModel.gender"
+          readonly type="text" name="gender">
         <input *ngIf="!inputCrewModel.gender" class="form-control form-control-sm" readonly type="text" name="gender">
       </div>
     </div>
@@ -79,10 +88,10 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Identity Document Type</label>
       <div class="col my-auto">
-        <input *ngIf="inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description"
+        <input *ngIf="inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm"
+          [ngModel]="inputCrewModel.identityDocument[0].identityDocumentType.description" readonly type="text" name="identityDocumentType">
+        <input *ngIf="!inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm"
           readonly type="text" name="identityDocumentType">
-        <input *ngIf="!inputCrewModel.identityDocument[0].identityDocumentType" class="form-control form-control-sm" readonly type="text"
-          name="identityDocumentType">
       </div>
     </div>
     <div class="form-group row">
@@ -102,10 +111,11 @@
                 height="20px">
             </span>
           </div>
-          <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation" readonly type="text" name="issuingNation">
+          <input class="form-control" [ngModel]="inputCrewModel.identityDocument[0].issuingNation" readonly type="text"
+            name="issuingNation">
         </div>
-        <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly type="text"
-          name="issuingNation">
+        <input *ngIf="!inputCrewModel.identityDocument[0].issuingNation" class="form-control form-control-sm" readonly
+          type="text" name="issuingNation">
       </div>
     </div>
     <div class="form-group row">
@@ -144,8 +154,8 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
-          <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputCrewModel.givenName" type="text" name="givenName"
-            required>
+          <input class="form-control form-control-sm" #givenName="ngModel" [(ngModel)]="inputCrewModel.givenName" type="text"
+            name="givenName" required>
           <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
             <li>
               <small>This field is required.</small>
@@ -156,8 +166,8 @@
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Family Name</label>
         <div class="col my-auto">
-          <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputCrewModel.familyName" type="text" name="familyName"
-            required>
+          <input class="form-control form-control-sm" #familyName="ngModel" [(ngModel)]="inputCrewModel.familyName"
+            type="text" name="familyName" required>
           <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
             <li>
               <small>This field is required.</small>
@@ -177,7 +187,8 @@
           <div *ngIf="inputCrewModel.countryOfBirth" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png" height="20px">
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png"
+                  height="20px">
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.countryOfBirth"
@@ -190,7 +201,8 @@
               </div>
             </div>
           </div>
-          <app-search-country *ngIf="!inputCrewModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
+          <app-search-country *ngIf="!inputCrewModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)"
+            (deselectCountry)="resetCountryOfBirth()"></app-search-country>
         </div>
       </div>
       <div class="form-group row">
@@ -199,7 +211,8 @@
           <div *ngIf="inputCrewModel.nationality" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png" height="20px">
+                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png"
+                  height="20px">
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.nationality"
@@ -212,14 +225,23 @@
               </div>
             </div>
           </div>
-          <app-search-country *ngIf="!inputCrewModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+          <app-search-country *ngIf="!inputCrewModel.nationality" (selectCountry)="setNationality($event)"
+            (deselectCountry)="resetNationality()"></app-search-country>
         </div>
       </div>
+
+      <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Place of Birth</label>
+        <div class="col my-auto">
+          <input class="form-control form-control-sm" [(ngModel)]="inputCrewModel.placeOfBirth" type="text" name="placeOfBirth">
+        </div>
+      </div>
+
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Gender</label>
         <div class="col my-auto">
-          <ng-select class="ng-select-placeholder-sm" [items]="genderList" [ngModel]="inputCrewModel.gender" name="gender" bindLabel="description"
-            [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
+          <ng-select class="ng-select-placeholder-sm" [items]="genderList" [ngModel]="inputCrewModel.gender" name="gender"
+            bindLabel="description" [closeOnSelect]="true" placeholder="Gender" (change)="setGender($event)">
           </ng-select>
         </div>
       </div>
@@ -300,13 +322,13 @@
     </div>
 
     <div class="modal-footer">
-      <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
-        (click)="editCrewMember(); resetForm(); close">
+      <button *ngIf="editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)" type="button"
+        class="btn btn-ssn" (click)="editCrewMember(); resetForm(); close">
         <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span>Save Entry</span>
       </button>
-      <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button" class="btn btn-ssn"
-        disabled>
+      <button *ngIf="!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)" type="button"
+        class="btn btn-ssn" disabled>
         <img src="assets/images/icons/128x128/white/save.png" height="24px">
         <span>Save Entry</span>
       </button>
