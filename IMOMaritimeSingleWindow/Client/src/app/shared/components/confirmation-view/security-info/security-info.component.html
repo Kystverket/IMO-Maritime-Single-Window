@@ -1,0 +1,25 @@
+<div class="row mb-3">
+  <div class="col">
+    <app-table-card header="Security" icon="security.png" collapsible=true collapsed=true>
+      <tr>
+        <td>
+          Security Details
+        </td>
+      </tr>
+      <ng2-smart-table [settings]="securityDetailsSettings" [source]="securityDetails"></ng2-smart-table>
+
+      <tr>
+        <td>
+          International Ship Security Certificate
+        </td>
+      </tr>
+      <ng2-smart-table [settings]="isscSettings" [source]="issc"></ng2-smart-table>
+
+      <tr>
+        <td>
+          Company Security Officer </td>
+      </tr>
+      <ng2-smart-table [settings]="csoSettings" [source]="cso"></ng2-smart-table>
+    </app-table-card>
+  </div>
+</div>

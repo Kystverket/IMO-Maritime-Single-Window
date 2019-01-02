@@ -21,6 +21,106 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("overviewByPortCallId/{portCallId}")]
+        public IActionResult GetFalSecurityOverviewByPortCallId(int portCallId)
+        {
+            var falModel = _context.FalSecurity
+                .Where(fs => fs.PortCall.PortCallId == portCallId)
+                .Include(fs => fs.SecurityLevel)
+                .Include(fs => fs.CompanySecurityOfficer)
+                .Include(fs => fs.PortCall.Ship)
+                    .ThenInclude(s => s.Issc)
+                        .ThenInclude(issc => issc.GovernmentIssuer)
+                .Include(fs => fs.PortCall.Ship)
+                    .ThenInclude(s => s.Issc)
+                        .ThenInclude(issc => issc.RsoIssuer)
+                .FirstOrDefault();
+
+            if (falModel != null)
+            {
+                try
+                {
+
+                    var hasValidSSP = false;
+                    if (falModel.ShipHasValidSspOnBoard.HasValue)
+                        hasValidSSP = falModel.ShipHasValidSspOnBoard.Value;
+
+                    var currentSecurityLevel = falModel.SecurityLevel.Name;
+                    if (string.IsNullOrWhiteSpace(currentSecurityLevel))
+                    {
+                        currentSecurityLevel = "N/A";
+                    }
+
+                    var additionalInfo = falModel.OtherRelatedInfo;
+
+                    if (string.IsNullOrWhiteSpace(additionalInfo))
+                    {
+                        additionalInfo = "N/A";
+                    }
+
+                    var SecurityDetail = new SecurityDetailTable
+                    {
+                        ValidSSP = hasValidSSP ? "YES" : "NO",
+                        CurrentSecurityLevel = currentSecurityLevel,
+                        AdditionalInfo = additionalInfo,
+                    };
+
+                    var securityOfficer = falModel.CompanySecurityOfficer;
+
+                    var CSO = new CSOTable
+                    {
+                        FullName = securityOfficer.GivenName + " " + securityOfficer.Surname,
+                        PhoneNumber = securityOfficer.PhoneNumber,
+                        Email = securityOfficer.Email,
+                    };
+
+                    var certificate = falModel.PortCall.Ship.Issc;
+
+                    var expiryDateStr = "N/A";
+                    if (certificate.ExpiryDate.HasValue)
+                    {
+                        expiryDateStr = certificate.ExpiryDate.Value.ToShortDateString();
+                    }
+
+                    var isGovernmentIssued = certificate.IssuedByGovernment.HasValue && certificate.IssuedByGovernment.Value;
+                    var issuerTypeStr = isGovernmentIssued ? "Government" : "RSO";
+                    var issuedBy = isGovernmentIssued ? certificate.GovernmentIssuer.Name : certificate.RsoIssuer.Name;
+
+                    var ISSC = new ISSCTable
+                    {
+                        CertificateNumber = certificate.CertificateNumber,
+                        ExpiryDate = expiryDateStr,
+                        IssuerType = issuerTypeStr,
+                        IssuedBy = issuedBy
+                    };
+
+                    //Convert to lists to easily add as a datasource for ng2-smart-table in the client project
+                    var returnVal = new SecurityTableSource
+                    {
+                        SecurityDetails = new List<SecurityDetailTable>
+                    {
+                        SecurityDetail
+                    },
+                        ISSC = new List<ISSCTable>
+                    {
+                        ISSC
+                    },
+                        CSO = new List<CSOTable>
+                    {
+                        CSO
+                    }
+                    };
+
+                    return Json(returnVal);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+            }
+            return null;
+        }
+
         [HttpGet("{securityId}/companySecurityOfficer")]
         public IActionResult GetCompanySecurityOfficerBySecurityId(int securityId)
         {
@@ -123,4 +223,31 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
     }
+
+    public class ISSCTable
+    {
+        public string CertificateNumber;
+        public string ExpiryDate;
+        public string IssuerType;
+        public string IssuedBy;
+    }
+    public class CSOTable
+    {
+        public string FullName;
+        public string PhoneNumber;
+        public string Email;
+    }
+    public class SecurityDetailTable
+    {
+        public string ValidSSP;
+        public string CurrentSecurityLevel;
+        public string AdditionalInfo;
+    }
+    public class SecurityTableSource
+    {
+        public List<ISSCTable> ISSC;
+        public List<CSOTable> CSO;
+        public List<SecurityDetailTable> SecurityDetails;
+    }
+
 }

@@ -58,6 +58,7 @@ import { IntegerValidator } from './utils/custom-validators/integer-validator.di
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 import { DpgListingTableComponent } from './components/confirmation-view/dpg-listing-table/dpg-listing-table.component';
+import { SecurityInfoComponent } from './components/confirmation-view/security-info/security-info.component';
 
 @NgModule({
   imports: [
@@ -121,7 +122,8 @@ import { DpgListingTableComponent } from './components/confirmation-view/dpg-lis
     CargoListingTableComponent,
     PassengerListingTableComponent,
     ShipStoresListingTableComponent,
-    DpgListingTableComponent
+    DpgListingTableComponent,
+    SecurityInfoComponent
   ],
   exports: [
     ExtendedAlphaNumericValidator,
