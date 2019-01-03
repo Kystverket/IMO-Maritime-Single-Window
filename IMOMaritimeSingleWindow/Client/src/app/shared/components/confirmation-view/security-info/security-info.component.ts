@@ -8,101 +8,23 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./security-info.component.css']
 })
 export class SecurityInfoComponent implements OnInit {
-
   @Input() portCallId: number;
 
   securityDataSubscription: Subscription;
-  public cso: any = [];
-  public issc: any = [];
-  public securityDetails: any = [];
+  isLoading: boolean;
+  public cso: any;
+  public issc: any;
+  public securityDetails: any;
 
-  // Smart table
-  isscSettings = {
-    mode: 'external',
-    actions: false,
-    attr: {
-      class: 'table table-bordered'
-    },
-    noDataMessage: 'There is no ISSC reported.',
-    columns: {
-      certificateNumber: {
-        title: 'Certificate Number',
-        filter: false,
-        sort: false
-      },
-      expiryDate: {
-        title: 'Expiry Date',
-        filter: false,
-        sort: false
-      },
-      issuerType: {
-        title: 'Issuer Type',
-        filter: false,
-        sort: false
-      },
-      issuedBy: {
-        title: 'Issued By Country',
-        filter: false,
-        sort: false
-      }
-    }
-  };
-
-  csoSettings = {
-    mode: 'external',
-    actions: false,
-    attr: {
-      class: 'table table-bordered'
-    },
-    noDataMessage: 'There is no CSO information reported.',
-    columns: {
-      fullName: {
-        title: 'Full Name',
-        filter: false,
-        sort: false
-      },
-      phoneNumber: {
-        title: 'Phone Number',
-        filter: false,
-        sort: false
-      },
-      email: {
-        title: 'Email',
-        filter: false,
-        sort: false
-      }
-    }
-  };
-
-  securityDetailsSettings = {
-    mode: 'external',
-    actions: false,
-    attr: {
-      class: 'table table-bordered'
-    },
-    noDataMessage: 'There are no security details reported.',
-    columns: {
-      currentSecurityLevel: {
-        title: 'Current Security Level',
-        filter: false,
-        sort: false
-      }, validSSP: {
-        title: 'Valid Ship Security Plan (SSP) on board',
-        filter: false,
-        sort: false
-      }
-    }
-  };
-
-  constructor(
-    private securityService: FalSecurityService
-  ) { }
+  constructor(private securityService: FalSecurityService) {}
 
   ngOnInit() {
     if (this.portCallId) {
-      this.securityDataSubscription = this.securityService.getFalSecurityOverViewByPortCallId(this.portCallId)
+      this.isLoading = true;
+      this.securityDataSubscription = this.securityService
+        .getFalSecurityOverViewByPortCallId(this.portCallId)
         .finally(() => {
-
+          this.isLoading = false;
         })
         .subscribe(res => {
           if (res != null) {
@@ -113,5 +35,4 @@ export class SecurityInfoComponent implements OnInit {
         });
     }
   }
-
 }

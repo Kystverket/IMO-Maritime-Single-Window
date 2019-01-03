@@ -58,7 +58,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                         additionalInfo = "N/A";
                     }
 
-                    var SecurityDetail = new SecurityDetailTable
+                    var SecurityDetails = new
                     {
                         ValidSSP = hasValidSSP ? "YES" : "NO",
                         CurrentSecurityLevel = currentSecurityLevel,
@@ -67,11 +67,11 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                     var securityOfficer = falModel.CompanySecurityOfficer;
 
-                    var CSO = new CSOTable
+                    var CSO = new
                     {
                         FullName = securityOfficer.GivenName + " " + securityOfficer.Surname,
-                        PhoneNumber = securityOfficer.PhoneNumber,
-                        Email = securityOfficer.Email,
+                        securityOfficer.PhoneNumber,
+                        securityOfficer.Email,
                     };
 
                     var certificate = falModel.PortCall.Ship.Issc;
@@ -86,29 +86,19 @@ namespace IMOMaritimeSingleWindow.Controllers
                     var issuerTypeStr = isGovernmentIssued ? "Government" : "RSO";
                     var issuedBy = isGovernmentIssued ? certificate.GovernmentIssuer.Name : certificate.RsoIssuer.Name;
 
-                    var ISSC = new ISSCTable
+                    var ISSC = new
                     {
-                        CertificateNumber = certificate.CertificateNumber,
+                        certificate.CertificateNumber,
                         ExpiryDate = expiryDateStr,
                         IssuerType = issuerTypeStr,
                         IssuedBy = issuedBy
                     };
 
-                    //Convert to lists to easily add as a datasource for ng2-smart-table in the client project
-                    var returnVal = new SecurityTableSource
+                    var returnVal = new
                     {
-                        SecurityDetails = new List<SecurityDetailTable>
-                    {
-                        SecurityDetail
-                    },
-                        ISSC = new List<ISSCTable>
-                    {
-                        ISSC
-                    },
-                        CSO = new List<CSOTable>
-                    {
+                        SecurityDetails,
+                        ISSC,
                         CSO
-                    }
                     };
 
                     return Json(returnVal);
@@ -223,31 +213,4 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
     }
-
-    public class ISSCTable
-    {
-        public string CertificateNumber;
-        public string ExpiryDate;
-        public string IssuerType;
-        public string IssuedBy;
-    }
-    public class CSOTable
-    {
-        public string FullName;
-        public string PhoneNumber;
-        public string Email;
-    }
-    public class SecurityDetailTable
-    {
-        public string ValidSSP;
-        public string CurrentSecurityLevel;
-        public string AdditionalInfo;
-    }
-    public class SecurityTableSource
-    {
-        public List<ISSCTable> ISSC;
-        public List<CSOTable> CSO;
-        public List<SecurityDetailTable> SecurityDetails;
-    }
-
 }
