@@ -12,6 +12,8 @@ export class SecurityInfoComponent implements OnInit {
 
   securityDataSubscription: Subscription;
   isLoading: boolean;
+  securityDelivered: boolean;
+  header = 'Security Details';
   public cso: any;
   public issc: any;
   public securityDetails: any;
@@ -27,10 +29,13 @@ export class SecurityInfoComponent implements OnInit {
           this.isLoading = false;
         })
         .subscribe(res => {
-          if (res != null) {
+          if (res != null && res.hasSecurity) {
+            this.securityDelivered = true;
             this.cso = res.cso;
             this.issc = res.issc;
             this.securityDetails = res.securityDetails;
+          } else {
+            this.header += ' not delivered';
           }
         });
     }

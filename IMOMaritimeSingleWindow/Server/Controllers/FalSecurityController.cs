@@ -98,7 +98,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                     {
                         SecurityDetails,
                         ISSC,
-                        CSO
+                        CSO,
+                        HasSecurity = true
                     };
 
                     return Json(returnVal);
@@ -108,7 +109,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     return BadRequest(ex);
                 }
             }
-            return null;
+            var nullReturn = new
+            {
+                HasSecurity = false
+            };
+
+            return Json(nullReturn);
         }
 
         [HttpGet("{securityId}/companySecurityOfficer")]

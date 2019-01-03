@@ -1,7 +1,7 @@
 <div class="row mb-3">
   <div class="col">
-    <app-table-card header="Security" icon="security.png" collapsible=true collapsed=true>
-      <ng-container *ngIf="!isLoading">
+    <app-table-card header={{header}} icon="security.png" collapsible=true collapsed=true>
+      <ng-container *ngIf="!isLoading && securityDelivered">
 
         <div style="float: left; width: 33%">
           <span style="font-size: 150%; text-decoration: underline;">Security Details</span>
