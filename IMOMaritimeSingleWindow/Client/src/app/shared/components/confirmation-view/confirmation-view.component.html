@@ -31,11 +31,7 @@
       <app-passenger-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-listing-table>
     </div>
     <div *ngSwitchCase="'Security'" class="col">
-      <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>
-        <div class="text-center my-3">
-          <span class="no-wrap">Security/ISPS information has been provided.</span>
-        </div>
-      </app-table-card>
+      <app-security-info [portCallId]="portCallId"></app-security-info>
     </div>
     <div *ngSwitchDefault class="col">
       <app-table-card header="{{entry.name}}" icon="{{entry.icon}}" collapsible=true>

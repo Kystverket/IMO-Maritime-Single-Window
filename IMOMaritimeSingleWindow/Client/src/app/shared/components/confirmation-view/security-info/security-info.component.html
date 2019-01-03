@@ -1,0 +1,64 @@
+<div class="row mb-3">
+  <div class="col">
+    <app-table-card header={{header}} icon="security.png" collapsible=true collapsed=true>
+      <ng-container *ngIf="!isLoading && securityDelivered">
+
+        <div style="float: left; width: 33%">
+          <span style="font-size: 150%; text-decoration: underline;">Security Details</span>
+          <table>
+            <tr>
+              <td>
+                {{securityDetails.currentSecurityLevel}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Valid Ship Security Plan (SSP) on board: {{securityDetails.validSSP}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; width: 33%">
+          <span style="font-size: 150%; text-decoration: underline;">International Ship Security Certificate</span>
+          <table>
+            <tr>
+              <td>
+                Certificate Number: {{issc.certificateNumber}}
+              </td>
+              <td>
+                Expiry Date: {{issc.expiryDate}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Issuer Type: {{issc.issuerType}}
+              </td>
+              <td>
+                Issued By: {{issc.issuedBy}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left; width: 33%">
+          <span style="font-size: 150%; text-decoration: underline;">Company Security Officer</span>
+          <table>
+            <tr>
+              <td>
+                Full Name: {{cso.fullName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Phone Number: {{cso.phoneNumber}}
+              </td>
+              <td>
+                Email: {{cso.email}}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div style="clear:both;"> </div>
+      </ng-container>
+    </app-table-card>
+  </div>
+</div>

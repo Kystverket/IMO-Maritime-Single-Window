@@ -11461,7 +11461,7 @@ module.exports = ":host ::ng-deep tr > ::ng-deep td {\r\n    border-width: 0;\r\
 /***/ "./src/app/shared/components/confirmation-view/confirmation-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n      <app-dpg-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <span class=\"no-wrap\">Security/ISPS information has been provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-prev-and-next-poc-table></app-prev-and-next-poc-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Port Call Details -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-port-call-details></app-port-call-details>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!-- FAL forms -->\r\n<div *ngFor=\"let entry of falForms\">\r\n  <div *ngIf=\"entry.checked\" [ngSwitch]=\"entry.name\" class=\"row mb-3\">\r\n    <div *ngSwitchCase=\"'DPG'\" class=\"col\">\r\n      <app-dpg-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-dpg-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Cargo'\" class=\"col\">\r\n      <app-cargo-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-cargo-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Ship Stores'\" class=\"col\">\r\n      <app-ship-stores-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-ship-stores-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Crew'\" class=\"col\">\r\n      <app-crew-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-crew-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Pax'\" class=\"col\">\r\n      <app-passenger-listing-table [iconPath]=\"iconPath\" [portCallId]=\"portCallId\"></app-passenger-listing-table>\r\n    </div>\r\n    <div *ngSwitchCase=\"'Security'\" class=\"col\">\r\n      <app-security-info [portCallId]=\"portCallId\"></app-security-info>\r\n    </div>\r\n    <div *ngSwitchDefault class=\"col\">\r\n      <app-table-card header=\"{{entry.name}}\" icon=\"{{entry.icon}}\" collapsible=true>\r\n        <div class=\"text-center my-3\">\r\n          <img src=\"{{iconPath}}warning.png\" height=\"24px\" />\r\n          <span class=\"no-wrap\">{{ entry.name }} information</span>\r\n          <span class=\"no-wrap\">is marked for delivery,</span>\r\n          <span class=\"no-wrap\">but no information is provided.</span>\r\n        </div>\r\n      </app-table-card>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-user-info-table header=\"Created By\"></app-user-info-table>\r\n  </div>\r\n</div>\r\n\r\n<!-- Clearance information -->\r\n<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-clearances></app-clearances>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -12311,6 +12311,84 @@ var SelectedPurposesComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_1_app_shared_services___["q" /* PortCallDetailsService */]])
     ], SelectedPurposesComponent);
     return SelectedPurposesComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/security-info/security-info.component.css":
+/***/ (function(module, exports) {
+
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/security-info/security-info.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header={{header}} icon=\"security.png\" collapsible=true collapsed=true>\r\n      <ng-container *ngIf=\"!isLoading && securityDelivered\">\r\n\r\n        <div style=\"float: left; width: 33%\">\r\n          <span style=\"font-size: 150%; text-decoration: underline;\">Security Details</span>\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                {{securityDetails.currentSecurityLevel}}\r\n              </td>\r\n            </tr>\r\n            <tr>\r\n              <td>\r\n                Valid Ship Security Plan (SSP) on board: {{securityDetails.validSSP}}\r\n              </td>\r\n            </tr>\r\n          </table>\r\n        </div>\r\n        <div style=\"float: left; width: 33%\">\r\n          <span style=\"font-size: 150%; text-decoration: underline;\">International Ship Security Certificate</span>\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                Certificate Number: {{issc.certificateNumber}}\r\n              </td>\r\n              <td>\r\n                Expiry Date: {{issc.expiryDate}}\r\n              </td>\r\n            </tr>\r\n            <tr>\r\n              <td>\r\n                Issuer Type: {{issc.issuerType}}\r\n              </td>\r\n              <td>\r\n                Issued By: {{issc.issuedBy}}\r\n              </td>\r\n            </tr>\r\n          </table>\r\n        </div>\r\n        <div style=\"float: left; width: 33%\">\r\n          <span style=\"font-size: 150%; text-decoration: underline;\">Company Security Officer</span>\r\n          <table>\r\n            <tr>\r\n              <td>\r\n                Full Name: {{cso.fullName}}\r\n              </td>\r\n            </tr>\r\n            <tr>\r\n              <td>\r\n                Phone Number: {{cso.phoneNumber}}\r\n              </td>\r\n              <td>\r\n                Email: {{cso.email}}\r\n              </td>\r\n            </tr>\r\n          </table>\r\n        </div>\r\n        <div style=\"clear:both;\"> </div>\r\n      </ng-container>\r\n    </app-table-card>\r\n  </div>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/confirmation-view/security-info/security-info.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SecurityInfoComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var SecurityInfoComponent = /** @class */ (function () {
+    function SecurityInfoComponent(securityService) {
+        this.securityService = securityService;
+        this.header = 'Security Details';
+    }
+    SecurityInfoComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.portCallId) {
+            this.isLoading = true;
+            this.securityDataSubscription = this.securityService
+                .getFalSecurityOverViewByPortCallId(this.portCallId)
+                .finally(function () {
+                _this.isLoading = false;
+            })
+                .subscribe(function (res) {
+                if (res != null && res.hasSecurity) {
+                    _this.securityDelivered = true;
+                    _this.cso = res.cso;
+                    _this.issc = res.issc;
+                    _this.securityDetails = res.securityDetails;
+                }
+                else {
+                    _this.header += ' not delivered';
+                }
+            });
+        }
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Number)
+    ], SecurityInfoComponent.prototype, "portCallId", void 0);
+    SecurityInfoComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-security-info',
+            template: __webpack_require__("./src/app/shared/components/confirmation-view/security-info/security-info.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/confirmation-view/security-info/security-info.component.css")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services___["k" /* FalSecurityService */]])
+    ], SecurityInfoComponent);
+    return SecurityInfoComponent;
 }());
 
 
@@ -18517,6 +18595,7 @@ var FalSecurityService = /** @class */ (function () {
         this.portCallUrl = 'portCall';
         this.securityLevelUrl = 'securityLevel';
         this.companySecurityOfficerUrl = 'companySecurityOfficer';
+        this.overviewUrl = 'overviewByPortCallId';
         this.securityDataSource = new __WEBPACK_IMPORTED_MODULE_2__node_modules_rxjs__["BehaviorSubject"](null);
         this.securityData$ = this.securityDataSource.asObservable();
         this.securityIsCheckedDataSource = new __WEBPACK_IMPORTED_MODULE_2__node_modules_rxjs__["BehaviorSubject"](false);
@@ -18587,6 +18666,10 @@ var FalSecurityService = /** @class */ (function () {
     };
     FalSecurityService.prototype.getFalSecurityByPortCallId = function (portCallId) {
         var uri = [this.apiUrl, this.portCallUrl, portCallId, this.falSecurityUrl].join('/');
+        return this.http.get(uri);
+    };
+    FalSecurityService.prototype.getFalSecurityOverViewByPortCallId = function (portCallId) {
+        var uri = [this.apiUrl, this.falSecurityUrl, this.overviewUrl, portCallId].join('/');
         return this.http.get(uri);
     };
     FalSecurityService.prototype.getSecurityLevelList = function () {
@@ -20404,12 +20487,14 @@ var ValidateDateTimeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/dpg-listing-table/dpg-listing-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__components_confirmation_view_security_info_security_info_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/security-info/security-info.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -20536,7 +20621,8 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_cargo_listing_table_cargo_listing_table_component__["a" /* CargoListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__["a" /* ShipStoresListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_59__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__["a" /* DpgListingTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_59__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__["a" /* DpgListingTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__components_confirmation_view_security_info_security_info_component__["a" /* SecurityInfoComponent */]
             ],
             exports: [
                 __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],

@@ -12,6 +12,7 @@ export class FalSecurityService {
   private portCallUrl = 'portCall';
   private securityLevelUrl = 'securityLevel';
   private companySecurityOfficerUrl = 'companySecurityOfficer';
+  private overviewUrl = 'overviewByPortCallId';
 
   constructor(
     private http: HttpClient
@@ -103,6 +104,11 @@ export class FalSecurityService {
   getFalSecurityByPortCallId(portCallId: number): Observable<FalSecurityModel> {
     const uri = [this.apiUrl, this.portCallUrl, portCallId, this.falSecurityUrl].join('/');
     return this.http.get<FalSecurityModel>(uri);
+  }
+
+  getFalSecurityOverViewByPortCallId(portCallId: number): Observable<any> {
+    const uri = [this.apiUrl, this.falSecurityUrl, this.overviewUrl, portCallId].join('/');
+    return this.http.get<any>(uri);
   }
 
   getSecurityLevelList(): Observable<SecurityLevelModel[]> {
