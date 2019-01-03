@@ -26,6 +26,11 @@ namespace IMOMaritimeSingleWindow.Controllers
             IMO_EXTERNAL
         }
 
+        public enum LOCATION_TYPES
+        {
+            HARBOUR
+        }
+
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
         [HttpPost()]
         public IActionResult RegisterLocation([FromBody] Location newLocation)
