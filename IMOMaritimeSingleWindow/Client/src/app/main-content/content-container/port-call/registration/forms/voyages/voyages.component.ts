@@ -175,10 +175,6 @@ export class VoyagesComponent implements OnInit {
     } else {
       this.nextEtaIsBeforeCurrentEtdError = false;
     }
-
-    // console.log('ETA is after ETD', this.etaIsAfterEtdError);
-    // console.log('Prev ETD is after ETA', this.prevEtdIsAfterCurrentEtaError);
-    // console.log('Next ETA is before ETD', this.nextEtaIsBeforeCurrentEtdError);
     this.portCallService.setVoyagesErrors(this.etaIsAfterEtdError || this.prevEtdIsAfterCurrentEtaError || this.nextEtaIsBeforeCurrentEtdError);
   }
 
