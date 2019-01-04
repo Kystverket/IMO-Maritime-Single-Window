@@ -584,6 +584,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.GenderId).HasColumnName("gender_id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
+
             });
 
             modelBuilder.Entity<IdentityDocument>(entity =>
