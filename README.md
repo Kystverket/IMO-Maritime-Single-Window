@@ -30,4 +30,4 @@ dotnet watch run
 ```
 
 #### Now open a browser and navigate to
-`http://localhost:4200`
+`http://localhost:4201`
