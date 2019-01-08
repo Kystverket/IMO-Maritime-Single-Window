@@ -639,6 +639,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>

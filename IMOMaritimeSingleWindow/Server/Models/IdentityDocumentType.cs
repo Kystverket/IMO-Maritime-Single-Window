@@ -11,6 +11,8 @@ namespace IMOMaritimeSingleWindow.Models
         //}
         public int Id { get; set; }
         public string Description { get; set; }
+        public string EnumValue { get; set; }
+
 
         //public ICollection<IdentityDocument> IdentityDocument { get; set; }
     }
