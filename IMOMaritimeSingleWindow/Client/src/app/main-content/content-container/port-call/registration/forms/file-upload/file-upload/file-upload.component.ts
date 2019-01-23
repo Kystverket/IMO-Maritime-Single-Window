@@ -120,7 +120,7 @@ export class FileUploadComponent implements OnInit {
         console.log('crew');
         console.log(crewList);
         if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
-          this.crewAndPaxErrors.emit(this.personOnBoardListWithErrors);
+          this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
         }
       }
       this.saved.emit(false);

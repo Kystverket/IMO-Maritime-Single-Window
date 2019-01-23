@@ -189,23 +189,21 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.crewListErrorModalComponent.openViewModal(entriesWithErrors);
   }
 
-  // addRectifiedCrew($event) {
-  //   if ($event != null && $event !== undefined) {
-  //     this.crewList = this.crewList.concat($event);
-  //     this.persistData();
-  //   }
-  // }
-
   addRectifiedCrewAndPax($event) {
-    const paxList = $event.filter(x => x.isPax);
-    const crewList = $event.filter(x => !x.isPax);
-    console.log('pax');
-    console.log(paxList);
-    console.log('crew');
-    console.log(crewList);
+    let paxList = $event.filter((x: { isPax: any; }) => x.isPax);
+    const crewList = $event.filter((x: { isPax: any; }) => !x.isPax);
     if ($event != null && $event !== undefined) {
       this.crewList = this.crewList.concat(crewList);
       this.persistData();
+      this.personOnBoardService.passengerList$
+      .finally(() => {
+        console.log(1);
+        this.personOnBoardService.setPassengersList(paxList);
+      })
+      .subscribe(res => {
+        console.log(2);
+        paxList = paxList.concat(res);
+      });
     }
   }
 

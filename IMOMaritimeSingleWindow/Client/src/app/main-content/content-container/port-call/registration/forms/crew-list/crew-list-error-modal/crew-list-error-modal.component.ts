@@ -86,20 +86,6 @@ export class CrewListErrorModalComponent implements OnInit {
     }
   }
 
-  editCrew($event) {
-    let pob = JSON.parse(JSON.stringify($event));
-    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === pob.sequenceNumber);
-    this.personOnBoardWithErrors.splice(index, 1);
-    pob = this.makeDates(pob);
-    this.rectifiedPoBs.push(pob);
-
-    if (this.personOnBoardWithErrors.length > 0) {
-      this.openEditModal();
-    } else {
-      this.rectifiedCrewEmitter.emit(this.rectifiedPoBs);
-    }
-  }
-
   editPoB($event) {
     let pob = JSON.parse(JSON.stringify($event));
     const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === pob.sequenceNumber);
