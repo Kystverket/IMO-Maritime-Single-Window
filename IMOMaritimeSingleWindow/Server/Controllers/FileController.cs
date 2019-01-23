@@ -654,7 +654,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     var errorMsgs = validator.ConvertErrorsToMsg(errors);
 
                     shipStore.Errors = errors;
-                    shipStore.ExcelRowNumber = rowNum;
+                    shipStore.ExcelRowNum = rowNum;
                     shipStore.ErrorMessages = errorMsgs;
 
                     shipStoreList.Add(shipStore);

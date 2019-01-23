@@ -23,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Models
         [NotMapped]
         public List<SHIP_STORE_ERRORS> Errors { get; set; }
         [NotMapped]
-        public int? ExcelRowNumber { get; set; }
+        public int? ExcelRowNum { get; set; }
         [NotMapped]
         public List<string> ErrorMessages { get; set; }
         public MeasurementType MeasurementType { get; set; }
