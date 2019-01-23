@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenderModel, IdentityDocumentModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
-import { IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
+import { CountryService, IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
   selector: 'app-passenger-modal',
@@ -14,10 +14,14 @@ export class PassengerModalComponent implements OnInit {
   startInputPassengerModel: PersonOnBoardModel;
 
   @Output() outputPassengerModel: EventEmitter<PersonOnBoardModel> = new EventEmitter();
+  @Input() isImport = false;
 
   @ViewChild('viewModal') viewModal;
   @ViewChild('editModal') editModal;
   dirtyForm = false;
+  identityInfoRequired = false;
+  identityDocNoSet = true;
+  expiryDateSet = true;
 
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
   genderList: GenderModel[] = [];
@@ -35,12 +39,14 @@ export class PassengerModalComponent implements OnInit {
   validDocumentDates = true;
   issueDateAfterExpiryDateError = false;
   expiryDateBeforeExpiryDateError = false;
+  currentErrors: string[];
 
   constructor(
     private modalService: NgbModal,
     private identityDocumentService: IdentityDocumentService,
     private validateDateTimeService: ValidateDateTimeService,
-    private personOnBoardService: PortCallFalPersonOnBoardService
+    private personOnBoardService: PortCallFalPersonOnBoardService,
+    private countryService: CountryService
   ) { }
 
   ngOnInit() {
@@ -81,9 +87,66 @@ export class PassengerModalComponent implements OnInit {
       this.inputPassengerModel.identityDocument[0] = new IdentityDocumentModel();
     }
 
-    this.modalService.open(this.editModal, {
-      backdrop: 'static'
-    });
+    this.checkIdentityValues();
+    if (this.isImport) {
+      this.currentErrors = this.inputPassengerModel.errorMessages;
+      this.addGenderAndNationality();
+      return;
+    } else {
+      this.modalService.open(this.editModal, {
+        backdrop: 'static'
+      });
+    }
+  }
+
+  addGenderAndNationality() {
+    if (
+      (this.inputPassengerModel.nationalityId != null &&
+        this.inputPassengerModel.nationalityId !== undefined) ||
+      (this.inputPassengerModel.genderId != null &&
+        this.inputPassengerModel.genderId !== undefined)
+    ) {
+      this.countryService
+        .getCountryById(this.inputPassengerModel.nationalityId)
+        .finally(() => {
+          this.personOnBoardService
+            .getGenderById(this.inputPassengerModel.genderId)
+            .finally(() => {
+              this.modalService.open(this.editModal, {
+                backdrop: 'static'
+              });
+            })
+            .subscribe(gender => {
+              this.inputPassengerModel.gender = gender;
+              this.inputPassengerModel.genderId = gender.genderId;
+            });
+        })
+        .subscribe(country => {
+          this.inputPassengerModel.nationality = country.name;
+          this.inputPassengerModel.nationalityTwoCharCode = country.twoCharCode;
+          this.inputPassengerModel.nationalityId = country.countryId;
+        });
+    } else {
+      this.modalService.open(this.editModal, {
+        backdrop: 'static'
+      });
+    }
+  }
+
+  checkIdentityValues() {
+    const identityDocument = this.inputPassengerModel.identityDocument[0];
+    if (identityDocument != null && identityDocument !== undefined) {
+      if (identityDocument.identityDocumentNumber) {
+        this.identityDocNoSet = true;
+      } else {
+        this.identityDocNoSet = false;
+      }
+      if (identityDocument.identityDocumentType != null && identityDocument.identityDocumentType !== undefined) {
+        this.identityInfoRequired = true;
+      }
+    } else {
+      this.identityInfoRequired = false;
+    }
   }
 
   // Output
@@ -119,6 +182,7 @@ export class PassengerModalComponent implements OnInit {
     } else {
       this.resetIdentityDocumentType();
     }
+    this.checkIdentityValues();
   }
 
   setPortOfEmbarkation($event) {
@@ -156,6 +220,11 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate = date;
     const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
+    if (expiryDate != null) {
+      this.expiryDateSet = true;
+    } else {
+      this.expiryDateSet = false;
+    }
     if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.issueDateAfterExpiryDateError = true;
       this.validDocumentDates = false;
@@ -164,6 +233,7 @@ export class PassengerModalComponent implements OnInit {
       this.expiryDateBeforeExpiryDateError = false;
       this.validDocumentDates = true;
     }
+    this.checkIdentityValues();
   }
 
   setIdentityDocumentExpiryDate($event) {
@@ -177,6 +247,11 @@ export class PassengerModalComponent implements OnInit {
     this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate = date;
     const issueDate = this.inputPassengerModel.identityDocument[0].identityDocumentIssueDate;
     const expiryDate = this.inputPassengerModel.identityDocument[0].identityDocumentExpiryDate;
+    if (expiryDate != null) {
+      this.expiryDateSet = true;
+    } else {
+      this.expiryDateSet = false;
+    }
     if (this.validateDateTimeService.checkDocumentDatesError(issueDate, expiryDate)) {
       this.expiryDateBeforeExpiryDateError = true;
       this.validDocumentDates = false;
@@ -185,7 +260,7 @@ export class PassengerModalComponent implements OnInit {
       this.expiryDateBeforeExpiryDateError = false;
       this.validDocumentDates = true;
     }
-
+    this.checkIdentityValues();
   }
 
   setTransit($event) {
@@ -226,6 +301,7 @@ export class PassengerModalComponent implements OnInit {
   }
 
   resetIdentityDocumentType() {
+    this.checkIdentityValues();
     this.inputPassengerModel.identityDocument[0].identityDocumentType = null;
     this.inputPassengerModel.identityDocument[0].identityDocumentTypeId = null;
   }
@@ -270,6 +346,7 @@ export class PassengerModalComponent implements OnInit {
 
   getDisplayDateFormat(date) {
     if (date) {
+      date = new Date(date);
       const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
       return dateString;
     } else {

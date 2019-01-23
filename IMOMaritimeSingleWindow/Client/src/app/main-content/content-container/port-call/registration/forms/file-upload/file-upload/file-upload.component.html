@@ -1,0 +1,138 @@
+<div>
+  <ng-container *ngIf="isPaxPage && !isShipStores">
+    <button class="btn btn-ssn" (click)="openUploadModal(uploadPaxModal)">Upload Pax Data</button>
+    <button class="btn btn-ssn" (click)="openUploadModal(uploadCrewAndPaxModal)">Upload Pax and Crew Data</button>
+  </ng-container>
+  <ng-container *ngIf="!isPaxPage && !isShipStores">
+    <button class="btn btn-ssn" (click)="openUploadModal(uploadCrewModal)">Upload Crew Data</button>
+    <button class="btn btn-ssn" (click)="openUploadModal(uploadCrewAndPaxModal)">Upload Crew and Pax Data</button>
+  </ng-container>
+  <ng-container *ngIf="!isPaxPage && isShipStores">
+    <button class="btn btn-ssn" (click)="openUploadModal(uploadShipStoresModal)">Upload Ship Stores Data</button>
+  </ng-container>
+</div>
+
+
+<ng-template #uploadPaxModal let-close="close()" class="modal fade">
+  <ng-container *ngIf="!uploading">
+    <div class="modal-header">
+      <h4 class="modal-title">Upload Passenger Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span>Upload your .xslx file containing passenger data.</span>
+      <br/>
+      <span style="color: red">WARNING: This will overwrite any existing data</span>
+      <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn mt-2 btn-ssn" (click)="savePaxFile();">
+        <span>Upload</span>
+      </button>
+      <button type="button" class="btn mt-2 btn-ssn" (click)="close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="uploading">
+    <div class="input-group-append" *ngIf="uploading">
+      <img class="mx-auto" src="assets/images/animations/upload.gif" height="20px">
+      <p>Uploading</p>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #uploadCrewModal let-close="close()" class="modal fade">
+  <ng-container *ngIf="!uploading">
+    <div class="modal-header">
+      <h4 class="modal-title">Upload Crew Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span>Upload your .xslx file containing crew data.</span>
+      <br/>
+      <span style="color: red">WARNING: This will overwrite any existing data</span>
+      <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn mt-2 btn-ssn" (click)="saveCrewFile();">
+        <span>Upload</span>
+      </button>
+      <button type="button" class="btn mt-2 btn-ssn" (click)="close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="uploading">
+    <div class="input-group-append" *ngIf="uploading">
+      <img class="mx-auto" src="assets/images/animations/upload.gif" height="20px">
+      <p>Uploading</p>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #uploadCrewAndPaxModal let-close="close()" class="modal fade">
+  <ng-container *ngIf="!uploading">
+    <div class="modal-header">
+      <h4 class="modal-title">Upload Crew and Passenger Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span>Upload your .xslx file containing passenger and crew data.</span>
+      <br/>
+      <span style="color: red">WARNING: This will overwrite any existing data</span>
+      <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn mt-2 btn-ssn" (click)="saveCrewPaxFile();">
+        <span>Upload</span>
+      </button>
+      <button type="button" class="btn mt-2 btn-ssn" (click)="close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="uploading">
+    <div class="input-group-append" *ngIf="uploading">
+      <img class="mx-auto" src="assets/images/animations/upload.gif" height="20px">
+      <p>Uploading</p>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #uploadShipStoresModal let-close="close()" class="modal fade">
+  <ng-container *ngIf="!uploading">
+    <div class="modal-header">
+      <h4 class="modal-title">Upload Ship Stores Data</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <span>Upload your .xslx file containing ship stores data.</span>
+      <br/>
+      <span style="color: red">WARNING: This will overwrite any existing data</span>
+      <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn mt-2 btn-ssn" (click)="saveShipStoresFile();">
+        <span>Upload</span>
+      </button>
+      <button type="button" class="btn mt-2 btn-ssn" (click)="close">
+        <span>Cancel</span>
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="uploading">
+    <div class="input-group-append" *ngIf="uploading">
+      <img class="mx-auto" src="assets/images/animations/upload.gif" height="20px">
+      <p>Uploading</p>
+    </div>
+  </ng-container>
+</ng-template>

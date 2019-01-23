@@ -3,14 +3,18 @@
   <form name="crewForm" #form="ngForm">
 
     <div class="col-lg-12">
+      <app-ssn-card header="Upload Crew Data from Excel Template" icon="upload.png" [collapsible]="true">
+        <app-file-upload [portCallId]="portCallId" [isPaxPage]="false" (saved)="excelFileSaved($event)"
+          (entriesHasErrors)="uploadError($event)"></app-file-upload>
+      </app-ssn-card>
       <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
-                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  name="givenName" required>
+                <input #givenName="ngModel" type="text" [(ngModel)]="portCallCrewModel.givenName" placeholder="Given Name"
+                  class="form-control form-control-sm" name="givenName" required>
               </div>
             </div>
             <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
@@ -22,8 +26,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
-                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
-                  required name="familyName">
+                <input #familyName="ngModel" type="text" [(ngModel)]="portCallCrewModel.familyName" placeholder="Family Name"
+                  class="form-control form-control-sm" required name="familyName">
               </div>
             </div>
             <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
@@ -35,15 +39,16 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-date-of-birth" class="col-form-label-sm no-wrap mb-0">Date of Birth</label>
-                <app-date-picker (dateResult)="setDateOfBirth($event)" [dateInput]="getNgbDateFormat(portCallCrewModel.dateOfBirth)" #dateOfBirth></app-date-picker>
+                <app-date-picker (dateResult)="setDateOfBirth($event)" [dateInput]="getNgbDateFormat(portCallCrewModel.dateOfBirth)"
+                  #dateOfBirth></app-date-picker>
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="rankName" class="col-form-label-sm no-wrap mb-0">Crew member rank/rating</label>
-                <input #rankName="ngModel" type="text" [(ngModel)]="portCallCrewModel.rankName" placeholder="Crew member rank/rating" class="form-control form-control-sm"
-                  name="rankName">
+                <input #rankName="ngModel" type="text" [(ngModel)]="portCallCrewModel.rankName" placeholder="Crew member rank/rating"
+                  class="form-control form-control-sm" name="rankName">
               </div>
             </div>
 
@@ -62,11 +67,13 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
-                <app-search-country *ngIf="!portCallCrewModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
+                <app-search-country *ngIf="!portCallCrewModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)"
+                  (deselectCountry)="resetCountryOfBirth()"></app-search-country>
                 <div *ngIf="portCallCrewModel.countryOfBirth" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallCrewModel.countryOfBirth.twoCharCode | lowercase}}.png" height="20px">
+                      <img src="assets/images/flags/128x128/{{ portCallCrewModel.countryOfBirth.twoCharCode | lowercase}}.png"
+                        height="20px">
                     </span>
                   </div>
                   <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallCrewModel.countryOfBirth.name"
@@ -85,11 +92,13 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
-                <app-search-country *ngIf="!portCallCrewModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+                <app-search-country *ngIf="!portCallCrewModel.nationality" (selectCountry)="setNationality($event)"
+                  (deselectCountry)="resetNationality()"></app-search-country>
                 <div *ngIf="portCallCrewModel.nationality" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallCrewModel.nationality.twoCharCode | lowercase}}.png" height="20px">
+                      <img src="assets/images/flags/128x128/{{ portCallCrewModel.nationality.twoCharCode | lowercase}}.png"
+                        height="20px">
                     </span>
                   </div>
                   <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallCrewModel.nationality.name"
@@ -106,16 +115,16 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
-                <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallCrewModel.placeOfBirth" placeholder="Place of Birth" class="form-control form-control-sm"
-                  name="placeOfBirth">
+                <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallCrewModel.placeOfBirth" placeholder="Place of Birth"
+                  class="form-control form-control-sm" name="placeOfBirth">
               </div>
             </div>
 
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallCrewModel.gender" name="gender" [closeOnSelect]="true"
-                  bindLabel="description" placeholder="Gender" (change)="setGender($event)">
+                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallCrewModel.gender"
+                  name="gender" [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
                 </ng-select>
               </div>
             </div>
@@ -125,7 +134,8 @@
         </div>
       </app-ssn-card>
 
-      <app-identity-document (changeIdentityDocumentModel)="setIdentityDocumentModel($event)" [showVisaOrResidenceNumber]="false"></app-identity-document>
+      <app-identity-document (changeIdentityDocumentModel)="setIdentityDocumentModel($event)"
+        [showVisaOrResidenceNumber]="false"></app-identity-document>
 
     </div>
   </form>
@@ -159,10 +169,11 @@
   </div>
 
 </app-ssn-card>
-
 <app-save-crew-list (save)="saveCrewList()" [listIsPristine]="listIsPristine"></app-save-crew-list>
 
 <app-crew-member-modal (outputCrewModel)="editCrewMember($event)"></app-crew-member-modal>
+<app-crew-list-error-modal (rectifiedCrewEmitter)="addRectifiedCrewAndPax($event)" ></app-crew-list-error-modal>
+<!--  (outputPassengerModel)="editPassenger($event)" -->
 
 <ng-template #warningModal let-close="close()" class="modal fade">
   <div class="modal-header">

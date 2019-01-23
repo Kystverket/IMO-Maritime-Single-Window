@@ -5,10 +5,11 @@ import { ActionButtonsComponent } from 'app/shared/components/action-buttons/act
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/';
+import { FileService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Subscription } from 'rxjs/Subscription';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
+import { CrewListErrorModalComponent } from './crew-list-error-modal/crew-list-error-modal.component';
 import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.component';
 
 @Component({
@@ -19,7 +20,7 @@ import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.
 export class CrewListComponent implements OnInit, OnDestroy {
 
   @Input() portCallId: number;
-  @Input() crewList: any[] = [];
+  @Input() crewList: any[]  = [];
 
   portCallCrewModel: PersonOnBoardModel = new PersonOnBoardModel();
 
@@ -36,6 +37,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
   @ViewChild(CrewMemberModalComponent) crewMemberModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
   @ViewChild('dateOfBirth') dateOfBirthComponent;
+  @ViewChild(CrewListErrorModalComponent) crewListErrorModalComponent: any;
+
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -117,7 +120,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   constructor(
     private personOnBoardService: PortCallFalPersonOnBoardService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private fileService: FileService
   ) { }
 
   ngOnInit() {
@@ -126,6 +130,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.crewList.forEach(crewMember => {
         crewMember = this.makeDates(crewMember);
       });
+      this.updateSequenceNumbers();
     }
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable());
@@ -160,6 +165,48 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.genderListSubscription.unsubscribe();
     this.personOnBoardTypeSubscription.unsubscribe();
     this.pristineSubscription.unsubscribe();
+  }
+
+  excelFileSaved(saved: any) {
+    this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+      .finally(() => {
+        this.persistData();
+        this.listIsPristine = true;
+        this.personOnBoardService.setCrewDataIsPristine(true);
+      })
+      .subscribe(res => {
+        this.crewList = res;
+      });
+    if (saved) {
+      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+      .subscribe(pax => {
+        this.personOnBoardService.setPassengersList(pax);
+      });
+    }
+  }
+
+  uploadError(entriesWithErrors: any[]) {
+    this.crewListErrorModalComponent.openViewModal(entriesWithErrors);
+  }
+
+  // addRectifiedCrew($event) {
+  //   if ($event != null && $event !== undefined) {
+  //     this.crewList = this.crewList.concat($event);
+  //     this.persistData();
+  //   }
+  // }
+
+  addRectifiedCrewAndPax($event) {
+    const paxList = $event.filter(x => x.isPax);
+    const crewList = $event.filter(x => !x.isPax);
+    console.log('pax');
+    console.log(paxList);
+    console.log('crew');
+    console.log(crewList);
+    if ($event != null && $event !== undefined) {
+      this.crewList = this.crewList.concat(crewList);
+      this.persistData();
+    }
   }
 
   addCrewMember() {
@@ -379,6 +426,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   getDisplayDateFormat(date) {
     if (date) {
+      date = new Date(date);
       const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
       return dateString;
     } else {

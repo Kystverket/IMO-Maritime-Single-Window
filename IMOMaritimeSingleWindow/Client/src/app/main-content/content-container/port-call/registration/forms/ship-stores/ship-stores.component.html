@@ -1,3 +1,6 @@
+<app-ssn-card header="Upload Ship Store Excel Template" icon="upload.png" [collapsible]="true">
+    <app-file-upload [portCallId]="portCallId" [isShipStores]="true" (saved)="excelFileSaved($event)" (entriesHasErrors)="uploadError($event)"></app-file-upload>
+  </app-ssn-card>
 <app-ssn-card header="Ship Stores List" icon="alcohol.png">
 
     <form>
@@ -101,6 +104,7 @@
 
 <app-ship-stores-modal (outputShipStoresModel)="editShipStoresItem($event)"></app-ship-stores-modal>
 
+<app-ship-stores-error-modal (rectifiedShipStoresEmitter)="addRectifiedShipStores($event)"></app-ship-stores-error-modal>
 
 <ng-template #warningModal let-close="close()" class="modal fade">
     <div class="modal-header">
