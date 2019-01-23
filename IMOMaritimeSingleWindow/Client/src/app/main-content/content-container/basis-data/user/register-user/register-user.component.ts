@@ -104,7 +104,7 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     // this.emailTaken = false;
     this.emailChecked = true;
-
+    (user as any).password = '';
     this.user = user;
   }
 

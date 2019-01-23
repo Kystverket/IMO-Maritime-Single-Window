@@ -136,6 +136,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                 // map the fields and update the record in the underlying data store
                 var applicationUser = _mapper.Map<ApplicationUser>(model);
                 applicationUser.SecurityStamp = new Guid().ToString();
+
+                /*
+                if(!String.IsNullOrEmpty(model.Password)) {
+                    Console.WriteLine(appl);
+                    applicationUser.PasswordHash = _userManager.PasswordHasher.HashPassword(applicationUser, model.Password);
+                } */
+
                 var result = await _userManager.UpdateAsync(applicationUser);
 
                 // retrieve the record by email field
@@ -143,6 +150,17 @@ namespace IMOMaritimeSingleWindow.Controllers
                 
                 // map the role.
                 result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
+
+                if(!String.IsNullOrEmpty(model.Password)) {
+
+                    var id = Guid.Parse(model.Id);
+
+                    User user = (from usr in _context.User
+                                where usr.UserId == id
+                                select usr).SingleOrDefault();
+
+                    _userManager.ChangePasswordAsync(applicationUser, user.Password.ToString(), model.Password);
+                }
                     // if (!result.Succeeded)
                         // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
             }
