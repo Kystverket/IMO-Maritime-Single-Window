@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -262,18 +263,29 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 return BadRequest(ModelState);
             }
+            try
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
 
-            ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                    return NotFound();
+                var removeResult = await _userManager.RemovePasswordAsync(user);
 
-            if (user == null)
-                return NotFound();
+                if (removeResult.Succeeded)
+                {
+                    var resetResult = await _userManager.AddPasswordAsync(user, model.NewPassword);
+                    var _emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, _emailConfirmationToken);
+                    if (resetResult.Succeeded)
+                        return Ok("User Password Assigned");
 
-            user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.NewPassword);
-            var result = await _userManager.UpdateAsync(user);
-
-            if (result.Succeeded)
-                return Ok("User Password Assigned");
-
+                    return BadRequest();
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
             return BadRequest();
         }
 
