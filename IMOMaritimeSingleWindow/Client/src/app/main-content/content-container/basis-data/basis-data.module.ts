@@ -17,6 +17,7 @@ import { RegisterShipComponent } from './ship/register-ship/register-ship.compon
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.component';
+import { AssignPasswordComponent } from './user/register-user/assign-password.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
     RegisterLocationComponent,
     ViewLocationInfoComponent,
     LocationButtonRowComponent,
-    CertificateOfRegistryComponent
+    CertificateOfRegistryComponent,
+    AssignPasswordComponent
   ],
   exports: [
     RegisterUserComponent,
@@ -58,7 +60,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
   ],
   entryComponents: [
     LocationButtonRowComponent,
-    RegisterOrganizationComponent
+    RegisterOrganizationComponent,
+    AssignPasswordComponent
   ]
 })
 export class BasisDataModule { }

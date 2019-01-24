@@ -79,12 +79,7 @@
 
             <!-- Password Change -->
             <div class="col-md-6 col-lg-6">
-              <div class="form-group row" *ngIf="!newUser">
-                <div class="col">
-                  <label class="col-form-label-sm no-wrap mb-0" for="user_password">Password</label>
-                  <input id="user_password" name="userPassword" class="form-control form-control-sm" [(ngModel)]="user.password" placeholder="Enter password to change." />
-                </div>
-              </div>
+              <button class="btn btn-ssn" (click)="openPasswordChange()" *ngIf="!newUser">Change User Password</button>
             </div>
 
           </div>

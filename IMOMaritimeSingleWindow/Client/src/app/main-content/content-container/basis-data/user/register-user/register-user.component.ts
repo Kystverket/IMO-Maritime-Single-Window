@@ -7,6 +7,7 @@ import { OrganizationProperties } from 'app/shared/constants/organization-proper
 import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
 import { Subscription } from 'rxjs/Subscription';
 import { OrganizationModel, UserModel } from '../../../../../shared/models/';
+import { AssignPasswordComponent } from './assign-password.component';
 
 const RESULT_SUCCESS = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
@@ -156,6 +157,12 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
       });
     }
 
+  }
+
+  public openPasswordChange():void {
+    const modalRef = this.modalService.open(AssignPasswordComponent);
+    modalRef.componentInstance.purpose = 'Set';
+    modalRef.componentInstance.user = this.user;
   }
 
   onOrganizationResult(organizationResult) {
