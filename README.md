@@ -1,14 +1,24 @@
-# IMO-Maritime-Single-Window
+# Maritime Single Window (MSW)
+Generic MSW will perform different basic tasks within the realm of ship reporting and information exchange. The MSW is not customized to any particular country, application or process, but will provide basic services to support clearence processes within any country that seeks to meet the international obligations.
+
+## Getting Started
+These instructions will get you a copy of the project (client and server) up and running on your local Windows machine for development and testing purposes. 
 
 ## Prerequisites
+Make sure to clone the repository on your computer. 
+Then download and install the following
 * [npm](https://www.npmjs.com/get-npm)
 * [chocolatey](https://chocolatey.org/install)
 
-After you have ensured npm and chocolatey is installed,
+Use the command line interface (CLI) to verify the installations above
 
-open a CMD window with administrator rights and run:
-
+```
+npm -version 
+choco -v
+```
 ### Installation (Windows)
+Use the command line interface (CLI) with administrator rights and install the following:
+
 ```
 choco install nodejs
 npm install -g @angular/cli
@@ -16,18 +26,20 @@ choco install dotnetcore-sdk
 ```
 
 ### Client setup
+Use the command line interface (CLI). Navigate to the client directory on your computer and setup the client'
+
 ```
-cd IMOMaritimeSingleWindow\Client
+cd <yourpath>\IMOMaritimeSingleWindow\Client
 npm install
 ng serve --host 0.0.0.0 --port 4201 --proxy-config proxy.config.json
 ```
-
 ### Server setup
+Use the command line interface (CLI). Navigate to the server directory on your computer and setup the server'
+
 ```
 cd ..\Server
 dotnet build
 dotnet watch run
 ```
-
-#### Now open a browser and navigate to
+#### Open a new browser session and navigate to
 `http://localhost:4201`
