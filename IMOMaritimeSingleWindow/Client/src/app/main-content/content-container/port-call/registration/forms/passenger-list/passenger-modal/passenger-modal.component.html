@@ -60,7 +60,8 @@
     <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Place of Birth</label>
       <div class="col my-auto">
-        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.placeOfBirth" readonly type="text" name="placeOfBirth">
+        <input class="form-control form-control-sm" [ngModel]="inputPassengerModel.placeOfBirth" readonly type="text"
+          name="placeOfBirth">
       </div>
     </div>
     <div class="form-group row">
@@ -182,13 +183,17 @@
 <ng-template #editModal let-close="close()">
   <form #editForm="ngForm">
     <div class="modal-header">
-      <h4 class="modal-title">Edit</h4>
+      <h4 class="modal-title">Edit Passenger</h4>
       <button type="button" class="close" aria-label="Close" (click)="resetInputPassengerModel(); close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body" *ngIf="inputPassengerModel">
-
+      <div *ngIf="isImport">
+        <tr *ngFor="let error of currentErrors">
+          <td><span style="color: red">{{error}}</span></td>
+        </tr>
+      </div>
       <div class="form-group row">
         <label class="col col-form-label-sm no-wrap mb-0">Given Name</label>
         <div class="col my-auto">
@@ -357,7 +362,13 @@
         <label class="col col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
         <div class="col my-auto">
           <input *ngIf="inputPassengerModel.identityDocument[0]" class="form-control form-control-sm" [(ngModel)]="inputPassengerModel.identityDocument[0].identityDocumentNumber"
-            type="text" name="identityDocumentNumber">
+            type="text" name="identityDocumentNumber" (change)="checkIdentityValues()">
+          <div *ngIf="!identityDocNoSet && identityInfoRequired" class="alert alert-danger form-control-sm"
+            role="alert">
+            <li>
+              <small>This field is required when identity document is supplied.</small>
+            </li>
+          </div>
         </div>
       </div>
 
@@ -402,6 +413,11 @@
           <app-date-picker (dateResult)="setIdentityDocumentExpiryDate($event)" [dateInput]="getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)"></app-date-picker>
           <div *ngIf="expiryDateBeforeExpiryDateError" class="alert alert-danger form-control-sm" role="alert">
             <span>Identity document expiry date must be after the issue date.</span>
+          </div>
+          <div *ngIf="identityInfoRequired && !expiryDateSet" class="alert alert-danger form-control-sm" role="alert">
+            <li>
+              <small>This field is required when identity document is supplied.</small>
+            </li>
           </div>
         </div>
       </div>

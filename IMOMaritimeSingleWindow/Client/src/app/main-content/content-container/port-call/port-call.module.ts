@@ -10,6 +10,7 @@ import { ShipStoresComponent } from 'app/main-content/content-container/port-cal
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { FileService } from 'app/shared/services';
 import { DpgService } from 'app/shared/services/';
 import { CountryService } from 'app/shared/services/country.service';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
@@ -38,6 +39,7 @@ import { CrewListComponent } from './registration/forms/crew-list/crew-list.comp
 import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
 import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 import { DpgComponent } from './registration/forms/dpg/dpg.component';
+import { FileUploadComponent } from './registration/forms/file-upload/file-upload/file-upload.component';
 import { FormsComponent } from './registration/forms/forms.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
@@ -59,6 +61,7 @@ import { ShipToShipActivityTableComponent } from './registration/forms/security/
 import { ShipToShipActivityComponent } from './registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component';
 import { DatePickerComponent } from './registration/forms/shared/date-picker/date-picker.component';
 import { SaveShipStoresComponent } from './registration/forms/ship-stores/save-ship-stores/save-ship-stores.component';
+import { ShipStoresErrorModalComponent } from './registration/forms/ship-stores/ship-stores-error-modal/ship-stores-error-modal.component';
 import { ShipStoresModalComponent } from './registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component';
 import { SaveNewPortCallComponent } from './registration/forms/voyages/save-new-port-call/save-new-port-call.component';
 import { SaveVoyagesComponent } from './registration/forms/voyages/save-voyages/save-voyages.component';
@@ -66,6 +69,8 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
+import { PassengerListErrorModalComponent } from './registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component';
+import { CrewListErrorModalComponent } from './registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component';
 
 @NgModule({
   imports: [
@@ -127,7 +132,11 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     ConfirmationComponent,
     SaveCrewListComponent,
     ShipStoresModalComponent,
-    DpgComponent
+    DpgComponent,
+    FileUploadComponent,
+    ShipStoresErrorModalComponent,
+    PassengerListErrorModalComponent,
+    CrewListErrorModalComponent
   ],
   exports: [
     ClearanceComponent,
@@ -148,7 +157,8 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
     PortCallFalPersonOnBoardService,
     FalSecurityService,
     PortCallOverviewService,
-    DpgService
+    DpgService,
+    FileService
   ]
 })
 export class PortCallModule { }

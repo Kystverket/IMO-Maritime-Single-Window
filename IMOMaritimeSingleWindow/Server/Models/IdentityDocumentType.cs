@@ -3,6 +3,14 @@ using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
 {
+    public enum IDENTITY_DOCUMENT_TYPES
+    {
+        MUSTERBOOK,
+        PASSPORT,
+        RESIDENTIAL_PERMIT,
+        PICTURE_ID,
+        OTHER
+    }
     public partial class IdentityDocumentType
     {
         //public IdentityDocumentType()

@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
 {
+    public enum GENDER_TYPES
+    {
+        MALE,
+        FEMALE,
+        OTHER
+    }
     public partial class Gender
     {
         public Gender()

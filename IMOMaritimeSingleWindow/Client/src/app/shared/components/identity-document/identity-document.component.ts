@@ -87,6 +87,7 @@ export class IdentityDocumentComponent implements OnInit {
     this.identityDatesRequired = ($event != null && $event !== undefined);
     $event ? this.identityDocumentModel.identityDocumentType = $event : this.identityDocumentModel.identityDocumentType = null;
     $event ? this.identityDocumentModel.identityDocumentTypeId = $event.id : this.identityDocumentModel.identityDocumentTypeId = null;
+
     this.identityDocumentModelChanged();
   }
 

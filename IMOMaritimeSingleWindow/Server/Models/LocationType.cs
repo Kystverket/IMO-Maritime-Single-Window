@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
 {
+    public enum LOCATION_TYPES
+    {
+        HARBOUR
+    }
     public partial class LocationType
     {
         public LocationType()

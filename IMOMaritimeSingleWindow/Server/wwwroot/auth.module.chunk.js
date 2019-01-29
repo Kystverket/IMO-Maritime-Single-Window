@@ -438,7 +438,7 @@ var EmailConfirmationComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_2__shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services___["w" /* UriQueryService */]])
+            __WEBPACK_IMPORTED_MODULE_2__shared_services___["y" /* UriQueryService */]])
     ], EmailConfirmationComponent);
     return EmailConfirmationComponent;
 }());
@@ -623,8 +623,8 @@ var LoginGuard = /** @class */ (function (_super) {
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["c" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["o" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["i" /* ErrorService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["j" /* ErrorService */]])
     ], LoginGuard);
     return LoginGuard;
 }(__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["d" /* BaseService */]));
@@ -858,7 +858,7 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/auth/login/login.component.html"),
             styles: [__webpack_require__("./src/app/auth/login/login.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["o" /* LoginService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* LoginService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
@@ -1276,7 +1276,7 @@ var PasswordComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/auth/password/password.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_3__shared_services___["w" /* UriQueryService */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_services___["y" /* UriQueryService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], PasswordComponent);

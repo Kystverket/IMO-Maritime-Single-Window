@@ -1,3 +1,4 @@
+import { SHIP_STORE_ERRORS } from '../constants/enumValues';
 import {MeasurementTypeModel, PortCallModel } from './';
 
 export class ShipStoresModel {
