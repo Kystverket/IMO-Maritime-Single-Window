@@ -224,7 +224,7 @@
 <app-passenger-modal (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
 <app-crew-member-modal></app-crew-member-modal>
 <!-- (outputCrewModel)="editCrewMember($event)" -->
-<app-passenger-list-error-modal (rectifiedPaxEmitter)="addRectifiedPax($event)"></app-passenger-list-error-modal>
+<app-passenger-list-error-modal (rectifiedPaxEmitter)="addRectifiedCrewAndPax($event)"></app-passenger-list-error-modal>
 
 <ng-template #warningModal let-close="close()" class="modal fade">
   <div class="modal-header">

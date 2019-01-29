@@ -122,19 +122,10 @@ export class PassengerListComponent implements OnInit, OnDestroy {
 
   constructor(
     private modalService: NgbModal,
-    private personOnBoardService: PortCallFalPersonOnBoardService,
-    private fileService: FileService
-  ) {}
+    public personOnBoardService: PortCallFalPersonOnBoardService,
+  ) { }
 
   ngOnInit() {
-    this.personOnBoardService.passengerDataIsPristine$.subscribe(res => {
-      if (!res) {
-        this.personOnBoardService.passengerList$.subscribe(paxList => {
-          this.passengerList = paxList;
-        });
-      }
-    });
-
     if (this.passengerList) {
       this.passengerList.forEach(passenger => {
         passenger = this.makeDates(passenger);
@@ -232,15 +223,15 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         modifiedPassenger.familyName = passenger.familyName;
         passenger.dateOfBirth
           ? (modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(
-              passenger.dateOfBirth
-            ))
+            passenger.dateOfBirth
+          ))
           : (modifiedPassenger.dateOfBirth = null);
         passenger.portOfEmbarkation
           ? (modifiedPassenger.portOfEmbarkation = passenger.portOfEmbarkation)
           : (modifiedPassenger.portOfEmbarkation = null);
         passenger.portOfDisembarkation
           ? (modifiedPassenger.portOfDisembarkation =
-              passenger.portOfDisembarkation)
+            passenger.portOfDisembarkation)
           : (modifiedPassenger.portOfDisembarkation = null);
         passenger.nationality
           ? (modifiedPassenger.nationality = passenger.nationality)
@@ -293,7 +284,7 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     this.identityDocumentModel = $event.identityDocumentModel;
     this.validDocumentDates =
       $event.validDocumentDates.issueDateAfterExpiryDateError ||
-      $event.validDocumentDates.expiryDateBeforeExpiryDateError
+        $event.validDocumentDates.expiryDateBeforeExpiryDateError
         ? false
         : true;
 
@@ -469,27 +460,20 @@ export class PassengerListComponent implements OnInit, OnDestroy {
       });
   }
 
-  addRectifiedPax($event) {
-    if ($event != null && $event !== undefined) {
-      this.passengerList = this.passengerList.concat($event);
-      this.persistData();
-    }
-  }
-
   addRectifiedCrewAndPax($event) {
     const paxList = $event.filter((x: { isPax: any; }) => x.isPax);
     let crewList = $event.filter((x: { isPax: any; }) => !x.isPax);
     if ($event != null && $event !== undefined) {
       this.passengerList = this.passengerList.concat(paxList);
       this.persistData();
-      this.personOnBoardService.crewList$
-      .finally(() => {
-        this.personOnBoardService.setCrewList(crewList);
-        this.personOnBoardService.setCrewDataIsPristine(false);
-      })
-      .subscribe(res => {
-        crewList = crewList.concat(res);
-      });
+      this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+        .finally(() => {
+          this.personOnBoardService.setCrewList(crewList);
+          this.personOnBoardService.setCrewDataIsPristine(false);
+        })
+        .subscribe(res => {
+          crewList = crewList.concat(res);
+        });
     }
   }
 

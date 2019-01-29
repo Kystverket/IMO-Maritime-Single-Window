@@ -6,6 +6,7 @@ import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { IdentityDocumentService } from 'app/shared/services';
 import { PassengerModalComponent } from '../passenger-modal/passenger-modal.component';
 import { PortCallFalPersonOnBoardService } from './../../../../../../../shared/services/port-call-fal-person-on-board.service';
+import { CrewMemberModalComponent } from './../../crew-list/crew-member-modal/crew-member-modal.component';
 
 @Component({
   selector: 'app-passenger-list-error-modal',
@@ -14,7 +15,7 @@ import { PortCallFalPersonOnBoardService } from './../../../../../../../shared/s
 })
 export class PassengerListErrorModalComponent implements OnInit {
 
-  inputPaxModel: any;
+  inputPoBModel: any;
   lastPaxWithError = false;
   identityDocumentTypes: IdentityDocumentTypeModel[] = [];
   genderList: GenderModel[] = [];
@@ -23,11 +24,11 @@ export class PassengerListErrorModalComponent implements OnInit {
   @Output() rectifiedPaxEmitter: EventEmitter<PersonOnBoardModel[]> = new EventEmitter();
   @Output() deleteShipStoresEmitter: EventEmitter<boolean> = new EventEmitter();
   @Input() personOnBoardWithErrors: any[];
-  rectifiedPax: PersonOnBoardModel[] = [];
   rectifiedPoBs: PersonOnBoardModel[] = [];
 
   @ViewChild('infoModal') infoModal: any;
-  @ViewChild(PassengerModalComponent) passengerModalComponent;
+  @ViewChild(PassengerModalComponent) paxModalComponent;
+  @ViewChild(CrewMemberModalComponent) crewModalComponent;
   @ViewChild('successModal') successModal: any;
   @ViewChild('errorModal') errorModal: any;
 
@@ -74,12 +75,15 @@ export class PassengerListErrorModalComponent implements OnInit {
       this.lastPaxWithError = true;
     }
     // Deep copy to avoid 2-way-binding issues affecting the original list when resetting the form
-    this.inputPaxModel = JSON.parse(JSON.stringify(this.personOnBoardWithErrors[0]));
-    this.currentExcelRow = this.inputPaxModel.excelRowNum;
+    this.inputPoBModel = JSON.parse(JSON.stringify(this.personOnBoardWithErrors[0]));
+    this.currentExcelRow = this.inputPoBModel.excelRowNum;
 
-    this.currentErrors = this.inputPaxModel.errorMessages;
-    this.passengerModalComponent.openEditModal(this.inputPaxModel);
-
+    this.currentErrors = this.inputPoBModel.errorMessages;
+    if  (this.inputPoBModel.isPax) {
+      this.paxModalComponent.openEditModal(this.inputPoBModel);
+    } else {
+      this.crewModalComponent.openEditModal(this.inputPoBModel);
+    }
   }
 
   openSuccessModal() {
@@ -95,9 +99,9 @@ export class PassengerListErrorModalComponent implements OnInit {
   }
 
   saveEntry() {
-    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === this.inputPaxModel.sequenceNumber);
+    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === this.inputPoBModel.sequenceNumber);
     this.personOnBoardWithErrors.splice(index, 1);
-    this.rectifiedPax.push(this.inputPaxModel);
+    this.rectifiedPoBs.push(this.inputPoBModel);
     if (this.personOnBoardWithErrors.length > 0) {
       this.openEditModal();
     }
@@ -110,26 +114,25 @@ export class PassengerListErrorModalComponent implements OnInit {
     pob = this.makeDates(pob);
     this.rectifiedPoBs.push(pob);
 
+    this.continueOrEmit();
+  }
+
+  finishRectifying() {
+    this.rectifiedPoBs.push(this.inputPoBModel);
+    this.rectifiedPaxEmitter.emit(this.rectifiedPoBs);
+  }
+
+  deleteEntry() {
+    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === this.inputPoBModel.sequenceNumber);
+    this.personOnBoardWithErrors.splice(index, 1);
+    this.continueOrEmit();
+  }
+
+  continueOrEmit() {
     if (this.personOnBoardWithErrors.length > 0) {
       this.openEditModal();
     } else {
       this.rectifiedPaxEmitter.emit(this.rectifiedPoBs);
-    }
-  }
-
-  finishRectifying() {
-    this.rectifiedPax.push(this.inputPaxModel);
-    this.rectifiedPaxEmitter.emit(this.rectifiedPax);
-  }
-
-  deleteEntry() {
-    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === this.inputPaxModel.sequenceNumber);
-    this.personOnBoardWithErrors.splice(index, 1);
-
-    if (this.personOnBoardWithErrors.length > 0) {
-      this.openEditModal();
-    } else {
-      this.rectifiedPaxEmitter.emit(this.rectifiedPax);
     }
   }
 

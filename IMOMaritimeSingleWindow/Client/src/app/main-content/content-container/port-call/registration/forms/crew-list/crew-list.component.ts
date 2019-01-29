@@ -119,9 +119,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
   pristineSubscription: Subscription;
 
   constructor(
-    private personOnBoardService: PortCallFalPersonOnBoardService,
+    public personOnBoardService: PortCallFalPersonOnBoardService,
     private modalService: NgbModal,
-    private fileService: FileService
   ) { }
 
   ngOnInit() {
@@ -202,7 +201,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
     if ($event != null && $event !== undefined) {
       this.crewList = this.crewList.concat(crewList);
       this.persistData();
-      this.personOnBoardService.passengerList$
+
+      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
       .finally(() => {
         this.personOnBoardService.setPassengersList(paxList);
         this.personOnBoardService.setPassengerDataIsPristine(false);
