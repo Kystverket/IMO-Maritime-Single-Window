@@ -121,6 +121,14 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     this.shipStoresErrorModalComponent.openViewModal(entriesWithErrors);
   }
 
+  importSuccess($event) {
+    if ($event) {
+      this.shipStoresErrorModalComponent.openSuccessModal();
+    } else {
+      this.shipStoresErrorModalComponent.openErrorModal();
+    }
+  }
+
   // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
   generateRows(): any[] {
     let rowData = [];

@@ -125,6 +125,13 @@ export class CrewListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.personOnBoardService.crewDataIsPristine$.subscribe(res => {
+      if (!res) {
+        this.personOnBoardService.crewList$.subscribe(crewList => {
+          this.crewList = crewList;
+        });
+      }
+    });
 
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
@@ -197,11 +204,10 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.persistData();
       this.personOnBoardService.passengerList$
       .finally(() => {
-        console.log(1);
         this.personOnBoardService.setPassengersList(paxList);
+        this.personOnBoardService.setPassengerDataIsPristine(false);
       })
       .subscribe(res => {
-        console.log(2);
         paxList = paxList.concat(res);
       });
     }
@@ -405,6 +411,14 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.listIsPristine = true;
       this.personOnBoardService.setCrewDataIsPristine(true);
     });
+  }
+
+  importSuccess($event) {
+    if ($event) {
+      this.crewListErrorModalComponent.openSuccessModal();
+    } else {
+      this.crewListErrorModalComponent.openErrorModal();
+    }
   }
 
 

@@ -24,10 +24,12 @@ export class PassengerListErrorModalComponent implements OnInit {
   @Output() deleteShipStoresEmitter: EventEmitter<boolean> = new EventEmitter();
   @Input() personOnBoardWithErrors: any[];
   rectifiedPax: PersonOnBoardModel[] = [];
+  rectifiedPoBs: PersonOnBoardModel[] = [];
 
-  @ViewChild('editModal') editModal: any;
   @ViewChild('infoModal') infoModal: any;
   @ViewChild(PassengerModalComponent) passengerModalComponent;
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
 
   @ViewChild(NgForm)
   form: NgForm;
@@ -78,9 +80,18 @@ export class PassengerListErrorModalComponent implements OnInit {
     this.currentErrors = this.inputPaxModel.errorMessages;
     this.passengerModalComponent.openEditModal(this.inputPaxModel);
 
-    // this.modalService.open(this.editModal, {
-    //   backdrop: 'static'
-    // });
+  }
+
+  openSuccessModal() {
+    this.modalService.open(this.successModal, {
+      backdrop: 'static'
+    });
+  }
+
+  openErrorModal() {
+    this.modalService.open(this.errorModal, {
+      backdrop: 'static'
+    });
   }
 
   saveEntry() {
@@ -92,17 +103,17 @@ export class PassengerListErrorModalComponent implements OnInit {
     }
   }
 
-  editPassenger($event) {
-    let pax = JSON.parse(JSON.stringify($event));
-    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === pax.sequenceNumber);
+  editPoB($event) {
+    let pob = JSON.parse(JSON.stringify($event));
+    const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === pob.sequenceNumber);
     this.personOnBoardWithErrors.splice(index, 1);
-    pax = this.makeDates(pax);
-    this.rectifiedPax.push(pax);
+    pob = this.makeDates(pob);
+    this.rectifiedPoBs.push(pob);
 
     if (this.personOnBoardWithErrors.length > 0) {
       this.openEditModal();
     } else {
-      this.rectifiedPaxEmitter.emit(this.rectifiedPax);
+      this.rectifiedPaxEmitter.emit(this.rectifiedPoBs);
     }
   }
 
@@ -122,12 +133,12 @@ export class PassengerListErrorModalComponent implements OnInit {
     }
   }
 
-  makeDates(passenger: PersonOnBoardModel) {
-    passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-    passenger.identityDocument.forEach(identityDocument => {
+  makeDates(pob: PersonOnBoardModel) {
+    pob.dateOfBirth = pob.dateOfBirth != null ? new Date(pob.dateOfBirth) : null;
+    pob.identityDocument.forEach(identityDocument => {
       identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
       identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
     });
-    return passenger;
+    return pob;
   }
 }

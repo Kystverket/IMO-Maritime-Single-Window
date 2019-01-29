@@ -22,10 +22,11 @@ export class CrewListErrorModalComponent implements OnInit {
   @Input() personOnBoardWithErrors: any[];
   rectifiedPoBs: PersonOnBoardModel[] = [];
 
-  @ViewChild('editModal') editModal: any;
   @ViewChild('infoModal') infoModal: any;
   @ViewChild(CrewMemberModalComponent) crewModalComponent: { openEditModal: (arg0: any) => void; };
   @ViewChild(PassengerModalComponent) paxModalComponent: { openEditModal: (arg0: any) => void; };
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
 
   @ViewChild(NgForm)
   form: NgForm;
@@ -86,6 +87,18 @@ export class CrewListErrorModalComponent implements OnInit {
     }
   }
 
+  openSuccessModal() {
+    this.modalService.open(this.successModal, {
+      backdrop: 'static'
+    });
+  }
+
+  openErrorModal() {
+    this.modalService.open(this.errorModal, {
+      backdrop: 'static'
+    });
+  }
+
   editPoB($event) {
     let pob = JSON.parse(JSON.stringify($event));
     const index = this.personOnBoardWithErrors.findIndex(ss => ss.sequenceNumber === pob.sequenceNumber);
@@ -116,12 +129,12 @@ export class CrewListErrorModalComponent implements OnInit {
     }
   }
 
-  makeDates(passenger: PersonOnBoardModel) {
-    passenger.dateOfBirth = passenger.dateOfBirth != null ? new Date(passenger.dateOfBirth) : null;
-    passenger.identityDocument.forEach(identityDocument => {
+  makeDates(pob: PersonOnBoardModel) {
+    pob.dateOfBirth = pob.dateOfBirth != null ? new Date(pob.dateOfBirth) : null;
+    pob.identityDocument.forEach(identityDocument => {
       identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
       identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
     });
-    return passenger;
+    return pob;
   }
 }

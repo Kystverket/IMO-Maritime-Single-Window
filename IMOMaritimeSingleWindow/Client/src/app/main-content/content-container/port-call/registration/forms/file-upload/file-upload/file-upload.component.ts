@@ -18,6 +18,7 @@ export class FileUploadComponent implements OnInit {
   @Output() saved: EventEmitter<any> = new EventEmitter();
   @Output() entriesHasErrors: EventEmitter<any[]> = new EventEmitter();
   @Output() crewAndPaxErrors: EventEmitter<any[]> = new EventEmitter();
+  @Output() importSuccess: EventEmitter<boolean> = new EventEmitter();
 
   modalRef: NgbModalRef;
 
@@ -50,19 +51,21 @@ export class FileUploadComponent implements OnInit {
   saveShipStoresFile() {
     this.uploading = true;
     this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
-    .finally(() => {
-      this.uploading = false;
-      this.modalRef.close();
-    })
-    .subscribe(res => {
-      if (res.json() as boolean) {
-        this.shipStoresWithErrors = res.json() as ShipStoresModel[];
-        if (this.shipStoresWithErrors && this.shipStoresWithErrors.length > 0) {
-          this.entriesHasErrors.emit(this.shipStoresWithErrors);
+      .finally(() => {
+        this.uploading = false;
+        this.modalRef.close();
+      })
+      .subscribe(res => {
+        if (typeof res.json() === 'boolean') {
+          this.importSuccess.emit(res.json());
+        } else {
+          this.shipStoresWithErrors = res.json() as ShipStoresModel[];
+          if (this.shipStoresWithErrors && this.shipStoresWithErrors.length > 0) {
+            this.entriesHasErrors.emit(this.shipStoresWithErrors);
+          }
         }
-      }
-      this.saved.emit(false);
-    });
+        this.saved.emit(false);
+      });
   }
 
   savePaxFile() {
@@ -72,7 +75,8 @@ export class FileUploadComponent implements OnInit {
         this.uploading = false;
         this.modalRef.close();
       }).subscribe(res => {
-        if (typeof res === 'boolean') {
+        if (typeof res.json() === 'boolean') {
+          this.importSuccess.emit(res.json());
         } else {
           this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
           if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
@@ -90,7 +94,8 @@ export class FileUploadComponent implements OnInit {
       this.modalRef.close();
     })
     .subscribe(res => {
-      if (typeof res === 'boolean') {
+      if (typeof res.json() === 'boolean') {
+        this.importSuccess.emit(res.json());
       } else {
         this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
         if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
@@ -109,16 +114,12 @@ export class FileUploadComponent implements OnInit {
       this.modalRef.close();
     })
     .subscribe(res => {
-      if (typeof res === 'boolean') {
+      if (typeof res.json() === 'boolean') {
+        this.importSuccess.emit(res.json());
       } else {
         this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
-        console.log(this.personOnBoardListWithErrors);
         const paxList = this.personOnBoardListWithErrors.filter(x => x.isPax);
         const crewList = this.personOnBoardListWithErrors.filter(x => !x.isPax);
-        console.log('pax');
-        console.log(paxList);
-        console.log('crew');
-        console.log(crewList);
         if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
           this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
         }

@@ -14,6 +14,7 @@ using static IMOMaritimeSingleWindow.Controllers.LocationController;
 using static IMOMaritimeSingleWindow.SpreadSheet.MappingMethods.CommonMappingMethods;
 using IMOMaritimeSingleWindow.SpreadSheet.SpreadSheetValidators;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -65,7 +66,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                             var PaxListWithErrors = new List<PersonOnBoard>();
                             var saved = false;
 
-                            if(PaxList.Any(x => x.Errors.Any()))
+                            if (PaxList.Any(x => x.Errors.Any()))
                             {
                                 PaxList.ForEach(pax => pax.PortCall = null);
                                 PaxListWithErrors = PaxList.Where(pax => pax.Errors.Any()).ToList();
@@ -132,7 +133,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                             var CrewListWithErrors = new List<PersonOnBoard>();
                             var saved = false;
 
-                            if(Crew.Any(c => c.Errors.Any()))
+                            if (Crew.Any(c => c.Errors.Any()))
                             {
                                 Crew.ForEach(c => c.PortCall = null);
                                 CrewListWithErrors = Crew.Where(c => c.Errors.Any()).ToList();
@@ -208,7 +209,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                             var crewAndPaxWithErrors = new List<PersonOnBoard>();
                             var saved = false;
 
-                            if(crewAndPax.Any(x => x.Errors.Any()))
+                            if (crewAndPax.Any(x => x.Errors.Any()))
                             {
                                 crewAndPax.ForEach(x => x.PortCall = null);
                                 crewAndPaxWithErrors = crewAndPax.Where(x => x.Errors.Any()).ToList();
@@ -278,22 +279,22 @@ namespace IMOMaritimeSingleWindow.Controllers
                             }
                             if (ShipStores.Any())
                             {
-                               saved = SaveShipStoresToPortCall(ShipStores, portCallId);
+                                saved = SaveShipStoresToPortCall(ShipStores, portCallId);
                             }
 
-                            if(shipStoresWithErrors.Any())
+                            if (shipStoresWithErrors.Any())
                             {
                                 return Json(shipStoresWithErrors);
                             }
-                            if(saved)
-                                return Json("Ship Stores successfully saved to Port Call.");
+                            if (saved)
+                                return Json(true);
 
-                            return Json("Ship Stores unsuccessfully saved to Port Call.");
+                            return Json(false);
                         }
                     }
                 }
 
-                return Json("Upload Successful.");
+                return Json(true);
 
             }
             catch (Exception ex)
@@ -376,6 +377,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             var identityType = _context.IdentityDocumentType.Where(idt => idt.EnumValue == IDENTITY_DOCUMENT_TYPES.PASSPORT.ToString()).FirstOrDefault();
             var sequenceNo = 0;
             var genders = _context.Gender.ToList();
+            var portDictionairy = new Dictionary<string, int>();
+            var countriesDictionairy = new Dictionary<string, int>();
 
             for (var rowNum = sheetDefinition.startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
             {
@@ -412,9 +415,19 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 if (!string.IsNullOrWhiteSpace(Nationality))
                 {
-                    var nationality = GetCountryByThreeCharCode(Nationality);
-                    if (nationality != null)
-                        pax.NationalityId = nationality.CountryId;
+                    if (countriesDictionairy.ContainsKey(Nationality))
+                    {
+                        pax.NationalityId = countriesDictionairy.GetValueOrDefault(Nationality);
+                    }
+                    else
+                    {
+                        var nationality = GetCountryByThreeCharCode(Nationality);
+                        if (nationality != null)
+                        {
+                            pax.NationalityId = nationality.CountryId;
+                            countriesDictionairy.Add(Nationality, nationality.CountryId);
+                        }
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(Sex))
                 {
@@ -432,10 +445,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(DocumentNumber) || !string.IsNullOrWhiteSpace(CountryOfIssue) || !string.IsNullOrWhiteSpace(DateOfExpiry))
                 {
-                    var issuingNation = GetCountryByThreeCharCode(CountryOfIssue);
                     var expiryDate = ConvertToDatetime(DateOfExpiry);
 
-                    if (identityType != null || issuingNation != null)
+                    if (identityType != null)
                     {
                         var identityDocument = new IdentityDocument
                         {
@@ -443,9 +455,18 @@ namespace IMOMaritimeSingleWindow.Controllers
                             IdentityDocumentExpiryDate = expiryDate,
                             IdentityDocumentType = identityType
                         };
-                        if(issuingNation != null)
+                        if (countriesDictionairy.ContainsKey(CountryOfIssue))
                         {
-                            identityDocument.IssuingNationId = issuingNation.CountryId;
+                            identityDocument.IssuingNationId = countriesDictionairy.GetValueOrDefault(CountryOfIssue);
+                        }
+                        else
+                        {
+                            var issuingNation = GetCountryByThreeCharCode(CountryOfIssue);
+                            if (issuingNation != null)
+                            {
+                                identityDocument.IssuingNationId = issuingNation.CountryId;
+                                countriesDictionairy.Add(CountryOfIssue, issuingNation.CountryId);
+                            }
                         }
 
                         pax.IdentityDocument = new List<IdentityDocument>
@@ -457,11 +478,29 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 if (!string.IsNullOrWhiteSpace(PortOfEmbarkation))
                 {
-                    pax.PortOfEmbarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
+                    if (portDictionairy.ContainsKey(PortOfEmbarkation))
+                    {
+                        pax.PortOfEmbarkationId = portDictionairy.GetValueOrDefault(PortOfEmbarkation);
+                    }
+                    else
+                    {
+                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
+                        pax.PortOfEmbarkationId = portOfEmbarkId;
+                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
                 {
-                    pax.PortOfDisembarkationId = GetPortByCode(PortOfDebarkation).LocationId;
+                    if (portDictionairy.ContainsKey(PortOfDebarkation))
+                    {
+                        pax.PortOfDisembarkationId = portDictionairy.GetValueOrDefault(PortOfDebarkation);
+                    }
+                    else
+                    {
+                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
+                        pax.PortOfDisembarkationId = portOfDebarkationId;
+                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfClearence))
                 {
@@ -482,7 +521,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     pax.InTransit = ConvertTextToBool(TransitPax);
                 }
-                    
+
                 var errors = validator.ValidatePersonOnBoardSpreadSheetModel(pax);
 
                 pax.Errors = errors;
@@ -504,6 +543,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             var identityType = _context.IdentityDocumentType.Where(idt => idt.EnumValue == IDENTITY_DOCUMENT_TYPES.PASSPORT.ToString()).FirstOrDefault();
             var sequenceNo = 0;
             var genders = _context.Gender.ToList();
+            var portDictionairy = new Dictionary<string, int>();
+            var countriesDictionairy = new Dictionary<string, int>();
 
             for (var rowNum = sheetDefinition.startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
             {
@@ -540,10 +581,18 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 if (!string.IsNullOrWhiteSpace(Nationality))
                 {
-                    var nationality = GetCountryByThreeCharCode(Nationality);
-                    if (nationality != null)
+                    if (countriesDictionairy.ContainsKey(Nationality))
                     {
-                        crew.NationalityId = nationality.CountryId;
+                        crew.NationalityId = countriesDictionairy.GetValueOrDefault(Nationality);
+                    }
+                    else
+                    {
+                        var nationality = GetCountryByThreeCharCode(Nationality);
+                        if (nationality != null)
+                        {
+                            crew.NationalityId = nationality.CountryId;
+                            countriesDictionairy.Add(Nationality, nationality.CountryId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(Sex))
@@ -562,10 +611,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(DocumentNumber) || !string.IsNullOrWhiteSpace(CountryOfIssue) || !string.IsNullOrWhiteSpace(DateOfExpiry))
                 {
-                    var issuingNation = GetCountryByThreeCharCode(CountryOfIssue);
+
                     var expiryDate = ConvertToDatetime(DateOfExpiry);
 
-                    if (identityType != null && issuingNation != null)
+                    if (identityType != null)
                     {
                         var identityDocument = new IdentityDocument
                         {
@@ -573,9 +622,18 @@ namespace IMOMaritimeSingleWindow.Controllers
                             IdentityDocumentExpiryDate = expiryDate,
                             IdentityDocumentType = identityType
                         };
-                        if (issuingNation != null)
+
+                        if(countriesDictionairy.ContainsKey(CountryOfIssue))
                         {
-                            identityDocument.IssuingNationId = issuingNation.CountryId;
+                            identityDocument.IssuingNationId = countriesDictionairy.GetValueOrDefault(CountryOfIssue);
+                        } else
+                        {
+                            var issuingNation = GetCountryByThreeCharCode(CountryOfIssue);
+                            if (issuingNation != null)
+                            {
+                                identityDocument.IssuingNationId = issuingNation.CountryId;
+                                countriesDictionairy.Add(CountryOfIssue, issuingNation.CountryId);
+                            }
                         }
 
                         crew.IdentityDocument = new List<IdentityDocument>
@@ -587,11 +645,29 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 if (!string.IsNullOrWhiteSpace(PortOfEmbarkation))
                 {
-                    crew.PortOfEmbarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
+                    if (portDictionairy.ContainsKey(PortOfEmbarkation))
+                    {
+                        crew.PortOfEmbarkationId = portDictionairy.GetValueOrDefault(PortOfEmbarkation);
+                    }
+                    else
+                    {
+                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
+                        crew.PortOfEmbarkationId = portOfEmbarkId;
+                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
                 {
-                    crew.PortOfDisembarkationId = GetPortByCode(PortOfDebarkation).LocationId;
+                    if (portDictionairy.ContainsKey(PortOfDebarkation))
+                    {
+                        crew.PortOfDisembarkationId = portDictionairy.GetValueOrDefault(PortOfDebarkation);
+                    }
+                    else
+                    {
+                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
+                        crew.PortOfDisembarkationId = portOfDebarkationId;
+                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                    }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfClearence))
                 {
@@ -602,7 +678,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(RankOrRating))
                 {
-                    crew.RankName = RankOrRating; 
+                    crew.RankName = RankOrRating;
                 }
                 if (!string.IsNullOrWhiteSpace(Effects))
                 {
@@ -638,7 +714,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                         continue;
 
                     QuantityTxt = QuantityTxt.Replace(",", ".");
-                    
+
                     float.TryParse(QuantityTxt, NumberStyles.Any, CultureInfo.InvariantCulture, out var Quantity);
 
                     var shipStore = new FalShipStores

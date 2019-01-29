@@ -1,5 +1,6 @@
 <app-ssn-card header="Upload Ship Store Excel Template" icon="upload.png" [collapsible]="true">
-    <app-file-upload [portCallId]="portCallId" [isShipStores]="true" (saved)="excelFileSaved($event)" (entriesHasErrors)="uploadError($event)"></app-file-upload>
+    <app-file-upload [portCallId]="portCallId" [isShipStores]="true" (saved)="excelFileSaved($event)" 
+    (entriesHasErrors)="uploadError($event)" (importSuccess)="importSuccess($event)"></app-file-upload>
   </app-ssn-card>
 <app-ssn-card header="Ship Stores List" icon="alcohol.png">
 

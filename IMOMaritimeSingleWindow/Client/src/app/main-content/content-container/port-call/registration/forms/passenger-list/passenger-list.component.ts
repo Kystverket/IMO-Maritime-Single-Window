@@ -127,6 +127,14 @@ export class PassengerListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.personOnBoardService.passengerDataIsPristine$.subscribe(res => {
+      if (!res) {
+        this.personOnBoardService.passengerList$.subscribe(paxList => {
+          this.passengerList = paxList;
+        });
+      }
+    });
+
     if (this.passengerList) {
       this.passengerList.forEach(passenger => {
         passenger = this.makeDates(passenger);
@@ -465,6 +473,31 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     if ($event != null && $event !== undefined) {
       this.passengerList = this.passengerList.concat($event);
       this.persistData();
+    }
+  }
+
+  addRectifiedCrewAndPax($event) {
+    const paxList = $event.filter((x: { isPax: any; }) => x.isPax);
+    let crewList = $event.filter((x: { isPax: any; }) => !x.isPax);
+    if ($event != null && $event !== undefined) {
+      this.passengerList = this.passengerList.concat(paxList);
+      this.persistData();
+      this.personOnBoardService.crewList$
+      .finally(() => {
+        this.personOnBoardService.setCrewList(crewList);
+        this.personOnBoardService.setCrewDataIsPristine(false);
+      })
+      .subscribe(res => {
+        crewList = crewList.concat(res);
+      });
+    }
+  }
+
+  importSuccess($event) {
+    if ($event) {
+      this.passengerListErrorModalComponent.openSuccessModal();
+    } else {
+      this.passengerListErrorModalComponent.openErrorModal();
     }
   }
   // Helper methods

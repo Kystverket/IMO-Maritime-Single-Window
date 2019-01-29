@@ -14,6 +14,8 @@
           <table>
             <tr *ngFor="let errorRow of personOnBoardWithErrors; let i=index">
               <td>{{i+1}}. Excel Row Number: {{errorRow.excelRowNum}}</td>
+              <td *ngIf="errorRow.isPax"> - Passenger Sheet</td>
+              <td *ngIf="!errorRow.isPax"> - Crew Sheet</td>
             </tr>
           </table>
         </div>
@@ -30,8 +32,27 @@
   </form>
 </ng-template>
 
-<app-passenger-modal [isImport]="true" (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
+<app-passenger-modal [isImport]="true" (outputPassengerModel)="editPoB($event)"></app-passenger-modal>
+<app-crew-member-modal [isImport]="true" (outputCrewModel)="editPoB($event)"></app-crew-member-modal>
 
-<ng-template #editModal let-close="close()" class="modal fade">
+<ng-template #successModal let-close="close()" class="modal fade">
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">Excel sheet successfully imported.</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
+</ng-template>
 
+<ng-template #errorModal let-close="close()" class="modal fade">
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">An error has occured.</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
 </ng-template>

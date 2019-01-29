@@ -24,6 +24,8 @@ export class ShipStoresErrorModalComponent implements OnInit {
 
   @ViewChild('editModal') editModal: any;
   @ViewChild('infoModal') infoModal: any;
+  @ViewChild('successModal') successModal: any;
+  @ViewChild('errorModal') errorModal: any;
   @ViewChild(NgForm)
   form: NgForm;
   currentExcelRow: number;
@@ -68,6 +70,18 @@ export class ShipStoresErrorModalComponent implements OnInit {
 
     this.currentErrors = this.inputShipStoresModel.errorMessages;
     this.modalService.open(this.editModal, {
+      backdrop: 'static'
+    });
+  }
+
+  openSuccessModal() {
+    this.modalService.open(this.successModal, {
+      backdrop: 'static'
+    });
+  }
+
+  openErrorModal() {
+    this.modalService.open(this.errorModal, {
       backdrop: 'static'
     });
   }

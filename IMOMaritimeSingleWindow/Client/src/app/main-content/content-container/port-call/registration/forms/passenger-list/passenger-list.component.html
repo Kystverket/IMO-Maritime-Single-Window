@@ -5,7 +5,7 @@
     <div class="col-lg-12">
       <app-ssn-card header="Upload Passenger Data from Excel Template" icon="upload.png" [collapsible]="true">
         <app-file-upload [portCallId]="portCallId" [isPaxPage]="true" (saved)="excelFileSaved($event)"
-          (entriesHasErrors)="uploadError($event)"></app-file-upload>
+          (entriesHasErrors)="uploadError($event)" (importSuccess)="importSuccess($event)"></app-file-upload>
       </app-ssn-card>
       <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
