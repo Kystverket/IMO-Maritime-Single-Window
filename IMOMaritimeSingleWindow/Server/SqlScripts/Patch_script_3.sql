@@ -19,3 +19,27 @@ UPDATE public.gender
 UPDATE public.gender
     SET "EnumValue"='OTHER'
     WHERE description = 'Other';
+
+
+ALTER TABLE public.identity_document_type
+	ADD COLUMN "EnumValue" varchar(50);
+
+UPDATE public.identity_document_type
+    SET "EnumValue"='MUSTERBOOK'
+    WHERE description = 'Musterbook';
+
+UPDATE public.identity_document_type
+    SET "EnumValue"='PASSPORT'
+    WHERE description = 'Passport';
+
+UPDATE public.identity_document_type
+    SET "EnumValue"='RESIDENTIAL_PERMIT'
+    WHERE description = 'Residential Permit';
+	
+UPDATE public.identity_document_type
+    SET "EnumValue"='PICTURE_ID'
+    WHERE description = 'Picture Id';
+	
+UPDATE public.identity_document_type
+    SET "EnumValue"='OTHER'
+    WHERE description = 'Other';
