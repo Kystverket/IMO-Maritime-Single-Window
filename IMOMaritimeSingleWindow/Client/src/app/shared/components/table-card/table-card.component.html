@@ -1,20 +1,45 @@
-<div class="border border-white table-card-header-bg p-1">
-  <div class="row text-center text-white px-4" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
-    <div class="d-table-cell mr-auto">
-      <img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" />
+<!-- <div class="border border-white table-card-header-bg p-1">
+
+  <div class="d-table-row text-left bg-ssn text-ssn" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
+
+    <div class="d-table-cell pt-1 text-white">
+      <h5 class="mb-0 text-vertical-align"><img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" /> {{ header }}</h5>
     </div>
-    <div class="d-table-cell m-auto">
-      <span>{{ header }}</span>
-    </div>
+
+
     <div class="d-table-cell ml-auto">
-      <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (mouseover)="collapsedIconColor=''" (mouseout)="collapsedIconColor='white/'">
+      <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (mouseover)="collapsedIconColor=''" 
+      (mouseout)="collapsedIconColor='white/'">
         <img src="{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}" height="16px">
       </button>
     </div>
   </div>
+
+
 </div>
-<div *ngIf="!collapsed" class="table-responsive border-bottom border-left border-right border-white text-white">
-  <table class="table mb-0">
+<div *ngIf="!collapsed" class="table-responsive border-bottom border-left border-right border-white">
+  <table class="table mb-0" style="background-color:white">
     <ng-content></ng-content>
   </table>
+</div> -->
+<div class="card ssn-card my-2">
+  <div class="card-header bg-ssn text-ssn text-left d-table py-1">
+    <div class="d-table-row text-white px-4" [ngClass]="{clickable: collapsible}" (click)="collapsible ? changeState() : null">
+
+      <div class="d-table-cell pt-1">
+        <h5 class="mb-0 text-vertical-align"><img *ngIf="icon" src="{{iconPath}}{{icon}}" height="24px" /> {{ header }}</h5>
+      </div>
+      <div class="d-table-cell pb-0 text-right">
+        <button *ngIf="collapsible" class="btn btn-sm btn-outline-light" (mouseover)="collapsedIconColor=''" (mouseout)="collapsedIconColor='white/'">
+          <img src="{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}" height="16px">
+        </button>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-body p-2" *ngIf="!collapsed">
+    <table class="table mb-0" style="background-color:white">
+      <ng-content></ng-content>
+    </table>
+  </div>
 </div>
