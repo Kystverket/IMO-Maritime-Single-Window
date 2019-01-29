@@ -10966,7 +10966,7 @@ module.exports = ""
 /***/ "./src/app/main-content/main-content.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<base href=\"/\">\r\n<app-header></app-header>\r\n<div class=\"mt-2 mx-sm-auto mx-md-2 mx-lg-4\">\r\n  <app-content-container></app-content-container>\r\n</div>"
+module.exports = "<base href=\"/\">\r\n<app-header></app-header>\r\n<div class=\"mt-2 mx-sm-auto mx-md-2 mx-lg-4 row\">\r\n  <div class=\"col-xl-10 offset-xl-1\">\r\n      <app-content-container></app-content-container>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
@@ -15973,14 +15973,14 @@ var SsnTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/components/table-card/table-card.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".table-card-header-bg {\r\n    background-color: #344d6e;\r\n}"
+module.exports = ".table-card-header-bg {\r\n    background-color: #344d6e;\r\n}\r\n\r\n.table td, .table th {\r\n    border: none!important;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/shared/components/table-card/table-card.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"border border-white table-card-header-bg p-1\">\r\n  <div class=\"row text-center text-white px-4\" [ngClass]=\"{clickable: collapsible}\" (click)=\"collapsible ? changeState() : null\">\r\n    <div class=\"d-table-cell mr-auto\">\r\n      <img *ngIf=\"icon\" src=\"{{iconPath}}{{icon}}\" height=\"24px\" />\r\n    </div>\r\n    <div class=\"d-table-cell m-auto\">\r\n      <span>{{ header }}</span>\r\n    </div>\r\n    <div class=\"d-table-cell ml-auto\">\r\n      <button *ngIf=\"collapsible\" class=\"btn btn-sm btn-outline-light\" (mouseover)=\"collapsedIconColor=''\" (mouseout)=\"collapsedIconColor='white/'\">\r\n        <img src=\"{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}\" height=\"16px\">\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div *ngIf=\"!collapsed\" class=\"table-responsive border-bottom border-left border-right border-white text-white\">\r\n  <table class=\"table mb-0\">\r\n    <ng-content></ng-content>\r\n  </table>\r\n</div>"
+module.exports = "<!-- <div class=\"border border-white table-card-header-bg p-1\">\r\n\r\n  <div class=\"d-table-row text-left bg-ssn text-ssn\" [ngClass]=\"{clickable: collapsible}\" (click)=\"collapsible ? changeState() : null\">\r\n\r\n    <div class=\"d-table-cell pt-1 text-white\">\r\n      <h5 class=\"mb-0 text-vertical-align\"><img *ngIf=\"icon\" src=\"{{iconPath}}{{icon}}\" height=\"24px\" /> {{ header }}</h5>\r\n    </div>\r\n\r\n\r\n    <div class=\"d-table-cell ml-auto\">\r\n      <button *ngIf=\"collapsible\" class=\"btn btn-sm btn-outline-light\" (mouseover)=\"collapsedIconColor=''\" \r\n      (mouseout)=\"collapsedIconColor='white/'\">\r\n        <img src=\"{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}\" height=\"16px\">\r\n      </button>\r\n    </div>\r\n  </div>\r\n\r\n\r\n</div>\r\n<div *ngIf=\"!collapsed\" class=\"table-responsive border-bottom border-left border-right border-white\">\r\n  <table class=\"table mb-0\" style=\"background-color:white\">\r\n    <ng-content></ng-content>\r\n  </table>\r\n</div> -->\r\n<div class=\"card ssn-card my-2\">\r\n  <div class=\"card-header bg-ssn text-ssn text-left d-table py-1\">\r\n    <div class=\"d-table-row text-white px-4\" [ngClass]=\"{clickable: collapsible}\" (click)=\"collapsible ? changeState() : null\">\r\n\r\n      <div class=\"d-table-cell pt-1\">\r\n        <h5 class=\"mb-0 text-vertical-align\"><img *ngIf=\"icon\" src=\"{{iconPath}}{{icon}}\" height=\"24px\" /> {{ header }}</h5>\r\n      </div>\r\n      <div class=\"d-table-cell pb-0 text-right\">\r\n        <button *ngIf=\"collapsible\" class=\"btn btn-sm btn-outline-light\" (mouseover)=\"collapsedIconColor=''\" (mouseout)=\"collapsedIconColor='white/'\">\r\n          <img src=\"{{collapsedIconPath}}{{collapsedIconColor}}{{collapsedIcon}}\" height=\"16px\">\r\n        </button>\r\n      </div>\r\n\r\n    </div>\r\n  </div>\r\n  <div class=\"card-body p-2\" *ngIf=\"!collapsed\">\r\n    <table class=\"table mb-0\" style=\"background-color:white\">\r\n      <ng-content></ng-content>\r\n    </table>\r\n  </div>\r\n</div>"
 
 /***/ }),
 
