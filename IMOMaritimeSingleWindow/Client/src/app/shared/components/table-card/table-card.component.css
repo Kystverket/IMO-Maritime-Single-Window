@@ -1,3 +1,7 @@
 .table-card-header-bg {
     background-color: #344d6e;
 }
+
+.table td, .table th {
+    border: none!important;
+}
