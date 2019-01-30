@@ -55,6 +55,7 @@ namespace IMOMaritimeSingleWindow.Models
         public PortCall PortCall { get; set; }
         public Location PortOfDisembarkation { get; set; }
         public Location PortOfEmbarkation { get; set; }
+        public string CrewEffects { get; set; }
         public ICollection<IdentityDocument> IdentityDocument { get; set; }
 
         public override String ToString()
