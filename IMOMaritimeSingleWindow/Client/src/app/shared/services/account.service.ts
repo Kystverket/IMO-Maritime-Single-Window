@@ -142,7 +142,7 @@ export class AccountService extends BaseRequest {
   setUserPassword(newPassword: string, id: string): Observable<any> {
     const uri = [this.passwordUrl, 'set'].join('/');
     return this.http
-      .put(uri, {newPassword: newPassword, currentPassword: newPassword, userId: id})
+      .put(uri, { newPassword: newPassword, currentPassword: newPassword, userId: id })
       .catch(this.handleError);
   }
 

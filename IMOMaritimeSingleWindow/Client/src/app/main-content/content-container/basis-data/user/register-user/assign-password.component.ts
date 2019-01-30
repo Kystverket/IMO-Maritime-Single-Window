@@ -3,9 +3,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AccountService } from 'app/shared/services/';
 
 @Component({
-  selector: 'assign-password',
-  templateUrl: './assign-password.component.html'
-  //styleUrls: ['./password-change.component.css']
+	selector: 'app-assign-password',
+	templateUrl: './assign-password.component.html'
+	//styleUrls: ['./password-change.component.css']
 })
 export class AssignPasswordComponent implements OnInit {
 
@@ -20,19 +20,17 @@ export class AssignPasswordComponent implements OnInit {
 	// default constructor
 	constructor(public activeModal: NgbActiveModal, private accountService: AccountService) { }
 
-	ngOnInit() {}
+	ngOnInit() { }
 
 
 	public setPassword(): void {
 
-		this.accountService.setUserPassword(this.newPassword,  this.user.id).subscribe((result) => {
+		this.accountService.setUserPassword(this.newPassword, this.user.id).subscribe((result) => {
 			this.activeModal.close(true);
-			console.log(result);
 		},
-		(err) => {
-			console.log(err);
-			this.activeModal.close(false);
-		});
+			(err) => {
+				this.activeModal.close(false);
+			});
 
 	}
 

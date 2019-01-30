@@ -166,7 +166,6 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
     modalRef.result.then(
       result => {
-        console.log(result);
       }
     );
   }
