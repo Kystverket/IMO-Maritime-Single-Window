@@ -772,14 +772,16 @@ var AccountModule = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ship_register_ship_certificate_of_registry_certificate_of_registry_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/ship/register-ship/certificate-of-registry/certificate-of-registry.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__ship_register_ship_register_ship_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/ship/register-ship/register-ship.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ship_view_ship_info_view_ship_info_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/ship/view-ship-info/view-ship-info.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_register_user_register_user_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_view_user_info_view_user_info_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/view-user-info/view-user-info.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__user_register_user_assign_password_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/assign-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__user_register_user_register_user_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__user_view_user_info_view_user_info_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/view-user-info/view-user-info.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -814,8 +816,8 @@ var BasisDataModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_8_ng2_smart_table__["b" /* Ng2SmartTableModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_17__user_register_user_register_user_component__["a" /* RegisterUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__user_view_user_info_view_user_info_component__["a" /* ViewUserInfoComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__user_register_user_register_user_component__["a" /* RegisterUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__user_view_user_info_view_user_info_component__["a" /* ViewUserInfoComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__ship_register_ship_register_ship_component__["a" /* RegisterShipComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__ship_view_ship_info_view_ship_info_component__["a" /* ViewShipInfoComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */],
@@ -823,11 +825,12 @@ var BasisDataModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_9__location_register_location_register_location_component__["a" /* RegisterLocationComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__location_view_location_info_view_location_info_component__["a" /* ViewLocationInfoComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__location_view_location_info_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__ship_register_ship_certificate_of_registry_certificate_of_registry_component__["a" /* CertificateOfRegistryComponent */]
+                __WEBPACK_IMPORTED_MODULE_14__ship_register_ship_certificate_of_registry_certificate_of_registry_component__["a" /* CertificateOfRegistryComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__user_register_user_assign_password_component__["a" /* AssignPasswordComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_17__user_register_user_register_user_component__["a" /* RegisterUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__user_view_user_info_view_user_info_component__["a" /* ViewUserInfoComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__user_register_user_register_user_component__["a" /* RegisterUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__user_view_user_info_view_user_info_component__["a" /* ViewUserInfoComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__ship_view_ship_info_view_ship_info_component__["a" /* ViewShipInfoComponent */],
                 __WEBPACK_IMPORTED_MODULE_15__ship_register_ship_register_ship_component__["a" /* RegisterShipComponent */],
                 __WEBPACK_IMPORTED_MODULE_9__location_register_location_register_location_component__["a" /* RegisterLocationComponent */],
@@ -843,7 +846,8 @@ var BasisDataModule = /** @class */ (function () {
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_10__location_view_location_info_location_button_row_location_button_row_component__["a" /* LocationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_12__organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */]
+                __WEBPACK_IMPORTED_MODULE_12__organization_register_organization_register_organization_component__["a" /* RegisterOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__user_register_user_assign_password_component__["a" /* AssignPasswordComponent */]
             ]
         })
     ], BasisDataModule);
@@ -2096,6 +2100,68 @@ var ViewShipInfoComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/main-content/content-container/basis-data/user/register-user/assign-password.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<app-ssn-bg header=\"Change User Password\" icon=\"user.png\" shownAs=\"as-dialog\">\r\n    <app-ssn-card header=\"Password {{purpose}} Form\">\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"first_password\">New password</label>\r\n        <div class=\"col\">\r\n          <input id=\"first_password\" name=\"first_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Enter a new password\" [(ngModel)]=\"newPassword\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row mb-0\">\r\n        <label class=\"col-form-label-sm no-wrap col-sm-2 col-md-2 col-lg-2 col-xl-2\" for=\"second_password\">Retype password</label>\r\n        <div class=\"col\">\r\n          <input id=\"second_password\" name=\"second_password\" class=\"form-control form-control-sm\" type=\"password\" placeholder=\"Retype the password\" [(ngModel)]=\"newPasswordCheck\">\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"fieldsFilled\" class=\"row\">\r\n        <div class=\"col-sm-2 col-md-2 col-lg-2 col-xl-2\">\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"!passwordMatch && !fieldFocused\">\r\n          <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n          <small class=\"text-danger\">New passwords do not match</small>\r\n        </div>\r\n        <div class=\"col\" *ngIf=\"passwordMatch\">\r\n          <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n          <small class=\"text-success\">New passwords match</small>\r\n        </div>\r\n      </div>\r\n      <div *ngIf=\"passwordMatch && !fieldsFilled\" class=\"row\">\r\n        <div class=\"col\" *ngIf=\"passwordMatch\">\r\n          <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n          <small class=\"text-success\">New passwords match, but please also input your current password.</small>\r\n        </div>\r\n      </div>\r\n\r\n       <div>\r\n        <div class=\"row\">\r\n          <div class=\"col\">\r\n            <button class=\"btn btn-ssn\" (click)=\"setPassword();\" [disabled]=\"newPassword != newPasswordCheck || newPassword == ''\">Set Password</button>\r\n            <button class=\"btn btn-ssn\" (click)=\"activeModal.close(false);\">Close</button>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div *ngIf=\"submissionReady\">\r\n        <div *ngIf=\"actionSucceeded\" class=\"alert-success\" role=\"alert\">\r\n          <h5>Success</h5>\r\n          <span>{{successMessage}}</span>\r\n        </div>\r\n        <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n          <h5>Error</h5>\r\n          <span>{{errors}}</span>\r\n        </div>\r\n      </div>\r\n      \r\n    </app-ssn-card>\r\n</app-ssn-bg>"
+
+/***/ }),
+
+/***/ "./src/app/main-content/content-container/basis-data/user/register-user/assign-password.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AssignPasswordComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AssignPasswordComponent = /** @class */ (function () {
+    // default constructor
+    function AssignPasswordComponent(activeModal, accountService) {
+        this.activeModal = activeModal;
+        this.accountService = accountService;
+        this.user = null;
+        this.newPassword = '';
+        this.newPasswordCheck = '';
+        this.purpose = '';
+        this.$sucess = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */];
+        this.$error = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */];
+    }
+    AssignPasswordComponent.prototype.ngOnInit = function () { };
+    AssignPasswordComponent.prototype.setPassword = function () {
+        var _this = this;
+        this.accountService.setUserPassword(this.newPassword, this.user.id).subscribe(function (result) {
+            _this.activeModal.close(true);
+        }, function (err) {
+            _this.activeModal.close(false);
+        });
+    };
+    AssignPasswordComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-assign-password',
+            template: __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/assign-password.component.html")
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */], __WEBPACK_IMPORTED_MODULE_2_app_shared_services___["a" /* AccountService */]])
+    ], AssignPasswordComponent);
+    return AssignPasswordComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.css":
 /***/ (function(module, exports) {
 
@@ -2106,7 +2172,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/basis-data/user/register-user/register-user.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personal Details\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\" type=\"number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\" type=\"number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Agent Company\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization [filter]=\"filterOrganization\" (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"{{confirmHeader}}\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>{{confirmButtonTitle}}</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">{{confirmButtonTitle}}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
+module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card *ngIf=\"!isDrafted\" header=\"Personal Details\" icon=\"user-info.png\" id=\"personalia\">\r\n        <form #f=\"ngForm\" novalidate>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"email\">Email</label>\r\n                  <input id=\"email\" name=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email\" [(ngModel)]=\"user.email\" #email=\"ngModel\"\r\n                    [email]=\"true\" (ngModelChange)=\"emailChecked = false\" (blur)=\"userExists(email.valid)\" autocomplete=\"username\"\r\n                    tmFocus validateEmail>\r\n                  <small *ngIf=\"!email.valid && !email.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n                  <div *ngIf=\"emailChecked && !emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/green/checkmark.png\">\r\n                    <small class=\"text-success\">email available</small>\r\n                  </div>\r\n                  <div *ngIf=\"emailChecked && emailTaken\">\r\n                    <img height=\"16px\" src=\"assets/images/icons/128x128/red/warning.png\">\r\n                    <small class=\"text-danger\">email is already in use</small>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"given_name\">Given name</label>\r\n                  <input id=\"given_name\" name=\"givenName\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.givenName\" placeholder=\"Enter Given name\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"surname\">Surname</label>\r\n                  <input id=\"surname\" name=\"surname\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.surname\" placeholder=\"Enter surname\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"phone_number\">Phone number</label>\r\n                  <input id=\"phone_number\" name=\"phoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.phoneNumber\" placeholder=\"Enter phone number\" type=\"number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div class=\"row\">\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_phone_number\">Company phone number</label>\r\n                  <input id=\"company_phone_number\" name=\"companyPhoneNumber\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyPhoneNumber\"\r\n                    placeholder=\"Enter your company phone number\" type=\"number\">\r\n                </div>\r\n              </div>\r\n            </div>\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <div class=\"form-group row\">\r\n                <div class=\"col\">\r\n                  <label class=\"col-form-label-sm no-wrap mb-0\" for=\"company_email\">Company email</label>\r\n                  <input id=\"company_email\" name=\"companyEmail\" class=\"form-control form-control-sm\" [(ngModel)]=\"user.companyEmail\" #compEmail=\"ngModel\"\r\n                    [email]=\"true\" tmFocus validateEmail placeholder=\"Enter your company email address\">\r\n                </div>\r\n                <small *ngIf=\"!compEmail.valid && !compEmail.pristine\" class=\"text-danger\">Please enter a valid email address</small>\r\n              </div>\r\n            </div>\r\n\r\n            <!-- Password Change -->\r\n            <div class=\"col-md-6 col-lg-6\">\r\n              <button class=\"btn btn-ssn\" (click)=\"openPasswordChange()\" *ngIf=\"!newUser\">Change User Password</button>\r\n            </div>\r\n\r\n          </div>\r\n\r\n        </form>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"Select Agent Company\" icon=\"pax.png\">\r\n        <div *ngIf=\"!organizationSelected\">\r\n          <app-search-organization [filter]=\"filterOrganization\" (organizationResult)=\"onOrganizationResult($event)\"></app-search-organization>\r\n        </div>\r\n\r\n        <div *ngIf=\"organizationSelected\" class=\"text-center\">\r\n          <div class=\"table-responsive\">\r\n            <app-ssn-table [entryData]=organizationProperties></app-ssn-table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"deselectOrganization()\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"24px\" /> Clear selection</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"User rights\" icon=\"verification-clipboard.png\">\r\n        <div class=\"form-group\">\r\n          <div class=\"text-center\">\r\n            <span class=\"no-wrap\">Select a role for this user</span>\r\n          </div>\r\n          <ng-select id=\"roleSelected\" [items]=\"roleList\" [multiple]=\"false\" [closeOnSelect]=\"true\" bindLabel=\"name\" placeholder=\"Select role\"\r\n            [(ngModel)]=\"user.roleName\">\r\n          </ng-select>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"row\">\r\n    <div class=\"col\">\r\n      <app-ssn-card header=\"{{confirmHeader}}\">\r\n        <div class=\"text-center\" *ngIf=\"!(user.email && emailChecked && !emailTaken && organizationSelected && user.roleName)\">\r\n          <div class=\"mb-3\">\r\n            <p class=\"mb-0\" *ngIf=\"!user.email\">Email not set.</p>\r\n            <p class=\"mb-0\" *ngIf=\"user.email && emailChecked && emailTaken\">Selected email is already in use.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!organizationSelected\">Organization not selected.</p>\r\n            <p class=\"mb-0\" *ngIf=\"!user.roleName\">Role not assigned.</p>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" disabled>{{confirmButtonTitle}}</button>\r\n        </div>\r\n        <div class=\"text-center\" *ngIf=\"user.email && emailChecked && !emailTaken && organizationSelected && user.roleName\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table table-bordered\">\r\n              <thead>\r\n                <tr class=\"bg-ssn text-ssn\">\r\n                  <th *ngIf=\"user.givenName\">Given name</th>\r\n                  <th *ngIf=\"user.surname\">Surname</th>\r\n                  <th>Email</th>\r\n                  <th *ngIf=\"user.phoneNumber\">Phone number</th>\r\n                  <th>Organization</th>\r\n                  <th>Role</th>\r\n                </tr>\r\n              </thead>\r\n              <tbody>\r\n                <tr>\r\n                  <td *ngIf=\"user.givenName\">{{ user.givenName }}</td>\r\n                  <td *ngIf=\"user.surname\">{{ user.surname }}</td>\r\n                  <td> {{ user.email }} </td>\r\n                  <td *ngIf=\"user.phoneNumber\">{{ user.phoneNumber }}</td>\r\n                  <td>{{ organizationModel.name }}</td>\r\n                  <td>{{ user.roleName }}</td>\r\n                </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n          <button class=\"btn btn-ssn\" (click)=\"registerUser()\">{{confirmButtonTitle}}</button>\r\n        </div>\r\n      </app-ssn-card>\r\n    </div>\r\n  </div>\r\n</app-ssn-bg>\r\n\r\n\r\n\r\n<!-- <ng-template #template let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">User registration result</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div *ngIf=\"registrationSuccessful\">\r\n      <span>User registered successfully.</span>\r\n      <br>\r\n      <span>Please click the link below to set a new password for the user:</span>\r\n      <br>\r\n      <span><a href={{emailConfirmationLink}}>link</a></span>\r\n    </div>\r\n    <div *ngIf=\"!registrationSuccessful\">\r\n      <span>Something went wrong while attempting to register the user!</span>\r\n    </div>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n        <span>Close</span>\r\n      </button>\r\n  </div>\r\n</ng-template> -->"
 
 /***/ }),
 
@@ -2122,6 +2188,7 @@ module.exports = "<app-ssn-bg header=\"{{userHeader}}\" icon=\"user.png\">\r\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_app_shared_constants_organization_properties__ = __webpack_require__("./src/app/shared/constants/organization-properties.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__assign_password_component__ = __webpack_require__("./src/app/main-content/content-container/basis-data/user/register-user/assign-password.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2131,6 +2198,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2202,6 +2270,7 @@ var RegisterUserComponent = /** @class */ (function () {
         });
         // this.emailTaken = false;
         this.emailChecked = true;
+        user.password = '';
         this.user = user;
     };
     RegisterUserComponent.prototype.ngOnDestroy = function () {
@@ -2243,6 +2312,13 @@ var RegisterUserComponent = /** @class */ (function () {
                 // this.openCustomModal(template, false);  // FAILURE
             });
         }
+    };
+    RegisterUserComponent.prototype.openPasswordChange = function () {
+        var modalRef = this.modalService.open(__WEBPACK_IMPORTED_MODULE_7__assign_password_component__["a" /* AssignPasswordComponent */], { centered: true, size: 'lg' });
+        modalRef.componentInstance.purpose = 'Set';
+        modalRef.componentInstance.user = this.user;
+        modalRef.result.then(function (result) {
+        });
     };
     RegisterUserComponent.prototype.onOrganizationResult = function (organizationResult) {
         this.setOrganization(organizationResult);
@@ -12320,8 +12396,8 @@ var ConfirmationModalComponent = /** @class */ (function () {
     ConfirmationModalComponent.TYPE_SUCCESS = 'SUCCESS';
     ConfirmationModalComponent.TYPE_WARNING = 'WARNING';
     ConfirmationModalComponent.TYPE_FAILURE = 'FAILURE';
-    ConfirmationModalComponent.CONFIRM_MODAL = "CONFIRM_MODAL";
-    ConfirmationModalComponent.ALERT_MODAL = "ALERT_MODAL";
+    ConfirmationModalComponent.CONFIRM_MODAL = 'CONFIRM_MODAL';
+    ConfirmationModalComponent.ALERT_MODAL = 'ALERT_MODAL';
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", String)
@@ -17460,7 +17536,7 @@ var UserSmartTableComponent = /** @class */ (function () {
             organization: (user.organization) ? user.organization : 'N/A',
             role: user.role,
             email: user.email,
-            isActive: (user.isActive) ? "Active" : "Deactivated",
+            isActive: (user.isActive) ? 'Active' : 'Deactivated',
             actions: 'btn'
         };
         return row;
@@ -19036,6 +19112,12 @@ var AccountService = /** @class */ (function (_super) {
                 userName: userName
             }
         })
+            .catch(this.handleError);
+    };
+    AccountService.prototype.setUserPassword = function (newPassword, id) {
+        var uri = [this.passwordUrl, 'set'].join('/');
+        return this.http
+            .put(uri, { newPassword: newPassword, currentPassword: newPassword, userId: id })
             .catch(this.handleError);
     };
     AccountService.prototype.changePassword = function (model) {
@@ -21688,54 +21770,54 @@ var ValidateDateTimeService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_confirmation_view_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/confirmation-view.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_info_table_crew_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/crew-info-table/crew-info-table.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_crew_listing_table_crew_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_passenger_info_table_passenger_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-info-table/passenger-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__ = __webpack_require__("./src/app/shared/components/search-user/search-user.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-smart-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/dpg-listing-table/dpg-listing-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__components_confirmation_view_security_info_security_info_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/security-info/security-info.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/dpg-listing-table/dpg-listing-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_info_table_passenger_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-info-table/passenger-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/passenger-listing-table/passenger-listing-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_security_info_security_info_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/security-info/security-info.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_confirmation_view_user_info_table_user_info_table_component__ = __webpack_require__("./src/app/shared/components/confirmation-view/user-info-table/user-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_contact_select_contact_select_component__ = __webpack_require__("./src/app/shared/components/contact-select/contact-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_country_select_country_select_component__ = __webpack_require__("./src/app/shared/components/country-select/country-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_date_picker_date_picker_component__ = __webpack_require__("./src/app/shared/components/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_date_time_picker_date_time_picker_component__ = __webpack_require__("./src/app/shared/components/date-time-picker/date-time-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_feedback_feedback_component__ = __webpack_require__("./src/app/shared/components/feedback/feedback.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_issc_issc_component__ = __webpack_require__("./src/app/shared/components/issc/issc.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_issc_rso_select_rso_select_component__ = __webpack_require__("./src/app/shared/components/issc/rso-select/rso-select.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_location_info_table_location_info_table_component__ = __webpack_require__("./src/app/shared/components/location-info-table/location-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_location_time_info_table_location_time_info_table_component__ = __webpack_require__("./src/app/shared/components/location-time-info-table/location-time-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_organization_info_table_organization_info_table_component__ = __webpack_require__("./src/app/shared/components/organization-info-table/organization-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_button_row_organization_button_row_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-button-row/organization-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__components_organization_smart_table_organization_smart_table_component__ = __webpack_require__("./src/app/shared/components/organization-smart-table/organization-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__components_prev_and_next_poc_table_prev_and_next_poc_table_component__ = __webpack_require__("./src/app/shared/components/prev-and-next-poc-table/prev-and-next-poc-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__components_search_country_search_country_component__ = __webpack_require__("./src/app/shared/components/search-country/search-country.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__components_search_location_search_location_component__ = __webpack_require__("./src/app/shared/components/search-location/search-location.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__components_search_organization_search_organization_component__ = __webpack_require__("./src/app/shared/components/search-organization/search-organization.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__components_search_ship_flag_code_search_ship_flag_code_component__ = __webpack_require__("./src/app/shared/components/search-ship-flag-code/search-ship-flag-code.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__components_search_ship_search_ship_component__ = __webpack_require__("./src/app/shared/components/search-ship/search-ship.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__components_search_user_search_user_component__ = __webpack_require__("./src/app/shared/components/search-user/search-user.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__components_select_ship_contact_select_ship_contact_component__ = __webpack_require__("./src/app/shared/components/select-ship-contact/select-ship-contact.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__components_selected_contact_mediums_selected_contact_mediums_component__ = __webpack_require__("./src/app/shared/components/selected-contact-mediums/selected-contact-mediums.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__components_ship_info_table_ship_info_table_component__ = __webpack_require__("./src/app/shared/components/ship-info-table/ship-info-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_button_row_ship_button_row_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-button-row/ship-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__components_ship_smart_table_ship_smart_table_component__ = __webpack_require__("./src/app/shared/components/ship-smart-table/ship-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__components_ssn_bg_ssn_bg_component__ = __webpack_require__("./src/app/shared/components/ssn-bg/ssn-bg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__components_ssn_card_ssn_card_component__ = __webpack_require__("./src/app/shared/components/ssn-card/ssn-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__components_ssn_table_ssn_table_component__ = __webpack_require__("./src/app/shared/components/ssn-table/ssn-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__components_table_card_table_card_component__ = __webpack_require__("./src/app/shared/components/table-card/table-card.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_button_row_user_button_row_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-button-row/user-button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__components_user_smart_table_user_smart_table_component__ = __webpack_require__("./src/app/shared/components/user-smart-table/user-smart-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__services_db_connection_service__ = __webpack_require__("./src/app/shared/services/db-connection.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__services_error_service__ = __webpack_require__("./src/app/shared/services/error.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__services_location_service__ = __webpack_require__("./src/app/shared/services/location.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__services_organization_service__ = __webpack_require__("./src/app/shared/services/organization.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__services_ship_service__ = __webpack_require__("./src/app/shared/services/ship.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_extended_alpha_numeric_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/extended-alpha-numeric-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_integer_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/integer-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/number-validator.directive.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__utils_custom_validators_positive_number_validator_directive__ = __webpack_require__("./src/app/shared/utils/custom-validators/positive-number-validator.directive.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -21816,115 +21898,115 @@ var SharedModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_4__ng_select_ng_select__["a" /* NgSelectModule */]
             ],
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_9__components_confirmation_view_clearances_clearances_component__["a" /* ClearancesComponent */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__["a" /* SearchUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
-                __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_29__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_16__components_confirmation_view_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_34__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_search_user_search_user_component__["a" /* SearchUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_port_call_details_selected_purposes_selected_purposes_component__["a" /* SelectedPurposesComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_feedback_feedback_component__["a" /* FeedbackComponent */],
                 __WEBPACK_IMPORTED_MODULE_7__components_confirmation_view_cargo_info_table_cargo_info_table_component__["a" /* CargoInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_17__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__["a" /* ShipStoresInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_21__components_confirmation_view_user_info_table_user_info_table_component__["a" /* UserInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_19__components_confirmation_view_ship_stores_info_table_ship_stores_info_table_component__["a" /* ShipStoresInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_11__components_confirmation_view_crew_info_table_crew_info_table_component__["a" /* CrewInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_passenger_info_table_passenger_info_table_component__["a" /* PassengerInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_22__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_21__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_info_table_passenger_info_table_component__["a" /* PassengerInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_24__components_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_23__components_country_select_country_select_component__["a" /* CountrySelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__components_issc_rso_select_rso_select_component__["a" /* RsoSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_cargo_listing_table_cargo_listing_table_component__["a" /* CargoListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__["a" /* ShipStoresListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_59__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__["a" /* DpgListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_60__components_confirmation_view_security_info_security_info_component__["a" /* SecurityInfoComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_20__components_confirmation_view_ship_stores_listing_table_ship_stores_listing_table_component__["a" /* ShipStoresListingTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_13__components_confirmation_view_dpg_listing_table_dpg_listing_table_component__["a" /* DpgListingTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__components_confirmation_view_security_info_security_info_component__["a" /* SecurityInfoComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_55__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
+                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_extended_alpha_numeric_validator_directive__["a" /* ExtendedAlphaNumericValidator */],
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
                 __WEBPACK_IMPORTED_MODULE_10__components_confirmation_view_confirmation_view_component__["a" /* ConfirmationViewComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
-                __WEBPACK_IMPORTED_MODULE_27__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_31__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__components_search_user_search_user_component__["a" /* SearchUserComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__components_table_card_table_card_component__["a" /* TableCardComponent */],
-                __WEBPACK_IMPORTED_MODULE_23__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
-                __WEBPACK_IMPORTED_MODULE_20__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_24__components_feedback_feedback_component__["a" /* FeedbackComponent */],
-                __WEBPACK_IMPORTED_MODULE_25__components_issc_issc_component__["a" /* IsscComponent */],
-                __WEBPACK_IMPORTED_MODULE_29__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__utils_custom_validators_integer_validator_directive__["a" /* IntegerValidator */],
+                __WEBPACK_IMPORTED_MODULE_29__components_location_info_table_location_info_table_component__["a" /* LocationInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_30__components_location_time_info_table_location_time_info_table_component__["a" /* LocationTimeInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__utils_custom_validators_number_validator_directive__["a" /* NumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_33__components_organization_smart_table_organization_smart_table_component__["a" /* OrganizationSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__utils_custom_validators_positive_number_validator_directive__["a" /* PositiveNumberValidator */],
+                __WEBPACK_IMPORTED_MODULE_34__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__components_search_country_search_country_component__["a" /* SearchCountryComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__components_search_location_search_location_component__["a" /* SearchLocationComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__components_search_organization_search_organization_component__["a" /* SearchOrganizationComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__components_search_ship_search_ship_component__["a" /* SearchShipComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__components_search_user_search_user_component__["a" /* SearchUserComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__components_selected_contact_mediums_selected_contact_mediums_component__["a" /* SelectedContactMediumsComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__components_select_ship_contact_select_ship_contact_component__["a" /* SelectShipContactComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__components_ship_info_table_ship_info_table_component__["a" /* ShipInfoTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__components_ship_smart_table_ship_smart_table_component__["a" /* ShipSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__components_user_smart_table_user_smart_table_component__["a" /* UserSmartTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__components_ssn_bg_ssn_bg_component__["a" /* SsnBgComponent */],
+                __WEBPACK_IMPORTED_MODULE_47__components_ssn_card_ssn_card_component__["a" /* SsnCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__components_table_card_table_card_component__["a" /* TableCardComponent */],
+                __WEBPACK_IMPORTED_MODULE_25__components_date_time_picker_date_time_picker_component__["a" /* DateTimePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__components_ssn_table_ssn_table_component__["a" /* SsnTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__components_prev_and_next_poc_table_prev_and_next_poc_table_component__["a" /* PrevAndNextPocTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__components_search_ship_flag_code_search_ship_flag_code_component__["a" /* SearchShipFlagCodeComponent */],
+                __WEBPACK_IMPORTED_MODULE_22__components_contact_select_contact_select_component__["a" /* ContactSelectComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_26__components_feedback_feedback_component__["a" /* FeedbackComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__components_issc_issc_component__["a" /* IsscComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__components_organization_info_table_organization_info_table_component__["a" /* OrganizationInfoTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_12__components_confirmation_view_crew_listing_table_crew_listing_table_component__["a" /* CrewListingTableComponent */],
                 __WEBPACK_IMPORTED_MODULE_8__components_confirmation_view_cargo_listing_table_cargo_listing_table_component__["a" /* CargoListingTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_14__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */]
+                __WEBPACK_IMPORTED_MODULE_15__components_confirmation_view_passenger_listing_table_passenger_listing_table_component__["a" /* PassengerListingTableComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_52__services_location_service__["a" /* LocationService */],
-                __WEBPACK_IMPORTED_MODULE_53__services_organization_service__["a" /* OrganizationService */],
-                __WEBPACK_IMPORTED_MODULE_54__services_ship_service__["a" /* ShipService */],
-                __WEBPACK_IMPORTED_MODULE_50__services_db_connection_service__["a" /* DbConnectionService */],
-                __WEBPACK_IMPORTED_MODULE_51__services_error_service__["a" /* ErrorService */]
+                __WEBPACK_IMPORTED_MODULE_54__services_location_service__["a" /* LocationService */],
+                __WEBPACK_IMPORTED_MODULE_55__services_organization_service__["a" /* OrganizationService */],
+                __WEBPACK_IMPORTED_MODULE_56__services_ship_service__["a" /* ShipService */],
+                __WEBPACK_IMPORTED_MODULE_52__services_db_connection_service__["a" /* DbConnectionService */],
+                __WEBPACK_IMPORTED_MODULE_53__services_error_service__["a" /* ErrorService */]
             ],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_6__components_confirmation_modal_confirmation_modal_component__["a" /* ConfirmationModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__components_ship_smart_table_ship_button_row_ship_button_row_component__["a" /* ShipButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__components_user_smart_table_user_button_row_user_button_row_component__["a" /* UserButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__components_organization_smart_table_organization_button_row_organization_button_row_component__["a" /* OrganizationButtonRowComponent */],
             ]
         })
     ], SharedModule);
