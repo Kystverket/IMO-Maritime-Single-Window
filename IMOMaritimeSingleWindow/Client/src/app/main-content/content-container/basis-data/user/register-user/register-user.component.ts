@@ -159,10 +159,16 @@ export class RegisterUserComponent implements OnInit, OnDestroy {
 
   }
 
-  public openPasswordChange():void {
-    const modalRef = this.modalService.open(AssignPasswordComponent);
+  public openPasswordChange(): void {
+    const modalRef = this.modalService.open(AssignPasswordComponent, {centered: true, size: 'lg'});
     modalRef.componentInstance.purpose = 'Set';
     modalRef.componentInstance.user = this.user;
+
+    modalRef.result.then(
+      result => {
+        console.log(result);
+      }
+    );
   }
 
   onOrganizationResult(organizationResult) {

@@ -15,9 +15,9 @@ import { ViewOrganizationInfoComponent } from './organization/view-organization-
 import { CertificateOfRegistryComponent } from './ship/register-ship/certificate-of-registry/certificate-of-registry.component';
 import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
+import { AssignPasswordComponent } from './user/register-user/assign-password.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.component';
-import { AssignPasswordComponent } from './user/register-user/assign-password.component';
 
 @NgModule({
   imports: [

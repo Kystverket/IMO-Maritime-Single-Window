@@ -84,11 +84,11 @@ export class AccountService extends BaseRequest {
     return this.http.put(this.userUrl + '/update', existingUser);
   }
 
-  deactivateUser(userId:string): Observable<any> {
+  deactivateUser(userId: string): Observable<any> {
     return this.http.put(this.userUrl + '/deactivate/' + userId, null);
   }
 
-  activateUser(userId:string): Observable<any> {
+  activateUser(userId: string): Observable<any> {
     return this.http.put(this.userUrl + '/activate/' + userId, null);
   }
 
@@ -139,10 +139,10 @@ export class AccountService extends BaseRequest {
       .catch(this.handleError);
   }
 
-  setUserPassword(newPassword:string, id:string): Observable<any> {
+  setUserPassword(newPassword: string, id: string): Observable<any> {
     const uri = [this.passwordUrl, 'set'].join('/');
     return this.http
-      .put(uri, {newPassword:newPassword, currentPassword:newPassword, userId:id})
+      .put(uri, {newPassword: newPassword, currentPassword: newPassword, userId: id})
       .catch(this.handleError);
   }
 
