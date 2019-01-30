@@ -1024,6 +1024,8 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.RankName).HasColumnName("rank_name");
 
+                entity.Property(e => e.CrewEffects).HasColumnName("crew_effects");
+
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
 
                 entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");

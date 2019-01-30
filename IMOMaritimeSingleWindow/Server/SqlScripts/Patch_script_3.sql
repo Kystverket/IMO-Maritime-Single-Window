@@ -43,3 +43,7 @@ UPDATE public.identity_document_type
 UPDATE public.identity_document_type
     SET "EnumValue"='OTHER'
     WHERE description = 'Other';
+
+    	
+ALTER TABLE public.person_on_board
+	ADD COLUMN "crew_effects" text;
