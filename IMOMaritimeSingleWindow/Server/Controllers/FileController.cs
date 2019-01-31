@@ -682,6 +682,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(Effects))
                 {
+                    crew.CrewEffects = Effects;
                 }
 
                 var errors = validator.ValidatePersonOnBoardSpreadSheetModel(crew);
