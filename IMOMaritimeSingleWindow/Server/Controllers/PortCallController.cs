@@ -375,8 +375,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 LocationTwoCharCode = pc.Location.Country.TwoCharCode,
                 Eta = pc.LocationEta,
                 Etd = pc.LocationEtd,
-                LocationAta = pc.LocationAta,
-                LocationAtd = pc.LocationAtd,
+                pc.LocationAta,
+                pc.LocationAtd,
                 LocationName = pc.Location.Name,
                 Status = pc.PortCallStatus.Name,
                 ClearanceList = pc.OrganizationPortCall.Where(x => orgList.Contains(x.OrganizationId))

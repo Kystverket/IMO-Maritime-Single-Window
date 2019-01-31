@@ -13,6 +13,7 @@ export class PersonOnBoardModel {
     rankName: string;
     rankCode: string;
     sequenceNumber: number;
+    isPax: boolean;
 
     // ids
     countryOfBirthId: number; // country id

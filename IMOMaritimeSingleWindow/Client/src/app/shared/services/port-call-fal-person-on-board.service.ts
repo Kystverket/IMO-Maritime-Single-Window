@@ -82,6 +82,11 @@ export class PortCallFalPersonOnBoardService {
     return this.httpClient.get<GenderModel[]>(uri, {observe: 'body'});
   }
 
+  getGenderById(genderId: number) {
+    const uri = [this.genderUrl, genderId].join('/');
+    return this.httpClient.get<GenderModel>(uri, {observe: 'body'});
+  }
+
   getPersonOnBoardTypeByEnum(personOnBoardTypeEnum: PERSON_ON_BOARD_TYPES) {
     const uri = [this.personOnBoardTypeUrl, personOnBoardTypeEnum].join('/');
     return this.httpClient.get<PersonOnBoardTypeModel>(uri, {observe: 'body'});
@@ -136,7 +141,8 @@ export class PortCallFalPersonOnBoardService {
         const cleanedPersonOnBoard = Object.assign(new PersonOnBoardModel(), personOnBoard);
 
         if (personOnBoard.dateOfBirth) {
-          cleanedPersonOnBoard.dateOfBirth = new Date(Date.UTC(personOnBoard.dateOfBirth.getFullYear(), personOnBoard.dateOfBirth.getMonth(), personOnBoard.dateOfBirth.getDate()));
+          const dateOfBirth = new Date(personOnBoard.dateOfBirth);
+          cleanedPersonOnBoard.dateOfBirth = new Date(Date.UTC(dateOfBirth.getFullYear(), dateOfBirth.getMonth(), dateOfBirth.getDate()));
         }
         cleanedPersonOnBoard.countryOfBirth = null;
         cleanedPersonOnBoard.personOnBoardType = null;
@@ -151,10 +157,12 @@ export class PortCallFalPersonOnBoardService {
         personOnBoard.identityDocument.forEach((identityDocument, index) => {
           const cleanedIdentityDocument = Object.assign(new IdentityDocumentModel(), identityDocument);
           if (identityDocument.identityDocumentIssueDate) {
-            cleanedIdentityDocument.identityDocumentIssueDate = new Date(Date.UTC(identityDocument.identityDocumentIssueDate.getFullYear(), identityDocument.identityDocumentIssueDate.getMonth(), identityDocument.identityDocumentIssueDate.getDate()));
+            const issueDate = new Date(identityDocument.identityDocumentIssueDate);
+            cleanedIdentityDocument.identityDocumentIssueDate = new Date(Date.UTC(issueDate.getFullYear(), issueDate.getMonth(), issueDate.getDate()));
           }
           if (identityDocument.identityDocumentExpiryDate) {
-            cleanedIdentityDocument.identityDocumentExpiryDate = new Date(Date.UTC(identityDocument.identityDocumentExpiryDate.getFullYear(), identityDocument.identityDocumentExpiryDate.getMonth(), identityDocument.identityDocumentExpiryDate.getDate()));
+            const identityDocumentExpiryDate = new Date(identityDocument.identityDocumentExpiryDate);
+            cleanedIdentityDocument.identityDocumentExpiryDate = new Date(Date.UTC(identityDocumentExpiryDate.getFullYear(), identityDocumentExpiryDate.getMonth(), identityDocumentExpiryDate.getDate()));
           }
           cleanedIdentityDocument.identityDocumentType = null;
           cleanedIdentityDocument.issuingNation = null;

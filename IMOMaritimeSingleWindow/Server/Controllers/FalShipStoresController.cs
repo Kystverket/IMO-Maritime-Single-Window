@@ -108,23 +108,32 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             foreach(var shipStore in shipStores)
             {
-                if(shipStore.MeasurementType.Name.ToLower().Contains("(kg)") && shipStore.Quantity.HasValue)
+                if(shipStore.MeasurementType == null)
                 {
-                    totalWeight += shipStore.Quantity.Value;
-                } else if (shipStore.MeasurementType.Name.ToLower().Contains("(t)") && shipStore.Quantity.HasValue)
+                    if(shipStore.Quantity.HasValue)
+                        totalWeight += shipStore.Quantity.Value;
+                } else
                 {
-                    totalWeight += (shipStore.Quantity.Value * 1000);
-                } else if (shipStore.MeasurementType.Name.ToLower().Contains("(l)") && shipStore.Quantity.HasValue)
-                {
-                    totalVolume += shipStore.Quantity.Value;
-                }
-                else if (shipStore.MeasurementType.Name.ToLower().Contains("(m3)") && shipStore.Quantity.HasValue)
-                {
-                    totalVolume += shipStore.Quantity.Value;
-                }
-                else if (shipStore.MeasurementType.Name.ToLower().Contains("(u)") && shipStore.Quantity.HasValue)
-                {
-                    totalRegisteredUnits += shipStore.Quantity.Value;
+                    if (shipStore.MeasurementType.Name.ToLower().Contains("(kg)") && shipStore.Quantity.HasValue)
+                    {
+                        totalWeight += shipStore.Quantity.Value;
+                    }
+                    else if (shipStore.MeasurementType.Name.ToLower().Contains("(t)") && shipStore.Quantity.HasValue)
+                    {
+                        totalWeight += (shipStore.Quantity.Value * 1000);
+                    }
+                    else if (shipStore.MeasurementType.Name.ToLower().Contains("(l)") && shipStore.Quantity.HasValue)
+                    {
+                        totalVolume += shipStore.Quantity.Value;
+                    }
+                    else if (shipStore.MeasurementType.Name.ToLower().Contains("(m3)") && shipStore.Quantity.HasValue)
+                    {
+                        totalVolume += shipStore.Quantity.Value;
+                    }
+                    else if (shipStore.MeasurementType.Name.ToLower().Contains("(u)") && shipStore.Quantity.HasValue)
+                    {
+                        totalRegisteredUnits += shipStore.Quantity.Value;
+                    }
                 }
             }
 
@@ -150,7 +159,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 x.ArticleName,
                 x.Quantity,
-                MeasurementType = x.MeasurementType.Name,
+                MeasurementType = x.MeasurementType?.Name,
                 LocationOnBoardAndCode = new
                 {
                     Name = x.LocationOnBoard,

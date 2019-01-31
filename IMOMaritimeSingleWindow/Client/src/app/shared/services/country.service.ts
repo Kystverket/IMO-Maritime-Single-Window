@@ -45,4 +45,9 @@ export class CountryService {
     return this.http.get<CountryModel[]>(this.countryUrl);
   }
 
+  public getCountryById(countryId: number) {
+    const uri = [this.countryUrl, countryId].join('/');
+    return this.http.get<CountryModel>(uri, {observe: 'body'});
+  }
+
 }

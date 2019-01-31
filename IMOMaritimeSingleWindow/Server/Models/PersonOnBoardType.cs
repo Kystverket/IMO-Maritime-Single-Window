@@ -3,6 +3,12 @@ using System.Collections.Generic;
 
 namespace IMOMaritimeSingleWindow.Models
 {
+    public enum PERSON_ON_BOARD_TYPE_ENUM
+    {
+        CREW,
+        PAX,
+    }
+
     public partial class PersonOnBoardType
     {
         public PersonOnBoardType()

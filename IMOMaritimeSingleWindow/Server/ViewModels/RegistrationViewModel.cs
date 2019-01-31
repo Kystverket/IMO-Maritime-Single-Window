@@ -32,5 +32,8 @@ namespace IMOMaritimeSingleWindow.ViewModels
         public int? OrganizationId { get; set; }
         public string Id { get; set; }
         public bool RoleHasChanged {get; set;}
+
+        public string Password {get; set;}
+        public bool IsActive {get; set;}
     }
 }
