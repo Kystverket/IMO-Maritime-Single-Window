@@ -30,6 +30,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
 
+  crewEffects:any[] = [];
+
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
@@ -459,5 +461,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.modalService.open(content);
   }
 
-
+  addCrewEffect():void {
+    this.crewEffects.push({total:null, description:''});
+  }
 }
