@@ -11,10 +11,12 @@ import { ClearancesComponent } from './components/confirmation-view/clearances/c
 import { ConfirmationViewComponent } from './components/confirmation-view/confirmation-view.component';
 import { CrewInfoTableComponent } from './components/confirmation-view/crew-info-table/crew-info-table.component';
 import { CrewListingTableComponent } from './components/confirmation-view/crew-listing-table/crew-listing-table.component';
+import { DpgListingTableComponent } from './components/confirmation-view/dpg-listing-table/dpg-listing-table.component';
 import { PassengerInfoTableComponent } from './components/confirmation-view/passenger-info-table/passenger-info-table.component';
 import { PassengerListingTableComponent } from './components/confirmation-view/passenger-listing-table/passenger-listing-table.component';
 import { PortCallDetailsComponent } from './components/confirmation-view/port-call-details/port-call-details.component';
 import { SelectedPurposesComponent } from './components/confirmation-view/port-call-details/selected-purposes/selected-purposes.component';
+import { SecurityInfoComponent } from './components/confirmation-view/security-info/security-info.component';
 import { ShipStoresInfoTableComponent } from './components/confirmation-view/ship-stores-info-table/ship-stores-info-table.component';
 import { ShipStoresListingTableComponent } from './components/confirmation-view/ship-stores-listing-table/ship-stores-listing-table.component';
 import { UserInfoTableComponent } from './components/confirmation-view/user-info-table/user-info-table.component';
@@ -121,7 +123,8 @@ import { DpgListingTableComponent } from './components/confirmation-view/dpg-lis
     CargoListingTableComponent,
     PassengerListingTableComponent,
     ShipStoresListingTableComponent,
-    DpgListingTableComponent
+    DpgListingTableComponent,
+    SecurityInfoComponent
   ],
   exports: [
     ExtendedAlphaNumericValidator,

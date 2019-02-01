@@ -39,8 +39,8 @@ export class UserSmartTableComponent implements OnInit, OnDestroy {
         type: 'html'
       },
       isActive: {
-        title:'Account Status',
-        type:'html'
+        title: 'Account Status',
+        type: 'html'
       },
       actions: {
         title: 'Actions',
@@ -85,7 +85,7 @@ export class UserSmartTableComponent implements OnInit, OnDestroy {
       organization: (user.organization) ? user.organization : 'N/A',
       role: user.role,
       email: user.email,
-      isActive: (user.isActive) ? "Active" : "Deactivated",
+      isActive: (user.isActive) ? 'Active' : 'Deactivated',
       actions: 'btn'
     };
     return row;

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -7,6 +7,7 @@ import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.servic
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { ShipStoresErrorModalComponent } from './ship-stores-error-modal/ship-stores-error-modal.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
 
 @Component({
@@ -20,10 +21,11 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   @Input() shipStoresList: ShipStoresModel[];
 
   @ViewChild(NgForm) form: NgForm;
-  @ViewChild(ShipStoresModalComponent) shipStoresModalComponent;
+  @ViewChild(ShipStoresModalComponent) shipStoresModalComponent: { openViewModal: (arg0: ShipStoresModel) => void; openEditModal: (arg0: ShipStoresModel) => void; };
+  @ViewChild(ShipStoresErrorModalComponent) shipStoresErrorModalComponent: any;
+
 
   shipStoresModel: ShipStoresModel = new ShipStoresModel();
-
   measurementTypeList: Observable<any>;
 
   listIsPristine: Boolean = true;
@@ -103,6 +105,30 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
     this.getMeasurementTypeSubscription.unsubscribe();
   }
 
+  excelFileSaved(saved: any) {
+    this.shipStoresService.getShipStoresByPortCallId(this.portCallId)
+      .finally(() => {
+        this.shipStoresService.setShipStoresList(this.shipStoresList);
+        this.updateSequenceNumbers();
+        this.reloadTable();
+      })
+      .subscribe(res => {
+        this.shipStoresList = res;
+      });
+  }
+
+  uploadError(entriesWithErrors: any[]) {
+    this.shipStoresErrorModalComponent.openViewModal(entriesWithErrors);
+  }
+
+  importSuccess($event) {
+    if ($event) {
+      this.shipStoresErrorModalComponent.openSuccessModal();
+    } else {
+      this.shipStoresErrorModalComponent.openErrorModal();
+    }
+  }
+
   // Generate list that will be sent to shipStoresDataSource that is connected to the smart table
   generateRows(): any[] {
     let rowData = [];
@@ -124,7 +150,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
   }
 
   // Set measurement type and id of model
-  selectMeasurementType(measurementType) {
+  selectMeasurementType(measurementType: MeasurementTypeModel) {
     if (typeof measurementType !== 'undefined') {
       this.shipStoresModel.measurementType = measurementType;
       this.shipStoresModel.measurementTypeId = measurementType.measurementTypeId;
@@ -136,6 +162,11 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   deleteShipStoreItem($event) {
     this.shipStoresList = this.shipStoresList.filter(item => item !== $event.shipStoresModel);
+    this.persistData();
+  }
+
+  addRectifiedShipStores($event) {
+    this.shipStoresList = this.shipStoresList.concat($event);
     this.persistData();
   }
 

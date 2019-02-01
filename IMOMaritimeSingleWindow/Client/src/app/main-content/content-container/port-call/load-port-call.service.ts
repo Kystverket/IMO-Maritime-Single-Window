@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
-import { ContentService, DpgService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
+import { ContentService, DpgService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -21,6 +21,7 @@ export class LoadPortCallService {
     private shipStoresService: FalShipStoresService,
     private portCallDetailsService: PortCallDetailsService,
     private dpgService: DpgService,
+    private personOnBoardService: PortCallFalPersonOnBoardService
   ) { }
 
   setContent(portCallId: number, content: string = CONTENT_NAMES.REGISTER_PORT_CALL) {
@@ -36,7 +37,6 @@ export class LoadPortCallService {
         if (data) {
           // 2018.08.17 Trying new pattern:
           this.portCallService.setPortCallData(data.portCall);
-          //
           this.portCallService.setPortCall(data);
           this.portCallService.setVoyagesIsPristine(true);
           this.cargoService.setDataIsPristine(true);
@@ -44,10 +44,47 @@ export class LoadPortCallService {
           this.shipStoresService.setDataIsPristine(true);
           this.dpgService.setDataIsPristineTrue();
           this.setPurpose();
+          this.setPax();
+          this.setCrew();
+          this.setDpg();
         }
       }
     );
   }
+
+  private setDpg() {
+    this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId)
+      .subscribe(
+        dpg => {
+          if (dpg) {
+            this.dpgService.setDpgOnBoardList(dpg);
+          }
+        }
+      );
+  }
+
+  private setCrew() {
+    this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+      .subscribe(
+        crew => {
+          if (crew) {
+            this.personOnBoardService.setCrewList(crew);
+          }
+        }
+      );
+  }
+
+  private setPax() {
+    this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+      .subscribe(
+        crew => {
+          if (crew) {
+            this.personOnBoardService.setPassengersList(crew);
+          }
+        }
+      );
+  }
+
   private setPurpose() {
     this.portCallDetailsService.getPurposeByPortCallId(this.portCallId).subscribe(
       purposeData => {

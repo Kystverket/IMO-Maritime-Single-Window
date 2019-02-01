@@ -161,34 +161,49 @@ export class FormsComponent implements OnInit, OnDestroy {
         if (idResult) {
           this.portCallId = idResult;
 
-          this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
-            passengerList => {
-              if (passengerList) {
-                this.passengerData = passengerList;
-                this.personOnBoardService.setPassengersList(passengerList);
-                this.personOnBoardService.setPassengerDataIsPristine(true);
-              }
-            }
-          );
+          // this.personOnBoardService.getPassengerListByPortCallId(this.portCallId).subscribe(
+          //   passengerList => {
+          //     if (passengerList) {
+          //       this.passengerData = passengerList;
+          //       this.personOnBoardService.setPassengersList(passengerList);
+          //       this.personOnBoardService.setPassengerDataIsPristine(true);
+          //     }
+          //   }
+          // );
 
-          this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
-            crewList => {
-              if (crewList) {
-                this.crewData = crewList;
-                this.personOnBoardService.setCrewList(crewList);
-                this.personOnBoardService.setCrewDataIsPristine(true);
-              }
-            }
-          );
+          // this.personOnBoardService.getCrewListByPortCallId(this.portCallId).subscribe(
+          //   crewList => {
+          //     if (crewList) {
+          //       this.crewData = crewList;
+          //       this.personOnBoardService.setCrewList(crewList);
+          //       this.personOnBoardService.setCrewDataIsPristine(true);
+          //     }
+          //   }
+          // );
 
-          this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId).subscribe(
-            dpgOnBoardList => {
-              this.dpgData = dpgOnBoardList;
-              this.dpgService.setDpgOnBoardList(dpgOnBoardList);
-              this.dpgService.setDataIsPristineTrue();
-            }
-          );
+          // this.dpgService.getDpgOnBoardListByPortCallId(this.portCallId).subscribe(
+          //   dpgOnBoardList => {
+          //     this.dpgData = dpgOnBoardList;
+          //     this.dpgService.setDpgOnBoardList(dpgOnBoardList);
+          //     this.dpgService.setDataIsPristineTrue();
+          //   }
+          // );
         }
+        this.dpgService.dpgOnBoardList$.subscribe(
+          data => {
+            this.dpgData = data;
+          }
+        );
+        this.personOnBoardService.crewList$.subscribe(
+          data => {
+            this.crewData = data;
+          }
+        );
+        this.personOnBoardService.passengerList$.subscribe(
+          data => {
+            this.passengerData = data;
+          }
+        );
         this.shipStoresService.shipStoresList$.subscribe(
           data => {
             this.shipStoresData = data;
