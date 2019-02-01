@@ -83,5 +83,20 @@
     border-radius: .2rem;
     border-color: #ced4da;
   } 
-  
+  .p-1 input {
+    width: 100%;
+    border:none;
+  }
+  .total-col {
+    width: 15%;
+  }
+  .total-desc {
+    width: 85%;
+  }
+
+  .add-effect-btn {
+    display: inline-block;
+    float: right;
+    font-size: .9em;
+  }
   
