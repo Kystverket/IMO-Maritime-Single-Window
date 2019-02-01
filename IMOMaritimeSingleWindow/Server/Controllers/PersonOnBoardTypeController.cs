@@ -20,11 +20,6 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
-        public enum PERSON_ON_BOARD_TYPE_ENUM
-        {
-            CREW,
-            PAX,
-        }
 
         [HttpGet("id/{id}")]
         public IActionResult Get(int id)
