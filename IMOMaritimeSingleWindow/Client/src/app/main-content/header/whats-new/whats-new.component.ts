@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class WhatsNewComponent implements OnInit {
 
   toggle2311 = false;
+  toggle1312 = false;
   constructor() { }
 
   ngOnInit() {
@@ -15,5 +16,9 @@ export class WhatsNewComponent implements OnInit {
 
   toggle2311ChangeSet() {
     this.toggle2311 = !this.toggle2311;
+  }
+
+  toggle1312ChangeSet() {
+    this.toggle1312 = !this.toggle1312;
   }
 }
