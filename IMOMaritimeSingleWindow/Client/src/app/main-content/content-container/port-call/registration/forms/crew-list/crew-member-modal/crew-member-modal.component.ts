@@ -332,6 +332,7 @@ export class CrewMemberModalComponent implements OnInit {
 
   getDisplayDateFormat(date) {
     if (date) {
+      date = new Date(date);
       const dateString =
         date.getFullYear() +
         '-' +
