@@ -1,0 +1,58 @@
+<ng-template #infoModal let-close="close()" class="modal fade">
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">
+        We discovered {{personOnBoardWithErrors.length}} passengers that had errors within them. Please correct them
+        before continuing</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group row">
+        <div>
+          <table>
+            <tr *ngFor="let errorRow of personOnBoardWithErrors; let i=index">
+              <td>{{i+1}}. Excel Row Number: {{errorRow.excelRowNum}}</td>
+              <td *ngIf="errorRow.isPax"> - Passenger Sheet</td>
+              <td *ngIf="!errorRow.isPax"> - Crew Sheet</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ssn" (click)="openEditModal(); close">
+        <span>Fix in client</span>
+      </button>
+      <button type="button" class="btn btn-ssn" (click)="close">
+        <span>Close and fix manually in the spreadsheet.</span>
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<app-passenger-modal [isImport]="true" (outputPassengerModel)="editPoB($event)"></app-passenger-modal>
+<app-crew-member-modal [isImport]="true" (outputCrewModel)="editPoB($event)"></app-crew-member-modal>
+
+<ng-template #successModal let-close="close()" class="modal fade">
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">Excel sheet successfully imported.</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #errorModal let-close="close()" class="modal fade">
+  <form>
+    <div class="modal-header">
+      <h4 class="modal-title">An error has occured.</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </form>
+</ng-template>

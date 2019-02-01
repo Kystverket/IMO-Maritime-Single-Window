@@ -15,6 +15,7 @@ import { ViewOrganizationInfoComponent } from './organization/view-organization-
 import { CertificateOfRegistryComponent } from './ship/register-ship/certificate-of-registry/certificate-of-registry.component';
 import { RegisterShipComponent } from './ship/register-ship/register-ship.component';
 import { ViewShipInfoComponent } from './ship/view-ship-info/view-ship-info.component';
+import { AssignPasswordComponent } from './user/register-user/assign-password.component';
 import { RegisterUserComponent } from './user/register-user/register-user.component';
 import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.component';
 
@@ -38,7 +39,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
     RegisterLocationComponent,
     ViewLocationInfoComponent,
     LocationButtonRowComponent,
-    CertificateOfRegistryComponent
+    CertificateOfRegistryComponent,
+    AssignPasswordComponent
   ],
   exports: [
     RegisterUserComponent,
@@ -58,7 +60,8 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
   ],
   entryComponents: [
     LocationButtonRowComponent,
-    RegisterOrganizationComponent
+    RegisterOrganizationComponent,
+    AssignPasswordComponent
   ]
 })
 export class BasisDataModule { }

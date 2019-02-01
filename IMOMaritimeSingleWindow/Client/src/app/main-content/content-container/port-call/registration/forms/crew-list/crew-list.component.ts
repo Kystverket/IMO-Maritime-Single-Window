@@ -5,10 +5,11 @@ import { ActionButtonsComponent } from 'app/shared/components/action-buttons/act
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
-import { PortCallFalPersonOnBoardService } from 'app/shared/services/';
+import { FileService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Subscription } from 'rxjs/Subscription';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
+import { CrewListErrorModalComponent } from './crew-list-error-modal/crew-list-error-modal.component';
 import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.component';
 
 @Component({
@@ -29,6 +30,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
 
+  crewEffects:any[] = [];
+
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
@@ -36,6 +39,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
   @ViewChild(CrewMemberModalComponent) crewMemberModalComponent;
   @ViewChild(IdentityDocumentComponent) identityDocumentComponent;
   @ViewChild('dateOfBirth') dateOfBirthComponent;
+  @ViewChild(CrewListErrorModalComponent) crewListErrorModalComponent: any;
+
 
   @ViewChild(NgForm) form: NgForm;
 
@@ -116,16 +121,24 @@ export class CrewListComponent implements OnInit, OnDestroy {
   pristineSubscription: Subscription;
 
   constructor(
-    private personOnBoardService: PortCallFalPersonOnBoardService,
-    private modalService: NgbModal
+    public personOnBoardService: PortCallFalPersonOnBoardService,
+    private modalService: NgbModal,
   ) { }
 
   ngOnInit() {
+    this.personOnBoardService.crewDataIsPristine$.subscribe(res => {
+      if (!res) {
+        this.personOnBoardService.crewList$.subscribe(crewList => {
+          this.crewList = crewList;
+        });
+      }
+    });
 
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
         crewMember = this.makeDates(crewMember);
       });
+      this.updateSequenceNumbers();
     }
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable());
@@ -160,6 +173,46 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.genderListSubscription.unsubscribe();
     this.personOnBoardTypeSubscription.unsubscribe();
     this.pristineSubscription.unsubscribe();
+  }
+
+  excelFileSaved(saved: any) {
+    this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+      .finally(() => {
+        this.persistData();
+        this.listIsPristine = true;
+        this.personOnBoardService.setCrewDataIsPristine(true);
+      })
+      .subscribe(res => {
+        this.crewList = res;
+      });
+    if (saved) {
+      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+      .subscribe(pax => {
+        this.personOnBoardService.setPassengersList(pax);
+      });
+    }
+  }
+
+  uploadError(entriesWithErrors: any[]) {
+    this.crewListErrorModalComponent.openViewModal(entriesWithErrors);
+  }
+
+  addRectifiedCrewAndPax($event) {
+    let paxList = $event.filter((x: { isPax: any; }) => x.isPax);
+    const crewList = $event.filter((x: { isPax: any; }) => !x.isPax);
+    if ($event != null && $event !== undefined) {
+      this.crewList = this.crewList.concat(crewList);
+      this.persistData();
+
+      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+      .finally(() => {
+        this.personOnBoardService.setPassengersList(paxList);
+        this.personOnBoardService.setPassengerDataIsPristine(false);
+      })
+      .subscribe(res => {
+        paxList = paxList.concat(res);
+      });
+    }
   }
 
   addCrewMember() {
@@ -362,6 +415,14 @@ export class CrewListComponent implements OnInit, OnDestroy {
     });
   }
 
+  importSuccess($event) {
+    if ($event) {
+      this.crewListErrorModalComponent.openSuccessModal();
+    } else {
+      this.crewListErrorModalComponent.openErrorModal();
+    }
+  }
+
 
   // Helper methods
 
@@ -379,6 +440,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   getDisplayDateFormat(date) {
     if (date) {
+      date = new Date(date);
       const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
       return dateString;
     } else {
@@ -399,5 +461,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.modalService.open(content);
   }
 
-
+  addCrewEffect():void {
+    this.crewEffects.push({total:null, description:''});
+  }
 }
