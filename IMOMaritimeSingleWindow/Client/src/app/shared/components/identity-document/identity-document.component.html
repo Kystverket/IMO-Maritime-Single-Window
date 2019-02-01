@@ -18,6 +18,11 @@
             <label for="numberOfIdentityDoc" class="col-form-label-sm no-wrap mb-0">Number of Identity Document</label>
             <input #numberOfIdentityDoc="ngModel" type="text" [(ngModel)]="identityDocumentModel.identityDocumentNumber" placeholder="Number of Identity Document"
               class="form-control form-control-sm" name="numberOfIdentityDoc" (ngModelChange)="setNumberOfIdentityDoc($event)">
+              <div *ngIf="!identityDocumentModel.identityDocumentNumber && identityDatesRequired" class="alert alert-danger form-control-sm" role="alert">
+                <li>
+                  <small>This field is required when identity document is supplied.</small>
+                </li>
+              </div>
           </div>
         </div>
 

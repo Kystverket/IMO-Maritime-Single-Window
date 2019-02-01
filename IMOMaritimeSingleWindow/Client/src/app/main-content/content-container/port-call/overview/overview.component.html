@@ -1,11 +1,11 @@
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-4">
         <app-ssn-card header="Options" icon="cogs.png" collapsible="true" collapsed="true">
-            <div>
+            <div style="float: left">
                 <button class="btn btn-sm btn-ssn" *ngIf="!showCancelledPortCalls" (click)="toggleCancelledPortCalls(true)">Show cancelled port calls</button>
                 <button class="btn btn-sm btn-ssn" *ngIf="showCancelledPortCalls" (click)="toggleCancelledPortCalls(false)">Hide cancelled port calls</button>
             </div>
-            <div>
+            <div style="float: left; margin-left: 10px">
                 <button class="btn btn-sm btn-ssn" *ngIf="!showCompletedPortCalls" (click)="toggleCompletedPortCalls(true)">Show completed port calls</button>
                 <button class="btn btn-sm btn-ssn" *ngIf="showCompletedPortCalls" (click)="toggleCompletedPortCalls(false)">Hide completed port calls</button>
             </div>

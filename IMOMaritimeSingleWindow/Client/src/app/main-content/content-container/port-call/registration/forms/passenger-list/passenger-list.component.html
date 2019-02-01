@@ -3,14 +3,18 @@
   <form name="mainForm" #form="ngForm">
 
     <div class="col-lg-12">
+      <app-ssn-card header="Upload Passenger Data from Excel Template" icon="upload.png" [collapsible]="true">
+        <app-file-upload [portCallId]="portCallId" [isPaxPage]="true" (saved)="excelFileSaved($event)"
+          (entriesHasErrors)="uploadError($event)" (importSuccess)="importSuccess($event)"></app-file-upload>
+      </app-ssn-card>
       <app-ssn-card header="Personalia" icon="user.png" [collapsible]="true">
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="givenName" class="col-form-label-sm no-wrap mb-0">Given Name *</label>
-                <input #givenName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name" class="form-control form-control-sm"
-                  name="givenName" required>
+                <input #givenName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.givenName" placeholder="Given Name"
+                  class="form-control form-control-sm" name="givenName" required>
               </div>
             </div>
             <div class="alert alert-danger" *ngIf="givenName.hasError('required') && givenName.touched">
@@ -22,8 +26,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="familyName" class="col-form-label-sm no-wrap mb-0">Family Name *</label>
-                <input #familyName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name" class="form-control form-control-sm"
-                  required name="familyName">
+                <input #familyName="ngModel" type="text" [(ngModel)]="portCallPassengerModel.familyName" placeholder="Family Name"
+                  class="form-control form-control-sm" required name="familyName">
               </div>
             </div>
             <div class="alert alert-danger" *ngIf="familyName.hasError('required') && familyName.touched">
@@ -47,11 +51,13 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Country of Birth</label>
-                <app-search-country *ngIf="!portCallPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)" (deselectCountry)="resetCountryOfBirth()"></app-search-country>
+                <app-search-country *ngIf="!portCallPassengerModel.countryOfBirth" (selectCountry)="setCountryOfBirth($event)"
+                  (deselectCountry)="resetCountryOfBirth()"></app-search-country>
                 <div *ngIf="portCallPassengerModel.countryOfBirth" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.countryOfBirth.twoCharCode | lowercase}}.png" height="20px">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.countryOfBirth.twoCharCode | lowercase}}.png"
+                        height="20px">
                     </span>
                   </div>
                   <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.countryOfBirth.name"
@@ -70,12 +76,14 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="app-search-country" class="col-form-label-sm no-wrap mb-0">Nationality</label>
-                <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)" (deselectCountry)="resetNationality()"></app-search-country>
+                <app-search-country *ngIf="!portCallPassengerModel.nationality" (selectCountry)="setNationality($event)"
+                  (deselectCountry)="resetNationality()"></app-search-country>
 
                 <div *ngIf="portCallPassengerModel.nationality" class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png" height="20px">
+                      <img src="assets/images/flags/128x128/{{ portCallPassengerModel.nationality.twoCharCode | lowercase}}.png"
+                        height="20px">
                     </span>
                   </div>
                   <input id="search-country" type="text" class="form-control" readonly="readonly" [ngModel]="portCallPassengerModel.nationality.name"
@@ -92,16 +100,16 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="placeOfBirth" class="col-form-label-sm no-wrap mb-0">Place of Birth</label>
-                <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallPassengerModel.placeOfBirth" placeholder="Place of Birth"
-                  class="form-control form-control-sm" name="placeOfBirth">
+                <input #placeOfBirth="ngModel" type="text" [(ngModel)]="portCallPassengerModel.placeOfBirth"
+                  placeholder="Place of Birth" class="form-control form-control-sm" name="placeOfBirth">
               </div>
             </div>
 
             <div class="form-group form-group-sm row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Gender</label>
-                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender" name="gender"
-                  [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
+                <ng-select class="ng-select-placeholder-sm" [items]="genderList" [(ngModel)]="portCallPassengerModel.gender"
+                  name="gender" [closeOnSelect]="true" bindLabel="description" placeholder="Gender" (change)="setGender($event)">
                 </ng-select>
               </div>
             </div>
@@ -119,8 +127,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="transit" class="col-form-label-sm no-wrap mb-0">Transit</label>
-                <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [(ngModel)]="inTransit" name="transit" [closeOnSelect]="true"
-                  bindLabel="name" placeholder="Transit" (change)="setTransit($event)">
+                <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [(ngModel)]="inTransit" name="transit"
+                  [closeOnSelect]="true" bindLabel="name" placeholder="Transit" (change)="setTransit($event)">
                 </ng-select>
               </div>
             </div>
@@ -130,8 +138,8 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="search-port-of-embarkation" class="col-form-label-sm no-wrap mb-0">Port of Embarkation</label>
-                <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfEmbarkation($event)"
-                  id="search-port-of-embarkation"></app-search-location>
+                <app-search-location *ngIf="!portCallPassengerModel.portOfEmbarkation" [restrictTypeHarbour]=true
+                  (locationResult)="setPortOfEmbarkation($event)" id="search-port-of-embarkation"></app-search-location>
 
                 <div class="input-group input-group-sm" *ngIf="portCallPassengerModel.portOfEmbarkation">
                   <div class="input-group-prepend" *ngIf="portCallPassengerModel.portOfEmbarkation.country">
@@ -154,9 +162,10 @@
 
             <div class="form-group row">
               <div class="col my-auto">
-                <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of Disembarkation</label>
-                <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true (locationResult)="setPortOfDisembarkation($event)"
-                  id="app-find-port-of-disembarkation"></app-search-location>
+                <label for="app-find-port-of-disembarkation" class="col-form-label-sm no-wrap mb-0">Port of
+                  Disembarkation</label>
+                <app-search-location *ngIf="!portCallPassengerModel.portOfDisembarkation" [restrictTypeHarbour]=true
+                  (locationResult)="setPortOfDisembarkation($event)" id="app-find-port-of-disembarkation"></app-search-location>
                 <div class="input-group input-group-sm" *ngIf="portCallPassengerModel.portOfDisembarkation">
                   <div class="input-group-prepend" *ngIf="portCallPassengerModel.portOfDisembarkation.country">
                     <span class="input-group-text">
@@ -213,6 +222,9 @@
 <app-save-passenger-list (save)="savePassengers()" [listIsPristine]="listIsPristine"></app-save-passenger-list>
 
 <app-passenger-modal (outputPassengerModel)="editPassenger($event)"></app-passenger-modal>
+<app-crew-member-modal></app-crew-member-modal>
+<!-- (outputCrewModel)="editCrewMember($event)" -->
+<app-passenger-list-error-modal (rectifiedPaxEmitter)="addRectifiedCrewAndPax($event)"></app-passenger-list-error-modal>
 
 <ng-template #warningModal let-close="close()" class="modal fade">
   <div class="modal-header">

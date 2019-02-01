@@ -13,6 +13,7 @@ export class PersonOnBoardModel {
     rankName: string;
     rankCode: string;
     sequenceNumber: number;
+    isPax: boolean;
 
     // ids
     countryOfBirthId: number; // country id
@@ -31,5 +32,5 @@ export class PersonOnBoardModel {
     portOfEmbarkation: any;
     portOfDisembarkation: any;
     identityDocument: IdentityDocumentModel[] = [];
-
+    crewEffects:string;
 }

@@ -584,6 +584,9 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.GenderId).HasColumnName("gender_id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
+
             });
 
             modelBuilder.Entity<IdentityDocument>(entity =>
@@ -636,6 +639,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description).HasColumnName("description");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>
@@ -784,6 +789,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name");
+
+                entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
             });
 
             modelBuilder.Entity<MarpolCategory>(entity =>
@@ -1016,6 +1023,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.RankCode).HasColumnName("rank_code");
 
                 entity.Property(e => e.RankName).HasColumnName("rank_name");
+
+                entity.Property(e => e.CrewEffects).HasColumnName("crew_effects");
 
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
 

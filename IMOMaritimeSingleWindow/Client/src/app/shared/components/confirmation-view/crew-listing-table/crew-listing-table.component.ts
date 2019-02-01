@@ -39,14 +39,33 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) => (value) ? value.name : 'N/A'
+        valuePrepareFunction: (value) => {
+          if (value != null) {
+            return value;
+          } else {
+            return 'N/A';
+          }
+        }
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) => (value) ? new Date(value).toDateString() : ''
+        valuePrepareFunction: (value) =>  {
+          if (value != null) {
+            return new Date(value).toDateString();
+          } else {
+            return 'N/A';
+          }
+        }
       },
       placeOfBirth: {
-        title: 'Place of Birth'
+        title: 'Place of Birth',
+        valuePrepareFunction: (value) => {
+          if (value != null) {
+            return value;
+          } else {
+            return 'N/A';
+          }
+        }
       },
       identityDocument: {
         title: 'ID Type and Number',
@@ -76,21 +95,21 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
 
     if (this.portCallId) {
       this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
-      .finally(() => {
-        this.crewDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.CREW)
-        .subscribe(summary => {
-          this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
-        }, error => {
-          this.headerText = 'Crew Info';
-        });
-      })
-      .subscribe(
-        crewList => {
-          if (crewList) {
-            this.crew = crewList;
+        .finally(() => {
+          this.crewDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.CREW)
+            .subscribe(summary => {
+              this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
+            }, error => {
+              this.headerText = 'Crew Info';
+            });
+        })
+        .subscribe(
+          crewList => {
+            if (crewList) {
+              this.crew = crewList;
+            }
           }
-        }
-      );
+        );
     }
   }
 

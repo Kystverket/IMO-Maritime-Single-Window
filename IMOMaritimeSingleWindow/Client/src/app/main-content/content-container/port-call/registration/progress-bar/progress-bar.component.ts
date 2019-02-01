@@ -53,6 +53,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   voyagesErrorSubscription: Subscription;
   portCallDetailsPristineSubscription: Subscription;
   shipStoresDataIsPristineSubscription: Subscription;
+  dpgDataIsPristineSubscription: Subscription;
   cargoDataIsPristineSubscription: Subscription;
   passengerDataIsPristineSubscription: Subscription;
   crewDataIsPristineSubscription: Subscription;

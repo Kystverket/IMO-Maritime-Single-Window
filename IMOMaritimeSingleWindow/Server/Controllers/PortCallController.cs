@@ -193,6 +193,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 x.PortCallId,
                 x.PortOfEmbarkationId,
                 x.PortOfDisembarkationId,
+                x.CrewEffects,
                 IdentityDocument = x.IdentityDocument?.Select(id => new
                 {
                     id.IdentityDocumentExpiryDate,
@@ -375,8 +376,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 LocationTwoCharCode = pc.Location.Country.TwoCharCode,
                 Eta = pc.LocationEta,
                 Etd = pc.LocationEtd,
-                LocationAta = pc.LocationAta,
-                LocationAtd = pc.LocationAtd,
+                pc.LocationAta,
+                pc.LocationAtd,
                 LocationName = pc.Location.Name,
                 Status = pc.PortCallStatus.Name,
                 ClearanceList = pc.OrganizationPortCall.Where(x => orgList.Contains(x.OrganizationId))
