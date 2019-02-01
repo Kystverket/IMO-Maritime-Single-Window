@@ -21,6 +21,102 @@ namespace IMOMaritimeSingleWindow.Controllers
             _context = context;
         }
 
+        [HttpGet("overviewByPortCallId/{portCallId}")]
+        public IActionResult GetFalSecurityOverviewByPortCallId(int portCallId)
+        {
+            var falModel = _context.FalSecurity
+                .Where(fs => fs.PortCall.PortCallId == portCallId)
+                .Include(fs => fs.SecurityLevel)
+                .Include(fs => fs.CompanySecurityOfficer)
+                .Include(fs => fs.PortCall.Ship)
+                    .ThenInclude(s => s.Issc)
+                        .ThenInclude(issc => issc.GovernmentIssuer)
+                .Include(fs => fs.PortCall.Ship)
+                    .ThenInclude(s => s.Issc)
+                        .ThenInclude(issc => issc.RsoIssuer)
+                .FirstOrDefault();
+
+            if (falModel != null)
+            {
+                try
+                {
+
+                    var hasValidSSP = false;
+                    if (falModel.ShipHasValidSspOnBoard.HasValue)
+                        hasValidSSP = falModel.ShipHasValidSspOnBoard.Value;
+
+                    var currentSecurityLevel = falModel.SecurityLevel.Name;
+                    if (string.IsNullOrWhiteSpace(currentSecurityLevel))
+                    {
+                        currentSecurityLevel = "N/A";
+                    }
+
+                    var additionalInfo = falModel.OtherRelatedInfo;
+
+                    if (string.IsNullOrWhiteSpace(additionalInfo))
+                    {
+                        additionalInfo = "N/A";
+                    }
+
+                    var SecurityDetails = new
+                    {
+                        ValidSSP = hasValidSSP ? "YES" : "NO",
+                        CurrentSecurityLevel = currentSecurityLevel,
+                        AdditionalInfo = additionalInfo,
+                    };
+
+                    var securityOfficer = falModel.CompanySecurityOfficer;
+
+                    var CSO = new
+                    {
+                        FullName = securityOfficer.GivenName + " " + securityOfficer.Surname,
+                        securityOfficer.PhoneNumber,
+                        securityOfficer.Email,
+                    };
+
+                    var certificate = falModel.PortCall.Ship.Issc;
+
+                    var expiryDateStr = "N/A";
+                    if (certificate.ExpiryDate.HasValue)
+                    {
+                        expiryDateStr = certificate.ExpiryDate.Value.ToShortDateString();
+                    }
+
+                    var isGovernmentIssued = certificate.IssuedByGovernment.HasValue && certificate.IssuedByGovernment.Value;
+                    var issuerTypeStr = isGovernmentIssued ? "Government" : "RSO";
+                    var issuedBy = isGovernmentIssued ? certificate.GovernmentIssuer.Name : certificate.RsoIssuer.Name;
+
+                    var ISSC = new
+                    {
+                        certificate.CertificateNumber,
+                        ExpiryDate = expiryDateStr,
+                        IssuerType = issuerTypeStr,
+                        IssuedBy = issuedBy
+                    };
+
+                    var returnVal = new
+                    {
+                        SecurityDetails,
+                        ISSC,
+                        CSO,
+                        HasSecurity = true
+                    };
+
+                    return Json(returnVal);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+            }
+            var nullReturn = new
+            {
+                HasSecurity = false
+            };
+
+            return Json(nullReturn);
+        }
+
         [HttpGet("{securityId}/companySecurityOfficer")]
         public IActionResult GetCompanySecurityOfficerBySecurityId(int securityId)
         {

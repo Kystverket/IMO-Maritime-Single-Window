@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 using IMOMaritimeSingleWindow.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -136,6 +137,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 // map the fields and update the record in the underlying data store
                 var applicationUser = _mapper.Map<ApplicationUser>(model);
                 applicationUser.SecurityStamp = new Guid().ToString();
+
                 var result = await _userManager.UpdateAsync(applicationUser);
 
                 // retrieve the record by email field
@@ -143,8 +145,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 
                 // map the role.
                 result = await _userManager.AddToRoleAsync(addedUser, model.RoleName);
-                    // if (!result.Succeeded)
-                        // return new BadRequestObjectResult(Errors.AddErrorsToModelState(result, ModelState));
+
             }
             catch (Exception e)
             {
@@ -247,6 +248,45 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             var passwordChangeToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             return Ok(passwordChangeToken);
+        }
+
+        /// <summary>
+        /// Allow the Administrator to set the user's password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns> An HTTP 200 OK reponse if the password was successfully changed. </returns>
+        [Authorize(Roles = Constants.Strings.UserRoles.Admin + ", " + Constants.Strings.UserRoles.SuperAdmin)]
+        [HttpPut("user/password/set")]
+        public async Task<IActionResult> SetPassword([FromBody]ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ApplicationUser user = await _userManager.FindByIdAsync(model.UserId);
+
+                if (user == null)
+                    return NotFound();
+                var removeResult = await _userManager.RemovePasswordAsync(user);
+
+                if (removeResult.Succeeded)
+                {
+                    var resetResult = await _userManager.AddPasswordAsync(user, model.NewPassword);
+                    var _emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var emailVerificationResult = await _userManager.ConfirmEmailAsync(user, _emailConfirmationToken);
+                    if (resetResult.Succeeded)
+                        return Ok("User Password Assigned");
+
+                    return BadRequest();
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+            return BadRequest();
         }
 
         /// <summary>

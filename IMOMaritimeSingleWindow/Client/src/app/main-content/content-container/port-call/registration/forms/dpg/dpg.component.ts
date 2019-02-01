@@ -32,7 +32,7 @@ export class DpgComponent implements OnInit {
   @Input()
   portCallId: number;
   @Input()
-  dpgOnBoardList: DpgOnBoardModel[] = [];
+  dpgOnBoardList: any[] = [];
 
   @ViewChild(NgForm)
   form: NgForm;

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static IMOMaritimeSingleWindow.Models.LocationSource;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
@@ -82,7 +83,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             {
                 results = _context.Location.Where(loc => (EF.Functions.ILike(loc.Name, searchTerm + '%')
                                                     || EF.Functions.ILike(loc.LocationCode, searchTerm + '%'))
-                                                    && loc.LocationType.Name.Equals("Harbour"))
+                                                    && loc.LocationType.EnumValue.Equals(LOCATION_TYPES.HARBOUR.ToString()))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
                                                     .Take(amount).ToList();
@@ -130,6 +131,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 OrderByDescending(l => l.LocationId)
                 .Include(l => l.LocationType)
                 .Include(l => l.Country)
+                .Where(l => l.LocationType.EnumValue == LOCATION_TYPES.HARBOUR.ToString())
                 .Take(10)
                 .ToList();
 

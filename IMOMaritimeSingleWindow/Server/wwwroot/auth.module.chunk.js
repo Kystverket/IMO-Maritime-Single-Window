@@ -438,7 +438,7 @@ var EmailConfirmationComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_2__shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_2__shared_services___["w" /* UriQueryService */]])
+            __WEBPACK_IMPORTED_MODULE_2__shared_services___["y" /* UriQueryService */]])
     ], EmailConfirmationComponent);
     return EmailConfirmationComponent;
 }());
@@ -623,8 +623,8 @@ var LoginGuard = /** @class */ (function (_super) {
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["c" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["o" /* LoginService */],
-            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["i" /* ErrorService */]])
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* LoginService */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["j" /* ErrorService */]])
     ], LoginGuard);
     return LoginGuard;
 }(__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["d" /* BaseService */]));
@@ -700,7 +700,7 @@ module.exports = ""
 /***/ "./src/app/auth/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n          <h6>Development Version. Deployed: 13.12.2018\r\n          </h6>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email address\" [(ngModel)]=\"credentials.userName\"\r\n            #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\" placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <nav>\r\n        <a class=\"btn btn-light\" routerLink=\"../ForgotPassword\" routerLinkActive=\"active\">Forgot password?</a>\r\n      </nav>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <h5>Error</h5>\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>\r\n<router-outlet></router-outlet>"
+module.exports = "<div class=\"container pt-5\">\r\n  <div class=\"jumbotron bg-ssn-light text-ssn\">\r\n    <div class=\"d-table mb-3 mx-auto\">\r\n      <div class=\"d-table-row\">\r\n        <div class=\"d-table-cell\">\r\n          <img src=\"assets/images/flags/ag.png\" height=\"80px\">\r\n        </div>\r\n        <div class=\"d-table-cell px-3\">\r\n          <h2>IMO Maritime Single Window</h2>\r\n          <h6>Development Version. Deployed: 01.02.2019\r\n          </h6>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <form #f=\"ngForm\" novalidate (ngSubmit)=\"login(f)\">\r\n      <div class=\"form-group row\">\r\n        <label for=\"email\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Email address:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"email\" name=\"userName\" type=\"email\" class=\"form-control form-control-sm\" placeholder=\"Enter email address\" [(ngModel)]=\"credentials.userName\"\r\n            #email=\"ngModel\" autocomplete=\"username\" tmFocus required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"password\" class=\"col-form-label-sm no-wrap col-sm-3 col-md-2 col-lg-2\">Password:</label>\r\n        <div class=\"col my-auto\">\r\n          <input id=\"password\" name=\"password\" type=\"password\" #pw class=\"form-control form-control-sm\" placeholder=\"Enter password\"\r\n            [(ngModel)]=\"credentials.password\" autocomplete=\"current-password\" required>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group\">\r\n        <button type=\"submit\" (click)=\"pw.select()\" class=\"btn btn-light\" [disabled]=\"f.invalid || isRequesting\">SIGN IN</button>\r\n      </div>\r\n\r\n      <nav>\r\n        <a class=\"btn btn-light\" routerLink=\"../ForgotPassword\" routerLinkActive=\"active\">Forgot password?</a>\r\n      </nav>\r\n\r\n      <div *ngIf=\"errors\" class=\"alert alert-danger\" role=\"alert\">\r\n        <h5>Error</h5>\r\n        <span>{{errors}}</span>\r\n      </div>\r\n\r\n    </form>\r\n  </div>\r\n</div>\r\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -858,7 +858,7 @@ var LoginComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/auth/login/login.component.html"),
             styles: [__webpack_require__("./src/app/auth/login/login.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["o" /* LoginService */],
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3_app_shared_services___["q" /* LoginService */],
             __WEBPACK_IMPORTED_MODULE_3_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
@@ -1276,7 +1276,7 @@ var PasswordComponent = /** @class */ (function () {
             styles: [__webpack_require__("./src/app/auth/password/password.component.css")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__shared_services___["a" /* AccountService */],
-            __WEBPACK_IMPORTED_MODULE_3__shared_services___["w" /* UriQueryService */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_services___["y" /* UriQueryService */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
     ], PasswordComponent);

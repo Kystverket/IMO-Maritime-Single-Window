@@ -76,6 +76,12 @@
                 <small *ngIf="!compEmail.valid && !compEmail.pristine" class="text-danger">Please enter a valid email address</small>
               </div>
             </div>
+
+            <!-- Password Change -->
+            <div class="col-md-6 col-lg-6">
+              <button class="btn btn-ssn" (click)="openPasswordChange()" *ngIf="!newUser">Change User Password</button>
+            </div>
+
           </div>
 
         </form>
