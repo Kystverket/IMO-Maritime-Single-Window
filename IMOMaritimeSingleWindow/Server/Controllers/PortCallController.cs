@@ -193,6 +193,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 x.PortCallId,
                 x.PortOfEmbarkationId,
                 x.PortOfDisembarkationId,
+                x.CrewEffects,
                 IdentityDocument = x.IdentityDocument?.Select(id => new
                 {
                     id.IdentityDocumentExpiryDate,

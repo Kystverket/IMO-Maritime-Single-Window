@@ -1,79 +1,119 @@
 <div class="whatsNew">
 
-    <h1>What's New (Last updated: 13.12.2018) </h1>
+    <h1>What's New (Last updated: 01.02.2019) </h1>
 
-    <h4>Deployment Date: 13.12.2018</h4>
+    <h4>Deployment Date: 01.02.2019</h4>
 
     <div>
         <b>Changes</b>
         <ol>
             <li><b>Features</b>
                 <ul>
-                    <li> • Edit User is now supported</li>
-                    <li>• Can deactivate/activate users (Prevents them from logging in to the system)</li>
+                    <li> • Import of Ship Stores / Crew / Passenger data is now supported.</li>
                 </ul>
             </li>
             <li><b>Enhancements</b>
                 <ul>
                     <li>
-                        • Changes to how search works (Returns more relevant results)
+                        • GUI changes 
                     </li>
                     <li>
-                        • Database maintenance and changes to make the client faster
+                        • Changes to port call overview information 
                     </li>
                     <li>
-                        • Added default search values for Users/Ships/Locations/Organization
-                    </li>
-                    <li>
-                        • Changed 'Company' to 'Agent Company'
-                    </li>
-                    <li>
-                        • You can now only select 'Agent Company' for a new user
-                    </li>
-                    <li>
-                        • You can now only create organizations of type 'Agent Company' or 'RSO'
-                    </li>
-                    <li>
-                        • Changes to the Create User page
-                    </li>
-                    <li>
-                        • Can only select active ships when creating a new port call
-                    </li>
-                    <li>
-                        • Merged several tables in the Port Call overview page
-                    </li>
-                    <li>
-                        • You can create an organization in a modal from within the create user page
-                    </li>
-                    <li>
-                        • Reduced loading times for port calls and the subsections
+                        • Improved edit views
                     </li>
                 </ul>
             </li>
             <li><b>Fixes</b>
                 <ul>
                     <li>
-                        • Fixed issue where modals sometimes wouldn't open
-                    </li>
-                    <li>
-                        • Fixed input types accross the client
-                    </li>
-                    <li>
-                        • Country codes for flags were displaying wrong
-                    </li>
-                    <li>
-                        • Fixed errors regarding creation of new users
-                    </li>
-                    <li>
-                        • Removed all 'Agent Company' without any users in them (Has been migrated in earlier)
-                    </li>
-                    <li>
-                        • Several DPG fixes
+                        • Placeholder
                     </li>
                 </ul>
             </li>
 
         </ol>
+    </div>
+
+
+
+    <h5 (click)="toggle1312ChangeSet()">Deployment Date: 13.12.2018 (Click to expand/minimize) </h5>
+
+    <div *ngIf="toggle1312">
+
+        <div>
+            <b>Changes</b>
+            <ol>
+                <li><b>Features</b>
+                    <ul>
+                        <li> • Edit User is now supported</li>
+                        <li>• Can deactivate/activate users (Prevents them from logging in to the system)</li>
+                    </ul>
+                </li>
+                <li><b>Enhancements</b>
+                    <ul>
+                        <li>
+                            • Changes to how search works (Returns more relevant results)
+                        </li>
+                        <li>
+                            • Database maintenance and changes to make the client faster
+                        </li>
+                        <li>
+                            • Added default search values for Users/Ships/Locations/Organization
+                        </li>
+                        <li>
+                            • Changed 'Company' to 'Agent Company'
+                        </li>
+                        <li>
+                            • You can now only select 'Agent Company' for a new user
+                        </li>
+                        <li>
+                            • You can now only create organizations of type 'Agent Company' or 'RSO'
+                        </li>
+                        <li>
+                            • Changes to the Create User page
+                        </li>
+                        <li>
+                            • Can only select active ships when creating a new port call
+                        </li>
+                        <li>
+                            • Merged several tables in the Port Call overview page
+                        </li>
+                        <li>
+                            • You can create an organization in a modal from within the create user page
+                        </li>
+                        <li>
+                            • Reduced loading times for port calls and the subsections
+                        </li>
+                    </ul>
+                </li>
+                <li><b>Fixes</b>
+                    <ul>
+                        <li>
+                            • Fixed issue where modals sometimes wouldn't open
+                        </li>
+                        <li>
+                            • Fixed input types accross the client
+                        </li>
+                        <li>
+                            • Country codes for flags were displaying wrong
+                        </li>
+                        <li>
+                            • Fixed errors regarding creation of new users
+                        </li>
+                        <li>
+                            • Removed all 'Agent Company' without any users in them (Has been migrated in earlier)
+                        </li>
+                        <li>
+                            • Several DPG fixes
+                        </li>
+                    </ul>
+                </li>
+    
+            </ol>
+        </div>
+    
     </div>
 
     <h5 (click)="toggle2311ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>
@@ -143,6 +183,9 @@
                 </ul>
             </li>
         </ol>
+    </div>
+
+    <div>
     </div>
 
 </div>
