@@ -15,6 +15,7 @@ using static IMOMaritimeSingleWindow.SpreadSheet.MappingMethods.CommonMappingMet
 using IMOMaritimeSingleWindow.SpreadSheet.SpreadSheetValidators;
 using System.Globalization;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -399,11 +400,27 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var TransitPax = worksheet.Cells[rowNum, sheetDefinition.TransPassengerAddress].Text;
 
+                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+
+                LastName = rgx.Replace(LastName, "");
+                FirstName = rgx.Replace(FirstName, "");
+
                 FirstName = FirstName.TrimEnd();
 
                 if (string.IsNullOrWhiteSpace(LastName) && string.IsNullOrWhiteSpace(FirstName))
                     continue;
 
+
+                Nationality = rgx.Replace(Nationality, "");
+                Sex = rgx.Replace(Sex, "");
+                DocumentNumber = rgx.Replace(DocumentNumber, "");
+                CountryOfIssue = rgx.Replace(CountryOfIssue, "");
+                PortOfEmbarkation = rgx.Replace(PortOfEmbarkation, "");
+                PortOfDebarkation = rgx.Replace(PortOfDebarkation, "");
+                PortOfClearence = rgx.Replace(PortOfClearence, "");
+                VisaNumber = rgx.Replace(VisaNumber, "");
+                PlaceOfBirth = rgx.Replace(PlaceOfBirth, "");
+                TransitPax = rgx.Replace(TransitPax, "");
 
                 var pax = new PersonOnBoard
                 {
@@ -484,9 +501,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        pax.PortOfEmbarkationId = portOfEmbarkId;
-                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                        var portOfEmbark = GetPortByCode(PortOfEmbarkation);
+                        if(portOfEmbark != null)
+                        {
+                            pax.PortOfEmbarkationId = portOfEmbark.LocationId;
+                            portDictionairy.Add(PortOfEmbarkation, portOfEmbark.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
@@ -497,9 +517,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        pax.PortOfDisembarkationId = portOfDebarkationId;
-                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                        var portOfDebarkation = GetPortByCode(PortOfEmbarkation);
+                        if(PortOfDebarkation != null)
+                        {
+                            pax.PortOfDisembarkationId = portOfDebarkation.LocationId;
+                            portDictionairy.Add(PortOfDebarkation, portOfDebarkation.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfClearence))
@@ -565,10 +588,25 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var Effects = worksheet.Cells[rowNum, sheetDefinition.EffectsCustomsAddress].Text;
 
+                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+
                 FirstName = FirstName.TrimEnd();
+                LastName = rgx.Replace(LastName, "");
+                FirstName = rgx.Replace(FirstName, "");
 
                 if (string.IsNullOrWhiteSpace(LastName) && string.IsNullOrWhiteSpace(FirstName))
                     continue;
+
+                Nationality = rgx.Replace(LastName, "");
+                Sex = rgx.Replace(Sex, "");
+                DocumentNumber = rgx.Replace(DocumentNumber, "");
+                CountryOfIssue = rgx.Replace(CountryOfIssue, "");
+                PortOfEmbarkation = rgx.Replace(PortOfEmbarkation, "");
+                PortOfDebarkation = rgx.Replace(PortOfDebarkation, "");
+                PortOfClearence = rgx.Replace(PortOfClearence, "");
+                RankOrRating = rgx.Replace(RankOrRating, "");
+                PlaceOfBirth = rgx.Replace(PlaceOfBirth, "");
+                Effects = rgx.Replace(Effects, "");
 
 
                 var crew = new PersonOnBoard
@@ -651,9 +689,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        crew.PortOfEmbarkationId = portOfEmbarkId;
-                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                        var portOfEmbark = GetPortByCode(PortOfEmbarkation);
+                        if(portOfEmbark != null)
+                        {
+                            crew.PortOfEmbarkationId = portOfEmbark.LocationId;
+                            portDictionairy.Add(PortOfEmbarkation, portOfEmbark.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
@@ -664,9 +705,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        crew.PortOfDisembarkationId = portOfDebarkationId;
-                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                        var portOfDebarkation = GetPortByCode(PortOfEmbarkation);
+                        if(portOfDebarkation != null)
+                        {
+                            crew.PortOfDisembarkationId = portOfDebarkation.LocationId;
+                            portDictionairy.Add(PortOfDebarkation, portOfDebarkation.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfClearence))
