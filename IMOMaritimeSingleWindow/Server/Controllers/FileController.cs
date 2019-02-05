@@ -542,7 +542,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(TransitPax))
                 {
-                    pax.InTransit = ConvertTextToBool(TransitPax);
+                    pax.InTransit = ConvertToTransitPax(TransitPax);
                 }
 
                 var errors = validator.ValidatePersonOnBoardSpreadSheetModel(pax);
