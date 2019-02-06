@@ -83,6 +83,12 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
           return returnVal;
         }
       },
+      inTransit: {
+        title: 'Transit Pax',
+        valuePrepareFunction: (value) => {
+          return value ? 'Yes' : 'No';
+        }
+      }
     }
   };
 

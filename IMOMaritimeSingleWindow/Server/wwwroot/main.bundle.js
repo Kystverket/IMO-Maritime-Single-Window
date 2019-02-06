@@ -13352,6 +13352,12 @@ var PassengerListingTableComponent = /** @class */ (function () {
                         return returnVal;
                     }
                 },
+                inTransit: {
+                    title: 'Transit Pax',
+                    valuePrepareFunction: function (value) {
+                        return value ? 'Yes' : 'No';
+                    }
+                }
             }
         };
     }

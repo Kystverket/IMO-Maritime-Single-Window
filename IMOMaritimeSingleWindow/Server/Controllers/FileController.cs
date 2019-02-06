@@ -597,7 +597,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 if (string.IsNullOrWhiteSpace(LastName) && string.IsNullOrWhiteSpace(FirstName))
                     continue;
 
-                Nationality = rgx.Replace(LastName, "");
+                Nationality = rgx.Replace(Nationality, "");
                 Sex = rgx.Replace(Sex, "");
                 DocumentNumber = rgx.Replace(DocumentNumber, "");
                 CountryOfIssue = rgx.Replace(CountryOfIssue, "");
