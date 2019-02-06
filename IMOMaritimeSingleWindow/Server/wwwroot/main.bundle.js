@@ -12985,6 +12985,18 @@ var CrewListingTableComponent = /** @class */ (function () {
                         return returnVal;
                     }
                 },
+                issuingNation: {
+                    title: 'Issuing Nation',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
+                expiryDate: {
+                    title: 'Expiry Date',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
             }
         };
     }
@@ -13350,6 +13362,18 @@ var PassengerListingTableComponent = /** @class */ (function () {
                             returnVal = 'N/A';
                         }
                         return returnVal;
+                    }
+                },
+                issuingNation: {
+                    title: 'Issuing Nation',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
+                expiryDate: {
+                    title: 'Expiry Date',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
                     }
                 },
                 inTransit: {
