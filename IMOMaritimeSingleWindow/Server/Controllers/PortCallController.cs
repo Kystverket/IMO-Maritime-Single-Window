@@ -206,7 +206,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                     id.VisaOrResidencePermitNumber,
                     IdentityDocumentTypeId = id.IdentityDocumentType?.Id,
                     id.IdentityDocumentType
-                })
+                }),
+                ExpiryDate = x.IdentityDocument?.FirstOrDefault()?.IdentityDocumentExpiryDate?.ToShortDateString(),
+                IssuingNation = x.IdentityDocument?.FirstOrDefault()?.IssuingNation?.Name,
             }).ToList();
 
             return Json(returnVal);
