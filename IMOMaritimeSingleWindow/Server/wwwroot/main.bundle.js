@@ -2830,6 +2830,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
         // Passenger List
         //
         this.passengerDataSubscription = this.personOnBoardService.passengerList$.subscribe(function (passengerData) {
+            console.log(passengerData);
+            console.log(_this.crewPassengersAndDimensionsModel);
             _this.passengerList = passengerData;
             if (_this.passengerList.length !== _this.crewPassengersAndDimensionsModel.numberOfPassengers) {
                 _this.numberOfPassengersError = true;
@@ -2848,6 +2850,8 @@ var ActivatePortCallComponent = /** @class */ (function () {
         // Crew List
         //
         this.crewDataSubscription = this.personOnBoardService.crewList$.subscribe(function (crewData) {
+            console.log(crewData);
+            console.log(_this.crewPassengersAndDimensionsModel);
             _this.crewList = crewData;
             if (_this.crewList.length !== _this.crewPassengersAndDimensionsModel.numberOfCrew) {
                 _this.numberOfCrewError = true;
@@ -12984,7 +12988,19 @@ var CrewListingTableComponent = /** @class */ (function () {
                         }
                         return returnVal;
                     }
-                }
+                },
+                issuingNation: {
+                    title: 'Issuing Nation',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
+                expiryDate: {
+                    title: 'Expiry Date',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
             }
         };
     }
@@ -13350,6 +13366,18 @@ var PassengerListingTableComponent = /** @class */ (function () {
                             returnVal = 'N/A';
                         }
                         return returnVal;
+                    }
+                },
+                issuingNation: {
+                    title: 'Issuing Nation',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
+                    }
+                },
+                expiryDate: {
+                    title: 'Expiry Date',
+                    valuePrepareFunction: function (value) {
+                        return value ? value : 'N/A';
                     }
                 },
                 inTransit: {
