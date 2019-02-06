@@ -86,6 +86,19 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
           return returnVal;
         }
       },
+      issuingNation: {
+        title: 'Issuing Nation',
+        valuePrepareFunction: (value) => {
+          return value ? value : 'N/A';
+
+        }
+      },
+      expiryDate: {
+        title: 'Expiry Date',
+        valuePrepareFunction: (value) => {
+          return value ? value : 'N/A';
+        }
+      },
     }
   };
 
