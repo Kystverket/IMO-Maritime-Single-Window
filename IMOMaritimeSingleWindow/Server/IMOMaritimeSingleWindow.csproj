@@ -54,7 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Documents\CERTIFICATE_TEMPLATE.docx" />
+    <None Include="wwwroot\Documents\CERTIFICATE_TEMPLATE.docx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>
