@@ -26,7 +26,7 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: 'There are no crew members reported.',
+    noDataMessage: 'No crew members found.',
     columns: {
       familyName: {
         title: 'Family Name'

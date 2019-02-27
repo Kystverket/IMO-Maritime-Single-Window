@@ -14,8 +14,10 @@ namespace IMOMaritimeSingleWindow.SpreadSheet.Sheets
 
         public int NameOfArticleAddress = 3;
 
-        public int QuantityAddress = 6;
+        public int QuantityAddress = 4;
 
-        public int LocationOnBoardAddress = 9;
+        public int MeasurementTypeAddress = 5;
+
+        public int LocationOnBoardAddress = 6;
     }
 }

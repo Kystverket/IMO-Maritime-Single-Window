@@ -3,11 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
-import { PortCallModel } from 'app/shared/models/';
-import { AccountService, ConstantsService, ContentService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
+import { AccountService, ConstantsService, ContentService, FileService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
 import { LoadPortCallService } from '../../load-port-call.service';
-
 @Component({
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
@@ -42,7 +40,8 @@ export class ButtonRowComponent implements ViewCell, OnInit {
     private contentService: ContentService,
     private portCallService: PortCallService,
     private modalService: NgbModal,
-    private loadPortCallService: LoadPortCallService
+    private loadPortCallService: LoadPortCallService,
+    private fileService: FileService
   ) { }
 
   ngOnInit() {
@@ -161,6 +160,12 @@ export class ButtonRowComponent implements ViewCell, OnInit {
         console.log(error);
       }
     );
+  }
+
+  ClearanceCertificateClick() {
+    this.fileService.getClearanceCertificateToken(this.rowData.overviewModel.portCallId).subscribe(url => {
+      this.fileService.getClearanceCertificate(url);
+    });
   }
 
   editAwaitingClearancePortCall() {
