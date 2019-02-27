@@ -184,10 +184,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 };
 
 
-                var documentPath = _hostingEnvironment.ContentRootPath + "\\Documents\\";
-                var test = _hostingEnvironment.WebRootPath;
-
-                Logger.Info(test);
+                var documentPath = _hostingEnvironment.WebRootPath + "\\Documents\\";
 
                 var templatePath = documentPath + "CERTIFICATE_TEMPLATE.docx";
 
