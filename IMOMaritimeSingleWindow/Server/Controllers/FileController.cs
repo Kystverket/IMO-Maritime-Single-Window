@@ -8,6 +8,7 @@ using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.SpreadSheet.Sheets;
 using IMOMaritimeSingleWindow.SpreadSheet.SpreadSheetValidators;
+using log4net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,7 @@ namespace IMOMaritimeSingleWindow.Controllers
     [Route("api/[controller]")]
     public class FileController : Controller
     {
+        static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         readonly open_ssnContext _context;
         private IHostingEnvironment _hostingEnvironment;
 
@@ -64,158 +66,179 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("CertificateOfClearanceToken/{portCallId}")]
         public IActionResult CertificateOfClearanceToken(int portCallId)
         {
-            var userId = this.GetUserId();
-            var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
-                                    .Include(u => u.Organization.OrganizationType)
-                                    .FirstOrDefault();
-            var userRole = this.GetUserRoleName();
-
-            if (dbUser == null)
+            try
             {
-                throw new ArgumentNullException();
-            }
-            var portCall = new PortCall();
+                var userId = this.GetUserId();
+                var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
+                                        .Include(u => u.Organization.OrganizationType)
+                                        .FirstOrDefault();
+                var userRole = this.GetUserRoleName();
 
-            if (userRole == UserRoles.Admin || userRole == UserRoles.SuperAdmin)
+                if (dbUser == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                var portCall = new PortCall();
+
+                if (userRole == UserRoles.Admin || userRole == UserRoles.SuperAdmin)
+                {
+                    portCall = _context.PortCall
+                   .Where(pc => pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                   .Include(x => x.Location)
+                       .ThenInclude(x => x.Country)
+                   .Include(x => x.NextLocation)
+                   .Include(x => x.PersonOnBoard)
+                       .ThenInclude(x => x.PersonOnBoardType)
+                   .Include(x => x.Ship)
+                   .Include(x => x.PreviousLocation)
+                   .FirstOrDefault(pc => pc.PortCallId == portCallId);
+                }
+                else if (userRole == UserRoles.Agent || userRole == UserRoles.Customs || userRole == UserRoles.HealthAgency)
+                {
+                    portCall = _context.PortCall
+                    .Where(pc => pc.User.OrganizationId == dbUser.OrganizationId && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                    .Include(x => x.Location)
+                        .ThenInclude(x => x.Country)
+                    .Include(x => x.NextLocation)
+                    .Include(x => x.PersonOnBoard)
+                        .ThenInclude(x => x.PersonOnBoardType)
+                    .Include(x => x.Ship)
+                    .Include(x => x.PreviousLocation)
+                    .FirstOrDefault(pc => pc.PortCallId == portCallId);
+                }
+
+                if (portCall == null)
+                {
+                    throw new ArgumentNullException("Port Call not found");
+                }
+
+                if (portCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED)
+                {
+                    throw new InvalidDataException("Port Call not cleared");
+                }
+
+                //Generate token
+                byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+                byte[] key = Guid.NewGuid().ToByteArray();
+                string token = Convert.ToBase64String(time.Concat(key).ToArray());
+
+                var url = "certificateOfClearance/" + portCallId.ToString() + "?token=" + token;
+
+                return Json(url);
+            }
+            catch (Exception ex)
             {
-                portCall = _context.PortCall
-               .Where(pc => pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
-               .Include(x => x.Location)
-                   .ThenInclude(x => x.Country)
-               .Include(x => x.NextLocation)
-               .Include(x => x.PersonOnBoard)
-                   .ThenInclude(x => x.PersonOnBoardType)
-               .Include(x => x.Ship)
-               .Include(x => x.PreviousLocation)
-               .FirstOrDefault(pc => pc.PortCallId == portCallId);
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
+                throw ex;
             }
-            else if (userRole == UserRoles.Agent || userRole == UserRoles.Customs || userRole == UserRoles.HealthAgency)
-            {
-                portCall = _context.PortCall
-                .Where(pc => pc.User.OrganizationId == dbUser.OrganizationId && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
-                .Include(x => x.Location)
-                    .ThenInclude(x => x.Country)
-                .Include(x => x.NextLocation)
-                .Include(x => x.PersonOnBoard)
-                    .ThenInclude(x => x.PersonOnBoardType)
-                .Include(x => x.Ship)
-                .Include(x => x.PreviousLocation)
-                .FirstOrDefault(pc => pc.PortCallId == portCallId);
-            }
-
-            if (portCall == null)
-            {
-                throw new ArgumentNullException("Port Call not found");
-            }
-
-            if (portCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED)
-            {
-                throw new InvalidDataException("Port Call not cleared");
-            }
-
-            //Generate token
-            byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
-            byte[] key = Guid.NewGuid().ToByteArray();
-            string token = Convert.ToBase64String(time.Concat(key).ToArray());
-
-            var url = "certificateOfClearance/" + portCallId.ToString() + "?token=" + token;
-
-            return Json(url);
         }
 
         [HttpGet("CertificateOfClearance/{portCallId}")]
         public FileStreamResult GetCertificateOfClearance(int portCallId, [FromQuery]string token)
         {
-            //Decrypt token
-            token = token.Replace(" ", "+");
-            byte[] data = Convert.FromBase64String(token);
-            DateTime when = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
-            if (when < DateTime.UtcNow.AddMinutes(-1))
+            try
             {
-                throw new ArgumentException("Url is stale");
-            }
-
-            var portCall = _context.PortCall
-               .Include(x => x.Location)
-                   .ThenInclude(x => x.Country)
-               .Include(x => x.NextLocation)
-               .Include(x => x.PersonOnBoard)
-                   .ThenInclude(x => x.PersonOnBoardType)
-               .Include(x => x.Ship)
-               .Include(x => x.PreviousLocation)
-               .FirstOrDefault(pc => pc.PortCallId == portCallId);
-
-            if (portCall == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            var model = new TemplateModel
-            {
-                CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.HasValue && x.IsCaptain.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.Value).FamilyName : "<Captain Not Found>",
-                ImoNumber = portCall.Ship.ImoNo.HasValue ? portCall.Ship.ImoNo.Value.ToString() : "<Imo Number Not Found>",
-                VesselName = portCall.Ship.Name,
-                PortOfCall = portCall.Location.Name,
-                PortCallDateTime = portCall.LocationEta.DateTime.ToString(),
-                NumberOfCrew = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.CREW.ToString()).Count().ToString(),
-                NumberOfPax = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.PAX.ToString()).Count().ToString(),
-                NumberOfTransit = portCall.PersonOnBoard.Where(x => x.InTransit.HasValue && x.InTransit.Value).Count().ToString(),
-                LastPortCall = portCall.PreviousLocation != null ? portCall.PreviousLocation.Name : "<Port Not Found>",
-                LastPortDateTime = portCall.PreviousLocationEtd.HasValue ? portCall.PreviousLocationEtd.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
-                NextPortCall = portCall.NextLocation != null ? portCall.NextLocation.Name : "<Port Not Found>",
-                NextPortDateTime = portCall.NextLocationEta.HasValue ? portCall.NextLocationEta.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
-                CountryOfCall = portCall.Location?.Country.Name,
-                CurrentDate = DateTime.Now.ToShortDateString(),
-            };
-
-
-            var documentPath = _hostingEnvironment.ContentRootPath + "\\Documents\\";
-            var templatePath = documentPath + "CERTIFICATE_TEMPLATE.docx";
-
-            byte[] byteArray = System.IO.File.ReadAllBytes(templatePath);
-            MemoryStream mem = new MemoryStream();
-            mem.Write(byteArray, 0, byteArray.Length);
-            using (WordprocessingDocument wordDoc =
-                WordprocessingDocument.Open(mem, true))
-            {
-                var body = wordDoc.MainDocumentPart.Document.Body;
-
-                foreach (var element in body.Descendants<Text>())
+                //Decrypt token
+                token = token.Replace(" ", "+");
+                byte[] data = Convert.FromBase64String(token);
+                DateTime when = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+                if (when < DateTime.UtcNow.AddMinutes(-1))
                 {
-                    //reflection
-                    foreach (var property in typeof(TemplateModel).GetProperties())
+                    throw new ArgumentException("Url is stale");
+                }
+
+                var portCall = _context.PortCall
+                   .Include(x => x.Location)
+                       .ThenInclude(x => x.Country)
+                   .Include(x => x.NextLocation)
+                   .Include(x => x.PersonOnBoard)
+                       .ThenInclude(x => x.PersonOnBoardType)
+                   .Include(x => x.Ship)
+                   .Include(x => x.PreviousLocation)
+                   .FirstOrDefault(pc => pc.PortCallId == portCallId);
+
+                if (portCall == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                var model = new TemplateModel
+                {
+                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.HasValue && x.IsCaptain.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.Value).FamilyName : "<Captain Not Found>",
+                    ImoNumber = portCall.Ship.ImoNo.HasValue ? portCall.Ship.ImoNo.Value.ToString() : "<Imo Number Not Found>",
+                    VesselName = portCall.Ship.Name,
+                    PortOfCall = portCall.Location.Name,
+                    PortCallDateTime = portCall.LocationEta.DateTime.ToString(),
+                    NumberOfCrew = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.CREW.ToString()).Count().ToString(),
+                    NumberOfPax = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.PAX.ToString()).Count().ToString(),
+                    NumberOfTransit = portCall.PersonOnBoard.Where(x => x.InTransit.HasValue && x.InTransit.Value).Count().ToString(),
+                    LastPortCall = portCall.PreviousLocation != null ? portCall.PreviousLocation.Name : "<Port Not Found>",
+                    LastPortDateTime = portCall.PreviousLocationEtd.HasValue ? portCall.PreviousLocationEtd.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
+                    NextPortCall = portCall.NextLocation != null ? portCall.NextLocation.Name : "<Port Not Found>",
+                    NextPortDateTime = portCall.NextLocationEta.HasValue ? portCall.NextLocationEta.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
+                    CountryOfCall = portCall.Location?.Country.Name,
+                    CurrentDate = DateTime.Now.ToShortDateString(),
+                };
+
+
+                var documentPath = _hostingEnvironment.ContentRootPath + "\\Documents\\";
+                var templatePath = documentPath + "CERTIFICATE_TEMPLATE.docx";
+
+                byte[] byteArray = System.IO.File.ReadAllBytes(templatePath);
+                MemoryStream mem = new MemoryStream();
+                mem.Write(byteArray, 0, byteArray.Length);
+                using (WordprocessingDocument wordDoc =
+                    WordprocessingDocument.Open(mem, true))
+                {
+                    var body = wordDoc.MainDocumentPart.Document.Body;
+
+                    foreach (var element in body.Descendants<Text>())
                     {
-                        //make sure the property name matches the template
-                        if (element.Text.Contains($"{property.Name}"))
+                        //reflection
+                        foreach (var property in typeof(TemplateModel).GetProperties())
                         {
-                            //get the value from the actual model instance
-                            element.Text = element.Text.Replace($"{property.Name}", (string)property.GetValue(model));
+                            //make sure the property name matches the template
+                            if (element.Text.Contains($"{property.Name}"))
+                            {
+                                //get the value from the actual model instance
+                                element.Text = element.Text.Replace($"{property.Name}", (string)property.GetValue(model));
+                            }
                         }
                     }
                 }
-            }
-            mem.Seek(0, SeekOrigin.Begin);
-            var result = new HttpResponseMessage(HttpStatusCode.OK)
-            {
-                Content = new ByteArrayContent(mem.ToArray())
-            };
-            result.Content.Headers.ContentDisposition =
-                new ContentDispositionHeaderValue("attachment")
+                mem.Seek(0, SeekOrigin.Begin);
+                var result = new HttpResponseMessage(HttpStatusCode.OK)
                 {
-                    FileName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
+                    Content = new ByteArrayContent(mem.ToArray())
                 };
-            result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                result.Content.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
+                    };
+                result.Content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
-            mem.Seek(0, SeekOrigin.Begin);
+                mem.Seek(0, SeekOrigin.Begin);
 
-            var file = new FileStreamResult(mem, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                var file = new FileStreamResult(mem, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                {
+                    FileDownloadName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
+                };
+
+                return file;
+            }
+            catch (Exception ex)
             {
-                FileDownloadName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
-            };
-
-            return file;
-
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
+                throw ex;
+            }
         }
 
         [HttpPost("passengers/{portCallId}"), DisableRequestSizeLimit]
