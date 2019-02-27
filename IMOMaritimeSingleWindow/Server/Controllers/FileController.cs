@@ -185,6 +185,10 @@ namespace IMOMaritimeSingleWindow.Controllers
 
 
                 var documentPath = _hostingEnvironment.ContentRootPath + "\\Documents\\";
+                var test = _hostingEnvironment.WebRootPath;
+
+                Logger.Info(test);
+
                 var templatePath = documentPath + "CERTIFICATE_TEMPLATE.docx";
 
                 byte[] byteArray = System.IO.File.ReadAllBytes(templatePath);
