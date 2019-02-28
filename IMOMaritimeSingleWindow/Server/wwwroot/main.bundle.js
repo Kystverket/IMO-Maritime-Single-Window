@@ -12974,24 +12974,8 @@ var CrewListingTableComponent = /** @class */ (function () {
                         }
                     }
                 },
-                identityDocument: {
-                    title: 'ID Type and Number',
-                    valuePrepareFunction: function (value) {
-                        if (value[0] == null || value[0] === undefined || value.length === 0) {
-                            return 'N/A';
-                        }
-                        var returnVal = '';
-                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-                            returnVal += value[0].identityDocumentType.description;
-                        }
-                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-                            returnVal += ' : ' + value[0].identityDocumentNumber;
-                        }
-                        if (returnVal.trim().length === 0) {
-                            returnVal = 'N/A';
-                        }
-                        return returnVal;
-                    }
+                identityDocumentListingModel: {
+                    title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
@@ -13353,25 +13337,8 @@ var PassengerListingTableComponent = /** @class */ (function () {
                         }
                     }
                 },
-                identityDocument: {
-                    title: 'ID Type and Number',
-                    valuePrepareFunction: function (value) {
-                        console.log(value);
-                        if (value[0] == null || value[0] === undefined || value.length === 0) {
-                            return 'N/A';
-                        }
-                        var returnVal = '';
-                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-                            returnVal += value[0].identityDocumentNumber;
-                        }
-                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-                            returnVal += '(' + value[0].identityDocumentType.shortName + ')';
-                        }
-                        if (returnVal.trim().length === 0) {
-                            returnVal = 'N/A';
-                        }
-                        return returnVal;
-                    }
+                identityDocumentListingModel: {
+                    title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
@@ -20909,17 +20876,14 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     };
     // Get all person on board entities of a port call
     PortCallFalPersonOnBoardService.prototype.getPersonOnBoardListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getPassengerListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].PAX].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getCrewListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
@@ -20938,7 +20902,6 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     PortCallFalPersonOnBoardService.prototype.updatePersonOnBoardList = function (portCallId, personOnBoardList, personOnBoardTypeId) {
         var cleanedPersonOnBoardList;
         cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
         return this.httpClient.put(uri, cleanedPersonOnBoardList).pipe(Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["retry"])(3), // retry a failed request up to 3 times
         Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["catchError"])(this.handleError));
