@@ -167,7 +167,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 var model = new TemplateModel
                 {
-                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.HasValue && x.IsCaptain.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsCaptain.Value).FamilyName : "<Captain Not Found>",
+                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.HasValue && x.IsMaster.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.Value).FamilyName : "<Captain Not Found>",
                     ImoNumber = portCall.Ship.ImoNo.HasValue ? portCall.Ship.ImoNo.Value.ToString() : "<Imo Number Not Found>",
                     VesselName = portCall.Ship.Name,
                     PortOfCall = portCall.Location.Name,
@@ -776,7 +776,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var genders = _context.Gender.ToList();
             var portDictionairy = new Dictionary<string, int>();
             var countriesDictionairy = new Dictionary<string, int>();
-            var captain = true;
+            var master = true;
             for (var rowNum = sheetDefinition.startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
             {
                 var row = worksheet.Cells[string.Format("{0}:{0}", rowNum)];
@@ -821,9 +821,9 @@ namespace IMOMaritimeSingleWindow.Controllers
                     GivenName = FirstName,
                     PersonOnBoardTypeId = crewTypeId,
                     PortCallId = portCallId,
-                    IsCaptain = captain
+                    IsMaster = master
                 };
-                captain = false;
+                master = false;
 
                 if (!string.IsNullOrWhiteSpace(Nationality))
                 {

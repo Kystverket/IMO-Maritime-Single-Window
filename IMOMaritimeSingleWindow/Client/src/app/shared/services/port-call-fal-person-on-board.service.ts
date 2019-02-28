@@ -60,19 +60,16 @@ export class PortCallFalPersonOnBoardService {
 
   // Get all person on board entities of a port call
   getPersonOnBoardListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getPassengerListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.PAX].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getCrewListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.CREW].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
@@ -95,7 +92,6 @@ export class PortCallFalPersonOnBoardService {
   updatePersonOnBoardList(portCallId: number, personOnBoardList: any[], personOnBoardTypeId: number) {
     let cleanedPersonOnBoardList;
     cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
     return this.httpClient.put<PersonOnBoardModel[]>(uri, cleanedPersonOnBoardList).pipe(
       retry(3), // retry a failed request up to 3 times

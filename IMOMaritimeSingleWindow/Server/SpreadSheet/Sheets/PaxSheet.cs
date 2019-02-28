@@ -8,13 +8,13 @@ namespace IMOMaritimeSingleWindow.SpreadSheet.Sheets
         public int startRow = 19;
         public int endCol = 16;
 
-        public int VisaNumberAddress = 15;
+        public int VisaNumberAddress = 14;
         public string VisaNumberIdentificator = "Visa_Number";
 
-        public int PlaceOfBirthAddress = 16;
+        public int PlaceOfBirthAddress = 15;
         public string PlaceOfBirthIdentificator = "Place_of_Birth";
 
-        public int TransPassengerAddress = 17;
+        public int TransPassengerAddress = 16;
         public string TransPassengerIdentificator = "Transit_Passenger";
 
     }

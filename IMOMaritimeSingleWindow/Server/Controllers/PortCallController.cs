@@ -209,6 +209,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }),
                 ExpiryDate = x.IdentityDocument?.FirstOrDefault()?.IdentityDocumentExpiryDate?.ToShortDateString(),
                 IssuingNation = x.IdentityDocument?.FirstOrDefault()?.IssuingNation?.Name,
+                IdentityDocumentListingModel = x.IdentityDocument.FirstOrDefault() != null ? x.IdentityDocument.FirstOrDefault().IdentityDocumentNumber.ToString() + "(" + x.IdentityDocument.FirstOrDefault().IdentityDocumentType?.ShortName + ")" : "N/A"
             }).ToList();
 
             return Json(returnVal);

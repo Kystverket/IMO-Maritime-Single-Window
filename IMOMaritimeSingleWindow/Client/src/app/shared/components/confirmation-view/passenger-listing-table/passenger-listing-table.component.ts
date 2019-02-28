@@ -64,26 +64,9 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
           }
         }
       },
-      identityDocument: {
-        title: 'ID Type and Number',
-        valuePrepareFunction: (value) => {
-          console.log(value);
-          if (value[0] == null || value[0] === undefined || value.length === 0) {
-            return 'N/A';
-          }
-          let returnVal = '';
-          if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-            returnVal += value[0].identityDocumentNumber;
-          }
-          if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-            returnVal += '(' + value[0].identityDocumentType.shortName + ')';
-          }
-          if (returnVal.trim().length === 0) {
-            returnVal = 'N/A';
-          }
-          return returnVal;
-        }
-      },
+      identityDocumentListingModel: {
+        title: 'Identity Document (Type)',
+    },
       issuingNation: {
         title: 'Issuing Nation',
         valuePrepareFunction: (value) => {

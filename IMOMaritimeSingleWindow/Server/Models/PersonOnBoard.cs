@@ -56,7 +56,7 @@ namespace IMOMaritimeSingleWindow.Models
         public Location PortOfDisembarkation { get; set; }
         public Location PortOfEmbarkation { get; set; }
         public string CrewEffects { get; set; }
-        public bool? IsCaptain { get; set; }
+        public bool? IsMaster { get; set; }
         public ICollection<IdentityDocument> IdentityDocument { get; set; }
 
         public override String ToString()

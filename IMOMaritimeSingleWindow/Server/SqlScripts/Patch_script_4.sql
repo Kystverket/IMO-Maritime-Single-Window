@@ -1,5 +1,5 @@
 ALTER TABLE public.person_on_board
-ADD COLUMN IsCaptain boolean;
+ADD COLUMN IsMaster boolean;
 
 
 ALTER TABLE public.identity_document_type

@@ -32,5 +32,6 @@ export class PersonOnBoardModel {
     portOfEmbarkation: any;
     portOfDisembarkation: any;
     identityDocument: IdentityDocumentModel[] = [];
-    crewEffects:string;
+    crewEffects: string;
+    isMaster: boolean;
 }
