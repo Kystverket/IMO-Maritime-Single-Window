@@ -62,7 +62,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         }
 
         [HasClaim(Claims.Types.PORT_CALL, Claims.Values.VIEW)]
-        [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.SuperAdmin + ", " + UserRoles.Admin + ", " + UserRoles.Customs + ", " + UserRoles.Agent)]
+        [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.SuperAdmin + ", " + UserRoles.Customs + ", " + UserRoles.Agent + ", " + UserRoles.HealthAgency)]
         [HttpGet("CertificateOfClearanceToken/{portCallId}")]
         public IActionResult CertificateOfClearanceToken(int portCallId)
         {
