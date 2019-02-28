@@ -448,6 +448,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
                 return Json(false);
             }
         }
@@ -570,7 +574,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId));
                     _context.PersonOnBoard.AddRange(crewAndPax);
                     _context.SaveChanges();
-
+                    
                     return true;
                 }
                 catch (Exception ex)

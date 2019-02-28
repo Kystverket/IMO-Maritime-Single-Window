@@ -20143,6 +20143,7 @@ var FalShipStoresService = /** @class */ (function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20154,25 +20155,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var FileService = /** @class */ (function () {
-    function FileService(httpClient) {
+    function FileService(httpClient, http) {
         this.httpClient = httpClient;
+        this.http = http;
     }
     FileService.prototype.uploadPaxFile = function (formData, portCallId) {
         var uri = 'api/file/passengers/' + portCallId;
-        return this.httpClient.post(uri, formData);
+        return this.http.post(uri, formData);
     };
     FileService.prototype.uploadCrewFile = function (formData, portCallId) {
         var uri = 'api/file/crew/' + portCallId;
-        return this.httpClient.post(uri, formData);
+        return this.http.post(uri, formData);
     };
     FileService.prototype.uploadCrewAndPax = function (formData, portCallId) {
         var uri = 'api/file/crewpax/' + portCallId;
-        return this.httpClient.post(uri, formData);
+        return this.http.post(uri, formData);
     };
     FileService.prototype.uploadShipStores = function (formData, portCallId) {
         var uri = 'api/file/shipStores/' + portCallId;
-        return this.httpClient.post(uri, formData);
+        return this.http.post(uri, formData);
     };
     FileService.prototype.getClearanceCertificate = function (url) {
         var uri = 'api/file/' + url;
@@ -20184,7 +20187,8 @@ var FileService = /** @class */ (function () {
     };
     FileService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */]])
     ], FileService);
     return FileService;
 }());
