@@ -53,7 +53,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         readonly open_ssnContext _context;
         private IHostingEnvironment _hostingEnvironment;
-
+        private const string _allowedChars = @"^A-Z0-9a-z.\-/'À-ÖØ-öø-ÿĀ-ķĹ-ňŊ-žΆΈ-ΊΌΎ-ΡΣ-ώЁ-ЌЎ-яё-ќўџѪѫѴѵҐґ ";
 
         public FileController(open_ssnContext context, IHostingEnvironment hostingEnvironment)
         {
@@ -613,7 +613,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var TransitPax = worksheet.Cells[rowNum, sheetDefinition.TransPassengerAddress].Text;
 
-                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+                Regex rgx = new Regex($"^[{_allowedChars}]+[*]?$");
 
                 LastName = rgx.Replace(LastName, "");
                 FirstName = rgx.Replace(FirstName, "");
@@ -795,7 +795,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var Effects = worksheet.Cells[rowNum, sheetDefinition.EffectsCustomsAddress].Text;
 
-                Regex rgx = new Regex("[^a-zA-Z0-9 -]");
+                Regex rgx = new Regex($"^[{_allowedChars}]+[*]?$");
 
                 FirstName = FirstName.TrimEnd();
                 LastName = rgx.Replace(LastName, "");
@@ -1006,7 +1006,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
             return shipStoreList;
         }
