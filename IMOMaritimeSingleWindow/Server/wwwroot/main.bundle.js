@@ -4110,7 +4110,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-6 col-md-3 col-lg-2\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
