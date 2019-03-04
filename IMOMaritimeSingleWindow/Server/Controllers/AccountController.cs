@@ -462,58 +462,39 @@ namespace IMOMaritimeSingleWindow.Controllers
         [HttpGet("user/search/{searchTerm}/{amount}")]
         public async Task<IActionResult> SearchUserJson(string searchTerm, int amount)
         {
-            IQueryable<IMOMaritimeSingleWindow.Models.User> queryableUser = null;
+            IQueryable<User> queryableUser = null;
 
-            // check to see if the search term is an email
-            // https://emailregex.com/ 
-            var isEmail = Regex.IsMatch(searchTerm,
-                @"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
-                @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
-                RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+            var parts = searchTerm.ToLower().Split(" ");
 
-            // if the qry string is an email
-            // we check the user email and company email fields for a match
-            if(isEmail) {
-
-                queryableUser = _context.User.Where(usr => usr.Email == searchTerm.ToLower() || usr.Person.CompanyEmail == searchTerm.ToLower());
-                        
-            } 
-            // we anticipate perhaps the user is searching by full name
-            // and try to match the given and sir name combination
-            else {
-
-                var parts = searchTerm.ToLower().Split(" ");
-
-                if (parts.Length == 0)
-                {
-                    return BadRequest("No search parameters were supplied");
-                }
-
+            if (parts.Length > 1)
+            {
+                for (var i = 1; i <= parts.Length; i++)
+                    queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[i]) || usr.Person.Surname.ToLower().Contains(parts[i]));
+            } else
+            {
                 queryableUser = _context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[0]) || usr.Person.Surname.ToLower().Contains(parts[0]));
-
-                if(parts.Length > 1)
-                {
-                    for(var i = 1; i <= parts.Length; i++)
-                        queryableUser.Concat(_context.User.Where(usr => usr.Person.GivenName.ToLower().Contains(parts[i]) || usr.Person.Surname.ToLower().Contains(parts[i])));
-                }
-
-                queryableUser = queryableUser.Distinct();
             }
 
-            // include fields
+            if (queryableUser.Any())
+                queryableUser.Concat(_context.User.Where(usr => usr.Email.ToLower().Contains(searchTerm.ToLower()) || usr.Person.CompanyEmail.ToLower().Contains(searchTerm.ToLower())));
+             else
+                queryableUser = _context.User.Where(usr => usr.Email.ToLower().Contains(searchTerm.ToLower()) || usr.Person.CompanyEmail.ToLower().Contains(searchTerm.ToLower()));
+
+
+            queryableUser = queryableUser.Distinct();
             queryableUser = queryableUser.Select(usr => usr)
-                            .Include(usr => usr.Organization)
-                            .Include(usr => usr.Organization.OrganizationType)
-                            .Include(usr => usr.Person)
-                            .Include(usr => usr.Role);
+                           .Include(usr => usr.Organization)
+                           .Include(usr => usr.Organization.OrganizationType)
+                           .Include(usr => usr.Person)
+                           .Include(usr => usr.Role);
 
             // transform return records
-            var viewModel = await queryableUser.Select(usr => 
+            var viewModel = await queryableUser.Select(usr =>
                 new {
                     usr.Person.GivenName,
                     usr.Person.Surname,
                     Organization = usr.Organization.Name,
-                    OrganizationId = usr.Organization.OrganizationId,
+                    usr.Organization.OrganizationId,
                     OrganizationType = usr.Organization.OrganizationType.Name,
                     Role = usr.Role.Name,
                     usr.PhoneNumber,
@@ -521,7 +502,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     usr.Person.CompanyEmail,
                     usr.Email,
                     Id = usr.UserId,
-                    IsActive = usr.IsActive
+                    usr.IsActive
                 })
                 .ToArrayAsync();
 
