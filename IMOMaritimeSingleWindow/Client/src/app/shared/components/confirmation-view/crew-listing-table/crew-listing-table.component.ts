@@ -39,43 +39,18 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
-        }
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) =>  {
-          if (value != null) {
-            return new Date(value).toDateString();
-          } else {
-            return 'N/A';
-          }
-        }
       },
       placeOfBirth: {
         title: 'Place of Birth',
-        valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
-        }
       },
       identityDocumentListingModel: {
         title: 'Identity Document (Type)',
-    },
+      },
       issuingNation: {
         title: 'Issuing Nation',
-        valuePrepareFunction: (value) => {
-          return value ? value : 'N/A';
-
-        }
       },
       expiryDate: {
         title: 'Expiry Date',

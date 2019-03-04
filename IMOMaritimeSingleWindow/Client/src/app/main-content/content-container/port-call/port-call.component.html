@@ -1,8 +1,7 @@
 <div class="row" *ngIf="permissions.register">
-    <div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="col-sm-6 col-md-3 col-lg-2">
         <app-ssn-card header="New Port Call" icon="portcall.png">
             <div class="text-center">
-                <p>To register a new port call, you have to create a port call draft, and then activate it.</p>
                 <button class="btn btn-ssn" (click)="selectRegister()">New Port Call Draft</button>
             </div>
         </app-ssn-card>

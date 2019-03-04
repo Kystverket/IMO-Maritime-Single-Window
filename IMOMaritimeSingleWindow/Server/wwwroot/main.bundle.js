@@ -4110,7 +4110,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <p>To register a new port call, you have to create a port call draft, and then activate it.</p>\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-6 col-md-3 col-lg-2\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -5396,6 +5396,12 @@ var CrewListComponent = /** @class */ (function () {
         this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
         // Add the identityDocumentModel to crewModel
         this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
+        if (this.portCallCrewModel.gender != null &&
+            this.portCallCrewModel.gender.description != null &&
+            this.portCallCrewModel.gender !== undefined &&
+            this.portCallCrewModel.gender.description !== undefined) {
+            this.portCallCrewModel.gender = this.portCallCrewModel.gender.description;
+        }
         // Add
         this.crewList.push(this.portCallCrewModel);
         this.persistData();
@@ -5816,6 +5822,12 @@ var CrewMemberModalComponent = /** @class */ (function () {
     };
     // Output
     CrewMemberModalComponent.prototype.editCrewMember = function () {
+        if (this.inputCrewModel.gender != null &&
+            this.inputCrewModel.gender.description != null &&
+            this.inputCrewModel.gender !== undefined &&
+            this.inputCrewModel.gender.description !== undefined) {
+            this.inputCrewModel.gender = this.inputCrewModel.gender.description;
+        }
         this.outputCrewModel.emit(this.inputCrewModel);
     };
     CrewMemberModalComponent.prototype.setNationality = function ($event) {
@@ -6648,7 +6660,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <ng-container *ngIf=\"isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadPaxModal)\">Upload Pax Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Pax and Crew Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewModal)\">Upload Crew Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Crew and Pax Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadShipStoresModal)\">Upload Ship Stores Data</button>\r\n  </ng-container>\r\n  <ng-container>\r\n    <a href=\"/assets/files/IMO-MSW-Data-Import-Template.xlsx\" download=\"IMO-MSW Data Import Template\" >\r\n      <small>Click here to download an empty template</small>\r\n      <img src=\"/assets/images/icons/128x128/download.png\" height=\"24px\" />\r\n    </a>\r\n  </ng-container>\r\n</div>\r\n\r\n\r\n<ng-template #uploadPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"savePaxFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing crew data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewAndPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew and Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger and crew data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewPaxFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadShipStoresModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Ship Stores Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing ship stores data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveShipStoresFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>"
+module.exports = "<div>\r\n  <ng-container *ngIf=\"isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadPaxModal)\">Upload Pax Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Pax and Crew Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewModal)\">Upload Crew Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Crew and Pax Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadShipStoresModal)\">Upload Ship Stores Data</button>\r\n  </ng-container>\r\n  <ng-container>\r\n    <a href=\"/assets/files/IMO-MSW-Data-Import-Template.xlsx\" download=\"IMO-MSW Data Import Template\">\r\n      <small>Click here to download an empty template</small>\r\n      <img src=\"/assets/images/icons/128x128/download.png\" height=\"24px\" />\r\n    </a>\r\n  </ng-container>\r\n</div>\r\n\r\n\r\n<ng-template #uploadPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"savePaxFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing crew data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewAndPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew and Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger and crew data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewPaxFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadShipStoresModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Ship Stores Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing ship stores data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelected\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveShipStoresFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>"
 
 /***/ }),
 
@@ -6680,6 +6692,7 @@ var FileUploadComponent = /** @class */ (function () {
         this.entriesHasErrors = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.crewAndPaxErrors = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.importSuccess = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.FileSelected = false;
     }
     FileUploadComponent.prototype.ngOnInit = function () {
     };
@@ -6693,92 +6706,113 @@ var FileUploadComponent = /** @class */ (function () {
             var formData = new FormData();
             formData.append('uploadFile', file, file.name);
             this.FileToUpload = formData;
+            this.FileSelected = true;
+        }
+        else {
+            this.FileSelected = false;
+            this.FileToUpload = null;
         }
     };
     FileUploadComponent.prototype.saveShipStoresFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.shipStoresWithErrors = res.json();
-                if (_this.shipStoresWithErrors && _this.shipStoresWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.shipStoresWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.shipStoresWithErrors = res.json();
+                    if (_this.shipStoresWithErrors && _this.shipStoresWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.shipStoresWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.savePaxFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        }).subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            }).subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.saveCrewFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.saveCrewPaxFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                var paxList = _this.personOnBoardListWithErrors.filter(function (x) { return x.isPax; });
-                var crewList = _this.personOnBoardListWithErrors.filter(function (x) { return !x.isPax; });
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    var paxList = _this.personOnBoardListWithErrors.filter(function (x) { return x.isPax; });
+                    var crewList = _this.personOnBoardListWithErrors.filter(function (x) { return !x.isPax; });
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -7433,6 +7467,12 @@ var PassengerListComponent = /** @class */ (function () {
         this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
         // Add the identityDocumentModel to passengerModel
         this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
+        if (this.portCallPassengerModel.gender != null &&
+            this.portCallPassengerModel.gender.description != null &&
+            this.portCallPassengerModel.gender !== undefined &&
+            this.portCallPassengerModel.gender.description !== undefined) {
+            this.portCallPassengerModel.gender = this.portCallPassengerModel.gender.description;
+        }
         this.passengerList.push(this.portCallPassengerModel);
         this.persistData();
         this.clearForm();
@@ -7909,6 +7949,12 @@ var PassengerModalComponent = /** @class */ (function () {
     };
     // Output
     PassengerModalComponent.prototype.editPassenger = function () {
+        if (this.inputPassengerModel.gender != null &&
+            this.inputPassengerModel.gender.description != null &&
+            this.inputPassengerModel.gender !== undefined &&
+            this.inputPassengerModel.gender.description !== undefined) {
+            this.inputPassengerModel.gender = this.inputPassengerModel.gender.description;
+        }
         this.outputPassengerModel.emit(this.inputPassengerModel);
     };
     PassengerModalComponent.prototype.setNationality = function ($event) {
@@ -11832,7 +11878,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header-home/header-home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header *ngIf=\"standAlone; else inExistingNav\">\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n    <ul class=\"navbar-nav ml-auto\">\r\n      <li class=\"nav-item\">\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 01.02.2019</span>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n\r\n</header>\r\n\r\n<ng-template #inExistingNav>\r\n  <li class=\"nav-item\">\r\n    <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n      <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n    </button>\r\n    <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n    <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n  </li>\r\n</ng-template>"
+module.exports = "<header *ngIf=\"standAlone; else inExistingNav\">\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n    <ul class=\"navbar-nav ml-auto\">\r\n      <li class=\"nav-item\">\r\n          <span class=\"text-center text-ssn mx-3\">Version 1.1. Deployed: 04.03.2019</span>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n\r\n</header>\r\n\r\n<ng-template #inExistingNav>\r\n  <li class=\"nav-item\">\r\n    <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n      <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n    </button>\r\n    <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n    <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n  </li>\r\n</ng-template>"
 
 /***/ }),
 
@@ -11896,7 +11942,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 01.02.2019</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"whatsNew()\">What's new?</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Version 1.1. Deployed: 04.03.2019</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"whatsNew()\">What's new?</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -12943,45 +12989,18 @@ var CrewListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return new Date(value).toDateString();
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 identityDocumentListingModel: {
                     title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
-                    valuePrepareFunction: function (value) {
-                        return value ? value : 'N/A';
-                    }
                 },
                 expiryDate: {
                     title: 'Expiry Date',
@@ -13306,45 +13325,18 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return new Date(value).toDateString();
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 identityDocumentListingModel: {
                     title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
-                    valuePrepareFunction: function (value) {
-                        return value ? value : 'N/A';
-                    }
                 },
                 expiryDate: {
                     title: 'Expiry Date',

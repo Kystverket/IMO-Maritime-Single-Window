@@ -161,6 +161,14 @@ export class CrewMemberModalComponent implements OnInit {
 
   // Output
   editCrewMember() {
+    if (
+      this.inputCrewModel.gender != null &&
+      this.inputCrewModel.gender.description != null &&
+      this.inputCrewModel.gender !== undefined &&
+      this.inputCrewModel.gender.description !== undefined
+    ) {
+      this.inputCrewModel.gender = this.inputCrewModel.gender.description;
+    }
     this.outputCrewModel.emit(this.inputCrewModel);
   }
 

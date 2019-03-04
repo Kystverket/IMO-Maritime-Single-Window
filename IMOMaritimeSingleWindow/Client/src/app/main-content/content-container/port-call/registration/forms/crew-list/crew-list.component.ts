@@ -223,6 +223,14 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
     // Add the identityDocumentModel to crewModel
     this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
+    if (
+      this.portCallCrewModel.gender != null &&
+      this.portCallCrewModel.gender.description != null &&
+      this.portCallCrewModel.gender !== undefined &&
+      this.portCallCrewModel.gender.description !== undefined
+    ) {
+      this.portCallCrewModel.gender = this.portCallCrewModel.gender.description;
+    }
 
     // Add
     this.crewList.push(this.portCallCrewModel);

@@ -151,6 +151,14 @@ export class PassengerModalComponent implements OnInit {
 
   // Output
   editPassenger() {
+    if (
+      this.inputPassengerModel.gender != null &&
+      this.inputPassengerModel.gender.description != null &&
+      this.inputPassengerModel.gender !== undefined &&
+      this.inputPassengerModel.gender.description !== undefined
+    ) {
+      this.inputPassengerModel.gender = this.inputPassengerModel.gender.description;
+    }
     this.outputPassengerModel.emit(this.inputPassengerModel);
   }
 
