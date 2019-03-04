@@ -21,10 +21,9 @@ export class FileUploadComponent implements OnInit {
   @Output() importSuccess: EventEmitter<boolean> = new EventEmitter();
 
   modalRef: NgbModalRef;
-
   uploading: boolean;
-
   FileToUpload: FormData;
+  FileSelected = false;
 
   constructor(
     private fileService: FileService,
@@ -35,7 +34,7 @@ export class FileUploadComponent implements OnInit {
   }
 
   openUploadModal(content: any) {
-   this.modalRef = this.modalService.open(content);
+    this.modalRef = this.modalService.open(content);
   }
 
   uploadFile(event: { target: { files: FileList; }; }) {
@@ -45,86 +44,104 @@ export class FileUploadComponent implements OnInit {
       const formData = new FormData();
       formData.append('uploadFile', file, file.name);
       this.FileToUpload = formData;
+      this.FileSelected = true;
+    } else {
+      this.FileSelected = false;
+      this.FileToUpload = null;
+      this.modalRef = this.modalService.open(this.errorModal);
     }
   }
 
   saveShipStoresFile() {
-    this.uploading = true;
-    this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
-      .finally(() => {
-        this.uploading = false;
-        this.modalRef.close();
-      })
-      .subscribe(res => {
-        if (typeof res.json() === 'boolean') {
-          this.importSuccess.emit(res.json());
-        } else {
-          this.shipStoresWithErrors = res.json() as ShipStoresModel[];
-          if (this.shipStoresWithErrors && this.shipStoresWithErrors.length > 0) {
-            this.entriesHasErrors.emit(this.shipStoresWithErrors);
+    if (this.FileToUpload == null) {
+    } else {
+      this.uploading = true;
+      this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
+        .finally(() => {
+          this.uploading = false;
+          this.modalRef.close();
+        })
+        .subscribe(res => {
+          if (typeof res.json() === 'boolean') {
+            this.importSuccess.emit(res.json());
+          } else {
+            this.shipStoresWithErrors = res.json() as ShipStoresModel[];
+            if (this.shipStoresWithErrors && this.shipStoresWithErrors.length > 0) {
+              this.entriesHasErrors.emit(this.shipStoresWithErrors);
+            }
           }
-        }
-        this.saved.emit(false);
-      });
+          this.saved.emit(false);
+        });
+    }
   }
 
   savePaxFile() {
+    if (this.FileToUpload == null) {
+    } else {
     this.uploading = true;
-    this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
-      .finally(() => {
-        this.uploading = false;
-        this.modalRef.close();
-      }).subscribe(res => {
-        if (typeof res.json() === 'boolean') {
-          this.importSuccess.emit(res.json());
-        } else {
-          this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
-          if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
-            this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
+      this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
+        .finally(() => {
+          this.uploading = false;
+          this.modalRef.close();
+        }).subscribe(res => {
+          if (typeof res.json() === 'boolean') {
+            this.importSuccess.emit(res.json());
+          } else {
+            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
+              this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
+            }
           }
-        }
-        this.saved.emit(false);
-      });
+          this.saved.emit(false);
+        });
+    }
   }
   saveCrewFile() {
-    this.uploading = true;
-    this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
-    .finally(() => {
-      this.uploading = false;
-      this.modalRef.close();
-    })
-    .subscribe(res => {
-      if (typeof res.json() === 'boolean') {
-        this.importSuccess.emit(res.json());
-      } else {
-        this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
-        if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
-          this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
-        }
-      }
-      this.saved.emit(false);
-    });
+    if (this.FileToUpload == null) {
+    } else {
+      this.uploading = true;
+      this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
+        .finally(() => {
+          this.uploading = false;
+          this.modalRef.close();
+        })
+        .subscribe(res => {
+          if (typeof res.json() === 'boolean') {
+            this.importSuccess.emit(res.json());
+          } else {
+            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
+              this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
+            }
+          }
+          this.saved.emit(false);
+        });
+    }
   }
-  saveCrewPaxFile() {
-    this.uploading = true;
 
-    this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
-    .finally(() => {
-      this.uploading = false;
-      this.modalRef.close();
-    })
-    .subscribe(res => {
-      if (typeof res.json() === 'boolean') {
-        this.importSuccess.emit(res.json());
-      } else {
-        this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
-        const paxList = this.personOnBoardListWithErrors.filter(x => x.isPax);
-        const crewList = this.personOnBoardListWithErrors.filter(x => !x.isPax);
-        if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
-          this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
-        }
-      }
-      this.saved.emit(false);
-    });
+  saveCrewPaxFile() {
+    if (this.FileToUpload == null) {
+    } else {
+      this.uploading = true;
+
+      this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
+        .finally(() => {
+          this.uploading = false;
+          this.modalRef.close();
+        })
+        .subscribe(res => {
+          if (typeof res.json() === 'boolean') {
+            this.importSuccess.emit(res.json());
+          } else {
+            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            const paxList = this.personOnBoardListWithErrors.filter(x => x.isPax);
+            const crewList = this.personOnBoardListWithErrors.filter(x => !x.isPax);
+            if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
+              this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
+            }
+          }
+          this.saved.emit(false);
+        });
+    }
   }
 }
