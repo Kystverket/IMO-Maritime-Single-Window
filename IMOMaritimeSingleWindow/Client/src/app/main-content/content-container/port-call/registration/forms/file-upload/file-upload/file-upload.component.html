@@ -34,12 +34,13 @@
       <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
     </div>
     <div class="modal-footer">
-      <ng-container *ngIf="!FileSelected">
+      <ng-container *ngIf="!FileSelectedAndFileType">
+        <span style="color: red">(Please select an .xlsx file)</span>
         <button type="button" class="btn mt-2 btn-ssn" disabled>
-          <span>Upload</span>
-        </button>
+            <span>Upload</span>
+          </button>
       </ng-container>
-      <ng-container *ngIf="FileSelected">
+      <ng-container *ngIf="FileSelectedAndFileType">
         <button type="button" class="btn mt-2 btn-ssn" (click)="savePaxFile();">
           <span>Upload</span>
         </button>
@@ -72,12 +73,13 @@
       <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
     </div>
     <div class="modal-footer">
-      <ng-container *ngIf="!FileSelected">
+      <ng-container *ngIf="!FileSelectedAndFileType">
+        <span style="color: red">(Please select an .xlsx file)</span>
         <button type="button" class="btn mt-2 btn-ssn" disabled>
           <span>Upload</span>
         </button>
       </ng-container>
-      <ng-container *ngIf="FileSelected">
+      <ng-container *ngIf="FileSelectedAndFileType">
         <button type="button" class="btn mt-2 btn-ssn" (click)="saveCrewFile();">
           <span>Upload</span>
         </button>
@@ -110,12 +112,13 @@
       <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
     </div>
     <div class="modal-footer">
-      <ng-container *ngIf="!FileSelected">
+      <ng-container *ngIf="!FileSelectedAndFileType">
+        <span style="color: red">(Please select an .xlsx file)</span>
         <button type="button" class="btn mt-2 btn-ssn" disabled>
           <span>Upload</span>
         </button>
       </ng-container>
-      <ng-container *ngIf="FileSelected">
+      <ng-container *ngIf="FileSelectedAndFileType">
         <button type="button" class="btn mt-2 btn-ssn" (click)="saveCrewPaxFile();">
           <span>Upload</span>
         </button>
@@ -148,12 +151,13 @@
       <input type="file" (change)="uploadFile($event)" placeholder="Upload file" accept=".xlsx">
     </div>
     <div class="modal-footer">
-      <ng-container *ngIf="!FileSelected">
+      <ng-container *ngIf="!FileSelectedAndFileType">
+        <span style="color: red">(Please select an .xlsx file)</span>
         <button type="button" class="btn mt-2 btn-ssn" disabled>
           <span>Upload</span>
         </button>
       </ng-container>
-      <ng-container *ngIf="FileSelected">
+      <ng-container *ngIf="FileSelectedAndFileType">
         <button type="button" class="btn mt-2 btn-ssn" (click)="saveShipStoresFile();">
           <span>Upload</span>
         </button>
