@@ -86,7 +86,14 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         title: 'Gender'
       },
       dateOfBirth: {
-        title: 'Date of Birth'
+        title: 'Date of Birth',
+        valuePrepareFunction: (value) => {
+          if (value instanceof Date) {
+            return value;
+          } else {
+            return 'N/A';
+          }
+        }
       },
       portOfEmbarkation: {
         title: 'Port of Embarkation'

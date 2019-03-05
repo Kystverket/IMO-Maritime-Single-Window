@@ -11,4 +11,5 @@ export class SmartTableModel {
     rankName: string;
     nationalityTwoCharCode: string;
     countryOfBirthTwoCharCode: string;
+    isMaster: boolean;
 }

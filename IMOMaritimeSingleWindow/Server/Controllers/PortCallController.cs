@@ -155,7 +155,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
 
-
             if (personOnBoardList == null)
             {
                 return NotFound();
@@ -214,6 +213,17 @@ namespace IMOMaritimeSingleWindow.Controllers
             }).ToList();
 
             return Json(returnVal);
+        }
+
+        [HttpGet("{portCallId}/personOnBoard/hasMaster")]
+        public IActionResult GetPortCallHasMaster(int portCallId)
+        {
+            var pobList = _context.PersonOnBoard
+                .Where(x => x.PortCallId == portCallId
+                 && x.IsMaster.HasValue && x.IsMaster.Value).ToList();
+
+            return Json(pobList.Count >= 1);
+
         }
 
         [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]

@@ -29,8 +29,9 @@ export class CrewListComponent implements OnInit, OnDestroy {
   identityDocTypeList: IdentityDocumentModel[];
   identityDocumentModel: IdentityDocumentModel = new IdentityDocumentModel();
   personOnBoardType: PersonOnBoardTypeModel;
+  hasMaster = false;
 
-  crewEffects:any[] = [];
+  crewEffects: any[] = [];
 
 
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
@@ -89,7 +90,14 @@ export class CrewListComponent implements OnInit, OnDestroy {
         title: 'Gender'
       },
       dateOfBirth: {
-        title: 'Date of Birth'
+        title: 'Date of Birth',
+        valuePrepareFunction: (value) => {
+          if (value instanceof Date) {
+            return value;
+          } else {
+            return 'N/A';
+          }
+        }
       },
       rankName: {
         title: 'Rank/rating'
@@ -167,6 +175,16 @@ export class CrewListComponent implements OnInit, OnDestroy {
       isPristine => {
         this.listIsPristine = isPristine;
     });
+
+    this.personOnBoardService.getHasMaster(this.portCallId)
+    .finally(() => {
+      this.personOnBoardService.setHasMaster(this.hasMaster);
+    })
+    .subscribe(
+      hasMaster => {
+        this.hasMaster = hasMaster;
+      }
+    );
   }
 
   ngOnDestroy()  {
@@ -242,22 +260,27 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   generateSmartTable(): any[] {
     const newList = [];
+    this.hasMaster = false;
     if (this.crewList) {
       this.crewList.forEach(crewMember => {
-        const modifiedPassenger = new SmartTableModel();
+        const modifiedCrew = new SmartTableModel();
 
-        crewMember.personOnBoardId ? modifiedPassenger.personOnBoardId = crewMember.personOnBoardId : modifiedPassenger.personOnBoardId = null;
-        modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
-        modifiedPassenger.givenName = crewMember.givenName;
-        modifiedPassenger.familyName = crewMember.familyName;
-        modifiedPassenger.rankName = crewMember.rankName;
-        crewMember.dateOfBirth ? modifiedPassenger.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-        crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
-        crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
-        modifiedPassenger.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
-        modifiedPassenger.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
+        crewMember.personOnBoardId ? modifiedCrew.personOnBoardId = crewMember.personOnBoardId : modifiedCrew.personOnBoardId = null;
+        modifiedCrew.sequenceNumber = crewMember.sequenceNumber;
+        modifiedCrew.givenName = crewMember.givenName;
+        modifiedCrew.familyName = crewMember.familyName;
+        modifiedCrew.rankName = crewMember.rankName;
+        crewMember.dateOfBirth ? modifiedCrew.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedCrew.dateOfBirth = null;
+        crewMember.nationality ? modifiedCrew.nationality = crewMember.nationality : modifiedCrew.nationality = null;
+        crewMember.gender ? modifiedCrew.gender = crewMember.gender : modifiedCrew.gender = null;
+        modifiedCrew.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
+        modifiedCrew.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
+        modifiedCrew.isMaster = crewMember.isMaster;
 
-        newList.push(modifiedPassenger);
+        newList.push(modifiedCrew);
+        if (crewMember.isMaster) {
+          this.hasMaster = true;
+        }
       });
     }
     return newList;
@@ -381,6 +404,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
   openEditCrewMemberModal(row) {
     this.crewList.forEach(crewMember => {
       if (crewMember.sequenceNumber === row.sequenceNumber) {
+        console.log(crewMember);
         this.crewMemberModalComponent.openEditModal(crewMember);
         return;
       }
@@ -469,7 +493,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.modalService.open(content);
   }
 
-  addCrewEffect():void {
-    this.crewEffects.push({total:null, description:''});
+  addCrewEffect(): void {
+    this.crewEffects.push({total: null, description: ''});
   }
 }
