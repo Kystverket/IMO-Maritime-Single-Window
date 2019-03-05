@@ -23,7 +23,7 @@ export class FileUploadComponent implements OnInit {
   modalRef: NgbModalRef;
   uploading: boolean;
   FileToUpload: FormData;
-  FileSelected = false;
+  FileSelectedAndFileType = false;
 
   constructor(
     private fileService: FileService,
@@ -41,14 +41,18 @@ export class FileUploadComponent implements OnInit {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
       const file = fileList[0];
-      const formData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      this.FileToUpload = formData;
-      this.FileSelected = true;
-    } else {
-      this.FileSelected = false;
-      this.FileToUpload = null;
+      const fileType = file.name.split('.').pop();
+
+      if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileType === 'xlsx') {
+        const formData = new FormData();
+        formData.append('uploadFile', file, file.name);
+        this.FileToUpload = formData;
+        this.FileSelectedAndFileType = true;
+        return;
+      }
     }
+    this.FileSelectedAndFileType = false;
+    this.FileToUpload = null;
   }
 
   saveShipStoresFile() {
