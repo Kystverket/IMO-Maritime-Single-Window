@@ -16,6 +16,7 @@ export class PortCallFalPersonOnBoardService {
   private personOnBoardUrl: string;
   private personOnBoardTypeUrl: string;
   private overviewByPortCallUrl: string;
+  private hasMasterUrl: string;
 
   response: Observable<any>;
 
@@ -26,6 +27,7 @@ export class PortCallFalPersonOnBoardService {
     this.personOnBoardUrl = 'api/personOnBoard';
     this.personOnBoardTypeUrl = 'api/PersonOnBoardType';
     this.overviewByPortCallUrl = 'overviewByPortCallEnum';
+    this.hasMasterUrl = 'personOnBoard/hasMaster';
    }
 
   private passengerListSource = new BehaviorSubject<any>(null);
@@ -51,6 +53,9 @@ export class PortCallFalPersonOnBoardService {
 
   private crewListIsChecked = new BehaviorSubject<boolean>(false);
   crewListIsChecked$ = this.crewListIsChecked.asObservable();
+
+  private hasMaster = new BehaviorSubject<boolean>(false);
+  hasMaster$ = this.hasMaster.asObservable();
 
    // Http
   getPersonOnBoardById(personOnBoardId: number) {
@@ -104,6 +109,11 @@ export class PortCallFalPersonOnBoardService {
     return this.httpClient.get<any>(uri, {observe: 'body'});
   }
 
+  getHasMaster(portCallId: number){
+    const uri = [this.portCallUrl, portCallId, this.hasMasterUrl].join('/');
+    return this.httpClient.get<any>(uri, {observe: 'body'});
+  }
+
   // Setters
   setPassengersList(data) {
     this.passengerListSource.next(data);
@@ -127,6 +137,10 @@ export class PortCallFalPersonOnBoardService {
 
   setCrewCheckedInProgressBar(checked: boolean) {
     this.crewListIsChecked.next(checked);
+  }
+
+  setHasMaster(hasMaster: boolean) {
+    this.hasMaster.next(hasMaster);
   }
 
   cleanPersonOnBoardList(personOnBoardList: any[]) {

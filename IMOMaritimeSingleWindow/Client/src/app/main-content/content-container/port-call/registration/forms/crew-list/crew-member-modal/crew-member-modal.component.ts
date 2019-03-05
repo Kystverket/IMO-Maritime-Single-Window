@@ -12,6 +12,7 @@ export class CrewMemberModalComponent implements OnInit {
   inputCrewModel: any;
   startInputCrewModel: PersonOnBoardModel;
   identityDocumentSet: boolean;
+  hasMaster = false;
 
   @Output() outputCrewModel: EventEmitter<
     PersonOnBoardModel
@@ -61,6 +62,10 @@ export class CrewMemberModalComponent implements OnInit {
     this.personOnBoardService.getGenderList().subscribe(res => {
       this.genderList = res;
     });
+
+    this.personOnBoardService.hasMaster$.subscribe(hasMaster => {
+      this.hasMaster = hasMaster;
+    });
   }
 
   // Open modals
@@ -75,6 +80,11 @@ export class CrewMemberModalComponent implements OnInit {
       this.inputCrewModel.identityDocument[0] == null
     ) {
       this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
+    }
+
+    if (this.inputCrewModel.nationality === 'N/A') {
+      this.inputCrewModel.nationality = null;
+      this.inputCrewModel.nationalityId = null;
     }
 
     this.modalService.open(this.viewModal);
@@ -122,6 +132,11 @@ export class CrewMemberModalComponent implements OnInit {
       this.modalService.open(this.editModal, {
         backdrop: 'static'
       });
+    }
+
+    if (this.inputCrewModel.nationality === 'N/A') {
+      this.inputCrewModel.nationality = null;
+      this.inputCrewModel.nationalityId = null;
     }
   }
 
@@ -367,5 +382,9 @@ export class CrewMemberModalComponent implements OnInit {
           : null;
     });
     return crewMember;
+  }
+
+  setMaster($event) {
+    this.inputCrewModel.isMaster = this.booleanModel[$event];
   }
 }
