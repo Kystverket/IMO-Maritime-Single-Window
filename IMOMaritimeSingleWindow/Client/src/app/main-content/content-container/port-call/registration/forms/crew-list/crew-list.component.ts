@@ -5,7 +5,7 @@ import { ActionButtonsComponent } from 'app/shared/components/action-buttons/act
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
-import { FileService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
+import { PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Subscription } from 'rxjs/Subscription';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
@@ -18,9 +18,8 @@ import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.
   styleUrls: ['./crew-list.component.css']
 })
 export class CrewListComponent implements OnInit, OnDestroy {
-
   @Input() portCallId: number;
-  @Input() crewList: any[]  = [];
+  @Input() crewList: any[] = [];
 
   portCallCrewModel: PersonOnBoardModel = new PersonOnBoardModel();
 
@@ -33,7 +32,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   crewEffects: any[] = [];
 
-
   modalModel: PersonOnBoardModel = new PersonOnBoardModel();
   listIsPristine = true;
 
@@ -42,13 +40,12 @@ export class CrewListComponent implements OnInit, OnDestroy {
   @ViewChild('dateOfBirth') dateOfBirthComponent;
   @ViewChild(CrewListErrorModalComponent) crewListErrorModalComponent: any;
 
-
   @ViewChild(NgForm) form: NgForm;
 
   booleanList: string[] = ['Yes', 'No'];
   booleanModel = {
-    'Yes': true,
-    'No': false
+    Yes: true,
+    No: false
   };
   inTransit: boolean = null;
 
@@ -78,7 +75,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
         title: 'ID'
       },
       familyName: {
-        title: 'Family Name',
+        title: 'Family Name'
       },
       givenName: {
         title: 'Given Name'
@@ -91,7 +88,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) => {
+        valuePrepareFunction: value => {
           if (value instanceof Date) {
             return value;
           } else {
@@ -109,7 +106,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
         filter: false,
         sort: false,
         renderComponent: ActionButtonsComponent,
-        onComponentInitFunction: (instance) => {
+        onComponentInitFunction: instance => {
           instance.view.subscribe(row => {
             this.openViewCrewMemberModal(row);
           });
@@ -120,7 +117,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
             this.deleteCrewMember(row);
           });
         }
-      },
+      }
     }
   };
 
@@ -130,8 +127,8 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
   constructor(
     public personOnBoardService: PortCallFalPersonOnBoardService,
-    private modalService: NgbModal,
-  ) { }
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.personOnBoardService.crewDataIsPristine$.subscribe(res => {
@@ -151,22 +148,24 @@ export class CrewListComponent implements OnInit, OnDestroy {
     // Load in crew list in smart table
     this.crewListDataSource.load(this.generateSmartTable());
 
-  // Initiate models
-  this.portCallCrewModel = new PersonOnBoardModel();
-  this.identityDocumentModel = new IdentityDocumentModel();
+    // Initiate models
+    this.portCallCrewModel = new PersonOnBoardModel();
+    this.identityDocumentModel = new IdentityDocumentModel();
 
-  // Get gender list
-  if (!this.genderList) {
-    this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(
-      results => {
-        this.genderList = results;
-    });
-  }
+    // Get gender list
+    if (!this.genderList) {
+      this.genderListSubscription = this.personOnBoardService
+        .getGenderList()
+        .subscribe(results => {
+          this.genderList = results;
+        });
+    }
 
-  this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(PERSON_ON_BOARD_TYPES.CREW).subscribe(
-    personOnBoardType => {
-      this.personOnBoardType = personOnBoardType;
-  });
+    this.personOnBoardTypeSubscription = this.personOnBoardService
+      .getPersonOnBoardTypeByEnum(PERSON_ON_BOARD_TYPES.CREW)
+      .subscribe(personOnBoardType => {
+        this.personOnBoardType = personOnBoardType;
+      });
 
     // Set in service
     this.personOnBoardService.setCrewList(this.crewList);
@@ -174,27 +173,28 @@ export class CrewListComponent implements OnInit, OnDestroy {
     this.pristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(
       isPristine => {
         this.listIsPristine = isPristine;
-    });
-
-    this.personOnBoardService.getHasMaster(this.portCallId)
-    .finally(() => {
-      this.personOnBoardService.setHasMaster(this.hasMaster);
-    })
-    .subscribe(
-      hasMaster => {
-        this.hasMaster = hasMaster;
       }
     );
+
+    this.personOnBoardService
+      .getHasMaster(this.portCallId)
+      .finally(() => {
+        this.personOnBoardService.setHasMaster(this.hasMaster);
+      })
+      .subscribe(hasMaster => {
+        this.hasMaster = hasMaster;
+      });
   }
 
-  ngOnDestroy()  {
+  ngOnDestroy() {
     this.genderListSubscription.unsubscribe();
     this.personOnBoardTypeSubscription.unsubscribe();
     this.pristineSubscription.unsubscribe();
   }
 
   excelFileSaved(saved: any) {
-    this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+    this.personOnBoardService
+      .getCrewListByPortCallId(this.portCallId)
       .finally(() => {
         this.persistData();
         this.listIsPristine = true;
@@ -204,10 +204,11 @@ export class CrewListComponent implements OnInit, OnDestroy {
         this.crewList = res;
       });
     if (saved) {
-      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
-      .subscribe(pax => {
-        this.personOnBoardService.setPassengersList(pax);
-      });
+      this.personOnBoardService
+        .getPassengerListByPortCallId(this.portCallId)
+        .subscribe(pax => {
+          this.personOnBoardService.setPassengersList(pax);
+        });
     }
   }
 
@@ -216,20 +217,21 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   addRectifiedCrewAndPax($event) {
-    let paxList = $event.filter((x: { isPax: any; }) => x.isPax);
-    const crewList = $event.filter((x: { isPax: any; }) => !x.isPax);
+    let paxList = $event.filter((x: { isPax: any }) => x.isPax);
+    const crewList = $event.filter((x: { isPax: any }) => !x.isPax);
     if ($event != null && $event !== undefined) {
       this.crewList = this.crewList.concat(crewList);
       this.persistData();
 
-      this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
-      .finally(() => {
-        this.personOnBoardService.setPassengersList(paxList);
-        this.personOnBoardService.setPassengerDataIsPristine(false);
-      })
-      .subscribe(res => {
-        paxList = paxList.concat(res);
-      });
+      this.personOnBoardService
+        .getPassengerListByPortCallId(this.portCallId)
+        .finally(() => {
+          this.personOnBoardService.setPassengersList(paxList);
+          this.personOnBoardService.setPassengerDataIsPristine(false);
+        })
+        .subscribe(res => {
+          paxList = paxList.concat(res);
+        });
     }
   }
 
@@ -241,6 +243,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
     // Add the identityDocumentModel to crewModel
     this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
+
     if (
       this.portCallCrewModel.gender != null &&
       this.portCallCrewModel.gender.description != null &&
@@ -249,9 +252,9 @@ export class CrewListComponent implements OnInit, OnDestroy {
     ) {
       this.portCallCrewModel.gender = this.portCallCrewModel.gender.description;
     }
-
     // Add
     this.crewList.push(this.portCallCrewModel);
+    this.removeExistingMasters();
     this.persistData();
 
     // Reset
@@ -265,22 +268,35 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.crewList.forEach(crewMember => {
         const modifiedCrew = new SmartTableModel();
 
-        crewMember.personOnBoardId ? modifiedCrew.personOnBoardId = crewMember.personOnBoardId : modifiedCrew.personOnBoardId = null;
+        crewMember.personOnBoardId
+          ? (modifiedCrew.personOnBoardId = crewMember.personOnBoardId)
+          : (modifiedCrew.personOnBoardId = null);
         modifiedCrew.sequenceNumber = crewMember.sequenceNumber;
         modifiedCrew.givenName = crewMember.givenName;
         modifiedCrew.familyName = crewMember.familyName;
         modifiedCrew.rankName = crewMember.rankName;
-        crewMember.dateOfBirth ? modifiedCrew.dateOfBirth = this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedCrew.dateOfBirth = null;
-        crewMember.nationality ? modifiedCrew.nationality = crewMember.nationality : modifiedCrew.nationality = null;
-        crewMember.gender ? modifiedCrew.gender = crewMember.gender : modifiedCrew.gender = null;
-        modifiedCrew.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
+        crewMember.dateOfBirth
+          ? (modifiedCrew.dateOfBirth = this.getDisplayDateFormat(
+              crewMember.dateOfBirth
+            ))
+          : (modifiedCrew.dateOfBirth = null);
+        crewMember.nationality
+          ? (modifiedCrew.nationality = crewMember.nationality)
+          : (modifiedCrew.nationality = null);
+        crewMember.gender
+          ? (modifiedCrew.gender = crewMember.gender)
+          : (modifiedCrew.gender = null);
+        modifiedCrew.countryOfBirthTwoCharCode =
+          crewMember.nationalityTwoCharCode;
         modifiedCrew.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
         modifiedCrew.isMaster = crewMember.isMaster;
 
-        newList.push(modifiedCrew);
         if (crewMember.isMaster) {
           this.hasMaster = true;
+          crewMember.rankName = 'MASTER';
+          modifiedCrew.rankName = 'MASTER';
         }
+        newList.push(modifiedCrew);
       });
     }
     return newList;
@@ -318,18 +334,26 @@ export class CrewListComponent implements OnInit, OnDestroy {
   // Setters
   setIdentityDocumentModel($event) {
     this.identityDocumentModel = $event.identityDocumentModel;
-    this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError
-    || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
+    this.validDocumentDates =
+      $event.validDocumentDates.issueDateAfterExpiryDateError ||
+      $event.validDocumentDates.expiryDateBeforeExpiryDateError
+        ? false
+        : true;
 
-    this.issueDateRequiredError = $event.validDocumentDates.issueDateRequiredError;
-    this.expiryDateRequiredError = $event.validDocumentDates.expiryDateRequiredError;
+    this.issueDateRequiredError =
+      $event.validDocumentDates.issueDateRequiredError;
+    this.expiryDateRequiredError =
+      $event.validDocumentDates.expiryDateRequiredError;
 
-    this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
+    this.validDocumentDates =
+      this.validDocumentDates &&
+      this.issueDateRequiredError &&
+      this.expiryDateRequiredError;
   }
 
   setDateOfBirth($event) {
     if ($event) {
-      const date: Date = new Date($event.year, $event.month -  1, $event.day);
+      const date: Date = new Date($event.year, $event.month - 1, $event.day);
       this.portCallCrewModel.dateOfBirth = date;
     } else {
       this.portCallCrewModel.dateOfBirth = null;
@@ -384,11 +408,18 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   makeDates(crewMember: PersonOnBoardModel) {
-    crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
-        crewMember.identityDocument.forEach(identityDocument => {
-          identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-          identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
-        });
+    crewMember.dateOfBirth =
+      crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
+    crewMember.identityDocument.forEach(identityDocument => {
+      identityDocument.identityDocumentIssueDate =
+        identityDocument.identityDocumentIssueDate != null
+          ? new Date(identityDocument.identityDocumentIssueDate)
+          : null;
+      identityDocument.identityDocumentExpiryDate =
+        identityDocument.identityDocumentExpiryDate != null
+          ? new Date(identityDocument.identityDocumentExpiryDate)
+          : null;
+    });
     return crewMember;
   }
 
@@ -404,19 +435,53 @@ export class CrewListComponent implements OnInit, OnDestroy {
   openEditCrewMemberModal(row) {
     this.crewList.forEach(crewMember => {
       if (crewMember.sequenceNumber === row.sequenceNumber) {
-        console.log(crewMember);
         this.crewMemberModalComponent.openEditModal(crewMember);
         return;
       }
     });
   }
 
+  removeExistingMasters() {
+    const master = this.crewList.find(x => x.isMaster === true);
+    if (master == null || master === undefined) {
+      return;
+    }
+    this.crewList.forEach(crew => {
+      if (crew.sequenceNumber !== master.sequenceNumber) {
+        let rankName = crew.rankName;
+        let rankCode = crew.rankCode;
+        if (crew.isMaster) {
+          crew.isMaster = false;
+        }
+        if (rankName !== null && rankName !== undefined) {
+          rankName = rankName.trim();
+          if (rankName.toLowerCase() === 'master') {
+            crew.isMaster = false;
+            crew.rankName = 'N/A';
+          }
+        }
+        if (rankCode !== null && rankCode !== undefined) {
+          rankCode = rankCode.trim();
+          if (rankCode.toLowerCase() === 'master') {
+            crew.isMaster = false;
+            crew.rankCode = 'N/A';
+          }
+        }
+      }
+    });
+  }
+
   editCrewMember($event) {
     // Set corresponding crewMember to the edited instance
-    this.crewList[this.crewList.findIndex(c => c.sequenceNumber === $event.sequenceNumber)] = JSON.parse(JSON.stringify($event));
+    this.crewList[
+      this.crewList.findIndex(c => c.sequenceNumber === $event.sequenceNumber)
+    ] = JSON.parse(JSON.stringify($event));
     this.personOnBoardService.setCrewList(this.crewList);
     // Make all dates Date objects again
-    this.crewList.forEach(crewMember => { crewMember = this.makeDates(crewMember); });
+    this.crewList.forEach(crewMember => {
+      crewMember = this.makeDates(crewMember);
+    });
+    this.removeExistingMasters();
     // Load to smart table
     this.reloadTable();
     this.touchData();
@@ -441,10 +506,16 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   saveCrewList() {
-    this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(res => {
-      this.listIsPristine = true;
-      this.personOnBoardService.setCrewDataIsPristine(true);
-    });
+    this.personOnBoardService
+      .updatePersonOnBoardList(
+        this.portCallId,
+        this.crewList,
+        this.personOnBoardType.personOnBoardTypeId
+      )
+      .subscribe(res => {
+        this.listIsPristine = true;
+        this.personOnBoardService.setCrewDataIsPristine(true);
+      });
   }
 
   importSuccess($event) {
@@ -454,7 +525,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.crewListErrorModalComponent.openErrorModal();
     }
   }
-
 
   // Helper methods
 
@@ -473,7 +543,12 @@ export class CrewListComponent implements OnInit, OnDestroy {
   getDisplayDateFormat(date) {
     if (date) {
       date = new Date(date);
-      const dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+      const dateString =
+        date.getFullYear() +
+        '-' +
+        ('0' + (date.getMonth() + 1)).slice(-2) +
+        '-' +
+        ('0' + date.getDate()).slice(-2);
       return dateString;
     } else {
       return null;
@@ -494,6 +569,6 @@ export class CrewListComponent implements OnInit, OnDestroy {
   }
 
   addCrewEffect(): void {
-    this.crewEffects.push({total: null, description: ''});
+    this.crewEffects.push({ total: null, description: '' });
   }
 }
