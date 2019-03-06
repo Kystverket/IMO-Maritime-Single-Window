@@ -209,7 +209,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 ExpiryDate = x.IdentityDocument?.FirstOrDefault()?.IdentityDocumentExpiryDate?.ToShortDateString(),
                 IssuingNation = x.IdentityDocument?.FirstOrDefault()?.IssuingNation != null ? x.IdentityDocument?.FirstOrDefault()?.IssuingNation.Name : "N/A",
                 IdentityDocumentListingModel = x.IdentityDocument.FirstOrDefault() != null && !string.IsNullOrWhiteSpace(x.IdentityDocument.FirstOrDefault()?.IdentityDocumentNumber)
-                        ? x.IdentityDocument.FirstOrDefault()?.IdentityDocumentNumber.ToString() + "(" + x.IdentityDocument.FirstOrDefault().IdentityDocumentType?.ShortName + ")" : "N/A"
+                        ? x.IdentityDocument.FirstOrDefault()?.IdentityDocumentNumber.ToString() + "(" + x.IdentityDocument.FirstOrDefault().IdentityDocumentType?.ShortName + ")" : "N/A",
+                x.IsMaster,
             }).ToList();
 
             return Json(returnVal);

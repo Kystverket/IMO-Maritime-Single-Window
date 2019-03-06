@@ -287,7 +287,7 @@
         <label class="col col-form-label-sm no-wrap mb-0">Is Master</label>
         <div class="col my-auto">
           <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [ngModel]="formBooleanModel[inputCrewModel.isMaster]"
-            name="isMaster" [closeOnSelect]="true" placeholder="Master" (change)="setMaster($event)" [disabled]="hasMaster">
+            name="isMaster" [closeOnSelect]="true" placeholder="Master" (change)="setMaster($event)" [disabled]="masterDdlDisabled">
           </ng-select>
         </div>
       </div>

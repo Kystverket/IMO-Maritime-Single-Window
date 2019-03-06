@@ -13,6 +13,7 @@ export class CrewMemberModalComponent implements OnInit {
   startInputCrewModel: PersonOnBoardModel;
   identityDocumentSet: boolean;
   hasMaster = false;
+  masterDdlDisabled = true;
 
   @Output() outputCrewModel: EventEmitter<
     PersonOnBoardModel
@@ -86,7 +87,7 @@ export class CrewMemberModalComponent implements OnInit {
       this.inputCrewModel.nationality = null;
       this.inputCrewModel.nationalityId = null;
     }
-
+    this.masterDdlDisabled = true;
     this.modalService.open(this.viewModal);
   }
 
@@ -138,6 +139,10 @@ export class CrewMemberModalComponent implements OnInit {
       this.inputCrewModel.nationality = null;
       this.inputCrewModel.nationalityId = null;
     }
+    if (this.inputCrewModel.isMaster === undefined || this.inputCrewModel.isMaster == null) {
+      this.inputCrewModel.isMaster = false;
+    }
+    this.masterDdlDisabled = (!this.inputCrewModel.isMaster && this.hasMaster);
   }
 
   addGenderAndNationality() {
