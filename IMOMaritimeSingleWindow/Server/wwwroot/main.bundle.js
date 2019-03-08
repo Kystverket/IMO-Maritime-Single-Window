@@ -4199,73 +4199,75 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__ = __webpack_require__("./src/app/shared/components/delete-button/delete-button.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services__ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_dpg_dpg_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_file_upload_file_upload_file_upload_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-error-modal/ship-stores-error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__ = __webpack_require__("./src/app/shared/components/view-button/view-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services__ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_dpg_dpg_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_file_upload_file_upload_file_upload_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-error-modal/ship-stores-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -4348,88 +4350,89 @@ var PortCallModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_23_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_24_ng2_smart_table__["b" /* Ng2SmartTableModule */],
                 __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
                 __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_22_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_23_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */], __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__["a" /* ViewButtonComponent */]],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__registration_forms_forms_component__["a" /* FormsComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__overview_overview_component__["a" /* OverviewComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_68__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
-                __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__registration_forms_forms_component__["a" /* FormsComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__overview_overview_component__["a" /* OverviewComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_71__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
+                __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_53__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
                 __WEBPACK_IMPORTED_MODULE_8_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__["a" /* ShipStoresComponent */],
                 __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_62__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
+                __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__["a" /* ViewButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_65__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
                 __WEBPACK_IMPORTED_MODULE_7_app_main_content_content_container_port_call_registration_forms_cargo_cargo_table_cargo_table_component__["a" /* CargoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
                 __WEBPACK_IMPORTED_MODULE_6_app_main_content_content_container_port_call_registration_forms_cargo_cargo_item_form_cargo_item_form_component__["a" /* CargoItemFormComponent */],
-                __WEBPACK_IMPORTED_MODULE_61__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_64__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__["a" /* IdentityDocumentComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_67__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_66__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_65__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_security_component__["a" /* SecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
-                __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
-                __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_64__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__registration_forms_dpg_dpg_component__["a" /* DpgComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__registration_forms_file_upload_file_upload_file_upload_component__["a" /* FileUploadComponent */],
-                __WEBPACK_IMPORTED_MODULE_63__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__["a" /* ShipStoresErrorModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_71__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__["a" /* PassengerListErrorModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_72__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__["a" /* CrewListErrorModalComponent */]
+                __WEBPACK_IMPORTED_MODULE_47__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_70__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_69__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_68__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_61__registration_forms_security_security_component__["a" /* SecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
+                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_63__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
+                __WEBPACK_IMPORTED_MODULE_62__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_67__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__registration_forms_dpg_dpg_component__["a" /* DpgComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__registration_forms_file_upload_file_upload_file_upload_component__["a" /* FileUploadComponent */],
+                __WEBPACK_IMPORTED_MODULE_66__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__["a" /* ShipStoresErrorModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__["a" /* PassengerListErrorModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__["a" /* CrewListErrorModalComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
+                __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_service__["a" /* PortCallService */],
-                __WEBPACK_IMPORTED_MODULE_29__load_port_call_service__["a" /* LoadPortCallService */],
-                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
-                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
-                __WEBPACK_IMPORTED_MODULE_14_app_shared_services_country_service__["a" /* CountryService */],
-                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
-                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
-                __WEBPACK_IMPORTED_MODULE_21_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
-                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
-                __WEBPACK_IMPORTED_MODULE_24__shared_services_fal_security_service__["a" /* FalSecurityService */],
-                __WEBPACK_IMPORTED_MODULE_25__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
-                __WEBPACK_IMPORTED_MODULE_13_app_shared_services___["i" /* DpgService */],
-                __WEBPACK_IMPORTED_MODULE_12_app_shared_services__["n" /* FileService */]
+                __WEBPACK_IMPORTED_MODULE_21_app_shared_services_port_call_service__["a" /* PortCallService */],
+                __WEBPACK_IMPORTED_MODULE_30__load_port_call_service__["a" /* LoadPortCallService */],
+                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
+                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_country_service__["a" /* CountryService */],
+                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+                __WEBPACK_IMPORTED_MODULE_22_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
+                __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
+                __WEBPACK_IMPORTED_MODULE_25__shared_services_fal_security_service__["a" /* FalSecurityService */],
+                __WEBPACK_IMPORTED_MODULE_26__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
+                __WEBPACK_IMPORTED_MODULE_14_app_shared_services___["i" /* DpgService */],
+                __WEBPACK_IMPORTED_MODULE_13_app_shared_services__["n" /* FileService */]
             ]
         })
     ], PortCallModule);
@@ -10830,7 +10833,7 @@ var ShipStoresComponent = /** @class */ (function () {
                     title: 'Location Onboard Code'
                 },
                 delete: {
-                    title: 'Delete',
+                    title: 'Actions',
                     type: 'custom',
                     filter: false,
                     sort: false,
@@ -13067,14 +13070,14 @@ var CrewInfoTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}\r\n.breakText{\r\n    word-wrap: break-word;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #viewCrewEffectsModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Crew Effects</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body breakText\">\r\n    <p>\r\n      {{crewEffects}}\r\n    </p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -13084,8 +13087,10 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CrewListingTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_modal_modal_module__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/modal/modal.module.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view_button_view_button_component__ = __webpack_require__("./src/app/shared/components/view-button/view-button.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -13098,9 +13103,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var CrewListingTableComponent = /** @class */ (function () {
-    function CrewListingTableComponent(personOnBoardService) {
+    function CrewListingTableComponent(modalService, personOnBoardService) {
+        var _this = this;
+        this.modalService = modalService;
         this.personOnBoardService = personOnBoardService;
+        this.crewEffects = '';
         this.crew = [];
         // Smart table
         this.tableSettings = {
@@ -13141,15 +13151,35 @@ var CrewListingTableComponent = /** @class */ (function () {
                         return value ? value : 'N/A';
                     }
                 },
+                crewEffects: {
+                    title: 'Crew Effects',
+                    type: 'custom',
+                    filter: false,
+                    sort: false,
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_4__view_button_view_button_component__["a" /* ViewButtonComponent */],
+                    onComponentInitFunction: function (instance) {
+                        instance.view.subscribe(function (row) {
+                            _this.viewCrewEffects(row);
+                        });
+                    }
+                },
             }
         };
     }
+    CrewListingTableComponent.prototype.viewCrewEffects = function (row) {
+        var crewEffects = row.crewEffects;
+        if (crewEffects == null && crewEffects === undefined) {
+            return;
+        }
+        this.crewEffects = crewEffects;
+        this.modalService.open(this.crewEffectsModal);
+    };
     CrewListingTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.portCallId) {
             this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
                 .finally(function () {
-                _this.crewDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
+                _this.crewDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
                     .subscribe(function (summary) {
                     _this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
                 }, function (error) {
@@ -13174,13 +13204,18 @@ var CrewListingTableComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Number)
     ], CrewListingTableComponent.prototype, "portCallId", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])('viewCrewEffectsModal'),
+        __metadata("design:type", Object)
+    ], CrewListingTableComponent.prototype, "crewEffectsModal", void 0);
     CrewListingTableComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-crew-listing-table',
             template: __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_modal_modal_module__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], CrewListingTableComponent);
     return CrewListingTableComponent;
 }());
@@ -17690,6 +17725,68 @@ var UserSmartTableComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_app_shared_services_account_service__["a" /* AccountService */]])
     ], UserSmartTableComponent);
     return UserSmartTableComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/components/view-button/view-button.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/view-button/view-button.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"View\" (click)=\"viewItem();\">\n    <img height=\"16px\" src=\"assets/images/icons/128x128/white/eye.png\">\n  </button>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/view-button/view-button.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ViewButtonComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ViewButtonComponent = /** @class */ (function () {
+    function ViewButtonComponent() {
+        this.view = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+    }
+    ViewButtonComponent.prototype.ngOnInit = function () {
+    };
+    ViewButtonComponent.prototype.viewItem = function () {
+        this.view.emit(this.rowData);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ViewButtonComponent.prototype, "rowData", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], ViewButtonComponent.prototype, "view", void 0);
+    ViewButtonComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-view-button',
+            template: __webpack_require__("./src/app/shared/components/view-button/view-button.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/view-button/view-button.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ViewButtonComponent);
+    return ViewButtonComponent;
 }());
 
 

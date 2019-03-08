@@ -59,3 +59,7 @@
     background-color: #dee2e6;
     border-color: #dee2e6;        
 }
+
+.breakText{
+    word-wrap: break-word;
+}
