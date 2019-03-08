@@ -641,6 +641,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.EnumValue).HasColumnName("EnumValue");
+
+                entity.Property(e => e.ShortName).HasColumnName("ShortName");
             });
 
             modelBuilder.Entity<ImoHazardClass>(entity =>
@@ -1027,6 +1029,8 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.CrewEffects).HasColumnName("crew_effects");
 
                 entity.Property(e => e.RoleCode).HasColumnName("role_code");
+
+                entity.Property(e => e.IsMaster).HasColumnName("ismaster");
 
                 entity.Property(e => e.SequenceNumber).HasColumnName("sequence_number");
 

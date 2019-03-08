@@ -22,6 +22,23 @@ namespace IMOMaritimeSingleWindow.SpreadSheet.MappingMethods
             return input.ToUpper().Equals("YES");
         }
 
+        public static bool ConvertToTransitPax(string input)
+        {
+            var normalizedInput = input.ToUpper().Trim();
+
+            if (normalizedInput == "YES" ||
+                normalizedInput == "Y" ||
+                normalizedInput == "TRANSIT" ||
+                normalizedInput == "TRANSIT PAX" ||
+                normalizedInput == "TRANSIT PASSENGER" ||
+                normalizedInput == "TRANS")
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static DateTime? ConvertToDatetime(string input)
         {
             if (string.IsNullOrWhiteSpace(input))

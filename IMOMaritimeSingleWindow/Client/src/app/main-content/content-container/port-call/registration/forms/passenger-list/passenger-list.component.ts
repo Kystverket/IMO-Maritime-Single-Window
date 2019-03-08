@@ -86,7 +86,14 @@ export class PassengerListComponent implements OnInit, OnDestroy {
         title: 'Gender'
       },
       dateOfBirth: {
-        title: 'Date of Birth'
+        title: 'Date of Birth',
+        valuePrepareFunction: (value) => {
+          if (value instanceof Date) {
+            return value;
+          } else {
+            return 'N/A';
+          }
+        }
       },
       portOfEmbarkation: {
         title: 'Port of Embarkation'
@@ -204,6 +211,15 @@ export class PassengerListComponent implements OnInit, OnDestroy {
     this.portCallPassengerModel.identityDocument.push(
       this.identityDocumentModel
     );
+    if (
+      this.portCallPassengerModel.gender != null &&
+      this.portCallPassengerModel.gender.description != null &&
+      this.portCallPassengerModel.gender !== undefined &&
+      this.portCallPassengerModel.gender.description !== undefined
+    ) {
+      this.portCallPassengerModel.gender = this.portCallPassengerModel.gender.description;
+    }
+
     this.passengerList.push(this.portCallPassengerModel);
     this.persistData();
 

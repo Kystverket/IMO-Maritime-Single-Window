@@ -232,7 +232,7 @@
           <div *ngIf="inputPassengerModel.countryOfBirth" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode?.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
@@ -257,7 +257,7 @@
           <div *ngIf="inputPassengerModel.nationality" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode?.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
@@ -310,7 +310,7 @@
           <div class="input-group input-group-sm" *ngIf="inputPassengerModel.portOfEmbarkation">
             <div class="input-group-prepend" *ngIf="inputPassengerModel.portOfEmbarkation">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode?.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
@@ -333,7 +333,7 @@
           <div class="input-group input-group-sm" *ngIf="inputPassengerModel.portOfDisembarkation">
             <div class="input-group-prepend " *ngIf="inputPassengerModel.portOfDisembarkation">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode?.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
@@ -378,7 +378,7 @@
           <div *ngIf="inputPassengerModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode.toLowerCase() | lowercase}}.png"
+                <img src="assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase() | lowercase}}.png"
                   height="20px">
               </span>
             </div>
