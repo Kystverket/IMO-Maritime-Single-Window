@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
             }
             // Login failed
           },
-          error => {this.logError(error); console.log(error);}
+          error => {this.logError(error); console.log(error); }
         );
       if (!this.errors) {
         await this.accountService

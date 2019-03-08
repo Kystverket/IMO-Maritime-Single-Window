@@ -10,6 +10,7 @@ import { ShipStoresComponent } from 'app/main-content/content-container/port-cal
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { IdentityDocumentComponent } from 'app/shared/components/identity-document/identity-document.component';
+import { ViewButtonComponent } from 'app/shared/components/view-button/view-button.component';
 import { FileService } from 'app/shared/services';
 import { DpgService } from 'app/shared/services/';
 import { CountryService } from 'app/shared/services/country.service';
@@ -35,12 +36,14 @@ import { SetActualTimeComponent } from './overview/set-actual-time/set-actual-ti
 import { PortCallComponent } from './port-call.component';
 import { CargoComponent } from './registration/forms/cargo/cargo.component';
 import { ConsignmentFormComponent } from './registration/forms/cargo/consignment-form/consignment-form.component';
+import { CrewListErrorModalComponent } from './registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component';
 import { CrewListComponent } from './registration/forms/crew-list/crew-list.component';
 import { CrewMemberModalComponent } from './registration/forms/crew-list/crew-member-modal/crew-member-modal.component';
 import { SaveCrewListComponent } from './registration/forms/crew-list/save-crew-list/save-crew-list.component';
 import { DpgComponent } from './registration/forms/dpg/dpg.component';
 import { FileUploadComponent } from './registration/forms/file-upload/file-upload/file-upload.component';
 import { FormsComponent } from './registration/forms/forms.component';
+import { PassengerListErrorModalComponent } from './registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component';
 import { PassengerListComponent } from './registration/forms/passenger-list/passenger-list.component';
 import { PassengerModalComponent } from './registration/forms/passenger-list/passenger-modal/passenger-modal.component';
 import { SavePassengerListComponent } from './registration/forms/passenger-list/save-passenger-list/save-passenger-list.component';
@@ -82,7 +85,7 @@ import { CrewListErrorModalComponent } from './registration/forms/crew-list/crew
     NgSelectModule,
     SharedModule
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent],
+  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent, ViewButtonComponent],
   declarations: [
     ActionButtonsComponent,
     ButtonRowComponent,
@@ -101,6 +104,7 @@ import { CrewListErrorModalComponent } from './registration/forms/crew-list/crew
     ClearanceRowComponent,
     ShipStoresComponent,
     DeleteButtonComponent,
+    ViewButtonComponent,
     ViewPortCallComponent,
     SaveShipStoresComponent,
     PassengerListComponent,

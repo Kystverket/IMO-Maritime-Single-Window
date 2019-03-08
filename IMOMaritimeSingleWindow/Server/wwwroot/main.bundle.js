@@ -3251,7 +3251,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <div ngbTooltip=\"You cannot edit a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"openModal(editModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"portCallIsDraft\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}\" *ngIf=\"portCallIsCancelled || portCallIsAwaitingClearance\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n      <app-set-actual-time\r\n        [portCallModel]=\"rowData.overviewModel\"\r\n        (portCallCompleted)=\"onCompletePortCall($event)\"\r\n        (portCallCleared)=\"onUncompletePortCall($event)\"  \r\n        *ngIf=\"portCallIsCleared || portCallIsCompleted\"\r\n      ></app-set-actual-time>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <div ngbTooltip=\"You cannot clear a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled && !portCallIsCompleted\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"openModal(cancelModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"openModal(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">WARNING</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>To edit this port call, you must revert it back to a draft.</span>\r\n      <br>\r\n      <span>Any active clearances for the port call will be reset.</span>\r\n      <br>\r\n      <span>The port call must be reactivated to receive new clearances.</span>\r\n      <br>\r\n      <br>\r\n      <span>Are you sure you wish to edit this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"editAwaitingClearancePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/warning.png\" height=\"20px\">\r\n      <span>Reset Clearance & Edit Port Call as Draft</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<div class=\"d-table\">\r\n  <div class=\"d-table-row\">\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"View port call information\" *ngIf=\"permissions.view\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"onViewClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/eye.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit\">\r\n      <div ngbTooltip=\"You cannot edit a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"openModal(editModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Edit port call\" (click)=\"onEditClick()\" *ngIf=\"portCallIsDraft\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/edit.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.edit && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'You cannot set actual times for Cancelled port calls' : 'All clearances must be cleared before you can set actual times'}}\"\r\n        *ngIf=\"portCallIsCancelled || portCallIsAwaitingClearance\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/time.png\" height=\"20px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n      <app-set-actual-time [portCallModel]=\"rowData.overviewModel\" (portCallCompleted)=\"onCompletePortCall($event)\"\r\n        (portCallCleared)=\"onUncompletePortCall($event)\" *ngIf=\"portCallIsCleared || portCallIsCompleted\"></app-set-actual-time>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.clearance\">\r\n      <div ngbTooltip=\"You cannot clear a {{rowData.overviewModel.status}} port call\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" *ngIf=\"portCallIsCancelled || portCallIsCompleted\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Review port call clearance\" (click)=\"onClearanceClick()\" *ngIf=\"!portCallIsCancelled && !portCallIsCompleted\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/stamp.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.cancel && !portCallIsDraft\">\r\n      <div ngbTooltip=\"{{ portCallIsCancelled ? 'Port Call is already Cancelled' : 'You cannot cancel a Completed port call'}}\"\r\n        *ngIf=\"portCallIsCancelled || portCallIsCompleted\">\r\n        <button class=\"btn btn-sm btn-ssn\" disabled>\r\n          <div class=\"mx-auto\">\r\n            <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n          </div>\r\n        </button>\r\n      </div>\r\n\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Cancel port call\" (click)=\"openModal(cancelModal)\" *ngIf=\"portCallIsAwaitingClearance || portCallIsCleared\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n    \r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Clearance Certificate\" *ngIf=\"permissions.view && !portCallIsDraft && portCallIsCleared\">\r\n      <button class=\"btn btn-sm btn-ssn\" (click)=\"ClearanceCertificateClick()\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/download.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" ngbTooltip=\"Clearance Certificate\" *ngIf=\"permissions.view && !portCallIsDraft && !portCallIsCleared\">\r\n      <button class=\"btn btn-sm btn-ssn\" disabled>\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/download.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n    <div class=\"d-table-cell pl-1\" *ngIf=\"permissions.delete && portCallIsDraft\">\r\n      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Delete port call\" (click)=\"openModal(deleteModal)\">\r\n        <div class=\"mx-auto\">\r\n          <img src=\"assets/images/icons/128x128/white/trash.png\" height=\"20px\" />\r\n        </div>\r\n      </button>\r\n    </div>\r\n\r\n  </div>\r\n</div>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">WARNING</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>To edit this port call, you must revert it back to a draft.</span>\r\n      <br>\r\n      <span>Any active clearances for the port call will be reset.</span>\r\n      <br>\r\n      <span>The port call must be reactivated to receive new clearances.</span>\r\n      <br>\r\n      <br>\r\n      <span>Are you sure you wish to edit this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"editAwaitingClearancePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/warning.png\" height=\"20px\">\r\n      <span>Reset Clearance & Edit Port Call as Draft</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #cancelModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Cancel Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to cancel this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"cancelPortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Cancel Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #deleteModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Delete Port Call</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    <div>\r\n      <span>Are you sure you wish to delete this port call?</span>\r\n      <br>\r\n      <span>This action cannot be undone.</span>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button class=\"btn btn-danger\" (click)=\"deletePortCall(); close\">\r\n      <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"20px\">\r\n      <span>Delete Port Call</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -3284,13 +3284,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ButtonRowComponent = /** @class */ (function () {
-    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, modalService, loadPortCallService) {
+    function ButtonRowComponent(accountService, overviewService, contentService, portCallService, modalService, loadPortCallService, fileService) {
         this.accountService = accountService;
         this.overviewService = overviewService;
         this.contentService = contentService;
         this.portCallService = portCallService;
         this.modalService = modalService;
         this.loadPortCallService = loadPortCallService;
+        this.fileService = fileService;
         this.edit = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.portCallCancelled = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.portCallCompleted = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
@@ -3400,6 +3401,12 @@ var ButtonRowComponent = /** @class */ (function () {
             console.log(error);
         });
     };
+    ButtonRowComponent.prototype.ClearanceCertificateClick = function () {
+        var _this = this;
+        this.fileService.getClearanceCertificateToken(this.rowData.overviewModel.portCallId).subscribe(function (url) {
+            _this.fileService.getClearanceCertificate(url);
+        });
+    };
     ButtonRowComponent.prototype.editAwaitingClearancePortCall = function () {
         var _this = this;
         this.portCallService.updatePortCallStatusDraft(this.rowData.overviewModel.portCallId).subscribe(function (draftResponse) {
@@ -3459,7 +3466,8 @@ var ButtonRowComponent = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["f" /* ContentService */],
             __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["v" /* PortCallService */],
             __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_6__load_port_call_service__["a" /* LoadPortCallService */]])
+            __WEBPACK_IMPORTED_MODULE_6__load_port_call_service__["a" /* LoadPortCallService */],
+            __WEBPACK_IMPORTED_MODULE_5_app_shared_services___["n" /* FileService */]])
     ], ButtonRowComponent);
     return ButtonRowComponent;
 }());
@@ -4102,7 +4110,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/port-call.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <p>To register a new port call, you have to create a port call draft, and then activate it.</p>\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
+module.exports = "<div class=\"row\" *ngIf=\"permissions.register\">\r\n    <div class=\"col-sm-12 col-md-6 col-lg-4\">\r\n        <app-ssn-card header=\"New Port Call\" icon=\"portcall.png\">\r\n            <div class=\"text-center\">\r\n                <button class=\"btn btn-ssn\" (click)=\"selectRegister()\">New Port Call Draft</button>\r\n            </div>\r\n        </app-ssn-card>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"row\">\r\n    <div class=\"col\">\r\n        <app-overview></app-overview>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -4191,73 +4199,75 @@ var PortCallComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__ = __webpack_require__("./src/app/shared/components/action-buttons/action-buttons.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__ = __webpack_require__("./src/app/shared/components/delete-button/delete-button.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__ = __webpack_require__("./src/app/shared/components/identity-document/identity-document.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_services__ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_dpg_dpg_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_file_upload_file_upload_file_upload_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-error-modal/ship-stores-error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__ = __webpack_require__("./src/app/shared/components/view-button/view-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_app_shared_services__ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_app_shared_services___ = __webpack_require__("./src/app/shared/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_app_shared_services_country_service__ = __webpack_require__("./src/app/shared/services/country.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_cargo_service__ = __webpack_require__("./src/app/shared/services/fal-cargo.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_app_shared_services_fal_ship_stores_service__ = __webpack_require__("./src/app/shared/services/fal-ship-stores.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_app_shared_services_identtity_document_service__ = __webpack_require__("./src/app/shared/services/identtity-document.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_details_service__ = __webpack_require__("./src/app/shared/services/port-call-details.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21_app_shared_services_port_call_service__ = __webpack_require__("./src/app/shared/services/port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_app_shared_services_validate_date_time_service__ = __webpack_require__("./src/app/shared/services/validate-date-time.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23_app_shared_shared_module__ = __webpack_require__("./src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24_ng2_smart_table__ = __webpack_require__("./node_modules/ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__shared_services_fal_security_service__ = __webpack_require__("./src/app/shared/services/fal-security.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__shared_services_port_call_overview_service__ = __webpack_require__("./src/app/shared/services/port-call-overview.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/clearance/clearance.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__confirmation_activate_port_call_activate_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/activate-port-call/activate-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/confirmation/confirmation.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__load_port_call_service__ = __webpack_require__("./src/app/main-content/content-container/port-call/load-port-call.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/button-row/button-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/clearance-row/clearance-row.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__overview_overview_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/overview.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__overview_set_actual_time_set_actual_time_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/overview/set-actual-time/set-actual-time.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_cargo_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/cargo.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__registration_forms_cargo_consignment_form_consignment_form_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/cargo/consignment-form/consignment-form.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__registration_forms_crew_list_save_crew_list_save_crew_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/crew-list/save-crew-list/save-crew-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_42__registration_forms_dpg_dpg_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/dpg/dpg.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_43__registration_forms_file_upload_file_upload_file_upload_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_44__registration_forms_forms_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/forms.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_46__registration_forms_passenger_list_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_47__registration_forms_passenger_list_passenger_modal_passenger_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_48__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/passenger-list/save-passenger-list/save-passenger-list.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_cargo_description_cargo_description_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/cargo-description/cargo-description.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/crew-passengers-dimensions/crew-passengers-dimensions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_port_call_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/port-call-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_52__registration_forms_port_call_details_purpose_purpose_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/purpose/purpose.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_53__registration_forms_port_call_details_reporting_reporting_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/reporting/reporting.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_54__registration_forms_port_call_details_save_details_save_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/port-call-details/save-details/save-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_company_security_officer_company_security_officer_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/company-security-officer/company-security-officer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls-table/last-10-port-calls-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_last_10_port_calls_last_10_port_calls_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/last-10-port-calls/last-10-port-calls.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_save_security_save_security_button_save_security_button_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security-button/save-security-button.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_save_security_save_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/save-security/save-security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_security_details_security_details_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security-details/security-details.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__registration_forms_security_security_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/security.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity-table/ship-to-ship-activity-table.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/security/ship-to-ship-activity/ship-to-ship-activity.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__registration_forms_shared_date_picker_date_picker_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/shared/date-picker/date-picker.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/save-ship-stores/save-ship-stores.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-error-modal/ship-stores-error-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/ship-stores/ship-stores-modal/ship-stores-modal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__registration_forms_voyages_save_new_port_call_save_new_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-new-port-call/save-new-port-call.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__registration_forms_voyages_save_voyages_save_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/save-voyages/save-voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70__registration_forms_voyages_voyages_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/forms/voyages/voyages.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__registration_progress_bar_progress_bar_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/progress-bar/progress-bar.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/registration/registration.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__ = __webpack_require__("./src/app/main-content/content-container/port-call/view-port-call/view-port-call.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -4340,88 +4350,89 @@ var PortCallModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
                 __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_23_ng2_smart_table__["b" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_24_ng2_smart_table__["b" /* Ng2SmartTableModule */],
                 __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["c" /* NgbModule */],
                 __WEBPACK_IMPORTED_MODULE_5__ng_select_ng_select__["a" /* NgSelectModule */],
-                __WEBPACK_IMPORTED_MODULE_22_app_shared_shared_module__["a" /* SharedModule */]
+                __WEBPACK_IMPORTED_MODULE_23_app_shared_shared_module__["a" /* SharedModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */]],
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__["a" /* ButtonRowComponent */], __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */], __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */], __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */], __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__["a" /* ViewButtonComponent */]],
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_9_app_shared_components_action_buttons_action_buttons_component__["a" /* ActionButtonsComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
-                __WEBPACK_IMPORTED_MODULE_47__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
-                __WEBPACK_IMPORTED_MODULE_42__registration_forms_forms_component__["a" /* FormsComponent */],
-                __WEBPACK_IMPORTED_MODULE_32__overview_overview_component__["a" /* OverviewComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_48__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_68__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
-                __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
-                __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
-                __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_31__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_31__overview_button_row_button_row_component__["a" /* ButtonRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
+                __WEBPACK_IMPORTED_MODULE_50__registration_forms_port_call_details_crew_passengers_dimensions_crew_passengers_dimensions_component__["a" /* CrewPassengersDimensionsComponent */],
+                __WEBPACK_IMPORTED_MODULE_44__registration_forms_forms_component__["a" /* FormsComponent */],
+                __WEBPACK_IMPORTED_MODULE_33__overview_overview_component__["a" /* OverviewComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_51__registration_forms_port_call_details_port_call_details_component__["a" /* PortCallDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_71__registration_progress_bar_progress_bar_component__["a" /* ProgressBarComponent */],
+                __WEBPACK_IMPORTED_MODULE_52__registration_forms_port_call_details_purpose_purpose_component__["a" /* PurposeComponent */],
+                __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_53__registration_forms_port_call_details_reporting_reporting_component__["a" /* ReportingComponent */],
+                __WEBPACK_IMPORTED_MODULE_54__registration_forms_port_call_details_save_details_save_details_component__["a" /* SaveDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__overview_clearance_row_clearance_row_component__["a" /* ClearanceRowComponent */],
                 __WEBPACK_IMPORTED_MODULE_8_app_main_content_content_container_port_call_registration_forms_ship_stores_ship_stores_component__["a" /* ShipStoresComponent */],
                 __WEBPACK_IMPORTED_MODULE_10_app_shared_components_delete_button_delete_button_component__["a" /* DeleteButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_62__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
-                __WEBPACK_IMPORTED_MODULE_43__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
-                __WEBPACK_IMPORTED_MODULE_46__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
-                __WEBPACK_IMPORTED_MODULE_33__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
-                __WEBPACK_IMPORTED_MODULE_35__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
+                __WEBPACK_IMPORTED_MODULE_12_app_shared_components_view_button_view_button_component__["a" /* ViewButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_65__registration_forms_ship_stores_save_ship_stores_save_ship_stores_component__["a" /* SaveShipStoresComponent */],
+                __WEBPACK_IMPORTED_MODULE_46__registration_forms_passenger_list_passenger_list_component__["a" /* PassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_49__registration_forms_port_call_details_cargo_description_cargo_description_component__["a" /* CargoDescriptionComponent */],
+                __WEBPACK_IMPORTED_MODULE_34__overview_set_actual_time_set_actual_time_component__["a" /* SetActualTimeComponent */],
+                __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_cargo_component__["a" /* CargoComponent */],
                 __WEBPACK_IMPORTED_MODULE_7_app_main_content_content_container_port_call_registration_forms_cargo_cargo_table_cargo_table_component__["a" /* CargoTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_36__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
+                __WEBPACK_IMPORTED_MODULE_37__registration_forms_cargo_consignment_form_consignment_form_component__["a" /* ConsignmentFormComponent */],
                 __WEBPACK_IMPORTED_MODULE_6_app_main_content_content_container_port_call_registration_forms_cargo_cargo_item_form_cargo_item_form_component__["a" /* CargoItemFormComponent */],
-                __WEBPACK_IMPORTED_MODULE_61__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
-                __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
+                __WEBPACK_IMPORTED_MODULE_64__registration_forms_shared_date_picker_date_picker_component__["a" /* DatePickerComponent */],
+                __WEBPACK_IMPORTED_MODULE_48__registration_forms_passenger_list_save_passenger_list_save_passenger_list_component__["a" /* SavePassengerListComponent */],
                 __WEBPACK_IMPORTED_MODULE_11_app_shared_components_identity_document_identity_document_component__["a" /* IdentityDocumentComponent */],
-                __WEBPACK_IMPORTED_MODULE_44__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_37__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_67__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_66__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
-                __WEBPACK_IMPORTED_MODULE_65__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_security_component__["a" /* SecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
-                __WEBPACK_IMPORTED_MODULE_52__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
-                __WEBPACK_IMPORTED_MODULE_54__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
-                __WEBPACK_IMPORTED_MODULE_53__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
-                __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
-                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
-                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
-                __WEBPACK_IMPORTED_MODULE_27__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
-                __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
-                __WEBPACK_IMPORTED_MODULE_64__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_40__registration_forms_dpg_dpg_component__["a" /* DpgComponent */],
-                __WEBPACK_IMPORTED_MODULE_41__registration_forms_file_upload_file_upload_file_upload_component__["a" /* FileUploadComponent */],
-                __WEBPACK_IMPORTED_MODULE_63__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__["a" /* ShipStoresErrorModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_71__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__["a" /* PassengerListErrorModalComponent */],
-                __WEBPACK_IMPORTED_MODULE_72__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__["a" /* CrewListErrorModalComponent */]
+                __WEBPACK_IMPORTED_MODULE_47__registration_forms_passenger_list_passenger_modal_passenger_modal_component__["a" /* PassengerModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_39__registration_forms_crew_list_crew_list_component__["a" /* CrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_40__registration_forms_crew_list_crew_member_modal_crew_member_modal_component__["a" /* CrewMemberModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_70__registration_forms_voyages_voyages_component__["a" /* VoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_69__registration_forms_voyages_save_voyages_save_voyages_component__["a" /* SaveVoyagesComponent */],
+                __WEBPACK_IMPORTED_MODULE_68__registration_forms_voyages_save_new_port_call_save_new_port_call_component__["a" /* SaveNewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_61__registration_forms_security_security_component__["a" /* SecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_60__registration_forms_security_security_details_security_details_component__["a" /* SecurityDetailsComponent */],
+                __WEBPACK_IMPORTED_MODULE_55__registration_forms_security_company_security_officer_company_security_officer_component__["a" /* CompanySecurityOfficerComponent */],
+                __WEBPACK_IMPORTED_MODULE_57__registration_forms_security_last_10_port_calls_last_10_port_calls_component__["a" /* Last10PortCallsComponent */],
+                __WEBPACK_IMPORTED_MODULE_56__registration_forms_security_last_10_port_calls_last_10_port_calls_table_last_10_port_calls_table_component__["a" /* Last10PortCallsTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_63__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_component__["a" /* ShipToShipActivityComponent */],
+                __WEBPACK_IMPORTED_MODULE_62__registration_forms_security_ship_to_ship_activity_ship_to_ship_activity_table_ship_to_ship_activity_table_component__["a" /* ShipToShipActivityTableComponent */],
+                __WEBPACK_IMPORTED_MODULE_59__registration_forms_security_save_security_save_security_component__["a" /* SaveSecurityComponent */],
+                __WEBPACK_IMPORTED_MODULE_58__registration_forms_security_save_security_save_security_button_save_security_button_component__["a" /* SaveSecurityButtonComponent */],
+                __WEBPACK_IMPORTED_MODULE_28__confirmation_activate_port_call_activate_port_call_component__["a" /* ActivatePortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__["a" /* ConfirmationComponent */],
+                __WEBPACK_IMPORTED_MODULE_41__registration_forms_crew_list_save_crew_list_save_crew_list_component__["a" /* SaveCrewListComponent */],
+                __WEBPACK_IMPORTED_MODULE_67__registration_forms_ship_stores_ship_stores_modal_ship_stores_modal_component__["a" /* ShipStoresModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_42__registration_forms_dpg_dpg_component__["a" /* DpgComponent */],
+                __WEBPACK_IMPORTED_MODULE_43__registration_forms_file_upload_file_upload_file_upload_component__["a" /* FileUploadComponent */],
+                __WEBPACK_IMPORTED_MODULE_66__registration_forms_ship_stores_ship_stores_error_modal_ship_stores_error_modal_component__["a" /* ShipStoresErrorModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_45__registration_forms_passenger_list_passenger_list_error_modal_passenger_list_error_modal_component__["a" /* PassengerListErrorModalComponent */],
+                __WEBPACK_IMPORTED_MODULE_38__registration_forms_crew_list_crew_list_error_modal_crew_list_error_modal_component__["a" /* CrewListErrorModalComponent */]
             ],
             exports: [
-                __WEBPACK_IMPORTED_MODULE_26__clearance_clearance_component__["a" /* ClearanceComponent */],
-                __WEBPACK_IMPORTED_MODULE_34__port_call_component__["a" /* PortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_69__registration_registration_component__["a" /* RegistrationComponent */],
-                __WEBPACK_IMPORTED_MODULE_70__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
-                __WEBPACK_IMPORTED_MODULE_28__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
+                __WEBPACK_IMPORTED_MODULE_27__clearance_clearance_component__["a" /* ClearanceComponent */],
+                __WEBPACK_IMPORTED_MODULE_35__port_call_component__["a" /* PortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_72__registration_registration_component__["a" /* RegistrationComponent */],
+                __WEBPACK_IMPORTED_MODULE_73__view_port_call_view_port_call_component__["a" /* ViewPortCallComponent */],
+                __WEBPACK_IMPORTED_MODULE_29__confirmation_confirmation_component__["a" /* ConfirmationComponent */]
             ],
             providers: [
-                __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_service__["a" /* PortCallService */],
-                __WEBPACK_IMPORTED_MODULE_29__load_port_call_service__["a" /* LoadPortCallService */],
-                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
-                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
-                __WEBPACK_IMPORTED_MODULE_14_app_shared_services_country_service__["a" /* CountryService */],
-                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
-                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
-                __WEBPACK_IMPORTED_MODULE_21_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
-                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
-                __WEBPACK_IMPORTED_MODULE_24__shared_services_fal_security_service__["a" /* FalSecurityService */],
-                __WEBPACK_IMPORTED_MODULE_25__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
-                __WEBPACK_IMPORTED_MODULE_13_app_shared_services___["i" /* DpgService */],
-                __WEBPACK_IMPORTED_MODULE_12_app_shared_services__["n" /* FileService */]
+                __WEBPACK_IMPORTED_MODULE_21_app_shared_services_port_call_service__["a" /* PortCallService */],
+                __WEBPACK_IMPORTED_MODULE_30__load_port_call_service__["a" /* LoadPortCallService */],
+                __WEBPACK_IMPORTED_MODULE_17_app_shared_services_fal_ship_stores_service__["a" /* FalShipStoresService */],
+                __WEBPACK_IMPORTED_MODULE_18_app_shared_services_identtity_document_service__["a" /* IdentityDocumentService */],
+                __WEBPACK_IMPORTED_MODULE_15_app_shared_services_country_service__["a" /* CountryService */],
+                __WEBPACK_IMPORTED_MODULE_19_app_shared_services_port_call_details_service__["a" /* PortCallDetailsService */],
+                __WEBPACK_IMPORTED_MODULE_16_app_shared_services_fal_cargo_service__["a" /* FalCargoService */],
+                __WEBPACK_IMPORTED_MODULE_22_app_shared_services_validate_date_time_service__["a" /* ValidateDateTimeService */],
+                __WEBPACK_IMPORTED_MODULE_20_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */],
+                __WEBPACK_IMPORTED_MODULE_25__shared_services_fal_security_service__["a" /* FalSecurityService */],
+                __WEBPACK_IMPORTED_MODULE_26__shared_services_port_call_overview_service__["a" /* PortCallOverviewService */],
+                __WEBPACK_IMPORTED_MODULE_14_app_shared_services___["i" /* DpgService */],
+                __WEBPACK_IMPORTED_MODULE_13_app_shared_services__["n" /* FileService */]
             ]
         })
     ], PortCallModule);
@@ -5181,7 +5192,7 @@ module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-list.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<app-ssn-card header=\"Add New Crew Member\" icon=\"crew.png\">\r\n\r\n  <form name=\"crewForm\" #form=\"ngForm\">\r\n\r\n    <div class=\"col-lg-12\">\r\n      <app-ssn-card header=\"Upload Crew Data from Excel Template\" icon=\"upload.png\" [collapsible]=\"true\">\r\n        <app-file-upload [portCallId]=\"portCallId\" [isPaxPage]=\"false\" (saved)=\"excelFileSaved($event)\"\r\n          (entriesHasErrors)=\"uploadError($event)\" (importSuccess)=\"importSuccess($event)\"></app-file-upload>\r\n      </app-ssn-card>\r\n      <app-ssn-card header=\"Personalia\" icon=\"user.png\" [collapsible]=\"true\">\r\n        <div class=\"row\">\r\n          <div class=\"col-lg-6\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"givenName\" class=\"col-form-label-sm no-wrap mb-0\">Given Name *</label>\r\n                <input #givenName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.givenName\" placeholder=\"Given Name\"\r\n                  class=\"form-control form-control-sm\" name=\"givenName\" required>\r\n              </div>\r\n            </div>\r\n            <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n              <li>\r\n                <small>This field is required.</small>\r\n              </li>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"familyName\" class=\"col-form-label-sm no-wrap mb-0\">Family Name *</label>\r\n                <input #familyName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.familyName\" placeholder=\"Family Name\"\r\n                  class=\"form-control form-control-sm\" required name=\"familyName\">\r\n              </div>\r\n            </div>\r\n            <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n              <li>\r\n                <small>This field is required.</small>\r\n              </li>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-date-of-birth\" class=\"col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n                <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(portCallCrewModel.dateOfBirth)\"\r\n                  #dateOfBirth></app-date-picker>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"rankName\" class=\"col-form-label-sm no-wrap mb-0\">Crew member rank/rating</label>\r\n                <input #rankName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.rankName\" placeholder=\"Crew member rank/rating\"\r\n                  class=\"form-control form-control-sm\" name=\"rankName\">\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"rankCode\" class=\"col-form-label-sm no-wrap mb-0\">Crew member rank/rating code</label>\r\n                <input #rankCode=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.rankCode\" placeholder=\"Crew member rank/rating code\"\r\n                  class=\"form-control form-control-sm\" name=\"rankCode\">\r\n              </div>\r\n            </div>\r\n\r\n          </div>\r\n          <!-- /.col-lg-6 -->\r\n\r\n          <div class=\"col-lg-6\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-search-country\" class=\"col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n                <app-search-country *ngIf=\"!portCallCrewModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n                  (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n                <div *ngIf=\"portCallCrewModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <span class=\"input-group-text\">\r\n                      <img src=\"assets/images/flags/128x128/{{ portCallCrewModel.countryOfBirth.twoCharCode | lowercase}}.png\"\r\n                        height=\"20px\">\r\n                    </span>\r\n                  </div>\r\n                  <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [ngModel]=\"portCallCrewModel.countryOfBirth.name\"\r\n                    name=\"countryOfBirth\" />\r\n                  <div>\r\n                    <div class=\"input-group-append\">\r\n                      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                        <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                      </button>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-search-country\" class=\"col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n                <app-search-country *ngIf=\"!portCallCrewModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n                  (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n                <div *ngIf=\"portCallCrewModel.nationality\" class=\"input-group input-group-sm\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <span class=\"input-group-text\">\r\n                      <img src=\"assets/images/flags/128x128/{{ portCallCrewModel.nationality.twoCharCode | lowercase}}.png\"\r\n                        height=\"20px\">\r\n                    </span>\r\n                  </div>\r\n                  <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [ngModel]=\"portCallCrewModel.nationality.name\"\r\n                    name=\"nationality\" />\r\n                  <div class=\"input-group-append\">\r\n                    <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                      <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                    </button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"placeOfBirth\" class=\"col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n                <input #placeOfBirth=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.placeOfBirth\" placeholder=\"Place of Birth\"\r\n                  class=\"form-control form-control-sm\" name=\"placeOfBirth\">\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Gender</label>\r\n                <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [(ngModel)]=\"portCallCrewModel.gender\"\r\n                  name=\"gender\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n                </ng-select>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n                <input type=\"text\" [(ngModel)]=\"portCallCrewModel.crewEffects\" placeholder=\"Crew Effects\"\r\n                  class=\"form-control form-control-sm\" name=\"crewEffects\">\r\n              </div>\r\n            </div>\r\n  \r\n\r\n  \r\n            <!-- \r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <a href=\"#\" (click)=\"addCrewEffect();\" class=\"add-effect-btn\">Add Item</a>\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n                <div class=\"table-responsive\">\r\n                  <table class=\"table table-bordered\">\r\n                    <thead>\r\n                      <tr>\r\n                        <th class=\"bg-ssn text-ssn no-wrap p-1\">\r\n                          <span>Amount</span>\r\n                        </th>\r\n                        <th class=\"bg-ssn text-ssn no-wrap p-1\">\r\n                          <span>Description</span>\r\n                        </th>\r\n                      </tr>\r\n                    </thead>\r\n                    <tbody>\r\n                      <tr *ngFor=\"let effect of crewEffects\">\r\n                        <td class=\"p-1 total-col\">\r\n                          <span><input type=\"text\" name=\"effectTotal\" [(ngModel)]=\"effect.total\"></span>\r\n                        </td>\r\n                        <td class=\"p-1 total-desc\">\r\n                          <span><input type=\"text\" name=\"effectDesc\" [(ngModel)]=\"effect.total\"></span>\r\n                        </td>\r\n                      </tr>\r\n                    </tbody>\r\n                  </table>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            -->\r\n          </div>\r\n          <!-- /.col-lg-6 -->\r\n        </div>\r\n      </app-ssn-card>\r\n\r\n      <app-identity-document (changeIdentityDocumentModel)=\"setIdentityDocumentModel($event)\"\r\n        [showVisaOrResidenceNumber]=\"false\"></app-identity-document>\r\n\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"col-lg-12\">\r\n    <div class=\"form-group\">\r\n      <button *ngIf=\"form.valid && validDocumentDates\" type=\"submit\" class=\"btn btn-ssn mt-2\" (click)=\"addCrewMember(); form.reset()\">\r\n        <span>Submit</span>\r\n      </button>\r\n      <button *ngIf=\"!form.valid || !validDocumentDates\" type=\"submit\" disabled class=\"btn btn-ssn mt-2\">\r\n        <span>Submit</span>\r\n      </button>\r\n      <button *ngIf=\"crewList?.length > 0\" type=\"submit\" class=\"btn mt-2 btn-danger float-right\" (click)=openWarningModal(warningModal)>\r\n        <span>Delete all crew members</span>\r\n      </button>\r\n      <button *ngIf=\"crewList?.length === 0\" type=\"submit\" class=\"btn mt-2 btn-danger float-right\" disabled>\r\n        <span>Delete all crew members</span>\r\n      </button>\r\n    </div>\r\n\r\n\r\n    <div class=\"mb-3\">\r\n      <div class=\"table-responsive\">\r\n        <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n        </div>\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crewListDataSource\">\r\n        </ng2-smart-table>\r\n\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</app-ssn-card>\r\n<app-save-crew-list (save)=\"saveCrewList()\" [listIsPristine]=\"listIsPristine\"></app-save-crew-list>\r\n\r\n<app-crew-member-modal (outputCrewModel)=\"editCrewMember($event)\"></app-crew-member-modal>\r\n<app-crew-list-error-modal (rectifiedCrewEmitter)=\"addRectifiedCrewAndPax($event)\"></app-crew-list-error-modal>\r\n<!--  (outputPassengerModel)=\"editPassenger($event)\" -->\r\n\r\n<ng-template #warningModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Warning</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    Do you want to delete all crew members in the list?\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"submit\" class=\"btn mt-2 btn-danger float-right\" (click)=\"deleteAllCrewMembers(); close\">\r\n      <span>Delete all crew members</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n      <span>Cancel</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
+module.exports = "<app-ssn-card header=\"Add New Crew Member\" icon=\"crew.png\">\r\n\r\n  <form name=\"crewForm\" #form=\"ngForm\">\r\n\r\n    <div class=\"col-lg-12\">\r\n      <app-ssn-card header=\"Upload Crew Data from Excel Template\" icon=\"upload.png\" [collapsible]=\"true\">\r\n        <app-file-upload [portCallId]=\"portCallId\" [isPaxPage]=\"false\" (saved)=\"excelFileSaved($event)\"\r\n          (entriesHasErrors)=\"uploadError($event)\" (importSuccess)=\"importSuccess($event)\"></app-file-upload>\r\n      </app-ssn-card>\r\n      <app-ssn-card header=\"Personalia\" icon=\"user.png\" [collapsible]=\"true\">\r\n        <div class=\"row\">\r\n          <div class=\"col-lg-6\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"givenName\" class=\"col-form-label-sm no-wrap mb-0\">Given Name *</label>\r\n                <input #givenName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.givenName\" placeholder=\"Given Name\"\r\n                  class=\"form-control form-control-sm\" name=\"givenName\" required>\r\n              </div>\r\n            </div>\r\n            <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n              <li>\r\n                <small>This field is required.</small>\r\n              </li>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"familyName\" class=\"col-form-label-sm no-wrap mb-0\">Family Name *</label>\r\n                <input #familyName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.familyName\" placeholder=\"Family Name\"\r\n                  class=\"form-control form-control-sm\" required name=\"familyName\">\r\n              </div>\r\n            </div>\r\n            <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n              <li>\r\n                <small>This field is required.</small>\r\n              </li>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-date-of-birth\" class=\"col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n                <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(portCallCrewModel.dateOfBirth)\"\r\n                  #dateOfBirth></app-date-picker>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"rankName\" class=\"col-form-label-sm no-wrap mb-0\">Crew member rank/rating</label>\r\n                <input #rankName=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.rankName\" placeholder=\"Crew member rank/rating\"\r\n                  class=\"form-control form-control-sm\" name=\"rankName\">\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"rankCode\" class=\"col-form-label-sm no-wrap mb-0\">Crew member rank/rating code</label>\r\n                <input #rankCode=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.rankCode\" placeholder=\"Crew member rank/rating code\"\r\n                  class=\"form-control form-control-sm\" name=\"rankCode\">\r\n              </div>\r\n            </div>\r\n            <div class=\"row\">\r\n              <div class=\"col-md-6 col-lg-6\">\r\n                <div class=\"form-group row\">\r\n                  <div class=\"col\">\r\n                    <label class=\"col-form-label-sm no-wrap mb-0\">\r\n                      <input [(ngModel)]=\"portCallCrewModel.isMaster\"  \r\n                      name=\"isMaster\" type=\"checkbox\" id=\"is_master\" [disabled]=\"hasMaster\">\r\n                      Is Master\r\n                    </label>\r\n                    <ng-container *ngIf=\"hasMaster\">\r\n                      <small class=\"text-danger\">(This port call already has a master.)</small>\r\n                    </ng-container>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n          </div>\r\n          <!-- /.col-lg-6 -->\r\n\r\n          <div class=\"col-lg-6\">\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-search-country\" class=\"col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n                <app-search-country *ngIf=\"!portCallCrewModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n                  (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n                <div *ngIf=\"portCallCrewModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <span class=\"input-group-text\">\r\n                      <img src=\"assets/images/flags/128x128/{{ portCallCrewModel.countryOfBirth.twoCharCode | lowercase}}.png\"\r\n                        height=\"20px\">\r\n                    </span>\r\n                  </div>\r\n                  <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [ngModel]=\"portCallCrewModel.countryOfBirth.name\"\r\n                    name=\"countryOfBirth\" />\r\n                  <div>\r\n                    <div class=\"input-group-append\">\r\n                      <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                        <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                      </button>\r\n                    </div>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"app-search-country\" class=\"col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n                <app-search-country *ngIf=\"!portCallCrewModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n                  (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n                <div *ngIf=\"portCallCrewModel.nationality\" class=\"input-group input-group-sm\">\r\n                  <div class=\"input-group-prepend\">\r\n                    <span class=\"input-group-text\">\r\n                      <img src=\"assets/images/flags/128x128/{{ portCallCrewModel.nationality.twoCharCode | lowercase}}.png\"\r\n                        height=\"20px\">\r\n                    </span>\r\n                  </div>\r\n                  <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [ngModel]=\"portCallCrewModel.nationality.name\"\r\n                    name=\"nationality\" />\r\n                  <div class=\"input-group-append\">\r\n                    <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                      <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                    </button>\r\n                  </div>\r\n                </div>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"placeOfBirth\" class=\"col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n                <input #placeOfBirth=\"ngModel\" type=\"text\" [(ngModel)]=\"portCallCrewModel.placeOfBirth\" placeholder=\"Place of Birth\"\r\n                  class=\"form-control form-control-sm\" name=\"placeOfBirth\">\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Gender</label>\r\n                <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [(ngModel)]=\"portCallCrewModel.gender\"\r\n                  name=\"gender\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n                </ng-select>\r\n              </div>\r\n            </div>\r\n\r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n                <input type=\"text\" [(ngModel)]=\"portCallCrewModel.crewEffects\" placeholder=\"Crew Effects\" class=\"form-control form-control-sm\"\r\n                  name=\"crewEffects\">\r\n              </div>\r\n            </div>\r\n\r\n\r\n\r\n            <!-- \r\n            <div class=\"form-group row\">\r\n              <div class=\"col my-auto\">\r\n                <a href=\"#\" (click)=\"addCrewEffect();\" class=\"add-effect-btn\">Add Item</a>\r\n                <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n                <div class=\"table-responsive\">\r\n                  <table class=\"table table-bordered\">\r\n                    <thead>\r\n                      <tr>\r\n                        <th class=\"bg-ssn text-ssn no-wrap p-1\">\r\n                          <span>Amount</span>\r\n                        </th>\r\n                        <th class=\"bg-ssn text-ssn no-wrap p-1\">\r\n                          <span>Description</span>\r\n                        </th>\r\n                      </tr>\r\n                    </thead>\r\n                    <tbody>\r\n                      <tr *ngFor=\"let effect of crewEffects\">\r\n                        <td class=\"p-1 total-col\">\r\n                          <span><input type=\"text\" name=\"effectTotal\" [(ngModel)]=\"effect.total\"></span>\r\n                        </td>\r\n                        <td class=\"p-1 total-desc\">\r\n                          <span><input type=\"text\" name=\"effectDesc\" [(ngModel)]=\"effect.total\"></span>\r\n                        </td>\r\n                      </tr>\r\n                    </tbody>\r\n                  </table>\r\n                </div>\r\n              </div>\r\n            </div>\r\n            -->\r\n          </div>\r\n          <!-- /.col-lg-6 -->\r\n        </div>\r\n      </app-ssn-card>\r\n\r\n      <app-identity-document (changeIdentityDocumentModel)=\"setIdentityDocumentModel($event)\"\r\n        [showVisaOrResidenceNumber]=\"false\"></app-identity-document>\r\n\r\n    </div>\r\n  </form>\r\n\r\n  <div class=\"col-lg-12\">\r\n    <div class=\"form-group\">\r\n      <button *ngIf=\"form.valid && validDocumentDates\" type=\"submit\" class=\"btn btn-ssn mt-2\" (click)=\"addCrewMember(); form.reset()\">\r\n        <span>Submit</span>\r\n      </button>\r\n      <button *ngIf=\"!form.valid || !validDocumentDates\" type=\"submit\" disabled class=\"btn btn-ssn mt-2\">\r\n        <span>Submit</span>\r\n      </button>\r\n      <button *ngIf=\"crewList?.length > 0\" type=\"submit\" class=\"btn mt-2 btn-danger float-right\" (click)=openWarningModal(warningModal)>\r\n        <span>Delete all crew members</span>\r\n      </button>\r\n      <button *ngIf=\"crewList?.length === 0\" type=\"submit\" class=\"btn mt-2 btn-danger float-right\" disabled>\r\n        <span>Delete all crew members</span>\r\n      </button>\r\n    </div>\r\n\r\n\r\n    <div class=\"mb-3\">\r\n      <div class=\"table-responsive\">\r\n        <div ng2-st-add-button=\"\" ng-reflect-grid=\"[object Object]\" class=\"ng2-smart-actions-title ng2-smart-actions-title-add\">\r\n        </div>\r\n        <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crewListDataSource\">\r\n        </ng2-smart-table>\r\n\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n</app-ssn-card>\r\n<app-save-crew-list (save)=\"saveCrewList()\" [listIsPristine]=\"listIsPristine\"></app-save-crew-list>\r\n\r\n<app-crew-member-modal (outputCrewModel)=\"editCrewMember($event)\"></app-crew-member-modal>\r\n<app-crew-list-error-modal (rectifiedCrewEmitter)=\"addRectifiedCrewAndPax($event)\"></app-crew-list-error-modal>\r\n<!--  (outputPassengerModel)=\"editPassenger($event)\" -->\r\n\r\n<ng-template #warningModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Warning</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body\">\r\n    Do you want to delete all crew members in the list?\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"submit\" class=\"btn mt-2 btn-danger float-right\" (click)=\"deleteAllCrewMembers(); close\">\r\n      <span>Delete all crew members</span>\r\n    </button>\r\n    <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n      <span>Cancel</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -5231,13 +5242,14 @@ var CrewListComponent = /** @class */ (function () {
         this.crewList = [];
         this.portCallCrewModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
+        this.hasMaster = false;
         this.crewEffects = [];
         this.modalModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["n" /* PersonOnBoardModel */]();
         this.listIsPristine = true;
         this.booleanList = ['Yes', 'No'];
         this.booleanModel = {
-            'Yes': true,
-            'No': false
+            Yes: true,
+            No: false
         };
         this.inTransit = null;
         this.formValid = true;
@@ -5264,7 +5276,7 @@ var CrewListComponent = /** @class */ (function () {
                     title: 'ID'
                 },
                 familyName: {
-                    title: 'Family Name',
+                    title: 'Family Name'
                 },
                 givenName: {
                     title: 'Given Name'
@@ -5276,7 +5288,15 @@ var CrewListComponent = /** @class */ (function () {
                     title: 'Gender'
                 },
                 dateOfBirth: {
-                    title: 'Date of Birth'
+                    title: 'Date of Birth',
+                    valuePrepareFunction: function (value) {
+                        if (value instanceof Date) {
+                            return value;
+                        }
+                        else {
+                            return 'N/A';
+                        }
+                    }
                 },
                 rankName: {
                     title: 'Rank/rating'
@@ -5299,7 +5319,7 @@ var CrewListComponent = /** @class */ (function () {
                             _this.deleteCrewMember(row);
                         });
                     }
-                },
+                }
             }
         };
     }
@@ -5325,17 +5345,29 @@ var CrewListComponent = /** @class */ (function () {
         this.identityDocumentModel = new __WEBPACK_IMPORTED_MODULE_6_app_shared_models___["j" /* IdentityDocumentModel */]();
         // Get gender list
         if (!this.genderList) {
-            this.genderListSubscription = this.personOnBoardService.getGenderList().subscribe(function (results) {
+            this.genderListSubscription = this.personOnBoardService
+                .getGenderList()
+                .subscribe(function (results) {
                 _this.genderList = results;
             });
         }
-        this.personOnBoardTypeSubscription = this.personOnBoardService.getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW).subscribe(function (personOnBoardType) {
+        this.personOnBoardTypeSubscription = this.personOnBoardService
+            .getPersonOnBoardTypeByEnum(__WEBPACK_IMPORTED_MODULE_5_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
+            .subscribe(function (personOnBoardType) {
             _this.personOnBoardType = personOnBoardType;
         });
         // Set in service
         this.personOnBoardService.setCrewList(this.crewList);
         this.pristineSubscription = this.personOnBoardService.crewDataIsPristine$.subscribe(function (isPristine) {
             _this.listIsPristine = isPristine;
+        });
+        this.personOnBoardService
+            .getHasMaster(this.portCallId)
+            .finally(function () {
+            _this.personOnBoardService.setHasMaster(_this.hasMaster);
+        })
+            .subscribe(function (hasMaster) {
+            _this.hasMaster = hasMaster;
         });
     };
     CrewListComponent.prototype.ngOnDestroy = function () {
@@ -5345,7 +5377,8 @@ var CrewListComponent = /** @class */ (function () {
     };
     CrewListComponent.prototype.excelFileSaved = function (saved) {
         var _this = this;
-        this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
+        this.personOnBoardService
+            .getCrewListByPortCallId(this.portCallId)
             .finally(function () {
             _this.persistData();
             _this.listIsPristine = true;
@@ -5355,7 +5388,8 @@ var CrewListComponent = /** @class */ (function () {
             _this.crewList = res;
         });
         if (saved) {
-            this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+            this.personOnBoardService
+                .getPassengerListByPortCallId(this.portCallId)
                 .subscribe(function (pax) {
                 _this.personOnBoardService.setPassengersList(pax);
             });
@@ -5371,7 +5405,8 @@ var CrewListComponent = /** @class */ (function () {
         if ($event != null && $event !== undefined) {
             this.crewList = this.crewList.concat(crewList);
             this.persistData();
-            this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
+            this.personOnBoardService
+                .getPassengerListByPortCallId(this.portCallId)
                 .finally(function () {
                 _this.personOnBoardService.setPassengersList(paxList);
                 _this.personOnBoardService.setPassengerDataIsPristine(false);
@@ -5388,8 +5423,15 @@ var CrewListComponent = /** @class */ (function () {
         this.portCallCrewModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
         // Add the identityDocumentModel to crewModel
         this.portCallCrewModel.identityDocument.push(this.identityDocumentModel);
+        if (this.portCallCrewModel.gender != null &&
+            this.portCallCrewModel.gender.description != null &&
+            this.portCallCrewModel.gender !== undefined &&
+            this.portCallCrewModel.gender.description !== undefined) {
+            this.portCallCrewModel.gender = this.portCallCrewModel.gender.description;
+        }
         // Add
         this.crewList.push(this.portCallCrewModel);
+        this.removeExistingMasters();
         this.persistData();
         // Reset
         this.clearForm();
@@ -5397,20 +5439,36 @@ var CrewListComponent = /** @class */ (function () {
     CrewListComponent.prototype.generateSmartTable = function () {
         var _this = this;
         var newList = [];
+        this.hasMaster = false;
         if (this.crewList) {
             this.crewList.forEach(function (crewMember) {
-                var modifiedPassenger = new __WEBPACK_IMPORTED_MODULE_9__passenger_list_smartTableModel__["a" /* SmartTableModel */]();
-                crewMember.personOnBoardId ? modifiedPassenger.personOnBoardId = crewMember.personOnBoardId : modifiedPassenger.personOnBoardId = null;
-                modifiedPassenger.sequenceNumber = crewMember.sequenceNumber;
-                modifiedPassenger.givenName = crewMember.givenName;
-                modifiedPassenger.familyName = crewMember.familyName;
-                modifiedPassenger.rankName = crewMember.rankName;
-                crewMember.dateOfBirth ? modifiedPassenger.dateOfBirth = _this.getDisplayDateFormat(crewMember.dateOfBirth) : modifiedPassenger.dateOfBirth = null;
-                crewMember.nationality ? modifiedPassenger.nationality = crewMember.nationality : modifiedPassenger.nationality = null;
-                crewMember.gender ? modifiedPassenger.gender = crewMember.gender : modifiedPassenger.gender = null;
-                modifiedPassenger.countryOfBirthTwoCharCode = crewMember.nationalityTwoCharCode;
-                modifiedPassenger.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
-                newList.push(modifiedPassenger);
+                var modifiedCrew = new __WEBPACK_IMPORTED_MODULE_9__passenger_list_smartTableModel__["a" /* SmartTableModel */]();
+                crewMember.personOnBoardId
+                    ? (modifiedCrew.personOnBoardId = crewMember.personOnBoardId)
+                    : (modifiedCrew.personOnBoardId = null);
+                modifiedCrew.sequenceNumber = crewMember.sequenceNumber;
+                modifiedCrew.givenName = crewMember.givenName;
+                modifiedCrew.familyName = crewMember.familyName;
+                modifiedCrew.rankName = crewMember.rankName;
+                crewMember.dateOfBirth
+                    ? (modifiedCrew.dateOfBirth = _this.getDisplayDateFormat(crewMember.dateOfBirth))
+                    : (modifiedCrew.dateOfBirth = null);
+                crewMember.nationality
+                    ? (modifiedCrew.nationality = crewMember.nationality)
+                    : (modifiedCrew.nationality = null);
+                crewMember.gender
+                    ? (modifiedCrew.gender = crewMember.gender)
+                    : (modifiedCrew.gender = null);
+                modifiedCrew.countryOfBirthTwoCharCode =
+                    crewMember.nationalityTwoCharCode;
+                modifiedCrew.nationalityTwoCharCode = crewMember.nationalityTwoCharCode;
+                modifiedCrew.isMaster = crewMember.isMaster;
+                if (crewMember.isMaster) {
+                    _this.hasMaster = true;
+                    crewMember.rankName = 'MASTER';
+                    modifiedCrew.rankName = 'MASTER';
+                }
+                newList.push(modifiedCrew);
             });
         }
         return newList;
@@ -5442,11 +5500,19 @@ var CrewListComponent = /** @class */ (function () {
     // Setters
     CrewListComponent.prototype.setIdentityDocumentModel = function ($event) {
         this.identityDocumentModel = $event.identityDocumentModel;
-        this.validDocumentDates = $event.validDocumentDates.issueDateAfterExpiryDateError
-            || $event.validDocumentDates.expiryDateBeforeExpiryDateError ? false : true;
-        this.issueDateRequiredError = $event.validDocumentDates.issueDateRequiredError;
-        this.expiryDateRequiredError = $event.validDocumentDates.expiryDateRequiredError;
-        this.validDocumentDates = this.validDocumentDates && this.issueDateRequiredError && this.expiryDateRequiredError;
+        this.validDocumentDates =
+            $event.validDocumentDates.issueDateAfterExpiryDateError ||
+                $event.validDocumentDates.expiryDateBeforeExpiryDateError
+                ? false
+                : true;
+        this.issueDateRequiredError =
+            $event.validDocumentDates.issueDateRequiredError;
+        this.expiryDateRequiredError =
+            $event.validDocumentDates.expiryDateRequiredError;
+        this.validDocumentDates =
+            this.validDocumentDates &&
+                this.issueDateRequiredError &&
+                this.expiryDateRequiredError;
     };
     CrewListComponent.prototype.setDateOfBirth = function ($event) {
         if ($event) {
@@ -5497,10 +5563,17 @@ var CrewListComponent = /** @class */ (function () {
         this.dateOfBirthComponent.dateChanged(null);
     };
     CrewListComponent.prototype.makeDates = function (crewMember) {
-        crewMember.dateOfBirth = crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
+        crewMember.dateOfBirth =
+            crewMember.dateOfBirth != null ? new Date(crewMember.dateOfBirth) : null;
         crewMember.identityDocument.forEach(function (identityDocument) {
-            identityDocument.identityDocumentIssueDate = identityDocument.identityDocumentIssueDate != null ? new Date(identityDocument.identityDocumentIssueDate) : null;
-            identityDocument.identityDocumentExpiryDate = identityDocument.identityDocumentExpiryDate != null ? new Date(identityDocument.identityDocumentExpiryDate) : null;
+            identityDocument.identityDocumentIssueDate =
+                identityDocument.identityDocumentIssueDate != null
+                    ? new Date(identityDocument.identityDocumentIssueDate)
+                    : null;
+            identityDocument.identityDocumentExpiryDate =
+                identityDocument.identityDocumentExpiryDate != null
+                    ? new Date(identityDocument.identityDocumentExpiryDate)
+                    : null;
         });
         return crewMember;
     };
@@ -5522,13 +5595,45 @@ var CrewListComponent = /** @class */ (function () {
             }
         });
     };
+    CrewListComponent.prototype.removeExistingMasters = function () {
+        var master = this.crewList.find(function (x) { return x.isMaster === true; });
+        if (master == null || master === undefined) {
+            return;
+        }
+        this.crewList.forEach(function (crew) {
+            if (crew.sequenceNumber !== master.sequenceNumber) {
+                var rankName = crew.rankName;
+                var rankCode = crew.rankCode;
+                if (crew.isMaster) {
+                    crew.isMaster = false;
+                }
+                if (rankName !== null && rankName !== undefined) {
+                    rankName = rankName.trim();
+                    if (rankName.toLowerCase() === 'master') {
+                        crew.isMaster = false;
+                        crew.rankName = 'N/A';
+                    }
+                }
+                if (rankCode !== null && rankCode !== undefined) {
+                    rankCode = rankCode.trim();
+                    if (rankCode.toLowerCase() === 'master') {
+                        crew.isMaster = false;
+                        crew.rankCode = 'N/A';
+                    }
+                }
+            }
+        });
+    };
     CrewListComponent.prototype.editCrewMember = function ($event) {
         var _this = this;
         // Set corresponding crewMember to the edited instance
         this.crewList[this.crewList.findIndex(function (c) { return c.sequenceNumber === $event.sequenceNumber; })] = JSON.parse(JSON.stringify($event));
         this.personOnBoardService.setCrewList(this.crewList);
         // Make all dates Date objects again
-        this.crewList.forEach(function (crewMember) { crewMember = _this.makeDates(crewMember); });
+        this.crewList.forEach(function (crewMember) {
+            crewMember = _this.makeDates(crewMember);
+        });
+        this.removeExistingMasters();
         // Load to smart table
         this.reloadTable();
         this.touchData();
@@ -5553,7 +5658,9 @@ var CrewListComponent = /** @class */ (function () {
     };
     CrewListComponent.prototype.saveCrewList = function () {
         var _this = this;
-        this.personOnBoardService.updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId).subscribe(function (res) {
+        this.personOnBoardService
+            .updatePersonOnBoardList(this.portCallId, this.crewList, this.personOnBoardType.personOnBoardTypeId)
+            .subscribe(function (res) {
             _this.listIsPristine = true;
             _this.personOnBoardService.setCrewDataIsPristine(true);
         });
@@ -5580,7 +5687,11 @@ var CrewListComponent = /** @class */ (function () {
     CrewListComponent.prototype.getDisplayDateFormat = function (date) {
         if (date) {
             date = new Date(date);
-            var dateString = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+            var dateString = date.getFullYear() +
+                '-' +
+                ('0' + (date.getMonth() + 1)).slice(-2) +
+                '-' +
+                ('0' + date.getDate()).slice(-2);
             return dateString;
         }
         else {
@@ -5655,7 +5766,7 @@ module.exports = ".modal-body ::ng-deep .ng-select-placeholder-sm,\r\n::-webkit-
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/crew-list/crew-member-modal/crew-member-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputCrewModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n\r\n  </div>\r\n  <div class=\"modal-body\" *ngIf=\"inputCrewModel\">\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.givenName\" readonly type=\"text\" name=\"givenName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.familyName\" readonly type=\"text\" name=\"familyName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" readonly type=\"text\" name=\"dateOfBirth\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.dateOfBirth)\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.countryOfBirth\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.countryOfBirth\" readonly type=\"text\" name=\"countryOfBirth\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.countryOfBirth\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"countryOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.nationality\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode | lowercase}}.png\" height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.nationality\" readonly type=\"text\" name=\"nationality\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.nationality\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"nationality\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.placeOfBirth\" readonly type=\"text\" name=\"placeOfBirth\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.gender\" class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.gender\"\r\n          readonly type=\"text\" name=\"gender\">\r\n        <input *ngIf=\"!inputCrewModel.gender\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"gender\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.rankName\" readonly type=\"text\" name=\"rankName\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating code</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.rankCode\" readonly type=\"text\" name=\"rankCode\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.crewEffects\" readonly type=\"text\" name=\"crewEffects\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"inputCrewModel.identityDocument[0].identityDocumentType.description\" readonly type=\"text\" name=\"identityDocumentType\">\r\n        <input *ngIf=\"!inputCrewModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentType\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.identityDocument[0].identityDocumentNumber\"\r\n          readonly type=\"text\" name=\"identityDocumentNumber\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.identityDocument[0].issuingNation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.identityDocument[0].issuingNation\" readonly type=\"text\"\r\n            name=\"issuingNation\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.identityDocument[0].issuingNation\" class=\"form-control form-control-sm\" readonly\r\n          type=\"text\" name=\"issuingNation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentExpiryDate\">\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputCrewModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit Crew Member</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputCrewModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\" *ngIf=\"inputCrewModel\">\r\n      <div *ngIf=\"isImport\">\r\n        <tr *ngFor=\"let error of currentErrors\">\r\n          <td><span style=\"color: red\">{{error}}</span></td>\r\n        </tr>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #givenName=\"ngModel\" [(ngModel)]=\"inputCrewModel.givenName\" type=\"text\"\r\n            name=\"givenName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #familyName=\"ngModel\" [(ngModel)]=\"inputCrewModel.familyName\"\r\n            type=\"text\" name=\"familyName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.dateOfBirth)\"></app-date-picker>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.countryOfBirth\"\r\n              name=\"countryOfBirth\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n            (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.nationality\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.nationality\"\r\n              name=\"nationailty\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n            (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.placeOfBirth\" type=\"text\" name=\"placeOfBirth\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [ngModel]=\"inputCrewModel.gender\" name=\"gender\"\r\n            bindLabel=\"description\" [closeOnSelect]=\"true\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.rankName\" type=\"text\" name=\"rankName\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating code</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.rankCode\" type=\"text\" name=\"rankCode\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <div class=\"col my-auto\">\r\n          <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n          <input type=\"text\" [(ngModel)]=\"inputCrewModel.crewEffects\" placeholder=\"Crew effects\"\r\n            class=\"form-control form-control-sm\" name=\"crewEffects\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"natureOfIdentityDoc\" class=\"col col-form-label-sm no-wrap mb-0\">Nature of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"identityDocumentTypes\" [(ngModel)]=\"inputCrewModel.identityDocument[0].identityDocumentType\"\r\n            name=\"natureOfIdentityDoc\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Nature of Identity Document\"\r\n            (change)=\"setIdentityDocumentType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputCrewModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.identityDocument[0].identityDocumentNumber\"\r\n            type=\"text\" name=\"identityDocumentNumber\" (change)=\"checkIdentityValues()\">\r\n          <div *ngIf=\"!identityDocNoSet && identityInfoRequired\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.identityDocument[0].issuingNation\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.identityDocument[0].issuingNation\"\r\n              name=\"issuingNation\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove isssuing nation\" (click)=\"resetIssuingNation()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.identityDocument[0].issuingNation\" (selectCountry)=\"setIssuingNation($event)\"\r\n            (deselectCountry)=\"resetIssuingNation()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentIssueDate($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)\"></app-date-picker>\r\n          <div *ngIf=\"issueDateAfterExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document issue date must be before the expiry date.</span>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentExpiryDate($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)\"></app-date-picker>\r\n          <div *ngIf=\"expiryDateBeforeExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document expiry date must be after the issue date.</span>\r\n          </div>\r\n          <div *ngIf=\"identityInfoRequired && !expiryDateSet\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" (click)=\"editCrewMember(); resetForm(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputCrewModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
+module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputCrewModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n\r\n  </div>\r\n  <div class=\"modal-body\" *ngIf=\"inputCrewModel\">\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.givenName\" readonly type=\"text\" name=\"givenName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.familyName\" readonly type=\"text\" name=\"familyName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" readonly type=\"text\" name=\"dateOfBirth\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.dateOfBirth)\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.countryOfBirth\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.countryOfBirth\" readonly type=\"text\" name=\"countryOfBirth\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.countryOfBirth\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"countryOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.nationality\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode | lowercase}}.png\" height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.nationality\" readonly type=\"text\" name=\"nationality\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.nationality\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"nationality\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.placeOfBirth\" readonly type=\"text\" name=\"placeOfBirth\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.gender\" class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.gender\"\r\n          readonly type=\"text\" name=\"gender\">\r\n        <input *ngIf=\"!inputCrewModel.gender\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"gender\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.rankName\" readonly type=\"text\" name=\"rankName\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating code</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.rankCode\" readonly type=\"text\" name=\"rankCode\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Is Master</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"formBooleanModel[inputCrewModel.isMaster]\" readonly type=\"text\"\r\n          name=\"isMaster\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.crewEffects\" readonly type=\"text\" name=\"crewEffects\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"inputCrewModel.identityDocument[0].identityDocumentType.description\" readonly type=\"text\" name=\"identityDocumentType\">\r\n        <input *ngIf=\"!inputCrewModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentType\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputCrewModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputCrewModel.identityDocument[0].identityDocumentNumber\"\r\n          readonly type=\"text\" name=\"identityDocumentNumber\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputCrewModel.identityDocument[0].issuingNation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputCrewModel.identityDocument[0].issuingNation\" readonly type=\"text\"\r\n            name=\"issuingNation\">\r\n        </div>\r\n        <input *ngIf=\"!inputCrewModel.identityDocument[0].issuingNation\" class=\"form-control form-control-sm\" readonly\r\n          type=\"text\" name=\"issuingNation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentExpiryDate\">\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputCrewModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit Crew Member</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputCrewModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\" *ngIf=\"inputCrewModel\">\r\n      <div *ngIf=\"isImport\">\r\n        <tr *ngFor=\"let error of currentErrors\">\r\n          <td><span style=\"color: red\">{{error}}</span></td>\r\n        </tr>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #givenName=\"ngModel\" [(ngModel)]=\"inputCrewModel.givenName\" type=\"text\"\r\n            name=\"givenName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #familyName=\"ngModel\" [(ngModel)]=\"inputCrewModel.familyName\"\r\n            type=\"text\" name=\"familyName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.dateOfBirth)\"></app-date-picker>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <ng-container *ngIf=\"inputCrewModel.countryOfBirthTwoCharCode != null || inputCrewModel.countryOfBirthTwoCharCode !== undefined\">\r\n                    <img src=\"assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                    height=\"20px\">\r\n                </ng-container>\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.countryOfBirth\"\r\n              name=\"countryOfBirth\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n            (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.nationality\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                  <ng-container *ngIf=\"inputCrewModel.nationalityTwoCharCode != null || inputCrewModel.nationalityTwoCharCode !== undefined\">\r\n                      <img src=\"assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                      height=\"20px\">\r\n                  </ng-container>\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.nationality\"\r\n              name=\"nationailty\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n            (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.placeOfBirth\" type=\"text\" name=\"placeOfBirth\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [ngModel]=\"inputCrewModel.gender\" name=\"gender\"\r\n            bindLabel=\"description\" [closeOnSelect]=\"true\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.rankName\" type=\"text\" name=\"rankName\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Rank/rating code</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.rankCode\" type=\"text\" name=\"rankCode\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Is Master</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"booleanList\" [ngModel]=\"formBooleanModel[inputCrewModel.isMaster]\"\r\n            name=\"isMaster\" [closeOnSelect]=\"true\" placeholder=\"Master\" (change)=\"setMaster($event)\" [disabled]=\"masterDdlDisabled\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <div class=\"col my-auto\">\r\n          <label for=\"gender\" class=\"col-form-label-sm no-wrap mb-0\">Crew Effects</label>\r\n          <input type=\"text\" [(ngModel)]=\"inputCrewModel.crewEffects\" placeholder=\"Crew effects\" class=\"form-control form-control-sm\"\r\n            name=\"crewEffects\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"natureOfIdentityDoc\" class=\"col col-form-label-sm no-wrap mb-0\">Nature of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"identityDocumentTypes\" [(ngModel)]=\"inputCrewModel.identityDocument[0].identityDocumentType\"\r\n            name=\"natureOfIdentityDoc\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Nature of Identity Document\"\r\n            (change)=\"setIdentityDocumentType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputCrewModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputCrewModel.identityDocument[0].identityDocumentNumber\"\r\n            type=\"text\" name=\"identityDocumentNumber\" (change)=\"checkIdentityValues()\">\r\n          <div *ngIf=\"!identityDocNoSet && identityInfoRequired\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputCrewModel.identityDocument[0].issuingNation\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <ng-container *ngIf=\"inputCrewModel.identityDocument[0].issuingNationTwoCharCode != null || inputCrewModel.identityDocument[0].issuingNationTwoCharCode !== undefined\">\r\n                  <img src=\"assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                    height=\"20px\">\r\n                </ng-container>\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputCrewModel.identityDocument[0].issuingNation\"\r\n              name=\"issuingNation\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove isssuing nation\" (click)=\"resetIssuingNation()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputCrewModel.identityDocument[0].issuingNation\" (selectCountry)=\"setIssuingNation($event)\"\r\n            (deselectCountry)=\"resetIssuingNation()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentIssueDate($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentIssueDate)\"></app-date-picker>\r\n          <div *ngIf=\"issueDateAfterExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document issue date must be before the expiry date.</span>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentExpiryDate($event)\" [dateInput]=\"getNgbDateFormat(inputCrewModel.identityDocument[0].identityDocumentExpiryDate)\"></app-date-picker>\r\n          <div *ngIf=\"expiryDateBeforeExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document expiry date must be after the issue date.</span>\r\n          </div>\r\n          <div *ngIf=\"identityInfoRequired && !expiryDateSet\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" (click)=\"editCrewMember(); resetForm(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputCrewModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
 
 /***/ }),
 
@@ -5688,6 +5799,8 @@ var CrewMemberModalComponent = /** @class */ (function () {
         this.personOnBoardService = personOnBoardService;
         this.validateDateTimeService = validateDateTimeService;
         this.countryService = countryService;
+        this.hasMaster = false;
+        this.masterDdlDisabled = true;
         this.outputCrewModel = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.isImport = false;
         this.dirtyForm = false;
@@ -5718,6 +5831,9 @@ var CrewMemberModalComponent = /** @class */ (function () {
         this.personOnBoardService.getGenderList().subscribe(function (res) {
             _this.genderList = res;
         });
+        this.personOnBoardService.hasMaster$.subscribe(function (hasMaster) {
+            _this.hasMaster = hasMaster;
+        });
     };
     // Open modals
     CrewMemberModalComponent.prototype.openViewModal = function (crewModel) {
@@ -5730,6 +5846,11 @@ var CrewMemberModalComponent = /** @class */ (function () {
             this.inputCrewModel.identityDocument[0] == null) {
             this.inputCrewModel.identityDocument[0] = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */]();
         }
+        if (this.inputCrewModel.nationality === 'N/A') {
+            this.inputCrewModel.nationality = null;
+            this.inputCrewModel.nationalityId = null;
+        }
+        this.masterDdlDisabled = true;
         this.modalService.open(this.viewModal);
     };
     CrewMemberModalComponent.prototype.checkIdentityValues = function () {
@@ -5772,6 +5893,14 @@ var CrewMemberModalComponent = /** @class */ (function () {
                 backdrop: 'static'
             });
         }
+        if (this.inputCrewModel.nationality === 'N/A') {
+            this.inputCrewModel.nationality = null;
+            this.inputCrewModel.nationalityId = null;
+        }
+        if (this.inputCrewModel.isMaster === undefined || this.inputCrewModel.isMaster == null) {
+            this.inputCrewModel.isMaster = false;
+        }
+        this.masterDdlDisabled = (!this.inputCrewModel.isMaster && this.hasMaster);
     };
     CrewMemberModalComponent.prototype.addGenderAndNationality = function () {
         var _this = this;
@@ -5808,6 +5937,12 @@ var CrewMemberModalComponent = /** @class */ (function () {
     };
     // Output
     CrewMemberModalComponent.prototype.editCrewMember = function () {
+        if (this.inputCrewModel.gender != null &&
+            this.inputCrewModel.gender.description != null &&
+            this.inputCrewModel.gender !== undefined &&
+            this.inputCrewModel.gender.description !== undefined) {
+            this.inputCrewModel.gender = this.inputCrewModel.gender.description;
+        }
         this.outputCrewModel.emit(this.inputCrewModel);
     };
     CrewMemberModalComponent.prototype.setNationality = function ($event) {
@@ -5985,6 +6120,9 @@ var CrewMemberModalComponent = /** @class */ (function () {
                     : null;
         });
         return crewMember;
+    };
+    CrewMemberModalComponent.prototype.setMaster = function ($event) {
+        this.inputCrewModel.isMaster = this.booleanModel[$event];
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
@@ -6640,7 +6778,7 @@ module.exports = ""
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/file-upload/file-upload/file-upload.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div>\r\n  <ng-container *ngIf=\"isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadPaxModal)\">Upload Pax Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Pax and Crew Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewModal)\">Upload Crew Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Crew and Pax Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadShipStoresModal)\">Upload Ship Stores Data</button>\r\n  </ng-container>\r\n  <ng-container>\r\n    <a href=\"/assets/files/IMO-MSW-Data-Import-Template.xlsx\" download=\"IMO-MSW Data Import Template\" >\r\n      <small>Click here to download an empty template</small>\r\n      <img src=\"/assets/images/icons/128x128/download.png\" height=\"24px\" />\r\n    </a>\r\n  </ng-container>\r\n</div>\r\n\r\n\r\n<ng-template #uploadPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"savePaxFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing crew data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewAndPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew and Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger and crew data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewPaxFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadShipStoresModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Ship Stores Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing ship stores data.</span>\r\n      <br/>\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveShipStoresFile();\">\r\n        <span>Upload</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>"
+module.exports = "<div>\r\n  <ng-container *ngIf=\"isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadPaxModal)\">Upload Pax Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Pax and Crew Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && !isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewModal)\">Upload Crew Data</button>\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadCrewAndPaxModal)\">Upload Crew and Pax Data</button>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"!isPaxPage && isShipStores\">\r\n    <button class=\"btn btn-ssn\" (click)=\"openUploadModal(uploadShipStoresModal)\">Upload Ship Stores Data</button>\r\n  </ng-container>\r\n  <ng-container>\r\n    <a href=\"/assets/files/IMO-MSW-Data-Import-Template.xlsx\" download=\"IMO-MSW Data Import Template\">\r\n      <small>Click here to download an empty template</small>\r\n      <img src=\"/assets/images/icons/128x128/download.png\" height=\"24px\" />\r\n    </a>\r\n  </ng-container>\r\n</div>\r\n\r\n\r\n<ng-template #uploadPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelectedAndFileType\">\r\n        <span style=\"color: red\">(Please select an .xlsx file)</span>\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n            <span>Upload</span>\r\n          </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelectedAndFileType\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"savePaxFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing crew data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelectedAndFileType\">\r\n        <span style=\"color: red\">(Please select an .xlsx file)</span>\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelectedAndFileType\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadCrewAndPaxModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Crew and Passenger Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing passenger and crew data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelectedAndFileType\">\r\n        <span style=\"color: red\">(Please select an .xlsx file)</span>\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelectedAndFileType\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveCrewPaxFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>\r\n\r\n<ng-template #uploadShipStoresModal let-close=\"close()\" class=\"modal fade\">\r\n  <ng-container *ngIf=\"!uploading\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Upload Ship Stores Data</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\">\r\n      <span>Upload your .xslx file containing ship stores data.</span>\r\n      <br />\r\n      <span style=\"color: red\">WARNING: This will overwrite any existing data</span>\r\n      <input type=\"file\" (change)=\"uploadFile($event)\" placeholder=\"Upload file\" accept=\".xlsx\">\r\n    </div>\r\n    <div class=\"modal-footer\">\r\n      <ng-container *ngIf=\"!FileSelectedAndFileType\">\r\n        <span style=\"color: red\">(Please select an .xlsx file)</span>\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" disabled>\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <ng-container *ngIf=\"FileSelectedAndFileType\">\r\n        <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"saveShipStoresFile();\">\r\n          <span>Upload</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" class=\"btn mt-2 btn-ssn\" (click)=\"close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </ng-container>\r\n  <ng-container *ngIf=\"uploading\">\r\n    <div class=\"input-group-append\" *ngIf=\"uploading\">\r\n      <img class=\"mx-auto\" src=\"assets/images/animations/upload.gif\" height=\"20px\">\r\n      <p>Uploading</p>\r\n    </div>\r\n  </ng-container>\r\n</ng-template>"
 
 /***/ }),
 
@@ -6672,6 +6810,7 @@ var FileUploadComponent = /** @class */ (function () {
         this.entriesHasErrors = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.crewAndPaxErrors = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
         this.importSuccess = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+        this.FileSelectedAndFileType = false;
     }
     FileUploadComponent.prototype.ngOnInit = function () {
     };
@@ -6682,95 +6821,118 @@ var FileUploadComponent = /** @class */ (function () {
         var fileList = event.target.files;
         if (fileList.length > 0) {
             var file = fileList[0];
-            var formData = new FormData();
-            formData.append('uploadFile', file, file.name);
-            this.FileToUpload = formData;
+            var fileType = file.name.split('.').pop();
+            if (file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || fileType === 'xlsx') {
+                var formData = new FormData();
+                formData.append('uploadFile', file, file.name);
+                this.FileToUpload = formData;
+                this.FileSelectedAndFileType = true;
+                return;
+            }
         }
+        this.FileSelectedAndFileType = false;
+        this.FileToUpload = null;
     };
     FileUploadComponent.prototype.saveShipStoresFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.shipStoresWithErrors = res.json();
-                if (_this.shipStoresWithErrors && _this.shipStoresWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.shipStoresWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.shipStoresWithErrors = res.json();
+                    if (_this.shipStoresWithErrors && _this.shipStoresWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.shipStoresWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.savePaxFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        }).subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            }).subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.saveCrewFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     FileUploadComponent.prototype.saveCrewPaxFile = function () {
         var _this = this;
-        this.uploading = true;
-        this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
-            .finally(function () {
-            _this.uploading = false;
-            _this.modalRef.close();
-        })
-            .subscribe(function (res) {
-            if (typeof res.json() === 'boolean') {
-                _this.importSuccess.emit(res.json());
-            }
-            else {
-                _this.personOnBoardListWithErrors = res.json();
-                var paxList = _this.personOnBoardListWithErrors.filter(function (x) { return x.isPax; });
-                var crewList = _this.personOnBoardListWithErrors.filter(function (x) { return !x.isPax; });
-                if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
-                    _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+        if (this.FileToUpload == null) {
+        }
+        else {
+            this.uploading = true;
+            this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
+                .finally(function () {
+                _this.uploading = false;
+                _this.modalRef.close();
+            })
+                .subscribe(function (res) {
+                if (typeof res.json() === 'boolean') {
+                    _this.importSuccess.emit(res.json());
                 }
-            }
-            _this.saved.emit(false);
-        });
+                else {
+                    _this.personOnBoardListWithErrors = res.json();
+                    var paxList = _this.personOnBoardListWithErrors.filter(function (x) { return x.isPax; });
+                    var crewList = _this.personOnBoardListWithErrors.filter(function (x) { return !x.isPax; });
+                    if (_this.personOnBoardListWithErrors && _this.personOnBoardListWithErrors.length > 0) {
+                        _this.entriesHasErrors.emit(_this.personOnBoardListWithErrors);
+                    }
+                }
+                _this.saved.emit(false);
+            });
+        }
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
@@ -7328,7 +7490,15 @@ var PassengerListComponent = /** @class */ (function () {
                     title: 'Gender'
                 },
                 dateOfBirth: {
-                    title: 'Date of Birth'
+                    title: 'Date of Birth',
+                    valuePrepareFunction: function (value) {
+                        if (value instanceof Date) {
+                            return value;
+                        }
+                        else {
+                            return 'N/A';
+                        }
+                    }
                 },
                 portOfEmbarkation: {
                     title: 'Port of Embarkation'
@@ -7425,6 +7595,12 @@ var PassengerListComponent = /** @class */ (function () {
         this.portCallPassengerModel.personOnBoardTypeId = this.personOnBoardType.personOnBoardTypeId;
         // Add the identityDocumentModel to passengerModel
         this.portCallPassengerModel.identityDocument.push(this.identityDocumentModel);
+        if (this.portCallPassengerModel.gender != null &&
+            this.portCallPassengerModel.gender.description != null &&
+            this.portCallPassengerModel.gender !== undefined &&
+            this.portCallPassengerModel.gender.description !== undefined) {
+            this.portCallPassengerModel.gender = this.portCallPassengerModel.gender.description;
+        }
         this.passengerList.push(this.portCallPassengerModel);
         this.persistData();
         this.clearForm();
@@ -7754,7 +7930,7 @@ module.exports = ".modal-body ::ng-deep .ng-select-placeholder-sm, ::-webkit-inp
 /***/ "./src/app/main-content/content-container/port-call/registration/forms/passenger-list/passenger-modal/passenger-modal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputPassengerModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n\r\n  </div>\r\n  <div class=\"modal-body\" *ngIf=\"inputPassengerModel\">\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.givenName\" readonly type=\"text\" name=\"givenName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.familyName\" readonly type=\"text\"\r\n          name=\"familyName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" readonly type=\"text\" name=\"dateOfBirth\" [ngModel]=\"getDisplayDateFormat(inputPassengerModel.dateOfBirth)\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.countryOfBirth\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.countryOfBirth\" readonly type=\"text\" name=\"countryOfBirth\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.countryOfBirth\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"countryOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.nationality\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.nationality\" readonly type=\"text\" name=\"nationality\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.nationality\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"nationality\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.placeOfBirth\" readonly type=\"text\"\r\n          name=\"placeOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.gender\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.gender\"\r\n          readonly type=\"text\" name=\"gender\">\r\n        <input *ngIf=\"!inputPassengerModel.gender\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"gender\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Transit</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"formBooleanModel[inputPassengerModel.inTransit]\"\r\n          readonly type=\"text\" name=\"inTransit\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Embarkation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.portOfEmbarkation\" readonly type=\"text\" name=\"portOFEmbarkation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.portOfEmbarkation\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"portOFEmbarkation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Disembarkation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.portOfDisembarkation\" readonly type=\"text\" name=\"portOfDisembarkation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.portOfDisembarkation\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"portOfDisembarkation\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"inputPassengerModel.identityDocument[0].identityDocumentType.description\" readonly type=\"text\"\r\n          name=\"identityDocumentType\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentType\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.identityDocument[0].identityDocumentNumber\"\r\n          readonly type=\"text\" name=\"identityDocumentNumber\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.identityDocument[0].issuingNation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.identityDocument[0].issuingNation\" readonly type=\"text\"\r\n            name=\"issuingNation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].issuingNation\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"issuingNation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentIssueDate\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0].identityDocumentExpiryDate\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)\" readonly\r\n          type=\"text\" name=\"identityDocumentExpiryDate\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentExpiryDate\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentExpiryDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Visa or Residence Permit Number</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber\"\r\n          readonly type=\"text\" name=\"visaOrResidencePermitNumber\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputPassengerModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit Passenger</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputPassengerModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\" *ngIf=\"inputPassengerModel\">\r\n      <div *ngIf=\"isImport\">\r\n        <tr *ngFor=\"let error of currentErrors\">\r\n          <td><span style=\"color: red\">{{error}}</span></td>\r\n        </tr>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #givenName=\"ngModel\" [(ngModel)]=\"inputPassengerModel.givenName\"\r\n            type=\"text\" name=\"givenName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #familyName=\"ngModel\" [(ngModel)]=\"inputPassengerModel.familyName\"\r\n            type=\"text\" name=\"familyName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.dateOfBirth)\"></app-date-picker>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.countryOfBirth\"\r\n              name=\"countryOfBirth\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n            (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.nationality\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.nationality\"\r\n              name=\"nationailty\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n            (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.placeOfBirth\" type=\"text\" name=\"placeOfBirth\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [ngModel]=\"inputPassengerModel.gender\" name=\"gender\"\r\n            bindLabel=\"description\" [closeOnSelect]=\"true\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Transit</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"booleanList\" [ngModel]=\"formBooleanModel[inputPassengerModel.inTransit]\"\r\n            name=\"transit\" [closeOnSelect]=\"true\" placeholder=\"Transit\" (change)=\"setTransit($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Embarkation</label>\r\n        <div class=\"col my-auto\">\r\n          <app-search-location *ngIf=\"!inputPassengerModel.portOfEmbarkation\" [restrictTypeHarbour]=true\r\n            (locationResult)=\"setPortOfEmbarkation($event)\" id=\"search-port-of-embarkation\"></app-search-location>\r\n\r\n          <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n            <div class=\"input-group-prepend\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input readonly type=\"text\" name=\"port-of-embarkation\" id=\"app-find-port-of-embarkation\" class=\"form-control\"\r\n              [(ngModel)]=\"inputPassengerModel.portOfEmbarkation\">\r\n            <div class=\"input-group-append\">\r\n              <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove port of embarkation\" (click)=\"resetPortOfEmbarkation()\">\r\n                <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\">\r\n              </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Disembarkation</label>\r\n        <div class=\"col my-auto\">\r\n          <app-search-location *ngIf=\"!inputPassengerModel.portOfDisembarkation\" [restrictTypeHarbour]=true\r\n            (locationResult)=\"setPortOfDisembarkation($event)\" id=\"search-port-of-disembarkation\"></app-search-location>\r\n          <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n            <div class=\"input-group-prepend \" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input readonly type=\"text\" name=\"port-of-disembarkation\" id=\"app-find-port-of-disembarkation\" class=\"form-control\"\r\n              [(ngModel)]=\"inputPassengerModel.portOfDisembarkation\">\r\n            <div class=\"input-group-append\">\r\n              <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove port of disembarkation\" (click)=\"resetPortOfDisembarkation()\">\r\n                <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\">\r\n              </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"natureOfIdentityDoc\" class=\"col col-form-label-sm no-wrap mb-0\">Nature of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"identityDocumentTypes\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].identityDocumentType\"\r\n            name=\"natureOfIdentityDoc\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Nature of Identity Document\"\r\n            (change)=\"setIdentityDocumentType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].identityDocumentNumber\"\r\n            type=\"text\" name=\"identityDocumentNumber\" (change)=\"checkIdentityValues()\">\r\n          <div *ngIf=\"!identityDocNoSet && identityInfoRequired\" class=\"alert alert-danger form-control-sm\"\r\n            role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.identityDocument[0].issuingNation\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].issuingNation\"\r\n              name=\"issuingNation\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove isssuing nation\" (click)=\"resetIssuingNation()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.identityDocument[0].issuingNation\" (selectCountry)=\"setIssuingNation($event)\"\r\n            (deselectCountry)=\"resetIssuingNation()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentIssueDate($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)\"></app-date-picker>\r\n          <div *ngIf=\"issueDateAfterExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document issue date must be before the expiry date.</span>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentExpiryDate($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)\"></app-date-picker>\r\n          <div *ngIf=\"expiryDateBeforeExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document expiry date must be after the issue date.</span>\r\n          </div>\r\n          <div *ngIf=\"identityInfoRequired && !expiryDateSet\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Visa or Residence Permit Number</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber\"\r\n            type=\"text\" name=\"visaOrResidencePermitNumber\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" (click)=\"editPassenger(); resetForm(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputPassengerModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
+module.exports = "<ng-template #viewModal let-close=\"close()\" class=\"modal fade\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">View</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputPassengerModel(); close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n\r\n  </div>\r\n  <div class=\"modal-body\" *ngIf=\"inputPassengerModel\">\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.givenName\" readonly type=\"text\" name=\"givenName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.familyName\" readonly type=\"text\"\r\n          name=\"familyName\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" readonly type=\"text\" name=\"dateOfBirth\" [ngModel]=\"getDisplayDateFormat(inputPassengerModel.dateOfBirth)\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.countryOfBirth\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.countryOfBirth\" readonly type=\"text\" name=\"countryOfBirth\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.countryOfBirth\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"countryOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.nationality\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode | lowercase}}.png\"\r\n                height=\"16px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.nationality\" readonly type=\"text\" name=\"nationality\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.nationality\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"nationality\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.placeOfBirth\" readonly type=\"text\"\r\n          name=\"placeOfBirth\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.gender\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.gender\"\r\n          readonly type=\"text\" name=\"gender\">\r\n        <input *ngIf=\"!inputPassengerModel.gender\" class=\"form-control form-control-sm\" readonly type=\"text\" name=\"gender\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Transit</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"formBooleanModel[inputPassengerModel.inTransit]\"\r\n          readonly type=\"text\" name=\"inTransit\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Embarkation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.portOfEmbarkation\" readonly type=\"text\" name=\"portOFEmbarkation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.portOfEmbarkation\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"portOFEmbarkation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Disembarkation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.portOfDisembarkation\" readonly type=\"text\" name=\"portOfDisembarkation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.portOfDisembarkation\" class=\"form-control form-control-sm\" readonly type=\"text\"\r\n          name=\"portOfDisembarkation\">\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Type</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"inputPassengerModel.identityDocument[0].identityDocumentType.description\" readonly type=\"text\"\r\n          name=\"identityDocumentType\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentType\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentType\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.identityDocument[0].identityDocumentNumber\"\r\n          readonly type=\"text\" name=\"identityDocumentNumber\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n      <div class=\"col my-auto\">\r\n        <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.identityDocument[0].issuingNation\">\r\n          <div class=\"input-group-prepend\">\r\n            <span class=\"input-group-text\">\r\n              <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode | lowercase}}.png\"\r\n                height=\"20px\">\r\n            </span>\r\n          </div>\r\n          <input class=\"form-control\" [ngModel]=\"inputPassengerModel.identityDocument[0].issuingNation\" readonly type=\"text\"\r\n            name=\"issuingNation\">\r\n        </div>\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].issuingNation\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"issuingNation\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input class=\"form-control form-control-sm\" [ngModel]=\"getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentIssueDate\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentIssueDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0].identityDocumentExpiryDate\" class=\"form-control form-control-sm\"\r\n          [ngModel]=\"getDisplayDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)\" readonly\r\n          type=\"text\" name=\"identityDocumentExpiryDate\">\r\n        <input *ngIf=\"!inputPassengerModel.identityDocument[0].identityDocumentExpiryDate\" class=\"form-control form-control-sm\"\r\n          readonly type=\"text\" name=\"identityDocumentExpiryDate\">\r\n      </div>\r\n    </div>\r\n    <div class=\"form-group row\">\r\n      <label class=\"col col-form-label-sm no-wrap mb-0\">Visa or Residence Permit Number</label>\r\n      <div class=\"col my-auto\">\r\n        <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [ngModel]=\"inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber\"\r\n          readonly type=\"text\" name=\"visaOrResidencePermitNumber\">\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputPassengerModel(); close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>\r\n\r\n<ng-template #editModal let-close=\"close()\">\r\n  <form #editForm=\"ngForm\">\r\n    <div class=\"modal-header\">\r\n      <h4 class=\"modal-title\">Edit Passenger</h4>\r\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"resetInputPassengerModel(); close\">\r\n        <span aria-hidden=\"true\">&times;</span>\r\n      </button>\r\n    </div>\r\n    <div class=\"modal-body\" *ngIf=\"inputPassengerModel\">\r\n      <div *ngIf=\"isImport\">\r\n        <tr *ngFor=\"let error of currentErrors\">\r\n          <td><span style=\"color: red\">{{error}}</span></td>\r\n        </tr>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Given Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #givenName=\"ngModel\" [(ngModel)]=\"inputPassengerModel.givenName\"\r\n            type=\"text\" name=\"givenName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"givenName.hasError('required') && givenName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Family Name</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" #familyName=\"ngModel\" [(ngModel)]=\"inputPassengerModel.familyName\"\r\n            type=\"text\" name=\"familyName\" required>\r\n          <div class=\"alert alert-danger\" *ngIf=\"familyName.hasError('required') && familyName.touched\">\r\n            <li>\r\n              <small>This field is required.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Date of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setDateOfBirth($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.dateOfBirth)\"></app-date-picker>\r\n        </div>\r\n      </div>\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Country of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.countryOfBirth\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.countryOfBirthTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.countryOfBirth\"\r\n              name=\"countryOfBirth\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove country of birth\" (click)=\"resetCountryOfBirth()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.countryOfBirth\" (selectCountry)=\"setCountryOfBirth($event)\"\r\n            (deselectCountry)=\"resetCountryOfBirth()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Nationality</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.nationality\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.nationalityTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.nationality\"\r\n              name=\"nationailty\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove nationality\" (click)=\"resetNationality()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.nationality\" (selectCountry)=\"setNationality($event)\"\r\n            (deselectCountry)=\"resetNationality()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Place of Birth</label>\r\n        <div class=\"col my-auto\">\r\n          <input class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.placeOfBirth\" type=\"text\" name=\"placeOfBirth\">\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Gender</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"genderList\" [ngModel]=\"inputPassengerModel.gender\" name=\"gender\"\r\n            bindLabel=\"description\" [closeOnSelect]=\"true\" placeholder=\"Gender\" (change)=\"setGender($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Transit</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"booleanList\" [ngModel]=\"formBooleanModel[inputPassengerModel.inTransit]\"\r\n            name=\"transit\" [closeOnSelect]=\"true\" placeholder=\"Transit\" (change)=\"setTransit($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Embarkation</label>\r\n        <div class=\"col my-auto\">\r\n          <app-search-location *ngIf=\"!inputPassengerModel.portOfEmbarkation\" [restrictTypeHarbour]=true\r\n            (locationResult)=\"setPortOfEmbarkation($event)\" id=\"search-port-of-embarkation\"></app-search-location>\r\n\r\n          <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n            <div class=\"input-group-prepend\" *ngIf=\"inputPassengerModel.portOfEmbarkation\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfEmbarkationTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input readonly type=\"text\" name=\"port-of-embarkation\" id=\"app-find-port-of-embarkation\" class=\"form-control\"\r\n              [(ngModel)]=\"inputPassengerModel.portOfEmbarkation\">\r\n            <div class=\"input-group-append\">\r\n              <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove port of embarkation\" (click)=\"resetPortOfEmbarkation()\">\r\n                <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\">\r\n              </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Port of Disembarkation</label>\r\n        <div class=\"col my-auto\">\r\n          <app-search-location *ngIf=\"!inputPassengerModel.portOfDisembarkation\" [restrictTypeHarbour]=true\r\n            (locationResult)=\"setPortOfDisembarkation($event)\" id=\"search-port-of-disembarkation\"></app-search-location>\r\n          <div class=\"input-group input-group-sm\" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n            <div class=\"input-group-prepend \" *ngIf=\"inputPassengerModel.portOfDisembarkation\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.portOfDisembarkationTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input readonly type=\"text\" name=\"port-of-disembarkation\" id=\"app-find-port-of-disembarkation\" class=\"form-control\"\r\n              [(ngModel)]=\"inputPassengerModel.portOfDisembarkation\">\r\n            <div class=\"input-group-append\">\r\n              <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove port of disembarkation\" (click)=\"resetPortOfDisembarkation()\">\r\n                <img src=\"assets/images/icons/128x128/white/cancel.png\" height=\"16px\">\r\n              </button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label for=\"natureOfIdentityDoc\" class=\"col col-form-label-sm no-wrap mb-0\">Nature of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <ng-select class=\"ng-select-placeholder-sm\" [items]=\"identityDocumentTypes\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].identityDocumentType\"\r\n            name=\"natureOfIdentityDoc\" [closeOnSelect]=\"true\" bindLabel=\"description\" placeholder=\"Nature of Identity Document\"\r\n            (change)=\"setIdentityDocumentType($event)\">\r\n          </ng-select>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Number of Identity Document</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].identityDocumentNumber\"\r\n            type=\"text\" name=\"identityDocumentNumber\" (change)=\"checkIdentityValues()\">\r\n          <div *ngIf=\"!identityDocNoSet && identityInfoRequired\" class=\"alert alert-danger form-control-sm\"\r\n            role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Issuing Nation</label>\r\n        <div class=\"col my-auto\">\r\n          <div *ngIf=\"inputPassengerModel.identityDocument[0].issuingNation\" class=\"input-group input-group-sm\">\r\n            <div class=\"input-group-prepend\">\r\n              <span class=\"input-group-text\">\r\n                <img src=\"assets/images/flags/128x128/{{ inputPassengerModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase() | lowercase}}.png\"\r\n                  height=\"20px\">\r\n              </span>\r\n            </div>\r\n            <input id=\"search-country\" type=\"text\" class=\"form-control\" readonly=\"readonly\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].issuingNation\"\r\n              name=\"issuingNation\" />\r\n            <div>\r\n              <div class=\"input-group-append\">\r\n                <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"Remove isssuing nation\" (click)=\"resetIssuingNation()\">\r\n                  <img height=\"16px\" src=\"assets/images/icons/128x128/white/cancel.png\">\r\n                </button>\r\n              </div>\r\n            </div>\r\n          </div>\r\n          <app-search-country *ngIf=\"!inputPassengerModel.identityDocument[0].issuingNation\" (selectCountry)=\"setIssuingNation($event)\"\r\n            (deselectCountry)=\"resetIssuingNation()\"></app-search-country>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Issue Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentIssueDate($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentIssueDate)\"></app-date-picker>\r\n          <div *ngIf=\"issueDateAfterExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document issue date must be before the expiry date.</span>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Identity Document Expiry Date</label>\r\n        <div class=\"col my-auto\">\r\n          <app-date-picker (dateResult)=\"setIdentityDocumentExpiryDate($event)\" [dateInput]=\"getNgbDateFormat(inputPassengerModel.identityDocument[0].identityDocumentExpiryDate)\"></app-date-picker>\r\n          <div *ngIf=\"expiryDateBeforeExpiryDateError\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <span>Identity document expiry date must be after the issue date.</span>\r\n          </div>\r\n          <div *ngIf=\"identityInfoRequired && !expiryDateSet\" class=\"alert alert-danger form-control-sm\" role=\"alert\">\r\n            <li>\r\n              <small>This field is required when identity document is supplied.</small>\r\n            </li>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"form-group row\">\r\n        <label class=\"col col-form-label-sm no-wrap mb-0\">Visa or Residence Permit Number</label>\r\n        <div class=\"col my-auto\">\r\n          <input *ngIf=\"inputPassengerModel.identityDocument[0]\" class=\"form-control form-control-sm\" [(ngModel)]=\"inputPassengerModel.identityDocument[0].visaOrResidencePermitNumber\"\r\n            type=\"text\" name=\"visaOrResidencePermitNumber\">\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n\r\n    <div class=\"modal-footer\">\r\n      <button *ngIf=\"editForm.valid && validDocumentDates && (editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" (click)=\"editPassenger(); resetForm(); close\">\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button *ngIf=\"!editForm.valid || !validDocumentDates || !(editForm.form.dirty || dirtyForm === true)\" type=\"button\"\r\n        class=\"btn btn-ssn\" disabled>\r\n        <img src=\"assets/images/icons/128x128/white/save.png\" height=\"24px\">\r\n        <span>Save Entry</span>\r\n      </button>\r\n      <button type=\"button\" class=\"btn btn-ssn\" (click)=\"resetInputPassengerModel($event); close\">\r\n        <span>Cancel</span>\r\n      </button>\r\n    </div>\r\n  </form>\r\n</ng-template>"
 
 /***/ }),
 
@@ -7827,6 +8003,10 @@ var PassengerModalComponent = /** @class */ (function () {
             || this.inputPassengerModel.identityDocument[0] === undefined || this.inputPassengerModel.identityDocument[0] == null) {
             this.inputPassengerModel.identityDocument[0] = new __WEBPACK_IMPORTED_MODULE_2_app_shared_models___["j" /* IdentityDocumentModel */]();
         }
+        if (this.inputPassengerModel.nationality === 'N/A') {
+            this.inputPassengerModel.nationality = null;
+            this.inputPassengerModel.nationalityId = null;
+        }
         this.modalService.open(this.viewModal);
     };
     PassengerModalComponent.prototype.openEditModal = function (passengerModel) {
@@ -7847,6 +8027,10 @@ var PassengerModalComponent = /** @class */ (function () {
             this.modalService.open(this.editModal, {
                 backdrop: 'static'
             });
+        }
+        if (this.inputPassengerModel.nationality === 'N/A') {
+            this.inputPassengerModel.nationality = null;
+            this.inputPassengerModel.nationalityId = null;
         }
     };
     PassengerModalComponent.prototype.addGenderAndNationality = function () {
@@ -7901,6 +8085,12 @@ var PassengerModalComponent = /** @class */ (function () {
     };
     // Output
     PassengerModalComponent.prototype.editPassenger = function () {
+        if (this.inputPassengerModel.gender != null &&
+            this.inputPassengerModel.gender.description != null &&
+            this.inputPassengerModel.gender !== undefined &&
+            this.inputPassengerModel.gender.description !== undefined) {
+            this.inputPassengerModel.gender = this.inputPassengerModel.gender.description;
+        }
         this.outputPassengerModel.emit(this.inputPassengerModel);
     };
     PassengerModalComponent.prototype.setNationality = function ($event) {
@@ -10643,7 +10833,7 @@ var ShipStoresComponent = /** @class */ (function () {
                     title: 'Location Onboard Code'
                 },
                 delete: {
-                    title: 'Delete',
+                    title: 'Actions',
                     type: 'custom',
                     filter: false,
                     sort: false,
@@ -11824,7 +12014,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header-home/header-home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header *ngIf=\"standAlone; else inExistingNav\">\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n    <ul class=\"navbar-nav ml-auto\">\r\n      <li class=\"nav-item\">\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 01.02.2019</span>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n\r\n</header>\r\n\r\n<ng-template #inExistingNav>\r\n  <li class=\"nav-item\">\r\n    <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n      <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n    </button>\r\n    <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n    <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n  </li>\r\n</ng-template>"
+module.exports = "<header *ngIf=\"standAlone; else inExistingNav\">\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n\r\n      <li class=\"nav-item\">\r\n        <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n          <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n    </ul>\r\n    <ul class=\"navbar-nav ml-auto\">\r\n      <li class=\"nav-item\">\r\n          <span class=\"text-center text-ssn mx-3\">Version 1.1. Deployed: 08.03.2019</span>\r\n      </li>\r\n    </ul>\r\n  </nav>\r\n\r\n</header>\r\n\r\n<ng-template #inExistingNav>\r\n  <li class=\"nav-item\">\r\n    <button class=\"btn btn-sm btn-ssn\" (click)=\"onClick()\" routerLink=\"/\">\r\n      <img src=\"{{iconPath}}home.png\" height=\"16px\">\r\n    </button>\r\n    <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n    <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n  </li>\r\n</ng-template>"
 
 /***/ }),
 
@@ -11888,7 +12078,7 @@ module.exports = ""
 /***/ "./src/app/main-content/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\">\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n        <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Development Version. Deployed: 01.02.2019</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"whatsNew()\">What's new?</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
+module.exports = "<header>\r\n  <nav class=\"navbar navbar-dark bg-ssn\">\r\n\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\" *ngIf=\"(userMenuEntries.length > 1); else singleEntry\">\r\n        <button class=\"btn btn-sm btn-ssn\" type=\"button\" (click)=\"menuIsCollapsed = !menuIsCollapsed\" >\r\n          <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n        <img src=\"/assets/images/logos/logo.png\" height=\"32px\" />\r\n        <span class=\"text-center text-ssn\">IMO Maritime Single Window</span>\r\n      </li>\r\n      <ng-template #singleEntry>\r\n          <app-header-home [standAlone]=\"false\" *ngIf=\"userMenuEntries.length === 1\"></app-header-home>\r\n      </ng-template>\r\n    </ul>\r\n\r\n    <span class=\"badge badge-danger\" *ngIf=\"!(online$ | async)\">Internet connection lost</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasDbConnection\">Connection to database lost.</span>\r\n    <span class=\"badge badge-danger\" *ngIf=\"!hasServerConnection\">Connection to server lost.</span>\r\n\r\n    <ul class=\"navbar-nav ml-auto\" *ngIf=\"loggedIn || redirected\">\r\n      <li class=\"nav-item\" >\r\n          <span class=\"text-center text-ssn mx-3\">Version 1.1. Deployed: 08.03.2019</span>\r\n          <div class=\"btn-group\">\r\n            <button (click)=\"navigateToMyAccountPage()\" class=\"btn btn-light btn-sm\">My account</button>\r\n          </div>\r\n          <div class=\"btn-group\">\r\n            <span class=\"btn btn-light btn-sm non-clickable\">{{userName}}</span>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"logout()\">Log out</button>\r\n            <button class=\"btn btn-outline-light btn-sm\" (click)=\"whatsNew()\">What's new?</button>\r\n          </div>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n\r\n    <div class=\"collapse navbar-collapse\" [ngbCollapse]=\"menuIsCollapsed\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm mx-auto mt-2\" *ngFor=\"let menuEntry of userMenuEntries\">\r\n          <button class=\"btn btn-ssn btn-sm col\" (click)=\"setContent(menuEntry.menuName)\">\r\n            <img src=\"{{ menuEntry.iconPath }}\" height=\"24px\" /> {{menuEntry.title}}\r\n          </button>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n  </nav>\r\n</header>"
 
 /***/ }),
 
@@ -12126,14 +12316,14 @@ var HeaderModule = /** @class */ (function () {
 /***/ "./src/app/main-content/header/whats-new/whats-new.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".whatsNew {\r\n    margin: auto;\r\n    width: 50%;\r\n    padding: 10px;\r\n}\r\n\r\nul{\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\r\n  }"
+module.exports = ".whatsNew {\r\n    margin: auto;\r\n    width: 50%;\r\n    padding: 10px;\r\n}\r\n\r\nul{\r\n    list-style: none;\r\n    margin: 0;\r\n    padding: 0;\r\n  }\r\n\r\n.toggleImg {\r\n    height: 15px;\r\n    width: 15px;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/main-content/header/whats-new/whats-new.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"whatsNew\">\r\n\r\n    <h1>What's New (Last updated: 01.02.2019) </h1>\r\n\r\n    <h4>Deployment Date: 01.02.2019</h4>\r\n\r\n    <div>\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li> • Import of Ship Stores / Crew / Crew Effects / Passenger data is now supported.</li>\r\n                    <li> • Reporting of Crew Effects is now supported.</li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • GUI changes \r\n                    </li>\r\n                    <li>\r\n                        • Changes to port call overview information \r\n                    </li>\r\n                    <li>\r\n                        • Improved edit views for Crew / Passenger / User\r\n                    </li>\r\n                    <li>\r\n                        • Improved database performance\r\n                    </li>\r\n                    <li>\r\n                        • Security information listed in port call overview\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        • Fixed an error where editing users sometimes resulted in the user being deactivated.\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n        </ol>\r\n    </div>\r\n\r\n\r\n\r\n    <h5 (click)=\"toggle1312ChangeSet()\">Deployment Date: 13.12.2018 (Click to expand/minimize) </h5>\r\n\r\n    <div *ngIf=\"toggle1312\">\r\n\r\n        <div>\r\n            <b>Changes</b>\r\n            <ol>\r\n                <li><b>Features</b>\r\n                    <ul>\r\n                        <li> • Edit User is now supported</li>\r\n                        <li>• Can deactivate/activate users (Prevents them from logging in to the system)</li>\r\n                    </ul>\r\n                </li>\r\n                <li><b>Enhancements</b>\r\n                    <ul>\r\n                        <li>\r\n                            • Changes to how search works (Returns more relevant results)\r\n                        </li>\r\n                        <li>\r\n                            • Database maintenance and changes to make the client faster\r\n                        </li>\r\n                        <li>\r\n                            • Added default search values for Users/Ships/Locations/Organization\r\n                        </li>\r\n                        <li>\r\n                            • Changed 'Company' to 'Agent Company'\r\n                        </li>\r\n                        <li>\r\n                            • You can now only select 'Agent Company' for a new user\r\n                        </li>\r\n                        <li>\r\n                            • You can now only create organizations of type 'Agent Company' or 'RSO'\r\n                        </li>\r\n                        <li>\r\n                            • Changes to the Create User page\r\n                        </li>\r\n                        <li>\r\n                            • Can only select active ships when creating a new port call\r\n                        </li>\r\n                        <li>\r\n                            • Merged several tables in the Port Call overview page\r\n                        </li>\r\n                        <li>\r\n                            • You can create an organization in a modal from within the create user page\r\n                        </li>\r\n                        <li>\r\n                            • Reduced loading times for port calls and the subsections\r\n                        </li>\r\n                    </ul>\r\n                </li>\r\n                <li><b>Fixes</b>\r\n                    <ul>\r\n                        <li>\r\n                            • Fixed issue where modals sometimes wouldn't open\r\n                        </li>\r\n                        <li>\r\n                            • Fixed input types accross the client\r\n                        </li>\r\n                        <li>\r\n                            • Country codes for flags were displaying wrong\r\n                        </li>\r\n                        <li>\r\n                            • Fixed errors regarding creation of new users\r\n                        </li>\r\n                        <li>\r\n                            • Removed all 'Agent Company' without any users in them (Has been migrated in earlier)\r\n                        </li>\r\n                        <li>\r\n                            • Several DPG fixes\r\n                        </li>\r\n                    </ul>\r\n                </li>\r\n    \r\n            </ol>\r\n        </div>\r\n    \r\n    </div>\r\n\r\n    <h5 (click)=\"toggle2311ChangeSet()\">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>\r\n\r\n    <div *ngIf=\"toggle2311\">\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li>• DPG-FAL form implemented</li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • Improved loading of port calls\r\n                    </li>\r\n                    <li>\r\n                        • User Management (search and edit details)\r\n                    </li>\r\n                    <li>\r\n                        • User Information changed to ‘Created By’ (person creating the ship call report)\r\n                    </li>\r\n                    <li>\r\n                        • Listing of pax in summary screen\r\n                    </li>\r\n                    <li>\r\n                        • Listing of crew in summary screen\r\n                    </li>\r\n                    <li>\r\n                        • Listing of Cargo in summary screen\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        • Identity Document accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • CallSign validation, 4-8 characters\r\n                    </li>\r\n                    <li>\r\n                        • Ship Registry Number accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • Changes in Ship Registration GUI (cosmetic)\r\n                    </li>\r\n                    <li>\r\n                        • Location Code 2 char + 3 char\r\n                    </li>\r\n                    <li>\r\n                        • Removed Article Code from Ship Stores\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n        </ol>\r\n    </div>\r\n\r\n    <h5 (click)=\"toggle2311ChangeSet()\">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>\r\n\r\n    <div *ngIf=\"toggle2311\">\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li>• DPG-FAL form implemented</li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • Fixed some typos\r\n                    </li>\r\n                    <li>\r\n                        • MMSI and IMO # validation\r\n                    </li>\r\n                    <li>\r\n                        • Location Codes validation (unique code)\r\n                    </li>\r\n                    <li>\r\n                        • Identity Document Issue/Expiry date required\r\n                    </li>\r\n                    <li>\r\n                        • Listing of crew in summary screen\r\n                    </li>\r\n                    <li>\r\n                        • Listing of Cargo in summary screen\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        • Identity Document accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • CallSign validation, 4-8 characters\r\n                    </li>\r\n                    <li>\r\n                        • Ship Registry Number accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • Changes in Ship Registration GUI (cosmetic)\r\n                    </li>\r\n                    <li>\r\n                        • Location Code 2 char + 3 char\r\n                    </li>\r\n                    <li>\r\n                        • Removed Article Code from Ship Stores\r\n                    </li>\r\n                    <li>\r\n                        • Fixed some typos\r\n                    </li>\r\n                    <li>\r\n                        • MMSI and IMO # validation\r\n                    </li>\r\n                    <li>\r\n                        • Location Codes validation (unique code)\r\n                    </li>\r\n                    <li>\r\n                        • Identity Document Issue/Expiry date required\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n        </ol>\r\n    </div>\r\n\r\n    <div>\r\n    </div>\r\n\r\n</div>"
+module.exports = "<div class=\"whatsNew\">\r\n\r\n    <h1>What's New (Last updated: 08.03.2019) </h1>\r\n\r\n    <h4>Deployment Date: 08.03.2019</h4>\r\n\r\n    <div>\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li>\r\n                        • Re-worked spreadsheet template, added fields for Ships Stores, added README tab.\r\n                    </li>\r\n                    <li>\r\n                        • Created Clearance Certificate template.\r\n                    </li>\r\n                    <li>\r\n                        • Ability to generate a Clearance Certificate for cleared port calls.\r\n                    </li>\r\n                    <li>\r\n                        • Set master of vessels in both client (Port call registration - Crew step) or in the spreadsheet\r\n                        template.\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • Changes to date formats.\r\n                    </li>\r\n                    <li>\r\n                        • GUI modifications and enhancements.\r\n                    </li>\r\n                    <li>\r\n                        • User search re-work.\r\n                    </li>\r\n                    <li>\r\n                        • Changes to various text fields in the client.\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        • Fixed error where modals would sometimes appear beneath the site instead of as a popup.\r\n                    </li>\r\n                    <li>\r\n                        • Fixed various spreadsheet mapping issues.\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n        </ol>\r\n    </div>\r\n\r\n\r\n    <h5 (click)=\"toggle010219ChangeSet()\">Deployment Date: 01.02.2019 (Click to expand/minimize)\r\n        <ng-container *ngIf=\"!toggle010219\">\r\n            <img src=\"{{downArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n        <ng-container *ngIf=\"toggle010219\">\r\n            <img src=\"{{upArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n    </h5>\r\n    <div *ngIf=\"toggle010219\">\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li> • Import of Ship Stores / Crew / Passenger data is now supported.</li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • GUI changes\r\n                    </li>\r\n                    <li>\r\n                        • Changes to port call overview information\r\n                    </li>\r\n                    <li>\r\n                        • Improved edit views\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        •\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n\r\n        </ol>\r\n    </div>\r\n\r\n    <h5 (click)=\"toggle131218ChangeSet()\">Deployment Date: 13.12.2018 (Click to expand/minimize)\r\n        <ng-container *ngIf=\"!toggle131218\">\r\n            <img src=\"{{downArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n        <ng-container *ngIf=\"toggle131218\">\r\n            <img src=\"{{upArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n    </h5>\r\n\r\n    <div *ngIf=\"toggle131218\">\r\n\r\n        <div>\r\n            <b>Changes</b>\r\n            <ol>\r\n                <li><b>Features</b>\r\n                    <ul>\r\n                        <li> • Edit User is now supported</li>\r\n                        <li>• Can deactivate/activate users (Prevents them from logging in to the system)</li>\r\n                    </ul>\r\n                </li>\r\n                <li><b>Enhancements</b>\r\n                    <ul>\r\n                        <li>\r\n                            • Changes to how search works (Returns more relevant results)\r\n                        </li>\r\n                        <li>\r\n                            • Database maintenance and changes to make the client faster\r\n                        </li>\r\n                        <li>\r\n                            • Added default search values for Users/Ships/Locations/Organization\r\n                        </li>\r\n                        <li>\r\n                            • Changed 'Company' to 'Agent Company'\r\n                        </li>\r\n                        <li>\r\n                            • You can now only select 'Agent Company' for a new user\r\n                        </li>\r\n                        <li>\r\n                            • You can now only create organizations of type 'Agent Company' or 'RSO'\r\n                        </li>\r\n                        <li>\r\n                            • Changes to the Create User page\r\n                        </li>\r\n                        <li>\r\n                            • Can only select active ships when creating a new port call\r\n                        </li>\r\n                        <li>\r\n                            • Merged several tables in the Port Call overview page\r\n                        </li>\r\n                        <li>\r\n                            • You can create an organization in a modal from within the create user page\r\n                        </li>\r\n                        <li>\r\n                            • Reduced loading times for port calls and the subsections\r\n                        </li>\r\n                    </ul>\r\n                </li>\r\n                <li><b>Fixes</b>\r\n                    <ul>\r\n                        <li>\r\n                            • Fixed issue where modals sometimes wouldn't open\r\n                        </li>\r\n                        <li>\r\n                            • Fixed input types accross the client\r\n                        </li>\r\n                        <li>\r\n                            • Country codes for flags were displaying wrong\r\n                        </li>\r\n                        <li>\r\n                            • Fixed errors regarding creation of new users\r\n                        </li>\r\n                        <li>\r\n                            • Removed all 'Agent Company' without any users in them (Has been migrated in earlier)\r\n                        </li>\r\n                        <li>\r\n                            • Several DPG fixes\r\n                        </li>\r\n                    </ul>\r\n                </li>\r\n\r\n            </ol>\r\n        </div>\r\n\r\n    </div>\r\n\r\n    <h5 (click)=\"toggle231118ChangeSet()\">Deployment Date: 22.11.2018 (Click to expand/minimize)\r\n        <ng-container *ngIf=\"!toggle231118\">\r\n            <img src=\"{{downArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n        <ng-container *ngIf=\"toggle231118\">\r\n            <img src=\"{{upArrow}}\" class=\"toggleImg\">\r\n        </ng-container>\r\n    </h5>\r\n\r\n    <div *ngIf=\"toggle231118\">\r\n        <b>Changes</b>\r\n        <ol>\r\n            <li><b>Features</b>\r\n                <ul>\r\n                    <li>• DPG-FAL form implemented</li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Enhancements</b>\r\n                <ul>\r\n                    <li>\r\n                        • Improved loading of port calls\r\n                    </li>\r\n                    <li>\r\n                        • User Management (search and edit details)\r\n                    </li>\r\n                    <li>\r\n                        • User Information changed to ‘Created By’ (person creating the ship call report)\r\n                    </li>\r\n                    <li>\r\n                        • Listing of pax in summary screen\r\n                    </li>\r\n                    <li>\r\n                        • Listing of crew in summary screen\r\n                    </li>\r\n                    <li>\r\n                        • Listing of Cargo in summary screen\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n            <li><b>Fixes</b>\r\n                <ul>\r\n                    <li>\r\n                        • Identity Document accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • CallSign validation, 4-8 characters\r\n                    </li>\r\n                    <li>\r\n                        • Ship Registry Number accepts alfa numeric values\r\n                    </li>\r\n                    <li>\r\n                        • Changes in Ship Registration GUI (cosmetic)\r\n                    </li>\r\n                    <li>\r\n                        • Location Code 2 char + 3 char\r\n                    </li>\r\n                    <li>\r\n                        • Removed Article Code from Ship Stores\r\n                    </li>\r\n                    <li>\r\n                        • Fixed some typos\r\n                    </li>\r\n                    <li>\r\n                        • MMSI and IMO # validation\r\n                    </li>\r\n                    <li>\r\n                        • Location Codes validation (unique code)\r\n                    </li>\r\n                    <li>\r\n                        • Identity Document Issue/Expiry date required\r\n                    </li>\r\n                </ul>\r\n            </li>\r\n        </ol>\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -12155,16 +12345,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var WhatsNewComponent = /** @class */ (function () {
     function WhatsNewComponent() {
-        this.toggle2311 = false;
-        this.toggle1312 = false;
+        this.toggle231118 = false;
+        this.toggle131218 = false;
+        this.toggle010219 = false;
+        this.upArrow = 'assets/images/icons/128x128/arrowhead-up.png';
+        this.downArrow = 'assets/images/icons/128x128/arrowhead-down.png';
     }
     WhatsNewComponent.prototype.ngOnInit = function () {
     };
-    WhatsNewComponent.prototype.toggle2311ChangeSet = function () {
-        this.toggle2311 = !this.toggle2311;
+    WhatsNewComponent.prototype.toggle231118ChangeSet = function () {
+        this.toggle231118 = !this.toggle231118;
     };
-    WhatsNewComponent.prototype.toggle1312ChangeSet = function () {
-        this.toggle1312 = !this.toggle1312;
+    WhatsNewComponent.prototype.toggle131218ChangeSet = function () {
+        this.toggle131218 = !this.toggle131218;
+    };
+    WhatsNewComponent.prototype.toggle010219ChangeSet = function () {
+        this.toggle010219 = !this.toggle010219;
     };
     WhatsNewComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -12568,7 +12764,7 @@ var CargoListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
-            noDataMessage: 'There is no cargo reported.',
+            noDataMessage: 'No cargo found.',
             columns: {
                 description: {
                     title: 'Description',
@@ -12880,14 +13076,14 @@ var CrewInfoTableComponent = /** @class */ (function () {
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}"
+module.exports = "/* Smart table */\r\n:root {\r\n    --color-primary: #002d50;\r\n    --color-primary-light: #37557c;\r\n    --color-primary-dark: #000128;\r\n    --color-primary-text: #ffffff;\r\n}\r\n:host /deep/ ng2-smart-table thead {\r\n    background-color: var(--color-primary);\r\n    color: white;\r\n}\r\n:host /deep/ ng2-smart-table tbody {\r\n    color: black;\r\n    text-transform: uppercase;\r\n}\r\n:host /deep/ .ng2-smart-filter input {\r\n    color: black;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort::after {\r\n    content: '';\r\n    display: inline-block;\r\n    width: 0;\r\n    height: 0;\r\n    border-bottom: 4px solid white;\r\n    border-top: 4px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    border-right: 4px solid transparent;\r\n    -webkit-transform: rotate(90deg);\r\n            transform: rotate(90deg);\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.asc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(0deg);\r\n            transform: rotate(0deg);\r\n    margin-bottom: 2px;\r\n}\r\n:host /deep/ a.ng2-smart-sort-link.sort.desc::after {\r\n    border-bottom: 4px solid white;\r\n    -webkit-transform: rotate(180deg);\r\n            transform: rotate(180deg);\r\n    margin-bottom: -2px;\r\n}\r\n:host /deep/ ng2-smart-table a { \r\n    color:var(--color-primary-text); \r\n}\r\n:host /deep/ a.ng2-smart-page-link.page-link {  \r\n    color: var(--color-primary-dark);\r\n    border-color: #dee2e6;\r\n}\r\n:host /deep/ span.ng2-smart-page-link.page-link { \r\n    color: var(--color-primary-dark); \r\n    background-color: #dee2e6;\r\n    border-color: #dee2e6;        \r\n}\r\n.breakText{\r\n    word-wrap: break-word;\r\n}"
 
 /***/ }),
 
 /***/ "./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-table-card header=\"{{headerText}}\" icon=\"crew.png\" collapsible=true collapsed=true>\r\n      <ng2-smart-table [settings]=\"tableSettings\" [source]=\"crew\"></ng2-smart-table>\r\n    </app-table-card>\r\n  </div>\r\n</div>\r\n\r\n<ng-template #viewCrewEffectsModal let-close=\"close()\">\r\n  <div class=\"modal-header\">\r\n    <h4 class=\"modal-title\">Crew Effects</h4>\r\n    <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"close\">\r\n      <span aria-hidden=\"true\">&times;</span>\r\n    </button>\r\n  </div>\r\n  <div class=\"modal-body breakText\">\r\n    <p>\r\n      {{crewEffects}}\r\n    </p>\r\n  </div>\r\n  <div class=\"modal-footer\">\r\n    <button type=\"button\" class=\"btn btn-ssn\" (click)=\"close\">\r\n      <span>Exit</span>\r\n    </button>\r\n  </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -12897,8 +13093,10 @@ module.exports = "<div class=\"row mb-3\">\r\n  <div class=\"col\">\r\n    <app-
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CrewListingTableComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_modal_modal_module__ = __webpack_require__("./node_modules/@ng-bootstrap/ng-bootstrap/modal/modal.module.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__ = __webpack_require__("./src/app/shared/constants/enumValues.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_fal_person_on_board_service__ = __webpack_require__("./src/app/shared/services/port-call-fal-person-on-board.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__view_button_view_button_component__ = __webpack_require__("./src/app/shared/components/view-button/view-button.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12911,9 +13109,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var CrewListingTableComponent = /** @class */ (function () {
-    function CrewListingTableComponent(personOnBoardService) {
+    function CrewListingTableComponent(modalService, personOnBoardService) {
+        var _this = this;
+        this.modalService = modalService;
         this.personOnBoardService = personOnBoardService;
+        this.crewEffects = '';
         this.crew = [];
         // Smart table
         this.tableSettings = {
@@ -12922,7 +13125,7 @@ var CrewListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
-            noDataMessage: 'There are no crew members reported.',
+            noDataMessage: 'No crew members found.',
             columns: {
                 familyName: {
                     title: 'Family Name'
@@ -12935,61 +13138,18 @@ var CrewListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return new Date(value).toDateString();
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
-                identityDocument: {
-                    title: 'ID Type and Number',
-                    valuePrepareFunction: function (value) {
-                        if (value[0] == null || value[0] === undefined || value.length === 0) {
-                            return 'N/A';
-                        }
-                        var returnVal = '';
-                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-                            returnVal += value[0].identityDocumentType.description;
-                        }
-                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-                            returnVal += ' : ' + value[0].identityDocumentNumber;
-                        }
-                        if (returnVal.trim().length === 0) {
-                            returnVal = 'N/A';
-                        }
-                        return returnVal;
-                    }
+                identityDocumentListingModel: {
+                    title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
-                    valuePrepareFunction: function (value) {
-                        return value ? value : 'N/A';
-                    }
                 },
                 expiryDate: {
                     title: 'Expiry Date',
@@ -12997,15 +13157,35 @@ var CrewListingTableComponent = /** @class */ (function () {
                         return value ? value : 'N/A';
                     }
                 },
+                crewEffects: {
+                    title: 'Crew Effects',
+                    type: 'custom',
+                    filter: false,
+                    sort: false,
+                    renderComponent: __WEBPACK_IMPORTED_MODULE_4__view_button_view_button_component__["a" /* ViewButtonComponent */],
+                    onComponentInitFunction: function (instance) {
+                        instance.view.subscribe(function (row) {
+                            _this.viewCrewEffects(row);
+                        });
+                    }
+                },
             }
         };
     }
+    CrewListingTableComponent.prototype.viewCrewEffects = function (row) {
+        var crewEffects = row.crewEffects;
+        if (crewEffects == null && crewEffects === undefined) {
+            return;
+        }
+        this.crewEffects = crewEffects;
+        this.modalService.open(this.crewEffectsModal);
+    };
     CrewListingTableComponent.prototype.ngOnInit = function () {
         var _this = this;
         if (this.portCallId) {
             this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
                 .finally(function () {
-                _this.crewDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_1_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
+                _this.crewDataSubscription = _this.personOnBoardService.getOverviewByPortCall(_this.portCallId, __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW)
                     .subscribe(function (summary) {
                     _this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
                 }, function (error) {
@@ -13030,13 +13210,18 @@ var CrewListingTableComponent = /** @class */ (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
         __metadata("design:type", Number)
     ], CrewListingTableComponent.prototype, "portCallId", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_11" /* ViewChild */])('viewCrewEffectsModal'),
+        __metadata("design:type", Object)
+    ], CrewListingTableComponent.prototype, "crewEffectsModal", void 0);
     CrewListingTableComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-crew-listing-table',
             template: __webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.html"),
             styles: [__webpack_require__("./src/app/shared/components/confirmation-view/crew-listing-table/crew-listing-table.component.css")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap_modal_modal_module__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_3_app_shared_services_port_call_fal_person_on_board_service__["a" /* PortCallFalPersonOnBoardService */]])
     ], CrewListingTableComponent);
     return CrewListingTableComponent;
 }());
@@ -13088,7 +13273,7 @@ var DpgListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
-            noDataMessage: 'There are no DPGs reported.',
+            noDataMessage: 'No DPG\'s found.',
             columns: {
                 classification: {
                     title: 'Classification'
@@ -13304,7 +13489,7 @@ var PassengerListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
-            noDataMessage: 'There are no passengers reported.',
+            noDataMessage: 'No passengers found.',
             columns: {
                 familyName: {
                     title: 'Family Name'
@@ -13314,61 +13499,18 @@ var PassengerListingTableComponent = /** @class */ (function () {
                 },
                 nationality: {
                     title: 'Nationality',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 dateOfBirth: {
                     title: 'Date of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return new Date(value).toDateString();
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
                 placeOfBirth: {
                     title: 'Place of Birth',
-                    valuePrepareFunction: function (value) {
-                        if (value != null) {
-                            return value;
-                        }
-                        else {
-                            return 'N/A';
-                        }
-                    }
                 },
-                identityDocument: {
-                    title: 'ID Type and Number',
-                    valuePrepareFunction: function (value) {
-                        if (value[0] == null || value[0] === undefined || value.length === 0) {
-                            return 'N/A';
-                        }
-                        var returnVal = '';
-                        if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-                            returnVal += value[0].identityDocumentType.description;
-                        }
-                        if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-                            returnVal += ' : ' + value[0].identityDocumentNumber;
-                        }
-                        if (returnVal.trim().length === 0) {
-                            returnVal = 'N/A';
-                        }
-                        return returnVal;
-                    }
+                identityDocumentListingModel: {
+                    title: 'Identity Document (Type)',
                 },
                 issuingNation: {
                     title: 'Issuing Nation',
-                    valuePrepareFunction: function (value) {
-                        return value ? value : 'N/A';
-                    }
                 },
                 expiryDate: {
                     title: 'Expiry Date',
@@ -13819,7 +13961,7 @@ var ShipStoresListingTableComponent = /** @class */ (function () {
             attr: {
                 class: 'table table-bordered'
             },
-            noDataMessage: 'There are no Ship Stores reported.',
+            noDataMessage: 'No ship stores found.',
             columns: {
                 articleName: {
                     title: 'Article Name',
@@ -17595,6 +17737,68 @@ var UserSmartTableComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/components/view-button/view-button.component.css":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "./src/app/shared/components/view-button/view-button.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div>\r\n  <button class=\"btn btn-sm btn-ssn\" ngbTooltip=\"View\" (click)=\"viewItem();\">\r\n    <img height=\"16px\" src=\"assets/images/icons/128x128/white/eye.png\">\r\n  </button>\r\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/shared/components/view-button/view-button.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ViewButtonComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ViewButtonComponent = /** @class */ (function () {
+    function ViewButtonComponent() {
+        this.view = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["w" /* EventEmitter */]();
+    }
+    ViewButtonComponent.prototype.ngOnInit = function () {
+    };
+    ViewButtonComponent.prototype.viewItem = function () {
+        this.view.emit(this.rowData);
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Input */])(),
+        __metadata("design:type", Object)
+    ], ViewButtonComponent.prototype, "rowData", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Q" /* Output */])(),
+        __metadata("design:type", Object)
+    ], ViewButtonComponent.prototype, "view", void 0);
+    ViewButtonComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-view-button',
+            template: __webpack_require__("./src/app/shared/components/view-button/view-button.component.html"),
+            styles: [__webpack_require__("./src/app/shared/components/view-button/view-button.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ViewButtonComponent);
+    return ViewButtonComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/shared/constants/blacklisted-routes.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -20132,8 +20336,9 @@ var FalShipStoresService = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FileService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common_http__ = __webpack_require__("./node_modules/@angular/common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -20145,8 +20350,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var FileService = /** @class */ (function () {
-    function FileService(http) {
+    function FileService(httpClient, http) {
+        this.httpClient = httpClient;
         this.http = http;
     }
     FileService.prototype.uploadPaxFile = function (formData, portCallId) {
@@ -20165,9 +20372,18 @@ var FileService = /** @class */ (function () {
         var uri = 'api/file/shipStores/' + portCallId;
         return this.http.post(uri, formData);
     };
+    FileService.prototype.getClearanceCertificate = function (url) {
+        var uri = 'api/file/' + url;
+        window.open(uri);
+    };
+    FileService.prototype.getClearanceCertificateToken = function (portCallId) {
+        var uri = 'api/file/CertificateOfClearanceToken/' + portCallId;
+        return this.httpClient.get(uri);
+    };
     FileService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]])
+        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */]])
     ], FileService);
     return FileService;
 }());
@@ -20874,12 +21090,15 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
         this.crewSequenceNumber$ = this.crewSequenceNumberSource.asObservable();
         this.crewListIsChecked = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
         this.crewListIsChecked$ = this.crewListIsChecked.asObservable();
+        this.hasMaster = new __WEBPACK_IMPORTED_MODULE_4_rxjs_BehaviorSubject__["a" /* BehaviorSubject */](false);
+        this.hasMaster$ = this.hasMaster.asObservable();
         this.genderUrl = 'api/gender';
         this.personOnBoardString = 'persononboard';
         this.portCallUrl = 'api/portcall';
         this.personOnBoardUrl = 'api/personOnBoard';
         this.personOnBoardTypeUrl = 'api/PersonOnBoardType';
         this.overviewByPortCallUrl = 'overviewByPortCallEnum';
+        this.hasMasterUrl = 'personOnBoard/hasMaster';
     }
     // Http
     PortCallFalPersonOnBoardService.prototype.getPersonOnBoardById = function (personOnBoardId) {
@@ -20888,17 +21107,14 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     };
     // Get all person on board entities of a port call
     PortCallFalPersonOnBoardService.prototype.getPersonOnBoardListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getPassengerListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].PAX].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     PortCallFalPersonOnBoardService.prototype.getCrewListByPortCallId = function (portCallId) {
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', __WEBPACK_IMPORTED_MODULE_2_app_shared_constants_enumValues__["b" /* PERSON_ON_BOARD_TYPES */].CREW].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
@@ -20917,13 +21133,16 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     PortCallFalPersonOnBoardService.prototype.updatePersonOnBoardList = function (portCallId, personOnBoardList, personOnBoardTypeId) {
         var cleanedPersonOnBoardList;
         cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
-        // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
         var uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
         return this.httpClient.put(uri, cleanedPersonOnBoardList).pipe(Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["retry"])(3), // retry a failed request up to 3 times
         Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_operators__["catchError"])(this.handleError));
     };
     PortCallFalPersonOnBoardService.prototype.getOverviewByPortCall = function (portCallId, personOnBoardTypeEnum) {
         var uri = [this.personOnBoardUrl, this.overviewByPortCallUrl, portCallId, personOnBoardTypeEnum].join('/');
+        return this.httpClient.get(uri, { observe: 'body' });
+    };
+    PortCallFalPersonOnBoardService.prototype.getHasMaster = function (portCallId) {
+        var uri = [this.portCallUrl, portCallId, this.hasMasterUrl].join('/');
         return this.httpClient.get(uri, { observe: 'body' });
     };
     // Setters
@@ -20944,6 +21163,9 @@ var PortCallFalPersonOnBoardService = /** @class */ (function () {
     };
     PortCallFalPersonOnBoardService.prototype.setCrewCheckedInProgressBar = function (checked) {
         this.crewListIsChecked.next(checked);
+    };
+    PortCallFalPersonOnBoardService.prototype.setHasMaster = function (hasMaster) {
+        this.hasMaster.next(hasMaster);
     };
     PortCallFalPersonOnBoardService.prototype.cleanPersonOnBoardList = function (personOnBoardList) {
         var cleanedPersonOnBoardList = [];

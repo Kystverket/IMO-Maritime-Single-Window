@@ -1,52 +1,114 @@
 <div class="whatsNew">
 
-    <h1>What's New (Last updated: 01.02.2019) </h1>
+    <h1>What's New (Last updated: 08.03.2019) </h1>
 
-    <h4>Deployment Date: 01.02.2019</h4>
+    <h4>Deployment Date: 08.03.2019</h4>
 
     <div>
         <b>Changes</b>
         <ol>
             <li><b>Features</b>
                 <ul>
-                    <li> • Import of Ship Stores / Crew / Crew Effects / Passenger data is now supported.</li>
-                    <li> • Reporting of Crew Effects is now supported.</li>
+                    <li>
+                        • Re-worked spreadsheet template, added fields for Ships Stores, added README tab.
+                    </li>
+                    <li>
+                        • Created Clearance Certificate template.
+                    </li>
+                    <li>
+                        • Ability to generate a Clearance Certificate for cleared port calls.
+                    </li>
+                    <li>
+                        • Set master of vessels in both client (Port call registration - Crew step) or in the spreadsheet
+                        template.
+                    </li>
                 </ul>
             </li>
             <li><b>Enhancements</b>
                 <ul>
                     <li>
-                        • GUI changes 
+                        • Changes to date formats.
                     </li>
                     <li>
-                        • Changes to port call overview information 
+                        • GUI modifications and enhancements.
                     </li>
                     <li>
-                        • Improved edit views for Crew / Passenger / User
+                        • User search re-work.
                     </li>
                     <li>
-                        • Improved database performance
-                    </li>
-                    <li>
-                        • Security information listed in port call overview
+                        • Changes to various text fields in the client.
                     </li>
                 </ul>
             </li>
             <li><b>Fixes</b>
                 <ul>
                     <li>
-                        • Fixed an error where editing users sometimes resulted in the user being deactivated.
+                        • Fixed error where modals would sometimes appear beneath the site instead of as a popup.
                     </li>
                 </ul>
             </li>
+            <li><b>Fixes</b>
+                <ul>
+                    <li>
+                        • Fixed various spreadsheet mapping issues.
+                    </li>
+                </ul>
+            </li>
+
         </ol>
     </div>
 
 
+    <h5 (click)="toggle010219ChangeSet()">Deployment Date: 01.02.2019 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle010219">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle010219">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
+    <div *ngIf="toggle010219">
+        <b>Changes</b>
+        <ol>
+            <li><b>Features</b>
+                <ul>
+                    <li> • Import of Ship Stores / Crew / Passenger data is now supported.</li>
+                </ul>
+            </li>
+            <li><b>Enhancements</b>
+                <ul>
+                    <li>
+                        • GUI changes
+                    </li>
+                    <li>
+                        • Changes to port call overview information
+                    </li>
+                    <li>
+                        • Improved edit views
+                    </li>
+                </ul>
+            </li>
+            <li><b>Fixes</b>
+                <ul>
+                    <li>
+                        •
+                    </li>
+                </ul>
+            </li>
 
-    <h5 (click)="toggle1312ChangeSet()">Deployment Date: 13.12.2018 (Click to expand/minimize) </h5>
+        </ol>
+    </div>
 
-    <div *ngIf="toggle1312">
+    <h5 (click)="toggle131218ChangeSet()">Deployment Date: 13.12.2018 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle131218">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle131218">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
+
+    <div *ngIf="toggle131218">
 
         <div>
             <b>Changes</b>
@@ -116,15 +178,22 @@
                         </li>
                     </ul>
                 </li>
-    
+
             </ol>
         </div>
-    
+
     </div>
 
-    <h5 (click)="toggle2311ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>
+    <h5 (click)="toggle231118ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle231118">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle231118">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
 
-    <div *ngIf="toggle2311">
+    <div *ngIf="toggle231118">
         <b>Changes</b>
         <ol>
             <li><b>Features</b>
@@ -140,6 +209,10 @@
                     <li>
                         • User Management (search and edit details)
                     </li>
+                </ul>
+            </li>
+            <li><b>Fixes</b>
+                <ul>
                     <li>
                         • User Information changed to ‘Created By’ (person creating the ship call report)
                     </li>
@@ -152,63 +225,11 @@
                     <li>
                         • Listing of Cargo in summary screen
                     </li>
-                </ul>
-            </li>
-            <li><b>Fixes</b>
-                <ul>
-                    <li>
-                        • Identity Document accepts alfa numeric values
-                    </li>
-                    <li>
-                        • CallSign validation, 4-8 characters
-                    </li>
-                    <li>
-                        • Ship Registry Number accepts alfa numeric values
-                    </li>
-                    <li>
-                        • Changes in Ship Registration GUI (cosmetic)
-                    </li>
                     <li>
                         • Location Code 2 char + 3 char
                     </li>
                     <li>
                         • Removed Article Code from Ship Stores
-                    </li>
-                </ul>
-            </li>
-
-        </ol>
-    </div>
-
-    <h5 (click)="toggle2311ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>
-
-    <div *ngIf="toggle2311">
-        <b>Changes</b>
-        <ol>
-            <li><b>Features</b>
-                <ul>
-                    <li>• DPG-FAL form implemented</li>
-                </ul>
-            </li>
-            <li><b>Enhancements</b>
-                <ul>
-                    <li>
-                        • Fixed some typos
-                    </li>
-                    <li>
-                        • MMSI and IMO # validation
-                    </li>
-                    <li>
-                        • Location Codes validation (unique code)
-                    </li>
-                    <li>
-                        • Identity Document Issue/Expiry date required
-                    </li>
-                    <li>
-                        • Listing of crew in summary screen
-                    </li>
-                    <li>
-                        • Listing of Cargo in summary screen
                     </li>
                 </ul>
             </li>
@@ -248,8 +269,4 @@
             </li>
         </ol>
     </div>
-
-    <div>
-    </div>
-
 </div>
