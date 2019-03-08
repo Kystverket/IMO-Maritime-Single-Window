@@ -72,8 +72,6 @@ import { VoyagesComponent } from './registration/forms/voyages/voyages.component
 import { ProgressBarComponent } from './registration/progress-bar/progress-bar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ViewPortCallComponent } from './view-port-call/view-port-call.component';
-import { PassengerListErrorModalComponent } from './registration/forms/passenger-list/passenger-list-error-modal/passenger-list-error-modal.component';
-import { CrewListErrorModalComponent } from './registration/forms/crew-list/crew-list-error-modal/crew-list-error-modal.component';
 
 @NgModule({
   imports: [
