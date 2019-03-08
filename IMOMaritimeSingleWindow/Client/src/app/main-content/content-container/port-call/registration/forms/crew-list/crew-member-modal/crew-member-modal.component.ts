@@ -12,6 +12,8 @@ export class CrewMemberModalComponent implements OnInit {
   inputCrewModel: any;
   startInputCrewModel: PersonOnBoardModel;
   identityDocumentSet: boolean;
+  hasMaster = false;
+  masterDdlDisabled = true;
 
   @Output() outputCrewModel: EventEmitter<
     PersonOnBoardModel
@@ -61,6 +63,10 @@ export class CrewMemberModalComponent implements OnInit {
     this.personOnBoardService.getGenderList().subscribe(res => {
       this.genderList = res;
     });
+
+    this.personOnBoardService.hasMaster$.subscribe(hasMaster => {
+      this.hasMaster = hasMaster;
+    });
   }
 
   // Open modals
@@ -77,6 +83,11 @@ export class CrewMemberModalComponent implements OnInit {
       this.inputCrewModel.identityDocument[0] = new IdentityDocumentModel();
     }
 
+    if (this.inputCrewModel.nationality === 'N/A') {
+      this.inputCrewModel.nationality = null;
+      this.inputCrewModel.nationalityId = null;
+    }
+    this.masterDdlDisabled = true;
     this.modalService.open(this.viewModal);
   }
 
@@ -123,6 +134,15 @@ export class CrewMemberModalComponent implements OnInit {
         backdrop: 'static'
       });
     }
+
+    if (this.inputCrewModel.nationality === 'N/A') {
+      this.inputCrewModel.nationality = null;
+      this.inputCrewModel.nationalityId = null;
+    }
+    if (this.inputCrewModel.isMaster === undefined || this.inputCrewModel.isMaster == null) {
+      this.inputCrewModel.isMaster = false;
+    }
+    this.masterDdlDisabled = (!this.inputCrewModel.isMaster && this.hasMaster);
   }
 
   addGenderAndNationality() {
@@ -161,6 +181,14 @@ export class CrewMemberModalComponent implements OnInit {
 
   // Output
   editCrewMember() {
+    if (
+      this.inputCrewModel.gender != null &&
+      this.inputCrewModel.gender.description != null &&
+      this.inputCrewModel.gender !== undefined &&
+      this.inputCrewModel.gender.description !== undefined
+    ) {
+      this.inputCrewModel.gender = this.inputCrewModel.gender.description;
+    }
     this.outputCrewModel.emit(this.inputCrewModel);
   }
 
@@ -359,5 +387,9 @@ export class CrewMemberModalComponent implements OnInit {
           : null;
     });
     return crewMember;
+  }
+
+  setMaster($event) {
+    this.inputCrewModel.isMaster = this.booleanModel[$event];
   }
 }

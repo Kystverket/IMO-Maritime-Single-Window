@@ -1,10 +1,69 @@
 <div class="whatsNew">
 
-    <h1>What's New (Last updated: 01.02.2019) </h1>
+    <h1>What's New (Last updated: 08.03.2019) </h1>
 
-    <h4>Deployment Date: 01.02.2019</h4>
+    <h4>Deployment Date: 08.03.2019</h4>
 
     <div>
+        <b>Changes</b>
+        <ol>
+            <li><b>Features</b>
+                <ul>
+                    <li>
+                        • Re-worked spreadsheet template, added fields for Ships Stores, added README tab.
+                    </li>
+                    <li>
+                        • Created Clearance Certificate template.
+                    </li>
+                    <li>
+                        • Ability to generate a Clearance Certificate for cleared port calls.
+                    </li>
+                    <li>
+                        • Set master of vessels in both client (Port call registration - Crew step) or in the spreadsheet
+                        template.
+                    </li>
+                </ul>
+            </li>
+            <li><b>Enhancements</b>
+                <ul>
+                    <li>
+                        • Changes to date formats.
+                    </li>
+                    <li>
+                        • GUI modifications and enhancements.
+                    </li>
+                    <li>
+                        • User search re-work.
+                    </li>
+                    <li>
+                        • Changes to various text fields in the client.
+                    </li>
+                </ul>
+            </li>
+            <li><b>Fixes</b>
+                <ul>
+                    <li>
+                        • Fixed error where modals would sometimes appear beneath the site instead of as a popup.
+                    </li>
+                    <li>
+                        • Fixed various spreadsheet mapping issues.
+                    </li>
+                </ul>
+            </li>
+
+        </ol>
+    </div>
+
+
+    <h5 (click)="toggle010219ChangeSet()">Deployment Date: 01.02.2019 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle010219">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle010219">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
+    <div *ngIf="toggle010219">
         <b>Changes</b>
         <ol>
             <li><b>Features</b>
@@ -15,10 +74,10 @@
             <li><b>Enhancements</b>
                 <ul>
                     <li>
-                        • GUI changes 
+                        • GUI changes
                     </li>
                     <li>
-                        • Changes to port call overview information 
+                        • Changes to port call overview information
                     </li>
                     <li>
                         • Improved edit views
@@ -28,7 +87,7 @@
             <li><b>Fixes</b>
                 <ul>
                     <li>
-                        • Placeholder
+                        •
                     </li>
                 </ul>
             </li>
@@ -36,11 +95,16 @@
         </ol>
     </div>
 
+    <h5 (click)="toggle131218ChangeSet()">Deployment Date: 13.12.2018 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle131218">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle131218">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
 
-
-    <h5 (click)="toggle1312ChangeSet()">Deployment Date: 13.12.2018 (Click to expand/minimize) </h5>
-
-    <div *ngIf="toggle1312">
+    <div *ngIf="toggle131218">
 
         <div>
             <b>Changes</b>
@@ -110,15 +174,22 @@
                         </li>
                     </ul>
                 </li>
-    
+
             </ol>
         </div>
-    
+
     </div>
 
-    <h5 (click)="toggle2311ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)</h5>
+    <h5 (click)="toggle231118ChangeSet()">Deployment Date: 22.11.2018 (Click to expand/minimize)
+        <ng-container *ngIf="!toggle231118">
+            <img src="{{downArrow}}" class="toggleImg">
+        </ng-container>
+        <ng-container *ngIf="toggle231118">
+            <img src="{{upArrow}}" class="toggleImg">
+        </ng-container>
+    </h5>
 
-    <div *ngIf="toggle2311">
+    <div *ngIf="toggle231118">
         <b>Changes</b>
         <ol>
             <li><b>Features</b>
@@ -184,8 +255,4 @@
             </li>
         </ol>
     </div>
-
-    <div>
-    </div>
-
 </div>

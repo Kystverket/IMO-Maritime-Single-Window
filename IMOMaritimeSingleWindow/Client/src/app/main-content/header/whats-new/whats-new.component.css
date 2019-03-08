@@ -9,3 +9,8 @@ ul{
     margin: 0;
     padding: 0;
   }
+
+  .toggleImg {
+    height: 15px;
+    width: 15px;
+}
