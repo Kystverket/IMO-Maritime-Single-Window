@@ -86,6 +86,14 @@
     </div>
 
     <div class="form-group row">
+      <label class="col col-form-label-sm no-wrap mb-0">Is Master</label>
+      <div class="col my-auto">
+        <input class="form-control form-control-sm" [ngModel]="formBooleanModel[inputCrewModel.isMaster]" readonly type="text"
+          name="isMaster">
+      </div>
+    </div>
+
+    <div class="form-group row">
       <label class="col col-form-label-sm no-wrap mb-0">Crew Effects</label>
       <div class="col my-auto">
         <input class="form-control form-control-sm" [ngModel]="inputCrewModel.crewEffects" readonly type="text" name="crewEffects">
@@ -198,8 +206,10 @@
           <div *ngIf="inputCrewModel.countryOfBirth" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode.toLowerCase() | lowercase}}.png"
-                  height="20px">
+                <ng-container *ngIf="inputCrewModel.countryOfBirthTwoCharCode != null || inputCrewModel.countryOfBirthTwoCharCode !== undefined">
+                    <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode?.toLowerCase() | lowercase}}.png"
+                    height="20px">
+                </ng-container>
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.countryOfBirth"
@@ -222,8 +232,10 @@
           <div *ngIf="inputCrewModel.nationality" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode.toLowerCase() | lowercase}}.png"
-                  height="20px">
+                  <ng-container *ngIf="inputCrewModel.nationalityTwoCharCode != null || inputCrewModel.nationalityTwoCharCode !== undefined">
+                      <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode?.toLowerCase() | lowercase}}.png"
+                      height="20px">
+                  </ng-container>
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.nationality"
@@ -272,10 +284,19 @@
       </div>
 
       <div class="form-group row">
+        <label class="col col-form-label-sm no-wrap mb-0">Is Master</label>
+        <div class="col my-auto">
+          <ng-select class="ng-select-placeholder-sm" [items]="booleanList" [ngModel]="formBooleanModel[inputCrewModel.isMaster]"
+            name="isMaster" [closeOnSelect]="true" placeholder="Master" (change)="setMaster($event)" [disabled]="masterDdlDisabled">
+          </ng-select>
+        </div>
+      </div>
+
+      <div class="form-group row">
         <div class="col my-auto">
           <label for="gender" class="col-form-label-sm no-wrap mb-0">Crew Effects</label>
-          <input type="text" [(ngModel)]="inputCrewModel.crewEffects" placeholder="Crew effects"
-            class="form-control form-control-sm" name="crewEffects">
+          <input type="text" [(ngModel)]="inputCrewModel.crewEffects" placeholder="Crew effects" class="form-control form-control-sm"
+            name="crewEffects">
         </div>
       </div>
 
@@ -306,8 +327,10 @@
           <div *ngIf="inputCrewModel.identityDocument[0].issuingNation" class="input-group input-group-sm">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode.toLowerCase() | lowercase}}.png"
-                  height="20px">
+                <ng-container *ngIf="inputCrewModel.identityDocument[0].issuingNationTwoCharCode != null || inputCrewModel.identityDocument[0].issuingNationTwoCharCode !== undefined">
+                  <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase() | lowercase}}.png"
+                    height="20px">
+                </ng-container>
               </span>
             </div>
             <input id="search-country" type="text" class="form-control" readonly="readonly" [(ngModel)]="inputCrewModel.identityDocument[0].issuingNation"

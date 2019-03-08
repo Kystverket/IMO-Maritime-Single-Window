@@ -59,6 +59,22 @@
                   class="form-control form-control-sm" name="rankCode">
               </div>
             </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <div class="form-group row">
+                  <div class="col">
+                    <label class="col-form-label-sm no-wrap mb-0">
+                      <input [(ngModel)]="portCallCrewModel.isMaster"  
+                      name="isMaster" type="checkbox" id="is_master" [disabled]="hasMaster">
+                      Is Master
+                    </label>
+                    <ng-container *ngIf="hasMaster">
+                      <small class="text-danger">(This port call already has a master.)</small>
+                    </ng-container>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           </div>
           <!-- /.col-lg-6 -->
@@ -132,13 +148,13 @@
             <div class="form-group row">
               <div class="col my-auto">
                 <label for="gender" class="col-form-label-sm no-wrap mb-0">Crew Effects</label>
-                <input type="text" [(ngModel)]="portCallCrewModel.crewEffects" placeholder="Crew Effects"
-                  class="form-control form-control-sm" name="crewEffects">
+                <input type="text" [(ngModel)]="portCallCrewModel.crewEffects" placeholder="Crew Effects" class="form-control form-control-sm"
+                  name="crewEffects">
               </div>
             </div>
-  
 
-  
+
+
             <!-- 
             <div class="form-group row">
               <div class="col my-auto">
