@@ -1,7 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { Subscription } from 'rxjs/Subscription';
+import { ViewButtonComponent } from '../../view-button/view-button.component';
 
 
 @Component({
@@ -13,6 +15,9 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
 
   @Input() iconPath: string;
   @Input() portCallId: number;
+  @ViewChild('viewCrewEffectsModal') crewEffectsModal: any;
+  crewEffects = '';
+  
 
   crewDataSubscription: Subscription;
 
@@ -26,7 +31,7 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: 'There are no crew members reported.',
+    noDataMessage: 'No crew members found.',
     columns: {
       familyName: {
         title: 'Family Name'
@@ -39,60 +44,55 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
-        }
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) =>  {
-          if (value != null) {
-            return new Date(value).toDateString();
-          } else {
-            return 'N/A';
-          }
-        }
       },
       placeOfBirth: {
         title: 'Place of Birth',
+      },
+      identityDocumentListingModel: {
+        title: 'Identity Document (Type)',
+      },
+      issuingNation: {
+        title: 'Issuing Nation',
+      },
+      expiryDate: {
+        title: 'Expiry Date',
         valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
+          return value ? value : 'N/A';
         }
       },
-      identityDocument: {
-        title: 'ID Type and Number',
-        valuePrepareFunction: (value) => {
-          if (value[0] == null || value[0] === undefined || value.length === 0) {
-            return 'N/A';
-          }
-          let returnVal = '';
-          if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-            returnVal += value[0].identityDocumentType.description;
-          }
-          if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-            returnVal += ' : ' + value[0].identityDocumentNumber;
-          }
-          if (returnVal.trim().length === 0) {
-            returnVal = 'N/A';
-          }
-          return returnVal;
+      crewEffects: {
+        title: 'Crew Effects',
+        type: 'custom',
+        filter: false,
+        sort: false,
+        renderComponent: ViewButtonComponent,
+        onComponentInitFunction: (instance) => {
+          instance.view.subscribe(row => {
+            this.viewCrewEffects(row);
+          });
         }
       },
     }
   };
 
-  constructor(private personOnBoardService: PortCallFalPersonOnBoardService) { }
+  viewCrewEffects(row: any) {
+    const crewEffects = row.crewEffects;
+    if (crewEffects == null && crewEffects === undefined) {
+      return;
+    }
+    this.crewEffects = crewEffects;
+    this.modalService.open(this.crewEffectsModal);
+  }
+
+  constructor(
+    private modalService: NgbModal,
+    private personOnBoardService: PortCallFalPersonOnBoardService
+    ) { }
 
   ngOnInit() {
-
     if (this.portCallId) {
       this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
         .finally(() => {

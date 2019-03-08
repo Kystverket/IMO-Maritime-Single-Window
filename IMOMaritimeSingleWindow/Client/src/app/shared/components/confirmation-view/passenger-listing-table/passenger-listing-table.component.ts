@@ -26,7 +26,7 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: 'There are no passengers reported.',
+    noDataMessage: 'No passengers found.',
     columns: {
       familyName: {
         title: 'Family Name'
@@ -36,53 +36,31 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
       },
       nationality: {
         title: 'Nationality',
-        valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
-        }
       },
       dateOfBirth: {
         title: 'Date of Birth',
-        valuePrepareFunction: (value) => {
-          if (value != null) {
-            return new Date(value).toDateString();
-          } else {
-            return 'N/A';
-          }
-        }
       },
       placeOfBirth: {
         title: 'Place of Birth',
+      },
+      identityDocumentListingModel: {
+        title: 'Identity Document (Type)',
+      },
+      issuingNation: {
+        title: 'Issuing Nation',
+      },
+      expiryDate: {
+        title: 'Expiry Date',
         valuePrepareFunction: (value) => {
-          if (value != null) {
-            return value;
-          } else {
-            return 'N/A';
-          }
+          return value ? value : 'N/A';
         }
       },
-      identityDocument: {
-        title: 'ID Type and Number',
+      inTransit: {
+        title: 'Transit Pax',
         valuePrepareFunction: (value) => {
-          if (value[0] == null || value[0] === undefined || value.length === 0) {
-            return 'N/A';
-          }
-          let returnVal = '';
-          if (value[0].identityDocumentType != null && value[0].identityDocumentType !== undefined) {
-            returnVal += value[0].identityDocumentType.description;
-          }
-          if (value[0].identityDocumentNumber != null && value[0].identityDocumentNumber !== undefined) {
-            returnVal += ' : ' + value[0].identityDocumentNumber;
-          }
-          if (returnVal.trim().length === 0) {
-            returnVal = 'N/A';
-          }
-          return returnVal;
+          return value ? 'Yes' : 'No';
         }
-      },
+      }
     }
   };
 

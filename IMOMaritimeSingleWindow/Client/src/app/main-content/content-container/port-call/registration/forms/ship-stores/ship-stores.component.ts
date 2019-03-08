@@ -65,7 +65,7 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
         title: 'Location Onboard Code'
       },
       delete: {
-        title: 'Delete',
+        title: 'Actions',
         type: 'custom',
         filter: false,
         sort: false,
