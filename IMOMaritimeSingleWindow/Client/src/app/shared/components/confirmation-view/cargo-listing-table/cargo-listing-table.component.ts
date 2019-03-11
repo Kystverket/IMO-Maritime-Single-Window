@@ -25,7 +25,7 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
     attr: {
       class: 'table table-bordered'
     },
-    noDataMessage: 'There is no cargo reported.',
+    noDataMessage: 'No cargo found.',
     columns: {
       description: {
         title: 'Description',

@@ -73,6 +73,11 @@ export class PassengerModalComponent implements OnInit {
       this.inputPassengerModel.identityDocument[0] = new IdentityDocumentModel();
     }
 
+    if (this.inputPassengerModel.nationality === 'N/A') {
+      this.inputPassengerModel.nationality = null;
+      this.inputPassengerModel.nationalityId = null;
+    }
+
     this.modalService.open(this.viewModal);
   }
 
@@ -96,6 +101,10 @@ export class PassengerModalComponent implements OnInit {
       this.modalService.open(this.editModal, {
         backdrop: 'static'
       });
+    }
+    if (this.inputPassengerModel.nationality === 'N/A') {
+      this.inputPassengerModel.nationality = null;
+      this.inputPassengerModel.nationalityId = null;
     }
   }
 
@@ -151,6 +160,14 @@ export class PassengerModalComponent implements OnInit {
 
   // Output
   editPassenger() {
+    if (
+      this.inputPassengerModel.gender != null &&
+      this.inputPassengerModel.gender.description != null &&
+      this.inputPassengerModel.gender !== undefined &&
+      this.inputPassengerModel.gender.description !== undefined
+    ) {
+      this.inputPassengerModel.gender = this.inputPassengerModel.gender.description;
+    }
     this.outputPassengerModel.emit(this.inputPassengerModel);
   }
 

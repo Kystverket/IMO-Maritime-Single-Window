@@ -155,7 +155,6 @@ namespace IMOMaritimeSingleWindow.Controllers
             .Include(i => i.IdentityDocument).ThenInclude(i => i.IdentityDocumentType)
             .ToList();
 
-
             if (personOnBoardList == null)
             {
                 return NotFound();
@@ -166,8 +165,8 @@ namespace IMOMaritimeSingleWindow.Controllers
                 x.PersonOnBoardId,
                 x.GivenName,
                 x.FamilyName,
-                x.DateOfBirth,
-                x.PlaceOfBirth,
+                DateOfBirth = x.DateOfBirth.HasValue ? x.DateOfBirth.Value.ToShortDateString() : "N/A",
+                PlaceOfBirth = !string.IsNullOrWhiteSpace(x.PlaceOfBirth) ? x.PlaceOfBirth : "N/A",
                 x.OccupationName,
                 x.OccupationCode,
                 x.RoleCode,
@@ -180,7 +179,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 PortOfEmbarkationTwoCharCode = x.PortOfEmbarkation?.Country?.TwoCharCode,
                 PortOfDisembarkationTwoCharCode = x.PortOfDisembarkation?.Country?.TwoCharCode,
                 PortOfDisembarkation = x.PortOfDisembarkation?.Name,
-                Nationality = x.Nationality?.Name,
+                Nationality = !string.IsNullOrWhiteSpace(x.Nationality?.Name) ? x.Nationality.Name : "N/A",
                 Gender = x.Gender?.Description,
                 CountryOfBirth = x.CountryOfBirth?.Name,
 
@@ -198,7 +197,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 {
                     id.IdentityDocumentExpiryDate,
                     id.IdentityDocumentIssueDate,
-                    id.IdentityDocumentNumber,
+                    IdentityDocumentNumber = !string.IsNullOrWhiteSpace(id.IdentityDocumentNumber) ? id.IdentityDocumentNumber : "",
                     IssuingNation = id.IssuingNation?.Name,
                     IssuingNationTwoCharCode = id.IssuingNation?.TwoCharCode,
                     id.IssuingNationId,
@@ -208,10 +207,24 @@ namespace IMOMaritimeSingleWindow.Controllers
                     id.IdentityDocumentType
                 }),
                 ExpiryDate = x.IdentityDocument?.FirstOrDefault()?.IdentityDocumentExpiryDate?.ToShortDateString(),
-                IssuingNation = x.IdentityDocument?.FirstOrDefault()?.IssuingNation?.Name,
+                IssuingNation = x.IdentityDocument?.FirstOrDefault()?.IssuingNation != null ? x.IdentityDocument?.FirstOrDefault()?.IssuingNation.Name : "N/A",
+                IdentityDocumentListingModel = x.IdentityDocument.FirstOrDefault() != null && !string.IsNullOrWhiteSpace(x.IdentityDocument.FirstOrDefault()?.IdentityDocumentNumber)
+                        ? x.IdentityDocument.FirstOrDefault()?.IdentityDocumentNumber.ToString() + "(" + x.IdentityDocument.FirstOrDefault().IdentityDocumentType?.ShortName + ")" : "N/A",
+                x.IsMaster,
             }).ToList();
 
             return Json(returnVal);
+        }
+
+        [HttpGet("{portCallId}/personOnBoard/hasMaster")]
+        public IActionResult GetPortCallHasMaster(int portCallId)
+        {
+            var pobList = _context.PersonOnBoard
+                .Where(x => x.PortCallId == portCallId
+                 && x.IsMaster.HasValue && x.IsMaster.Value).ToList();
+
+            return Json(pobList.Count >= 1);
+
         }
 
         [HttpGet("{portCallId}/personOnBoard/{personOnBoardId}")]
