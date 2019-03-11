@@ -55,10 +55,10 @@ import { ErrorService } from './services/error.service';
 import { LocationService } from './services/location.service';
 import { OrganizationService } from './services/organization.service';
 import { ShipService } from './services/ship.service';
-import { ExtendedAlphaNumericValidator } from './utils/custom-validators/extended-alpha-numeric-validator.directive';
-import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
-import { NumberValidator } from './utils/custom-validators/number-validator.directive';
-import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
+// import { ExtendedAlphaNumericValidator } from './utils/custom-validators/extended-alpha-numeric-validator.directive';
+// import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
+// import { NumberValidator } from './utils/custom-validators/number-validator.directive';
+// import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
 
 @NgModule({
   imports: [
@@ -69,20 +69,20 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     NgSelectModule
   ],
   declarations: [
-    ExtendedAlphaNumericValidator,
+    //ExtendedAlphaNumericValidator,
     ClearancesComponent,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     ContactSelectComponent,
     DateTimePickerComponent,
-    IntegerValidator,
+    //IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
-    NumberValidator,
+    //NumberValidator,
     OrganizationButtonRowComponent,
     OrganizationSmartTableComponent,
     PortCallDetailsComponent,
-    PositiveNumberValidator,
+    //PositiveNumberValidator,
     PrevAndNextPocTableComponent,
     SearchCountryComponent,
     SearchLocationComponent,
@@ -126,17 +126,17 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     SecurityInfoComponent
   ],
   exports: [
-    ExtendedAlphaNumericValidator,
+    //ExtendedAlphaNumericValidator,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     ContactSelectComponent,
     DateTimePickerComponent,
-    IntegerValidator,
+    //IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
-    NumberValidator,
+    //NumberValidator,
     OrganizationSmartTableComponent,
-    PositiveNumberValidator,
+    //PositiveNumberValidator,
     PrevAndNextPocTableComponent,
     SearchCountryComponent,
     SearchLocationComponent,

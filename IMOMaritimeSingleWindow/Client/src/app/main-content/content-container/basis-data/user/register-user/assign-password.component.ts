@@ -14,6 +14,10 @@ export class AssignPasswordComponent implements OnInit {
 	public newPasswordCheck = '';
 	public purpose = '';
 
+	public fieldsFilled:boolean;
+	public passwordMatch:boolean;
+	public submissionReady:boolean;
+
 	public $sucess: EventEmitter<boolean> = new EventEmitter;
 	public $error: EventEmitter<boolean> = new EventEmitter;
 

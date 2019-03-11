@@ -38,7 +38,7 @@ export class DateTimePickerComponent implements OnInit {
     this.persistData();
   }
 
-  timeChanged() {
+  timeChanged($event) {
     this.persistData();
   }
 

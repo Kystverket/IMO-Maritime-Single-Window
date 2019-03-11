@@ -19,6 +19,8 @@ const RESULT_FAILURE = 'There was a problem when trying to register the user. Pl
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
 
+  public isDrafted:boolean;
+
   newUser = true;
   userHeader = 'REGISTER USER';
   confirmHeader = 'Confirm User Registration';

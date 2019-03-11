@@ -60,7 +60,7 @@ export class CertificateOfRegistryComponent implements OnInit {
     LocationProperties.setCountry(this.locationProperties, locationModel.country.name, countryFlag);
   }
 
-  private persistData() {
+  public persistData() {
     this.certificateResult.emit(this.certificateModel);
   }
 

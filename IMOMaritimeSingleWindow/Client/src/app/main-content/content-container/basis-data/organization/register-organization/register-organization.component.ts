@@ -155,7 +155,7 @@ export class RegisterOrganizationComponent implements OnInit, OnDestroy {
     );
   }
 
-  close(): void {
+  close($event): void {
     if (this.closed) {
       this.closed();
     }
