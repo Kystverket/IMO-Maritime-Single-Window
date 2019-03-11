@@ -16,6 +16,7 @@ export class PortCallFalPersonOnBoardService {
   private personOnBoardUrl: string;
   private personOnBoardTypeUrl: string;
   private overviewByPortCallUrl: string;
+  private hasMasterUrl: string;
 
   response: Observable<any>;
 
@@ -26,6 +27,7 @@ export class PortCallFalPersonOnBoardService {
     this.personOnBoardUrl = 'api/personOnBoard';
     this.personOnBoardTypeUrl = 'api/PersonOnBoardType';
     this.overviewByPortCallUrl = 'overviewByPortCallEnum';
+    this.hasMasterUrl = 'personOnBoard/hasMaster';
    }
 
   private passengerListSource = new BehaviorSubject<any>(null);
@@ -52,6 +54,9 @@ export class PortCallFalPersonOnBoardService {
   private crewListIsChecked = new BehaviorSubject<boolean>(false);
   crewListIsChecked$ = this.crewListIsChecked.asObservable();
 
+  private hasMaster = new BehaviorSubject<boolean>(false);
+  hasMaster$ = this.hasMaster.asObservable();
+
    // Http
   getPersonOnBoardById(personOnBoardId: number) {
     const uri = [this.personOnBoardUrl, personOnBoardId].join('/');
@@ -60,19 +65,16 @@ export class PortCallFalPersonOnBoardService {
 
   // Get all person on board entities of a port call
   getPersonOnBoardListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getPassengerListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.PAX].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
 
   getCrewListByPortCallId(portCallId: number) {
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', PERSON_ON_BOARD_TYPES.CREW].join('/');
     return this.httpClient.get<PersonOnBoardModel[]>(uri, {observe: 'body'});
   }
@@ -95,7 +97,6 @@ export class PortCallFalPersonOnBoardService {
   updatePersonOnBoardList(portCallId: number, personOnBoardList: any[], personOnBoardTypeId: number) {
     let cleanedPersonOnBoardList;
     cleanedPersonOnBoardList = this.cleanPersonOnBoardList(personOnBoardList);
-    // uri = api/portCall/{portCallId}/personOnBoard/personOnBoardType/{personOnBoardTypeId}
     const uri = [this.portCallUrl, portCallId, this.personOnBoardString, 'personOnBoardType', personOnBoardTypeId].join('/');
     return this.httpClient.put<PersonOnBoardModel[]>(uri, cleanedPersonOnBoardList).pipe(
       retry(3), // retry a failed request up to 3 times
@@ -105,6 +106,11 @@ export class PortCallFalPersonOnBoardService {
 
   getOverviewByPortCall(portCallId: number, personOnBoardTypeEnum: PERSON_ON_BOARD_TYPES) {
     const uri = [this.personOnBoardUrl, this.overviewByPortCallUrl, portCallId, personOnBoardTypeEnum].join('/');
+    return this.httpClient.get<any>(uri, {observe: 'body'});
+  }
+
+  getHasMaster(portCallId: number){
+    const uri = [this.portCallUrl, portCallId, this.hasMasterUrl].join('/');
     return this.httpClient.get<any>(uri, {observe: 'body'});
   }
 
@@ -131,6 +137,10 @@ export class PortCallFalPersonOnBoardService {
 
   setCrewCheckedInProgressBar(checked: boolean) {
     this.crewListIsChecked.next(checked);
+  }
+
+  setHasMaster(hasMaster: boolean) {
+    this.hasMaster.next(hasMaster);
   }
 
   cleanPersonOnBoardList(personOnBoardList: any[]) {

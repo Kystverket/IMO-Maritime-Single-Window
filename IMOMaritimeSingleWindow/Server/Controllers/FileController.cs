@@ -1,34 +1,246 @@
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
+using IMOMaritimeSingleWindow.Extensions;
+using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.SpreadSheet.Sheets;
+using IMOMaritimeSingleWindow.SpreadSheet.SpreadSheetValidators;
+using log4net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
-using static IMOMaritimeSingleWindow.Controllers.LocationController;
+using System.Text.RegularExpressions;
+using static IMOMaritimeSingleWindow.Helpers.Constants.Strings;
 using static IMOMaritimeSingleWindow.SpreadSheet.MappingMethods.CommonMappingMethods;
-using IMOMaritimeSingleWindow.SpreadSheet.SpreadSheetValidators;
-using System.Globalization;
-using System.Threading.Tasks;
+using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
+    public class TemplateModel
+    {
+        public string CaptainName { get; set; }
+        public string VesselName { get; set; }
+        public string ImoNumber { get; set; }
+        public string PortOfCall { get; set; }
+        public string NumberOfCrew { get; set; }
+        public string NumberOfPax { get; set; }
+        public string NumberOfTransit { get; set; }
+        public string PortCallDateTime { get; set; }
+        public string LastPortCall { get; set; }
+        public string NextPortCall { get; set; }
+        public string NextPortDateTime { get; set; }
+        public string CountryOfCall { get; set; }
+        public string CurrentDate { get; set; }
+        public string LastPortDateTime { get; set; }
+    }
+
     [Route("api/[controller]")]
     public class FileController : Controller
     {
+        static readonly ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         readonly open_ssnContext _context;
         private IHostingEnvironment _hostingEnvironment;
-
+        private const string _validCharacters = @"^A-Z0-9a-z.\-/'À-ÖØ-öø-ÿĀ-ķĹ-ňŊ-žΆΈ-ΊΌΎ-ΡΣ-ώЁ-ЌЎ-яё-ќўџѪѫѴѵҐґ ";
 
         public FileController(open_ssnContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
             _hostingEnvironment = hostingEnvironment;
+        }
+
+        [HasClaim(Claims.Types.PORT_CALL, Claims.Values.VIEW)]
+        [Authorize(Roles = UserRoles.Admin + ", " + UserRoles.SuperAdmin + ", " + UserRoles.Customs + ", " + UserRoles.Agent + ", " + UserRoles.HealthAgency)]
+        [HttpGet("CertificateOfClearanceToken/{portCallId}")]
+        public IActionResult CertificateOfClearanceToken(int portCallId)
+        {
+            try
+            {
+                var userId = this.GetUserId();
+                var dbUser = _context.User.Where(u => u.UserId.ToString().Equals(userId))
+                                        .Include(u => u.Organization.OrganizationType)
+                                        .FirstOrDefault();
+                var userRole = this.GetUserRoleName();
+
+                if (dbUser == null)
+                {
+                    throw new ArgumentNullException();
+                }
+                var portCall = new PortCall();
+
+                if (userRole == UserRoles.Admin || userRole == UserRoles.SuperAdmin)
+                {
+                    portCall = _context.PortCall
+                   .Include(x => x.Location)
+                       .ThenInclude(x => x.Country)
+                   .Include(x => x.NextLocation)
+                   .Include(x => x.PersonOnBoard)
+                       .ThenInclude(x => x.PersonOnBoardType)
+                   .Include(x => x.Ship)
+                   .Include(x => x.PreviousLocation)
+                   .Where(pc => pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                   .FirstOrDefault(pc => pc.PortCallId == portCallId);
+                }
+                else if (userRole == UserRoles.Agent || userRole == UserRoles.Customs || userRole == UserRoles.HealthAgency)
+                {
+                    portCall = _context.PortCall
+                    .Include(x => x.Location)
+                        .ThenInclude(x => x.Country)
+                    .Include(x => x.NextLocation)
+                    .Include(x => x.PersonOnBoard)
+                        .ThenInclude(x => x.PersonOnBoardType)
+                    .Include(x => x.Ship)
+                    .Include(x => x.PreviousLocation)
+                    .Include(x => x.OrganizationPortCall)
+                    .Where(pc => pc.OrganizationPortCall.Any(x => x.OrganizationId == dbUser.OrganizationId) && pc.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_DELETED)
+                    .FirstOrDefault(pc => pc.PortCallId == portCallId);
+                }
+
+                if (portCall == null)
+                {
+                    throw new ArgumentNullException("Port Call not found");
+                }
+
+                if (portCall.PortCallStatusId != Constants.Integers.DatabaseTableIds.PORT_CALL_STATUS_CLEARED)
+                {
+                    throw new InvalidDataException("Port Call not cleared");
+                }
+
+                //Generate token
+                byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+                byte[] key = Guid.NewGuid().ToByteArray();
+                string token = Convert.ToBase64String(time.Concat(key).ToArray());
+
+                var url = "certificateOfClearance/" + portCallId.ToString() + "?token=" + token;
+
+                return Json(url);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        [HttpGet("CertificateOfClearance/{portCallId}")]
+        public FileStreamResult GetCertificateOfClearance(int portCallId, [FromQuery]string token)
+        {
+            try
+            {
+                //Decrypt token
+                token = token.Replace(" ", "+");
+                byte[] data = Convert.FromBase64String(token);
+                DateTime when = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+                if (when < DateTime.UtcNow.AddMinutes(-1))
+                {
+                    throw new ArgumentException("Url is stale");
+                }
+
+                var portCall = _context.PortCall
+                   .Include(x => x.Location)
+                       .ThenInclude(x => x.Country)
+                   .Include(x => x.NextLocation)
+                   .Include(x => x.PersonOnBoard)
+                       .ThenInclude(x => x.PersonOnBoardType)
+                   .Include(x => x.Ship)
+                   .Include(x => x.PreviousLocation)
+                   .FirstOrDefault(pc => pc.PortCallId == portCallId);
+
+                if (portCall == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                var model = new TemplateModel
+                {
+                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.HasValue && x.IsMaster.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.Value).FamilyName : "<Captain Not Found>",
+                    ImoNumber = portCall.Ship.ImoNo.HasValue ? portCall.Ship.ImoNo.Value.ToString() : "<Imo Number Not Found>",
+                    VesselName = portCall.Ship.Name,
+                    PortOfCall = portCall.Location.Name,
+                    PortCallDateTime = portCall.LocationEta.DateTime.ToString(),
+                    NumberOfCrew = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.CREW.ToString()).Count().ToString(),
+                    NumberOfPax = portCall.PersonOnBoard.Where(x => x.PersonOnBoardType.EnumValue == PERSON_ON_BOARD_TYPE_ENUM.PAX.ToString()).Count().ToString(),
+                    NumberOfTransit = portCall.PersonOnBoard.Where(x => x.InTransit.HasValue && x.InTransit.Value).Count().ToString(),
+                    LastPortCall = portCall.PreviousLocation != null ? portCall.PreviousLocation.Name : "<Port Not Found>",
+                    LastPortDateTime = portCall.PreviousLocationEtd.HasValue ? portCall.PreviousLocationEtd.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
+                    NextPortCall = portCall.NextLocation != null ? portCall.NextLocation.Name : "<Port Not Found>",
+                    NextPortDateTime = portCall.NextLocationEta.HasValue ? portCall.NextLocationEta.Value.ToString("MM / dd / yyyy HH: mm") : "<DateTime Not Found>",
+                    CountryOfCall = portCall.Location?.Country.Name,
+                    CurrentDate = DateTime.Now.ToShortDateString(),
+                };
+
+
+                var documentPath = _hostingEnvironment.WebRootPath + "\\Documents\\";
+
+                var templatePath = documentPath + "CERTIFICATE_TEMPLATE.docx";
+
+                byte[] byteArray = System.IO.File.ReadAllBytes(templatePath);
+                MemoryStream mem = new MemoryStream();
+                mem.Write(byteArray, 0, byteArray.Length);
+                using (WordprocessingDocument wordDoc =
+                    WordprocessingDocument.Open(mem, true))
+                {
+                    var body = wordDoc.MainDocumentPart.Document.Body;
+
+                    foreach (var element in body.Descendants<Text>())
+                    {
+                        //reflection
+                        foreach (var property in typeof(TemplateModel).GetProperties())
+                        {
+                            //make sure the property name matches the template
+                            if (element.Text.Contains($"{property.Name}"))
+                            {
+                                //get the value from the actual model instance
+                                element.Text = element.Text.Replace($"{property.Name}", (string)property.GetValue(model));
+                            }
+                        }
+                    }
+                }
+                mem.Seek(0, SeekOrigin.Begin);
+                var result = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new ByteArrayContent(mem.ToArray())
+                };
+                result.Content.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment")
+                    {
+                        FileName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
+                    };
+                result.Content.Headers.ContentType =
+                    new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+                mem.Seek(0, SeekOrigin.Begin);
+
+                var file = new FileStreamResult(mem, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+                {
+                    FileDownloadName = string.Format("{0}_{1}.docx", model.VesselName, DateTime.Now.ToString("ddMMyyyyHHmmss"))
+                };
+
+                return file;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
+                throw ex;
+            }
         }
 
         [HttpPost("passengers/{portCallId}"), DisableRequestSizeLimit]
@@ -237,6 +449,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception ex)
             {
+                Logger.Error(ex);
+                Logger.Error(ex.Message);
+                Logger.Error(ex.InnerException);
+                Logger.Error(ex.StackTrace);
                 return Json(false);
             }
         }
@@ -303,7 +519,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
         }
 
-        public bool SaveShipStoresToPortCall(List<FalShipStores> shipStores, int portCallId)
+        private bool SaveShipStoresToPortCall(List<FalShipStores> shipStores, int portCallId)
         {
             var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
             if (portCall != null)
@@ -329,7 +545,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return false;
         }
-        public bool SavePoBToPortCall(List<PersonOnBoard> pobList, int portCallId, int personTypeId)
+        private bool SavePoBToPortCall(List<PersonOnBoard> pobList, int portCallId, int personTypeId)
         {
             var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
             if (portCall != null)
@@ -349,7 +565,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return false;
         }
 
-        public bool SaveCrewAndPaxToPortCall(List<PersonOnBoard> crewAndPax, int portCallId)
+        private bool SaveCrewAndPaxToPortCall(List<PersonOnBoard> crewAndPax, int portCallId)
         {
             var portCall = _context.PortCall.Where(pc => pc.PortCallId == portCallId).FirstOrDefault();
             if (portCall != null)
@@ -359,7 +575,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     _context.PersonOnBoard.RemoveRange(_context.PersonOnBoard.Where(s => s.PortCallId == portCallId));
                     _context.PersonOnBoard.AddRange(crewAndPax);
                     _context.SaveChanges();
-
+                    
                     return true;
                 }
                 catch (Exception ex)
@@ -370,7 +586,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return false;
         }
 
-        public List<PersonOnBoard> ConvertToPax(ExcelWorksheet worksheet, PaxSheet sheetDefinition, int paxTypeId, int portCallId)
+        private List<PersonOnBoard> ConvertToPax(ExcelWorksheet worksheet, PaxSheet sheetDefinition, int paxTypeId, int portCallId)
         {
             var paxList = new List<PersonOnBoard>();
             var validator = new PersonOnBoardSpreadSheetValidator();
@@ -394,16 +610,30 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var DateOfExpiry = worksheet.Cells[rowNum, sheetDefinition.DateOfExpiryAddress].Text;
                 var PortOfEmbarkation = worksheet.Cells[rowNum, sheetDefinition.PortOfEmbarkAddress].Text;
                 var PortOfDebarkation = worksheet.Cells[rowNum, sheetDefinition.PortOfDebarkAddress].Text;
-                var PortOfClearence = worksheet.Cells[rowNum, sheetDefinition.PortOfClearenceAddress].Text;
                 var VisaNumber = worksheet.Cells[rowNum, sheetDefinition.VisaNumberAddress].Text;
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var TransitPax = worksheet.Cells[rowNum, sheetDefinition.TransPassengerAddress].Text;
+
+                Regex rgx = new Regex($"^[{_validCharacters}]+[*]?$");
+
+                LastName = rgx.Replace(LastName, "");
+                FirstName = rgx.Replace(FirstName, "");
 
                 FirstName = FirstName.TrimEnd();
 
                 if (string.IsNullOrWhiteSpace(LastName) && string.IsNullOrWhiteSpace(FirstName))
                     continue;
 
+
+                Nationality = rgx.Replace(Nationality, "");
+                Sex = rgx.Replace(Sex, "");
+                DocumentNumber = rgx.Replace(DocumentNumber, "");
+                CountryOfIssue = rgx.Replace(CountryOfIssue, "");
+                PortOfEmbarkation = rgx.Replace(PortOfEmbarkation, "");
+                PortOfDebarkation = rgx.Replace(PortOfDebarkation, "");
+                VisaNumber = rgx.Replace(VisaNumber, "");
+                PlaceOfBirth = rgx.Replace(PlaceOfBirth, "");
+                TransitPax = rgx.Replace(TransitPax, "");
 
                 var pax = new PersonOnBoard
                 {
@@ -484,9 +714,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        pax.PortOfEmbarkationId = portOfEmbarkId;
-                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                        var portOfEmbark = GetPortByCode(PortOfEmbarkation);
+                        if (portOfEmbark != null)
+                        {
+                            pax.PortOfEmbarkationId = portOfEmbark.LocationId;
+                            portDictionairy.Add(PortOfEmbarkation, portOfEmbark.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
@@ -497,14 +730,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        pax.PortOfDisembarkationId = portOfDebarkationId;
-                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                        var portOfDebarkation = GetPortByCode(PortOfEmbarkation);
+                        if (PortOfDebarkation != null)
+                        {
+                            pax.PortOfDisembarkationId = portOfDebarkation.LocationId;
+                            portDictionairy.Add(PortOfDebarkation, portOfDebarkation.LocationId);
+                        }
                     }
-                }
-                if (!string.IsNullOrWhiteSpace(PortOfClearence))
-                {
-
                 }
                 if (!string.IsNullOrWhiteSpace(VisaNumber))
                 {
@@ -519,7 +751,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                 }
                 if (!string.IsNullOrWhiteSpace(TransitPax))
                 {
-                    pax.InTransit = ConvertTextToBool(TransitPax);
+                    pax.InTransit = ConvertToTransitPax(TransitPax);
                 }
 
                 var errors = validator.ValidatePersonOnBoardSpreadSheetModel(pax);
@@ -536,7 +768,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
             return paxList;
         }
-        public List<PersonOnBoard> ConvertToCrew(ExcelWorksheet worksheet, CrewSheet sheetDefinition, int crewTypeId, int portCallId)
+        private List<PersonOnBoard> ConvertToCrew(ExcelWorksheet worksheet, CrewSheet sheetDefinition, int crewTypeId, int portCallId)
         {
             var crewList = new List<PersonOnBoard>();
             var validator = new PersonOnBoardSpreadSheetValidator();
@@ -545,7 +777,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             var genders = _context.Gender.ToList();
             var portDictionairy = new Dictionary<string, int>();
             var countriesDictionairy = new Dictionary<string, int>();
-
+            var master = true;
             for (var rowNum = sheetDefinition.startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
             {
                 var row = worksheet.Cells[string.Format("{0}:{0}", rowNum)];
@@ -560,15 +792,28 @@ namespace IMOMaritimeSingleWindow.Controllers
                 var DateOfExpiry = worksheet.Cells[rowNum, sheetDefinition.DateOfExpiryAddress].Text;
                 var PortOfEmbarkation = worksheet.Cells[rowNum, sheetDefinition.PortOfEmbarkAddress].Text;
                 var PortOfDebarkation = worksheet.Cells[rowNum, sheetDefinition.PortOfDebarkAddress].Text;
-                var PortOfClearence = worksheet.Cells[rowNum, sheetDefinition.PortOfClearenceAddress].Text;
                 var RankOrRating = worksheet.Cells[rowNum, sheetDefinition.RankOrRatingAddress].Text;
                 var PlaceOfBirth = worksheet.Cells[rowNum, sheetDefinition.PlaceOfBirthAddress].Text;
                 var Effects = worksheet.Cells[rowNum, sheetDefinition.EffectsCustomsAddress].Text;
 
+                Regex rgx = new Regex($"^[{_validCharacters}]+[*]?$");
+
                 FirstName = FirstName.TrimEnd();
+                LastName = rgx.Replace(LastName, "");
+                FirstName = rgx.Replace(FirstName, "");
 
                 if (string.IsNullOrWhiteSpace(LastName) && string.IsNullOrWhiteSpace(FirstName))
                     continue;
+
+                Nationality = rgx.Replace(Nationality, "");
+                Sex = rgx.Replace(Sex, "");
+                DocumentNumber = rgx.Replace(DocumentNumber, "");
+                CountryOfIssue = rgx.Replace(CountryOfIssue, "");
+                PortOfEmbarkation = rgx.Replace(PortOfEmbarkation, "");
+                PortOfDebarkation = rgx.Replace(PortOfDebarkation, "");
+                RankOrRating = rgx.Replace(RankOrRating, "");
+                PlaceOfBirth = rgx.Replace(PlaceOfBirth, "");
+                Effects = rgx.Replace(Effects, "");
 
 
                 var crew = new PersonOnBoard
@@ -576,8 +821,10 @@ namespace IMOMaritimeSingleWindow.Controllers
                     FamilyName = LastName,
                     GivenName = FirstName,
                     PersonOnBoardTypeId = crewTypeId,
-                    PortCallId = portCallId
+                    PortCallId = portCallId,
+                    IsMaster = master
                 };
+                master = false;
 
                 if (!string.IsNullOrWhiteSpace(Nationality))
                 {
@@ -623,10 +870,11 @@ namespace IMOMaritimeSingleWindow.Controllers
                             IdentityDocumentType = identityType
                         };
 
-                        if(countriesDictionairy.ContainsKey(CountryOfIssue))
+                        if (countriesDictionairy.ContainsKey(CountryOfIssue))
                         {
                             identityDocument.IssuingNationId = countriesDictionairy.GetValueOrDefault(CountryOfIssue);
-                        } else
+                        }
+                        else
                         {
                             var issuingNation = GetCountryByThreeCharCode(CountryOfIssue);
                             if (issuingNation != null)
@@ -651,9 +899,12 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfEmbarkId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        crew.PortOfEmbarkationId = portOfEmbarkId;
-                        portDictionairy.Add(PortOfEmbarkation, portOfEmbarkId);
+                        var portOfEmbark = GetPortByCode(PortOfEmbarkation);
+                        if (portOfEmbark != null)
+                        {
+                            crew.PortOfEmbarkationId = portOfEmbark.LocationId;
+                            portDictionairy.Add(PortOfEmbarkation, portOfEmbark.LocationId);
+                        }
                     }
                 }
                 if (!string.IsNullOrWhiteSpace(PortOfDebarkation))
@@ -664,13 +915,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                     }
                     else
                     {
-                        var portOfDebarkationId = GetPortByCode(PortOfEmbarkation).LocationId;
-                        crew.PortOfDisembarkationId = portOfDebarkationId;
-                        portDictionairy.Add(PortOfDebarkation, portOfDebarkationId);
+                        var portOfDebarkation = GetPortByCode(PortOfEmbarkation);
+                        if (portOfDebarkation != null)
+                        {
+                            crew.PortOfDisembarkationId = portOfDebarkation.LocationId;
+                            portDictionairy.Add(PortOfDebarkation, portOfDebarkation.LocationId);
+                        }
                     }
-                }
-                if (!string.IsNullOrWhiteSpace(PortOfClearence))
-                {
                 }
                 if (!string.IsNullOrWhiteSpace(PlaceOfBirth))
                 {
@@ -698,11 +949,16 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             return crewList;
         }
-        public List<FalShipStores> ConvertToShipStores(ExcelWorksheet worksheet, ShipStoresSheet sheetDefinition, int portCallId)
+        private List<FalShipStores> ConvertToShipStores(ExcelWorksheet worksheet, ShipStoresSheet sheetDefinition, int portCallId)
         {
             var shipStoreList = new List<FalShipStores>();
             var sequenceNo = 1;
             var validator = new ShipStoresSpreadSheetValidator();
+            var measurementTypes = new Dictionary<string, int>();
+            _context.MeasurementType.ToList().ForEach(x =>
+           {
+               measurementTypes.Add(x.Name.Split('(', ')')[1], x.MeasurementTypeId);
+           });
             try
             {
                 for (var rowNum = sheetDefinition.startRow; rowNum <= worksheet.Dimension.End.Row; rowNum++)
@@ -710,6 +966,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                     var NameOfArticle = worksheet.Cells[rowNum, sheetDefinition.NameOfArticleAddress].Text;
                     var QuantityTxt = worksheet.Cells[rowNum, sheetDefinition.QuantityAddress].Text;
                     var LocationOnBoard = worksheet.Cells[rowNum, sheetDefinition.LocationOnBoardAddress].Text;
+                    var MeasurementType = worksheet.Cells[rowNum, sheetDefinition.MeasurementTypeAddress].Text;
 
                     if (string.IsNullOrWhiteSpace(NameOfArticle) && string.IsNullOrWhiteSpace(QuantityTxt) && string.IsNullOrWhiteSpace(LocationOnBoard))
                         continue;
@@ -718,14 +975,23 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                     float.TryParse(QuantityTxt, NumberStyles.Any, CultureInfo.InvariantCulture, out var Quantity);
 
+
                     var shipStore = new FalShipStores
                     {
                         SequenceNumber = sequenceNo,
                         LocationOnBoard = LocationOnBoard,
                         ArticleName = NameOfArticle,
                         Quantity = Quantity,
-                        PortCallId = portCallId
+                        PortCallId = portCallId,
                     };
+
+                    if (!string.IsNullOrWhiteSpace(MeasurementType))
+                    {
+                        if (measurementTypes.TryGetValue(MeasurementType.Split('(', ')')[1], out var measurementTypeId))
+                        {
+                            shipStore.MeasurementTypeId = measurementTypeId;
+                        };
+                    }
 
                     var errors = validator.ValidateShipStoreSpreadsheetModel(shipStore);
                     var errorMsgs = validator.ConvertErrorsToMsg(errors);
@@ -741,19 +1007,19 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
             return shipStoreList;
         }
 
-        public Country GetCountryByThreeCharCode(string threeCharCode)
+        private Country GetCountryByThreeCharCode(string threeCharCode)
         {
             var country = _context.Country.Where(c => c.ThreeCharCode.ToUpper() == threeCharCode.ToUpper()).FirstOrDefault();
 
             return country;
         }
 
-        public Location GetPortByCode(string portCode)
+        private Location GetPortByCode(string portCode)
         {
             var port = _context.Location.Where(l => l.LocationType.EnumValue == LOCATION_TYPES.HARBOUR.ToString()
                                         && l.LocationCode == portCode)
