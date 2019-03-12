@@ -168,7 +168,7 @@ namespace IMOMaritimeSingleWindow.Controllers
 
                 var model = new TemplateModel
                 {
-                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.HasValue && x.IsMaster.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.Value).FamilyName : "<Captain Not Found>",
+                    CaptainName = portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.HasValue && x.IsMaster.Value) != null ? portCall.PersonOnBoard.FirstOrDefault(x => x.IsMaster.HasValue && x.IsMaster.Value).FamilyName : "<Captain Not Found>",
                     ImoNumber = portCall.Ship.ImoNo.HasValue ? portCall.Ship.ImoNo.Value.ToString() : "<Imo Number Not Found>",
                     VesselName = portCall.Ship.Name,
                     PortOfCall = portCall.Location.Name,
