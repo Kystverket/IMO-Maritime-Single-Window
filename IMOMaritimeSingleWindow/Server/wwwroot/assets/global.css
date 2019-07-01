@@ -37,9 +37,9 @@ div .bg-ssn-light {
 }
 
 .btn-ssn { 
-    color: var(--color-primary-text);
-    background-color: var(--color-primary-light);
-    border-color: var(--color-primary-light);
+    color: var(--color-primary-text) !important;
+    background-color: var(--color-primary-light) !important;
+    border-color: var(--color-primary-light) !important;
 } 
    
 .btn-ssn:hover, 
@@ -47,9 +47,9 @@ div .bg-ssn-light {
 .btn-ssn:active, 
 .btn-ssn.active, 
 .open .dropdown-toggle.btn-ssn { 
-    color: var(--color-primary-text);
-    background-color: var(--color-primary); 
-    border-color: var(--color-primary-light);
+    color: var(--color-primary-text) !important;
+    background-color: var(--color-primary) !important;  
+    border-color: var(--color-primary-light) !important;
 } 
    
 .btn-ssn:active, 
