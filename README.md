@@ -63,4 +63,4 @@ dotnet watch run
 #### Open a new browser session and navigate to
 `http://localhost:4201`
 
-Note; you need to have a connection to the database
+Note; 
