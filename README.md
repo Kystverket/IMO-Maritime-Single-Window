@@ -10,6 +10,7 @@ Then download and install the following
 * [npm](https://www.npmjs.com/get-npm)
 * [chocolatey](https://chocolatey.org/install)
 
+
 Use the command line interface (CLI) to verify the installations above
 
 ```
@@ -24,6 +25,24 @@ choco install nodejs
 npm install -g @angular/cli
 choco install dotnetcore-sdk
 ```
+### Database setup
+Follow the guide below to install postgres on your machine.
+* [PostgreSQL](https://www.postgresql.org/download/)
+
+Once completed and you have a server up and running, [run the following script to create and populate your database](https://github.com/Fundator/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql)
+
+After running the script, copy the file named "appsettings.default.json" in your Server folder, paste it into the same location and rename the copy to "appsettings.json".
+Update the "appsettings.json" file with the correct connection string (Most likely localhost on first run), username and password.
+Example of appsettings.json:
+```
+{
+    "ConnectionStrings": {
+      "OpenSSN": "User ID=postgres;Host=localhost;Port=5432;Database=imomsw;keepalive=60;",
+      "UserDatabase": ""
+  }
+}
+```
+
 
 ### Client setup
 Use the command line interface (CLI). Navigate to the client directory on your computer and setup the client'
