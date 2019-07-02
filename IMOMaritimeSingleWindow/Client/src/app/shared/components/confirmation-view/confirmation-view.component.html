@@ -30,9 +30,6 @@
     <div *ngSwitchCase="'Pax'" class="col">
       <app-passenger-listing-table [iconPath]="iconPath" [portCallId]="portCallId"></app-passenger-listing-table>
     </div>
-    <div *ngSwitchCase="'DPG'" class="col">
-        <app-dpg-confirmation-view [iconPath]="iconPath" [portCallId]="portCallId"></app-dpg-confirmation-view>
-      </div>
     <div *ngSwitchCase="'Security'" class="col">
       <app-security-info [portCallId]="portCallId"></app-security-info>
     </div>
