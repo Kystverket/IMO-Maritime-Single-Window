@@ -41,7 +41,7 @@ Example of appsettings.json:
       "UserDatabase": ""
   },
    "AppSettings": {
-        "Secret": "Suuuuuuuuupersmuuut"
+        "Secret": "TopSekritSecretToken"
     },
     "JwtIssuerOptions": {
         "Issuer": "placeholderIssuer",
