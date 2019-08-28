@@ -39,7 +39,14 @@ Example of appsettings.json:
     "ConnectionStrings": {
       "OpenSSN": "User ID=postgres;Host=localhost;Port=5432;Database=imomsw;keepalive=60;",
       "UserDatabase": ""
-  }
+  },
+   "AppSettings": {
+        "Secret": "Suuuuuuuuupersmuuut"
+    },
+    "JwtIssuerOptions": {
+        "Issuer": "placeholderIssuer",
+        "Audience": "localhost"
+    }
 }
 ```
 
