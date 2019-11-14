@@ -48,7 +48,7 @@ div .bg-ssn-light {
 .btn-ssn.active, 
 .open .dropdown-toggle.btn-ssn { 
     color: var(--color-primary-text) !important;
-    background-color: var(--color-primary) !important;  
+    background-color: var(--color-primary) !important; 
     border-color: var(--color-primary-light) !important;
 } 
    

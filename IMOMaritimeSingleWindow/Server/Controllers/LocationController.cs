@@ -21,6 +21,11 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             _context = context;
         }
+        public enum LOCATION_SOURCES
+        {
+            IMO_INTERNAL,
+            IMO_EXTERNAL
+        }
 
         [HasClaim(Claims.Types.LOCATION, Claims.Values.REGISTER)]
         [HttpPost()]
@@ -89,7 +94,7 @@ namespace IMOMaritimeSingleWindow.Controllers
                                                     || EF.Functions.ILike(loc.LocationCode, '%' + searchTerm + '%')))
                                                     .Include(l => l.LocationType)
                                                     .Include(l => l.Country)
-                                                    .Take(amount).ToList();
+                                                    .Take(40).ToList();
             }
             return results;
         }

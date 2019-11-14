@@ -1192,8 +1192,6 @@ namespace IMOMaritimeSingleWindow.Data
 
                 entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
 
-                entity.Property(e => e.ReportingBunkers).HasColumnName("reporting_bunkers");
-
                 entity.Property(e => e.ReportingCargo).HasColumnName("reporting_cargo");
 
                 entity.Property(e => e.ReportingCrew).HasColumnName("reporting_crew");

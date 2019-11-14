@@ -40,6 +40,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
   @ViewChild('dateOfBirth') dateOfBirthComponent;
   @ViewChild(CrewListErrorModalComponent) crewListErrorModalComponent: any;
 
+
   @ViewChild(NgForm) form: NgForm;
 
   booleanList: string[] = ['Yes', 'No'];
@@ -525,6 +526,7 @@ export class CrewListComponent implements OnInit, OnDestroy {
       this.crewListErrorModalComponent.openErrorModal();
     }
   }
+
 
   // Helper methods
 
