@@ -20,7 +20,7 @@
 
     <ul class="navbar-nav ml-auto" *ngIf="loggedIn || redirected">
       <li class="nav-item" >
-          <span class="text-center text-ssn mx-3">Version 1.1. Deployed: 08.03.2019</span>
+          <span class="text-center text-ssn mx-3">Version 1.1. Deployed: 14.11.2019</span>
           <div class="btn-group">
             <button (click)="navigateToMyAccountPage()" class="btn btn-light btn-sm">My account</button>
           </div>
@@ -28,9 +28,11 @@
             <span class="btn btn-light btn-sm non-clickable">{{userName}}</span>
             <button class="btn btn-outline-light btn-sm" (click)="logout()">Log out</button>
             <button class="btn btn-outline-light btn-sm" (click)="whatsNew()">What's new?</button>
+            <button class="btn btn-outline-light btn-sm" (click)="contactUs()">Contact Us</button>
           </div>
       </li>
     </ul>
+
 
 
 

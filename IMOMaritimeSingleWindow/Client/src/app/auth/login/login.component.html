@@ -7,7 +7,7 @@
         </div>
         <div class="d-table-cell px-3">
           <h2>IMO Maritime Single Window</h2>
-          <h6>Version 1.1. Deployed: 08.03.2019
+          <h6>Version 1.1. Deployed: 14.11.2019
           </h6>
         </div>
       </div>
@@ -35,7 +35,9 @@
       </div>
 
       <nav>
-        <a class="btn btn-light" routerLink="../ForgotPassword" routerLinkActive="active">Forgot password?</a>
+        <a class="btn btn-light mb-3" routerLink="../ForgotPassword" routerLinkActive="active">Forgot password?</a>
+        <br/>
+        <button class="btn btn-light" (click)="contactUs()">Contact Us</button>
       </nav>
 
       <div *ngIf="errors" class="alert alert-danger" role="alert">

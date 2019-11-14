@@ -90,6 +90,10 @@ export class LoginComponent implements OnInit {
     this.passwordService.setResetRequested(true);
   }
 
+  contactUs() {
+    window.location.href = 'mailto:imo-msw@bardlokas.no';
+  }
+
   ngOnInit() {
     // subscribe to router event
     this.activatedRoute.queryParams.subscribe((param: any) => {

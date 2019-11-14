@@ -116,6 +116,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.contentService.setContent(CONTENT_NAMES.WHATS_NEW);
   }
 
+  contactUs() {
+    window.location.href = 'mailto:imo-msw@bardlokas.no';
+  }
+
   ngOnDestroy() {
     // prevent memory leak by unsubscribing
     this.subscription.unsubscribe();
