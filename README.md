@@ -5,7 +5,7 @@ Generic MSW will perform different basic tasks within the realm of ship reportin
 These instructions will get you a copy of the project (client and server) up and running on your local Windows machine for development and testing purposes. 
 
 ## Contact
-post@bardlokas.no
+jarle.hauge@kystverket.no
 
 ## Prerequisites
 Make sure to clone the repository on your computer. 
