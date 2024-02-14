@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  backend.devcontainer:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    tty: true
+    volumes:
+      - ./..:/workspaces/backend
+    environment:
+      AppSettings__Secret: SuperSecret
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - 5431:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: imo
+      POSTGRES_DB: imo

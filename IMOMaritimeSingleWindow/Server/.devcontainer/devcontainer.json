@@ -1,0 +1,13 @@
+{
+  "name": "ASP.NET Core 2.2",
+  "dockerComposeFile": "docker-compose.yaml",
+  "workspaceFolder": "/workspaces/backend",
+  "service": "backend.devcontainer",
+  "shutdownAction": "stopCompose",
+  "settings": { 
+      "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+      "ms-dotnettools.csharp"
+  ]
+}
