@@ -6,16 +6,16 @@
     --color-primary-text: #ffffff;
   }
   
-  :host /deep/ ng2-smart-table thead {
+  :host ::ng-deep ng2-smart-table thead {
     background-color: var(--color-primary);
     color: white;
   }
   
-  :host /deep/ .ng2-smart-filter input {
+  :host ::ng-deep .ng2-smart-filter input {
     color: black;
   }
   
-  :host /deep/ a.ng2-smart-sort-link.sort::after {
+  :host ::ng-deep a.ng2-smart-sort-link.sort::after {
     content: "";
     display: inline-block;
     width: 0;
@@ -27,39 +27,39 @@
     transform: rotate(90deg);
   }
   
-  :host /deep/ a.ng2-smart-sort-link.sort.asc::after {
+  :host ::ng-deep a.ng2-smart-sort-link.sort.asc::after {
     border-bottom: 4px solid white;
     transform: rotate(0deg);
     margin-bottom: 2px;
   }
   
-  :host /deep/ a.ng2-smart-sort-link.sort.desc::after {
+  :host ::ng-deep a.ng2-smart-sort-link.sort.desc::after {
     border-bottom: 4px solid white;
     transform: rotate(180deg);
     margin-bottom: -2px;
   }
   
-  :host /deep/ ng2-smart-table a {
+  :host ::ng-deep ng2-smart-table a {
     color: var(--color-primary-text);
   }
   
-  :host /deep/ a.ng2-smart-page-link.page-link {
+  :host ::ng-deep a.ng2-smart-page-link.page-link {
     color: var(--color-primary-dark);
     border-color: #dee2e6;
   }
   
-  :host /deep/ span.ng2-smart-page-link.page-link {
+  :host ::ng-deep span.ng2-smart-page-link.page-link {
     color: var(--color-primary-dark);
     background-color: #dee2e6;
     border-color: #dee2e6;
   }
   
-  :host /deep/ tbody > tr > td.ng2-smart-actions > a {
+  :host ::ng-deep tbody > tr > td.ng2-smart-actions > a {
     color: var(--color-primary-dark);
   }
   
-  :host /deep/ ng2-st-tbody-edit-delete > a,
-  :host /deep/ ng2-st-tbody-create-cancel > a {
+  :host ::ng-deep ng2-st-tbody-edit-delete > a,
+  :host ::ng-deep ng2-st-tbody-create-cancel > a {
     color: var(--color-primary);
   }
   
@@ -68,16 +68,16 @@
     height: 31px;
   }
   
-  :host /deep/ .ng-placeholder, ::placeholder  {
+  :host ::ng-deep .ng-placeholder, ::placeholder  {
       color: gray !important;
       font-style: italic;
   }
   
-  :host /deep/ .ng-input {
+  :host ::ng-deep .ng-input {
     height: 21px;
   }
   
-  :host /deep/ .ng-select .ng-select-container{
+  :host ::ng-deep .ng-select .ng-select-container{
     min-height: 31px;
     height: 31px;
     border-radius: .2rem;
