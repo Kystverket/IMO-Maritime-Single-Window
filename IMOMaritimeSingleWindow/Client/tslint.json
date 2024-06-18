@@ -137,7 +137,6 @@
     "directive-class-suffix": true,
     "ordered-imports": true,
     "import-blacklist": [
-      true,
-      "rxjs"]
+      true]
   }
 }
