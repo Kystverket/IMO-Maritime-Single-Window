@@ -5,7 +5,7 @@ import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { SecurityLevelModel, SecurityPreviousPortOfCallModel } from 'app/shared/models/';
 import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-last-10-port-calls',

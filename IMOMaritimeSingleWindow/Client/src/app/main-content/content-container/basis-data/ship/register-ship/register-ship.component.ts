@@ -6,7 +6,7 @@ import { OrganizationProperties } from 'app/shared/constants/organization-proper
 import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
 import { CertificateOfRegistryModel, OrganizationModel, ShipContactModel, ShipFlagCodeModel, ShipModel } from 'app/shared/models';
 import { ContentService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';

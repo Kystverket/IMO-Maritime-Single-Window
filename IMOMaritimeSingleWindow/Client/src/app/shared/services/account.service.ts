@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConfigService } from 'app/shared/utils/config.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable } from 'rxjs';
 import { PasswordChangeModel } from '../models/password-change-model';
 import { PasswordResetModel } from '../models/password-reset-model';
 import { TokenQueryModel } from '../models/token-query-model';

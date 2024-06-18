@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+
+
+
+import { Observable ,  of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { RegisterOrganizationComponent } from '../../../main-content/content-container/basis-data/organization/register-organization/register-organization.component';
 import { OrganizationModel } from '../../models/organization-model';

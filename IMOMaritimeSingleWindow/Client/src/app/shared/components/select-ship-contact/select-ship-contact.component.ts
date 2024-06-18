@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
 import { ConstantsService } from 'app/shared/services/constants.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-select-ship-contact',

@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocationModel } from 'app/shared/models/location-model';
 import { SearchService } from 'app/shared/services/search.service';
-import 'rxjs/add/observable/of';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+
+import { BehaviorSubject ,  Observable } from 'rxjs';
 
 @Injectable()
 export class LocationService {

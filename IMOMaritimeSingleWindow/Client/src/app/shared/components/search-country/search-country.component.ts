@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
 import { CountryService } from 'app/shared/services/country.service';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { LocationModel } from '../../models/location-model';
 

@@ -1,11 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
-import { of } from 'rxjs/observable/of';
-import { mapTo } from 'rxjs/operators/mapTo';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
+import { fromEvent ,  merge ,  of ,  Observable ,  Subscription } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';

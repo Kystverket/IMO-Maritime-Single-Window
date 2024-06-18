@@ -3,7 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { CargoItemModel, ConsignmentModel, LocationModel } from 'app/shared/models/';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cargo',

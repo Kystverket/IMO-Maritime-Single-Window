@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { FalShipStoresService, PortCallService } from 'app/shared/services/';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-save-ship-stores',

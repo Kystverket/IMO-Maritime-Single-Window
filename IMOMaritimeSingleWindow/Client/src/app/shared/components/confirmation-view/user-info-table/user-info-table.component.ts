@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserProperties } from 'app/shared/constants/user-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-info-table',

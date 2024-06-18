@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NextLocationTimeProperties } from 'app/shared/constants/next-location-time-properties';
 import { PrevLocationTimeProperties } from 'app/shared/constants/prev-location-time-properties';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { DateTime } from '../../interfaces/dateTime.interface';
 import { PortCallService } from '../../services/port-call.service';
 

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ContactModel } from 'app/shared/models/contact-model';
 import { ConstantsService } from 'app/shared/services/constants.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact-select',

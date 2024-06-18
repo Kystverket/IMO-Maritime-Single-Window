@@ -11,8 +11,7 @@ import {
 } from 'app/shared/models';
 import { DpgService, FalShipStoresService } from 'app/shared/services';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 import {
   catchError,
   debounceTime,

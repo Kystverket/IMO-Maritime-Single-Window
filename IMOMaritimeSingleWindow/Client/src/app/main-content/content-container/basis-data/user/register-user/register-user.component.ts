@@ -5,7 +5,7 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { OrganizationModel, UserModel } from '../../../../../shared/models/';
 import { AssignPasswordComponent } from './assign-password.component';
 

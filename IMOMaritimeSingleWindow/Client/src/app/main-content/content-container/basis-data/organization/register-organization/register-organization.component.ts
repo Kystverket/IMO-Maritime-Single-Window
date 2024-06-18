@@ -4,7 +4,7 @@ import { ConfirmationModalComponent } from 'app/shared/components/confirmation-m
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { OrganizationModel } from 'app/shared/models';
 import { ContentService, OrganizationService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const RESULT_SUCCESS = 'Organization was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the organization to the database. Please try again later.';

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { OrganizationModel } from '../../../models/organization-model';
 import { OrganizationService } from '../../../services/organization.service';
 

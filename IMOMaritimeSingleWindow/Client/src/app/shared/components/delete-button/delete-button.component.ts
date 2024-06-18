@@ -3,7 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ConstantsService, ContentService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-delete-button',

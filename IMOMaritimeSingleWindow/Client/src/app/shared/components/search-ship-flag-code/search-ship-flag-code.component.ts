@@ -1,10 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+
+
+
+import { Observable ,  of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SearchShipFlagCodeService } from './search-ship-flag-code.service';
 

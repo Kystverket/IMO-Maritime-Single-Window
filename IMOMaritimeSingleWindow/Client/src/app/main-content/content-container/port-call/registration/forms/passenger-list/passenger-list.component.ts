@@ -7,7 +7,7 @@ import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { FileService, IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { PassengerListErrorModalComponent } from './passenger-list-error-modal/passenger-list-error-modal.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { SmartTableModel } from './smartTableModel';

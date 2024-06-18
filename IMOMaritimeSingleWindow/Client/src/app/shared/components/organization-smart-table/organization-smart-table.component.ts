@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { OrganizationService } from '../../services/organization.service';
 import { OrganizationButtonRowComponent } from './organization-button-row/organization-button-row.component';
 

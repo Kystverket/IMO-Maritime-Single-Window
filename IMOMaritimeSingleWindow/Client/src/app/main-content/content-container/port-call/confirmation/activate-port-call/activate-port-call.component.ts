@@ -5,7 +5,7 @@ import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { FormMetaData } from 'app/shared/interfaces/form-meta-data.interface';
 import { ConsignmentModel, DpgOnBoardModel, PersonOnBoardModel, PortCallDetailsModel } from 'app/shared/models/';
 import { ContentService, DpgService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const RESULT_SUCCES = 'This port call has been activated, and is now awaiting clearance.';
 const RESULT_FAILURE = 'There was a problem when trying to activate this port call. Please try again later.';

@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MenuClaims } from '../constants/menu-claims';
 
 @Injectable()

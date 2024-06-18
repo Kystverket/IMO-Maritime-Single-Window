@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import 'rxjs/add/observable/of';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+
+import { BehaviorSubject ,  Observable } from 'rxjs';
 import { FormMetaData } from '../interfaces/form-meta-data.interface';
 import { PortCallDetailsModel } from '../models/port-call-details-model';
 import { BaseService } from './base.service';

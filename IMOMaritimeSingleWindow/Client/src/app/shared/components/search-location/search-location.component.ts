@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { SEARCH_AMOUNTS } from 'app/shared/constants/search-amounts';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of ,  Subject } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, merge, switchMap, tap } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 import { LocationModel } from '../../models/';
 import { SearchLocationService } from './search-location.service';
 

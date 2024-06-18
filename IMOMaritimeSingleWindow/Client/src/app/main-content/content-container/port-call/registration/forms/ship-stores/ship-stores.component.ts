@@ -5,8 +5,7 @@ import { ActionButtonsComponent } from 'app/shared/components/action-buttons/act
 import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 import { ShipStoresErrorModalComponent } from './ship-stores-error-modal/ship-stores-error-modal.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
 

@@ -5,7 +5,7 @@ import { CompanySecurityOfficerModel, ConsignmentModel, DpgOnBoardModel, FalSecu
   PersonOnBoardModel, PortCallModel, ShipModel, ShipStoresModel } from 'app/shared/models/';
 import { ContentService, DpgService, FalCargoService, FalSecurityService,
   FalShipStoresService, PortCallFalPersonOnBoardService, PortCallService, ShipService,  } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationService } from 'app/shared/services/location.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-location-info-table',

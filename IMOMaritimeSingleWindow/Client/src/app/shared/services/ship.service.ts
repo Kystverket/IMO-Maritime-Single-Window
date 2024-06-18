@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import 'rxjs/add/observable/of';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+
+import { BehaviorSubject ,  Observable } from 'rxjs';
 import { SHIP_STATUSES } from '../constants/enumValues';
 import { InternationalShipSecurityCertificateModel, ShipContactModel } from '../models/';
 import { AuthRequest } from './auth.request.service';

@@ -5,7 +5,7 @@ import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
 import { AccountService, ContentService, OrganizationService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 

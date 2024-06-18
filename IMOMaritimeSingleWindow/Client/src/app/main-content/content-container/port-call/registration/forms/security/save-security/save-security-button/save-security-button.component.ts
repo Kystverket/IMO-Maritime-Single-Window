@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { CompanySecurityOfficerModel } from '../../../../../../../../shared/models/company-security-officer-model';
 import { FalSecurityModel } from '../../../../../../../../shared/models/fal-security-model';
 import { InternationalShipSecurityCertificateModel } from '../../../../../../../../shared/models/international-ship-security-certificate-model';

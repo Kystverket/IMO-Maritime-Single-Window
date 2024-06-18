@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { NgForm } from '@angular/forms';
 import { IdentityDocumentModel } from 'app/shared/models/';
 import { IdentityDocumentService, ValidateDateTimeService} from 'app/shared/services/';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-identity-document',

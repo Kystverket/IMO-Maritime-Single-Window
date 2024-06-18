@@ -2,8 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable } from 'rxjs';
 import { Credentials } from '../interfaces/credentials.interface';
 import { JWTResponse } from '../interfaces/jwt-response.interface';
 import { ConfigService } from '../utils/config.service';
