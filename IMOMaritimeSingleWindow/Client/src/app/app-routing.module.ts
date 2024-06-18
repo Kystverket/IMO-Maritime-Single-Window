@@ -10,7 +10,7 @@ import { RootGuard } from './guards/root.guard';
 const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: 'app/auth/auth.module#AuthModule'
+    loadChildren: () => import('app/auth/auth.module').then(m => m.AuthModule)
   },
   // {
   //   path: 'login',
