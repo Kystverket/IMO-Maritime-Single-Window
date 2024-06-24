@@ -1,22 +1,30 @@
-version: '3.3'
-
 services:
   backend.devcontainer:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    ports:
+      - 5000:5000
     tty: true
     volumes:
       - ./..:/workspaces/backend
     environment:
-      AppSettings__Secret: SuperSecret
+      AppSettings__Secret: SuperSeADasd1235t4asdcret
+      ASPNETCORE_URLS: http://localhost:5000
     depends_on:
       - db
+    command: dotnet run
+    
 
   db:
-    image: postgres
+    image: postgres:9-alpine
     restart: unless-stopped
     ports:
       - 5431:5432
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_USER: imo
-      POSTGRES_DB: imo
+      POSTGRES_USER: postgres
+      POSTGRES_DB: imomsw
+    volumes:
+      - ./..:/workspaces/db
+    command: cd /db/SqlScripts && psql -d "dbname='imomsw' user='postgres' password='password' host='db'" -f Create_and_populate_DB.sql
+
+    
