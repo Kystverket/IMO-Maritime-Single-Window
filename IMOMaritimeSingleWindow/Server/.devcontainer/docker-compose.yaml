@@ -4,10 +4,8 @@ services:
     ports:
       - 5000:5000
     tty: true
-    restart: on-failure
     volumes:
       - ./..:/workspaces/backend
-      - ./wait-for-it.sh:/usr/wait-for-it.sh  
     environment:
       AppSettings__Secret: SuperSeADasd1235t4asdcret
       ASPNETCORE_URLS: http://backend.devcontainer:5000
