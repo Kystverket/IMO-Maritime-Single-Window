@@ -4,20 +4,19 @@ services:
     ports:
       - 5000:5000
     tty: true
+    restart: on-failure
     volumes:
       - ./..:/workspaces/backend
     environment:
       AppSettings__Secret: SuperSeADasd1235t4asdcret
       ASPNETCORE_URLS: http://backend.devcontainer:5000
-   # depends_on:
-   #   - db
     command: >
      sh -c "cd /workspaces/backend && cp appsettings.default.json appsettings.json
      && dotnet ef database update --context open_ssnContext -v
      && dotnet run --urls http://0.0.0.0:5000"
 
   db:
-    image: postgres:9-alpine
+    image: postgres:10-alpine
     restart: unless-stopped
     ports:
       - 5431:5432
@@ -26,7 +25,7 @@ services:
       POSTGRES_USER: postgres
     volumes:
          - ./../SqlScripts:/docker-entrypoint-initdb.d
-
+    
   frontend.devcontainer:
     image: node:10.24-slim
     restart: unless-stopped
