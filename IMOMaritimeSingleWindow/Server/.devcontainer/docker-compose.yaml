@@ -15,7 +15,7 @@ services:
      sh -c "cd /workspaces/backend && cp appsettings.default.json appsettings.json
      && dotnet ef database update --context open_ssnContext -v
      && dotnet run --urls http://0.0.0.0:5000"
-    
+
   db:
     image: postgres:9-alpine
     restart: unless-stopped
@@ -26,3 +26,14 @@ services:
       POSTGRES_USER: postgres
     volumes:
          - ./../SqlScripts:/docker-entrypoint-initdb.d
+
+  frontend.devcontainer:
+    image: node:10.24-slim
+    restart: unless-stopped
+    ports:
+      - 4200:4200
+    volumes:
+      - ./../../Client:/workspaces/frontend
+    command: >
+     sh -c "cd /workspaces/frontend && npm install
+     && npm start"

@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://localhost:5000",
+    "target": "http://backend.devcontainer:5000",
     "secure": false
   }
 }
