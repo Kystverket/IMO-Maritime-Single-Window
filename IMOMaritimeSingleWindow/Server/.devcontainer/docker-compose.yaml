@@ -8,12 +8,14 @@ services:
       - ./..:/workspaces/backend
     environment:
       AppSettings__Secret: SuperSeADasd1235t4asdcret
-      ASPNETCORE_URLS: http://localhost:5000
-    depends_on:
-      - db
-    command: dotnet run
+      ASPNETCORE_URLS: http://backend.devcontainer:5000
+   # depends_on:
+   #   - db
+    command: >
+     sh -c "cd /workspaces/backend && cp appsettings.default.json appsettings.json
+     && dotnet ef database update --context open_ssnContext -v
+     && dotnet run --urls http://0.0.0.0:5000"
     
-
   db:
     image: postgres:9-alpine
     restart: unless-stopped
@@ -22,9 +24,5 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
-      POSTGRES_DB: imomsw
     volumes:
-      - ./..:/workspaces/db
-    command: cd /db/SqlScripts && psql -d "dbname='imomsw' user='postgres' password='password' host='db'" -f Create_and_populate_DB.sql
-
-    
+         - ./../SqlScripts:/docker-entrypoint-initdb.d
