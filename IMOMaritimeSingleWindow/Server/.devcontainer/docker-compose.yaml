@@ -28,7 +28,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
     volumes:
-         - ./../SqlScripts:/docker-entrypoint-initdb.d
+         - ./../SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
