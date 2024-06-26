@@ -26,10 +26,8 @@ git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
 - Docker version 26.1.4
 - WSL version: 2.2.4.0
 
-
-
 ## Installation
-Navigate to the project directory /IMOMaritimeSingleWindow and use Docker to build and run the containers.
+Use the command line interface (CLI) to navigate to the project directory IMO-Maritime-Single-Window/IMOMaritimeSingleWindow, and use Docker to build and run the containers.
 
 ### Build & Run the Docker Containers
 Use the command line interface (CLI) to build and run the containers.
@@ -38,13 +36,13 @@ Use the command line interface (CLI) to build and run the containers.
 docker compose up
 ```
 
-This will start all the required services in containers, including the front-end client, back-end server, and the PostgreSQL database. 
+This will start all the required services in containers, including the front-end client, back-end server, and the PostgreSQL database. This will take some time because it is running this [SQL-script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the data base. 
 
 ### Database setup
 The PostgreSQL service is configured through Docker. The database will be automatically set up and populated with the initial data when the containers are first launched. 
 
 ## Client and Server Logs
-The running containers are shown by the command:
+Open a new command line interface (CLI). The running containers are shown by the command:
 ```
 docker ps
 ```
@@ -55,6 +53,9 @@ View logs for debugging and monitoring:
 ```
 docker logs <CONTAINER ID>
 ```
+
+For the frontend container imomaritimesinglewindow-frontend.devcontainer-1, the logs will provide the local host link for the website. 
+This container is finished when you get the message "Compiled successfully" in the log. 
 
 ## Open a new browser session and navigate to
 `http://localhost:4200`
