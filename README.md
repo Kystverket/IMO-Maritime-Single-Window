@@ -8,69 +8,69 @@ These instructions will get you a copy of the project (client and server) up and
 jarle.hauge@kystverket.no
 
 ## Prerequisites
-Make sure to clone the repository on your computer. 
-Then download and install the following
-* [npm](https://www.npmjs.com/get-npm)
-* [chocolatey](https://chocolatey.org/install)
-
+Ensure Docker Engine is installed on your machine. If not, follow the installation guide here:
+* [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/)
+or
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 Use the command line interface (CLI) to verify the installations above
+```
+wsl -v
+docker -v 
+```
+
+Clone the repository to your local machine: 
+git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
+
+## Dependencies
+- Docker version 26.1.4
+- WSL version: 2.2.4.0
+
+
+
+## Installation
+Navigate to the project directory /IMOMaritimeSingleWindow and use Docker to build and run the containers.
+
+### Build & Run the Docker Containers
+Use the command line interface (CLI) to build and run the containers.
 
 ```
-npm -version 
-choco -v
+docker compose up
 ```
-### Installation (Windows)
-Use the command line interface (CLI) with administrator rights and install the following:
 
-```
-choco install nodejs
-npm install -g @angular/cli
-choco install dotnetcore-sdk
-```
+This will start all the required services in containers, including the front-end client, back-end server, and the PostgreSQL database. 
+
 ### Database setup
-Follow the guide below to install postgres on your machine.
-* [PostgreSQL](https://www.postgresql.org/download/)
+The PostgreSQL service is configured through Docker. The database will be automatically set up and populated with the initial data when the containers are first launched. 
 
-Once completed and you have a server up and running, [run the following script to create and populate your database](https://github.com/Fundator/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql)
-
-After running the script, copy the file named "appsettings.default.json" in your Server folder, paste it into the same location and rename the copy to "appsettings.json".
-Update the "appsettings.json" file with the correct connection string (Most likely localhost on first run), username and password.
-Example of appsettings.json:
+## Client and Server Logs
+The running containers are shown by the command:
 ```
-{
-    "ConnectionStrings": {
-      "OpenSSN": "User ID=postgres;Host=localhost;Port=5432;Database=imomsw;keepalive=60;",
-      "UserDatabase": ""
-  },
-   "AppSettings": {
-        "Secret": "TopSekritSecretToken"
-    },
-    "JwtIssuerOptions": {
-        "Issuer": "placeholderIssuer",
-        "Audience": "localhost"
-    }
-}
+docker ps
 ```
+Here the CONTAINER ID will show up. 
 
-
-### Client setup
-Use the command line interface (CLI). Navigate to the client directory on your computer and setup the client'
+View logs for debugging and monitoring:
 
 ```
-cd <yourpath>\IMOMaritimeSingleWindow\Client
-npm install
-ng serve --host 0.0.0.0 --port 4201 --proxy-config proxy.config.json
+docker logs <CONTAINER ID>
 ```
-### Server setup
-Use the command line interface (CLI). Navigate to the server directory on your computer and setup the server'
+
+## Open a new browser session and navigate to
+`http://localhost:4200`
+
+
+## Stopping and Removing Containers
+To stop the running containers:
+```
+docker compose down
+```
+
+
+To remove all containers, networks, and volumes:
 
 ```
-cd ..\Server
-dotnet build
-dotnet watch run
+docker compose down --volumes
 ```
-#### Open a new browser session and navigate to
-`http://localhost:4201`
 
 Note; 
