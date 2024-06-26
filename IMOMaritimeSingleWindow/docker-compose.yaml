@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   backend.devcontainer:
-    build: ./Server
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
     ports:
       - 5000:5000
+    tty: true
     volumes:
       - ./Server:/workspaces/backend
     environment:
@@ -14,6 +15,11 @@ services:
       db:
         condition: service_healthy
     restart: always
+    command: >
+      sh -c "cd /workspaces/backend && 
+             cp appsettings.default.json appsettings.json &&
+             dotnet ef database update --context open_ssnContext -v &&
+             dotnet run --urls http://0.0.0.0:5000"
     
 
   db:
