@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   backend.devcontainer:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -18,6 +20,7 @@ services:
              cp appsettings.default.json appsettings.json &&
              dotnet ef database update --context open_ssnContext -v &&
              dotnet run --urls http://0.0.0.0:5000"
+    
 
   db:
     image: postgres:10-alpine
@@ -28,7 +31,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
     volumes:
-         - ./../SqlScripts:/docker-entrypoint-initdb.d
+         - ./../SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
@@ -37,14 +40,17 @@ services:
       start_period: 10s
 
   frontend.devcontainer:
-    image: node:10.24-slim
-    restart: unless-stopped
+    build: ./../../Client
     ports:
       - 4200:4200
     depends_on:
       - backend.devcontainer
-    volumes:
-      - ./../../Client:/workspaces/frontend
-    command: >
-     sh -c "cd /workspaces/frontend && npm install
-     && npm start"
+    develop:
+      watch:
+        - action: sync
+          path: ./../../Client
+          target: /src/app
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./../../Client/package.json
