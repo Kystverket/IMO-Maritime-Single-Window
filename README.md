@@ -8,18 +8,17 @@ These instructions will get you a copy of the project (client and server) up and
 jarle.hauge@kystverket.no
 
 ## Prerequisites
-Ensure Docker Engine is installed on your machine. If not, follow the installation guide here:
-* [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/)
-or
-* [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+Ensure Docker Engine is installed on your machine for running containers:
+- For Ubuntu: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+- For Windows/Mac: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-Use the command line interface (CLI) to verify the installations above
+After installation, verify Docker and WSL (if on Windows) are correctly installed using the command line interface (CLI):
 ```
-wsl -v
-docker -v 
+wsl -v # Check WSL version, Windows only
+docker -v # Check Docker version
 ```
 
-Clone the repository to your local machine: 
+Clone the MSW repository to your local machine: 
 git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
 
 ## Dependencies
@@ -27,7 +26,15 @@ git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
 - WSL version: 2.2.4.0
 
 ## Installation
-Use the command line interface (CLI) to navigate to the project directory IMO-Maritime-Single-Window/IMOMaritimeSingleWindow, and use Docker to build and run the containers.
+Use the command line interface (CLI) to navigate to the project directory where the `docker-compose.yaml` file is located and prepare to launch the Docker containers. The `docker-compose.yaml` file is located in the `IMOMaritimeSingleWindow` folder.
+
+### Build & Run the Docker Containers
+Initialize the Docker environment by building and running the containers with the following command:
+```
+docker compose up
+```
+This command constructs and starts all necessary services as defined in `docker-compose.yaml`, including the client interface, server application, and PostgreSQL database. Initial setup will execute the [SQL script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the database, which may take some time.
+
 
 ### Build & Run the Docker Containers
 Use the command line interface (CLI) to build and run the containers.
@@ -41,32 +48,95 @@ This will start all the required services in containers, including the front-end
 ### Database setup
 The PostgreSQL service is configured through Docker. The database will be automatically set up and populated with the initial data when the containers are first launched. 
 
-## Client and Server Logs
-Open a new command line interface (CLI). The running containers are shown by the command:
+## Monitoring Client and Server Logs
+To monitor and debug, open another CLI window and list all running containers:
 ```
 docker ps
 ```
-Here the CONTAINER ID will show up. 
 
-View logs for debugging and monitoring:
+This displays each container's ID, which you need to view specific logs.
+
+To check logs for individual services, use:
 
 ```
 docker logs <CONTAINER ID>
 ```
+For instance, to monitor the frontend service, look for logs from `imomaritimesinglewindow-frontend.devcontainer-1`. The setup is complete when you see "Compiled successfully" in the logs.
 
-For the frontend container imomaritimesinglewindow-frontend.devcontainer-1, the logs will provide the local host link for the website. 
-This container is finished when you get the message "Compiled successfully" in the log. 
 
-## Open a new browser session and navigate to
+
+
+Here's a more detailed version of your ReadMe, tailored for Docker containerization:
+
+markdown
+Copy code
+# Maritime Single Window (MSW)
+The Generic MSW system handles essential tasks related to ship reporting and information exchange. This modular system is not specific to any country or process, supporting global maritime clearance procedures to fulfill international requirements.
+
+## Getting Started with Docker
+This guide provides detailed steps to set up and run the MSW project using Docker, facilitating consistent environments for development and production.
+
+## Prerequisites
+Ensure Docker Engine is installed on your machine for running containers:
+- For Ubuntu: [Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+- For Windows/Mac: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+After installation, verify Docker and WSL (if on Windows) are correctly installed using the command line interface (CLI):
+wsl -v # Check WSL version, Windows only
+docker -v # Check Docker version
+
+bash
+Copy code
+
+Clone the MSW repository to your local machine:
+git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
+
+csharp
+Copy code
+
+## Dependencies
+- Docker version 26.1.4 or higher
+- WSL version 2.2.4.0 (Windows only)
+
+## Installation
+Navigate to the project directory where the `docker-compose.yaml` file is located and prepare to launch the Docker containers.
+
+### Build & Run the Docker Containers
+Initialize the Docker environment by building and running the containers with the following command:
+docker compose up
+
+sql
+Copy code
+This command constructs and starts all necessary services as defined in `docker-compose.yaml`, including the client interface, server application, and PostgreSQL database. Initial setup will execute the [SQL script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the database, which may take some time.
+
+### Database Setup
+Docker automates the configuration of the PostgreSQL database, ensuring it is ready with preloaded data when the containers first run.
+
+## Monitoring Client and Server Logs
+To monitor and debug, open another CLI window and list all running containers:
+docker ps
+
+vbnet
+Copy code
+This displays each container's ID, which you need to view specific logs.
+
+To check logs for individual services, use:
+docker logs <CONTAINER ID>
+
+vbnet
+Copy code
+For instance, to monitor the frontend service, look for logs from `imomaritimesinglewindow-frontend.devcontainer-1`. The setup is complete when you see "Compiled successfully" in the logs.
+
+## Access the Application
+Navigate to the following URL in a web browser to access the MSW interface:
 `http://localhost:4200`
 
 
 ## Stopping and Removing Containers
-To stop the running containers:
+When you need to remove all containers, use:
 ```
 docker compose down
 ```
-
 
 To remove all containers, networks, and volumes:
 
@@ -74,4 +144,4 @@ To remove all containers, networks, and volumes:
 docker compose down --volumes
 ```
 
-Note; 
+
