@@ -62,23 +62,26 @@ Navigate to the following URL in a web browser to access the MSW interface:
 
 `http://localhost:4200`
 
+
 ## Development of Frontend
 
-As you edit and save your code in the Client/src/app, the watch attribute automaticaly updates the running Compose sercvice `frontend.devcontainer`. The service update itself automatically as the changes are saved as long as the Composer is running. There are tow choices: 
+The frontend development environment is set up to automatically reflect changes you make in real time. As you edit and save your code in the `Client/src/app`, the Docker Compose service named `frontend.devcontainer` is configured to update automatically. This feature ensures a seamless development experience by reloading changes live as long as the Docker Compose session is active.
 
-Either Enable Watch in the current terminal by pressing 
-```
-w
-```
+### Enabling Live Reload
+You have two options to enable the watch functionality, which monitors file changes and updates the service accordingly:
 
-or open a new terminal, navigate to the same directory and use command 
+1. **Enable Watch in the Current Terminal**: Simply press `w` in the terminal where your Docker Compose is running. This toggles the watch feature on and off.
+
+2. **Use a New Terminal Session**: If you prefer to keep your Docker Compose log output separate, open a new terminal, navigate to the project directory, and execute the following command:
+
 ```
 docker compose watch
 ```
 
-To test the watch attribute, change the login header in the [login.component.html file](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/dockerize-applicationv2/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html) located in IMO-Maritime-Single-Window/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html 
 
-Save the change and the header will change accordingly. 
+### Testing Live Reload
+To verify that the watch feature is working, make a change to the login header in the [login.component.html file](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/dockerize-applicationv2/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html). For instance, modify the text inside a heading tag and save the file. The updates should appear automatically in the frontend served at `http://localhost:4200`, reflecting the changes without needing to manually restart the service.
+
 
 ## Stopping and Removing Containers
 When you need to remove all containers, use:
