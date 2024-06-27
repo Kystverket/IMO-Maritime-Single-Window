@@ -36,15 +36,6 @@ docker compose up
 This command constructs and starts all necessary services as defined in `docker-compose.yaml`, including the client interface, server application, and PostgreSQL database. Initial setup will execute the [SQL script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the database, which may take some time.
 
 
-### Build & Run the Docker Containers
-Use the command line interface (CLI) to build and run the containers.
-
-```
-docker compose up
-```
-
-This will start all the required services in containers, including the front-end client, back-end server, and the PostgreSQL database. This will take some time because it is running this [SQL-script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the data base. 
-
 ### Database setup
 The PostgreSQL service is configured through Docker. The database will be automatically set up and populated with the initial data when the containers are first launched. 
 
