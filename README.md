@@ -19,7 +19,9 @@ docker -v # Check Docker version
 ```
 
 Clone the MSW repository to your local machine: 
+```
 git clone https://github.com/Kystverket/IMO-Maritime-Single-Window.git
+```
 
 ## Dependencies
 - Docker version 26.1.4
@@ -57,8 +59,26 @@ For instance, to monitor the frontend service, look for logs from `imomaritimesi
 
 ## Access the Application
 Navigate to the following URL in a web browser to access the MSW interface:
+
 `http://localhost:4200`
 
+## Development of Frontend
+
+As you edit and save your code in the Client/src/app, the watch attribute automaticaly updates the running Compose sercvice `frontend.devcontainer`. The service update itself automatically as the changes are saved as long as the Composer is running. There are tow choices: 
+
+Either Enable Watch in the current terminal by pressing 
+```
+w
+```
+
+or open a new terminal, navigate to the same directory and use command 
+```
+docker compose watch
+```
+
+To test the watch attribute, change the login header in the [login.component.html file](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/dockerize-applicationv2/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html) located in IMO-Maritime-Single-Window/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html 
+
+Save the change and the header will change accordingly. 
 
 ## Stopping and Removing Containers
 When you need to remove all containers, use:
@@ -71,5 +91,6 @@ To remove all containers, networks, and volumes:
 ```
 docker compose down --volumes
 ```
+
 
 
