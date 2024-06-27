@@ -72,11 +72,7 @@ You have two options to enable the watch functionality, which monitors file chan
 
 1. **Enable Watch in the Current Terminal**: Simply press `w` in the terminal where your Docker Compose is running. This toggles the watch feature on and off.
 
-2. **Use a New Terminal Session**: If you prefer to keep your Docker Compose log output separate, open a new terminal, navigate to the project directory, and execute the following command:
-
-```
-docker compose watch
-```
+2. **Use a New Terminal Session**: If you prefer to keep your Docker Compose log output separate, open a new terminal, navigate to the project directory, and execute the following command: `docker compose watch`
 
 
 ### Testing Live Reload
