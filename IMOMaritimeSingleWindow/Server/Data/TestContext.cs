@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using IMOMaritimeSingleWindow.Models;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data.Common;
+using System.Data;
+
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -1199,6 +1202,16 @@ namespace IMOMaritimeSingleWindow.Data
         {
             ChangeTracker.DetectChanges();
             base.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return this.Database.GetDbConnection();
+        }
+
+        public ConnectionState GetState()
+        {
+            return this.Database.GetDbConnection().State;
         }
     }
 }

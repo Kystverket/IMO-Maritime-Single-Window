@@ -1,13 +1,17 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using IMOMaritimeSingleWindow.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using IMOMaritimeSingleWindow.Identity.Models;
+using System;
 using System.Data;
 using System.Data.Common;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public class open_ssnContext : DbContext, IDbContext
+public class open_ssnContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IDbContext
     {
+
         public virtual DbSet<CargoItem> CargoItem { get; set; }
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -73,12 +77,33 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
 
-        public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
-        // for testing:
+    public open_ssnContext(DbContextOptions<open_ssnContext> options) : base(options) { }
+
+        // For testing:
         public open_ssnContext() { }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder); // Ensure base call
+
+
+            // Define primary keys for custom identity entity types
+            modelBuilder.Entity<ApplicationUserLogin>()
+                .HasKey(login => new { login.LoginProvider, login.ProviderKey });
+
+            modelBuilder.Entity<ApplicationUserRole>()
+                .HasKey(userRole => new { userRole.UserId, userRole.RoleId });
+
+            modelBuilder.Entity<ApplicationUserToken>()
+                .HasKey(userToken => new { userToken.UserId, userToken.LoginProvider, userToken.Name });
+
+            modelBuilder.Entity<ApplicationRoleClaim>()
+                .HasKey(roleClaim => roleClaim.Id);
+
+            modelBuilder.Entity<ApplicationUserClaim>()
+                .HasKey(userClaim => userClaim.Id);
+            
             modelBuilder.Entity<CargoItem>(entity =>
             {
                 entity.ToTable("cargo_item");
@@ -2102,6 +2127,7 @@ namespace IMOMaritimeSingleWindow.Data
             modelBuilder.HasSequence("person_on_board_id_seq").HasMax(9223372036854775807).StartsAt(5);
         }
         // Stolen from https://damienbod.com/2016/01/11/asp-net-5-with-postgresql-and-entity-framework-7/ :
+
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();

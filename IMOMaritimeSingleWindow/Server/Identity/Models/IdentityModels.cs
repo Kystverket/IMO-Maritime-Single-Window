@@ -21,25 +21,21 @@ namespace IMOMaritimeSingleWindow.Identity.Models
     
     
     public class ApplicationRole : IdentityRole<Guid>
-
     {
         public string Description { get; set; }
 
-        public ApplicationRole() :base() { } /* Needed for EF */
+        public ApplicationRole() : base() { }
 
-        public ApplicationRole(string name)
-            : base(name)
-        { }
+        public ApplicationRole(string name) : base(name) { }
 
-        public ApplicationRole(string name, string description)
-            : base(name)
+        public ApplicationRole(string name, string description) : base(name)
         {
             this.Description = description;
         }
-        
     }
     
-    public class ApplicationUser : IdentityUser<Guid> {
+public class ApplicationUser : IdentityUser<Guid>
+    {
         public string GivenName { get; set; }
         public string Surname { get; set; }
         public string NormalizedRoleName { get; set; }

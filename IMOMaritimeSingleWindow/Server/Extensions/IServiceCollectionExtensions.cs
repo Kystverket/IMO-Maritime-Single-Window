@@ -5,6 +5,7 @@ using Microsoft.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation.AspNetCore;
 using System;
 using System.Text;
 using Policies = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Policies;

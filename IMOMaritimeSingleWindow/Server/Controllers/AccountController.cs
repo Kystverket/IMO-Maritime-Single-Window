@@ -36,6 +36,7 @@ using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 using IMOMaritimeSingleWindow.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -51,7 +52,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
 
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
         public AccountController(
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager,
@@ -59,7 +60,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             IDbContext context,
             IEmailSender emailSender,
             IMapper mapper,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILogger<AccountController> logger
             )
         {

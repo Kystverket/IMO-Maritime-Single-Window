@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
@@ -15,29 +16,17 @@ namespace IMOMaritimeSingleWindow.Identity
     public class UserManager : UserManager<ApplicationUser>
     {
         public UserManager(IUserStore<ApplicationUser> store,
-
             IOptions<IdentityOptions> optionsAccessor,
-
             IPasswordHasher<ApplicationUser> passwordHasher,
-
             IEnumerable<IUserValidator<ApplicationUser>> userValidators,
-
             IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators,
-
             ILookupNormalizer keyNormalizer,
-
             IdentityErrorDescriber errors,
-
             IServiceProvider services,
-
             ILogger<UserManager<ApplicationUser>> logger)
-
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
-
         {
-            //this.UserValidators.Clear();
-            //this.UserValidators.Add(new CustomUserValidator<ApplicationUser>());
-            //this.Options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.";
+            // Custom UserManager initialization if needed
         }
 
         #region UserManager<TUser>
@@ -48,7 +37,7 @@ namespace IMOMaritimeSingleWindow.Identity
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var normalizedRoleName = NormalizeKey(role);
+            var normalizedRoleName = KeyNormalizer.NormalizeName(role);
             var userRoleStore = GetUserRoleStore();
 
             if (await userRoleStore.IsInRoleAsync(user, normalizedRoleName, CancellationToken))
@@ -58,7 +47,6 @@ namespace IMOMaritimeSingleWindow.Identity
             await userRoleStore.AddToRoleAsync(user, normalizedRoleName, CancellationToken);
 
             var userStore = GetUserStore();
-            //await base.AddToRoleAsync(user, role);
             return await userStore.UpdateRoleAsync(user);
         }
 
@@ -86,6 +74,7 @@ namespace IMOMaritimeSingleWindow.Identity
 
         #region Custom methods
 
+        // Ensure these methods are not duplicated
         private IUserRoleStore<ApplicationUser> GetUserRoleStore()
         {
             if (!(Store is IUserRoleStore<ApplicationUser> cast))
@@ -111,6 +100,5 @@ namespace IMOMaritimeSingleWindow.Identity
         }
 
         #endregion
-
     }
 }

@@ -1,23 +1,8 @@
-
-/*  This was adopted from an example project written by
- *  author: Marc Macniel (https://github.com/mmacneil)
- *  cited in a blog post
- *  url: https://fullstackmark.com/post/13/jwt-authentication-with-aspnet-core-2-web-api-angular-5-net-core-identity-and-facebook-login
- *  demonstrating how to implement a framework for authenticating users with JWT
- *  in an ASP.NET Core 2/Angular 5 web application.
- *  
- *  The original class this class is based upon can be found on the project's GitHub repository
- *  url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth
- *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Controllers/AuthController.cs
- */
-
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -27,8 +12,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
-
-
+using System.Linq;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
@@ -37,32 +21,27 @@ namespace IMOMaritimeSingleWindow.Controllers
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> _userRoleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ILogger<AuthController> _logger;
 
         public AuthController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            //UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid> userRoleManager,
-            IJwtFactory jwtFactory,
-            IOptions<JwtIssuerOptions> jwtOptions,
-            ILogger<AuthController> logger)
+                              SignInManager<ApplicationUser> signInManager,
+                              IJwtFactory jwtFactory,
+                              IOptions<JwtIssuerOptions> jwtOptions,
+                              ILogger<AuthController> logger)
         {
             _userManager = userManager;
-            //_userRoleManager = userRoleManager;
             _signInManager = signInManager;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
             _logger = logger;
         }
 
-        // POST api/auth/login
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody]CredentialsViewModel credentials)
+        public async Task<IActionResult> Login([FromBody] CredentialsViewModel credentials)
         {
             if (!ModelState.IsValid)
             {
@@ -111,11 +90,9 @@ namespace IMOMaritimeSingleWindow.Controllers
 
         private async Task<int> VerifyCredentials(string userName, string password)
         {
-            // Check for empty username
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 return (int)Constants.LoginStates.InvalidCredentials;
 
-            // Verify that user exists
             var _user = await _userManager.FindByNameAsync(userName);
             if (_user == null)
             {
@@ -123,15 +100,13 @@ namespace IMOMaritimeSingleWindow.Controllers
                 return (int)Constants.LoginStates.InvalidCredentials;
             }
 
-            // check to see if the user account is active.
-            if(_user != null && (!_user.IsActive)) {
-
-                _logger.LogDebug("User Account Diabled");
+            if (_user != null && (!_user.IsActive))
+            {
+                _logger.LogDebug("User Account Disabled");
                 return (int)Constants.LoginStates.Disabled;
             }
 
-            // Verify username and password match
-            Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.CheckPasswordSignInAsync(_user, password, lockoutOnFailure: true);
+            var result = await _signInManager.CheckPasswordSignInAsync(_user, password, lockoutOnFailure: true);
             if (result.Succeeded)
             {
                 _logger.LogInformation("User logged in successfully");
@@ -153,11 +128,10 @@ namespace IMOMaritimeSingleWindow.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
 
             _logger.LogInformation($"Generating JWT for user {user.Id}");
-            var userManager = _userManager as UserManager;
-            var roleName = await userManager.GetRoleNameAsync(user);
+            var roleName = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
             return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity<Guid>(userName, user.Id, roleName, claims));
         }
-        
+
         [Authorize]
         [Route("isAdmin")]
         public IActionResult IsAdmin()
@@ -172,6 +146,5 @@ namespace IMOMaritimeSingleWindow.Controllers
         {
             return Ok();
         }
-
     }
 }

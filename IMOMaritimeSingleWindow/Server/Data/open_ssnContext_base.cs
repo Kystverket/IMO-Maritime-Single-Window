@@ -1,11 +1,20 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using IMOMaritimeSingleWindow.Identity.Models;
+using System;
+using System.Data;
+using System.Data.Common;
 using IMOMaritimeSingleWindow.Models;
+
 
 namespace IMOMaritimeSingleWindow.Data
 {
-    public abstract class open_ssnContext_base : DbContext, IDbContext
+    public class open_ssnContext_base : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IDbContext
     {
+
+    public open_ssnContext_base(DbContextOptions<open_ssnContext_base> options) : base(options) { }
+
         public virtual DbSet<CargoItem> CargoItem { get; set; }
         public virtual DbSet<CertificateOfRegistry> CertificateOfRegistry { get; set; }
         public virtual DbSet<Claim> Claim { get; set; }
@@ -70,6 +79,34 @@ namespace IMOMaritimeSingleWindow.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserToken> UserToken { get; set; }
+
+
+        public override int SaveChanges()
+        {
+            ChangeTracker.DetectChanges();
+            return base.SaveChanges();
+        }
+
+        public override EntityEntry<TEntity> Update<TEntity>(TEntity entity)
+        {
+            return base.Update(entity);
+        }
+
+        public override void Dispose()
+        {
+            ChangeTracker.DetectChanges();
+            base.Dispose();
+        }
+
+        public DbConnection GetDbConnection()
+        {
+            return this.Database.GetDbConnection();
+        }
+
+        public ConnectionState GetState()
+        {
+            return this.Database.GetDbConnection().State;
+        }
 
     }
 }

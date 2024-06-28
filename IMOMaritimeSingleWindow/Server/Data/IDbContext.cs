@@ -1,7 +1,9 @@
 using System;
-using IMOMaritimeSingleWindow.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Data;
+using System.Data.Common;
+using IMOMaritimeSingleWindow.Models;
 
 namespace IMOMaritimeSingleWindow.Data
 {
@@ -74,6 +76,8 @@ namespace IMOMaritimeSingleWindow.Data
 
         EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class;
         int SaveChanges();
+        DbConnection GetDbConnection();
+        ConnectionState GetState();
     }
 
 }

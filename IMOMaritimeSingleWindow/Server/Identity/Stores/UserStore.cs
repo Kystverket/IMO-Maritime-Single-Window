@@ -15,25 +15,23 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     public partial class UserStore : UserStoreBase<ApplicationUser, ApplicationRole, Guid, ApplicationUserClaim, ApplicationUserRole, UserLogin, UserToken, ApplicationRoleClaim>,
                                      IQueryableUserStore<ApplicationUser>  
     {
-
         private readonly UnitOfWork _unitOfWork;
-        private readonly RoleStore _roleStore;
+        private readonly IRoleStore _roleStore;
         private readonly IUserStoreHelper _helper;
         private readonly IMapper _mapper;
 
-        public UserStore
-        (
+        public UserStore(
             IdentityErrorDescriber describer,
-            UnitOfWork unitOfWork,
-            RoleStore roleStore,
+            IUnitOfWork unitOfWork,
+            IRoleStore roleStore,
             IUserStoreHelper helper,
-            IMapper mapper = default
+            IMapper mapper
         ) : base(describer)
         {
-            _unitOfWork = unitOfWork;
-            _roleStore = roleStore;
-            _helper = helper;
-            _mapper = mapper;
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            _roleStore = roleStore ?? throw new ArgumentNullException(nameof(roleStore));
+            _helper = helper ?? throw new ArgumentNullException(nameof(helper));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         #region IUserStore

@@ -1,41 +1,53 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using IMOMaritimeSingleWindow.Identity.Models;
-using IMOMaritimeSingleWindow.Repositories;
-using IMOMaritimeSingleWindow.Models;
-using AutoMapper;
-using System.Threading;
-using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
+using IMOMaritimeSingleWindow.Identity.Models;
+using IMOMaritimeSingleWindow.Models;
+using IMOMaritimeSingleWindow.Repositories;
+using Microsoft.AspNetCore.Identity;
 
 namespace IMOMaritimeSingleWindow.Identity.Stores
 {
     public partial class RoleStore : IRoleStore<ApplicationRole>
     {
-        public readonly UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public RoleStore(
-            UnitOfWork unitOfWork,
-            IMapper mapper = default
-            )
+        public RoleStore(UnitOfWork unitOfWork, IMapper mapper = default)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-
         public Task<IdentityResult> CreateAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
-
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            var roleEntity = _mapper.Map<Role>(role);
+            _unitOfWork.Roles.Add(roleEntity);
+            _unitOfWork.Complete();
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<IdentityResult> DeleteAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            var roleEntity = _mapper.Map<Role>(role);
+            _unitOfWork.Roles.Remove(roleEntity);
+            _unitOfWork.Complete();
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<string> GetNormalizedRoleNameAsync(ApplicationRole role, CancellationToken cancellationToken)
@@ -58,7 +70,6 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 throw new ArgumentNullException(nameof(role));
             }
             return Task.FromResult(role.Id.ToString());
-            throw new NotImplementedException();
         }
 
         public Task<string> GetRoleNameAsync(ApplicationRole role, CancellationToken cancellationToken)
@@ -72,7 +83,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             return Task.FromResult(role.Name);
         }
 
-        public Task<IList<Role>> GetAllRoles(CancellationToken cancellation = default)
+        public Task<IList<Role>> GetAllRoles(CancellationToken cancellationToken = default)
         {
             return Task.FromResult<IList<Role>>(_unitOfWork.Roles.GetAll().ToList());
         }
@@ -103,22 +114,32 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
         public Task<IdentityResult> UpdateAsync(ApplicationRole role, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            var roleEntity = _mapper.Map<Role>(role);
+            _unitOfWork.Roles.Update(roleEntity);
+            _unitOfWork.Complete();
+            return Task.FromResult(IdentityResult.Success);
         }
 
         public Task<ApplicationRole> FindByIdAsync(string roleId, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (roleId == null)
+            {
                 throw new ArgumentNullException(nameof(roleId));
+            }
             var guid = Guid.Parse(roleId);
-            Role _role = null;
-            try { _role = _unitOfWork.Roles.Get(guid); }
-            catch (NullReferenceException) { }
-            if (_role == null)
+            var roleEntity = _unitOfWork.Roles.Get(guid);
+            if (roleEntity == null)
+            {
                 return Task.FromResult<ApplicationRole>(null);
-
-            var appRole = _mapper.Map<ApplicationRole>(_role);
+            }
+            var appRole = _mapper.Map<ApplicationRole>(roleEntity);
             return Task.FromResult(appRole);
         }
 
@@ -126,17 +147,17 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (normalizedRoleName == null)
+            {
                 throw new ArgumentNullException(nameof(normalizedRoleName));
-            Role _role = null;
-            try { _role = _unitOfWork.Roles.GetByNormalizedName(normalizedRoleName); }
-            catch (NullReferenceException) { }
-            if (_role == null)
+            }
+            var roleEntity = _unitOfWork.Roles.GetByNormalizedName(normalizedRoleName);
+            if (roleEntity == null)
+            {
                 return Task.FromResult<ApplicationRole>(null);
-
-            var appRole = _mapper.Map<ApplicationRole>(_role);
+            }
+            var appRole = _mapper.Map<ApplicationRole>(roleEntity);
             return Task.FromResult(appRole);
         }
-
 
         #region IDisposable Support
         private bool _disposed = false; // To detect redundant calls
@@ -147,30 +168,19 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    // dispose managed state (managed objects)
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
 
                 _disposed = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~UserStore() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            GC.SuppressFinalize(this);
         }
+
         protected void ThrowIfDisposed()
         {
             if (_disposed)
@@ -179,6 +189,5 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             }
         }
         #endregion
-
     }
 }
