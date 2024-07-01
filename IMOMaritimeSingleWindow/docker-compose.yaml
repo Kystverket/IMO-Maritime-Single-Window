@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend.devcontainer:
     image: mcr.microsoft.com/dotnet/core/sdk:2.2
@@ -30,7 +28,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
-      
+
     volumes:
          - ./Server/SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
     healthcheck:
@@ -41,19 +39,16 @@ services:
       start_period: 10s
 
   frontend.devcontainer:
-    build: ./Client
+    image: node:10.24-slim
+    restart: unless-stopped
     ports:
       - 4200:4200
     depends_on:
       - backend.devcontainer
-    develop:
-      watch:
-        - path: ./Client/package.json
-          action: rebuild
-        - path: ./Client/package-lock.json
-          action: rebuild 
-        - path: ./Client
-          target: /app
-          ignore:
-            - node_modules/
-          action: sync
+    volumes:
+      - ./Client:/workspaces/frontend
+    command: >
+     sh -c "cd /workspaces/frontend && npm install
+     && npm start"
+
+      
