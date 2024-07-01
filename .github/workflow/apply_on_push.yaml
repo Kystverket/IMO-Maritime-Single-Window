@@ -1,6 +1,6 @@
 name: Apply On Push Application Terraform
 
-on:
+on: 
   push:
     branches:
       - master
