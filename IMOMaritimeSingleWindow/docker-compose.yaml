@@ -1,0 +1,54 @@
+services:
+  backend.devcontainer:
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
+    ports:
+      - 5000:5000
+    tty: true
+    volumes:
+      - ./Server:/workspaces/backend
+    environment:
+      AppSettings__Secret: SuperSeADasd1235t4asdcret
+      ASPNETCORE_URLS: http://backend.devcontainer:5000
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    command: >
+      sh -c "cd /workspaces/backend && 
+             cp appsettings.default.json appsettings.json &&
+             dotnet ef database update --context open_ssnContext -v &&
+             dotnet run --urls http://0.0.0.0:5000"
+    
+
+  db:
+    image: postgres:10-alpine
+    restart: unless-stopped
+    ports:
+      - 5431:5432
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+
+    volumes:
+         - ./Server/SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+  frontend.devcontainer:
+    image: node:10.24-slim
+    restart: unless-stopped
+    ports:
+      - 4200:4200
+    depends_on:
+      - backend.devcontainer
+    volumes:
+      - ./Client:/workspaces/frontend
+    command: >
+     sh -c "cd /workspaces/frontend && npm install
+     && npm start"
+
+      
