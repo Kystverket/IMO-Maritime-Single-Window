@@ -30,6 +30,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
+      
     volumes:
          - ./Server/SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
     healthcheck:
