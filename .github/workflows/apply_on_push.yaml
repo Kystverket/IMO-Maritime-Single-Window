@@ -1,4 +1,4 @@
-name: Apply On Push Application Terraform
+name: Apply On Push Infrastructure Terraform
 
 on:
   push:
@@ -6,7 +6,10 @@ on:
       - master
   pull_request:
 
-
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
     terraform:
       name: 'Terraform'

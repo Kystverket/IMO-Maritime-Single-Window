@@ -5,7 +5,7 @@ provider "azurerm" {
 terraform {
   backend "azurerm" {
     resource_group_name  = "imo-sw-infra-rg"
-    storage_account_name = "imoswinfra "
+    storage_account_name = "imoswinfra"
     container_name       = "tfstate"
     key                  = "state.tfstate"
   }
