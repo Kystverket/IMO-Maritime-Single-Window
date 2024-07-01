@@ -1,16 +1,17 @@
 name: Apply On Push Application Terraform
 
-on: 
-  push:
-    branches:
+on:
+  pull_request:
+    branches: 
       - master
-#permissions:
-#  id-token: write
-#  contents: read
+    types: 
+      - closed
+
 
 jobs:
     terraform:
       name: 'Terraform'
+      if: github.event.pull_request.merged == true
       runs-on: ubuntu-latest
       environment: dev
       env:
