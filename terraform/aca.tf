@@ -25,7 +25,7 @@ resource "azurerm_role_assignment" "imo_dev_app" {
 }
 
 data "azurerm_container_registry" "acr" {
-  name                = "tamopsactionacr"
+  name                = "crimomsw"
   resource_group_name = "rg-imo-msw-terraform-dev-preview"
 }
 
