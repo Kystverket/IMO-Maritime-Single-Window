@@ -12,8 +12,8 @@ resource "azurerm_container_app_environment" "imo_dev_app" {
 
 resource "azurerm_container_app" "imo_dev_app" {
   name                         = "ca-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.example.id
-  resource_group_name          = azurerm_resource_group.example.name
+  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
+  resource_group_name          = azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
 
   registry {
