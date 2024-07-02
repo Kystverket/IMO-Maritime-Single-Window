@@ -11,6 +11,7 @@ locals {
 resource "azurerm_resource_group" "imo_dev_app" {
   name     = "rg-${local.stack}"
   location = var.location
+  
   tags     = local.default_tags
 }
 
@@ -20,6 +21,7 @@ resource "azurerm_storage_account" "imo_dev_app" {
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
+
   tags = local.default_tags
 }
 
