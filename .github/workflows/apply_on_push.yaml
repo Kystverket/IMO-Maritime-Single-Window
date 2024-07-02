@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - deploy-infra-terraform
-  pull_request:
+  # pull_request:
 
 permissions:
   id-token: write
