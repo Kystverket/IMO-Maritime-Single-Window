@@ -11,4 +11,4 @@ COPY appsettings.default.json appsettings.json
 EXPOSE 5000
 
 # Set the entrypoint command
-CMD ["sh", "-c", "dotnet ef database update --context open_ssnContext -v && dotnet run --urls http:/backend.devcontainer:5000"]
+CMD ["sh", "-c", "dotnet ef database update --context open_ssnContext -v && dotnet run --urls http://backend.devcontainer:5000"]
