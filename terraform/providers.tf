@@ -10,12 +10,12 @@ terraform {
       version = "~>1.13.1"
     }
   }
-  backend "azurerm" {
-    resource_group_name  = azurerm_resource_group.imo_dev_app.name
-    storage_account_name = azurerm_storage_account.imo_dev_app.name
-    container_name       = "tfstates"
-    key                  = "state.tfstates"
-  }
+  # backend "azurerm" {
+  #   resource_group_name  = azurerm_resource_group.imo_dev_app.name
+  #   storage_account_name = azurerm_storage_account.imo_dev_app.name
+  #   container_name       = "tfstates"
+  #   key                  = "state.tfstates"
+  # }
 }
 
 provider "azurerm" {
