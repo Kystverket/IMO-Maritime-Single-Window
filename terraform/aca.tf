@@ -8,6 +8,27 @@ resource "azurerm_container_app_environment" "imo_dev_app" {
   tags = local.default_tags
 }
 
+resource "azurerm_user_assigned_identity" "imo_dev_app" {
+  location            = var.location
+  name                = "micontainerapp"
+  resource_group_name = "rg-imo-msw-terraform-dev-preview"
+}
+
+
+resource "azurerm_role_assignment" "imo_dev_app" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "acrpull"
+  principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
+  depends_on = [
+    azurerm_user_assigned_identity.imo_dev_app
+  ]
+}
+
+data "azurerm_container_registry" "acr" {
+  name                = "tamopsactionacr"
+  resource_group_name = "rg-imo-msw-terraform-dev-preview"
+}
+
 
 
 resource "azurerm_container_app" "imo_dev_app" {
@@ -16,9 +37,16 @@ resource "azurerm_container_app" "imo_dev_app" {
   resource_group_name          = "rg-imo-msw-terraform-dev-preview"
   revision_mode                = "Single"
 
-  registry {
-    server = "docker.io"
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
   }
+ 
+  registry {
+    server   = data.azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.imo_dev_app.id
+  }
+
   template {
     container {
       name   = "backend"
