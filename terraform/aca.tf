@@ -51,6 +51,7 @@ resource "azurerm_container_app" "imo_dev_app" {
     target_port = 80
     traffic_weight {
       percentage = 100
+      revision_suffix = "imo-msw-dev-preview-1234"
     }
   }
   
@@ -61,12 +62,23 @@ resource "azurerm_container_app" "imo_dev_app" {
       cpu    = 0.25
       memory = "0.5Gi"
     }
+
+
     container {
       name   = "frontend"
       image  = "${data.azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
       cpu = 0.25
       memory = "0.5Gi"
+      env {
+        name  = "BACKEND_URL"
+        value = "http://backend:5000"
+      }
     }
   }
+
   tags = local.default_tags
+
+  lifecycle {
+    ignore_changes = [template[0].container[0].image, template[0].container[1].image]
+  }
 }
