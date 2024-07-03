@@ -57,13 +57,13 @@ resource "azurerm_container_app" "imo_dev_app" {
   template {
     container {
       name   = "backend"
-      image  =  "${azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
+      image  =  "${data.azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
       cpu    = 0.25
       memory = "0.5Gi"
     }
     container {
       name   = "frontend"
-      image  = "${azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
+      image  = "${data.azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
       cpu = 0.25
       memory = "0.5Gi"
     }
