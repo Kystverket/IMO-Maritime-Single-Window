@@ -114,7 +114,6 @@ resource "azurerm_container_app" "imo_dev_app" {
     target_port = 80
     traffic_weight {
       percentage = 100
-      revision_suffix = "imo-msw-dev-preview-1234"
     }
   }
 
