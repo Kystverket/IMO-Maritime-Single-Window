@@ -43,7 +43,20 @@ or
 sudo docker -v
 ```
 
-2. **Navigate to Project Directory**: Change directopry to where thhe `docker-compose.yaml`is located:
+2. **Navigate to Project Directory**: Change directory to where the `docker-compose.yaml`is located (under /IMO-Maritime-Single-Window):
+
+```
+IMO-Maritime-Single-Window/
+├── BuildFrontend.bat
+├── CONTRIBUTING.md
+├── IMOMaritimeSingleWindow
+│   ├── Client
+│   ├── Database
+│   ├── README.md
+│   ├── Server
+│   ├── docker-compose.yaml
+│   └── package-lock.json
+```
 
 ```
 cd IMOMaritimeSingleWindow
@@ -85,7 +98,7 @@ sudo docker compose up
 docker compose up
 ```
 
-This command builds and starts alll necessary services as defined in `docker-compose.yaml`, including the client interface, server application, and PostgreSQL database. This process may take some time during the initial setup, as it executes the [SQL script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the database. 
+This command builds and starts all necessary services as defined in `docker-compose.yaml`, including the client interface, server application, and PostgreSQL database. This process may take some time during the initial setup, as it executes the [SQL script](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Server/SqlScripts/Create_and_populate_DB.sql) to populate the database. 
 
 
 ## Monitoring Client and Server Logs
