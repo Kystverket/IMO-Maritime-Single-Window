@@ -120,8 +120,8 @@ resource "azurerm_container_app" "imo_dev_app" {
 
   template {
     container {
-      name   = "hello-world"
-      image  = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+      name   = "nginx"
+      image  = "nginx:latest"
       cpu    = 0.25
       memory = "0.5Gi"
     }
