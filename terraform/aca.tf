@@ -2,7 +2,7 @@
 resource "azurerm_container_app_environment" "imo_dev_app" {
   name                       = "cae-${local.stack}"
   location                   = var.location
-  resource_group_name        = "rg-imo-msw-terraform-dev-preview"
+  resource_group_name        = data.azurerm_resource_group.imo_dev_app.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.imo_dev_app.id
 
   tags = local.default_tags
@@ -11,7 +11,7 @@ resource "azurerm_container_app_environment" "imo_dev_app" {
 resource "azurerm_user_assigned_identity" "imo_dev_app" {
   location            = var.location
   name                = "micontainerapp"
-  resource_group_name = "rg-imo-msw-terraform-dev-preview"
+  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
 }
 
 
@@ -26,15 +26,13 @@ resource "azurerm_role_assignment" "imo_dev_app" {
 
 data "azurerm_container_registry" "acr" {
   name                = "crimomsw"
-  resource_group_name = "rg-imo-msw-terraform-dev-preview"
+  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
 }
-
-
 
 resource "azurerm_container_app" "imo_dev_app" {
   name                         = "ca-${local.stack}"
   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = "rg-imo-msw-terraform-dev-preview"
+  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
 
   identity {
@@ -47,16 +45,25 @@ resource "azurerm_container_app" "imo_dev_app" {
     identity = azurerm_user_assigned_identity.imo_dev_app.id
   }
 
+  ingress {
+    allow_insecure_connections = false
+    external_enabled = true
+    target_port = 80
+    traffic_weight {
+      percentage = 100
+    }
+  }
+  
   template {
     container {
       name   = "backend"
-      image  = "mcr.microsoft.com/dotnet/core/sdk:2.2"
+      image  =  "${azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
       cpu    = 0.25
       memory = "0.5Gi"
     }
     container {
       name   = "frontend"
-      image  = "node:10.24-slim"
+      image  = "${azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
       cpu = 0.25
       memory = "0.5Gi"
     }
