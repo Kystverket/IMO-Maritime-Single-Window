@@ -1,5 +1,5 @@
 # ./db/Dockerfile
-FROM postgres:10-alpine
+FROM postgres:13-alpine
 
 # Set environment variables
 ENV POSTGRES_PASSWORD=password \
