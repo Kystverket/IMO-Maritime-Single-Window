@@ -20,7 +20,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
     ]
 
     secret_permissions = [
-      "Get",
+      "Get", "Set"
     ]
 
     storage_permissions = [
