@@ -71,8 +71,8 @@ data "http" "my_ip" {
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_my_ip" {
   name                = "allow-my-ip"
-  start_ip_address    = chomp(data.http.my_ip.response)
-  end_ip_address      = chomp(data.http.my_ip.response)
+  start_ip_address    = chomp(data.http.my_ip.body)
+  end_ip_address      = chomp(data.http.my_ip.body)
   server_id           = azurerm_postgresql_flexible_server.imo_dev.id 
 }
 
