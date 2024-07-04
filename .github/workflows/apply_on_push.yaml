@@ -3,7 +3,7 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - deploy-infra-terraform
+      - deploy-infra-terraformv2
   # pull_request:
 
 permissions:
