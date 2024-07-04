@@ -49,7 +49,6 @@ resource "azurerm_container_app" "frontend" {
     allow_insecure_connections = false
     traffic_weight {
       percentage = 100
-      revision_suffix = "frontend-dev"
       latest_revision = true
     }
   }
@@ -96,7 +95,6 @@ resource "azurerm_container_app" "backend" {
     allow_insecure_connections = false
     traffic_weight {
       percentage = 100
-      revision_suffix = "backend-dev"
       latest_revision = true
     }
   }
