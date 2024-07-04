@@ -43,7 +43,7 @@ resource "azurerm_postgresql_flexible_server" "imo_dev" {
   administrator_login    = "psqladmin"
   administrator_password = azurerm_key_vault_secret.db_password.value
   storage_mb             = 32768
-  sku_name               = "GP_Standard_D4s_v3"
+  sku_name               = "B_Standard_B1ms"
 }
 
 resource "azurerm_postgresql_flexible_server_database" "imo_dev" {
