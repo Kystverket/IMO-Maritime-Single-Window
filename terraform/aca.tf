@@ -13,6 +13,10 @@ resource "azurerm_user_assigned_identity" "imo_dev_app" {
   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
 }
 
+data "azurerm_container_registry" "acr" {
+  name                = "crimomsw"
+  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
+}
 
 resource "azurerm_role_assignment" "imo_dev_app" {
   scope                = data.azurerm_container_registry.acr.id
@@ -23,13 +27,8 @@ resource "azurerm_role_assignment" "imo_dev_app" {
   ]
 }
 
-data "azurerm_container_registry" "acr" {
-  name                = "crimomsw"
-  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
-}
-
-resource "azurerm_container_app" "imo_dev_app" {
-  name                         = "ca-${local.stack}"
+resource "azurerm_container_app" "frontend" {
+  name                         = "frontend-${local.stack}"
   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
   resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
@@ -38,38 +37,31 @@ resource "azurerm_container_app" "imo_dev_app" {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
   }
- 
+
   registry {
     server   = data.azurerm_container_registry.acr.login_server
     identity = azurerm_user_assigned_identity.imo_dev_app.id
   }
 
   ingress {
+    external_enabled           = true
+    target_port                = 80
     allow_insecure_connections = false
-    external_enabled = true
-    target_port = 80
     traffic_weight {
       percentage = 100
-      revision_suffix = "imo-msw-dev-preview-1234"
+      revision_suffix = "frontend-dev"
     }
   }
-  
-  template {
-    container {
-      name   = "backend"
-      image  =  "${data.azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
-      cpu    = 0.25
-      memory = "0.5Gi"
-    }
 
+  template {
     container {
       name   = "frontend"
       image  = "${data.azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
-      cpu = 0.25
+      cpu    = 0.25
       memory = "0.5Gi"
       env {
         name  = "BACKEND_URL"
-        value = "http://backend.devcontainer:5000"
+        value = "http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
       }
     }
   }
@@ -77,7 +69,48 @@ resource "azurerm_container_app" "imo_dev_app" {
   tags = local.default_tags
 
   lifecycle {
-    ignore_changes = [template[0].container[0].image, template[0].container[1].image]
+    ignore_changes = [template[0].container[0].image]
   }
 }
 
+resource "azurerm_container_app" "backend" {
+  name                         = "backend-${local.stack}"
+  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
+  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+  revision_mode                = "Single"
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+  }
+
+  registry {
+    server   = data.azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.imo_dev_app.id
+  }
+
+  ingress {
+    external_enabled           = false
+    target_port                = 5000
+    allow_insecure_connections = false
+    traffic_weight {
+      percentage = 100
+      revision_suffix = "backend-dev"
+    }
+  }
+
+  template {
+    container {
+      name   = "backend"
+      image  = "${data.azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
+      cpu    = 0.25
+      memory = "0.5Gi"
+    }
+  }
+
+  tags = local.default_tags
+
+  lifecycle {
+    ignore_changes = [template[0].container[0].image]
+  }
+}
