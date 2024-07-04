@@ -1,7 +1,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "imo_dev_app" {
-  name                        = "imo_dev_keyvault"
+  name                        = "imo-dev-keyvault"
   location                    = var.location
   resource_group_name         = data.azurerm_resource_group.imo_dev_app.name
   enabled_for_disk_encryption = true
@@ -36,7 +36,7 @@ resource "azurerm_key_vault_secret" "db_password" {
 }
 
 resource "azurerm_postgresql_flexible_server" "imo_dev" {
-  name                   = "imo_dev-psqlflexibleserver"
+  name                   = "imo-dev-psqlflexibleserver"
   resource_group_name    = data.azurerm_resource_group.imo_dev_app.name
   location               = var.location
   version                = "13"
