@@ -44,6 +44,13 @@ resource "azurerm_postgresql_flexible_server" "imo_dev" {
   administrator_password = azurerm_key_vault_secret.db_password.value
   storage_mb             = 32768
   sku_name               = "B_Standard_B1ms"
+
+  lifecycle {
+    ignore_changes = [
+      zone,
+      high_availability[0].standby_availability_zone,
+    ]
+  }
 }
 
 resource "azurerm_postgresql_flexible_server_database" "imo_dev" {
