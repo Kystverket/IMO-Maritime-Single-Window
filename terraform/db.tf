@@ -65,6 +65,16 @@ resource "azurerm_postgresql_flexible_server_database" "imo_dev" {
   }
 }
 
+# data "http" "my_ip" {
+#   url = "https://ifconfig.me/ip"
+# }
+
+# resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_my_ip" {
+#   name                = "allow-my-ip"
+#   start_ip_address    = chomp(data.http.my_ip.response)
+#   end_ip_address      = chomp(data.http.my_ip.response)
+#   server_id           = azurerm_postgresql_flexible_server.imo_dev.id
+# }
 
 resource "terraform_data" "execute_sql_script" {
   depends_on = [azurerm_postgresql_flexible_server_database.imo_dev]
