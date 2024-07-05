@@ -27,7 +27,6 @@ resource "azurerm_key_vault" "imo_dev_app" {
       "Get",
     ]
   }
-    # Add the managed identity access policy
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id

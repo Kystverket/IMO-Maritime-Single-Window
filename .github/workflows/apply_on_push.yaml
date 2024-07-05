@@ -62,4 +62,14 @@ jobs:
           id: apply
           run: terraform apply -auto-approve
 
+        - name: Log in to ACR
+          run: az acr login --name crimomsw
+  
+        - name: Build and push Client Docker image
+          run: |
+            pwd && docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
+        - name: Build and push Server Docker image
+          run: |
+            pwd &&  docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+
   
