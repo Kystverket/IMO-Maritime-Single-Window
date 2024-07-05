@@ -131,7 +131,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = "db_password_secret"
+        secret_name = "pg-password-secret"
       }
     }
   }
@@ -139,6 +139,6 @@ resource "azurerm_container_app" "backend" {
   tags = local.default_tags
 
   lifecycle {
-    ignore_changes = [template[0].container[0].image]
+    ignore_changes = [template[0].container[0].image, value]
   }
 }
