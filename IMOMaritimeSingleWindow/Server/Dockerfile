@@ -16,10 +16,13 @@ RUN apt-get update && apt-get install -y postgresql-client
 # Expose the port
 EXPOSE 5000
 
+ENV AppSettings__Secret=SuperSeADasd1235t4asdcret
+ENV ASPNETCORE_URLS=http://backend.devcontainer:5000
+
 ENV PGHOST=imo-dev-psqlflexibleserver-1.postgres.database.azure.com
 ENV PGPORT=5432
 ENV PGDATABASE=db-imo-msw-dev-1
-ENV PGUSER=psqladmin
+ENV PGUSER=postgres
 ENV PGPASSWORD=szechuan
 
 RUN psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql

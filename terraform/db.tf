@@ -40,7 +40,7 @@ resource "azurerm_postgresql_flexible_server" "imo_dev_app" {
   resource_group_name    = data.azurerm_resource_group.imo_dev_app.name
   location               = var.location
   version                = "13"
-  administrator_login    = "psqladmin"
+  administrator_login    = "postgres"
   administrator_password = azurerm_key_vault_secret.db_password.value
   storage_mb             = 32768
   sku_name               = "B_Standard_B1ms"
