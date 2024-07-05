@@ -1,10 +1,9 @@
 name: Build and Push Images
 
 on:
-  workflow_run:
-    workflows: ["Apply On Push Infrastructure Terraform"]
-    types:
-      - completed
+  push:
+    branches: 
+      - deploy-infra-terraformv2
 
 permissions:
   id-token: write
@@ -27,8 +26,8 @@ jobs:
         working-directory: ./terraform
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
