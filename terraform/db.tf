@@ -65,6 +65,14 @@ resource "azurerm_postgresql_flexible_server_database" "imo_dev_app" {
   }
 }
 
+resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
+  name             = "db-fw"
+  server_id        = azurerm_postgresql_flexible_server.imo_dev_app.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "255.255.255.255"
+}
+
+
 # data "http" "my_ip" {
 #   url = "https://ifconfig.me/ip"
 # }
