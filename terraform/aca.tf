@@ -56,7 +56,7 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/node_crimomsw:v1"
+      image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
       cpu    = 0.25
       memory = "0.5Gi"
       env {
@@ -110,7 +110,7 @@ resource "azurerm_container_app" "backend" {
   template {
     container {
       name   = "backend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
+      image  = "${data.azurerm_container_registry.acr.login_server}/server:latest"
       cpu    = 0.25
       memory = "0.5Gi"
       env {
