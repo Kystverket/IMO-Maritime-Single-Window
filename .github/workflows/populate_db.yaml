@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "PGUSER=psqladmin" >> $GITHUB_ENV
           echo "PGPORT=5432" >> $GITHUB_ENV
-          echo "PGDATABASE=db-imo-msw-dev" >> $GITHUB_ENV
+          echo "PGDATABASE=db-imo-msw-dev-1" >> $GITHUB_ENV
           echo "PGPASSWORD=szechuan" >> $GITHUB_ENV
 
       - name: Check if database is populated

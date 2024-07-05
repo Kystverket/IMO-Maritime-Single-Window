@@ -99,18 +99,46 @@ resource "azurerm_container_app" "backend" {
     }
   }
 
+  secret {
+    name                = "db_password_secret"
+    key_vault_secret_id = data.azurerm_key_vault_secret.db_password.id
+    identity            = azurerm_user_assigned_identity.imo_dev_app.id
+    value               = ""
+  }
+
+
   template {
     container {
       name   = "backend"
       image  = "${data.azurerm_container_registry.acr.login_server}/dotnet2.2crimomsw:v1"
       cpu    = 0.25
       memory = "0.5Gi"
+      env {
+        name  = "PGHOST"
+        value = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+      }
+      env {
+        name  = "PGUSER"
+        value = "psqladmin"
+      }
+      env {
+        name  = "PGPORT"
+        value = "5432"
+      }
+      env {
+        name  = "PGDATABASE"
+        value = "db-imo-msw-dev-1"
+      }
+      env {
+        name  = "PGPASSWORD"
+        secret_name = "db_password_secret"
+      }
     }
   }
 
   tags = local.default_tags
 
   lifecycle {
-    ignore_changes = [template[0].container[0].image]
+    ignore_changes = [template[0].container[0].image, value]
   }
 }
