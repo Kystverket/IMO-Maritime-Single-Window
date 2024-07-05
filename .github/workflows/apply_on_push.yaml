@@ -4,7 +4,9 @@ on:
   push:
     branches: 
       - deploy-infra-terraformv3
-
+    paths:
+      - 'terraform/**'
+      - 'workflows/**'
 permissions:
   id-token: write
   contents: read
