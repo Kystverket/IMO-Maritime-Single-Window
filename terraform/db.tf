@@ -71,15 +71,3 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
   start_ip_address = "80.232.19.138"
   end_ip_address   = "80.232.19.138"
 }
-
-
-# data "http" "my_ip" {
-#   url = "https://ifconfig.me/ip"
-# }
-
-# resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_my_ip" {
-#   name                = "allow-my-ip"
-#   start_ip_address    = chomp(data.http.my_ip.body)
-#   end_ip_address      = chomp(data.http.my_ip.body)
-#   server_id           = azurerm_postgresql_flexible_server.imo_dev.id 
-# }
