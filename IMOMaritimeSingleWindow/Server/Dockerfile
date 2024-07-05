@@ -1,5 +1,5 @@
 # ./Server/Dockerfile
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-bionic
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 
 WORKDIR /workspaces/backend
 
@@ -24,9 +24,6 @@ ENV PGPASSWORD=szechuan
 
 # Set the entrypoint command
 CMD ["sh", "-c", "\
-  if [ ! -f /workspaces/backend/.init_done ]; then \
     psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql && \
-    touch /workspaces/backend/.init_done; \
-  fi && \
   dotnet ef database update --context open_ssnContext -v && \
   dotnet run --urls http://backend.devcontainer:5000" ]
