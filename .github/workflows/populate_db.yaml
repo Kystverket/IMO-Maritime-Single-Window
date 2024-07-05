@@ -1,10 +1,10 @@
 name: Populate Database
 
 on:
-  workflow_run:
-    workflows: ["Apply On Push Infrastructure Terraform"]
-    types: 
-        - completed
+  push:
+    branches: 
+      - deploy-infra-terraformv2
+      
 jobs:
   check-and-populate-database:
     runs-on: ubuntu-latest
