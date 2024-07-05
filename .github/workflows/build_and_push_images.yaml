@@ -23,7 +23,6 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform
 
     steps:
       # - name: Checkout
@@ -44,7 +43,7 @@ jobs:
 
       - name: Build and push Client Docker image
         run: |
-          docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
+          docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ./IMOMaritimeSingleWindow/Client
       - name: Build and push Server Docker image
         run: |
-            docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
+            docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ./IMOMaritimeSingleWindow/Client

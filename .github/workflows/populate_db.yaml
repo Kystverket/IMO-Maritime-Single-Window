@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - deploy-infra-terraformv2
-      
+
 jobs:
   check-and-populate-database:
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
           PGDATABASE: ${{ env.PGDATABASE }}
           PGPASSWORD: ${{ env.PGPASSWORD }}
         run: |
-          COUNT=$(psql -h imo-dev-psqlflexibleserver.postgres.database.azure.com -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
+          COUNT=$(psql -h imo-dev-psqlflexibleserver-1.postgres.database.azure.com-U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
           echo "Row count: $COUNT"
           if [ "$COUNT" -gt "0" ]; then
             echo "Database is already populated" > result.txt
@@ -47,4 +47,4 @@ jobs:
           PGDATABASE: ${{ env.PGDATABASE }}
           PGPASSWORD: ${{ env.PGPASSWORD }}
         run: |
-          psql -h imo-dev-psqlflexibleserver.postgres.database.azure.com -U $PGUSER -d $PGDATABASE -f ../SqlScripts/Create_and_populate_DB.sql
+          psql -h imo-dev-psqlflexibleserver-1.postgres.database.azure.com -U $PGUSER -d $PGDATABASE -f ../SqlScripts/Create_and_populate_DB.sql
