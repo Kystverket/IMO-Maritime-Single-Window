@@ -1,0 +1,31 @@
+# Ignore binary and intermediate files
+bin/
+obj/
+
+# Ignore user-specific settings
+*.user
+*.rsuser
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+.env
+.env.backend
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore IDE directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.DS_Store
+
+# Ignore temporary files and directories
+tmp/
+temp/

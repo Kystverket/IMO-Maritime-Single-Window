@@ -1,0 +1,50 @@
+name: Populate Database
+
+on:
+  workflow_run:
+    workflows: ["Apply On Push Infrastructure Terraform"]
+    types: 
+        - completed
+jobs:
+  check-and-populate-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get install -y postgresql-client
+
+      - name: Set environment variables
+        run: |
+          echo "PGUSER=psqladmin" >> $GITHUB_ENV
+          echo "PGPORT=5432" >> $GITHUB_ENV
+          echo "PGDATABASE=db-imo-msw-dev" >> $GITHUB_ENV
+          echo "PGPASSWORD=szechuan" >> $GITHUB_ENV
+
+      - name: Check if database is populated
+        id: check-db
+        env:
+          PGUSER: ${{ env.PGUSER }}
+          PGPORT: ${{ env.PGPORT }}
+          PGDATABASE: ${{ env.PGDATABASE }}
+          PGPASSWORD: ${{ env.PGPASSWORD }}
+        run: |
+          COUNT=$(psql -h imo-dev-psqlflexibleserver.postgres.database.azure.com -U $PGUSER -d $PGDATABASE -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
+          echo "Row count: $COUNT"
+          if [ "$COUNT" -gt "0" ]; then
+            echo "Database is already populated" > result.txt
+          else
+            echo "Database is empty" > result.txt
+          fi
+        shell: bash
+
+      - name: Populate Database
+        if: steps.check-db.outputs.result == 'Database is empty'
+        env:
+          PGUSER: ${{ env.PGUSER }}
+          PGPORT: ${{ env.PGPORT }}
+          PGDATABASE: ${{ env.PGDATABASE }}
+          PGPASSWORD: ${{ env.PGPASSWORD }}
+        run: |
+          psql -h imo-dev-psqlflexibleserver.postgres.database.azure.com -U $PGUSER -d $PGDATABASE -f ../SqlScripts/Create_and_populate_DB.sql
