@@ -15,25 +15,17 @@ resource "azurerm_key_vault" "imo_dev_app" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = [
-      "Get",
-    ]
+    key_permissions = ["Get"]
 
-    secret_permissions = [
-      "Get", "Set"
-    ]
+    secret_permissions = ["Get", "Set"]
 
-    storage_permissions = [
-      "Get",
-    ]
+    storage_permissions = ["Get"]
   }
   access_policy {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id
 
-    secret_permissions = [
-      "Get"
-    ]
+    secret_permissions = ["Get"]
   }
 }
 
