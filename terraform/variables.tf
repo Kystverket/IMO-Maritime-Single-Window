@@ -15,3 +15,8 @@ variable "env" {
   description = "Application env"
   default = "dev-preview"
 }
+
+variable "image_tag" {
+  type        = string
+  description = "Docker image tag"
+}
