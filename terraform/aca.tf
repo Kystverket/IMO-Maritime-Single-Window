@@ -27,51 +27,51 @@ resource "azurerm_role_assignment" "imo_dev_app" {
   ]
 }
 
-resource "azurerm_container_app" "frontend" {
-  name                         = "frontend-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
-  revision_mode                = "Single"
+# resource "azurerm_container_app" "frontend" {
+#   name                         = "frontend-${local.stack}"
+#   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
+#   resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+#   revision_mode                = "Single"
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
-  }
+#   identity {
+#     type         = "UserAssigned"
+#     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+#   }
 
-  registry {
-    server   = data.azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.imo_dev_app.id
-  }
+#   registry {
+#     server   = data.azurerm_container_registry.acr.login_server
+#     identity = azurerm_user_assigned_identity.imo_dev_app.id
+#   }
 
-  ingress {
-    external_enabled           = true
-    target_port                = 4200
-    allow_insecure_connections = false
-    traffic_weight {
-      percentage = 100
-      latest_revision = true
-    }
-  }
+#   ingress {
+#     external_enabled           = true
+#     target_port                = 4200
+#     allow_insecure_connections = false
+#     traffic_weight {
+#       percentage = 100
+#       latest_revision = true
+#     }
+#   }
 
-  template {
-    container {
-      name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:2065b3d1f720ee2e85bc1a098292efab8204a278"
-      cpu    = 0.25
-      memory = "0.5Gi"
-      env {
-        name  = "BACKEND_URL"
-        value = "http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
-      }
-    }
-  }
+#   template {
+#     container {
+#       name   = "frontend"
+#       image  = "${data.azurerm_container_registry.acr.login_server}/client:2065b3d1f720ee2e85bc1a098292efab8204a278"
+#       cpu    = 0.25
+#       memory = "0.5Gi"
+#       env {
+#         name  = "BACKEND_URL"
+#         value = "http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
+#       }
+#     }
+#   }
 
-  tags = local.default_tags
+#   tags = local.default_tags
 
-  lifecycle {
-    # ignore_changes = [template[0].container[0].image]
-  }
-}
+#   lifecycle {
+#     # ignore_changes = [template[0].container[0].image]
+#   }
+# }
 
 resource "azurerm_container_app" "backend" {
   name                         = "backend-${local.stack}"
