@@ -35,8 +35,8 @@ resource "azurerm_key_vault_secret" "db_password" {
   key_vault_id = azurerm_key_vault.imo_dev_app.id
 }
 
-resource "azurerm_postgresql_flexible_server" "imo_dev" {
-  name                   = "imo-dev-psqlflexibleserver"
+resource "azurerm_postgresql_flexible_server" "imo_dev_app" {
+  name                   = "imo-dev-psqlflexibleserver-1"
   resource_group_name    = data.azurerm_resource_group.imo_dev_app.name
   location               = var.location
   version                = "13"
@@ -53,9 +53,9 @@ resource "azurerm_postgresql_flexible_server" "imo_dev" {
   }
 }
 
-resource "azurerm_postgresql_flexible_server_database" "imo_dev" {
-  name      = "db-imo-msw-dev"
-  server_id = azurerm_postgresql_flexible_server.imo_dev.id
+resource "azurerm_postgresql_flexible_server_database" "imo_dev_app" {
+  name      = "db-imo-msw-dev-1"
+  server_id = azurerm_postgresql_flexible_server.imo_dev_app.id
   collation = "en_US.utf8"
   charset   = "utf8"
 
