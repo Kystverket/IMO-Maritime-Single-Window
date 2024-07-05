@@ -6,6 +6,7 @@ on:
       - deploy-infra-terraformv2
     paths-ignore:
       - 'terraform/**'
+      - 'workflows/**'
 
 permissions:
   id-token: write
