@@ -4,6 +4,8 @@ on:
   push:
     branches: 
       - deploy-infra-terraformv2
+    paths-ignore:
+      - 'terraform/**'
 
 permissions:
   id-token: write
