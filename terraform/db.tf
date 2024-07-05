@@ -65,33 +65,13 @@ resource "azurerm_postgresql_flexible_server_database" "imo_dev" {
   }
 }
 
-data "http" "my_ip" {
-  url = "https://ifconfig.me/ip"
-}
-
-resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_my_ip" {
-  name                = "allow-my-ip"
-  start_ip_address    = chomp(data.http.my_ip.body)
-  end_ip_address      = chomp(data.http.my_ip.body)
-  server_id           = azurerm_postgresql_flexible_server.imo_dev.id 
-}
-
-# resource "terraform_data" "execute_sql_script" {
-#   depends_on = [azurerm_postgresql_flexible_server_database.imo_dev]
-
-#   provisioner "local-exec" {
-#     environment = {
-#       PGHOST     = azurerm_postgresql_flexible_server.imo_dev.fqdn
-#       PGUSER     = azurerm_postgresql_flexible_server.imo_dev.administrator_login
-#       PGPORT     = "5432"
-#       PGDATABASE = azurerm_postgresql_flexible_server_database.imo_dev.name
-#       PGPASSWORD = azurerm_key_vault_secret.db_password.value
-#     }
-
-#     command = "psql --file=../Server/SqlScripts/Create_and_populate_DB.sql"
-#   }
+# data "http" "my_ip" {
+#   url = "https://ifconfig.me/ip"
 # }
 
-# output "sql_execution_result" {
-#   value = terraform_data.execute_sql_script.id
+# resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_my_ip" {
+#   name                = "allow-my-ip"
+#   start_ip_address    = chomp(data.http.my_ip.body)
+#   end_ip_address      = chomp(data.http.my_ip.body)
+#   server_id           = azurerm_postgresql_flexible_server.imo_dev.id 
 # }
