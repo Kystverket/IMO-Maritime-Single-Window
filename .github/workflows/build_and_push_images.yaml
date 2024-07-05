@@ -1,9 +1,10 @@
 name: Build and Push Images
 
 on:
-  push:
-    branches: 
-      - deploy-infra-terraformv2
+  workflow_run:
+    workflows: ["Apply On Push Infrastructure Terraform"]
+    types:
+      - completed
 
 permissions:
   id-token: write
