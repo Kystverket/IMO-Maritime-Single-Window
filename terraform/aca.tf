@@ -103,7 +103,7 @@ resource "azurerm_container_app" "backend" {
     name                = "db_password_secret"
     key_vault_secret_id = azurerm_key_vault_secret.db_password.id
     identity            = azurerm_user_assigned_identity.imo_dev_app.id
-    value               = "pass-1"
+    value               = "pass-a"
   }
 
 
