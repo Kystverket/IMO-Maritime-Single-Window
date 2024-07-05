@@ -59,10 +59,10 @@ resource "azurerm_postgresql_flexible_server_database" "imo_dev_app" {
   collation = "en_US.utf8"
   charset   = "utf8"
 
-  # # prevent the possibility of accidental data loss
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
+  # prevent the possibility of accidental data loss
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
