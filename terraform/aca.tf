@@ -139,6 +139,6 @@ resource "azurerm_container_app" "backend" {
   tags = local.default_tags
 
   lifecycle {
-    ignore_changes = [template[0].container[0].image, secret[0].name]
+    ignore_changes = [template[0].container[0].image, secret[0].value]
   }
 }
