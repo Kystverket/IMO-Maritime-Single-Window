@@ -10,6 +10,9 @@ COPY appsettings.default.json appsettings.json
 # Copy the SQL script 
 COPY ./SqlScripts/Create_and_populate_DB.sql /workspaces/backend/SqlScripts/Create_and_populate_DB.sql
 
+# Install PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Expose the port
 EXPOSE 5000
 
