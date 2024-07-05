@@ -3,7 +3,7 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - deploy-infra-terraformv2
+      - deploy-infra-terraformv3
 
 permissions:
   id-token: write

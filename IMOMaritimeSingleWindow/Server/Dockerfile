@@ -13,7 +13,6 @@ COPY ./SqlScripts/Create_and_populate_DB.sql /workspaces/backend/SqlScripts/Crea
 # Expose the port
 EXPOSE 5000
 
-# PostgreSQL connection
 ENV PGHOST=imo-dev-psqlflexibleserver-1.postgres.database.azure.com
 ENV PGPORT=5432
 ENV PGDATABASE=db-imo-msw-dev-1
