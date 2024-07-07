@@ -80,11 +80,16 @@ resource "azurerm_container_group" "db_verifier" {
   os_type             = "Linux"
   ip_address_type     = "Public"
 
+  # image_registry_credential {
+  #   server   = "crimomsw.azurecr.io"
+  #   username = "your_acr_service_principal_client_id"
+  #   password = "your_acr_service_principal_client_secret"
+  # } 
   container {
     name   = "db-verifier"
-    image  = "crimomsw.azurecr.io/db-verifier:latest"
-    cpu    = "0.5"
-    memory = "1.5"
+    image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
+    cpu    = 0.25
+    memory = "0.5Gi"
     ports {
       port     = 443
       protocol = "TCP"
