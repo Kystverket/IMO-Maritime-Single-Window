@@ -79,6 +79,11 @@ resource "azurerm_container_group" "db_verifier" {
   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
   os_type             = "Linux"
   ip_address_type     = "Public"
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+  }
   
   image_registry_credential {
     server   = data.azurerm_container_registry.acr.login_server
