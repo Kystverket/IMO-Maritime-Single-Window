@@ -51,3 +51,6 @@ jobs:
       - name: Build and push Server Docker image
         run: |
           pwd &&  docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+      # - name: Run SQL Script and Check Errors
+      #   run: |
+      #       docker run --rm -e PGPASSWORD=szechuan crimomsw.azurecr.io/server:${{ github.sha }} psql -h imo-dev-psqlflexibleserver-1.postgres.database.azure.com -U postgres -d db-imo-msw-dev-1 -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql || exit 1
