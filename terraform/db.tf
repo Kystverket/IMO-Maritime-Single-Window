@@ -79,12 +79,12 @@ resource "azurerm_container_group" "db_verifier" {
   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
   os_type             = "Linux"
   ip_address_type     = "Public"
-
-  # image_registry_credential {
-  #   server   = "crimomsw.azurecr.io"
-  #   username = "your_acr_service_principal_client_id"
-  #   password = "your_acr_service_principal_client_secret"
-  # } 
+  
+  image_registry_credential {
+    server   = data.azurerm_container_registry.acr.login_server
+    username = data.azurerm_container_registry.acr.admin_username
+    password = data.azurerm_container_registry.acr.admin_password
+  }
   container {
     name   = "db-verifier"
     image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
