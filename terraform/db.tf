@@ -85,7 +85,6 @@ resource "azurerm_container_group" "db_verifier" {
     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
   }
 
-
   container {
     name   = "db-verifier"
     image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
@@ -107,5 +106,11 @@ resource "azurerm_container_group" "db_verifier" {
       "-c",
       "psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c 'SELECT * FROM country;'"
     ]
+  }
+
+  image_registry_credential {
+    server = data.azurerm_container_registry.acr.login_server
+    username = null
+    password = null
   }
 }
