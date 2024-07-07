@@ -85,7 +85,10 @@ resource "azurerm_container_group" "db_verifier" {
     image  = "crimomsw.azurecr.io/db-verifier:latest"
     cpu    = "0.5"
     memory = "1.5"
-
+    ports {
+      port     = 443
+      protocol = "TCP"
+    }
     environment_variables = {
       PGHOST     = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
       PGUSER     = "postgres"
