@@ -78,6 +78,7 @@ resource "azurerm_container_group" "db_verifier" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
   os_type             = "Linux"
+  ip_address_type     = "Public"
 
   container {
     name   = "db-verifier"
@@ -91,7 +92,7 @@ resource "azurerm_container_group" "db_verifier" {
       PGPASSWORD = "szechuan"
       PGDATABASE = "db-imo-msw-dev-1"
     }
-    
+
     commands = [
       "sh",
       "-c",
