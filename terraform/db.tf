@@ -91,7 +91,6 @@ resource "azurerm_container_group" "db_verifier" {
       PGPASSWORD = "szechuan"
       PGDATABASE = "db-imo-msw-dev-1"
     }
-
     commands = [
       "sh",
       "-c",
