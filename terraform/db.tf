@@ -71,3 +71,31 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
+
+
+resource "azurerm_container_group" "db_verifier" {
+  name                = "db-verifier"
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
+  os_type             = "Linux"
+
+  container {
+    name   = "db-verifier"
+    image  = "crimomsw.azurecr.io/db-verifier:latest"
+    cpu    = "0.5"
+    memory = "1.5"
+
+    environment_variables = {
+      PGHOST     = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+      PGUSER     = "postgres"
+      PGPASSWORD = "szechuan"
+      PGDATABASE = "db-imo-msw-dev-1"
+    }
+
+    commands = [
+      "sh",
+      "-c",
+      "psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c 'SELECT * FROM country;'"
+    ]
+  }
+}
