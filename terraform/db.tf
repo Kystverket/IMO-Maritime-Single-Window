@@ -84,12 +84,8 @@ resource "azurerm_container_group" "db_verifier" {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
   }
-  
-  image_registry_credential {
-    server   = data.azurerm_container_registry.acr.login_server
-    username = data.azurerm_container_registry.acr.admin_username
-    password = data.azurerm_container_registry.acr.admin_password
-  }
+
+
   container {
     name   = "db-verifier"
     image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
