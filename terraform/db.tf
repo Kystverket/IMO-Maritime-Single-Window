@@ -88,8 +88,8 @@ resource "azurerm_container_group" "db_verifier" {
   container {
     name   = "db-verifier"
     image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
-    cpu    = 0.25
-    memory = "0.5Gi"
+    cpu    = "0.25"
+    memory = "0.5"
     ports {
       port     = 443
       protocol = "TCP"
