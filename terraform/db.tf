@@ -73,44 +73,85 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
 }
 
 
-resource "azurerm_container_group" "db_verifier" {
-  name                = "db-verifier"
-  location            = var.location
-  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
-  os_type             = "Linux"
-  ip_address_type     = "Public"
+# resource "azurerm_container_app" "db_verifier" {
+#   name                    = "db-verifier"
+#   location                = azurerm_resource_group.rg.location
+#   resource_group_name     = azurerm_resource_group.rg.name
+#   container_app_environment_id = azurerm_container_app_environment.example.i
+#   managed_identity {
+#     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+#   }
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
-  }
+#   template {
+#     container {
+#       name   = "db-verifier"
+#       image  = "${azurerm_container_registry.acr.login_server}/db-verifier:latest"
+#       cpu    = 0.25
+#       memory = "0.5Gi"
+#       env {
+#         name  = "PGHOST"
+#         value = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+#       }
+#       env {
+#         name  = "PGUSER"
+#         value = "postgres"
+#       }
+#       env {
+#         name  = "PGPASSWORD"
+#         value = var.db_password
+#       }
+#       env {
+#         name  = "PGDATABASE"
+#         value = "db-imo-msw-dev-1"
+#       }
 
-  container {
-    name   = "db-verifier"
-    image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
-    cpu    = "0.25"
-    memory = "0.5"
-    ports {
-      port     = 443
-      protocol = "TCP"
-    }
-    environment_variables = {
-      PGHOST     = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
-      PGUSER     = "postgres"
-      PGPASSWORD = "szechuan"
-      PGDATABASE = "db-imo-msw-dev-1"
-    }
+#       command = [
+#         "sh",
+#         "-c",
+#         "psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c 'SELECT * FROM country;'"
+#       ]
+#     }
+#   }
+# }
 
-    commands = [
-      "sh",
-      "-c",
-      "psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c 'SELECT * FROM country;'"
-    ]
-  }
+# resource "azurerm_container_group" "db_verifier" {
+#   name                = "db-verifier"
+#   location            = var.location
+#   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
+#   os_type             = "Linux"
+#   ip_address_type     = "Public"
 
-  image_registry_credential {
-    server = data.azurerm_container_registry.acr.login_server
-    username = null
-    password = null
-  }
-}
+#   identity {
+#     type         = "UserAssigned"
+#     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+#   }
+
+#   container {
+#     name   = "db-verifier"
+#     image  = "${data.azurerm_container_registry.acr.login_server}/db-verifier:latest"
+#     cpu    = "0.25"
+#     memory = "0.5"
+#     ports {
+#       port     = 443
+#       protocol = "TCP"
+#     }
+#     environment_variables = {
+#       PGHOST     = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+#       PGUSER     = "postgres"
+#       PGPASSWORD = "szechuan"
+#       PGDATABASE = "db-imo-msw-dev-1"
+#     }
+
+#     commands = [
+#       "sh",
+#       "-c",
+#       "psql -h $PGHOST -U $PGUSER -d $PGDATABASE -c 'SELECT * FROM country;'"
+#     ]
+#   }
+
+#   image_registry_credential {
+#     server = data.azurerm_container_registry.acr.login_server
+#     username = null
+#     password = null
+#   }
+# }
