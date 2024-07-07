@@ -69,9 +69,9 @@ jobs:
         - name: 'Az CLI login using OIDC'
           uses: azure/login@v2
           with:
-            client-id: ${{ secrets.ARM_CLIENT_ID }}
-            tenant-id: ${{ secrets.ARM_TENANT_ID }}
-            subscription-id: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+            client-id: ${{ vars.ARM_CLIENT_ID }}
+            tenant-id: ${{ vars.ARM_TENANT_ID }}
+            subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
         - name: Run Terraform to Verify Database
           run: |
