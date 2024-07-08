@@ -62,9 +62,12 @@ resource "azurerm_container_app" "frontend" {
       #ephemeral_storage = "5Gi"
       env {
         name  = "BACKEND_URL"
-        value = "http://backend.devcontainer:5000"
-        #"http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
+        value = "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
+        #"http://backend.devcontainer:5000"
+        # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
       }
+      #https://backend-imomsw-dev-preview.internal.delightfulbeach-65691b16.norwayeast.azurecontainerapps.io
+      #https://backend-imomsw-dev-preview--6dd0h6o.internal.delightfulbeach-65691b16.norwayeast.azurecontainerapps.io
     }
     max_replicas = 1
     min_replicas = 1
