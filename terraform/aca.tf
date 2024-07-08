@@ -133,7 +133,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = "szechuan"
+        value = "szechuan"
       }
     }
   }
