@@ -137,6 +137,10 @@ resource "azurerm_container_app" "backend" {
         name  = "PGPASSWORD"
         value = "szechuan"
       }
+      env {
+        name  = "PGSSLMODE"
+        value = "require"
+      }
     }
   }
 
