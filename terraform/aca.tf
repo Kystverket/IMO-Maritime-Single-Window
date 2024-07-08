@@ -106,7 +106,9 @@ resource "azurerm_container_app" "backend" {
     value               = ""
   }
 
-
+# 4200, 5432
+# 5000
+# 
   template {
     container {
       name   = "backend"
@@ -131,7 +133,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = "pg-password-secret"
+        secret_name = "szechuan"
       }
     }
   }
