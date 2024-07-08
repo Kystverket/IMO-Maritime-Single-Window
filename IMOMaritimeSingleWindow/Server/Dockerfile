@@ -19,6 +19,7 @@ EXPOSE 5000
 ENV AppSettings__Secret=SuperSeADasd1235t4asdcret
 ENV ASPNETCORE_URLS=http://0.0.0.0:5000
 
+
 ENV PGHOST=imo-dev-psqlflexibleserver-1.postgres.database.azure.com
 ENV PGPORT=5432
 ENV PGDATABASE=db-imo-msw-dev-1
