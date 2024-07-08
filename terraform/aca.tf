@@ -58,7 +58,8 @@ resource "azurerm_container_app" "frontend" {
       name   = "frontend"
       image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
       cpu    = 0.25
-      memory = "0.5Gi"
+      memory = "2Gi"
+      ephemeral_storage = "5Gi"
       env {
         name  = "BACKEND_URL"
         value = "http://backend.devcontainer:5000"
