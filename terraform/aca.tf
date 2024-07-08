@@ -64,6 +64,8 @@ resource "azurerm_container_app" "frontend" {
         value = "http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
       }
     }
+    max_replicas = 1
+    min_replicas = 1
   }
 
   tags = local.default_tags
