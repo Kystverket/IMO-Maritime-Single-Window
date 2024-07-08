@@ -1,6 +1,7 @@
 {
   "/api": {
-    "target": "{$BACKEND_URL}",
+    "target": "${BACKEND_URL}",
     "secure": false
   }
 }
+
