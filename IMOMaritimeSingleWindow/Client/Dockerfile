@@ -12,5 +12,6 @@ RUN npm install
 # Expose the port
 EXPOSE 4200
 
+
 # Set the entrypoint command
 CMD ["sh", "-c", "npm start"]
