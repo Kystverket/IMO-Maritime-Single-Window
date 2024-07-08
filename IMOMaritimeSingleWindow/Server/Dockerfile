@@ -25,7 +25,7 @@ ENV PGDATABASE=db-imo-msw-dev-1
 ENV PGUSER=postgres
 ENV PGPASSWORD=szechuan
 
-RUN psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql
+# RUN psql -h $PGHOST -U $PGUSER -d $PGDATABASE -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql
 
 CMD ["sh", "-c", "\
   dotnet ef database update --context open_ssnContext -v && \

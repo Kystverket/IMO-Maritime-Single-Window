@@ -119,7 +119,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGUSER"
-        value = "psqladmin"
+        value = "postgres"
       }
       env {
         name  = "PGPORT"

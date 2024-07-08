@@ -18,7 +18,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "PGUSER=psqladmin" >> $GITHUB_ENV
+          echo "PGUSER=postgres" >> $GITHUB_ENV
           echo "PGPORT=5432" >> $GITHUB_ENV
           echo "PGDATABASE=db-imo-msw-dev-1" >> $GITHUB_ENV
           echo "PGPASSWORD=szechuan" >> $GITHUB_ENV
@@ -31,7 +31,7 @@ jobs:
           PGDATABASE: ${{ env.PGDATABASE }}
           PGPASSWORD: ${{ env.PGPASSWORD }}
         run: |
-          COUNT=$(psql -h imo-dev-psqlflexibleserver-1.postgres.database.azure.com -U psqladmin -d db-imo-msw-dev-1 -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
+          COUNT=$(psql -h imo-dev-psqlflexibleserver-1.postgres.database.azure.com -U postgres -d db-imo-msw-dev-1 -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';")
           echo "Row count: $COUNT"
           if [ "$COUNT" -gt "0" ]; then
             echo "Database is already populated" > result.txt
