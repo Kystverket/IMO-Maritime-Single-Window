@@ -143,6 +143,8 @@ resource "azurerm_container_app" "backend" {
         value = "require"
       }
     }
+    max_replicas = 1
+    min_replicas = 1
   }
 
   tags = local.default_tags
