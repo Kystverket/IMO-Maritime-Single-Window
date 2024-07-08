@@ -61,7 +61,8 @@ resource "azurerm_container_app" "frontend" {
       memory = "0.5Gi"
       env {
         name  = "BACKEND_URL"
-        value = "http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
+        value = "http://backend.devcontainer:5000"
+        #"http://backend.${azurerm_container_app_environment.imo_dev_app.default_domain}:5000"
       }
     }
     max_replicas = 1
