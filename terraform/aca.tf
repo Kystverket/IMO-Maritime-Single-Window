@@ -57,7 +57,7 @@ resource "azurerm_container_app" "frontend" {
     container {
       name   = "frontend"
       image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
-      cpu    = 0.25
+      cpu    = 1.0
       memory = "2Gi"
       #ephemeral_storage = "5Gi"
       env {
