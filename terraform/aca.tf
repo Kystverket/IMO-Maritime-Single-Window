@@ -111,7 +111,6 @@ resource "azurerm_container_app" "backend" {
 
 # 4200, 5432
 # 5000
-# 
   template {
     container {
       name   = "backend"
