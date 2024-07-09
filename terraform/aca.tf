@@ -27,131 +27,131 @@ resource "azurerm_role_assignment" "imo_dev_app" {
   ]
 }
 
-resource "azurerm_container_app" "frontend" {
-  name                         = "frontend-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
-  revision_mode                = "Single"
+# resource "azurerm_container_app" "frontend" {
+#   name                         = "frontend-${local.stack}"
+#   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
+#   resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+#   revision_mode                = "Single"
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
-  }
+#   identity {
+#     type         = "UserAssigned"
+#     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+#   }
 
-  registry {
-    server   = data.azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.imo_dev_app.id
-  }
+#   registry {
+#     server   = data.azurerm_container_registry.acr.login_server
+#     identity = azurerm_user_assigned_identity.imo_dev_app.id
+#   }
 
-  ingress {
-    external_enabled           = true
-    target_port                = 4200
-    allow_insecure_connections = false
-    traffic_weight {
-      percentage = 100
-      latest_revision = true
-    }
-  }
+#   ingress {
+#     external_enabled           = true
+#     target_port                = 4200
+#     allow_insecure_connections = false
+#     traffic_weight {
+#       percentage = 100
+#       latest_revision = true
+#     }
+#   }
 
-  template {
-    container {
-      name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
-      cpu    = 1.0
-      memory = "2Gi"
-      env {
-        name  = "BACKEND_URL"
-        value = azurerm_container_app.backend.ingress[0].fqdn
-        # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
-      }
-    }
-    max_replicas = 1
-    min_replicas = 1
-  }
+#   template {
+#     container {
+#       name   = "frontend"
+#       image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
+#       cpu    = 1.0
+#       memory = "2Gi"
+#       env {
+#         name  = "BACKEND_URL"
+#         value = azurerm_container_app.backend.ingress[0].fqdn
+#         # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
+#       }
+#     }
+#     max_replicas = 1
+#     min_replicas = 1
+#   }
 
-  tags = local.default_tags
-  lifecycle {
-    # ignore_changes = [template[0].container[0].image]
-  }
-}
+#   tags = local.default_tags
+#   lifecycle {
+#     # ignore_changes = [template[0].container[0].image]
+#   }
+# }
 
-resource "azurerm_container_app" "backend" {
-  name                         = "backend-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
-  revision_mode                = "Single"
+# resource "azurerm_container_app" "backend" {
+#   name                         = "backend-${local.stack}"
+#   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
+#   resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+#   revision_mode                = "Single"
 
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
-  }
+#   identity {
+#     type         = "UserAssigned"
+#     identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+#   }
 
-  registry {
-    server   = data.azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.imo_dev_app.id
-  }
+#   registry {
+#     server   = data.azurerm_container_registry.acr.login_server
+#     identity = azurerm_user_assigned_identity.imo_dev_app.id
+#   }
 
-  ingress {
-    external_enabled           = false
-    target_port                = 5000
-    allow_insecure_connections = false
-    traffic_weight {
-      percentage = 100
-      latest_revision = true
-    }
-  }
+#   ingress {
+#     external_enabled           = false
+#     target_port                = 5000
+#     allow_insecure_connections = false
+#     traffic_weight {
+#       percentage = 100
+#       latest_revision = true
+#     }
+#   }
 
-  secret {
-    name                = "pg-password-secret"
-    key_vault_secret_id = azurerm_key_vault_secret.db_password.id
-    identity            = azurerm_user_assigned_identity.imo_dev_app.id
-    value               = ""
-  }
+#   secret {
+#     name                = "pg-password-secret"
+#     key_vault_secret_id = azurerm_key_vault_secret.db_password.id
+#     identity            = azurerm_user_assigned_identity.imo_dev_app.id
+#     value               = ""
+#   }
 
-# 4200, 5432
-# 5000
-  template {
-    container {
-      name   = "backend" 
-      image  = "${data.azurerm_container_registry.acr.login_server}/server:latest"
-      cpu    = 0.5
-      memory = "1Gi"
-      env {
-        name  = "PGHOST"
-        value = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
-      }
-      env {
-        name  = "PGUSER"
-        value = "postgres"
-      }
-      env {
-        name  = "PGPORT"
-        value = "5432"
-      }
-      env {
-        name  = "PGDATABASE"
-        value = "db-imo-msw-dev-1"
-      }
-      env {
-        name  = "PGPASSWORD"
-        value = "szechuan"
-      }
-      env {
-        name  = "PGSSLMODE"
-        value = "require"
-      }
-    }
-    max_replicas = 1
-    min_replicas = 1
-  }
+# # 4200, 5432
+# # 5000
+#   template {
+#     container {
+#       name   = "backend" 
+#       image  = "${data.azurerm_container_registry.acr.login_server}/server:latest"
+#       cpu    = 0.5
+#       memory = "1Gi"
+#       env {
+#         name  = "PGHOST"
+#         value = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+#       }
+#       env {
+#         name  = "PGUSER"
+#         value = "postgres"
+#       }
+#       env {
+#         name  = "PGPORT"
+#         value = "5432"
+#       }
+#       env {
+#         name  = "PGDATABASE"
+#         value = "db-imo-msw-dev-1"
+#       }
+#       env {
+#         name  = "PGPASSWORD"
+#         value = "szechuan"
+#       }
+#       env {
+#         name  = "PGSSLMODE"
+#         value = "require"
+#       }
+#     }
+#     max_replicas = 1
+#     min_replicas = 1
+#   }
 
-  tags = local.default_tags
+#   tags = local.default_tags
 
-  # lifecycle {
-  #   # ignore_changes = [template[0].container[0].image]
-  # }
-}
+#   # lifecycle {
+#   #   # ignore_changes = [template[0].container[0].image]
+#   # }
+# }
 
-output "backend_fqdn" {
-  value = azurerm_container_app.backend.ingress[0].fqdn
-}
+# output "backend_fqdn" {
+#   value = azurerm_container_app.backend.ingress[0].fqdn
+# }
