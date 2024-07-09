@@ -120,7 +120,7 @@ resource "azurerm_container_app" "backend" {
     container {
       name   = "backend" 
       image  = "${data.azurerm_container_registry.acr.login_server}/server:09166e9bbd9cec0e7a9c4383fe7e482ac37c865a"
-      cpu    = 1.0
+      cpu    = 0.5
       memory = "1Gi"
       env {
         name  = "PGHOST"
