@@ -1,7 +1,6 @@
 {
   "/api": {
     "target": "",
-    "secure": true,
-    "changeOrigin":true
+    "secure": true
   }
 }
