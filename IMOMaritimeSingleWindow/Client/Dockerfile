@@ -27,4 +27,4 @@ COPY setenv_proxy.sh /workspaces/frontend/setenv_proxy.sh
 RUN chmod +x /workspaces/frontend/setenv_proxy.sh
 
 # Set the entrypoint command
-CMD ["sh", "-c", "./setenv_proxy.sh && npm start"]
+CMD ["sh", "-c", "./setenv_proxy.sh && npm run ng build --prod"]
