@@ -12,8 +12,13 @@ RUN npm install
 # Expose the port
 EXPOSE 4200
 
-RUN apt-get update && apt-get install -y postgresql-client iputils-ping
-
+RUN apt-get update && apt-get install -y \
+  postgresql-client \
+  iputils-ping \
+  curl \
+  iproute2 \
+  net-tools \
+  nano
 
 # Copy the bash script for setting the BACKEND_URL
 COPY setenv_proxy.sh /workspaces/frontend/setenv_proxy.sh
