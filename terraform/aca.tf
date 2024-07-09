@@ -153,6 +153,6 @@ resource "azurerm_container_app" "backend" {
   # }
 }
 
-output "backend_fqdn" {
-  value = azurerm_container_app.backend.latest_revision_fqdn
-}
+# output "backend_fqdn" {
+#   value = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
+# }
