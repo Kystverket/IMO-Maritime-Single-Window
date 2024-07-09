@@ -61,7 +61,9 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = azurerm_container_app.backend.ingress[0].fqdn
+        value = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
+        #azurerm_container_app.backend.latest_revision_fqdn
+        # azurerm_container_app.backend.ingress[0].fqdn
       }
     }
     max_replicas = 1
@@ -69,6 +71,9 @@ resource "azurerm_container_app" "frontend" {
   }
 
   tags = local.default_tags
+  lifecycle {
+    # ignore_changes = [template[0].container[0].image]
+  }
 }
 
 resource "azurerm_container_app" "backend" {
@@ -140,4 +145,8 @@ resource "azurerm_container_app" "backend" {
   }
 
   tags = local.default_tags
+
+  # lifecycle {
+  #   # ignore_changes = [template[0].container[0].image]
+  # }
 }
