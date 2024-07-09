@@ -59,7 +59,6 @@ resource "azurerm_container_app" "frontend" {
       image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
       cpu    = 1.0
       memory = "2Gi"
-      #ephemeral_storage = "5Gi"
       env {
         name  = "BACKEND_URL"
         value = azurerm_container_app.backend.ingress[0].fqdn
@@ -74,9 +73,6 @@ resource "azurerm_container_app" "frontend" {
   lifecycle {
     # ignore_changes = [template[0].container[0].image]
   }
-}
-output "backend_fqdn" {
-  value = azurerm_container_app.backend.ingress[0].fqdn
 }
 
 resource "azurerm_container_app" "backend" {
@@ -154,4 +150,8 @@ resource "azurerm_container_app" "backend" {
   # lifecycle {
   #   # ignore_changes = [template[0].container[0].image]
   # }
+}
+
+output "backend_fqdn" {
+  value = azurerm_container_app.backend.ingress[0].fqdn
 }
