@@ -3,6 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2-bionic
 
 WORKDIR /workspaces/backend
 
+
 # Copy the source code
 COPY . .
 COPY appsettings.default.json appsettings.json

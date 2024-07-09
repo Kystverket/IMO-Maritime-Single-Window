@@ -47,10 +47,10 @@ jobs:
 
       - name: Build and push Client Docker image
         run: |
-          pwd && docker buildx build --push --tag crimomsw.azurecr.io/client:latest ../IMOMaritimeSingleWindow/Client
+          pwd && docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
       - name: Build and push Server Docker image
         run: |
-          pwd &&  docker buildx build --push --tag crimomsw.azurecr.io/server:latest ../IMOMaritimeSingleWindow/Server
+          pwd &&  docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
       # - name: Build and push Verifyer Docker image
       #   run: |
       #     pwd && docker buildx build --push --tag crimomsw.azurecr.io/db-verifier:latest ../IMOMaritimeSingleWindow/Server/SqlScripts
