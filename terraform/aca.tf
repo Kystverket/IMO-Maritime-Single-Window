@@ -56,13 +56,13 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
+      image  = "${data.azurerm_container_registry.acr.login_server}/client:09166e9bbd9cec0e7a9c4383fe7e482ac37c865a"
       cpu    = 1.0
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = azurerm_container_app.backend.latest_revision_fqdn
-        #"http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
+        value = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
+        #azurerm_container_app.backend.latest_revision_fqdn
         # 
       }
     }
@@ -112,7 +112,7 @@ resource "azurerm_container_app" "backend" {
   template {
     container {
       name   = "backend" 
-      image  = "${data.azurerm_container_registry.acr.login_server}/server:latest"
+      image  = "${data.azurerm_container_registry.acr.login_server}/server:09166e9bbd9cec0e7a9c4383fe7e482ac37c865a"
       cpu    = 0.5
       memory = "1Gi"
       env {
@@ -150,4 +150,3 @@ resource "azurerm_container_app" "backend" {
   #   # ignore_changes = [template[0].container[0].image]
   # }
 }
-
