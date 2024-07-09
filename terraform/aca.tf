@@ -62,8 +62,6 @@ resource "azurerm_container_app" "frontend" {
       env {
         name  = "BACKEND_URL"
         value = azurerm_container_app.backend.ingress[0].fqdn
-        #azurerm_container_app.backend.latest_revision_fqdn
-        # 
       }
     }
     max_replicas = 1
