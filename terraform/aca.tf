@@ -56,7 +56,7 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:11cdc0d36eccead34481553ca5ea1fbab3031aa0"
+      image  = "${data.azurerm_container_registry.acr.login_server}/client:7ed33c93ee8aa2478d3ca75fb14582937c99ebcf"
       cpu    = 1.0
       memory = "2Gi"
       env {
@@ -107,7 +107,7 @@ resource "azurerm_container_app" "backend" {
   template {
     container {
       name   = "backend" 
-      image  = "${data.azurerm_container_registry.acr.login_server}/server:11cdc0d36eccead34481553ca5ea1fbab3031aa0"
+      image  = "${data.azurerm_container_registry.acr.login_server}/server:7ed33c93ee8aa2478d3ca75fb14582937c99ebcf"
       cpu    = 0.5
       memory = "1Gi"
       env {
