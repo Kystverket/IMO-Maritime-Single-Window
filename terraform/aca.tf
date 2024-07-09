@@ -61,7 +61,7 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "http://${azurerm_container_app.backend.latest_revision_fqdn}"
+        value = "http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
         # azurerm_container_app.backend.ingress[0].fqdn
         # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
       }

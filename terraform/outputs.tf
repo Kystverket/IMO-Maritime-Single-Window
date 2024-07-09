@@ -1,3 +1,3 @@
-# output "azurerm_container_app_url" {
-#   value = azurerm_container_app.imo_dev_app.latest_revision_fqdn
-# }
+output "azurerm_container_backend_url" {
+  value = "http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
+}
