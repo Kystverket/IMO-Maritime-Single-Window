@@ -75,10 +75,12 @@ resource "azurerm_container_app" "frontend" {
   }
 
   tags = local.default_tags
-
   lifecycle {
     # ignore_changes = [template[0].container[0].image]
   }
+}
+output "backend_fqdn" {
+  value = azurerm_container_app.backend.ingress[0].fqdn
 }
 
 resource "azurerm_container_app" "backend" {
