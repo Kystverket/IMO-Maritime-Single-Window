@@ -10,7 +10,7 @@ COPY . .
 RUN npm install
 
 # Build the frontend assets
-RUN npm run build --prod
+RUN npm run ng build --prod
 
 # Stage 2: Setup Nginx to serve the frontend assets
 FROM nginx:alpine
