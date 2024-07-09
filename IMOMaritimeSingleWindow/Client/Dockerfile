@@ -19,7 +19,6 @@ RUN apt-get update && apt-get install -y \
   iproute2 \
   net-tools \
   nano
-
   
 # Copy the bash script for setting the BACKEND_URL
 COPY setenv_proxy.sh /workspaces/frontend/setenv_proxy.sh
