@@ -9,6 +9,7 @@ echo '{
   "/api": {
     "target": "'"$BACKEND_URL"'",
     "secure": true
+    "changeOrigin":true
   }
 }' > $PROXY_CONFIG_FILE
 

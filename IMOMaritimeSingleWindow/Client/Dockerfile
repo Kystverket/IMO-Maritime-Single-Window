@@ -1,5 +1,5 @@
-# ./Client/Dockerfile
-FROM node:10.24-buster
+# Stage 1: Build the frontend assets
+FROM node:10.24-buster AS build
 
 WORKDIR /workspaces/frontend
 
@@ -9,23 +9,20 @@ COPY . .
 # Install dependencies
 RUN npm install
 
-# Expose the port
-EXPOSE 4200
+# Build the frontend assets
+RUN npm run build --prod
 
-RUN apt-get update && apt-get install -y \
-  postgresql-client \
-  iputils-ping \
-  curl \
-  iproute2 \
-  net-tools \
-  nano
+# Stage 2: Setup Nginx to serve the frontend assets
+FROM nginx:alpine
 
-  
-# Copy the bash script for setting the BACKEND_URL
-COPY setenv_proxy.sh /workspaces/frontend/setenv_proxy.sh
+# Copy the built frontend assets to Nginx wwwroot
+COPY --from=build /workspaces/frontend/wwwroot /usr/share/nginx/html
 
-# Make the script executable
-RUN chmod +x /workspaces/frontend/setenv_proxy.sh
+# Copy the Nginx configuration file
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Set the entrypoint command
-CMD ["sh", "-c", "./setenv_proxy.sh && npm start"]
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
