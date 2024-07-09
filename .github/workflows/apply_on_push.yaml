@@ -3,7 +3,7 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - deploy-infra-terraformv3
+      - deploy-infra-terraformv5
     paths:
       - 'terraform/**'
       - 'workflows/**'

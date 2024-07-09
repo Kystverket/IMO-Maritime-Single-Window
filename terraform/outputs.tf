@@ -1,3 +1,3 @@
 output "azurerm_container_backend_url" {
-  value = "http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
+  value = azurerm_container_app.backend.ingress[0].fqdn
 }

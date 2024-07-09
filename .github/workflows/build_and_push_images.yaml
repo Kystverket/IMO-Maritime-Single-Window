@@ -3,7 +3,7 @@ name: Build and Push Images
 on:
   push:
     branches: 
-      - deploy-infra-terraformv3
+      - deploy-infra-terraformv5
     paths-ignore:
       - 'terraform/**'
       - 'workflows/**'

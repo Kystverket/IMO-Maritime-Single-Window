@@ -56,14 +56,14 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:latest"
+      image  = "${data.azurerm_container_registry.acr.login_server}/client:09166e9bbd9cec0e7a9c4383fe7e482ac37c865a"
       cpu    = 1.0
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
-        # azurerm_container_app.backend.ingress[0].fqdn
-        # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
+        value = azurerm_container_app.backend.ingress[0].fqdn
+        #"http://${azurerm_container_app.backend.latest_revision_fqdn}:5000"
+        # 
       }
     }
     max_replicas = 1
@@ -93,9 +93,9 @@ resource "azurerm_container_app" "backend" {
   }
 
   ingress {
-    external_enabled           = false
+    external_enabled           = true
     target_port                = 5000
-    allow_insecure_connections = false
+    allow_insecure_connections = true
     traffic_weight {
       percentage = 100
       latest_revision = true
@@ -109,12 +109,10 @@ resource "azurerm_container_app" "backend" {
     value               = ""
   }
 
-# 4200, 5432
-# 5000
   template {
     container {
       name   = "backend" 
-      image  = "${data.azurerm_container_registry.acr.login_server}/server:latest"
+      image  = "${data.azurerm_container_registry.acr.login_server}/server:09166e9bbd9cec0e7a9c4383fe7e482ac37c865a"
       cpu    = 0.5
       memory = "1Gi"
       env {
