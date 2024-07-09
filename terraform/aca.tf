@@ -61,7 +61,8 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = azurerm_container_app.backend.ingress[0].fqdn
+        value = azurerm_container_app.backend.latest_revision_fqdn
+        # azurerm_container_app.backend.ingress[0].fqdn
         # "http://backend-imomsw-dev-preview.internal.${azurerm_container_app_environment.imo_dev_app.default_domain}"
       }
     }
@@ -153,5 +154,5 @@ resource "azurerm_container_app" "backend" {
 }
 
 output "backend_fqdn" {
-  value = azurerm_container_app.backend.ingress[0].fqdn
+  value = azurerm_container_app.backend.latest_revision_fqdn
 }
