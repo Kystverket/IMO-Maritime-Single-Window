@@ -1,5 +1,5 @@
 # ./Client/Dockerfile
-FROM node:10.24-slim
+FROM node:10.24-buster
 
 WORKDIR /workspaces/frontend
 
