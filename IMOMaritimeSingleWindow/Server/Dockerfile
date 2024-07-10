@@ -23,7 +23,8 @@ EXPOSE 5000
 # ENV PGUSER=postgres
 # ENV PGPASSWORD=szechuan
 
-RUN chmod +x ./populate_db.sh && ./populate_db.sh &&
+RUN chmod +x ./populate_db.sh 
+RUN ./populate_db.sh
 
 CMD ["sh", "-c", "\ 
   dotnet ef database update --context open_ssnContext -v && \
