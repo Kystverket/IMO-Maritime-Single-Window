@@ -1,4 +1,11 @@
 #!/bin/bash
+
+# Export
+export $PGHOST
+export $PGUSER
+export $PGDATABASE
+export $PGPORT
+
 echo "Eduard Begin"
 # Count the tables in the 'public' schema
 TABLE_COUNT=$(psql -h $PGHOST -U $PGUSER -d $PGDATABASE -p $PGPORT -t -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public';" 2>&1)
