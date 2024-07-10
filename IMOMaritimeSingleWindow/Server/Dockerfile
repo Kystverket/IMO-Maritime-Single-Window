@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y postgresql-client iputils-ping
 
 # Expose the port
 EXPOSE 5000
-
 # ENV PGHOST=imo-dev-psqlflexibleserver-1.postgres.database.azure.com
 # ENV PGPORT=5432
 # ENV PGDATABASE=db-imo-msw-dev-1
