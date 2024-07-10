@@ -65,12 +65,12 @@ resource "azurerm_key_vault_secret" "db_password" {
 #   # }
 # }
 
-resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
-  name             = "db-fw"
-  server_id        = azurerm_postgresql_flexible_server.imo_dev_app.id
-  start_ip_address = "0.0.0.0"
-  end_ip_address   = "0.0.0.0"
-}
+# resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
+#   name             = "db-fw"
+#   server_id        = azurerm_postgresql_flexible_server.imo_dev_app.id
+#   start_ip_address = "0.0.0.0"
+#   end_ip_address   = "0.0.0.0"
+# }
 
 
 # resource "azurerm_container_app" "db_verifier" {
