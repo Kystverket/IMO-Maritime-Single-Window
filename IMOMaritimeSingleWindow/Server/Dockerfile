@@ -21,7 +21,7 @@ EXPOSE 5000
 # ENV PGPORT=5432
 # ENV PGDATABASE=db-imo-msw-dev-1
 # ENV PGUSER=postgres
-# ENV PGPASSWORD=szechuan
+ENV PGPASSWORD=szechuan
 
 RUN chmod +x ./populate_db.sh 
 RUN ./populate_db.sh
