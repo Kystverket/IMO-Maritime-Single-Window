@@ -8,5 +8,5 @@ if [ "$TABLE_COUNT" -ne 0 ]; then
     echo "Database is already populated. Exiting script."
 else
     # If no tables, run your SQL script
-    psql -h "db" -U "postgres" -d "postgres" -p 5432 -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql
+    psql -h $PGHOST -U $PGUSER -d $PGDATABASE -p $PGPORT -f /workspaces/backend/SqlScripts/Create_and_populate_DB.sql
 fi
