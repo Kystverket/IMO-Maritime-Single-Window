@@ -53,17 +53,17 @@ resource "azurerm_postgresql_flexible_server" "imo_dev_app" {
   }
 }
 
-# resource "azurerm_postgresql_flexible_server_database" "imo_dev_app" {
-#   name      = "db-imo-msw-dev-1"
-#   server_id = azurerm_postgresql_flexible_server.imo_dev_app.id
-#   collation = "en_US.utf8"
-#   charset   = "utf8"
+resource "azurerm_postgresql_flexible_server_database" "imo_dev_app" {
+  name      = "db-imo-msw-dev-1"
+  server_id = azurerm_postgresql_flexible_server.imo_dev_app.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
 
-#   # prevent the possibility of accidental data loss
-#   # lifecycle {
-#   #   prevent_destroy = true
-#   # }
-# }
+  # prevent the possibility of accidental data loss
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
+}
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_dev_app" {
   name             = "db-fw"
