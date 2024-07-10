@@ -20,11 +20,13 @@ EXPOSE 5000
 # ENV PGPORT=5432
 # ENV PGDATABASE=db-imo-msw-dev-1
 # ENV PGUSER=postgres
-ENV PGPASSWORD=szechuan
+# ENV PGPASSWORD=szechuan
 
-RUN chmod +x ./populate_db.sh 
-RUN ./populate_db.sh
+# RUN chmod +x ./populate_db.sh 
+# RUN ./populate_db.sh
 
 CMD ["sh", "-c", "\ 
+  chmod +x ./populate_db.sh &&\
+  ./populate_db.sh && \
   dotnet ef database update --context open_ssnContext -v && \
   dotnet run --urls http://0.0.0.0:5000" ]

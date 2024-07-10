@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Export
-export PGHOST="imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
-export PGUSER="postgres"
-export PGDATABASE="db-imo-msw-dev-1"
-export PGPORT=5432
+# export PGHOST="imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+# export PGUSER="postgres"
+# export PGDATABASE="db-imo-msw-dev-1"
+# export PGPORT=5432
 
 echo "Eduard Begin"
 # Count the tables in the 'public' schema
