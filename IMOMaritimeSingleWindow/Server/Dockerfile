@@ -18,7 +18,7 @@ COPY setenv_connection.sh /workspaces/backend/setenv_connection.sh
 RUN chmod +x /workspaces/backend/setenv_connection.sh
 
 CMD ["sh", "-c", "\
-  ./setenv_connection &&\
+  ./setenv_connection.sh &&\
   chmod +x ./populate_db.sh &&\
   ./populate_db.sh && \
   cp appsettings.default.json appsettings.json &&\ 
