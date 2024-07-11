@@ -1,10 +1,12 @@
 name: Build and Push Images
 
 on:
-  workflow_run:
-    workflows: ["Build and Push Images"]
-    types:
-      - completed  
+  push:
+    branches: 
+      - deploy-infra-terraformv5
+    paths-ignore:
+      - 'terraform/**'
+      - 'workflows/**'
 
 permissions:
   id-token: write

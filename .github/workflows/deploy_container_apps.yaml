@@ -1,12 +1,10 @@
-name: Build and Push Images
+name: Build Container Apps 
 
 on:
-  push:
-    branches: 
-      - deploy-infra-terraformv6
-    paths-ignore:
-      - 'terraform/**'
-      - 'workflows/**'
+  workflow_run:
+    workflows: ["Build and Push Images"]
+    types:
+      - completed  
 
 permissions:
   id-token: write
