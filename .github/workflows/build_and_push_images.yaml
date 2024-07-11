@@ -1,4 +1,4 @@
-name: DockerBuildandPush
+name: Docker Build, Push, and Deploy
 
 on:
   push:
@@ -8,11 +8,10 @@ on:
       - 'terraform/**'
       - 'workflows/**'
 
-      
 permissions:
   id-token: write
   contents: read
-  
+
 jobs:
   docker:
     name: 'Docker Build and Push'
@@ -51,4 +50,39 @@ jobs:
           pwd && docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
       - name: Build and push Server Docker image
         run: |
-          pwd &&  docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+          pwd && docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+
+  container_apps:
+    name: 'Deploy Images to Container Apps'
+    needs: docker  
+    runs-on: ubuntu-latest
+    environment: dev-preview
+    env:
+      ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+      ARM_USE_OIDC: "true"
+
+    steps:
+      - name: 'Az CLI login using OIDC'
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+
+      - name: Deploy Backend Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+            acrName: crimomsw
+            containerAppName: backend-imomsw-dev-preview
+            resourceGroup: rg-imo-msw-terraform-dev-preview
+            imageToDeploy: crimomsw.azurecr.io/server:${{ github.sha }}
+
+      - name: Deploy Frontend Container App
+        uses: azure/container-apps-deploy-action@v1
+        with:
+            acrName: crimomsw
+            containerAppName: frontend-imomsw-dev-preview
+            resourceGroup: rg-imo-msw-terraform-dev-preview
+            imageToDeploy: crimomsw.azurecr.io/client:${{ github.sha }}
