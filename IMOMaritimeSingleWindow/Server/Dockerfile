@@ -13,7 +13,11 @@ RUN apt-get update && apt-get install -y postgresql-client iputils-ping
 # Expose the port
 EXPOSE 5000
 
-CMD ["sh", "-c", "\ 
+# Make the script executable
+RUN chmod +x /workspaces/backend/setenv_connection.sh
+
+CMD ["sh", "-c", "\
+  ./setenv_connection &&\
   chmod +x ./populate_db.sh &&\
   ./populate_db.sh && \
   dotnet ef database update --context open_ssnContext -v && \

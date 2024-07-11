@@ -1,6 +1,6 @@
 services:
   backend.devcontainer:
-    image: mcr.microsoft.com/dotnet/core/sdk:2.2-bionic
+    image: mcr.microsoft.com/dotnet/core/sdk:2.2
     ports:
       - 5000:5000
     tty: true
@@ -9,43 +9,34 @@ services:
     environment:
       AppSettings__Secret: SuperSeADasd1235t4asdcret
       ASPNETCORE_URLS: http://backend.devcontainer:5000
-      PGHOST: db
-      PGPORT: 5432
-      PGDATABASE: postgres
-      PGUSER: postgres
-      PGPASSWORD: password
-    # depends_on:
-    #   db:
-    #     condition: service_healthy
+    depends_on:
+      db:
+        condition: service_healthy
     restart: always
     command: >
       sh -c "cd /workspaces/backend && 
-      apt-get update && apt-get install -y postgresql-client iputils-ping && 
-      chmod +x ./populate_db.sh && 
-      ./populate_db.sh &&
              cp appsettings.default.json appsettings.json &&
              dotnet ef database update --context open_ssnContext -v &&
              dotnet run --urls http://0.0.0.0:5000"
     
 
   db:
-    image: postgres:13-alpine
+    image: postgres:10-alpine
     restart: unless-stopped
     ports:
-      - 5432:5432
+      - 5431:5432
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
 
-    # Uncomment to populate via sql script with docker compose up and not bash script via backend. 
-    # volumes:
-    #      - ./Server/SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
-    # healthcheck:
-    #   test: ["CMD-SHELL", "pg_isready -U postgres"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 10
-    #   start_period: 10s
+    volumes:
+         - ./Server/SqlScripts/Create_and_populate_DB.sql:/docker-entrypoint-initdb.d/Create_and_populate_DB.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
 
   frontend.devcontainer:
     image: node:10.24-slim
@@ -59,5 +50,3 @@ services:
     command: >
      sh -c "cd /workspaces/frontend && npm install
      && npm start"
-
-      
