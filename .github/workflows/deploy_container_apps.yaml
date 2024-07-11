@@ -2,9 +2,12 @@ name: Build Container Apps
 
 on:
   workflow_run:
-    workflows: ["Docker Build and Push"]
+    workflows:
+      - DockerBuildandPush
     types:
-      - completed  
+      - completed
+    branches:
+      - deploy-infra-terraformv6
 
 permissions:
   id-token: write
