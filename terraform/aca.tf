@@ -56,12 +56,12 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend"
-      image  = "${data.azurerm_container_registry.acr.login_server}/client:f25a8253956efafbe9fa0b98651660b36f1685fc"
+      image  = "${data.azurerm_container_registry.acr.login_server}/client:9f10a4346a2ec29a7bcb02a75b86288e947fa9e4"
       cpu    = 1.0
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "https://${azurerm_container_app.backend.latest_revision_fqdn}"
+        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
       }
     }
     max_replicas = 1
@@ -70,7 +70,7 @@ resource "azurerm_container_app" "frontend" {
 
   tags = local.default_tags
   lifecycle {
-    # ignore_changes = [template[0].container[0].image]
+     ignore_changes = [template[0].container[0].image]
   }
 }
 
@@ -110,7 +110,7 @@ resource "azurerm_container_app" "backend" {
   template {
     container {
       name   = "backend" 
-      image  = "${data.azurerm_container_registry.acr.login_server}/server:f25a8253956efafbe9fa0b98651660b36f1685fc"
+      image  = "${data.azurerm_container_registry.acr.login_server}/server:9f10a4346a2ec29a7bcb02a75b86288e947fa9e4"
       cpu    = 0.5
       memory = "1Gi"
       env {
