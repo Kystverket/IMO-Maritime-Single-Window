@@ -39,26 +39,54 @@ resource "azurerm_key_vault" "imo_dev_app" {
 
   sku_name = "standard"
 
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
+  enable_rbac_authorization   = true
 
-    key_permissions = ["Get", "List"]
+  # access_policy {
+  #   tenant_id = data.azurerm_client_config.current.tenant_id
+  #   object_id = data.azurerm_client_config.current.object_id
 
-    secret_permissions = ["Get", "Set", "Delete", "List"]
+  #   key_permissions = ["Get", "List"]
 
-    storage_permissions = ["Get"]
-  }
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id
+  #   secret_permissions = ["Get", "Set", "Delete", "List"]
 
-    secret_permissions = ["Get", "Delete"]
-  }
+  #   storage_permissions = ["Get"]
+  # }
+  # access_policy {
+  #   tenant_id = data.azurerm_client_config.current.tenant_id
+  #   object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id
+
+  #   secret_permissions = ["Get", "Delete"]
+  # }
 }
 
 resource "azurerm_key_vault_secret" "db_password" {
   name         = "secret-sauce"
   value        = random_password.db_password.result
   key_vault_id = azurerm_key_vault.imo_dev_app.id
+}
+
+
+resource "azurerm_user_assigned_identity" "imo_dev_app" {
+  location            = var.location
+  name                = "micontainerapp"
+  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
+}
+
+resource "azurerm_role_assignment" "acr_pull" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "acrpull"
+  principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
+  depends_on = [
+    azurerm_user_assigned_identity.imo_dev_app
+  ]
+}
+
+
+resource "azurerm_role_assignment" "key_vault_access_user_assigned" {
+  scope                = azurerm_key_vault.imo_dev_app.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
+  depends_on = [
+    azurerm_user_assigned_identity.imo_dev_app
+  ]
 }

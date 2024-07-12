@@ -7,24 +7,9 @@ resource "azurerm_container_app_environment" "imo_dev_app" {
   tags = local.default_tags
 }
 
-resource "azurerm_user_assigned_identity" "imo_dev_app" {
-  location            = var.location
-  name                = "micontainerapp"
-  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
-}
-
 data "azurerm_container_registry" "acr" {
   name                = "crimomsw"
   resource_group_name = data.azurerm_resource_group.imo_dev_app.name
-}
-
-resource "azurerm_role_assignment" "imo_dev_app" {
-  scope                = data.azurerm_container_registry.acr.id
-  role_definition_name = "acrpull"
-  principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
-  depends_on = [
-    azurerm_user_assigned_identity.imo_dev_app
-  ]
 }
 
 resource "azurerm_container_app" "backend" {
