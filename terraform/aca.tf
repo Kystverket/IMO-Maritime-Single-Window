@@ -102,7 +102,7 @@ resource "azurerm_container_app" "backend" {
   }
 
   secret {
-    name                = "db_password"
+    name                = "db-password"
     key_vault_secret_id = azurerm_key_vault_secret.db_password.id
     identity            = azurerm_user_assigned_identity.imo_dev_app.id
   }
@@ -131,7 +131,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = "db_password"
+        secret_name = "db-password"
       }
       env {
         name  = "PGSSLMODE"
