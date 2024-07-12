@@ -1,7 +1,7 @@
 resource "azurerm_container_app" "backend" {
   name                         = "backend-${local.stack}"
   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.old.name
+  resource_group_name          = azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
 
   identity {

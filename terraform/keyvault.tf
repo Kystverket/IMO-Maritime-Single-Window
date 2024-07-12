@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "imo_dev_app" {
   name                        = "imo-dev-keyvault"
   location                    = var.location
-  resource_group_name         = data.azurerm_resource_group.old.name
+  resource_group_name         = azurerm_resource_group.imo_dev_app.name
   enabled_for_disk_encryption = true
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
@@ -11,8 +11,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
   enable_rbac_authorization   = true
 
   depends_on = [
-    azurerm_role_assignment.devops_key_vault,
-    azurerm_role_assignment.old_devops_key_vault
+    azurerm_role_assignment.devops_key_vault
    ]
 }
 

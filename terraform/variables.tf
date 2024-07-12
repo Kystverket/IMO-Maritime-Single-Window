@@ -16,8 +16,8 @@ variable "env" {
   default     = "dev-preview"
 }
 
-variable "image_tag" {
+variable "rg_name" {
   type        = string
-  description = "Docker image tag"
-  default     = "value"
+  description = "Name of the resource group"
+  default     = "rg-imo-msw-dev-preview"
 }
