@@ -108,8 +108,7 @@ resource "azurerm_container_app" "frontend" {
     allow_insecure_connections = false
     traffic_weight {
       percentage = 100
-      #latest_revision = true
-      revision_suffix = "demo"
+      latest_revision = true
     }
   }
 
