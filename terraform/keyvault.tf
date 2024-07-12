@@ -12,8 +12,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
-  sku_name = "standard"
-
+  sku_name                    = "standard"
   enable_rbac_authorization   = true
 
   depends_on = [
@@ -25,7 +24,8 @@ resource "azurerm_key_vault_secret" "db_password" {
   name         = "secret-sauce"
   value        = random_password.db_password.result
   key_vault_id = azurerm_key_vault.imo_dev_app.id
+
   depends_on = [ 
     azurerm_role_assignment.key_vault_access_user_assigned
-    ]
+  ]
 }

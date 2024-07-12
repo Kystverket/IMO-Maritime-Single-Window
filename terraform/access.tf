@@ -18,6 +18,7 @@ resource "azurerm_role_assignment" "key_vault_access_user_assigned" {
   scope                = azurerm_key_vault.imo_dev_app.id
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
+
   depends_on = [
     azurerm_user_assigned_identity.imo_dev_app,
     azurerm_key_vault.imo_dev_app
