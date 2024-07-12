@@ -58,7 +58,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
 }
 
 resource "azurerm_key_vault_secret" "db_password" {
-  name         = "super-secret"
+  name         = "secret-sauce"
   value        = random_password.db_password.result
   key_vault_id = azurerm_key_vault.imo_dev_app.id
 }
