@@ -1,9 +1,3 @@
-resource "random_password" "db_password" {
-  length = 16
-  special = true
-  override_special = "_%@"
-}
-
 resource "azurerm_key_vault" "imo_dev_app" {
   name                        = "imo-dev-keyvault"
   location                    = var.location
@@ -13,30 +7,18 @@ resource "azurerm_key_vault" "imo_dev_app" {
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
   sku_name                    = "standard"
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = data.azurerm_client_config.current.object_id
 
-    key_permissions = ["Get", "Set", "Delete"]
+  enable_rbac_authorization   = true
 
-    secret_permissions = ["Get", "Set", "Delete"]
+  depends_on = [
+    azurerm_role_assignment.devops_key_vault
+   ]
+}
 
-    storage_permissions = ["Get", "Set", "Delete"]
-  }
-  access_policy {
-    tenant_id = data.azurerm_client_config.current.tenant_id
-    object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id
-
-    secret_permissions =["Get", "Set", "Delete"]
-    key_permissions = ["Get", "Set", "Delete"]
-
-    storage_permissions = ["Get", "Set", "Delete"]
-  }
-#   enable_rbac_authorization   = true
-
-#   depends_on = [
-#     azurerm_role_assignment.devops_key_vault
-#   ]
+resource "random_password" "db_password" {
+  length = 16
+  special = true
+  override_special = "_%@"
 }
 
 resource "azurerm_key_vault_secret" "db_password" {
