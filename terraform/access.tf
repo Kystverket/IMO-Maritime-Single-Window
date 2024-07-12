@@ -24,9 +24,3 @@ resource "azurerm_role_assignment" "key_vault_secret_user" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_client_config.current.object_id
 }
-
-resource "azurerm_user_assigned_identity" "imo_dev_app" {
-  location            = var.location
-  name                = "micontainerapp"
-  resource_group_name = azurerm_resource_group.imo_dev_app.name
-}
