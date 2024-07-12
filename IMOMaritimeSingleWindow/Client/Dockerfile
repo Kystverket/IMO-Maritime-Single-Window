@@ -12,7 +12,6 @@ RUN npm install
 # Expose the port
 EXPOSE 4200
 
-
 RUN apt-get update && apt-get install -y \
   postgresql-client \
   iputils-ping \
