@@ -26,6 +26,6 @@ resource "azurerm_key_vault_secret" "db_password" {
   key_vault_id = azurerm_key_vault.imo_dev_app.id
 
   depends_on = [ 
-    azurerm_role_assignment.key_vault_access_user_assigned
+    azurerm_role_assignment.devops_key_vault
   ]
 }
