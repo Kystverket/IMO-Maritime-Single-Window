@@ -76,7 +76,7 @@ jobs:
         with:
             acrName: crimomswdev
             containerAppName: backend-imomsw-dev-preview
-            resourceGroup: rg-imo-msw-terraform-dev-preview
+            resourceGroup: rg-imo-msw-dev-preview
             imageToDeploy: crimomswdev.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
@@ -84,5 +84,5 @@ jobs:
         with:
             acrName: crimomswdev
             containerAppName: frontend-imomsw-dev-preview
-            resourceGroup: rg-imo-msw-terraform-dev-preview
+            resourceGroup: rg-imo-msw-dev-preview
             imageToDeploy: crimomswdev.azurecr.io/client:${{ github.sha }}
