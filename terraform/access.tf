@@ -13,9 +13,14 @@ resource "azurerm_role_assignment" "acr_pull" {
   ]
 }
 
-
 resource "azurerm_role_assignment" "devops_key_vault" {
   scope                = azurerm_resource_group.imo_dev_app.id
   role_definition_name = "Key Vault Administrator"
+  principal_id         = data.azurerm_client_config.current.object_id
+}
+
+resource "azurerm_role_assignment" "key_vault_secret_user" {
+  scope                = azurerm_key_vault.imo_dev_app.id
+  role_definition_name = "Key Vault Secrets User"
   principal_id         = data.azurerm_client_config.current.object_id
 }
