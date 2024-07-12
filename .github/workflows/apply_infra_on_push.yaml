@@ -63,7 +63,6 @@ jobs:
         # - name: Terraform apply backend
         #   id: apply-backend
         #   run: terraform apply -target=azurerm_container_app.backend -auto-approve
-  
         - name: Terraform apply
           id: apply
           run: terraform apply -auto-approve
