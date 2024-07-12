@@ -45,7 +45,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
 
     key_permissions = ["Get"]
 
-    secret_permissions = ["Get", "Set"]
+    secret_permissions = ["Get", "Set", "Delete"]
 
     storage_permissions = ["Get"]
   }
@@ -53,7 +53,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
     tenant_id = data.azurerm_client_config.current.tenant_id
     object_id = azurerm_user_assigned_identity.imo_dev_app.principal_id
 
-    secret_permissions = ["Get"]
+    secret_permissions = ["Get", "Delete"]
   }
 }
 
