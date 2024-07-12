@@ -50,7 +50,7 @@ resource "azurerm_container_app" "frontend" {
     traffic_weight {
       percentage = 100
       latest_revision = true
-      revision_suffix = ""
+      revision_suffix = "demo"
     }
   }
 
