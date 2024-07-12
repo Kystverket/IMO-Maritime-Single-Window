@@ -24,12 +24,9 @@ resource "azurerm_role_assignment" "key_vault_access_user_assigned" {
   ]
 }
 
-locals {
-  key_vault_admin = "Key Vault Administrator"
-}
 
 resource "azurerm_role_assignment" "devops_key_vault" {
   scope                = azurerm_resource_group.imo_dev_app.id
-  role_definition_name = local.key_vault_admin
+  role_definition_name = "Key Vault Administrator"
   principal_id         = data.azurerm_client_config.current.object_id
 }
