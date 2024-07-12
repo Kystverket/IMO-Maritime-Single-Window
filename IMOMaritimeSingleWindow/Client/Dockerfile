@@ -26,5 +26,4 @@ COPY setenv_proxy.sh /workspaces/frontend/setenv_proxy.sh
 # Make the script executable
 RUN chmod +x /workspaces/frontend/setenv_proxy.sh
 
-# Set the entrypoint command
 CMD ["sh", "-c", "./setenv_proxy.sh && npm start"]
