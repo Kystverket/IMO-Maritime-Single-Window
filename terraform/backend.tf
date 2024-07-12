@@ -65,8 +65,6 @@ resource "azurerm_container_app" "backend" {
     min_replicas = 1
   }
 
-  tags = local.default_tags
-
   lifecycle {
     ignore_changes = [template[0].container[0].image]
   }

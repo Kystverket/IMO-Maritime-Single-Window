@@ -11,13 +11,13 @@ variable "location" {
 }
 
 variable "env" {
-  type = string
+  type        = string
   description = "Application env"
-  default = "dev-preview"
+  default     = "dev-preview"
 }
 
 variable "image_tag" {
   type        = string
   description = "Docker image tag"
-  default = "value"
+  default     = "value"
 }
