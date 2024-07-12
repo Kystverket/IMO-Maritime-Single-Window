@@ -1,5 +1,5 @@
 resource "azurerm_key_vault" "imo_dev_app" {
-  name                        = "imo-dev-keyvault"
+  name                        = "imo-msw-dev-keyvault"
   location                    = var.location
   resource_group_name         = azurerm_resource_group.imo_dev_app.name
   enabled_for_disk_encryption = true

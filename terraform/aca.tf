@@ -22,7 +22,7 @@ resource "azurerm_container_app_environment" "imo_dev_app" {
 }
 
 resource "azurerm_container_registry" "acr" {
-  name                = "crimomsw"
+  name                = "crimomswdev"
   resource_group_name = azurerm_resource_group.imo_dev_app.name
   sku                 = "Basic"
   location            = var.location
