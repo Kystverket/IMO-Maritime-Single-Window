@@ -29,7 +29,6 @@ resource "azurerm_key_vault" "imo_dev_app" {
 
     secret_permissions =["Get", "Set", "Delete"]
   }
-
 #   enable_rbac_authorization   = true
 
 #   depends_on = [
