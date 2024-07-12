@@ -21,3 +21,11 @@ provider "azurerm" {
     }
   }
 }
+
+resource "azurerm_resource_group" "imo_dev_app" {
+  name      = "rg-imo-msw-dev-preview"
+  location  = var.location
+}
+
+data "azurerm_client_config" "current" {}
+

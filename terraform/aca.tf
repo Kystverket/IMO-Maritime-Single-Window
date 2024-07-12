@@ -1,21 +1,23 @@
 resource "azurerm_container_app_environment" "imo_dev_app" {
   name                       = "cae-${local.stack}"
   location                   = var.location
-  resource_group_name        = data.azurerm_resource_group.imo_dev_app.name
+  resource_group_name        = azurerm_resource_group.imo_dev_app.name
   log_analytics_workspace_id = azurerm_log_analytics_workspace.imo_dev_app.id
 
   tags = local.default_tags
 }
 
-data "azurerm_container_registry" "acr" {
+resource "azurerm_container_registry" "acr" {
   name                = "crimomsw"
-  resource_group_name = data.azurerm_resource_group.imo_dev_app.name
+  resource_group_name = azurerm_resource_group.imo_dev_app.name
+  sku                 = "Basic"
+  location            = var.location
 }
 
 resource "azurerm_container_app" "backend" {
   name                         = "backend-${local.stack}"
   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+  resource_group_name          = azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
 
   identity {
@@ -24,12 +26,12 @@ resource "azurerm_container_app" "backend" {
   }
 
   registry {
-    server   = data.azurerm_container_registry.acr.login_server
+    server   = azurerm_container_registry.acr.login_server
     identity = azurerm_user_assigned_identity.imo_dev_app.id
   }
 
   ingress {
-    external_enabled           = false
+    external_enabled           = true
     target_port                = 5000
     allow_insecure_connections = false
     traffic_weight {
@@ -89,7 +91,7 @@ resource "azurerm_container_app" "backend" {
 resource "azurerm_container_app" "frontend" {
   name                         = "frontend-${local.stack}"
   container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = data.azurerm_resource_group.imo_dev_app.name
+  resource_group_name          = azurerm_resource_group.imo_dev_app.name
   revision_mode                = "Single"
 
   identity {
@@ -98,7 +100,7 @@ resource "azurerm_container_app" "frontend" {
   }
 
   registry {
-    server   = data.azurerm_container_registry.acr.login_server
+    server   = azurerm_container_registry.acr.login_server
     identity = azurerm_user_assigned_identity.imo_dev_app.id
   }
 
