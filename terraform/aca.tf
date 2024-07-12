@@ -93,7 +93,7 @@ resource "azurerm_container_app" "backend" {
   ingress {
     external_enabled           = true
     target_port                = 5000
-    allow_insecure_connections = true
+    allow_insecure_connections = false
     traffic_weight {
       percentage = 100
       latest_revision = true
@@ -101,10 +101,8 @@ resource "azurerm_container_app" "backend" {
   }
 
   secret {
-    name                = "pg-password-secret"
+    name                = "db_password"
     key_vault_secret_id = azurerm_key_vault_secret.db_password.id
-    identity            = azurerm_user_assigned_identity.imo_dev_app.id
-    value               = ""
   }
 
   template {
@@ -131,7 +129,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        value = "szechuan"
+        secret_name = "db_password"
       }
       env {
         name  = "PGSSLMODE"
