@@ -13,11 +13,18 @@ resource "azurerm_role_assignment" "acr_pull" {
   ]
 }
 
-data "azurerm_subscription" "primary" {
+resource "azurerm_role_assignment" "devops_key_vault" {
+  scope                = azurerm_resource_group.imo_dev_app.id
+  role_definition_name = "Key Vault Administrator"
+  principal_id         = data.azurerm_client_config.current.object_id
 }
 
-resource "azurerm_role_assignment" "devops_key_vault" {
-  scope                = data.azurerm_subscription.primary.id
+data "azurerm_resource_group" "old" {
+  name = "rg-imo-msw-terraform-dev-preview"
+}
+
+resource "azurerm_role_assignment" "old_devops_key_vault" {
+  scope                = data.azurerm_resource_group.old.id
   role_definition_name = "Key Vault Administrator"
   principal_id         = data.azurerm_client_config.current.object_id
 }

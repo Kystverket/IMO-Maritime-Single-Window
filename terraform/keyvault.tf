@@ -11,7 +11,8 @@ resource "azurerm_key_vault" "imo_dev_app" {
   enable_rbac_authorization   = true
 
   depends_on = [
-    azurerm_role_assignment.devops_key_vault
+    azurerm_role_assignment.devops_key_vault,
+    azurerm_role_assignment.old_devops_key_vault
    ]
 }
 
