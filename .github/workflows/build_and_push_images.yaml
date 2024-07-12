@@ -43,14 +43,14 @@ jobs:
           subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
       - name: Log in to ACR
-        run: az acr login --name crimomsw
+        run: az acr login --name crimomswdev
 
       - name: Build and push Client Docker image
         run: |
-          pwd && docker buildx build --push --tag crimomsw.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
+          pwd && docker buildx build --push --tag crimomswdev.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
       - name: Build and push Server Docker image
         run: |
-          pwd && docker buildx build --push --tag crimomsw.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+          pwd && docker buildx build --push --tag crimomswdev.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
 
   container_apps:
     name: 'Deploy Images to Container Apps'
@@ -74,15 +74,15 @@ jobs:
       - name: Deploy Backend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-            acrName: crimomsw
+            acrName: crimomswdev
             containerAppName: backend-imomsw-dev-preview
             resourceGroup: rg-imo-msw-terraform-dev-preview
-            imageToDeploy: crimomsw.azurecr.io/server:${{ github.sha }}
+            imageToDeploy: crimomswdev.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-            acrName: crimomsw
+            acrName: crimomswdev
             containerAppName: frontend-imomsw-dev-preview
             resourceGroup: rg-imo-msw-terraform-dev-preview
-            imageToDeploy: crimomsw.azurecr.io/client:${{ github.sha }}
+            imageToDeploy: crimomswdev.azurecr.io/client:${{ github.sha }}
