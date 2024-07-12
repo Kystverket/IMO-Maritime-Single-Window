@@ -131,6 +131,8 @@ resource "azurerm_container_app" "frontend" {
   lifecycle {
      ignore_changes = [template[0].container[0].image]
   }
+
+  depends_on = [ azurerm_container_app.backend ]
 }
 
 

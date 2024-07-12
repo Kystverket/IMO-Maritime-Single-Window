@@ -45,6 +45,7 @@ resource "azurerm_key_vault_secret" "db_password" {
   name         = "secret-sauce"
   value        = random_password.db_password.result
   key_vault_id = azurerm_key_vault.imo_dev_app.id
+  depends_on = [ azurerm_role_assignment.key_vault_access_user_assigned ]
 }
 
 
@@ -69,6 +70,7 @@ resource "azurerm_role_assignment" "key_vault_access_user_assigned" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.imo_dev_app.principal_id
   depends_on = [
-    azurerm_user_assigned_identity.imo_dev_app
+    azurerm_user_assigned_identity.imo_dev_app,
+    azurerm_key_vault.imo_dev_app
   ]
 }
