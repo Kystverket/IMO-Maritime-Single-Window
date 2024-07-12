@@ -1,7 +1,7 @@
 
 resource "azurerm_postgresql_flexible_server" "imo_dev_app" {
   name                   = "imo-dev-psqlflexibleserver-1"
-  resource_group_name    = azurerm_resource_group.imo_dev_app.name
+  resource_group_name    = data.azurerm_resource_group.old.name
   location               = var.location
   version                = "13"
   administrator_login    = "postgres"

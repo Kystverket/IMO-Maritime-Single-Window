@@ -1,7 +1,7 @@
 resource "azurerm_user_assigned_identity" "imo_dev_app" {
   location            = var.location
   name                = "micontainerapp"
-  resource_group_name = azurerm_resource_group.imo_dev_app.name
+  resource_group_name = data.azurerm_resource_group.old.name
 }
 
 resource "azurerm_role_assignment" "acr_pull" {
