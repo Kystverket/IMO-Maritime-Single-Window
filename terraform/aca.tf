@@ -29,7 +29,7 @@ resource "azurerm_container_app" "backend" {
   }
 
   ingress {
-    external_enabled           = true
+    external_enabled           = false
     target_port                = 5000
     allow_insecure_connections = false
     traffic_weight {
