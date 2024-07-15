@@ -32,7 +32,7 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "https://backend-imomsw-dev-preview--nugco7b.internal.politeforest-a6049228.norwayeast.azurecontainerapps.io"
+        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
         # backend-imomsw-dev-preview.internal.politeforest-a6049228.norwayeast.azurecontainerapps.io
         #"https://${azurerm_container_app.backend.ingress[0].fqdn}"
         # 
