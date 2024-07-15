@@ -32,7 +32,9 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
+        value = "http://backend-imomsw-dev-preview.politeforest-a6049228.svc.cluster.local"
+        #"https://${azurerm_container_app.backend.ingress[0].fqdn}"
+        # 
       }
     }
     max_replicas = 1
