@@ -28,7 +28,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
-        TF_WORKSPACE: ${{ github.event.inputs.workspace }}
+        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev-preview'}}
 
       defaults:
         run:
