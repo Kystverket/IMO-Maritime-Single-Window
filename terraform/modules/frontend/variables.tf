@@ -13,7 +13,7 @@ variable "container_registry_server" {
   type        = string
 }
 
-variable "user_assigned_identity_id" {
+variable "user_assigned_identity_id_cr" {
   description = "The ID of the user assigned identity"
   type        = string
 }

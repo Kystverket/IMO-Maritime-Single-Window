@@ -1,5 +1,9 @@
-output "user_assigned_identity_id" {
-  value = azurerm_user_assigned_identity.imo_app.id
+output "user_assigned_identity_id_vault" {
+  value = azurerm_user_assigned_identity.imo_app_vault.id
+}
+
+output "user_assigned_identity_id_cr" {
+  value = azurerm_user_assigned_identity.imo_app_cr.id
 }
 
 output "keyvault_role_assignment" {

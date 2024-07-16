@@ -1,5 +1,11 @@
-resource "azurerm_user_assigned_identity" "imo_app" {
-  name                = "id-${var.app}-assign-id-${var.env}"
+resource "azurerm_user_assigned_identity" "imo_app_cr" {
+  name                = "id-${var.app}-assign-id-cr-${var.env}"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+}
+
+resource "azurerm_user_assigned_identity" "imo_app_vault" {
+  name                = "id-${var.app}-assign-id-vault-${var.env}"
   resource_group_name = var.resource_group_name
   location            = var.location
 }
@@ -7,9 +13,9 @@ resource "azurerm_user_assigned_identity" "imo_app" {
 resource "azurerm_role_assignment" "acr_pull" {
   scope                = var.container_registry_id
   role_definition_name = "acrpull"
-  principal_id         = azurerm_user_assigned_identity.imo_app.principal_id
+  principal_id         = azurerm_user_assigned_identity.imo_app_cr.principal_id
   depends_on = [
-    azurerm_user_assigned_identity.imo_app
+    azurerm_user_assigned_identity.imo_app_cr
   ]
 }
 
@@ -22,5 +28,5 @@ resource "azurerm_role_assignment" "admin_key_vault" {
 resource "azurerm_role_assignment" "user_key_vault" {
   scope                = var.key_vault_id
   role_definition_name = "Key Vault Secrets User"
-  principal_id         = azurerm_user_assigned_identity.imo_app.principal_id
+  principal_id         = azurerm_user_assigned_identity.imo_app_vault.principal_id
 }

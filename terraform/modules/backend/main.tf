@@ -6,12 +6,12 @@ resource "azurerm_container_app" "backend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [var.user_assigned_identity]
+    identity_ids = [var.user_assigned_identity_cr, var.user_assigned_identity_vault]
   }
 
   registry {
     server   = var.container_registry_server
-    identity = var.user_assigned_identity
+    identity = var.user_assigned_identity_cr
   }
 
   ingress {
@@ -27,7 +27,7 @@ resource "azurerm_container_app" "backend" {
   secret {
     name                = "db-password"
     key_vault_secret_id = var.db_key_vault_secret_id
-    identity            = var.user_assigned_identity
+    identity            = var.user_assigned_identity_vault
   }
 
   template {

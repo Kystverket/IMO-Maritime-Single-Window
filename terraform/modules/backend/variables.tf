@@ -13,8 +13,13 @@ variable "container_registry_server" {
   type        = string
 }
 
-variable "user_assigned_identity" {
-  description = "The ID of the user managed identity"
+variable "user_assigned_identity_cr" {
+  description = "The ID of the user managed identity for the container registry"
+  type        = string
+}
+
+variable "user_assigned_identity_vault" {
+  description = "The ID of the user managed identity for the key vault"
   type        = string
 }
 
