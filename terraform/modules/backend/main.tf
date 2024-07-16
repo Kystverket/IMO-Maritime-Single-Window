@@ -55,7 +55,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = var.pgpassword
+        secret_name = "db-password"
       }
       env {
         name  = "PGSSLMODE"
