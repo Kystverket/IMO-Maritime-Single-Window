@@ -37,7 +37,7 @@ module "access" {
   resource_group_name           = azurerm_resource_group.imo_app.name
   location                      = var.location
   azure_current_object_id       = data.azurerm_client_config.current.object_id
-  key_vault_id                  = module.keyvault.db_key_vault_secret_id
+  key_vault_id                  = module.keyvault.key_vault_id
   container_registry_id         = module.appenv.container_registry_id
 }
 
