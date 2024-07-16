@@ -59,8 +59,8 @@ jobs:
               echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraformprod" >> $GITHUB_ENV
               echo "LOCATION=norwayeast" >> $GITHUB_ENV
             else
-              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-dev" >> $GITHUB_ENV
-              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraformdev" >> $GITHUB_ENV
+              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-dev-preview" >> $GITHUB_ENV
+              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraform" >> $GITHUB_ENV
               echo "LOCATION=norwayeast" >> $GITHUB_ENV
             fi
         

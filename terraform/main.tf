@@ -1,6 +1,6 @@
 locals {
-  terraform_resource_group_name = terraform.workspace == "prod" ? "rg-imo-msw-terraform-prod" : "rg-imo-msw-terraform-dev"
-  terraform_storage_account_name = terraform.workspace == "prod" ? "stimomswterraformprod" : "stimomswterraformdev"
+  terraform_resource_group_name = terraform.workspace == "prod" ? "rg-imo-msw-terraform-prod" : "rg-imo-msw-terraform-dev-preview"
+  terraform_storage_account_name = terraform.workspace == "prod" ? "stimomswterraformprod" : "stimomswterraform"
   env             = terraform.workspace
   alphabetical_env = replace(terraform.workspace, "[^a-z0-9]", "")
 }
