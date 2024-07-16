@@ -93,7 +93,7 @@ module "frontend" {
   app                           = var.app
   backend_container_app         = module.backend.backend_container_app
   resource_group_name           = azurerm_resource_group.imo_app.name
-  user_assigned_identity_id_cr  = module.access.user_assigned_identity_id_cr
+  user_assigned_identity_cr     = module.access.user_assigned_identity_id_cr
   container_app_environment_id  = module.appenv.container_app_environment_id
   container_registry_server     = module.appenv.container_registry_server
   backend_internal_URL          = module.backend.backend_internal_URL

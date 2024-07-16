@@ -1,8 +1,8 @@
-output "user_assigned_identity_id_vault" {
+output "user_assigned_identity_vault" {
   value = azurerm_user_assigned_identity.imo_app_vault.id
 }
 
-output "user_assigned_identity_id_cr" {
+output "user_assigned_identity_cr" {
   value = azurerm_user_assigned_identity.imo_app_cr.id
 }
 

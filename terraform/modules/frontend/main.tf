@@ -6,12 +6,12 @@ resource "azurerm_container_app" "frontend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [var.user_assigned_identity_id_cr]
+    identity_ids = [var.user_assigned_identity_cr]
   }
 
   registry {
     server   = var.container_registry_server
-    identity = var.user_assigned_identity_id_cr
+    identity = var.user_assigned_identity_cr
   }
 
   ingress {
