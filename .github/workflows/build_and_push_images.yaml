@@ -3,7 +3,7 @@ name: Docker Build, Push, and Deploy
 on:
   push:
     branches: 
-      - deploy-infra-terraformv6
+      - terraform-modules
     paths-ignore:
       - 'terraform/**'
       - 'workflows/**'
