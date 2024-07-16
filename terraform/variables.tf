@@ -13,13 +13,13 @@ variable "alphabetical_app" {
 variable "env" {
   description = "The application environment"
   type        = string
-  default     = "dev-preview"
+  default     = terraform.workspace
 }
 
 variable "alphabetical_env" {
   description = "The application environment with only alphanumeric characters"
   type        = string
-  default     = "devpreview"
+  default     = replace(terraform.workspace, "/[^a-z0-9]/", "")
 }
 
 variable "location" {

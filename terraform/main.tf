@@ -1,3 +1,8 @@
+locals {
+  terraform_resource_group_name = terraform.workspace == "prod" ? "rg-imo-msw-terraform-prod" : "rg-imo-msw-terraform-dev"
+  terraform_storage_account_name = terraform.workspace == "prod" ? "stimomswterraformprod" : "stimomswterraformdev"
+}
+
 terraform {
   required_providers {
     azurerm = {
@@ -6,13 +11,12 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "rg-${var.app}-terraform-${var.env}"
-    storage_account_name = "stimomswterraform"
+    resource_group_name  = local.terraform_resource_group_name
+    storage_account_name = local.terraform_storage_account_name
     container_name       = "tfstates"
     key                  = "state.tfstates"
   }
 }
-
 provider "azurerm" {
   features {
     key_vault {

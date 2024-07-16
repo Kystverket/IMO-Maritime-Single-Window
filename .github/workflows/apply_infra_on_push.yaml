@@ -6,7 +6,14 @@ on:
       - terraform-modules
     paths:
       - 'terraform/**'
-     
+
+  workflow_dispatch:
+    inputs:
+      workspace:
+        description: 'Terraform workspace to use'
+        required: true
+        default: 'dev-preview'
+
 permissions:
   id-token: write
   contents: read
@@ -21,6 +28,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
+        TF_WORKSPACE: ${{ github.event.inputs.workspace }}
 
       defaults:
         run:
@@ -36,13 +44,33 @@ jobs:
           with:
             terraform_version: 1.x
         
-        - name: 'Az CLI login using OIDC'
+        - name: Az CLI login using OIDC
           uses: azure/login@v2
           with:
             client-id: ${{ vars.ARM_CLIENT_ID }}
             tenant-id: ${{ vars.ARM_TENANT_ID }}
             subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
-  
+        
+        - name: Set environment variables based on workspace
+          id: set-env
+          run: |
+            if [ "${{ github.event.inputs.workspace }}" == "prod" ]; then
+              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-prod" >> $GITHUB_ENV
+              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraformprod" >> $GITHUB_ENV
+              echo "LOCATION=norwayeast" >> $GITHUB_ENV
+            else
+              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-dev" >> $GITHUB_ENV
+              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraformdev" >> $GITHUB_ENV
+              echo "LOCATION=norwayeast" >> $GITHUB_ENV
+            fi
+        
+        - name: Update .env.backend file
+          id: update-env-backend
+          run: |
+            echo "TF_VAR_state_resource_group_name=$STATE_RESOURCE_GROUP_NAME" > ../.env.backend
+            echo "TF_VAR_state_storage_account_name=$STATE_STORAGE_ACCOUNT_NAME" >> ../.env.backend
+            echo "TF_VAR_location=$LOCATION" >> ../.env.backend
+        
         - name: Terraform init
           id: init
           run: |
