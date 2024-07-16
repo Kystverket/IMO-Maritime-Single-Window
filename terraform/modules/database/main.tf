@@ -28,5 +28,7 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_app" {
   server_id        = azurerm_postgresql_flexible_server.imo_app.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
-  depends_on = [ azurerm_postgresql_flexible_server.imo_app ]
+  depends_on = [ 
+    azurerm_postgresql_flexible_server.imo_app,
+    azurerm_postgresql_flexible_server_database.imo_app ]
 }
