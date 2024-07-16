@@ -3,7 +3,7 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - deploy-infra-terraformv6
+      - terraform-modules
     paths:
       - 'terraform/**'
      

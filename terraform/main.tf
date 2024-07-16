@@ -97,4 +97,3 @@ module "frontend" {
   container_registry_server     = module.appenv.container_registry_server
   backend_internal_URL          = module.backend.backend_internal_URL
 }
-
