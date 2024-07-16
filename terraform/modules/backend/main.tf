@@ -1,17 +1,17 @@
 resource "azurerm_container_app" "backend" {
-  name                         = "backend-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = azurerm_resource_group.imo_dev_app.name
+  name                         = "ca-${var.app}-backend-${var.env}"
+  container_app_environment_id = var.container_app_environment_id
+  resource_group_name          = var.resource_group_name
   revision_mode                = "Single"
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+    identity_ids = [var.user_assigned_identity]
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.imo_dev_app.id
+    server   = var.container_registry_server
+    identity = var.user_assigned_identity
   }
 
   ingress {
@@ -26,8 +26,8 @@ resource "azurerm_container_app" "backend" {
 
   secret {
     name                = "db-password"
-    key_vault_secret_id = azurerm_key_vault_secret.db_password.id
-    identity            = azurerm_user_assigned_identity.imo_dev_app.id
+    key_vault_secret_id = var.db_key_vault_secret_id
+    identity            = var.user_assigned_identity
   }
 
   template {
@@ -36,25 +36,26 @@ resource "azurerm_container_app" "backend" {
       image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       cpu    = 0.5
       memory = "1Gi"
+      
       env {
         name  = "PGHOST"
-        value = "imo-dev-psqlflexibleserver-1.postgres.database.azure.com"
+        value = var.pghost
       }
       env {
         name  = "PGUSER"
-        value = "postgres"
+        value = var.pguser
       }
       env {
         name  = "PGPORT"
-        value = "5432"
+        value = var.pgport
       }
       env {
         name  = "PGDATABASE"
-        value = "db-imo-msw-dev-1"
+        value = var.pgdatabase
       }
       env {
         name  = "PGPASSWORD"
-        secret_name = "db-password"
+        secret_name = var.pgpassword
       }
       env {
         name  = "PGSSLMODE"

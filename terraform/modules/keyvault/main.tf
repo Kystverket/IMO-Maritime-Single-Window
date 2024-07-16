@@ -1,9 +1,9 @@
 resource "azurerm_key_vault" "imo_dev_app" {
-  name                        = "imo-msw-dev-keyvault"
+  name                        = "kv-${var.app}-vault-${var.env}"
   location                    = var.location
-  resource_group_name         = azurerm_resource_group.imo_dev_app.name
+  resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = true
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  tenant_id                   = var.azure_current_tenant_id
   soft_delete_retention_days  = 7
   purge_protection_enabled    = true
   sku_name                    = "standard"
@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "imo_dev_app" {
   enable_rbac_authorization   = true
 
   depends_on = [
-    azurerm_role_assignment.devops_key_vault
+    var.keyvault_role_assignment
    ]
 }
 
@@ -22,7 +22,7 @@ resource "random_password" "db_password" {
 }
 
 resource "azurerm_key_vault_secret" "db_password" {
-  name         = "secret-sauce"
+  name         = "kvs-${var.app}-db-${var.env}"
   value        = random_password.db_password.result
   key_vault_id = azurerm_key_vault.imo_dev_app.id
 }

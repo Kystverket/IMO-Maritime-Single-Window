@@ -1,0 +1,60 @@
+variable "resource_group_name" {
+  description = "Name of the resource group"
+  type        = string
+}
+
+variable "container_app_environment_id" {
+  description = "The id of the container app environment"
+  type        = string
+}
+
+variable "container_registry_server" {
+  description = "The container registry server login"
+  type        = string
+}
+
+variable "user_assigned_identity" {
+  description = "The ID of the user managed identity"
+  type        = string
+}
+
+variable "db_key_vault_secret_id" {
+  description = "The key vault secret ID for the database password"
+  type        = string
+}
+
+variable "pghost" {
+  description = "The postgresql host name"
+  type        = string
+}
+
+variable "pguser" {
+  description = "The postgresql user name"
+  type        = string
+}
+
+variable "pgport" {
+  description = "The port of the postgresql database"
+  type        = string
+}
+
+variable "pgdatabase" {
+  description = "The database name"
+  type        = string
+}
+
+variable "pgpassword" {
+  description = "The database password"
+  type        = string
+}
+
+variable "env" {
+  description = "The application environment"
+  type        =  string
+}
+
+variable "app" {
+  description = "The application name"
+  type        = string
+}
+

@@ -1,17 +1,17 @@
 resource "azurerm_container_app" "frontend" {
-  name                         = "frontend-${local.stack}"
-  container_app_environment_id = azurerm_container_app_environment.imo_dev_app.id
-  resource_group_name          = azurerm_resource_group.imo_dev_app.name
+  name                         = "ca-${var.app}-frontend-${var.env}"
+  container_app_environment_id = var.container_app_environment_id
+  resource_group_name          = var.resource_group_name
   revision_mode                = "Single"
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.imo_dev_app.id]
+    identity_ids = [var.user_assigned_identity_id]
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.imo_dev_app.id
+    server   = var.container_registry_server
+    identity = var.user_assigned_identity_id
   }
 
   ingress {
@@ -32,10 +32,7 @@ resource "azurerm_container_app" "frontend" {
       memory = "2Gi"
       env {
         name  = "BACKEND_URL"
-        value = "https://${azurerm_container_app.backend.ingress[0].fqdn}"
-        # backend-imomsw-dev-preview.internal.politeforest-a6049228.norwayeast.azurecontainerapps.io
-        #"https://${azurerm_container_app.backend.ingress[0].fqdn}"
-        # 
+        value = "https://${var.backend_internal_URL}"
       }
     }
     max_replicas = 1
@@ -48,5 +45,3 @@ resource "azurerm_container_app" "frontend" {
 
   depends_on = [ azurerm_container_app.backend ]
 }
-
-

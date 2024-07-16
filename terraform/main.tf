@@ -6,7 +6,7 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = "rg-imo-msw-terraform-dev-preview"
+    resource_group_name  = "rg-${var.app}-terraform-${var.env}"
     storage_account_name = "stimomswterraform"
     container_name       = "tfstates"
     key                  = "state.tfstates"
@@ -22,10 +22,79 @@ provider "azurerm" {
   }
 }
 
-resource "azurerm_resource_group" "imo_dev_app" {
-  name      = "rg-imo-msw-dev-preview"
+resource "azurerm_resource_group" "imo_app" {
+  name      = "rg-${var.app}-${var.env}"
   location  = var.location
 }
 
 data "azurerm_client_config" "current" {}
+
+module "access" {
+  source                        = "./modules/access"
+  env                           = var.env
+  app                           = var.app
+  resource_group_id             = azurerm_resource_group.imo_app.id
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  location                      = var.location
+  azure_current_object_id       = data.azurerm_client_config.current.object_id
+  key_vault_id                  = module.keyvault.db_key_vault_secret_id
+  container_registry_id         = module.appenv.container_registry_id
+}
+
+module "keyvault" {
+  source                        = "./modules/keyvault"
+  env                           = var.env
+  app                           = var.app
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  location                      = var.location
+  azure_current_tenant_id       = data.azurerm_client_config.current.tenant_id
+  keyvault_role_assignment      = module.access.keyvault_role_assignment
+}         
+
+module "database" {
+  source                        = "./modules/database"
+  env                           = var.env
+  app                           = var.app
+  resource_group_name           = azurerm_resource_group.imo_app.name 
+  location                      = var.location
+  db_password                   = module.keyvault.db_password
+}      
+
+module "appenv" {
+  source                        = "./modules/appenv"
+  env                           = var.env
+  alphabetical_env              = var.alphabetical_env
+  app                           = var.app
+  alphabetical_app              = var.alphabetical_app
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  location                      = var.location
+}
+
+module "backend"{
+  source                        = "./modules/backend"
+  env                           = var.env
+  app                           = var.app
+  pghost                        = module.database.pghost
+  pgdatabase                    = module.database.pgdatabase
+  pgport                        = "5432" # default port for PostgrSQL servers
+  pguser                        = module.database.pguser
+  pgpassword                    = module.keyvault.db_password
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  container_registry_server     = module.appenv.container_registry_server
+  container_app_environment_id  = module.appenv.container_app_environment_id
+  user_assigned_identity        = module.access.user_assigned_identity_id
+  db_key_vault_secret_id        = module.keyvault.db_key_vault_secret_id
+}
+
+module "frontend" {
+  source                        = "./modules/frontend"
+  env                           = var.env
+  app                           = var.app
+  backend_container_app         = module.backend.backend_container_app
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  user_assigned_identity_id     = module.access.user_assigned_identity_id
+  container_app_environment_id  = module.appenv.container_app_environment_id
+  container_registry_server     = module.appenv.container_registry_server
+  backend_internal_URL          = module.backend.backend_internal_URL
+}
 
