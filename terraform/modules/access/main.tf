@@ -9,7 +9,7 @@ resource "azurerm_role_assignment" "acr_pull" {
   role_definition_name = "acrpull"
   principal_id         = azurerm_user_assigned_identity.imo_app.principal_id
   depends_on = [
-    azurerm_user_assigned_identity.imo_dev_app
+    azurerm_user_assigned_identity.imo_app
   ]
 }
 

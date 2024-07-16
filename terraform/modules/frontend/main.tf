@@ -43,5 +43,5 @@ resource "azurerm_container_app" "frontend" {
      ignore_changes = [template[0].container[0].image]
   }
 
-  depends_on = [ azurerm_container_app.backend ]
+  depends_on = [var.backend_container_app]
 }
