@@ -1,5 +1,5 @@
-resource "azurerm_key_vault" "imo_dev_app" {
-  name                        = "kv-${var.app}-vault-${var.env}"
+resource "azurerm_key_vault" "imo_app" {
+  name                        = "kv-${var.app}-${var.env}"
   location                    = var.location
   resource_group_name         = var.resource_group_name
   enabled_for_disk_encryption = true
@@ -24,5 +24,5 @@ resource "random_password" "db_password" {
 resource "azurerm_key_vault_secret" "db_password" {
   name         = "kvs-${var.app}-db-${var.env}"
   value        = random_password.db_password.result
-  key_vault_id = azurerm_key_vault.imo_dev_app.id
+  key_vault_id = azurerm_key_vault.imo_app.id
 }
