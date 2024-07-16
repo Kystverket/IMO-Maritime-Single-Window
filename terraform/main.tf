@@ -1,6 +1,8 @@
 locals {
   terraform_resource_group_name = terraform.workspace == "prod" ? "rg-imo-msw-terraform-prod" : "rg-imo-msw-terraform-dev"
   terraform_storage_account_name = terraform.workspace == "prod" ? "stimomswterraformprod" : "stimomswterraformdev"
+  env             = terraform.workspace
+  alphabetical_env = replace(terraform.workspace, "[^a-z0-9]", "")
 }
 
 terraform {
@@ -27,7 +29,7 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "imo_app" {
-  name      = "rg-${var.app}-${var.env}"
+  name      = "rg-${var.app}-${local.env}"
   location  = var.location
 }
 
@@ -35,7 +37,7 @@ data "azurerm_client_config" "current" {}
 
 module "access" {
   source                        = "./modules/access"
-  env                           = var.env
+  env                           = local.env
   app                           = var.app
   resource_group_id             = azurerm_resource_group.imo_app.id
   resource_group_name           = azurerm_resource_group.imo_app.name
@@ -47,7 +49,7 @@ module "access" {
 
 module "keyvault" {
   source                        = "./modules/keyvault"
-  env                           = var.env
+  env                           = local.env
   app                           = var.app
   resource_group_name           = azurerm_resource_group.imo_app.name
   location                      = var.location
@@ -57,7 +59,7 @@ module "keyvault" {
 
 module "database" {
   source                        = "./modules/database"
-  env                           = var.env
+  env                           = local.env
   app                           = var.app
   resource_group_name           = azurerm_resource_group.imo_app.name 
   location                      = var.location
@@ -66,8 +68,8 @@ module "database" {
 
 module "appenv" {
   source                        = "./modules/appenv"
-  env                           = var.env
-  alphabetical_env              = var.alphabetical_env
+  env                           = local.env
+  alphabetical_env              = local.alphabetical_env
   app                           = var.app
   alphabetical_app              = var.alphabetical_app
   resource_group_name           = azurerm_resource_group.imo_app.name
@@ -76,7 +78,7 @@ module "appenv" {
 
 module "backend"{
   source                        = "./modules/backend"
-  env                           = var.env
+  env                           = local.env
   app                           = var.app
   pghost                        = module.database.pghost
   pgdatabase                    = module.database.pgdatabase
@@ -93,7 +95,7 @@ module "backend"{
 
 module "frontend" {
   source                        = "./modules/frontend"
-  env                           = var.env
+  env                           = local.env
   app                           = var.app
   backend_container_app         = module.backend.backend_container_app
   resource_group_name           = azurerm_resource_group.imo_app.name
