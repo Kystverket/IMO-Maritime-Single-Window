@@ -90,7 +90,7 @@ module "backend"{
   container_registry_server     = module.appenv.container_registry_server
   container_app_environment_id  = module.appenv.container_app_environment_id
   user_assigned_identity_vault  = module.access.user_assigned_identity_vault
-  user_assigned_identity_cr     = module.access.user_assigned_identity_cr
+  user_assigned_identity_cr     = module.access.user_assigned_identity_crhttp://80.232.19.138/
   db_key_vault_secret_id        = module.keyvault.db_key_vault_secret_id
 }
 
