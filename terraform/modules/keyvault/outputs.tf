@@ -11,5 +11,5 @@ output "key_vault_id" {
 }
 
 output "appsettings_secret" {
-  value = azurerm_key_vault_secret.appsettings_secret
+  value = azurerm_key_vault_secret.appsettings_secret.value
 }

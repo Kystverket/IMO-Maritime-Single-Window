@@ -60,4 +60,5 @@ variable "app" {
 
 variable "appsettings_secret" {
   description = "The application secret"
+  type        = string
 }
