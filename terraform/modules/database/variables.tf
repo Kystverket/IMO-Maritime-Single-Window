@@ -29,5 +29,5 @@ variable "backend_app" {
 
 variable "backend_ip" {
   description = "The IP adress of the backend container app"
-  type        = string
+  type        = list()
 }
