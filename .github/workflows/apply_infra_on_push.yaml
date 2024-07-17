@@ -67,7 +67,7 @@ jobs:
         
         - name: Select Terraform workspace
           id: workspace
-          run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+          run: terraform workspace select $TF_WORKSPACE 
 
         - name: Update .env.backend file
           id: update-env-backend
@@ -81,7 +81,7 @@ jobs:
           run: |
             set -a 
             source ../.env.backend
-            terraform init -upgrade \
+            terraform init -upgrade -reconfigure  \
               -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
               -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
   
