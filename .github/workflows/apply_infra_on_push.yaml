@@ -6,14 +6,13 @@ on:
       - terraform-modules
     paths:
       - 'terraform/**'
-      - '.github/workflows/**'
 
   workflow_dispatch:
     inputs:
       workspace:
         description: 'Terraform workspace to use'
         required: true
-        default: 'prod'
+        default: 'dev'
 
 permissions:
   id-token: write
@@ -29,7 +28,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
-        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'prod'}}
+        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev'}}
 
       defaults:
         run:
@@ -64,29 +63,22 @@ jobs:
               echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraform" >> $GITHUB_ENV
               echo "LOCATION=norwayeast" >> $GITHUB_ENV
             fi
-
+        
         - name: Update .env.backend file
           id: update-env-backend
           run: |
             echo "TF_VAR_state_resource_group_name=$STATE_RESOURCE_GROUP_NAME" > ../.env.backend
             echo "TF_VAR_state_storage_account_name=$STATE_STORAGE_ACCOUNT_NAME" >> ../.env.backend
             echo "TF_VAR_location=$LOCATION" >> ../.env.backend
-
-        - name: Initialize Terraform Backend
-          id: init-backend
-          run: |
-              set -a 
-              source ../.env.backend
-              terraform init -upgrade -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
         
-        - name: Reconfigure Backend
-          id: reconfigure-backend
+        - name: Terraform init
+          id: init
           run: |
-                set -a 
-                source ../.env.backend
-                terraform init -upgrade -reconfigure \
-                  -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
-                  -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+            set -a 
+            source ../.env.backend
+            terraform init -upgrade \
+              -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
+              -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
   
         - name: Terraform validate
           id: validate
