@@ -85,7 +85,6 @@ module "backend"{
   pgdatabase                    = module.database.pgdatabase
   pgport                        = module.database.pgport
   pguser                        = module.database.pguser
-  pgpassword                    = module.keyvault.db_password
   resource_group_name           = azurerm_resource_group.imo_app.name
   container_registry_server     = module.appenv.container_registry_server
   container_app_environment_id  = module.appenv.container_app_environment_id

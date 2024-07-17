@@ -48,11 +48,6 @@ variable "pgdatabase" {
   type        = string
 }
 
-variable "pgpassword" {
-  description = "The database password"
-  type        = string
-}
-
 variable "env" {
   description = "The application environment"
   type        =  string
@@ -65,5 +60,4 @@ variable "app" {
 
 variable "appsettings_secret" {
   description = "The application secret"
-  type        = string
 }
