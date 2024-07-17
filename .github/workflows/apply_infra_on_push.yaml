@@ -77,6 +77,9 @@ jobs:
           run: |
             set -a 
             source ../.env.backend
+            if ! terraform workspace list | grep -q "${{ env.TF_WORKSPACE }}"; then
+            terraform workspace new ${{ env.TF_WORKSPACE }}
+            fi
             terraform init -upgrade -reconfigure  \
               -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
               -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
