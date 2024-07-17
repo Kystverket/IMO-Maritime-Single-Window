@@ -19,6 +19,7 @@ terraform {
     key                  = "state.tfstates"
   }
 }
+
 provider "azurerm" {
   features {
     key_vault {
