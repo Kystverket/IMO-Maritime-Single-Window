@@ -71,7 +71,7 @@ resource "azurerm_container_app" "backend" {
       }
       env {
         name  = "APPSETTINGS_SECRET"
-        value = var.appsettings_secret
+        secret_name = "appsettings-secret"
       }
 
     }
