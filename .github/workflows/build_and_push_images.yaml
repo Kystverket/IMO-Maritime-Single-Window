@@ -6,7 +6,7 @@ on:
       - terraform-modules
     paths-ignore:
       - 'terraform/**'
-      - 'workflows/**'
+      - '.github/workflows/**'
 
 permissions:
   id-token: write

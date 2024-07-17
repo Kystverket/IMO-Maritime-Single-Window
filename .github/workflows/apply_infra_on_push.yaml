@@ -6,7 +6,7 @@ on:
       - terraform-modules
     paths:
       - 'terraform/**'
-      - 'workflows/**'
+      - '.github/workflows/**'
 
   workflow_dispatch:
     inputs:
