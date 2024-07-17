@@ -1,6 +1,4 @@
 locals {
-  terraform_resource_group_name   = terraform.workspace == "prod" ? "rg-imo-msw-terraform-prod" : "rg-imo-msw-terraform-dev-preview"
-  terraform_storage_account_name  = terraform.workspace == "prod" ? "stimomswterraformprod" : "stimomswterraform"
   env                             = terraform.workspace
   alphabetical_env                = replace(terraform.workspace, "-", "")
 }
@@ -13,8 +11,8 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name  = local.terraform_resource_group_name
-    storage_account_name = local.terraform_storage_account_name
+    resource_group_name  = "rg-imo-msw-terraform-common"
+    storage_account_name = "stimomswterraform"
     container_name       = "tfstates"
     key                  = "state.tfstates"
   }

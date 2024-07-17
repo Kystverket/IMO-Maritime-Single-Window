@@ -12,7 +12,7 @@ on:
       workspace:
         description: 'Terraform workspace to use'
         required: true
-        default: 'dev'
+        default: 'dev-preview'
 
 permissions:
   id-token: write
@@ -28,7 +28,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
-        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev'}}
+        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev-preview'}}
 
       defaults:
         run:
@@ -51,26 +51,6 @@ jobs:
             tenant-id: ${{ vars.ARM_TENANT_ID }}
             subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
         
-        - name: Set environment variables based on workspace
-          id: set-env
-          run: |
-            if [ "${{ github.event.inputs.workspace }}" == "prod" ]; then
-              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-prod" >> $GITHUB_ENV
-              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraformprod" >> $GITHUB_ENV
-              echo "LOCATION=norwayeast" >> $GITHUB_ENV
-            else
-              echo "STATE_RESOURCE_GROUP_NAME=rg-imo-msw-terraform-dev-preview" >> $GITHUB_ENV
-              echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraform" >> $GITHUB_ENV
-              echo "LOCATION=norwayeast" >> $GITHUB_ENV
-            fi
-        
-        - name: Update .env.backend file
-          id: update-env-backend
-          run: |
-            echo "TF_VAR_state_resource_group_name=$STATE_RESOURCE_GROUP_NAME" > ../.env.backend
-            echo "TF_VAR_state_storage_account_name=$STATE_STORAGE_ACCOUNT_NAME" >> ../.env.backend
-            echo "TF_VAR_location=$LOCATION" >> ../.env.backend
-        
         - name: Terraform init
           id: init
           run: |
@@ -79,6 +59,10 @@ jobs:
             terraform init -upgrade \
               -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
               -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+        
+        - name: Select or create workspace
+          id: select-or-create
+          run: terraform workspace select -or-create "${TF_WORKSPACE}" 
   
         - name: Terraform validate
           id: validate
