@@ -7,7 +7,7 @@ output "backend_container_app" {
   description = "The backend container app"
   value       = azurerm_container_app.backend
 }
-output "backend_ip" {
+output "outbound_backend_ip" {
   description = "The IP adress of the backend container app"
   value       = azurerm_container_app.backend.outbound_ip_addresses
 }    

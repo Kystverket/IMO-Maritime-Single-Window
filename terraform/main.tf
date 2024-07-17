@@ -64,7 +64,7 @@ module "database" {
   location                      = var.location
   db_password                   = module.keyvault.db_password
   backend_app                   = module.backend.backend_container_app
-  backend_ip                    = module.backend.backend_ip
+  outbound_backend_ip           = module.backend.outbound_backend_ip
 }      
 
 module "appenv" {
@@ -83,7 +83,7 @@ module "backend"{
   app                           = var.app
   pghost                        = module.database.pghost
   pgdatabase                    = module.database.pgdatabase
-  pgport                        = "5432" # default port for PostgrSQL servers
+  pgport                        = module.database.pgport
   pguser                        = module.database.pguser
   pgpassword                    = module.keyvault.db_password
   resource_group_name           = azurerm_resource_group.imo_app.name
