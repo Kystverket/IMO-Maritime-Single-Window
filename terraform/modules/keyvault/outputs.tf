@@ -9,3 +9,7 @@ output "db_password" {
 output "key_vault_id" {
   value = azurerm_key_vault.imo_app.id
 }
+
+output "appsettings_secret" {
+  value = azurerm_key_vault_secret.appsettings_secret
+}

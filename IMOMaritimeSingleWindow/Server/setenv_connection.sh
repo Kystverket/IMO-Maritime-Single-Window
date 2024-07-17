@@ -4,11 +4,11 @@ APP_CONFIG_FILE="./appsettings.json"
 # Update the JSON configuration file
 echo '{
   "ConnectionStrings": {
-    "OpenSSN": "User ID=postgres;Password='"$PGPASSWORD"';Host='"$PGHOST"';Port='"$PGPORT"';Database='"$PGDATABASE"';SSL Mode=Require;Trust Server Certificate=true;",
+    "OpenSSN": "User ID=postgres;Password='"$PGPASSWORD"';Host='"$PGHOST"';Port='"$PGPORT"';Database='"$PGDATABASE"';SSL Mode=Require;",
     "UserDatabase": ""
   },
   "AppSettings": {
-    "Secret" : "SuperSeADasd1235t4asdcret"
+    "Secret" : "'$APPSETTINGS_SECRET'"
   },
   "JwtIssuerOptions": {
     "Issuer": "placeholderIssuer",
@@ -21,11 +21,11 @@ APP_DEFAULT_CONFIG_FILE="./appsettings.default.json"
 
 echo '{
   "ConnectionStrings": {
-    "OpenSSN": "User ID=postgres;Password='"$PGPASSWORD"';Host='"$PGHOST"';Port='"$PGPORT"';Database='"$PGDATABASE"';SSL Mode=Require;Trust Server Certificate=true;",
+    "OpenSSN": "User ID=postgres;Password='"$PGPASSWORD"';Host='"$PGHOST"';Port='"$PGPORT"';Database='"$PGDATABASE"';SSL Mode=Require;",
     "UserDatabase": ""
   },
   "AppSettings": {
-    "Secret" : "SuperSeADasd1235t4asdcret"
+    "Secret" : "'$APPSETTINGS_SECRET'"
   },
   "JwtIssuerOptions": {
     "Issuer": "placeholderIssuer",

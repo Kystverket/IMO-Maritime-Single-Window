@@ -61,6 +61,18 @@ resource "azurerm_container_app" "backend" {
         name  = "PGSSLMODE"
         value = "require"
       }
+      env {
+        name  = "APPSETTINGS_SECRET"
+        value = var.appsettings_secret
+      }
+      env {
+        name = "JWT_ISSUER"
+        value = var.jwt_issuer
+      }
+      env {
+        name = "JWT_AUDIENCE"
+        value = var.jwt_audience
+      }
     }
     max_replicas = 1
     min_replicas = 1
