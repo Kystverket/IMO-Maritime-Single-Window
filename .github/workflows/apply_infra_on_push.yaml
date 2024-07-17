@@ -79,12 +79,12 @@ jobs:
               source ../.env.backend
               terraform init -upgrade -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
 
-        - name: Check and Create Workspace
-          id: create-workspace
-          run: |
-                set -a 
-                source ../.env.backend
-                terraform workspace select ${{ env.TF_WORKSPACE }} || terraform workspace new ${{ env.TF_WORKSPACE }}
+        # - name: Check and Create Workspace
+        #   id: create-workspace
+        #   run: |
+        #         set -a 
+        #         source ../.env.backend
+        #         terraform workspace select ${{ env.TF_WORKSPACE }} || terraform workspace new ${{ env.TF_WORKSPACE }}
         
         - name: Reconfigure Backend
           id: reconfigure-backend
