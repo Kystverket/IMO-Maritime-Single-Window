@@ -72,15 +72,20 @@ jobs:
             echo "TF_VAR_state_storage_account_name=$STATE_STORAGE_ACCOUNT_NAME" >> ../.env.backend
             echo "TF_VAR_location=$LOCATION" >> ../.env.backend
 
-        - name: Check and Create Workspace
-          id: create-workspace
+        - name: Initialize Terraform Backend
+          id: init-backend
           run: |
               set -a 
               source ../.env.backend
-              terraform workspace select ${{ env.TF_WORKSPACE }} || terraform workspace new ${{ env.TF_WORKSPACE }}
               terraform init -upgrade -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
-            
 
+        - name: Check and Create Workspace
+          id: create-workspace
+          run: |
+                set -a 
+                source ../.env.backend
+                terraform workspace select ${{ env.TF_WORKSPACE }} || terraform workspace new ${{ env.TF_WORKSPACE }}
+        
         - name: Reconfigure Backend
           id: reconfigure-backend
           run: |
