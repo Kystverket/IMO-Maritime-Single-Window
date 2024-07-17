@@ -29,7 +29,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
-        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev-preview'}}
+        # TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev-preview'}}
 
       defaults:
         run:
@@ -63,7 +63,7 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create "${TF_WORKSPACE}" 
+          run: terraform workspace select -or-create 'dev-preview'
   
         # - name: Terraform validate
         #   id: validate
