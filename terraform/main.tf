@@ -63,6 +63,8 @@ module "database" {
   resource_group_name           = azurerm_resource_group.imo_app.name 
   location                      = var.location
   db_password                   = module.keyvault.db_password
+  backend_app                   = module.backend.backend_container_app
+  backend_ip                    = module.backend.backend_ip
 }      
 
 module "appenv" {

@@ -3,8 +3,11 @@ output "backend_internal_URL" {
   value       = azurerm_container_app.backend.ingress[0].fqdn
 }
 
-
 output "backend_container_app" {
   description = "The backend container app"
   value       = azurerm_container_app.backend
 }
+output "backend_ip" {
+  description = "The IP adress of the backend container app"
+  value       = azurerm_container_app.backend.outbound_ip_addresses
+}    
