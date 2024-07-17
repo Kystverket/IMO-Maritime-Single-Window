@@ -11,9 +11,14 @@ on:
   workflow_dispatch:
     inputs:
       workspace:
-        description: 'Terraform workspace to use'
+        description: Choose the terraform workspace
+        type: choice
         required: true
-        default: 'dev'
+        options:
+          - dev-preview
+          - dev
+          - prod
+
 
 permissions:
   id-token: write
@@ -62,7 +67,7 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev' }}
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev-preview' }}
       
         - name: Terraform apply
           id: apply
