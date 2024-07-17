@@ -64,10 +64,6 @@ jobs:
               echo "STATE_STORAGE_ACCOUNT_NAME=stimomswterraform" >> $GITHUB_ENV
               echo "LOCATION=norwayeast" >> $GITHUB_ENV
             fi
-        
-        - name: Select Terraform workspace
-          id: workspace
-          run: terraform workspace select $TF_WORKSPACE 
 
         - name: Update .env.backend file
           id: update-env-backend
