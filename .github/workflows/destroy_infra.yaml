@@ -1,0 +1,61 @@
+name: Destrory On Push Infrastructure Terraform
+
+on:
+  push:
+    branches: 
+      - terraform-modules
+    paths:
+      - '.github/workflows/destroy_infra.yaml'
+
+permissions:
+  id-token: write
+  contents: read
+  
+jobs:
+    terraform:
+      name: 'Terraform'
+      runs-on: ubuntu-latest
+      environment: dev-preview
+      env:
+        ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+        ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+        ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+        ARM_USE_OIDC: "true"
+    
+      defaults:
+        run:
+          shell: bash
+          working-directory: ./terraform
+    
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+  
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v3
+          with:
+            terraform_version: 1.x
+        
+        - name: Az CLI login using OIDC
+          uses: azure/login@v2
+          with:
+            client-id: ${{ vars.ARM_CLIENT_ID }}
+            tenant-id: ${{ vars.ARM_TENANT_ID }}
+            subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+        
+        - name: Terraform init
+          id: init
+          run: |
+            set -a 
+            source ../.env.backend
+            terraform init -upgrade \
+              -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
+              -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+        
+        - name: Select or create workspace
+          id: select-or-create
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev' }}
+        
+        - name: Destroy infra
+          id: destroy
+          run: terraform apply -destroy -auto-approve 
