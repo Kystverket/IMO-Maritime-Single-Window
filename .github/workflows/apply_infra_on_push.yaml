@@ -71,18 +71,25 @@ jobs:
             echo "TF_VAR_state_resource_group_name=$STATE_RESOURCE_GROUP_NAME" > ../.env.backend
             echo "TF_VAR_state_storage_account_name=$STATE_STORAGE_ACCOUNT_NAME" >> ../.env.backend
             echo "TF_VAR_location=$LOCATION" >> ../.env.backend
-        
-        - name: Terraform init
-          id: init
+
+        - name: Check and Create Workspace
+          id: create-workspace
           run: |
-            set -a 
-            source ../.env.backend
-            if ! terraform workspace list | grep -q "${{ env.TF_WORKSPACE }}"; then
-            terraform workspace new ${{ env.TF_WORKSPACE }}
-            fi
-            terraform init -upgrade -reconfigure  \
-              -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
-              -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+              set -a 
+              source ../.env.backend
+              terraform init -upgrade -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+              if ! terraform workspace list | grep -q "${{ env.TF_WORKSPACE }}"; then
+                terraform workspace new ${{ env.TF_WORKSPACE }}
+              fi
+
+        - name: Reconfigure Backend
+          id: reconfigure-backend
+          run: |
+                set -a 
+                source ../.env.backend
+                terraform init -upgrade -reconfigure \
+                  -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
+                  -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
   
         - name: Terraform validate
           id: validate
