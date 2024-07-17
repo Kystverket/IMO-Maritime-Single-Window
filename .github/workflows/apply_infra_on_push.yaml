@@ -13,7 +13,7 @@ on:
       workspace:
         description: 'Terraform workspace to use'
         required: true
-        default: 'dev-preview'
+        default: 'prod'
 
 permissions:
   id-token: write
@@ -29,7 +29,7 @@ jobs:
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
         ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
         ARM_USE_OIDC: "true"
-        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'dev-preview'}}
+        TF_WORKSPACE: ${{ github.event.inputs.workspace || 'prod'}}
 
       defaults:
         run:
@@ -78,13 +78,6 @@ jobs:
               set -a 
               source ../.env.backend
               terraform init -upgrade -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
-
-        # - name: Check and Create Workspace
-        #   id: create-workspace
-        #   run: |
-        #         set -a 
-        #         source ../.env.backend
-        #         terraform workspace select ${{ env.TF_WORKSPACE }} || terraform workspace new ${{ env.TF_WORKSPACE }}
         
         - name: Reconfigure Backend
           id: reconfigure-backend
