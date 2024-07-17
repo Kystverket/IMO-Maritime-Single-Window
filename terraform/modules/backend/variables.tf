@@ -62,3 +62,8 @@ variable "appsettings_secret" {
   description = "The application secret"
   type        = string
 }
+
+variable "appsettings_secret_key_vault_secret_id" {
+  description = "The key vault secret ID for the appsetting secret"
+  type        = string
+}

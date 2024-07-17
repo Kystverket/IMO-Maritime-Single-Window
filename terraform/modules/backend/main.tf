@@ -32,7 +32,7 @@ resource "azurerm_container_app" "backend" {
 
   secret {
     name                = "appsettings-secret"
-    key_vault_secret_id = var.appsettings_secret
+    key_vault_secret_id = var.appsettings_secret_key_vault_secret_id
     identity            = var.user_assigned_identity_vault
   }
 

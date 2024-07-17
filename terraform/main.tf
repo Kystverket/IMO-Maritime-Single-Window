@@ -92,6 +92,7 @@ module "backend"{
   user_assigned_identity_cr     = module.access.user_assigned_identity_cr
   db_key_vault_secret_id        = module.keyvault.db_key_vault_secret_id
   appsettings_secret            = module.keyvault.appsettings_secret
+  appsettings_secret_key_vault_secret_id = module.keyvault.appsettings_secret_key_vault_secret_id
 }
 
 module "frontend" {
