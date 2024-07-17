@@ -88,6 +88,11 @@ jobs:
           tenant-id: ${{ vars.ARM_TENANT_ID }}
           subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
+      - name: Prep workspace name
+        run: |
+          WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
+          WORKSPACE="${WORKSPACE//-/}" 
+          
       - name: Deploy Backend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
