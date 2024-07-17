@@ -65,6 +65,10 @@ jobs:
               echo "LOCATION=norwayeast" >> $GITHUB_ENV
             fi
         
+        - name: Select Terraform workspace
+          id: workspace
+          run: terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+
         - name: Update .env.backend file
           id: update-env-backend
           run: |
