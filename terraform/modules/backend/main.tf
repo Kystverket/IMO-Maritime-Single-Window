@@ -30,6 +30,14 @@ resource "azurerm_container_app" "backend" {
     identity            = var.user_assigned_identity_vault
   }
 
+  secret {
+    name                = "appsettings-secret"
+    key_vault_secret_id = var.appsettings_secret
+    identity            = var.user_assigned_identity_vault
+  }
+
+
+
   template {
     container {
       name   = "backend" 
@@ -65,14 +73,7 @@ resource "azurerm_container_app" "backend" {
         name  = "APPSETTINGS_SECRET"
         value = var.appsettings_secret
       }
-      env {
-        name = "JWT_ISSUER"
-        value = var.jwt_issuer
-      }
-      env {
-        name = "JWT_AUDIENCE"
-        value = var.jwt_audience
-      }
+
     }
     max_replicas = 1
     min_replicas = 1

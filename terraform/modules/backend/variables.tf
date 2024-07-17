@@ -67,13 +67,3 @@ variable "appsettings_secret" {
   description = "The application secret"
   type        = string
 }
-
-variable "jwt_issuer" {
-  description = "The issuer of the JWT"
-  type       = string
-}
-
-variable "jwt_audience" {
-  description = "The JWT audience of the application"
-  type        = string
-}
