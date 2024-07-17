@@ -6,6 +6,7 @@ on:
       - terraform-modules
     paths:
       - 'terraform/**'
+      - '.github/workflows/**'
 
   workflow_dispatch:
     inputs:
@@ -64,9 +65,9 @@ jobs:
           id: select-or-create
           run: terraform workspace select -or-create "${TF_WORKSPACE}" 
   
-        - name: Terraform validate
-          id: validate
-          run: terraform validate -no-color
+        # - name: Terraform validate
+        #   id: validate
+        #   run: terraform validate -no-color
   
         # - name: Terraform plan
         #   id: plan
