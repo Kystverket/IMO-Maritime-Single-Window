@@ -50,5 +50,3 @@ services:
     command: >
      sh -c "cd /workspaces/frontend && npm install
      && npm start"
-
-      
