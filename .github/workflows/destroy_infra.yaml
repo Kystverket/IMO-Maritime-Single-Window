@@ -6,6 +6,17 @@ on:
       - terraform-modules
     paths:
       - '.github/workflows/destroy_infra.yaml'
+      
+  workflow_dispatch:
+    inputs:
+      workspace:
+        description: Choose the terraform workspace
+        type: choice
+        required: true
+        options:
+          - dev-preview
+          - dev
+          - prod
 
 permissions:
   id-token: write
