@@ -3,10 +3,13 @@ Generic MSW will perform different basic tasks within the realm of ship reportin
 
 ## Getting Started
 These instructions will get you a copy of the project (client and server) up and running on your local machine for development and testing purposes. The project is compatible with Windows and Ubuntu. Please follow the specific guide for your operating system.
+<<<<<<< HEAD
 
 ### Azure Infrastructure Setup
 
 For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki). 
+=======
+>>>>>>> master
 
 ## Contact
 jarle.hauge@kystverket.no
