@@ -7,7 +7,7 @@ WORKDIR /workspaces/backend
 COPY . .
 
 # Install PostgreSQL client
-RUN apt-get update && apt-get install -y postgresql-client iputils-ping
+RUN apt-get update && apt-get install -y postgresql-client
 
 # Expose the port
 EXPOSE 5000
