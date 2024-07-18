@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y postgresql-client iputils-ping
 EXPOSE 5000
 
 COPY setenv_connection.sh /workspaces/backend/setenv_connection.sh
+
 # Make the script executable
 RUN chmod +x /workspaces/backend/setenv_connection.sh
 

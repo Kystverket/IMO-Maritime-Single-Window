@@ -3,10 +3,21 @@ name: Docker Build, Push, and Deploy
 on:
   push:
     branches: 
-      - terraform-modules
+      - master
     paths-ignore:
       - 'terraform/**'
       - '.github/workflows/**'
+      - 'README.md'
+  
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+    paths-ignore:
+      - 'terraform/**'
+      - '.github/workflows/**'
+      - 'README.md'
 
   workflow_dispatch:
     inputs:
@@ -25,6 +36,7 @@ permissions:
 
 jobs:
   docker:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     name: 'Docker Build and Push'
     runs-on: ubuntu-latest
     environment: dev-preview

@@ -3,7 +3,16 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - terraform-modules
+      - master
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
+
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
     paths:
       - 'terraform/**'
       - '.github/workflows/**'
@@ -26,6 +35,7 @@ permissions:
   
 jobs:
     terraform:
+      if: github.event.pull_request.merged == true || github.event_name == 'push'
       name: 'Terraform'
       runs-on: ubuntu-latest
       environment: dev-preview
