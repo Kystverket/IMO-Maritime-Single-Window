@@ -8,15 +8,6 @@ on:
       - 'terraform/**'
       - '.github/workflows/**'
 
-  pull_request:
-    branches:
-      - master
-    types:
-      - closed
-    paths:
-      - 'terraform/**'
-      - '.github/workflows/**'
-
   workflow_dispatch:
     inputs:
       workspace:
@@ -35,7 +26,6 @@ permissions:
   
 jobs:
     terraform:
-      if: github.event.pull_request.merged == true || github.event_name == 'push'
       name: 'Terraform'
       runs-on: ubuntu-latest
       environment: dev-preview
