@@ -57,7 +57,7 @@ jobs:
 
       - name: Prep workspace name
         run: |
-          WORKSPACE="${{ github.event.inputs.workspace || 'test' }}"
+          WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
           WORKSPACE="${WORKSPACE//-/}" 
           echo "MODIFIED_WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
 
@@ -75,14 +75,14 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: crimomsw${{ env.MODIFIED_WORKSPACE }}
-            containerAppName: ca-imo-msw-backend-${{ github.event.inputs.workspace || 'test' }}
-            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'test' }}
+            containerAppName: ca-imo-msw-backend-${{ github.event.inputs.workspace || 'dev-preview' }}
+            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'dev-preview' }}
             imageToDeploy: crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: crimomsw${{ env.MODIFIED_WORKSPACE  }}
-            containerAppName: ca-imo-msw-frontend-${{ github.event.inputs.workspace || 'test' }}
-            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'test' }}
+            containerAppName: ca-imo-msw-frontend-${{ github.event.inputs.workspace || 'dev-preview' }}
+            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'dev-preview' }}
             imageToDeploy: crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }}

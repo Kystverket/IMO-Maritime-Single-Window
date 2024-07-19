@@ -17,13 +17,3 @@ variable "app" {
   description = "The application name"
   type        = string
 }
-
-variable "alphabetical_app" {
-  description = "The application name with only alphanumeric characters"
-  type        = string
-}
-
-variable "alphabetical_env" {
-  description = "The application environment with only alphanumeric characters"
-  type        = string
-}

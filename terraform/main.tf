@@ -1,6 +1,5 @@
 locals {
-  env              = terraform.workspace
-  alphabetical_env = replace(terraform.workspace, "-", "")
+  env = terraform.workspace
 }
 
 terraform {
@@ -69,9 +68,7 @@ module "database" {
 module "appenv" {
   source              = "./modules/appenv"
   env                 = local.env
-  alphabetical_env    = local.alphabetical_env
   app                 = var.app
-  alphabetical_app    = var.alphabetical_app
   resource_group_name = azurerm_resource_group.imo_app.name
   location            = var.location
 }

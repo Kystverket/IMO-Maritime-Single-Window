@@ -1,13 +1,13 @@
 variable "app" {
   description = "The application name"
   type        = string
-  default     = "imo-msw"
+  default     = "alex-2"
 }
 
 variable "alphabetical_app" {
   description = "The application name with only alphanumeric characters"
   type        = string
-  default     = "imomsw"
+  default     = "alex2"
 }
 
 variable "location" {

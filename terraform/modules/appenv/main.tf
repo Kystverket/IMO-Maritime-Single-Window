@@ -10,8 +10,13 @@ resource "azurerm_container_app_environment" "imo_app" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.imo_app.id
 }
 
+locals {
+  alphabetical_env = replace(var.env, "-", "")
+  alphabetical_app = replace(var.app, "-", "")
+}
+
 resource "azurerm_container_registry" "acr" {
-  name                = "cr${var.alphabetical_app}${var.alphabetical_env}"
+  name                = "cr${local.alphabetical_app}${local.alphabetical_env}"
   resource_group_name = var.resource_group_name
   sku                 = "Basic"
   location            = var.location
