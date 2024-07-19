@@ -5,7 +5,6 @@ WORKDIR /workspaces/frontend
 
 # Copy the source code
 COPY . .
-
 # Install dependencies
 RUN npm install
 
