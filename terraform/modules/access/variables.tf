@@ -30,7 +30,7 @@ variable "azure_current_object_id" {
 
 variable "env" {
   description = "The application environment"
-  type        =  string
+  type        = string
 }
 
 variable "app" {

@@ -10,7 +10,7 @@ variable "resource_group_name" {
 
 variable "env" {
   description = "The application environment"
-  type        =  string
+  type        = string
 }
 
 variable "app" {
@@ -18,7 +18,7 @@ variable "app" {
   type        = string
 }
 
-variable "alphabetical_app"{
+variable "alphabetical_app" {
   description = "The application name with only alphanumeric characters"
   type        = string
 }

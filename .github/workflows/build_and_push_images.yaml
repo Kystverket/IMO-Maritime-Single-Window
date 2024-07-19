@@ -3,7 +3,7 @@ name: Docker Build, Push, and Deploy
 on:
   push:
     branches: 
-      - master
+      - terraform-modules
     paths-ignore:
       - 'terraform/**'
       - '.github/workflows/**'

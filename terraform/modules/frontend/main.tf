@@ -6,12 +6,12 @@ resource "azurerm_container_app" "frontend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [var.user_assigned_identity_cr]
+    identity_ids = [var.user_assigned_frontend]
   }
 
   registry {
     server   = var.container_registry_server
-    identity = var.user_assigned_identity_cr
+    identity = var.user_assigned_frontend
   }
 
   ingress {
@@ -19,7 +19,7 @@ resource "azurerm_container_app" "frontend" {
     target_port                = 4200
     allow_insecure_connections = false
     traffic_weight {
-      percentage = 100
+      percentage      = 100
       latest_revision = true
     }
   }
@@ -40,8 +40,6 @@ resource "azurerm_container_app" "frontend" {
   }
 
   lifecycle {
-     ignore_changes = [template[0].container[0].image]
+    ignore_changes = [template[0].container[0].image]
   }
-
-  depends_on = [var.backend_container_app]
 }

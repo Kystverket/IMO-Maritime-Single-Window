@@ -6,12 +6,12 @@ resource "azurerm_container_app" "backend" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [var.user_assigned_identity_cr, var.user_assigned_identity_vault]
+    identity_ids = [var.user_assigned_backend]
   }
 
   registry {
     server   = var.container_registry_server
-    identity = var.user_assigned_identity_cr
+    identity = var.user_assigned_backend
   }
 
   ingress {
@@ -19,7 +19,7 @@ resource "azurerm_container_app" "backend" {
     target_port                = 5000
     allow_insecure_connections = false
     traffic_weight {
-      percentage = 100
+      percentage      = 100
       latest_revision = true
     }
   }
@@ -27,24 +27,23 @@ resource "azurerm_container_app" "backend" {
   secret {
     name                = "db-password"
     key_vault_secret_id = var.db_key_vault_secret_id
-    identity            = var.user_assigned_identity_vault
+    identity            = var.user_assigned_backend
   }
 
   secret {
     name                = "appsettings-secret"
     key_vault_secret_id = var.appsettings_secret_key_vault_secret_id
-    identity            = var.user_assigned_identity_vault
+    identity            = var.user_assigned_backend
   }
-
 
 
   template {
     container {
-      name   = "backend" 
+      name   = "backend"
       image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
       cpu    = 0.5
       memory = "1Gi"
-      
+
       env {
         name  = "PGHOST"
         value = var.pghost
@@ -62,7 +61,7 @@ resource "azurerm_container_app" "backend" {
         value = var.pgdatabase
       }
       env {
-        name  = "PGPASSWORD"
+        name        = "PGPASSWORD"
         secret_name = "db-password"
       }
       env {
@@ -70,7 +69,7 @@ resource "azurerm_container_app" "backend" {
         value = "require"
       }
       env {
-        name  = "APPSETTINGS_SECRET"
+        name        = "APPSETTINGS_SECRET"
         secret_name = "appsettings-secret"
       }
 

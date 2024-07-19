@@ -19,7 +19,7 @@ variable "keyvault_role_assignment" {
 
 variable "env" {
   description = "The application environment"
-  type        =  string
+  type        = string
 }
 
 variable "app" {

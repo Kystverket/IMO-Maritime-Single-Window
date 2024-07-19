@@ -13,8 +13,8 @@ variable "container_registry_server" {
   type        = string
 }
 
-variable "user_assigned_identity_cr" {
-  description = "The ID of the user assigned identity"
+variable "user_assigned_frontend" {
+  description = "The ID of the user assigned identity for the frontend container app"
   type        = string
 }
 
@@ -31,8 +31,4 @@ variable "app" {
 variable "env" {
   description = "The application environment"
   type        = string
-}
-
-variable "backend_container_app" {
-  description = "The backend container app"
 }

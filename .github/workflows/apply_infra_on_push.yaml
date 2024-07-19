@@ -3,7 +3,7 @@ name: Apply On Push Infrastructure Terraform
 on:
   push:
     branches: 
-      - master
+      - terraform-modules
     paths:
       - 'terraform/**'
       - '.github/workflows/**'

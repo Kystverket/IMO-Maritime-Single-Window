@@ -8,22 +8,22 @@ resource "azurerm_key_vault" "imo_app" {
   purge_protection_enabled    = true
   sku_name                    = "standard"
 
-  enable_rbac_authorization   = true
+  enable_rbac_authorization = true
 
   depends_on = [
     var.keyvault_role_assignment
-   ]
+  ]
 }
 
 resource "random_password" "db_password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "_%@"
 }
 
 resource "random_password" "appsettings_secret" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "_%@"
 }
 
