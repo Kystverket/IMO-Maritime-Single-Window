@@ -15,6 +15,7 @@ on:
         type: choice
         required: true
         options:
+          - test
           - dev-preview
           - dev
           - prod
@@ -67,7 +68,7 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev-preview' }}
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'test' }}
       
         - name: Terraform apply
           id: apply
