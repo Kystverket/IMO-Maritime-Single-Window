@@ -1,4 +1,4 @@
-name: Destrory On Push Infrastructure Terraform
+name: Destroy Infrastructure Terraform
 
 on:
   push:
