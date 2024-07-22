@@ -35,6 +35,7 @@ jobs:
       ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
       ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
       ARM_USE_OIDC: "true"
+      APP_NAME: ${{vars.APP_NAME || 'alex-2'}}
 
     defaults:
       run:
@@ -59,30 +60,33 @@ jobs:
         run: |
           WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
           WORKSPACE="${WORKSPACE//-/}" 
+          APP_NAME="${{ env.APP_NAME}}"
+          MODIFIED_APP_NAME="${APP_NAME//-/}"
+          ehco "MODIFIED_APP_NAME=$MODIFIED_APP_NAME" >> $GITHUB_ENV
           echo "MODIFIED_WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
 
       - name: Log in to ACR
-        run: az acr login --name crimomsw${{ env.MODIFIED_WORKSPACE }}
+        run: az acr login --name cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
 
       - name: Build and push Client Docker image
         run: |
-          pwd && docker buildx build --push --tag crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
+          pwd && docker buildx build --push --tag cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }} ../IMOMaritimeSingleWindow/Client
       - name: Build and push Server Docker image
         run: |
-          pwd && docker buildx build --push --tag crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
+          pwd && docker buildx build --push --tag cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }} ../IMOMaritimeSingleWindow/Server
 
       - name: Deploy Backend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-            acrName: crimomsw${{ env.MODIFIED_WORKSPACE }}
-            containerAppName: ca-imo-msw-backend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'dev-preview' }}
-            imageToDeploy: crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }}
+            acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
+            containerAppName: ca-${{env.APP_NAME}}-backend-${{ github.event.inputs.workspace || 'dev-preview' }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-            acrName: crimomsw${{ env.MODIFIED_WORKSPACE  }}
-            containerAppName: ca-imo-msw-frontend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-imo-msw-${{ github.event.inputs.workspace || 'dev-preview' }}
-            imageToDeploy: crimomsw${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }}
+            acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE  }}
+            containerAppName: ca-${{env.APP_NAME}}-frontend-${{ github.event.inputs.workspace || 'dev-preview' }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }}
