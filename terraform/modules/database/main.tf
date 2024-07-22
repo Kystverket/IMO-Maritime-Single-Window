@@ -7,13 +7,7 @@ resource "azurerm_postgresql_flexible_server" "imo_app" {
   administrator_password = var.db_password
   storage_mb             = 32768
   sku_name               = "B_Standard_B1ms"
-
-  lifecycle {
-    ignore_changes = [
-      zone,
-      high_availability[0].standby_availability_zone,
-    ]
-  }
+  zone                   = 2
 }
 
 resource "azurerm_postgresql_flexible_server_database" "imo_app" {
@@ -26,11 +20,6 @@ resource "azurerm_postgresql_flexible_server_database" "imo_app" {
 resource "azurerm_postgresql_flexible_server_firewall_rule" "imo_app" {
   name             = "afw-${var.app}-fw-rule-${var.env}"
   server_id        = azurerm_postgresql_flexible_server.imo_app.id
-  start_ip_address = var.outbound_backend_ip[0]
-  end_ip_address   = var.outbound_backend_ip[0]
-  depends_on = [ 
-    azurerm_postgresql_flexible_server.imo_app,
-    azurerm_postgresql_flexible_server_database.imo_app,
-    var.backend_app
-    ]
+  start_ip_address = var.outbound_backend_ip
+  end_ip_address   = var.outbound_backend_ip
 }

@@ -1,12 +1,6 @@
 name: Destroy Infrastructure Terraform
 
 on:
-  push:
-    branches: 
-      - terraform-modules
-    paths:
-      - '.github/workflows/destroy_infra.yaml'
-      
   workflow_dispatch:
     inputs:
       workspace:
@@ -65,7 +59,7 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev' }}
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace }}
         
         - name: Destroy infra
           id: destroy

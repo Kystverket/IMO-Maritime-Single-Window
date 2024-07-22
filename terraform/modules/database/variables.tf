@@ -23,11 +23,7 @@ variable "app" {
   type        = string
 }
 
-variable "backend_app" {
-  description = "The backend container app"
-}
-
 variable "outbound_backend_ip" {
   description = "The IP adress of the backend container app"
-  type        = list(string)
+  type        = string
 }

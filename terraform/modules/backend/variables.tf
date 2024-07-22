@@ -13,15 +13,11 @@ variable "container_registry_server" {
   type        = string
 }
 
-variable "user_assigned_identity_cr" {
-  description = "The ID of the user managed identity for the container registry"
+variable "user_assigned_backend" {
+  description = "The ID of the user managed identity for the backend container app"
   type        = string
 }
 
-variable "user_assigned_identity_vault" {
-  description = "The ID of the user managed identity for the key vault"
-  type        = string
-}
 
 variable "db_key_vault_secret_id" {
   description = "The key vault secret ID for the database password"
@@ -50,7 +46,7 @@ variable "pgdatabase" {
 
 variable "env" {
   description = "The application environment"
-  type        =  string
+  type        = string
 }
 
 variable "app" {

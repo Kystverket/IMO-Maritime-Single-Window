@@ -7,9 +7,9 @@ output "pguser" {
 }
 
 output "pgport" {
-    value = "5432"
+  value = "5432"
 }
 
 output "pgdatabase" {
-    value = azurerm_postgresql_flexible_server_database.imo_app.name
+  value = azurerm_postgresql_flexible_server_database.imo_app.name
 }
