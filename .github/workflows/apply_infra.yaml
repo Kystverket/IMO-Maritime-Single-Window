@@ -58,12 +58,7 @@ jobs:
         
         - name: Terraform init
           id: init
-          run: |
-            set -a 
-            source ../.env.backend
-            terraform init -upgrade \
-              -backend-config="resource_group_name=$TF_VAR_state_resource_group_name" \
-              -backend-config="storage_account_name=$TF_VAR_state_storage_account_name"
+          run: terraform init -upgrade 
         
         - name: Select or create workspace
           id: select-or-create
