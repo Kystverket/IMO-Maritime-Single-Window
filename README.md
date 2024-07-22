@@ -6,7 +6,7 @@ These instructions will get you a copy of the project (client and server) up and
 
 ### Azure Infrastructure Setup
 
-For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki/Terraform-Azure). 
+For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki/Terraform-Azure-%E2%80%90-Infrastructure-&-App-Deploymnent). 
 
 ## Contact
 jarle.hauge@kystverket.no
