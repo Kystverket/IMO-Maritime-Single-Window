@@ -1,13 +1,13 @@
-name: Apply On Push Infrastructure Terraform
+name: Apply Infrastructure Terraform
 
 on:
-  push:
-    branches: 
-      - terraform-modules
-    paths:
-      - 'terraform/**'
-      - '.github/workflows/**'
-
+  # If you want to run the actions automatically on push to the main/master branch, uncomment:
+  # push:
+  #   branches: 
+  #     - master
+  #   paths:
+  #     - 'terraform/**'
+  #     - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       workspace:
@@ -15,7 +15,6 @@ on:
         type: choice
         required: true
         options:
-          - test
           - dev-preview
           - dev
           - prod

@@ -1,14 +1,14 @@
 name: Docker Build, Push, and Deploy
 
 on:
-  push:
-    branches: 
-      - terraform-modules
-    paths-ignore:
-      - 'terraform/**'
-      - '.github/workflows/**'
-      - 'README.md'
-
+  # If you want to run the actions automatically on push to the main/master branch, uncomment:
+  # push:
+  #   branches: 
+  #     - master
+  #   paths-ignore:
+  #     - 'terraform/**'
+  #     - '.github/workflows/**'
+  #     - 'README.md'
   workflow_dispatch:
     inputs:
       workspace:
@@ -17,7 +17,6 @@ on:
         required: true
         options:
           - dev-preview
-          - test
           - dev
           - prod
 
@@ -35,7 +34,7 @@ jobs:
       ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
       ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
       ARM_USE_OIDC: "true"
-      APP_NAME: ${{vars.APP_NAME || 'alex-2'}}
+      APP_NAME: ${{vars.APP_NAME || 'imo-msw'}}
 
     defaults:
       run:

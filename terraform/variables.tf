@@ -1,7 +1,7 @@
 variable "app" {
   description = "The application name"
   type        = string
-  default     = "alex-2"
+  default     = "imo-msw"
 }
 
 variable "location" {
