@@ -62,7 +62,7 @@ jobs:
           WORKSPACE="${WORKSPACE//-/}" 
           APP_NAME="${{ env.APP_NAME}}"
           MODIFIED_APP_NAME="${APP_NAME//-/}"
-          ehco "MODIFIED_APP_NAME=$MODIFIED_APP_NAME" >> $GITHUB_ENV
+          echo "MODIFIED_APP_NAME=$MODIFIED_APP_NAME" >> $GITHUB_ENV
           echo "MODIFIED_WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
 
       - name: Log in to ACR
