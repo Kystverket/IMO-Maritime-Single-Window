@@ -58,11 +58,12 @@ jobs:
       - name: Prep workspace name
         run: |
           WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
-          WORKSPACE="${WORKSPACE//-/}" 
+          MODIFIED_WORKSPACE="${WORKSPACE//-/}" 
           APP_NAME="${{ env.APP_NAME}}"
           MODIFIED_APP_NAME="${APP_NAME//-/}"
+          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
           echo "MODIFIED_APP_NAME=$MODIFIED_APP_NAME" >> $GITHUB_ENV
-          echo "MODIFIED_WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+          echo "MODIFIED_WORKSPACE=$MODIFIED_WORKSPACE" >> $GITHUB_ENV
 
       - name: Log in to ACR
         run: az acr login --name cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
@@ -78,14 +79,14 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
-            containerAppName: ca-${{env.APP_NAME}}-backend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            containerAppName: ca-${{env.APP_NAME}}-backend-${{ env.WORKSPACE }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ env.WORKSPACE }}
             imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE  }}
-            containerAppName: ca-${{env.APP_NAME}}-frontend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            containerAppName: ca-${{env.APP_NAME}}-frontend-${{ env.WORKSPACE }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ env.WORKSPACE }}
             imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }}
