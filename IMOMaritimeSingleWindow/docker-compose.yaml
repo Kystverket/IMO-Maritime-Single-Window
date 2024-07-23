@@ -41,7 +41,7 @@ services:
   frontend.devcontainer:
     build:
       context: ./Client
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.local
     ports:
       - 4200:4200
     depends_on:
