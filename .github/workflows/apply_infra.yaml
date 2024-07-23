@@ -2,12 +2,12 @@ name: Apply Infrastructure Terraform
 
 on:
   # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
+  push:
+    branches: 
+      - actions-dev
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       workspace:
