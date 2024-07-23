@@ -2,13 +2,13 @@ name: Docker Build, Push, and Deploy
 
 on:
   # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths-ignore:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
-  #     - 'README.md'
+  push:
+    branches: 
+      - docker-compose-watch
+    paths-ignore:
+      - 'terraform/**'
+      - '.github/workflows/**'
+      - 'README.md'
   workflow_dispatch:
     inputs:
       workspace:
@@ -34,7 +34,7 @@ jobs:
       ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
       ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
       ARM_USE_OIDC: "true"
-      APP_NAME: ${{vars.APP_NAME || 'imo-msw'}}
+      APP_NAME: ${{vars.APP_NAME || 'test'}}
 
     defaults:
       run:
@@ -57,12 +57,13 @@ jobs:
 
       - name: Prep workspace name
         run: |
-          WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
-          WORKSPACE="${WORKSPACE//-/}" 
+          WORKSPACE="${{ github.event.inputs.workspace || 'dev' }}"
+          MODIFIED_WORKSPACE="${WORKSPACE//-/}" 
           APP_NAME="${{ env.APP_NAME}}"
           MODIFIED_APP_NAME="${APP_NAME//-/}"
+          echo "WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
           echo "MODIFIED_APP_NAME=$MODIFIED_APP_NAME" >> $GITHUB_ENV
-          echo "MODIFIED_WORKSPACE=$WORKSPACE" >> $GITHUB_ENV
+          echo "MODIFIED_WORKSPACE=$MODIFIED_WORKSPACE" >> $GITHUB_ENV
 
       - name: Log in to ACR
         run: az acr login --name cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
@@ -78,14 +79,14 @@ jobs:
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}
-            containerAppName: ca-${{env.APP_NAME}}-backend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            containerAppName: ca-${{env.APP_NAME}}-backend-${{ env.WORKSPACE }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ env.WORKSPACE }}
             imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/server:${{ github.sha }}
 
       - name: Deploy Frontend Container App
         uses: azure/container-apps-deploy-action@v1
         with:
             acrName: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE  }}
-            containerAppName: ca-${{env.APP_NAME}}-frontend-${{ github.event.inputs.workspace || 'dev-preview' }}
-            resourceGroup: rg-${{env.APP_NAME}}-${{ github.event.inputs.workspace || 'dev-preview' }}
+            containerAppName: ca-${{env.APP_NAME}}-frontend-${{ env.WORKSPACE }}
+            resourceGroup: rg-${{env.APP_NAME}}-${{ env.WORKSPACE }}
             imageToDeploy: cr${{env.MODIFIED_APP_NAME}}${{ env.MODIFIED_WORKSPACE }}.azurecr.io/client:${{ github.sha }}

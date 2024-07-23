@@ -2,12 +2,12 @@ name: Apply Infrastructure Terraform
 
 on:
   # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
+  push:
+    branches: 
+      - docker-compose-watch
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       workspace:
@@ -62,9 +62,8 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev-preview' }}
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev' }}
       
         - name: Terraform apply
           id: apply
           run: terraform apply -auto-approve
-  
