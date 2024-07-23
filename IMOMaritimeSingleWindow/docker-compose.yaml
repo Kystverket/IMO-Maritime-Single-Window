@@ -39,14 +39,21 @@ services:
       start_period: 10s
 
   frontend.devcontainer:
-    image: node:10.24-slim
-    restart: unless-stopped
+    build:
+      context: ./Client
+      dockerfile: Dockerfile.local
     ports:
       - 4200:4200
     depends_on:
       - backend.devcontainer
-    volumes:
-      - ./Client:/workspaces/frontend
-    command: >
-     sh -c "cd /workspaces/frontend && npm install
-     && npm start"
+    develop:
+      watch:
+        - path: ./Client/package.json
+          action: rebuild
+        - path: ./Client/package-lock.json
+          action: rebuild 
+        - path: ./Client
+          target: /app
+          ignore:
+            - node_modules/
+          action: sync
