@@ -36,7 +36,7 @@ resource "azurerm_container_app" "frontend" {
       }
       env {
         name = "FRONTEND_URL"
-        value = "${var.backend_internal_URL}"
+        value = "${var.frontend_internal_URL}"
       }
     }
     max_replicas = 1
