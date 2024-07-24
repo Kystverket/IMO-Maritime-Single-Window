@@ -34,10 +34,6 @@ resource "azurerm_container_app" "frontend" {
         name  = "BACKEND_URL"
         value = "https://${var.backend_internal_URL}"
       }
-      env {
-        name = "FRONTEND_URL"
-        value = "${var.frontend_internal_URL}"
-      }
     }
     max_replicas = 1
     min_replicas = 1
