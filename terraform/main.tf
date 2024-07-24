@@ -94,5 +94,4 @@ module "frontend" {
   container_registry_server    = module.appenv.container_registry_server
   backend_internal_URL         = module.backend.backend_internal_URL
   user_assigned_frontend       = module.access.user_assigned_identity_frontend
-  frontend_internal_URL        = module.backend.frontend_internal_URL
 }
