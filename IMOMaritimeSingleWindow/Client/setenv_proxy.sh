@@ -8,7 +8,7 @@ PROXY_CONFIG_FILE="./proxy.config.json"
 echo '{
   "/api": {
     "target": "'"$BACKEND_URL"'",
-    "secure": false,
+    "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
   }
