@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --port 4200 --disable-host-check --proxy-config ./proxy.config.json",
-    "start2": "ng serve --host 0.0.0.0 --port 4200 --public $BACKEND_URL --proxy-config ./proxy.config.json",
+    "start": "ng serve --host 0.0.0.0 --port 4200 --proxy-config ./proxy.config.json",
+    "start2": "ng serve --host $CONTAINER_APP_HOSTNAME --port 4200 --public $BACKEND_URL --proxy-config ./proxy.config.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
