@@ -11,3 +11,4 @@ output "outbound_backend_ip" {
   description = "The IP adress of the backend container app"
   value       = azurerm_container_app.backend.outbound_ip_addresses[0]
 }
+
