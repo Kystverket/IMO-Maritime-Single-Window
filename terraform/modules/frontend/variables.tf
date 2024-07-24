@@ -23,11 +23,6 @@ variable "backend_internal_URL" {
   type        = string
 }
 
-variable "frontend_internal_URL" {
-  description = "The endpoint url of the frontend container app"
-  type        = string
-}
-
 variable "app" {
   description = "The application name"
   type        = string

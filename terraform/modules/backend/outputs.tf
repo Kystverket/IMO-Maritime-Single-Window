@@ -10,8 +10,4 @@ output "backend_container_app" {
 output "outbound_backend_ip" {
   description = "The IP adress of the backend container app"
   value       = azurerm_container_app.backend.outbound_ip_addresses[0]
-}
-output "frontend_internal_URL" {
-  description = "The internal URL or Endpoint of the frontend container app"
-  value       = azurerm_container_app.frontend.ingress[0].fqdn
-}
+}    
