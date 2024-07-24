@@ -1,15 +1,18 @@
 # Maritime Single Window (MSW)
-Generic MSW will perform different basic tasks within the realm of ship reporting and information exchange. The MSW is not customized to any particular country, application or process, but will provide basic services to support clearence processes within any country that seeks to meet the international obligations.
+This generic MSW will perform different basic tasks within the realm of ship reporting and information exchange. The MSW is not customized to any particular country, but it is is designed to be universally applicable, providing basic services that support clearance processes for any country seeking to meet international obligations. This ensures compliance with global maritime standards, making it a reliable and scalable solution for maritime authorities.
 
 ## Getting Started
-These instructions will get you a copy of the project (client and server) up and running on your local machine for development and testing purposes. The project is compatible with Windows and Ubuntu. Please follow the specific guide for your operating system.
+These instructions will get you a copy of the MSW (client and server) up and running on your local machine for development and testing purposes. The project is compatible with Windows and Ubuntu. Please follow the specific guide for your operating system.
 
 ### Azure Infrastructure Setup
 
 For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki/Terraform-Azure-%E2%80%90-Infrastructure-&-App-Deployment). 
 
 ## Contact
-jarle.hauge@kystverket.no
+For any inquiries, please contact Jarle Hauge, Principal Engineer at the Norwegian Coastal Administration (Kystverket). Jarle is active both nationally and internationally within the International Maritime Organization (IMO).
+
+Email: jarle.hauge@kystverket.no
+
 
 ## Prerequisites
 
