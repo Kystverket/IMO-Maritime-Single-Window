@@ -6,7 +6,7 @@ These instructions will get you a copy of the project (client and server) up and
 
 ### Azure Infrastructure Setup
 
-For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki/Terraform-Azure-%E2%80%90-Infrastructure-&-App-Deploymnent). 
+For setting up the Azure infrastructure and deploying the app, terraform files and Github Actions YAML files are provided in the repository. Instructions for using these files can be found in our [Wiki](https://github.com/Kystverket/IMO-Maritime-Single-Window/wiki/Terraform-Azure-%E2%80%90-Infrastructure-&-App-Deployment). 
 
 ## Contact
 jarle.hauge@kystverket.no
@@ -133,7 +133,11 @@ Navigate to the following URL in a web browser to access the MSW interface:
 The frontend development environment is set up to automatically reflect changes you make in real time. As you edit and save your code in the `Client/src/app`, the Docker Compose service named `frontend.devcontainer` is configured to update automatically. This feature ensures a seamless development experience by reloading changes live as long as the Docker Compose session is active.
 
 ### Enabling Live Reload
-To enable the watch functionality, which monitors file changes and updates the service accordingly, please open a new terminal, navigate to the project directory, and execute the following command: `docker compose watch`
+To enable the watch functionality, which monitors file changes and updates the service accordingly, please open a new terminal, navigate to the project directory, and execute the following command: 
+
+```
+docker compose watch
+```
 
 ### Testing Live Reload
 To verify that the watch feature is working, make a change to the login header in the [login.component.html file](https://github.com/Kystverket/IMO-Maritime-Single-Window/blob/master/IMOMaritimeSingleWindow/Client/src/app/auth/login/login.component.html). For instance, modify the text inside a heading tag and save the file. The updates should appear automatically in the frontend served at `http://localhost:4200`, reflecting the changes without needing to manually restart the service.
