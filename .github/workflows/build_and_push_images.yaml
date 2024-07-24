@@ -2,13 +2,13 @@ name: Docker Build, Push, and Deploy
 
 on:
   # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths-ignore:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
-  #     - 'README.md'
+  push:
+    branches: 
+      - disablehostcheck
+    paths-ignore:
+      - 'terraform/**'
+      - '.github/workflows/**'
+      - 'README.md'
   workflow_dispatch:
     inputs:
       workspace:
