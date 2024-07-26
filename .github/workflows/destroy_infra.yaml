@@ -4,14 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       workspace:
-        description: Choose the terraform workspace
+        description: Choose environment
         type: choice
         required: true
         options:
           - dev-preview
           - dev
           - prod
-          - default
 
 permissions:
   id-token: write
@@ -21,7 +20,7 @@ jobs:
     terraform:
       name: 'Terraform'
       runs-on: ubuntu-latest
-      environment: dev-preview
+      environment: ${{ github.event.inputs.workspace }}
       env:
         ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}

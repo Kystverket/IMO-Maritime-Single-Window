@@ -1,17 +1,10 @@
 name: Apply Infrastructure Terraform
 
 on:
-  # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
   workflow_dispatch:
     inputs:
       workspace:
-        description: Choose the terraform workspace
+        description: Choose environment
         type: choice
         required: true
         options:
@@ -28,7 +21,7 @@ jobs:
     terraform:
       name: 'Terraform'
       runs-on: ubuntu-latest
-      environment: dev-preview
+      environment: ${{ github.event.inputs.workspace }}
       env:
         ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
@@ -62,7 +55,7 @@ jobs:
         
         - name: Select or create workspace
           id: select-or-create
-          run: terraform workspace select -or-create ${{ github.event.inputs.workspace || 'dev-preview' }}
+          run: terraform workspace select -or-create ${{ github.event.inputs.workspace }}
       
         - name: Terraform apply
           id: apply

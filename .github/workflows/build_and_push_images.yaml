@@ -1,18 +1,10 @@
 name: Docker Build, Push, and Deploy
 
 on:
-  # If you want to run the actions automatically on push to the main/master branch, uncomment:
-  # push:
-  #   branches: 
-  #     - master
-  #   paths-ignore:
-  #     - 'terraform/**'
-  #     - '.github/workflows/**'
-  #     - 'README.md'
   workflow_dispatch:
     inputs:
       workspace:
-        description: Choose the terraform workspace
+        description: Choose environment
         type: choice
         required: true
         options:
@@ -28,7 +20,7 @@ jobs:
   docker:
     name: 'Docker Build and Push'
     runs-on: ubuntu-latest
-    environment: dev-preview
+    environment: ${{ github.event.inputs.workspace }}
     env:
       ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
       ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
@@ -57,7 +49,7 @@ jobs:
 
       - name: Prep workspace name
         run: |
-          WORKSPACE="${{ github.event.inputs.workspace || 'dev-preview' }}"
+          WORKSPACE="${{ github.event.inputs.workspace }}"
           MODIFIED_WORKSPACE="${WORKSPACE//-/}" 
           APP_NAME="${{ env.APP_NAME}}"
           MODIFIED_APP_NAME="${APP_NAME//-/}"
