@@ -28,7 +28,7 @@ jobs:
     terraform:
       name: 'Terraform'
       runs-on: ubuntu-latest
-      environment: dev-preview
+      environment: ${{ github.event.inputs.workspace }}
       env:
         ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
         ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
