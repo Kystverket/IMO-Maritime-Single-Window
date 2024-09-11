@@ -1,15 +1,15 @@
 resource "azurerm_dns_a_record" "frontend" {
   name                = "@"
-  zone_name           = data.azurerm_dns_zone.dns_zone.name
-  resource_group_name = var.resource_group_name
+  zone_name           = var.dns_zone_name
+  resource_group_name = var.dns_resource_group_name
   ttl                 = 3600
   records             = var.outbound_ip_addresses
 }
 
 resource "azurerm_dns_txt_record" "frontend" {
   name                = "asuid"
-  zone_name           = data.azurerm_dns_zone.dns_zone.name
-  resource_group_name = var.resource_group_name
+  zone_name           = var.dns_zone_name
+  resource_group_name = var.dns_resource_group_name
   ttl                 = 3600
 
   record {
