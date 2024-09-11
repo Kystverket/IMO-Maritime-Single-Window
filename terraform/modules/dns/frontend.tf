@@ -37,7 +37,7 @@ resource "time_sleep" "dns_propagation" {
 }
 
 resource "azapi_resource" "managed_certificate" {
-  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2023-05-01"
+  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2024-03-0"
   name      = "cert-${var.app}-frontend-${var.env}"
   parent_id = var.container_app_environment_id
   location  = var.location
@@ -53,7 +53,7 @@ resource "azapi_resource" "managed_certificate" {
 }
 
 resource "azapi_update_resource" "custom_domain_binding" {
-  type        = "Microsoft.App/containerApps@2023-05-01"
+  type        = "Microsoft.App/containerApps@2024-03-01"
   resource_id = var.frontend_container_app_id
 
   body = jsonencode({
