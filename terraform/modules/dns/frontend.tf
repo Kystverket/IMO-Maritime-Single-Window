@@ -20,7 +20,7 @@ resource "azurerm_dns_txt_record" "frontend" {
 resource "time_sleep" "dns_propagation" {
   create_duration = "60s"
 
-  depends_on = [azurerm_dns_txt_record.txt_record, azurerm_dns_cname_record.cname_record]
+  depends_on = [azurerm_dns_txt_record.frontend, azurerm_dns_cname_record.frontend]
 
   triggers = {
     url            = "${var.frontend_dns_prefix}.${var.dns_zone_name}",
