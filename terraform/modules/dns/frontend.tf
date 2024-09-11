@@ -17,67 +17,23 @@ resource "azurerm_dns_txt_record" "frontend" {
   }
 }
 
-resource "time_sleep" "dns_propagation" {
-  create_duration = "60s"
-
-  depends_on = [azurerm_dns_txt_record.frontend, azurerm_dns_cname_record.frontend]
-
+resource "null_resource" "frontend_custom_domain" {
   triggers = {
-    url            = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}",
-    verificationId = var.frontend_custom_domain_verification_id,
-    record         = azurerm_dns_cname_record.frontend.record,
+    frontend_public_hostname       = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}",
+    resource_group_name            = var.resource_group_name,
+    frontend_container_app_name    = var.frontend_container_app_name
+    container_app_environment_name = var.container_app_environment_name
   }
-}
 
-resource "azapi_update_resource" "custom_domain" {
-  type        = "Microsoft.App/containerApps@2023-05-01"
-  resource_id = var.frontend_container_app_id
+  provisioner "local-exec" {
+    command = "az containerapp hostname add --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]}"
+  }
+  provisioner "local-exec" {
+    command = "az containerapp hostname bind --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]} --environment ${self.triggers["container_app_environment_name"]} --validation-method CNAME"
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "az containerapp hostname delete --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]}"
+  }
 
-  body = jsonencode({
-    properties = {
-      ingress = {
-        customDomains = [
-          {
-            bindingType = "Disabled",
-            name        = time_sleep.dns_propagation.triggers["url"],
-          }
-        ]
-      }
-    }
-  })
-}
-
-resource "azapi_resource" "managed_certificate" {
-  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2024-03-01"
-  name      = "cert-${var.app}-frontend-${var.env}"
-  parent_id = var.container_app_environment_id
-  location  = var.location
-
-  body = jsonencode({
-    properties = {
-      subjectName             = time_sleep.dns_propagation.triggers["url"]
-      domainControlValidation = "CNAME"
-    }
-  })
-
-  response_export_values = ["*"]
-}
-
-resource "azapi_update_resource" "custom_domain_binding" {
-  type        = "Microsoft.App/containerApps@2024-03-01"
-  resource_id = var.frontend_container_app_id
-
-  body = jsonencode({
-    properties = {
-      ingress = {
-        customDomains = [
-          {
-            bindingType   = "SniEnabled",
-            name          = time_sleep.dns_propagation.triggers["url"],
-            certificateId = jsondecode(azapi_resource.managed_certificate.output).id
-          }
-        ]
-      }
-    }
-  })
 }
