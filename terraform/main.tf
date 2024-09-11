@@ -1,5 +1,6 @@
 locals {
-  env = terraform.workspace
+  env                        = terraform.workspace
+  create_imo_msw_preview_dns = var.app == "imo-msw" && terraform.workspace == "dev-preview" ? 1 : 0
 }
 
 terraform {
@@ -94,4 +95,17 @@ module "frontend" {
   container_registry_server    = module.appenv.container_registry_server
   backend_internal_URL         = module.backend.backend_internal_URL
   user_assigned_frontend       = module.access.user_assigned_identity_frontend
+}
+
+// Specificly created for imo-msw preview environment
+// Can be removed or altered for other applications
+module "dns" {
+  count                         = local.create_imo_msw_preview_dns
+  source                        = "./modules/dns"
+  dns_zone_name                 = "imo-msw.kystverket.cloud"
+  dns_zone_resource_group_name  = "rg-dns"
+  resource_group_name           = azurerm_resource_group.imo_app.name
+  container_app_id              = module.frontend.container_app_id
+  outbound_ip_addresses         = module.frontend.outbound_ip_addresses
+  custom_domain_verification_id = module.frontend.custom_domain_verification_id
 }
