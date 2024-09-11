@@ -7,7 +7,7 @@ resource "azurerm_dns_cname_record" "frontend" {
 }
 
 resource "azurerm_dns_txt_record" "frontend" {
-  name                = "asuid"
+  name                = "asuid.${azurerm_dns_cname_record.frontend.name}"
   zone_name           = var.dns_zone_name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 3600
