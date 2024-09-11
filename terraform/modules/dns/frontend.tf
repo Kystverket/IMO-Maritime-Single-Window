@@ -20,9 +20,8 @@ resource "azurerm_dns_txt_record" "frontend" {
 resource "azurerm_container_app_custom_domain" "frontend" {
   name                     = trimprefix(azurerm_dns_txt_record.frontend.fqdn, "asuid.")
   container_app_id         = var.container_app_id
-  certificate_binding_type = "SniEnabled"
 
   lifecycle {
-    ignore_changes = [container_app_environment_certificate_id]
+    ignore_changes = [certificate_binding_type, container_app_environment_certificate_id]
   }
 }
