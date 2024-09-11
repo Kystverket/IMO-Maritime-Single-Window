@@ -19,8 +19,8 @@ resource "azurerm_dns_txt_record" "frontend" {
 
 resource "null_resource" "frontend_custom_domain" {
   triggers = {
-    frontend_public_hostname       = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}",
-    resource_group_name            = var.resource_group_name,
+    frontend_public_hostname       = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}"
+    resource_group_name            = var.resource_group_name
     frontend_container_app_name    = var.frontend_container_app_name
     container_app_environment_name = var.container_app_environment_name
   }
