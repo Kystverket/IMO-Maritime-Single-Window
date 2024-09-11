@@ -3,12 +3,6 @@ terraform {
     azapi = {
       source = "azure/azapi"
     }
-    time = {
-      source = "hashicorp/time"
-    }
-    null = {
-      source = "hashicorp/null"
-    }
   }
 }
 
