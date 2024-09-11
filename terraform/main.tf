@@ -109,6 +109,7 @@ module "dns" {
   dns_zone_name                          = local.dns_zone_name
   dns_resource_group_name                = "rg-dns"
   resource_group_name                    = azurerm_resource_group.imo_app.name
+  location                               = var.location
   container_app_environment_name         = module.appenv.environment_name
   frontend_container_app_id              = module.frontend.container_app_id
   frontend_container_app_name            = module.frontend.container_app_name
