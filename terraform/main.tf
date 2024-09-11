@@ -97,7 +97,7 @@ module "frontend" {
   user_assigned_frontend       = module.access.user_assigned_identity_frontend
 }
 
-// Specificly created for imo-msw preview environment
+// Conditionally created for imo-msw preview environment
 // Can be removed or altered for other applications
 module "dns" {
   count                         = local.create_imo_msw_preview_dns
