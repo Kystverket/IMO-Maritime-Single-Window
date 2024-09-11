@@ -102,7 +102,7 @@ module "frontend" {
 module "dns" {
   count                         = local.create_imo_msw_preview_dns
   source                        = "./modules/dns"
-  dns_zone_name                 = "imo-msw.kystverket.cloud"
+  dns_zone_name                 = "imo-msw-dev.kystverket.cloud"
   dns_zone_resource_group_name  = "rg-dns"
   resource_group_name           = azurerm_resource_group.imo_app.name
   container_app_id              = module.frontend.container_app_id
