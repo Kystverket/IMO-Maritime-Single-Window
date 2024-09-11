@@ -10,11 +10,23 @@ variable "resource_group_name" {
   type = string
 }
 
-variable "container_app_id" {
+variable "container_app_environment_name" {
+  type = string
+}
+
+variable "frontend_container_app_id" {
+  type = string
+}
+
+variable "frontend_container_app_name" {
   type = string
 }
 
 variable "frontend_dns_prefix" {
+  type = string
+}
+
+variable "frontend_public_hostname" {
   type = string
 }
 

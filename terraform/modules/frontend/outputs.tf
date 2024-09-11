@@ -9,3 +9,7 @@ output "fqdn" {
 output "custom_domain_verification_id" {
   value = azurerm_container_app.frontend.custom_domain_verification_id
 }
+
+output "container_app_name" {
+  value = azurerm_container_app.frontend.name
+}

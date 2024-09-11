@@ -109,8 +109,11 @@ module "dns" {
   dns_zone_name                          = local.dns_zone_name
   dns_resource_group_name                = "rg-dns"
   resource_group_name                    = azurerm_resource_group.imo_app.name
-  container_app_id                       = module.frontend.container_app_id
+  container_app_environment_name         = module.appenv.container_app_environment_name
+  frontend_container_app_id              = module.frontend.container_app_id
+  frontend_container_app_name            = module.frontend.container_app_name
   frontend_dns_prefix                    = local.frontend_dns_prefix
+  frontend_public_hostname               = local.frontend_public_hostname
   frontend_fqdn                          = module.frontend.fqdn
   frontend_custom_domain_verification_id = module.frontend.custom_domain_verification_id
 }

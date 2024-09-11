@@ -18,10 +18,14 @@ resource "azurerm_dns_txt_record" "frontend" {
 }
 
 resource "azurerm_container_app_custom_domain" "frontend" {
-  name             = trimprefix(azurerm_dns_txt_record.frontend.fqdn, "asuid.")
-  container_app_id = var.container_app_id
+  name             = var.frontend_public_hostname
+  container_app_id = var.frontend_container_app_id
 
   lifecycle {
     ignore_changes = [certificate_binding_type, container_app_environment_certificate_id]
+  }
+
+  provisioner "local-exec" {
+    command = "az containerapp hostname bind --hostname ${var.frontend_public_hostname} -g ${var.resource_group_name} -n ${var.frontend_container_app_name} --environment ${var.container_app_environment_name} --validation-method CNAME"
   }
 }
