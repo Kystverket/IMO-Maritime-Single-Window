@@ -26,14 +26,14 @@ resource "null_resource" "frontend_custom_domain" {
   }
 
   provisioner "local-exec" {
-    command = "az containerapp hostname add --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]}"
+    command = "az containerapp hostname add --hostname ${self.triggers.frontend_public_hostname} -g ${self.triggers.resource_group_name} -n ${self.triggers.frontend_container_app_name}"
   }
   provisioner "local-exec" {
-    command = "az containerapp hostname bind --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]} --environment ${self.triggers["container_app_environment_name"]} --validation-method CNAME"
+    command = "az containerapp hostname bind --hostname ${self.triggers.frontend_public_hostname} -g ${self.triggers.resource_group_name} -n ${self.triggers.frontend_container_app_name} --environment ${self.triggers.container_app_environment_name} --validation-method CNAME"
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "az containerapp hostname delete --hostname ${self.triggers["frontend_public_hostname"]} -g ${self.triggers["resource_group_name"]} -n ${self.triggers["frontend_container_app_name"]}"
+    command = "az containerapp hostname delete --hostname ${self.triggers.frontend_public_hostname} -g ${self.triggers.resource_group_name} -n ${self.triggers.frontend_container_app_name}"
   }
 
 }
