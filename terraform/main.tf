@@ -107,7 +107,6 @@ module "dns" {
   dns_prefix                     = "preview"
   resource_group_name            = azurerm_resource_group.imo_app.name
   container_app_id               = module.frontend.container_app_id
-  frontend_outbound_ip_addresses = module.frontend.outbound_ip_addresses
   frontend_fqdn                  = module.frontend.fqdn
   custom_domain_verification_id  = module.frontend.custom_domain_verification_id
 }
