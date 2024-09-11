@@ -3,7 +3,7 @@ resource "azurerm_dns_cname_record" "frontend" {
   zone_name           = var.dns_zone_name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 3600
-  record              = var.cname_record
+  record              = var.frontend_fqdn
 }
 
 resource "azurerm_dns_txt_record" "frontend" {
