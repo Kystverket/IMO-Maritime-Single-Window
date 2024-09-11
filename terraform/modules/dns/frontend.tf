@@ -1,5 +1,5 @@
 resource "azurerm_dns_cname_record" "frontend" {
-  name                = "www"
+  name                = var.dns_prefix
   zone_name           = var.dns_zone_name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 3600

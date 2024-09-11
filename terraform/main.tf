@@ -104,6 +104,7 @@ module "dns" {
   source                        = "./modules/dns"
   dns_zone_name                 = "imo-msw-dev.kystverket.cloud"
   dns_resource_group_name       = "rg-dns"
+  dns_prefix                    = "preview"
   resource_group_name           = azurerm_resource_group.imo_app.name
   container_app_id              = module.frontend.container_app_id
   frontend_fqdn                 = module.frontend.fqdn
