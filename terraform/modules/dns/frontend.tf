@@ -23,6 +23,6 @@ resource "azurerm_container_app_custom_domain" "frontend" {
   certificate_binding_type = "SniEnabled"
 
   lifecycle {
-    ignore_changes = [certificate_binding_type, container_app_environment_certificate_id]
+    ignore_changes = [container_app_environment_certificate_id]
   }
 }
