@@ -36,13 +36,11 @@ resource "time_sleep" "dns_propagation" {
   }
 }
 
-
 resource "azapi_resource" "managed_certificate" {
-  depends_on = [time_sleep.dns_propagation, azapi_update_resource.custom_domain]
-  type       = "Microsoft.App/ManagedEnvironments/managedCertificates@2023-05-01"
-  name       = "cert-${var.app}-frontend-${var.env}"
-  parent_id  = var.container_app_environment_id
-  location   = var.location
+  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2023-05-01"
+  name      = "cert-${var.app}-frontend-${var.env}"
+  parent_id = var.container_app_environment_id
+  location  = var.location
 
   body = jsonencode({
     properties = {
