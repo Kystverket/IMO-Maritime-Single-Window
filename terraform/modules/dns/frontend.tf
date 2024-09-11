@@ -37,7 +37,7 @@ resource "time_sleep" "dns_propagation" {
 }
 
 resource "azapi_resource" "managed_certificate" {
-  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2024-03-0"
+  type      = "Microsoft.App/ManagedEnvironments/managedCertificates@2024-03-01"
   name      = "cert-${var.app}-frontend-${var.env}"
   parent_id = var.container_app_environment_id
   location  = var.location
