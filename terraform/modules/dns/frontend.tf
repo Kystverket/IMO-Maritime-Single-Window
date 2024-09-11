@@ -17,6 +17,10 @@ resource "azurerm_dns_txt_record" "frontend" {
   }
 }
 
+resource "time_sleep" "dns_propagation" {
+  create_duration = "10s"
+}
+
 resource "null_resource" "frontend_custom_domain" {
   triggers = {
     frontend_public_hostname       = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}"
