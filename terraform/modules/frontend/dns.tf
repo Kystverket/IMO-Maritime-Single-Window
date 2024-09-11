@@ -4,7 +4,7 @@
 data "azurerm_dns_zone" "dns_zone" {
   count               = var.app == "imo-msw" && var.env == "dev-preview"
   name                = "imo-msw-dev.kystverket.cloud"
-  resource_group_name = data.azurerm_resource_group.rg-dns
+  resource_group_name = "rg-dns"
 }
 
 resource "azurerm_dns_a_record" "frontend" {
