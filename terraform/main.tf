@@ -100,13 +100,14 @@ module "frontend" {
 // Conditionally created for imo-msw preview environment
 // Can be removed or altered for other applications
 module "dns" {
-  count                         = local.create_imo_msw_preview_dns
-  source                        = "./modules/dns"
-  dns_zone_name                 = "imo-msw-dev.kystverket.cloud"
-  dns_resource_group_name       = "rg-dns"
-  dns_prefix                    = "preview"
-  resource_group_name           = azurerm_resource_group.imo_app.name
-  container_app_id              = module.frontend.container_app_id
-  frontend_fqdn                 = module.frontend.fqdn
-  custom_domain_verification_id = module.frontend.custom_domain_verification_id
+  count                          = local.create_imo_msw_preview_dns
+  source                         = "./modules/dns"
+  dns_zone_name                  = "imo-msw-dev.kystverket.cloud"
+  dns_resource_group_name        = "rg-dns"
+  dns_prefix                     = "preview"
+  resource_group_name            = azurerm_resource_group.imo_app.name
+  container_app_id               = module.frontend.container_app_id
+  frontend_outbound_ip_addresses = module.frontend.outbound_ip_addresses
+  frontend_fqdn                  = module.frontend.fqdn
+  custom_domain_verification_id  = module.frontend.custom_domain_verification_id
 }
