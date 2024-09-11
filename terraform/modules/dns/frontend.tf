@@ -17,35 +17,25 @@ resource "azurerm_dns_txt_record" "frontend" {
   }
 }
 
-resource "time_sleep" "dns_propagation" {
-  create_duration = "60s"
+resource "azurerm_container_app_custom_domain" "frontend" {
+  name             = trimprefix(azurerm_dns_txt_record.frontend.fqdn, "asuid.")
+  container_app_id = var.frontend_container_app_id
 
-  depends_on = [azurerm_dns_txt_record.frontend, azurerm_dns_cname_record.frontend]
-
-  triggers = {
-    url            = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}",
-    verificationId = var.frontend_custom_domain_verification_id,
-    record         = azurerm_dns_cname_record.frontend.record,
+  lifecycle {
+    ignore_changes = [certificate_binding_type, container_app_environment_certificate_id]
   }
 }
 
-resource "azapi_update_resource" "custom_domain" {
-  type        = "Microsoft.App/containerApps@2023-05-01"
-  resource_id = var.frontend_container_app_id
+resource "time_sleep" "dns_propagation" {
+  create_duration = "60s"
 
-  body = jsonencode({
-    properties = {
-      ingress = {
-        customDomains = [
-          {
-            bindingType = "Disabled",
-            name        = time_sleep.dns_propagation.triggers["url"],
-          }
-        ]
-      }
-    }
-  })
+  depends_on = [azurerm_container_app_custom_domain.frontend]
+
+  triggers = {
+    url = azurerm_container_app_custom_domain.frontend.name,
+  }
 }
+
 
 resource "azapi_resource" "managed_certificate" {
   depends_on = [time_sleep.dns_propagation, azapi_update_resource.custom_domain]
