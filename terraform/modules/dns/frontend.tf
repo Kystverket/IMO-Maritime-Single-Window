@@ -22,4 +22,8 @@ resource "azurerm_dns_txt_record" "frontend" {
   provisioner "local-exec" {
     command = "az containerapp hostname bind --hostname ${var.frontend_public_hostname} -g ${var.resource_group_name} -n ${var.frontend_container_app_name} --environment ${var.container_app_environment_name} --validation-method CNAME"
   }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "az containerapp hostname delete --hostname ${var.frontend_public_hostname} -g ${var.resource_group_name} -n ${var.frontend_container_app_name}"
+  }
 }
