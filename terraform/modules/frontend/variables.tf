@@ -32,3 +32,7 @@ variable "env" {
   description = "The application environment"
   type        = string
 }
+
+variable "public_hostname" {
+  type = string
+}

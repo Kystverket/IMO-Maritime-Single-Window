@@ -1,5 +1,5 @@
 resource "azurerm_dns_cname_record" "frontend" {
-  name                = var.dns_prefix
+  name                = var.frontend_dns_prefix
   zone_name           = var.dns_zone_name
   resource_group_name = var.dns_resource_group_name
   ttl                 = 3600
@@ -13,13 +13,13 @@ resource "azurerm_dns_txt_record" "frontend" {
   ttl                 = 3600
 
   record {
-    value = var.custom_domain_verification_id
+    value = var.frontend_custom_domain_verification_id
   }
 }
 
 resource "azurerm_container_app_custom_domain" "frontend" {
-  name                     = trimprefix(azurerm_dns_txt_record.frontend.fqdn, "asuid.")
-  container_app_id         = var.container_app_id
+  name             = trimprefix(azurerm_dns_txt_record.frontend.fqdn, "asuid.")
+  container_app_id = var.container_app_id
 
   lifecycle {
     ignore_changes = [certificate_binding_type, container_app_environment_certificate_id]

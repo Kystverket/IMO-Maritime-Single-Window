@@ -1,6 +1,9 @@
 locals {
   env                        = terraform.workspace
   create_imo_msw_preview_dns = var.app == "imo-msw" && terraform.workspace == "dev-preview" ? 1 : 0
+  dns_zone_name              = "imo-msw-dev.kystverket.cloud"
+  frontend_dns_prefix        = "preview"
+  frontend_public_hostname   = "${frontend_dns_prefix}.${local.dns_zone_name}"
 }
 
 terraform {
@@ -95,18 +98,19 @@ module "frontend" {
   container_registry_server    = module.appenv.container_registry_server
   backend_internal_URL         = module.backend.backend_internal_URL
   user_assigned_frontend       = module.access.user_assigned_identity_frontend
+  public_hostname              = local.frontend_public_hostname
 }
 
 // Conditionally created for imo-msw preview environment
 // Can be removed or altered for other applications
 module "dns" {
-  count                          = local.create_imo_msw_preview_dns
-  source                         = "./modules/dns"
-  dns_zone_name                  = "imo-msw-dev.kystverket.cloud"
-  dns_resource_group_name        = "rg-dns"
-  dns_prefix                     = "preview"
-  resource_group_name            = azurerm_resource_group.imo_app.name
-  container_app_id               = module.frontend.container_app_id
-  frontend_fqdn                  = module.frontend.fqdn
-  custom_domain_verification_id  = module.frontend.custom_domain_verification_id
+  count                                  = local.create_imo_msw_preview_dns
+  source                                 = "./modules/dns"
+  dns_zone_name                          = local.dns_zone_name
+  dns_resource_group_name                = "rg-dns"
+  resource_group_name                    = azurerm_resource_group.imo_app.name
+  container_app_id                       = module.frontend.container_app_id
+  frontend_dns_prefix                    = local.frontend_dns_prefix
+  frontend_fqdn                          = module.frontend.fqdn
+  frontend_custom_domain_verification_id = module.frontend.custom_domain_verification_id
 }
