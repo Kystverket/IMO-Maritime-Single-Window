@@ -14,6 +14,14 @@ variable "location" {
   type = string
 }
 
+variable "app" {
+  type = string
+}
+
+variable "env" {
+  type = string
+}
+
 variable "container_app_environment_id" {
   type = string
 }

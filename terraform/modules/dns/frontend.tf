@@ -1,15 +1,15 @@
 resource "azurerm_dns_cname_record" "frontend" {
   name                = var.frontend_dns_prefix
-  zone_name           = var.dns_zone_name
-  resource_group_name = var.dns_resource_group_name
+  zone_name           = data.azurerm_dns_zone.dns_zone.name
+  resource_group_name = data.azurerm_dns_zone.dns_zone.resource_group_name
   ttl                 = 3600
   record              = var.frontend_fqdn
 }
 
 resource "azurerm_dns_txt_record" "frontend" {
   name                = "asuid.${azurerm_dns_cname_record.frontend.name}"
-  zone_name           = var.dns_zone_name
-  resource_group_name = var.dns_resource_group_name
+  zone_name           = data.azurerm_dns_zone.dns_zone.name
+  resource_group_name = data.azurerm_dns_zone.dns_zone.resource_group_name
   ttl                 = 3600
 
   record {
@@ -23,7 +23,7 @@ resource "time_sleep" "dns_propagation" {
   depends_on = [azurerm_dns_txt_record.frontend, azurerm_dns_cname_record.frontend]
 
   triggers = {
-    url            = "${var.frontend_dns_prefix}.${var.dns_zone_name}",
+    url            = "${azurerm_dns_cname_record.frontend.name}.${data.azurerm_dns_zone.dns_zone.name}",
     verificationId = var.frontend_custom_domain_verification_id,
     record         = azurerm_dns_cname_record.frontend.record,
   }
@@ -50,7 +50,7 @@ resource "azapi_update_resource" "custom_domain" {
 resource "azapi_resource" "managed_certificate" {
   depends_on = [time_sleep.dns_propagation, azapi_update_resource.custom_domain]
   type       = "Microsoft.App/ManagedEnvironments/managedCertificates@2023-05-01"
-  name       = "${var.container_app_environment_name}-${var.frontend_container_app_name}-cert"
+  name       = "cert-${var.app}-frontend-${var.env}"
   parent_id  = var.container_app_environment_id
   location   = var.location
 
