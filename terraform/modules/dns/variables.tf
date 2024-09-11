@@ -18,6 +18,10 @@ variable "container_app_id" {
   type = string
 }
 
+variable "frontend_outbound_ip_addresses" {
+  type = list(string)
+}
+
 variable "frontend_fqdn" {
   type = string
 }

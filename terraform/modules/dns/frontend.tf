@@ -1,3 +1,11 @@
+resource "azurerm_dns_a_record" "frontend" {
+  name                = "@"
+  zone_name           = var.dns_zone_name
+  resource_group_name = var.dns_resource_group_name
+  ttl                 = 3600
+  records             = var.frontend_outbound_ip_addresses
+}
+
 resource "azurerm_dns_cname_record" "frontend" {
   name                = var.dns_prefix
   zone_name           = var.dns_zone_name
