@@ -1,11 +1,9 @@
 locals {
   env                        = terraform.workspace
-  // The local variables below are used to conditionally create dns for imo-msw preview environment
-  // They can be removed or altered along with the dns module for other applications
-  create_imo_msw_preview_dns = var.app == "imo-msw" && terraform.workspace == "dev-preview" ? 1 : 0
+  create_imo_msw_preview_dns = var.app == "imo-msw" && local.env == "dev-preview" ? 1 : 0
   dns_zone_name              = "imo-msw-dev.kystverket.cloud"
   frontend_dns_prefix        = "preview"
-  frontend_public_hostname   = "${local.frontend_dns_prefix}.${local.dns_zone_name}"
+  frontend_public_hostname   = local.create_imo_msw_preview_dns == 1 ? "${local.frontend_dns_prefix}.${local.dns_zone_name}" : "ca-${var.app}-frontend-${local.env}.${module.appenv.default_domain}"
 }
 
 terraform {
@@ -111,7 +109,7 @@ module "dns" {
   dns_zone_name                          = local.dns_zone_name
   dns_resource_group_name                = "rg-dns"
   resource_group_name                    = azurerm_resource_group.imo_app.name
-  container_app_environment_name         = module.appenv.container_app_environment_name
+  container_app_environment_name         = module.appenv.environment_name
   frontend_container_app_id              = module.frontend.container_app_id
   frontend_container_app_name            = module.frontend.container_app_name
   frontend_dns_prefix                    = local.frontend_dns_prefix

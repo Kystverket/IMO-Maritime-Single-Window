@@ -13,6 +13,10 @@ output "container_registry_id" {
   value       = azurerm_container_registry.acr.id
 }
 
-output "container_app_environment_name" {
+output "environment_name" {
   value = azurerm_container_app_environment.imo_app.name
+}
+
+output "default_domain" {
+  value = azurerm_container_app_environment.imo_app.default_domain
 }
