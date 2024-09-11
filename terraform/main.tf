@@ -12,15 +12,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~>3.110.0"
     }
-    time = {
-      source = "hashicorp/time"
-    }
-    null = {
-      source = "hashicorp/null"
-    }
-    azapi = {
-      source = "azure/azapi"
-    }
   }
   backend "azurerm" {
     resource_group_name  = "rg-imo-msw-terraform-common"
