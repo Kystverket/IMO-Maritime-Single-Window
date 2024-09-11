@@ -103,20 +103,20 @@ module "frontend" {
 
 // Conditionally created for imo-msw preview environment
 // Can be removed or altered for other applications
-module "dns" {
-  count                                  = local.create_imo_msw_preview_dns
-  source                                 = "./modules/dns"
-  dns_zone_name                          = local.dns_zone_name
-  dns_resource_group_name                = "rg-dns"
-  resource_group_name                    = azurerm_resource_group.imo_app.name
-  location                               = var.location
-  app                                    = var.app
-  env                                    = local.env
-  container_app_environment_id           = module.appenv.container_app_environment_id
-  container_app_environment_name         = module.appenv.container_app_environment_name
-  frontend_container_app_id              = module.frontend.container_app_id
-  frontend_container_app_name            = module.frontend.container_app_name
-  frontend_dns_prefix                    = local.frontend_dns_prefix
-  frontend_fqdn                          = module.frontend.fqdn
-  frontend_custom_domain_verification_id = module.frontend.custom_domain_verification_id
-}
+# module "dns" {
+#   count                                  = local.create_imo_msw_preview_dns
+#   source                                 = "./modules/dns"
+#   dns_zone_name                          = local.dns_zone_name
+#   dns_resource_group_name                = "rg-dns"
+#   resource_group_name                    = azurerm_resource_group.imo_app.name
+#   location                               = var.location
+#   app                                    = var.app
+#   env                                    = local.env
+#   container_app_environment_id           = module.appenv.container_app_environment_id
+#   container_app_environment_name         = module.appenv.container_app_environment_name
+#   frontend_container_app_id              = module.frontend.container_app_id
+#   frontend_container_app_name            = module.frontend.container_app_name
+#   frontend_dns_prefix                    = local.frontend_dns_prefix
+#   frontend_fqdn                          = module.frontend.fqdn
+#   frontend_custom_domain_verification_id = module.frontend.custom_domain_verification_id
+# }
