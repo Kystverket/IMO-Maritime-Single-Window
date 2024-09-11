@@ -12,6 +12,9 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~>3.110.0"
     }
+    azapi = {
+      source = "azure/azapi"
+    }
   }
   backend "azurerm" {
     resource_group_name  = "rg-imo-msw-terraform-common"
