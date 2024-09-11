@@ -31,7 +31,7 @@ resource "time_sleep" "dns_propagation" {
 
 resource "azapi_update_resource" "custom_domain" {
   type        = "Microsoft.App/containerApps@2023-05-01"
-  resource_id = azurerm_container_app.app.id
+  resource_id = var.frontend_container_app_id
 
   body = jsonencode({
     properties = {
