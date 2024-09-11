@@ -28,6 +28,9 @@ provider "azurerm" {
   features {}
 }
 
+provider "azapi" {
+}
+
 resource "azurerm_resource_group" "imo_app" {
   name     = "rg-${var.app}-${local.env}"
   location = var.location
