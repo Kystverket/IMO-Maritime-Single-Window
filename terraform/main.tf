@@ -12,9 +12,6 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~>3.110.0"
     }
-    azapi = {
-      source = "azure/azapi"
-    }
   }
   backend "azurerm" {
     resource_group_name  = "rg-imo-msw-terraform-common"
@@ -26,9 +23,6 @@ terraform {
 
 provider "azurerm" {
   features {}
-}
-
-provider "azapi" {
 }
 
 resource "azurerm_resource_group" "imo_app" {
