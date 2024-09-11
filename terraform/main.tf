@@ -1,6 +1,6 @@
 locals {
   env                        = terraform.workspace
-  create_imo_msw_preview_dns = var.app == "imo-msw" && local.env == "dev-preview" ? 1 : 0
+  create_imo_msw_preview_dns = var.app == "imo-msw-no-dns" && local.env == "dev-preview" ? 1 : 0
   dns_zone_name              = "imo-msw-dev.kystverket.cloud"
   frontend_dns_prefix        = "preview"
   frontend_public_hostname   = local.create_imo_msw_preview_dns == 1 ? "${local.frontend_dns_prefix}.${local.dns_zone_name}" : "ca-${var.app}-frontend-${local.env}.${module.appenv.default_domain}"
