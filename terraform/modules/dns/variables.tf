@@ -15,7 +15,7 @@ variable "container_app_id" {
 }
 
 variable "outbound_ip_addresses" {
-  type = [string]
+  type = list(string)
 }
 
 variable "custom_domain_verification_id" {
