@@ -2,8 +2,8 @@ output "container_app_id" {
   value = azurerm_container_app.frontend.id
 }
 
-output "outbound_ip_addresses" {
-  value = azurerm_container_app.frontend.outbound_ip_addresses
+output "fqdn" {
+  value = azurerm_container_app.frontend.ingress[0].fqdn
 }
 
 output "custom_domain_verification_id" {

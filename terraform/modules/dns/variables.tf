@@ -14,8 +14,8 @@ variable "container_app_id" {
   type = string
 }
 
-variable "outbound_ip_addresses" {
-  type = list(string)
+variable "frontend_fqdn" {
+  type = string
 }
 
 variable "custom_domain_verification_id" {
