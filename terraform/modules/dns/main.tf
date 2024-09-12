@@ -39,16 +39,16 @@ resource "terraform_data" "custom_domain" {
   }
 
   provisioner "local-exec" {
-    command = "az containerapp hostname add --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name}"
+    command    = "az containerapp hostname add --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name}"
     on_failure = continue
   }
   provisioner "local-exec" {
-    command = "az containerapp hostname bind --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name} --environment ${self.input.container_app_environment_name} --validation-method CNAME"
+    command    = "az containerapp hostname bind --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name} --environment ${self.input.container_app_environment_name} --validation-method CNAME"
     on_failure = continue
   }
   provisioner "local-exec" {
-    when    = destroy
-    command = "az containerapp hostname delete --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name} --yes"
+    when       = destroy
+    command    = "az containerapp hostname delete --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name} --yes"
     on_failure = continue
   }
 }
