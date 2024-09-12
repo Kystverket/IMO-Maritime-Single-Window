@@ -60,10 +60,8 @@ resource "azurerm_container_app" "frontend" {
 // Conditionally created for imo-msw preview environment
 // Can be removed or altered for other applications
 module "dns" {
-  count      = local.create_dns
-  depends_on = [azurerm_container_app.frontend]
-  source     = "../dns"
-
+  count                                       = local.create_dns
+  source                                      = "../dns"
   dns_zone_name                               = local.dns_zone_name
   dns_resource_group_name                     = local.dns_resource_group_name
   dns_prefix                                  = local.dns_prefix
