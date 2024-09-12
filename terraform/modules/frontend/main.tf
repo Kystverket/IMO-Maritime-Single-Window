@@ -62,7 +62,7 @@ resource "azurerm_container_app" "frontend" {
 module "dns" {
   count      = local.create_dns
   depends_on = [azurerm_container_app.frontend]
-  source     = "../modules/dns"
+  source     = "../dns"
 
   dns_zone_name                               = local.dns_zone_name
   dns_resource_group_name                     = local.dns_resource_group_name
