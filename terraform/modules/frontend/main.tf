@@ -1,6 +1,6 @@
 locals {
   create_dns              = var.app == "imo-msw" && var.env == "dev-preview" ? 1 : 0
-  container_app_name      = "ca-${var.app}-frontend-${var.env}"
+  container_app_name      = "ca-${var.app}-frontend-${var.env}-rename-test"
   dns_zone_name           = "imo-msw-dev.kystverket.cloud"
   dns_prefix              = "preview"
   dns_resource_group_name = "rg-dns"
