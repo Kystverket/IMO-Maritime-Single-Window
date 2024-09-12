@@ -33,6 +33,6 @@ resource "terraform_data" "frontend_custom_domain" {
   }
   provisioner "local-exec" {
     when    = destroy
-    command = "az containerapp hostname delete --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name}"
+    command = "az containerapp hostname delete --hostname ${self.input.public_hostname} -g ${self.input.resource_group_name} -n ${self.input.container_app_name} --yes"
   }
 }
