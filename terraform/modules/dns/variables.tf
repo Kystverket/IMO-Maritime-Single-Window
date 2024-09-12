@@ -6,30 +6,11 @@ variable "dns_resource_group_name" {
   type = string
 }
 
-variable "resource_group_name" {
+variable "frontend_resource_group_name" {
   type = string
 }
 
-variable "location" {
-  type = string
-}
-
-variable "app" {
-  type = string
-}
-
-variable "env" {
-  type = string
-}
-
-variable "container_app_environment_id" {
-  type = string
-}
-variable "container_app_environment_name" {
-  type = string
-}
-
-variable "frontend_container_app_id" {
+variable "frontend_container_app_environment_name" {
   type = string
 }
 
