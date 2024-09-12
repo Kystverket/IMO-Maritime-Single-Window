@@ -1,9 +1,5 @@
 locals {
-  env                        = terraform.workspace
-  create_imo_msw_preview_dns = var.app == "imo-msw" && local.env == "dev-preview" ? 1 : 0
-  dns_zone_name              = "imo-msw-dev.kystverket.cloud"
-  frontend_dns_prefix        = "preview"
-  frontend_public_hostname   = local.create_imo_msw_preview_dns == 1 ? "${local.frontend_dns_prefix}.${local.dns_zone_name}" : "ca-${var.app}-frontend-${local.env}.${module.appenv.container_app_environment_default_domain}"
+  env = terraform.workspace
 }
 
 terraform {
@@ -90,28 +86,14 @@ module "backend" {
 }
 
 module "frontend" {
-  source                       = "./modules/frontend"
-  env                          = local.env
-  app                          = var.app
-  resource_group_name          = azurerm_resource_group.imo_app.name
-  container_app_environment_id = module.appenv.container_app_environment_id
-  container_registry_server    = module.appenv.container_registry_server
-  backend_internal_URL         = module.backend.backend_internal_URL
-  user_assigned_frontend       = module.access.user_assigned_identity_frontend
-  public_hostname              = local.frontend_public_hostname
-}
-
-// Conditionally created for imo-msw preview environment
-// Can be removed or altered for other applications
-module "dns" {
-  count                                   = local.create_imo_msw_preview_dns
-  source                                  = "./modules/dns"
-  dns_zone_name                           = local.dns_zone_name
-  dns_resource_group_name                 = "rg-dns"
-  frontend_container_app_environment_name = module.appenv.container_app_environment_name
-  frontend_resource_group_name            = azurerm_resource_group.imo_app.name
-  frontend_container_app_name             = module.frontend.container_app_name
-  frontend_dns_prefix                     = local.frontend_dns_prefix
-  frontend_fqdn                           = module.frontend.fqdn
-  frontend_custom_domain_verification_id  = module.frontend.custom_domain_verification_id
+  source                                   = "./modules/frontend"
+  env                                      = local.env
+  app                                      = var.app
+  resource_group_name                      = azurerm_resource_group.imo_app.name
+  container_app_environment_id             = module.appenv.container_app_environment_id
+  container_app_environment_name           = module.appenv.container_app_environment_name
+  container_app_environment_default_domain = module.appenv.container_app_environment_default_domain
+  container_registry_server                = module.appenv.container_registry_server
+  backend_internal_URL                     = module.backend.backend_internal_URL
+  user_assigned_frontend                   = module.access.user_assigned_identity_frontend
 }

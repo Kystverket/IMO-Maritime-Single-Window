@@ -6,26 +6,26 @@ variable "dns_resource_group_name" {
   type = string
 }
 
-variable "frontend_resource_group_name" {
+variable "dns_prefix" {
   type = string
 }
 
-variable "frontend_container_app_environment_name" {
+variable "container_app_resource_group_name" {
   type = string
 }
 
-variable "frontend_container_app_name" {
+variable "container_app_environment_name" {
   type = string
 }
 
-variable "frontend_dns_prefix" {
+variable "container_app_name" {
   type = string
 }
 
-variable "frontend_fqdn" {
+variable "container_app_fqdn" {
   type = string
 }
 
-variable "frontend_custom_domain_verification_id" {
+variable "container_app_custom_domain_verification_id" {
   type = string
 }

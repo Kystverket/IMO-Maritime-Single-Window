@@ -1,6 +1,24 @@
+variable "app" {
+  description = "The application name"
+  type        = string
+}
+
+variable "env" {
+  description = "The application environment"
+  type        = string
+}
+
 variable "container_app_environment_id" {
   description = "The container app environment ID"
   type        = string
+}
+
+variable "container_app_environment_name" {
+  type = string
+}
+
+variable "container_app_environment_default_domain" {
+  type = string
 }
 
 variable "resource_group_name" {
@@ -21,18 +39,4 @@ variable "user_assigned_frontend" {
 variable "backend_internal_URL" {
   description = "The endpoint url of the backend container app"
   type        = string
-}
-
-variable "app" {
-  description = "The application name"
-  type        = string
-}
-
-variable "env" {
-  description = "The application environment"
-  type        = string
-}
-
-variable "public_hostname" {
-  type = string
 }

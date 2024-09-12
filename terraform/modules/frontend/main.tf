@@ -1,5 +1,14 @@
+locals {
+  create_dns              = var.app == "imo-msw" && var.env == "dev-preview" ? 1 : 0
+  container_app_name      = "ca-${var.app}-frontend-${var.env}"
+  dns_zone_name           = "imo-msw-dev.kystverket.cloud"
+  dns_prefix              = "preview"
+  dns_resource_group_name = "rg-dns"
+  public_hostname         = local.create_dns == 1 ? "${local.dns_prefix}.${local.dns_zone_name}" : "${local.container_app_name}.${module.appenv.container_app_environment_default_domain}"
+}
+
 resource "azurerm_container_app" "frontend" {
-  name                         = "ca-${var.app}-frontend-${var.env}"
+  name                         = local.container_app_name
   container_app_environment_id = var.container_app_environment_id
   resource_group_name          = var.resource_group_name
   revision_mode                = "Single"
@@ -36,7 +45,7 @@ resource "azurerm_container_app" "frontend" {
       }
       env {
         name  = "PUBLIC_HOSTNAME"
-        value = var.public_hostname
+        value = local.public_hostname
       }
     }
     max_replicas = 1
@@ -46,4 +55,21 @@ resource "azurerm_container_app" "frontend" {
   lifecycle {
     ignore_changes = [template[0].container[0].image]
   }
+}
+
+// Conditionally created for imo-msw preview environment
+// Can be removed or altered for other applications
+module "dns" {
+  count      = local.create_dns
+  depends_on = [azurerm_container_app.frontend]
+  source     = "../modules/dns"
+
+  dns_zone_name                               = local.dns_zone_name
+  dns_resource_group_name                     = local.dns_resource_group_name
+  dns_prefix                                  = local.dns_prefix
+  container_app_environment_name              = var.container_app_environment_name
+  container_app_resource_group_name           = var.resource_group_name
+  container_app_name                          = azurerm_container_app.frontend.name
+  container_app_fqdn                          = azurerm_container_app.frontend.ingress[0].fqdn
+  container_app_custom_domain_verification_id = azurerm_container_app.frontend.custom_domain_verification_id
 }
