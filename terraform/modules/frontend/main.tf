@@ -4,7 +4,7 @@ locals {
   dns_zone_name           = "imo-msw-dev.kystverket.cloud"
   dns_prefix              = "preview"
   dns_resource_group_name = "rg-dns"
-  public_hostname         = local.create_dns == 1 ? "${local.dns_prefix}.${local.dns_zone_name}" : "${local.container_app_name}.${module.appenv.container_app_environment_default_domain}"
+  public_hostname         = local.create_dns == 1 ? "${local.dns_prefix}.${local.dns_zone_name}" : "${local.container_app_name}.${var.container_app_environment_default_domain}"
 }
 
 resource "azurerm_container_app" "frontend" {
