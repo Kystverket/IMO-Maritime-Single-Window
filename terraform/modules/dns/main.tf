@@ -24,11 +24,9 @@ resource "azurerm_dns_txt_record" "txt_record" {
 
 resource "terraform_data" "custom_domain" {
   triggers_replace = [
-    azurerm_dns_cname_record.cname_record.name,
-    data.azurerm_dns_zone.dns_zone.name,
-    var.container_app_resource_group_name,
-    var.container_app_name,
-    var.container_app_environment_name
+    var.container_app_fqdn,
+    var.container_app_custom_domain_verification_id,
+    var.container_app_resource_group_name
   ]
 
   input = {
