@@ -86,12 +86,14 @@ module "backend" {
 }
 
 module "frontend" {
-  source                       = "./modules/frontend"
-  env                          = local.env
-  app                          = var.app
-  resource_group_name          = azurerm_resource_group.imo_app.name
-  container_app_environment_id = module.appenv.container_app_environment_id
-  container_registry_server    = module.appenv.container_registry_server
-  backend_internal_URL         = module.backend.backend_internal_URL
-  user_assigned_frontend       = module.access.user_assigned_identity_frontend
+  source                                   = "./modules/frontend"
+  env                                      = local.env
+  app                                      = var.app
+  resource_group_name                      = azurerm_resource_group.imo_app.name
+  container_app_environment_id             = module.appenv.container_app_environment_id
+  container_app_environment_name           = module.appenv.container_app_environment_name
+  container_app_environment_default_domain = module.appenv.container_app_environment_default_domain
+  container_registry_server                = module.appenv.container_registry_server
+  backend_internal_URL                     = module.backend.backend_internal_URL
+  user_assigned_frontend                   = module.access.user_assigned_identity_frontend
 }

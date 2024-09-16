@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port 4200 --proxy-config ./proxy.config.json",
-    "start2": "ng serve --host $HOSTNAME --port 4200 --public-host ${CONTAINER_APP_NAME}.${CONTAINER_APP_ENV_DNS_SUFFIX} --proxy-config ./proxy.config.json",
+    "start2": "ng serve --host $HOSTNAME --port 4200 --public-host $PUBLIC_HOSTNAME --proxy-config ./proxy.config.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
