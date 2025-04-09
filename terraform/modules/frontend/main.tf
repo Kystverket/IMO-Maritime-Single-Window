@@ -64,6 +64,7 @@ module "dns" {
   source                                      = "../dns"
   dns_zone_name                               = local.dns_zone_name
   dns_resource_group_name                     = local.dns_resource_group_name
+  dns_location                                = var.location
   dns_prefix                                  = local.dns_prefix
   container_app_environment_name              = var.container_app_environment_name
   container_app_resource_group_name           = var.resource_group_name

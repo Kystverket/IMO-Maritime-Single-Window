@@ -29,3 +29,7 @@ variable "container_app_fqdn" {
 variable "container_app_custom_domain_verification_id" {
   type = string
 }
+
+variable "dns_location" {
+  type = string
+}

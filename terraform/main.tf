@@ -90,6 +90,7 @@ module "frontend" {
   env                                      = local.env
   app                                      = var.app
   resource_group_name                      = azurerm_resource_group.imo_app.name
+  location                                 = var.location
   container_app_environment_id             = module.appenv.container_app_environment_id
   container_app_environment_name           = module.appenv.container_app_environment_name
   container_app_environment_default_domain = module.appenv.container_app_environment_default_domain

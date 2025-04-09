@@ -40,3 +40,8 @@ variable "backend_internal_URL" {
   description = "The endpoint url of the backend container app"
   type        = string
 }
+
+variable "location" {
+  description = "Location of Resources"
+  type        = string
+}
