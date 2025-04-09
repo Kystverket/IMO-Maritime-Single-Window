@@ -29,7 +29,7 @@ resource "terraform_data" "custom_domain" {
   ]
 
   input = {
-    public_hostname                = "${azurerm_dns_cname_record.cname_record.name}.${data.azurerm_dns_zone.dns_zone.name}"
+    public_hostname                = "${azurerm_dns_cname_record.cname_record.name}.${azurerm_dns_zone.child_dns_zone.name}"
     resource_group_name            = var.container_app_resource_group_name
     container_app_name             = var.container_app_name
     container_app_environment_name = var.container_app_environment_name
