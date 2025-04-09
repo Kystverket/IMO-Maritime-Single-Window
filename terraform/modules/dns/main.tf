@@ -63,17 +63,3 @@ resource "azurerm_dns_zone" "child_dns_zone" {
   resource_group_name = azurerm_resource_group.child_dns_rg.name
 }
 
-import {
-  id = "/subscriptions/${local.dns_subscription_id}/resourceGroups/${var.dns_resource_group_name}/providers/Microsoft.Network/dnsZones/${var.dns_zone_name}"
-  to = azurerm_dns_zone.child_dns_zone
-}
-
-import {
-  id = "/subscriptions/${local.dns_subscription_id}/resourceGroups/${var.dns_resource_group_name}"
-  to = azurerm_resource_group.child_dns_rg
-}
-
-locals {
-  dns_subscription_id = "57c2a465-814f-4561-a994-916500fb05b3"
-}
-

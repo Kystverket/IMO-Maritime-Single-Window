@@ -98,3 +98,21 @@ module "frontend" {
   backend_internal_URL                     = module.backend.backend_internal_URL
   user_assigned_frontend                   = module.access.user_assigned_identity_frontend
 }
+
+
+#import {
+#  id = "/subscriptions/${local.dns_subscription_id}/resourceGroups/${local.dns_resource_group_name}/providers/Microsoft.Network/dnsZones/${local.dns_zone_name}"
+#  to = module.frontend.module.dns.azurerm_dns_zone.child_dns_zone
+#}
+#
+#import {
+#  id = "/subscriptions/${local.dns_subscription_id}/resourceGroups/${local.dns_resource_group_name}"
+#  to = module.frontend.module.dns.azurerm_resource_group.child_dns_rg
+#}
+#
+#locals {
+#  dns_subscription_id = "57c2a465-814f-4561-a994-916500fb05b3"
+#  dns_resource_group_name = "rg-dns"
+#  dns_zone_name = "imo-msw-dev.kystverket.cloud"
+#}
+
