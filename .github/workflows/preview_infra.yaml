@@ -1,4 +1,4 @@
-name: Prewiew Infrastructure Terraform
+name: Preview Infrastructure Terraform
 
 on:
   workflow_dispatch:
