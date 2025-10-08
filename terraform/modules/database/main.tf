@@ -2,7 +2,7 @@ resource "azurerm_postgresql_flexible_server" "imo_app" {
   name                   = "psql-${var.app}-flex-server-${var.env}"
   resource_group_name    = var.resource_group_name
   location               = var.location
-  version                = "13"
+  version                = "17"
   administrator_login    = "postgres"
   administrator_password = var.db_password
   storage_mb             = 32768
