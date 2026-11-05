@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ShipContactModel } from 'app/shared/models/ship-contact-model';
 import { ConstantsService } from 'app/shared/services/constants.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-select-ship-contact',
   templateUrl: './select-ship-contact.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./select-ship-contact.component.css']
 })
 export class SelectShipContactComponent implements OnInit, OnDestroy {

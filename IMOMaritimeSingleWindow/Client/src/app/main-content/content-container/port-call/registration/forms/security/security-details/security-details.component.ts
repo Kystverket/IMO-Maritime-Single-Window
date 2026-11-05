@@ -1,11 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FalSecurityModel, SecurityLevelModel } from 'app/shared/models/';
 import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-security-details',
   templateUrl: './security-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./security-details.component.css']
 })
 export class SecurityDetailsComponent implements OnInit, OnDestroy {

@@ -1,5 +1,5 @@
 # ./Client/Dockerfile
-FROM node:10.24-buster
+FROM node:24-slim
 
 WORKDIR /workspaces/frontend
 
@@ -7,7 +7,7 @@ WORKDIR /workspaces/frontend
 COPY . .
 
 # Install dependencies
-RUN npm install
+RUN npm ci
 
 # Expose the port
 EXPOSE 4200

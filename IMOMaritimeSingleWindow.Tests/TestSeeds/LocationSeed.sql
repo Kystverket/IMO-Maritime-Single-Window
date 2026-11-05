@@ -33,7 +33,7 @@ INSERT INTO "country" ("country_id","name","two_char_code","three_char_code","ca
 
 
  
-INSERT INTO "location_type" ("location_type_id","name","description") VALUES (1,'Harbour','This is a description 3202708');
+INSERT INTO "location_type" ("location_type_id","name","description","EnumValue") VALUES (1,'Harbour','This is a description 3202708','HARBOUR');
  
  
 INSERT INTO "location_type" ("location_type_id","name","description") VALUES (2,'Ag2zYqJdxB0','This is a description 5834848');

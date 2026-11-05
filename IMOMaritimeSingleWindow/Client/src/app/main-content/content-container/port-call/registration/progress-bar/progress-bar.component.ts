@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ContentService, DpgService, FalCargoService, FalSecurityService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./progress-bar.component.css']
 })
 export class ProgressBarComponent implements OnInit, OnDestroy {

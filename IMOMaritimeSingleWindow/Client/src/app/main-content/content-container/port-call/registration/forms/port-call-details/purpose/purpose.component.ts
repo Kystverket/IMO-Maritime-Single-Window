@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PortCallDetailsService, PurposeService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const OTHER_PURPOSE_ID = 100249;
 
 @Component({
+  standalone: false,
   selector: 'app-purpose',
   templateUrl: './purpose.component.html',
   styleUrls: ['./purpose.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [PurposeService]
 })
 export class PurposeComponent implements OnInit, OnDestroy {

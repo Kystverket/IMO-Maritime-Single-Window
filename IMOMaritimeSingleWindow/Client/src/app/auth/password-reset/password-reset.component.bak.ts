@@ -8,6 +8,7 @@
 // import { single } from "rxjs/operator/single";
 
 // @Component({
+standalone: false,
 //   selector: "app-password-reset",
 //   templateUrl: "./password-reset.component.html",
 //   styleUrls: ['./password-reset.component.css']

@@ -1,12 +1,14 @@
-import { Component, Input, OnDestroy, OnInit  } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { ConsignmentModel, LocationModel } from 'app/shared/models/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { FalCargoService } from '../../../../../../../shared/services/fal-cargo.service';
 
 @Component({
+  standalone: false,
   selector: 'app-consignment-form',
   templateUrl: './consignment-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./consignment-form.component.css']
 })
 export class ConsignmentFormComponent implements OnInit, OnDestroy {

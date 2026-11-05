@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchService } from 'app/shared/services/search.service';
-import 'rxjs/add/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SearchLocationService {
@@ -20,7 +19,7 @@ export class SearchLocationService {
 
   public search(term: string, restrictTypeHarbour: boolean, amount = 10) {
     if (term.length < 2) {
-      return Observable.of([]);
+      return of([]);
     }
     const uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
     return this.searchService.search(uri, term, amount)/* .map(response => response.json().items) */;

@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-ssn-bg',
   templateUrl: './ssn-bg.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ssn-bg.component.css']
 })
 export class SsnBgComponent implements OnInit {

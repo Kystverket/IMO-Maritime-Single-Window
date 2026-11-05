@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService, PortCallService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-view-port-call',
   templateUrl: './view-port-call.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-port-call.component.css']
 })
 export class ViewPortCallComponent implements OnInit, OnDestroy {

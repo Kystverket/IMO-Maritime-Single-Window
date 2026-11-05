@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ConfigService } from 'app/shared/utils/config.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PasswordChangeModel } from '../models/password-change-model';
 import { PasswordResetModel } from '../models/password-reset-model';
 import { TokenQueryModel } from '../models/token-query-model';
@@ -121,10 +121,10 @@ export class AccountService extends BaseRequest {
         },
         responseType: 'text'
       })
-      .map(token => {
+      .pipe(map(token => {
         return new TokenQueryModel(queryModel.userId, token);
-      })
-      .catch(this.handleError);
+      }))
+      .pipe(catchError(this.handleError));
   }
 
   // Allow anonymous
@@ -136,21 +136,21 @@ export class AccountService extends BaseRequest {
           userName: userName
         }
       })
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   setUserPassword(newPassword: string, id: string): Observable<any> {
     const uri = [this.passwordUrl, 'set'].join('/');
     return this.http
       .put(uri, { newPassword: newPassword, currentPassword: newPassword, userId: id })
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   changePassword(model: PasswordChangeModel): Observable<any> {
     const uri = [this.passwordUrl, 'change'].join('/');
     return this.http
       .put(uri, model)
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   // Allow anonymous
@@ -158,13 +158,13 @@ export class AccountService extends BaseRequest {
     const uri = [this.passwordUrl, 'reset'].join('/');
     return this.http
       .put(uri, model)
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   getAccountOverview(): Observable<any> {
     return this.http
       .get(this.accountOverviewUrl)
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
 }

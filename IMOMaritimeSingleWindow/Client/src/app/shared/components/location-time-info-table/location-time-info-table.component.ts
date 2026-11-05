@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LocationTimeProperties } from 'app/shared/constants/location-time-properties';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { DateTime } from '../../interfaces/dateTime.interface';
 
 @Component({
+  standalone: false,
   selector: 'app-location-time-info-table',
   templateUrl: './location-time-info-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./location-time-info-table.component.css']
 })
 export class LocationTimeInfoTableComponent implements OnInit, OnDestroy {

@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { OrganizationModel } from '../../../models/organization-model';
 import { OrganizationService } from '../../../services/organization.service';
 
 @Component({
+  standalone: false,
   selector: 'app-rso-select',
   templateUrl: './rso-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./rso-select.component.css']
 })
 export class RsoSelectComponent implements OnInit {

@@ -13,7 +13,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
         private readonly IMapper mapper;
         public ApplicationUser_to_Person_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
             mapper = configuration.CreateMapper();
 
         }

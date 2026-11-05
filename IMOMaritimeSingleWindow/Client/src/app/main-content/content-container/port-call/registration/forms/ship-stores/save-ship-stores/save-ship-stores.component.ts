@@ -1,12 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ShipStoresModel } from 'app/shared/models/ship-stores-model';
 import { FalShipStoresService, PortCallService } from 'app/shared/services/';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-save-ship-stores',
   templateUrl: './save-ship-stores.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./save-ship-stores.component.css']
 })
 export class SaveShipStoresComponent implements OnInit, OnDestroy {

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CompanySecurityOfficerModel } from '../models/company-security-officer-model';
 import { OrganizationModel } from '../models/organization-model';
 import { SearchService } from './search.service';
@@ -50,7 +49,7 @@ export class OrganizationService {
 
   public search(term: string, amount = 10): Observable<any> {
     if (term.length < 2) {
-      return Observable.of([]);
+      return of([]);
     }
     return this.searchService.search(this.searchOrganizationUrl, term, amount);
   }

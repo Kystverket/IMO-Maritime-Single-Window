@@ -1,12 +1,11 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule, XHRBackend } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticateXHRBackend } from '../authenticate-xhr.backend';
+import { AuthenticateInterceptor } from '../authenticate.interceptor';
 import { AppRoutingModule, routedComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ErrorModule } from './error/error.module';
@@ -32,17 +31,15 @@ import { ConfigService } from './shared/utils/config.service';
     ContentContainerModule,
     ErrorModule,
     FormsModule,
-    HttpClientModule,
-    HttpModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:4200'],
-        blacklistedRoutes: BLACKLISTED_ROUTES
+        allowedDomains: ['localhost:4200'],
+        disallowedRoutes: BLACKLISTED_ROUTES
       }
     }),
     MainContentRoutingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     RouterModule,
     HeaderModule,
   ],
@@ -52,7 +49,8 @@ import { ConfigService } from './shared/utils/config.service';
     routedComponents
   ],
   providers: [
-    { provide: XHRBackend, useClass: AuthenticateXHRBackend },
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthenticateInterceptor, multi: true },
     AccountService,
     AuthRequest,
     AuthService,

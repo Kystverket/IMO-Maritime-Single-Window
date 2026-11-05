@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BehaviorSubject } from '../../../../node_modules/rxjs';
 import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, SecurityLevelModel, ShipModel  } from '../models/';
 

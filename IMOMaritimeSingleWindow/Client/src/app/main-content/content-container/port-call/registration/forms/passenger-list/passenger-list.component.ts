@@ -1,4 +1,5 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -7,14 +8,16 @@ import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { FileService, IdentityDocumentService, PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { PassengerListErrorModalComponent } from './passenger-list-error-modal/passenger-list-error-modal.component';
 import { PassengerModalComponent } from './passenger-modal/passenger-modal.component';
 import { SmartTableModel } from './smartTableModel';
 
 @Component({
+  standalone: false,
   selector: 'app-passenger-list',
   templateUrl: './passenger-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./passenger-list.component.css']
 })
 export class PassengerListComponent implements OnInit, OnDestroy {
@@ -174,11 +177,11 @@ export class PassengerListComponent implements OnInit, OnDestroy {
   excelFileSaved(saved) {
     this.personOnBoardService
       .getPassengerListByPortCallId(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.persistData();
         this.listIsPristine = true;
         this.personOnBoardService.setPassengerDataIsPristine(true);
-      })
+      }))
       .subscribe(res => {
         this.passengerList = res;
       });
@@ -483,10 +486,10 @@ export class PassengerListComponent implements OnInit, OnDestroy {
       this.passengerList = this.passengerList.concat(paxList);
       this.persistData();
       this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.personOnBoardService.setCrewList(crewList);
           this.personOnBoardService.setCrewDataIsPristine(false);
-        })
+        }))
         .subscribe(res => {
           crewList = crewList.concat(res);
         });

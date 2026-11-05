@@ -1,15 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Route } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
   CanLoad,
+  Route,
   Router,
   RouterStateSnapshot
 } from '@angular/router';
 import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { BaseGuard } from '../shared/interfaces/base-guard.interface';
 
 @Injectable()
@@ -33,13 +34,13 @@ export class RootGuard extends BaseService implements CanActivate, CanLoad, Base
       this.router.navigate(['/auth/login']);
       return false;
     } else {
-      return this.authService.hasValidToken().map(
-        tokenValid => true,
-        error => false
-      ).catch((error: HttpErrorResponse) => {
-        this.navigateByError(error);
-        return this.handleError(error);
-      });
+      return this.authService.hasValidToken().pipe(
+        map(() => true),
+        catchError((error: HttpErrorResponse) => {
+          this.navigateByError(error);
+          return this.handleError(error);
+        })
+      );
     }
   }
 
@@ -47,12 +48,12 @@ export class RootGuard extends BaseService implements CanActivate, CanLoad, Base
     if (!this.authService.hasToken()) {
       return false;
     } else {
-      return this.authService.hasValidToken().map(
-        tokenValid => true,
-        error => false
-      ).catch((error: HttpErrorResponse) => {
-        return this.handleError(error);
-      });
+      return this.authService.hasValidToken().pipe(
+        map(() => true),
+        catchError((error: HttpErrorResponse) => {
+          return this.handleError(error);
+        })
+      );
     }
   }
 

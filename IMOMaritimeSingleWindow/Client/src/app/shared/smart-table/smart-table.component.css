@@ -1,0 +1,8 @@
+.smart-table-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.smart-table-sort-indicator {
+  font-size: 0.7em;
+}

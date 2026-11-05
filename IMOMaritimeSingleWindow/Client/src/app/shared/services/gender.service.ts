@@ -1,15 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { GenderModel } from 'app/shared/models/gender-model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class GenderService {
 
     private genderUrl: string;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.genderUrl = 'api/gender';
     }
 
@@ -23,6 +22,6 @@ export class GenderService {
     // Http
     getGenders() {
         const uri = this.genderUrl;
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 }

@@ -1,7 +1,7 @@
 
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class IdentityDocumentService {
@@ -9,7 +9,7 @@ export class IdentityDocumentService {
     private identityDocumentListUrl: string;
     private identityDocTypeUrl: string;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.identityDocumentListUrl = 'api/identitydocument/list';
         this.identityDocumentUrl = 'api/identitydocument';
         this.identityDocTypeUrl = 'api/identitydocumenttype';
@@ -24,21 +24,17 @@ export class IdentityDocumentService {
 
     getIdentityDocumentById(id: number) {
         const uri = [this.identityDocumentUrl, id].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     updateIdentityDocumentList(identityDocumentList: any[]) {
         const uri = this.identityDocumentListUrl;
-        return this.http.put(uri, identityDocumentList).map(res => {
-          res.json();
-          if (res.status === 200) {
-          }
-        });
+        return this.http.put<any>(uri, identityDocumentList);
     }
 
     getIdentityDocumentTypes() {
         const uri = this.identityDocTypeUrl;
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
       }
 
 }

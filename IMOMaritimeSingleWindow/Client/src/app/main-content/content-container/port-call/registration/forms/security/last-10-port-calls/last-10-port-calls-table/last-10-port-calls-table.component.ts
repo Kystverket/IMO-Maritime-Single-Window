@@ -1,13 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { SecurityPreviousPortOfCallModel } from 'app/shared/models/security-previous-port-of-call-model';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-last-10-port-calls-table',
   templateUrl: './last-10-port-calls-table.component.html',
   styleUrls: ['./last-10-port-calls-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [DatePipe]
 })
 export class Last10PortCallsTableComponent implements OnInit, OnChanges {

@@ -1,11 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenderModel, IdentityDocumentModel, IdentityDocumentTypeModel, PersonOnBoardModel } from 'app/shared/models/';
 import { CountryService, IdentityDocumentService, PortCallFalPersonOnBoardService, ValidateDateTimeService } from 'app/shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-crew-member-modal',
   templateUrl: './crew-member-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./crew-member-modal.component.css']
 })
 export class CrewMemberModalComponent implements OnInit {
@@ -154,19 +157,19 @@ export class CrewMemberModalComponent implements OnInit {
     ) {
       this.countryService
         .getCountryById(this.inputCrewModel.nationalityId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.personOnBoardService
             .getGenderById(this.inputCrewModel.genderId)
-            .finally(() => {
+            .pipe(finalize(() => {
               this.modalService.open(this.editModal, {
                 backdrop: 'static'
               });
-            })
+            }))
             .subscribe(gender => {
               this.inputCrewModel.gender = gender;
               this.inputCrewModel.genderId = gender.genderId;
             });
-        })
+        }))
         .subscribe(country => {
           this.inputCrewModel.nationality = country.name;
           this.inputCrewModel.nationalityTwoCharCode = country.twoCharCode;

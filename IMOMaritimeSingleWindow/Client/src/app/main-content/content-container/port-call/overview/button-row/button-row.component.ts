@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
@@ -7,9 +7,11 @@ import { AccountService, ConstantsService, ContentService, FileService, PortCall
 import { ViewCell } from 'ng2-smart-table';
 import { LoadPortCallService } from '../../load-port-call.service';
 @Component({
+  standalone: false,
   selector: 'app-button-row',
   templateUrl: './button-row.component.html',
   styleUrls: ['./button-row.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ConstantsService]
 })
 export class ButtonRowComponent implements ViewCell, OnInit {

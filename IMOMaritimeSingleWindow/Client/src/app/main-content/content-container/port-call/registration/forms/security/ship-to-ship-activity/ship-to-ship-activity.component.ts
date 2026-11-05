@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgbDate } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '../../../../../../../../../node_modules/@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTime } from 'app/shared/utils/ngb-time';
 import { Subscription } from '../../../../../../../../../node_modules/rxjs';
 import { LocationProperties } from '../../../../../../../shared/constants/location-properties';
 import { DateTime } from '../../../../../../../shared/interfaces/dateTime.interface';
@@ -9,9 +9,11 @@ import { ShipToShipActivityModel } from '../../../../../../../shared/models/ship
 import { FalSecurityService, PurposeService,  } from '../../../../../../../shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-to-ship-activity',
   templateUrl: './ship-to-ship-activity.component.html',
   styleUrls: ['./ship-to-ship-activity.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [PurposeService]
 })
 export class ShipToShipActivityComponent implements OnInit, OnDestroy {

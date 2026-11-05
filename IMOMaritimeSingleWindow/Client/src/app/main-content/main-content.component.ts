@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AccountService } from 'app/shared/services/account.service';
 
 @Component({
+  standalone: false,
   selector: 'app-main-content',
   templateUrl: './main-content.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./main-content.component.css']
 })
 export class MainContentComponent implements OnInit {

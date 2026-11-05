@@ -1,6 +1,6 @@
   
-   :host /deep/ ng2-st-tbody-edit-delete > a,
-   :host /deep/ ng2-st-tbody-create-cancel > a {
+   :host ::ng-deep ng2-st-tbody-edit-delete > a,
+   :host ::ng-deep ng2-st-tbody-create-cancel > a {
      color: var(--color-primary);
    }
   
@@ -8,7 +8,7 @@
     font-size: 0.875rem;
   }
   
-  :host /deep/ .ng-placeholder, ::placeholder  {
+  :host ::ng-deep .ng-placeholder, ::placeholder  {
       color: gray !important;
       font-style: italic;
   }

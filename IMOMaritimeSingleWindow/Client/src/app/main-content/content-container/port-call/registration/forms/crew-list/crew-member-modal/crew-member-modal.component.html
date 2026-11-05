@@ -207,7 +207,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <ng-container *ngIf="inputCrewModel.countryOfBirthTwoCharCode != null || inputCrewModel.countryOfBirthTwoCharCode !== undefined">
-                    <img src="assets/images/flags/128x128/{{ inputCrewModel.countryOfBirthTwoCharCode?.toLowerCase() | lowercase}}.png"
+                    <img src="assets/images/flags/128x128/{{ $safeNavigationMigration(inputCrewModel.countryOfBirthTwoCharCode?.toLowerCase()) | lowercase}}.png"
                     height="20px">
                 </ng-container>
               </span>
@@ -233,7 +233,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">
                   <ng-container *ngIf="inputCrewModel.nationalityTwoCharCode != null || inputCrewModel.nationalityTwoCharCode !== undefined">
-                      <img src="assets/images/flags/128x128/{{ inputCrewModel.nationalityTwoCharCode?.toLowerCase() | lowercase}}.png"
+                      <img src="assets/images/flags/128x128/{{ $safeNavigationMigration(inputCrewModel.nationalityTwoCharCode?.toLowerCase()) | lowercase}}.png"
                       height="20px">
                   </ng-container>
               </span>
@@ -328,7 +328,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <ng-container *ngIf="inputCrewModel.identityDocument[0].issuingNationTwoCharCode != null || inputCrewModel.identityDocument[0].issuingNationTwoCharCode !== undefined">
-                  <img src="assets/images/flags/128x128/{{ inputCrewModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase() | lowercase}}.png"
+                  <img src="assets/images/flags/128x128/{{ $safeNavigationMigration(inputCrewModel.identityDocument[0].issuingNationTwoCharCode?.toLowerCase()) | lowercase}}.png"
                     height="20px">
                 </ng-container>
               </span>

@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ConstantsService, ContentService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-delete-button',
   templateUrl: './delete-button.component.html',
   styleUrls: ['./delete-button.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ConstantsService]
 })
 export class DeleteButtonComponent implements OnInit, OnDestroy, ViewCell {

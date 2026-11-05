@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { LocationService } from 'app/shared/services/location.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-location-info-table',
   templateUrl: './location-info-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./location-info-table.component.css']
 })
 export class LocationInfoTableComponent implements OnInit, OnDestroy {

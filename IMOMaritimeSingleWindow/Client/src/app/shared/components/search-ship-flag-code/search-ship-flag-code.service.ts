@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SearchService } from 'app/shared/services/search.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SearchShipFlagCodeService {
@@ -16,7 +16,7 @@ export class SearchShipFlagCodeService {
 
     search(term: string, amount = 10) {
         if (term.length < 2) {
-            return Observable.of([]);
+            return of([]);
         }
         return this.searchService.search(this.searchUrl, term, amount);
     }

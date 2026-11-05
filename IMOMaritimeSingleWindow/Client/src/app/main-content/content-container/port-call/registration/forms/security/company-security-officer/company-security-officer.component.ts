@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CompanySecurityOfficerModel } from '../../../../../../../shared/models/company-security-officer-model';
 import { FalSecurityService } from '../../../../../../../shared/services/fal-security.service';
 
 @Component({
+  standalone: false,
   selector: 'app-company-security-officer',
   templateUrl: './company-security-officer.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./company-security-officer.component.css']
 })
 export class CompanySecurityOfficerComponent implements OnInit {

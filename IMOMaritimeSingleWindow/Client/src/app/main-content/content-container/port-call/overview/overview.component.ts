@@ -1,18 +1,21 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { finalize } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrganizationTypes } from 'app/shared/constants/organization-types';
 import { PortCallClaims } from 'app/shared/constants/port-call-claims';
 import { PortCallStatusTypes } from 'app/shared/constants/port-call-status-types';
 import { AccountService, ContentService, OrganizationService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ButtonRowComponent } from './button-row/button-row.component';
 import { ClearanceRowComponent } from './clearance-row/clearance-row.component';
 
 @Component({
+  standalone: false,
   selector: 'app-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [OrganizationService, DatePipe]
 })
 export class OverviewComponent implements OnInit, OnDestroy {
@@ -158,7 +161,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       }
     });
     this.getOrganizationForUserSubscription = this.organizationService.getOrganizationForUser()
-    .finally(() => this.loadOverview())
+    .pipe(finalize(() => this.loadOverview()))
     .subscribe(organizationResult => {
       if (organizationResult) {
         this.userIsGovernmentAgency =
@@ -254,9 +257,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
     }
 
     this.overviewService.getOverviewsByUser()
-      .finally(() => {
+      .pipe(finalize(() => {
         this.sortOverView();
-      })
+      }))
       .subscribe(
         ovs => {
           if (ovs) {

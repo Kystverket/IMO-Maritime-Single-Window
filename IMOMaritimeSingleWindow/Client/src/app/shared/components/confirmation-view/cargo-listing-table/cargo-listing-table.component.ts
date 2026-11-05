@@ -1,11 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { FalCargoService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 
 @Component({
+  standalone: false,
   selector: 'app-cargo-listing-table',
   templateUrl: './cargo-listing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cargo-listing-table.component.css']
 })
 export class CargoListingTableComponent implements OnInit, OnDestroy {
@@ -61,11 +64,11 @@ export class CargoListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.portCallId) {
       this.cargoDataSubscription = this.cargoService.getConsignmentListForPortCall(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.cargoDataSubscription = this.cargoService.getOverviewByPortCall(this.portCallId).subscribe(summary => {
           this.headerText = 'Cargo Breakdown - No. Of Consignments: ' + summary.noOfConsignments + ' - Total No. of Cargo Items: ' + summary.noOfCargoItems + ' - Total No of Packages: ' + summary.noOfPackages;
         });
-      })
+      }))
       .subscribe(
         cargoData => {
           if (cargoData) {

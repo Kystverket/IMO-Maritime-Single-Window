@@ -1,11 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PersonOnBoardModel, ShipStoresModel } from 'app/shared/models/';
 import { FileService } from 'app/shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
@@ -60,15 +63,15 @@ export class FileUploadComponent implements OnInit {
     } else {
       this.uploading = true;
       this.fileService.uploadShipStores(this.FileToUpload, this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.uploading = false;
           this.modalRef.close();
-        })
+        }))
         .subscribe(res => {
-          if (typeof res.json() === 'boolean') {
-            this.importSuccess.emit(res.json());
+          if (typeof res === 'boolean') {
+            this.importSuccess.emit(res);
           } else {
-            this.shipStoresWithErrors = res.json() as ShipStoresModel[];
+            this.shipStoresWithErrors = res as ShipStoresModel[];
             if (this.shipStoresWithErrors && this.shipStoresWithErrors.length > 0) {
               this.entriesHasErrors.emit(this.shipStoresWithErrors);
             }
@@ -83,14 +86,14 @@ export class FileUploadComponent implements OnInit {
     } else {
     this.uploading = true;
       this.fileService.uploadPaxFile(this.FileToUpload, this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.uploading = false;
           this.modalRef.close();
-        }).subscribe(res => {
-          if (typeof res.json() === 'boolean') {
-            this.importSuccess.emit(res.json());
+        })).subscribe(res => {
+          if (typeof res === 'boolean') {
+            this.importSuccess.emit(res);
           } else {
-            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            this.personOnBoardListWithErrors = res as PersonOnBoardModel[];
             if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
               this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
             }
@@ -104,15 +107,15 @@ export class FileUploadComponent implements OnInit {
     } else {
       this.uploading = true;
       this.fileService.uploadCrewFile(this.FileToUpload, this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.uploading = false;
           this.modalRef.close();
-        })
+        }))
         .subscribe(res => {
-          if (typeof res.json() === 'boolean') {
-            this.importSuccess.emit(res.json());
+          if (typeof res === 'boolean') {
+            this.importSuccess.emit(res);
           } else {
-            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            this.personOnBoardListWithErrors = res as PersonOnBoardModel[];
             if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {
               this.entriesHasErrors.emit(this.personOnBoardListWithErrors);
             }
@@ -128,15 +131,15 @@ export class FileUploadComponent implements OnInit {
       this.uploading = true;
 
       this.fileService.uploadCrewAndPax(this.FileToUpload, this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.uploading = false;
           this.modalRef.close();
-        })
+        }))
         .subscribe(res => {
-          if (typeof res.json() === 'boolean') {
-            this.importSuccess.emit(res.json());
+          if (typeof res === 'boolean') {
+            this.importSuccess.emit(res);
           } else {
-            this.personOnBoardListWithErrors = res.json() as PersonOnBoardModel[];
+            this.personOnBoardListWithErrors = res as PersonOnBoardModel[];
             const paxList = this.personOnBoardListWithErrors.filter(x => x.isPax);
             const crewList = this.personOnBoardListWithErrors.filter(x => !x.isPax);
             if (this.personOnBoardListWithErrors && this.personOnBoardListWithErrors.length > 0) {

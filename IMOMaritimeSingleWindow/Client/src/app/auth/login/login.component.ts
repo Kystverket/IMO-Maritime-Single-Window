@@ -1,6 +1,6 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/account/login-form/login-form.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { Credentials } from 'app/shared/interfaces/credentials.interface';
@@ -9,8 +9,10 @@ import { MenuClaims } from '../../shared/constants/menu-claims';
 import { PasswordService } from '../password.service';
 
 @Component({
+  standalone: false,
   selector: 'app-login',
   templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {

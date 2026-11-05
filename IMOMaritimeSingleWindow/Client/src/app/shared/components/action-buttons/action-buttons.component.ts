@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { ViewCell } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-action-buttons',
   templateUrl: './action-buttons.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./action-buttons.component.css']
 })
 export class ActionButtonsComponent implements OnInit, ViewCell {

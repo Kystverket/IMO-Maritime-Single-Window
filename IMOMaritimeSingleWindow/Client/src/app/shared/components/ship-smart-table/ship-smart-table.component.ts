@@ -1,12 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ShipService } from 'app/shared/services/ship.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ShipButtonRowComponent } from './ship-button-row/ship-button-row.component';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-smart-table',
   templateUrl: './ship-smart-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-smart-table.component.css']
 })
 export class ShipSmartTableComponent implements OnInit, OnDestroy {

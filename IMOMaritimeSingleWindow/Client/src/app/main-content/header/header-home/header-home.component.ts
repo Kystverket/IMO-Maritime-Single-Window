@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService } from 'app/shared/services/content.service';
 
 @Component({
+  standalone: false,
   selector: 'app-header-home',
   templateUrl: './header-home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./header-home.component.css']
 })
 export class HeaderHomeComponent implements OnInit {

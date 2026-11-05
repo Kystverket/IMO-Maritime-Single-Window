@@ -2,6 +2,7 @@ import { Attribute, Directive, forwardRef } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Directive({
+  standalone: false,
   selector:
     // tslint:disable-next-line:directive-selector
     '[integerValidator][formControlName],[integerValidator][formControl],[integerValidator][ngModel]',

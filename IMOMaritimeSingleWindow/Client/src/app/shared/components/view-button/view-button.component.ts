@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ConstantsService, ContentService } from 'app/shared/services';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-view-button',
   templateUrl: './view-button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-button.component.css']
 })
 export class ViewButtonComponent implements OnInit {

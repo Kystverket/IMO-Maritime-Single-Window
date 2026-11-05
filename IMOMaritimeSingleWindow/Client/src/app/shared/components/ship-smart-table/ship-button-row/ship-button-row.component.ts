@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -10,8 +11,10 @@ const RESULT_SUCCESS = 'Ship status was successfully updated.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-button-row',
   templateUrl: './ship-button-row.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-button-row.component.css']
 })
 export class ShipButtonRowComponent implements ViewCell, OnInit {
@@ -38,7 +41,7 @@ export class ShipButtonRowComponent implements ViewCell, OnInit {
   onDeactivateClick() {
     const shipModel = this.rowData.shipModel;
     this.shipService.getShipStatusByEnum(SHIP_STATUSES.INACTIVE)
-    .finally(() => {
+    .pipe(finalize(() => {
       this.shipService.updateShip(shipModel).subscribe(res => {
         this.openConfirmationModal(
           ConfirmationModalComponent.TYPE_SUCCESS,
@@ -49,7 +52,7 @@ export class ShipButtonRowComponent implements ViewCell, OnInit {
           RESULT_FAILURE
         );
       });
-    })
+    }))
     .subscribe(res => {
       shipModel.shipStatusId = res.shipStatusId;
     });

@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-reporting',
   templateUrl: './reporting.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./reporting.component.css']
 })
 export class ReportingComponent implements OnInit, OnDestroy {

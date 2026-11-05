@@ -1,15 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
 import { SearchShipService } from './search-ship.service';
 
 @Component({
+  standalone: false,
   selector: 'app-search-ship',
   templateUrl: './search-ship.component.html',
   styleUrls: ['./search-ship.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SearchShipService]
 })
 export class SearchShipComponent implements OnInit {

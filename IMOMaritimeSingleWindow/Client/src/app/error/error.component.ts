@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../node_modules/rxjs';
 import { ErrorService } from '../shared/services/error.service';
 
 @Component({
+  standalone: false,
   selector: 'app-error',
   templateUrl: './error.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit, OnDestroy {

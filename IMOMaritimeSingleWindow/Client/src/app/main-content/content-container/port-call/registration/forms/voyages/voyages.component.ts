@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
@@ -8,8 +8,10 @@ import { LocationModel, ShipModel } from 'app/shared/models/';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
+  standalone: false,
   selector: 'app-voyages',
   templateUrl: './voyages.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./voyages.component.css']
 })
 export class VoyagesComponent implements OnInit {

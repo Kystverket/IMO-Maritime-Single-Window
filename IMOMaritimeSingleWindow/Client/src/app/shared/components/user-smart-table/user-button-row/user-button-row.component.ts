@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { AccountService, ContentService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
@@ -7,8 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
+  standalone: false,
   selector: 'app-user-button-row',
   templateUrl: './user-button-row.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./user-button-row.component.css']
 })
 export class UserButtonRowComponent implements ViewCell, OnInit {

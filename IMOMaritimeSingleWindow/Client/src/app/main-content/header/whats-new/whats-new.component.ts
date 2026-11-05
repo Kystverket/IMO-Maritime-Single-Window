@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-whats-new',
   templateUrl: './whats-new.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./whats-new.component.css']
 })
 export class WhatsNewComponent implements OnInit {

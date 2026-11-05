@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AccountService, LocationService, OrganizationService, ShipService } from 'app/shared/services/';
@@ -24,7 +23,6 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
     NgbModule,
     CommonModule,
     FormsModule,
-    HttpModule,
     NgSelectModule,
     SharedModule,
     Ng2SmartTableModule
@@ -57,11 +55,6 @@ import { ViewUserInfoComponent } from './user/view-user-info/view-user-info.comp
     OrganizationService,
     ShipService,
     AccountService
-  ],
-  entryComponents: [
-    LocationButtonRowComponent,
-    RegisterOrganizationComponent,
-    AssignPasswordComponent
   ]
 })
 export class BasisDataModule { }

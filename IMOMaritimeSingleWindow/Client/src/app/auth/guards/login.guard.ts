@@ -7,7 +7,7 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { AuthService, BaseService, ErrorService, LoginService } from 'app/shared/services/';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { BaseGuard } from '../../shared/interfaces/base-guard.interface';
 
 @Injectable()

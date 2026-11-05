@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService, LocationService } from 'app/shared/services/';
-import { LocalDataSource } from 'ng2-smart-table/lib/data-source/local/local.data-source';
+import { LocalDataSource } from 'ng2-smart-table';
 import { LocationButtonRowComponent } from './location-button-row/location-button-row.component';
 
 @Component({
+  standalone: false,
   selector: 'app-view-location-info',
   templateUrl: './view-location-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-location-info.component.css']
 })
 export class ViewLocationInfoComponent implements OnInit {

@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PortCallService } from 'app/shared/services/port-call.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-clearances',
   templateUrl: './clearances.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./clearances.component.css']
 })
 export class ClearancesComponent implements OnInit, OnDestroy {

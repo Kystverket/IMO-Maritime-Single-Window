@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService, OrganizationService } from 'app/shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-view-organization-info',
   templateUrl: './view-organization-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-organization-info.component.css']
 })
 export class ViewOrganizationInfoComponent implements OnInit {

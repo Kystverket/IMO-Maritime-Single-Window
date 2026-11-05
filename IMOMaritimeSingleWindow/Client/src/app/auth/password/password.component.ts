@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import {
   PASSWORD_COMPONENT_NAME,
@@ -10,8 +10,10 @@ import { TokenQueryModel } from '../../shared/models/token-query-model';
 import { AccountService, UriQueryService } from '../../shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-password',
   templateUrl: './password.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./password.component.css']
 })
 export class PasswordComponent implements OnInit {

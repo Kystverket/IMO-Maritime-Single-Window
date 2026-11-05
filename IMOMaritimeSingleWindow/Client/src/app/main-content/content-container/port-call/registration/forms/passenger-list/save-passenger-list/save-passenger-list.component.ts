@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { PersonOnBoardModel } from 'app/shared/models/person-on-board-model';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
+  standalone: false,
   selector: 'app-save-passenger-list',
   templateUrl: './save-passenger-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./save-passenger-list.component.css']
 })
 export class SavePassengerListComponent implements OnInit {

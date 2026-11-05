@@ -1,13 +1,15 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { ShipToShipActivityModel } from 'app/shared/models/ship-to-ship-activity-model';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-to-ship-activity-table',
   templateUrl: './ship-to-ship-activity-table.component.html',
   styleUrls: ['./ship-to-ship-activity-table.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [DatePipe]
 })
 export class ShipToShipActivityTableComponent implements OnInit, OnChanges {

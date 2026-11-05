@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NextLocationTimeProperties } from 'app/shared/constants/next-location-time-properties';
 import { PrevLocationTimeProperties } from 'app/shared/constants/prev-location-time-properties';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { DateTime } from '../../interfaces/dateTime.interface';
 import { PortCallService } from '../../services/port-call.service';
 
 @Component({
+  standalone: false,
   selector: 'app-prev-and-next-poc-table',
   templateUrl: './prev-and-next-poc-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./prev-and-next-poc-table.component.css']
 })
 export class PrevAndNextPocTableComponent implements OnInit, OnDestroy {

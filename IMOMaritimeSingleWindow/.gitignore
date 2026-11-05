@@ -43,3 +43,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Angular build output and cache
+Client/dist/
+Client/.angular/

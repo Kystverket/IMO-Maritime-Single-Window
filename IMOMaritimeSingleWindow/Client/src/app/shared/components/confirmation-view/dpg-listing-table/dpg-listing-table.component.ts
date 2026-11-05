@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DpgService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 @Component({
+  standalone: false,
   selector: 'app-dpg-listing-table',
   templateUrl: './dpg-listing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./dpg-listing-table.component.css']
 })
 export class DpgListingTableComponent implements OnInit, OnDestroy {

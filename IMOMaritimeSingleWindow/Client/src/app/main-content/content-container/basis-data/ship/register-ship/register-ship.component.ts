@@ -1,4 +1,4 @@
-import { Component, DoCheck, OnDestroy, OnInit } from '@angular/core';
+import { Component, DoCheck, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
@@ -6,7 +6,7 @@ import { OrganizationProperties } from 'app/shared/constants/organization-proper
 import { ShipFlagCodeProperties } from 'app/shared/constants/ship-flag-code-properties';
 import { CertificateOfRegistryModel, OrganizationModel, ShipContactModel, ShipFlagCodeModel, ShipModel } from 'app/shared/models';
 import { ContentService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const RESULT_SUCCESS = 'Ship was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the ship to the database. Please try again later.';
@@ -15,8 +15,10 @@ const INITIAL_DATA_IS_PRISTINE_TEXT = 'There are no unsaved changes in this page
 const UPDATED_DATA_IS_PRISTINE_TEXT = 'Your changes have been saved.';
 
 @Component({
+  standalone: false,
   selector: 'app-register-ship',
   templateUrl: './register-ship.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./register-ship.component.css']
 })
 export class RegisterShipComponent implements OnInit, OnDestroy {

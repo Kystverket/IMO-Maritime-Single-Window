@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SHIP_STATUSES } from 'app/shared/constants/enumValues';
 import { SearchService } from 'app/shared/services/search.service';
-import 'rxjs/add/observable/of';
-import { Observable } from 'rxjs/Observable';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SearchShipService {
@@ -22,7 +21,7 @@ export class SearchShipService {
 
   search(type: SHIP_STATUSES = null, term: string, amount = 10) {
     if (term.length < 2) {
-      return Observable.of([]);
+      return of([]);
     }
     if (type == null || type === undefined) {
       return this.searchService.search(this.searchUrl, term, amount);

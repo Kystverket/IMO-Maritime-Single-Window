@@ -1,14 +1,17 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal.module';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ViewButtonComponent } from '../../view-button/view-button.component';
 
 
 @Component({
+  standalone: false,
   selector: 'app-crew-listing-table',
   templateUrl: './crew-listing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./crew-listing-table.component.css']
 })
 export class CrewListingTableComponent implements OnInit, OnDestroy {
@@ -95,14 +98,14 @@ export class CrewListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.portCallId) {
       this.crewDataSubscription = this.personOnBoardService.getCrewListByPortCallId(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.crewDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.CREW)
             .subscribe(summary => {
               this.headerText = 'Crew Info - No. of Crew: ' + summary.numberOfPobs;
             }, error => {
               this.headerText = 'Crew Info';
             });
-        })
+        }))
         .subscribe(
           crewList => {
             if (crewList) {

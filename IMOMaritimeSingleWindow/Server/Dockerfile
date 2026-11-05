@@ -1,5 +1,5 @@
 # ./Server/Dockerfile
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2-bionic
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 WORKDIR /workspaces/backend
 
@@ -7,7 +7,7 @@ WORKDIR /workspaces/backend
 COPY . .
 
 # Install PostgreSQL client
-RUN apt-get update && apt-get install -y postgresql-client
+RUN apt-get update && apt-get install -y --no-install-recommends postgresql-client && rm -rf /var/lib/apt/lists/*
 
 # Expose the port
 EXPOSE 5000
@@ -21,6 +21,5 @@ CMD ["sh", "-c", "\
   ./setenv_connection.sh &&\
   chmod +x ./populate_db.sh &&\
   ./populate_db.sh && \
-  cp appsettings.default.json appsettings.json &&\ 
-  dotnet ef database update --context open_ssnContext -v && \
+  cp appsettings.default.json appsettings.json && \
   dotnet run --urls http://0.0.0.0:5000" ]

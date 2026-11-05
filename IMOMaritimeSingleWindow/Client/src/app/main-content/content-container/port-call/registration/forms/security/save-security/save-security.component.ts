@@ -1,11 +1,13 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, SecurityPreviousPortOfCallModel, ShipModel, ShipToShipActivityModel } from 'app/shared/models/';
 import { FalSecurityService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-save-security',
   templateUrl: './save-security.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./save-security.component.css']
 })
 export class SaveSecurityComponent implements OnInit, OnDestroy {

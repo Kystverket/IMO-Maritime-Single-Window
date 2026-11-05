@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { CONTENT_NAMES } from '../constants/content-names';
 import { LoadingScreen } from '../interfaces/loading-screen.interface';
 import { BaseService } from './base.service';

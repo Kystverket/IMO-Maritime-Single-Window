@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ConstantsService, ContentService, OrganizationService } from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-organization-button-row',
   templateUrl: './organization-button-row.component.html',
   styleUrls: ['./organization-button-row.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ConstantsService]
 })
 export class OrganizationButtonRowComponent implements ViewCell, OnInit {

@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { OrganizationService } from '../../services/organization.service';
 import { OrganizationButtonRowComponent } from './organization-button-row/organization-button-row.component';
 
 @Component({
+  standalone: false,
   selector: 'app-organization-smart-table',
   templateUrl: './organization-smart-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./organization-smart-table.component.css']
 })
 export class OrganizationSmartTableComponent implements OnInit, OnDestroy {

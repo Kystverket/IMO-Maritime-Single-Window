@@ -1,15 +1,17 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTime } from 'app/shared/utils/ngb-time';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { SecurityLevelModel, SecurityPreviousPortOfCallModel } from 'app/shared/models/';
 import { FalSecurityService } from 'app/shared/services/fal-security.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-last-10-port-calls',
   templateUrl: './last-10-port-calls.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./last-10-port-calls.component.css']
 })
 export class Last10PortCallsComponent implements OnInit, OnDestroy {

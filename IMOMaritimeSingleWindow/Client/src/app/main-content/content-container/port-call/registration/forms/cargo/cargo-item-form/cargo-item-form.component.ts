@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CargoItemModel, PackageTypeModel } from 'app/shared/models/';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-cargo-item-form',
   templateUrl: './cargo-item-form.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cargo-item-form.component.css']
 })
 export class CargoItemFormComponent implements OnInit {

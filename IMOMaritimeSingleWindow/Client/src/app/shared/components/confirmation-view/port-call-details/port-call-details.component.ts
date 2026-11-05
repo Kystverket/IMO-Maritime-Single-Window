@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const NO_OF_CREW = 'No. of Crew';
 const NO_OF_PASSENGERS = 'No. of Passengers';
@@ -8,8 +8,10 @@ const ACTUAL_DRAUGHT = 'Actual Draught';
 const AIR_DRAUGHT = 'Air Draught';
 
 @Component({
+  standalone: false,
   selector: 'app-port-call-details',
   templateUrl: './port-call-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./port-call-details.component.css']
 })
 export class PortCallDetailsComponent implements OnInit, OnDestroy {

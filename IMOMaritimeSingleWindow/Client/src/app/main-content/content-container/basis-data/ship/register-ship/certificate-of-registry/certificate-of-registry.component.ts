@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { LocationProperties } from 'app/shared/constants/location-properties';
 import { CertificateOfRegistryModel } from 'app/shared/models/';
 
 @Component({
+  standalone: false,
   selector: 'app-certificate-of-registry',
   templateUrl: './certificate-of-registry.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./certificate-of-registry.component.css']
 })
 export class CertificateOfRegistryComponent implements OnInit {

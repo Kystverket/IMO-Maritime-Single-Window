@@ -18,7 +18,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
         private Password password;
         public User_to_ApplicationUser_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>());
+            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
             mapper = configuration.CreateMapper();
             _userStoreHelper = new UserStoreHelper(mapper);
 

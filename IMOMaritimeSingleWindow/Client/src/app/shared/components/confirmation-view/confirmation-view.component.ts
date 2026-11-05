@@ -1,10 +1,12 @@
-import { Component, Input, OnDestroy, OnInit  } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-confirmation-view',
   templateUrl: './confirmation-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./confirmation-view.component.css']
 })
 export class ConfirmationViewComponent implements OnInit, OnDestroy {

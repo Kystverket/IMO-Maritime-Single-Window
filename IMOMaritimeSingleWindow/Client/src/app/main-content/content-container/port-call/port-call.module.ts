@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CargoItemFormComponent } from 'app/main-content/content-container/port-call/registration/forms/cargo/cargo-item-form/cargo-item-form.component';
@@ -77,13 +76,11 @@ import { ViewPortCallComponent } from './view-port-call/view-port-call.component
   imports: [
     CommonModule,
     FormsModule,
-    HttpModule,
     Ng2SmartTableModule,
     NgbModule,
     NgSelectModule,
     SharedModule
   ],
-  entryComponents: [ButtonRowComponent, ClearanceRowComponent, DeleteButtonComponent, ActionButtonsComponent, ViewButtonComponent],
   declarations: [
     ActionButtonsComponent,
     ButtonRowComponent,

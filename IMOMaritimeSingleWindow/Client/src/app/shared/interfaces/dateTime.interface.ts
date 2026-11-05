@@ -1,5 +1,5 @@
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTime } from 'app/shared/utils/ngb-time';
 
 export interface DateTime {
   date: NgbDate;

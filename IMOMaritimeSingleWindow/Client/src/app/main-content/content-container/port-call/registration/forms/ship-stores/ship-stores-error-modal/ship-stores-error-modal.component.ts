@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models';
 import { FalShipStoresService } from 'app/shared/services';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-stores-error-modal',
   templateUrl: './ship-stores-error-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-stores-error-modal.component.css']
 })
 export class ShipStoresErrorModalComponent implements OnInit {

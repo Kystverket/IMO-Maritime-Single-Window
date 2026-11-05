@@ -1,12 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { PortCallDetailsService } from 'app/shared/services/port-call-details.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { CrewPassengersAndDimensionsModel } from './crewPassengersAndDimensionsModel';
 
 @Component({
+  standalone: false,
   selector: 'app-crew-passengers-dimensions',
   templateUrl: './crew-passengers-dimensions.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./crew-passengers-dimensions.component.css']
 })
 export class CrewPassengersDimensionsComponent implements OnInit, OnDestroy {

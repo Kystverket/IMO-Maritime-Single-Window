@@ -1,0 +1,66 @@
+<table [class]="tableClass">
+  <thead>
+    <tr>
+      @for (column of columns; track column.id) {
+        <th [class.smart-table-sortable]="column.sort" (click)="toggleSort(column)">
+          {{ column.title }}
+          @if (sortColumn === column) {
+            <span class="smart-table-sort-indicator">{{ sortDirection === 'asc' ? '&#9650;' : '&#9660;' }}</span>
+          }
+        </th>
+      }
+    </tr>
+    @if (showFilters) {
+      <tr>
+        @for (column of columns; track column.id) {
+          <th>
+            @if (column.filter) {
+              <input type="text" class="form-control form-control-sm" placeholder="Filter"
+                [value]="filters[column.id] || ''"
+                (input)="setFilter(column, $any($event.target).value)">
+            }
+          </th>
+        }
+      </tr>
+    }
+  </thead>
+  <tbody>
+    @for (row of pageRows; track $index) {
+      <tr>
+        @for (cell of row.cells; track cell.column.id) {
+          <td>
+            @if (cell.column.type === 'custom') {
+              <ng-container [appSmartTableCell]="cell.column" [rowData]="row.data" [cellValue]="cell.value"></ng-container>
+            } @else if (cell.column.type === 'html') {
+              <div [innerHTML]="cell.value"></div>
+            } @else {
+              {{ cell.value }}
+            }
+          </td>
+        }
+      </tr>
+    } @empty {
+      <tr>
+        <td [attr.colspan]="columns.length">{{ noDataMessage }}</td>
+      </tr>
+    }
+  </tbody>
+</table>
+
+@if (showPager) {
+  <nav>
+    <ul class="pagination">
+      <li class="page-item" [class.disabled]="page === 1">
+        <a class="page-link" href="javascript:void(0)" (click)="goToPage(page - 1)">Prev</a>
+      </li>
+      @for (p of pages; track p) {
+        <li class="page-item" [class.active]="p === page">
+          <a class="page-link" href="javascript:void(0)" (click)="goToPage(p)">{{ p }}</a>
+        </li>
+      }
+      <li class="page-item" [class.disabled]="page === pageCount">
+        <a class="page-link" href="javascript:void(0)" (click)="goToPage(page + 1)">Next</a>
+      </li>
+    </ul>
+  </nav>
+}

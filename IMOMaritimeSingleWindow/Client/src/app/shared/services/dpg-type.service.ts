@@ -1,13 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { DpgTypeModel } from 'app/shared/models/dpg-type-model';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class DpgTypeService {
     private dpgTypeUrl: string;
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         this.dpgTypeUrl = 'api/dpgType';
     }
 
@@ -16,6 +16,6 @@ export class DpgTypeService {
     // Http
     getDpgTypes() {
         const uri = this.dpgTypeUrl;
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 }

@@ -23,8 +23,7 @@ namespace IMOMaritimeSingleWindow.Tests.ControllerTests
         private TestContext SeedContext(TestContext context)
         {
             String str = File.ReadAllText(SEED);
-            RawSqlString raw = new RawSqlString(str);
-            context.Database.ExecuteSqlCommand(raw);
+            context.Database.ExecuteSqlRaw(str);
             return context;
         }
 

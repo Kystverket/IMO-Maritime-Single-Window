@@ -1,10 +1,12 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { FeedBack } from '../../shared/models/feedback';
 import { AccountService } from '../../shared/services/account.service';
 
 @Component({
+  standalone: false,
   selector: 'app-password-forgotten',
   templateUrl: './password-forgotten.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./password-forgotten.component.css']
 })
 export class PasswordForgottenComponent extends FeedBack

@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ClearanceModel } from 'app/shared/models/';
 import { ContentService, PortCallService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-clearance',
   templateUrl: './clearance.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./clearance.component.css']
 })
 export class ClearanceComponent implements OnInit, OnDestroy {

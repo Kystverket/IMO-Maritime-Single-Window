@@ -1,7 +1,7 @@
 // Based on https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/src/app/shared/services/base.service.ts
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { throwError } from 'rxjs';
 
 export abstract class BaseService {
   constructor() {}
@@ -10,11 +10,11 @@ export abstract class BaseService {
 
     // either applicationError in header or model error in body
     if (applicationError) {
-      return Observable.throw(applicationError);
+      return throwError(() => applicationError);
     }
 
     let modelStateErrors = '';
-    const serverError = error.json();
+    const serverError = error.error;
 
     if (!serverError.type) {
       for (const key in serverError) {
@@ -22,8 +22,8 @@ export abstract class BaseService {
       }
     }
 
-    modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
-    return Observable.throw(modelStateErrors || 'Server error');
+    modelStateErrors = modelStateErrors === '' ? null : modelStateErrors;
+    return throwError(() => modelStateErrors || 'Server error');
   }
 
   protected handleError(error: HttpErrorResponse | any) {
@@ -41,7 +41,7 @@ export abstract class BaseService {
       } else {
         errMsg = error.message ? error.message : error.toString();
       }
-      return Observable.throw(errMsg);
+      return throwError(() => errMsg);
     }
   }
 }

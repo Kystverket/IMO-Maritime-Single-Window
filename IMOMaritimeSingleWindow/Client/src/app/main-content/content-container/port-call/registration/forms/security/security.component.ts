@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CompanySecurityOfficerModel, FalSecurityModel, InternationalShipSecurityCertificateModel, ShipModel } from 'app/shared/models/';
 
 @Component({
+  standalone: false,
   selector: 'app-security',
   templateUrl: './security.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./security.component.css']
 })
 export class SecurityComponent implements OnInit, OnDestroy {

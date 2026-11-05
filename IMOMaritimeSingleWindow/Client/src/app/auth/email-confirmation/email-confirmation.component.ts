@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router  } from '@angular/router';
 import { TokenQueryModel } from '../../shared/models/';
 import { AccountService, UriQueryService } from '../../shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-email-confirmation',
   templateUrl: './email-confirmation.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./email-confirmation.component.css']
 })
 export class EmailConfirmationComponent implements OnInit {

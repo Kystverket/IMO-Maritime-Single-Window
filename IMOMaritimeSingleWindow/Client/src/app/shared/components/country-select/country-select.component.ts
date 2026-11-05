@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from '../../../../../node_modules/rxjs';
 import { CountryModel } from '../../models/country-model';
 import { CountryService } from '../../services/country.service';
 
 @Component({
+  standalone: false,
   selector: 'app-country-select',
   templateUrl: './country-select.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./country-select.component.css']
 })
 export class CountrySelectComponent implements OnInit {

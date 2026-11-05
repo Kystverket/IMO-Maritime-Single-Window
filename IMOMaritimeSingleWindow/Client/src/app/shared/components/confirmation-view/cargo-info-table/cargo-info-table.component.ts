@@ -1,10 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FalCargoService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-cargo-info-table',
   templateUrl: './cargo-info-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cargo-info-table.component.css']
 })
 export class CargoInfoTableComponent implements OnInit, OnDestroy {

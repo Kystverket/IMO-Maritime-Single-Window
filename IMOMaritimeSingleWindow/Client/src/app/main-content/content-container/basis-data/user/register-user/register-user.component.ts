@@ -1,11 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ORGANIZATION_TYPES } from 'app/shared/constants/enumValues';
 import { OrganizationProperties } from 'app/shared/constants/organization-properties';
 import { AccountService, ContentService, OrganizationService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { OrganizationModel, UserModel } from '../../../../../shared/models/';
 import { AssignPasswordComponent } from './assign-password.component';
 
@@ -13,13 +13,16 @@ const RESULT_SUCCESS = 'User was successfully registered.';
 const RESULT_FAILURE = 'There was a problem when trying to register the user. Please try again later.';
 
 @Component({
+  standalone: false,
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./register-user.component.css']
 })
 export class RegisterUserComponent implements OnInit, OnDestroy {
 
   newUser = true;
+  isDrafted = false;
   userHeader = 'REGISTER USER';
   confirmHeader = 'Confirm User Registration';
   confirmButtonTitle = 'Register User';

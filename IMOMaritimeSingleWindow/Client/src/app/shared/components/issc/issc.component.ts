@@ -1,13 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbDate } from '../../../../../node_modules/@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { CountryModel } from '../../models/country-model';
 import { InternationalShipSecurityCertificateModel } from '../../models/international-ship-security-certificate-model';
 import { OrganizationModel } from '../../models/organization-model';
 import { ShipService } from '../../services/ship.service';
 
 @Component({
+  standalone: false,
   selector: 'app-issc',
   templateUrl: './issc.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./issc.component.css']
 })
 export class IsscComponent implements OnInit {

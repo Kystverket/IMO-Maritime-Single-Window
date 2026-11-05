@@ -2,9 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocationModel } from 'app/shared/models/location-model';
 import { SearchService } from 'app/shared/services/search.service';
-import 'rxjs/add/observable/of';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable()
 export class LocationService {
@@ -43,7 +41,7 @@ export class LocationService {
 
   public search(term: string, restrictTypeHarbour: boolean, amount = 10): Observable<any> {
     if (term.length < 2) {
-      return Observable.of([]);
+      return of([]);
     }
     const uri = (restrictTypeHarbour) ? this.searchHarbourUrl : this.searchUrl;
     return this.searchService.search(uri, term, amount);

@@ -1,4 +1,5 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -7,14 +8,16 @@ import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, LocationModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { SmartTableModel } from '../passenger-list/smartTableModel';
 import { CrewListErrorModalComponent } from './crew-list-error-modal/crew-list-error-modal.component';
 import { CrewMemberModalComponent } from './crew-member-modal/crew-member-modal.component';
 
 @Component({
+  standalone: false,
   selector: 'app-crew-list',
   templateUrl: './crew-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./crew-list.component.css']
 })
 export class CrewListComponent implements OnInit, OnDestroy {
@@ -179,9 +182,9 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
     this.personOnBoardService
       .getHasMaster(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.personOnBoardService.setHasMaster(this.hasMaster);
-      })
+      }))
       .subscribe(hasMaster => {
         this.hasMaster = hasMaster;
       });
@@ -196,11 +199,11 @@ export class CrewListComponent implements OnInit, OnDestroy {
   excelFileSaved(saved: any) {
     this.personOnBoardService
       .getCrewListByPortCallId(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.persistData();
         this.listIsPristine = true;
         this.personOnBoardService.setCrewDataIsPristine(true);
-      })
+      }))
       .subscribe(res => {
         this.crewList = res;
       });
@@ -226,10 +229,10 @@ export class CrewListComponent implements OnInit, OnDestroy {
 
       this.personOnBoardService
         .getPassengerListByPortCallId(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.personOnBoardService.setPassengersList(paxList);
           this.personOnBoardService.setPassengerDataIsPristine(false);
-        })
+        }))
         .subscribe(res => {
           paxList = paxList.concat(res);
         });

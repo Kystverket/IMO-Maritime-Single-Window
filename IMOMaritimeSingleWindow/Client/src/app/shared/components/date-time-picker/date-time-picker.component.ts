@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { NgbTime } from 'app/shared/utils/ngb-time';
 import { DateTime } from '../../interfaces/dateTime.interface';
 
 @Component({
+  standalone: false,
   selector: 'app-date-time-picker',
   templateUrl: './date-time-picker.component.html',
   styleUrls: ['./date-time-picker.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: []
 })
 export class DateTimePickerComponent implements OnInit {

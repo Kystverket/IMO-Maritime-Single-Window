@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { LocationModel, PortCallModel, ShipModel } from 'app/shared/models/';
 import { PortCallDetailsService, PortCallService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { LoadPortCallService } from '../../../../load-port-call.service';
 
 @Component({
+  standalone: false,
   selector: 'app-save-new-port-call',
   templateUrl: './save-new-port-call.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./save-new-port-call.component.css']
 })
 export class SaveNewPortCallComponent implements OnInit, OnDestroy {

@@ -2,8 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { GenderModel, IdentityDocumentModel, PersonOnBoardModel, PersonOnBoardTypeModel } from 'app/shared/models/';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 
@@ -198,7 +197,7 @@ export class PortCallFalPersonOnBoardService {
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return Observable.throw(
+    return throwError(() =>
       'Something bad happened; please try again later.');
   }
 

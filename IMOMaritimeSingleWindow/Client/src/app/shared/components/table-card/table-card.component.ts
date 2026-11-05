@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-table-card',
   templateUrl: './table-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./table-card.component.css']
 })
 export class TableCardComponent implements OnInit {

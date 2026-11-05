@@ -1,16 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FORM_NAMES } from 'app/shared/constants/form-names';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { CompanySecurityOfficerModel, ConsignmentModel, DpgOnBoardModel, FalSecurityModel, LocationModel,
   PersonOnBoardModel, PortCallModel, ShipModel, ShipStoresModel } from 'app/shared/models/';
 import { ContentService, DpgService, FalCargoService, FalSecurityService,
   FalShipStoresService, PortCallFalPersonOnBoardService, PortCallService, ShipService,  } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 
 @Component({
+  standalone: false,
   selector: 'app-forms',
   templateUrl: './forms.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./forms.component.css']
 })
 export class FormsComponent implements OnInit, OnDestroy {

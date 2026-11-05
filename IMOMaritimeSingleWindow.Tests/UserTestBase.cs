@@ -53,7 +53,7 @@ namespace IMOMaritimeSingleWindow.Tests
             {
                 cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>();
                 cfg.AddProfile<ViewModelToEntityMappingProfile>();
-            });
+            }, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
             Mapper = config.CreateMapper();
             UnitOfWork = new UnitOfWork(InMemoryDatabaseContext);
             var roleStore = new RoleStore(UnitOfWork, Mapper);
@@ -75,8 +75,7 @@ namespace IMOMaritimeSingleWindow.Tests
         private TestContext SeedContext(TestContext context)
         {
             String str = File.ReadAllText(SeedFilePath);
-            RawSqlString raw = new RawSqlString(str);
-            context.Database.ExecuteSqlCommand(raw);
+            context.Database.ExecuteSqlRaw(str);
             return context;
         }
     }

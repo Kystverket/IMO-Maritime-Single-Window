@@ -1,12 +1,15 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { PERSON_ON_BOARD_TYPES } from 'app/shared/constants/enumValues';
 import { PortCallFalPersonOnBoardService } from 'app/shared/services/port-call-fal-person-on-board.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 
 @Component({
+  standalone: false,
   selector: 'app-passenger-listing-table',
   templateUrl: './passenger-listing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./passenger-listing-table.component.css']
 })
 export class PassengerListingTableComponent implements OnInit, OnDestroy {
@@ -70,14 +73,14 @@ export class PassengerListingTableComponent implements OnInit, OnDestroy {
 
     if (this.portCallId) {
       this.passengerDataSubscription = this.personOnBoardService.getPassengerListByPortCallId(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.passengerDataSubscription = this.personOnBoardService.getOverviewByPortCall(this.portCallId, PERSON_ON_BOARD_TYPES.PAX)
             .subscribe(summary => {
               this.headerText = 'Passenger Info - No. of Passengers: ' + summary.numberOfPobs + ' - No. of Passengers in Transit : ' + summary.numberInTransit;
             }, error => {
               this.headerText = 'Passenger Info';
             });
-        })
+        }))
         .subscribe(
           passengerList => {
             if (passengerList) {

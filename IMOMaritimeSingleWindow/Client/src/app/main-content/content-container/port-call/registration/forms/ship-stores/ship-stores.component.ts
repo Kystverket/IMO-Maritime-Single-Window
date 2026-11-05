@@ -1,18 +1,20 @@
-import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
 import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { ShipStoresErrorModalComponent } from './ship-stores-error-modal/ship-stores-error-modal.component';
 import { ShipStoresModalComponent } from './ship-stores-modal/ship-stores-modal.component';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-stores',
   templateUrl: './ship-stores.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-stores.component.css']
 })
 export class ShipStoresComponent implements OnInit, OnDestroy {
@@ -107,11 +109,11 @@ export class ShipStoresComponent implements OnInit, OnDestroy {
 
   excelFileSaved(saved: any) {
     this.shipStoresService.getShipStoresByPortCallId(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.shipStoresService.setShipStoresList(this.shipStoresList);
         this.updateSequenceNumbers();
         this.reloadTable();
-      })
+      }))
       .subscribe(res => {
         this.shipStoresList = res;
       });

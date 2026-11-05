@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { NgbTime } from '@ng-bootstrap/ng-bootstrap/timepicker/ngb-time';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTime } from 'app/shared/utils/ngb-time';
 import { DateTime } from 'app/shared/interfaces/dateTime.interface';
 import { PortCallModel } from 'app/shared/models/port-call-model';
 import { PortCallService } from 'app/shared/services/port-call.service';
 
 @Component({
+  standalone: false,
   selector: 'app-set-actual-time',
   templateUrl: './set-actual-time.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./set-actual-time.component.css']
 })
 export class SetActualTimeComponent implements OnInit {

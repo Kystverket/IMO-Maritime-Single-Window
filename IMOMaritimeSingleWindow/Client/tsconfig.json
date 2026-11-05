@@ -1,20 +1,32 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "ES2022",
+    "module": "preserve",
     "lib": [
-      "es2017",
+      "es2022",
       "dom"
-    ]
-  }
+    ],
+    "paths": {
+      "app/*": ["./src/app/*"],
+      "selective-preloading-strategy": ["./src/selective-preloading-strategy.ts"],
+      "ng2-smart-table": ["./src/app/shared/smart-table/index.ts"]
+    }
+  },
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ]
 }

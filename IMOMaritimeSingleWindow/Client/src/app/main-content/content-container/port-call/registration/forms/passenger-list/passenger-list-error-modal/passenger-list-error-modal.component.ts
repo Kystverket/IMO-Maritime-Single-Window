@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { GenderModel, IdentityDocumentTypeModel } from 'app/shared/models';
@@ -9,8 +9,10 @@ import { PortCallFalPersonOnBoardService } from './../../../../../../../shared/s
 import { CrewMemberModalComponent } from './../../crew-list/crew-member-modal/crew-member-modal.component';
 
 @Component({
+  standalone: false,
   selector: 'app-passenger-list-error-modal',
   templateUrl: './passenger-list-error-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./passenger-list-error-modal.component.css']
 })
 export class PassengerListErrorModalComponent implements OnInit {

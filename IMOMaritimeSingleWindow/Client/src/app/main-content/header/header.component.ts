@@ -1,20 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { fromEvent } from 'rxjs/observable/fromEvent';
-import { merge } from 'rxjs/observable/merge';
-import { of } from 'rxjs/observable/of';
-import { mapTo } from 'rxjs/operators/mapTo';
-import { Observable } from 'rxjs/Rx';
-import { Subscription } from 'rxjs/Subscription';
+import { fromEvent, merge, of, Observable, Subscription, interval } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import { CONTENT_NAMES } from '../../shared/constants/content-names';
 import { MenuClaims } from '../../shared/constants/menu-claims';
 import { MenuEntry } from '../../shared/interfaces/menu-entry.interface';
 import { AccountService, ContentService, DbConnectionService, LoginService, } from '../../shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: []
 })
 export class HeaderComponent implements OnInit, OnDestroy {
@@ -126,7 +124,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.dbConnectionSubscription) {
       this.dbConnectionSubscription.unsubscribe();
     }
-    this.dbConnectionSubscription = Observable.interval(this.hasDbConnection && this.hasServerConnection ? 15000 : 5000).subscribe(() => {
+    this.dbConnectionSubscription = interval(this.hasDbConnection && this.hasServerConnection ? 15000 : 5000).subscribe(() => {
       this.dbConnectionService.getHasDbConnection().subscribe(
         hasConnection => {
           this.hasServerConnection = true;

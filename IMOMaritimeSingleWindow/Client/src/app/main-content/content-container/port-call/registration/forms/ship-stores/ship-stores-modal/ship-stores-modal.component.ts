@@ -1,11 +1,13 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MeasurementTypeModel, ShipStoresModel } from 'app/shared/models/';
 import { FalShipStoresService } from 'app/shared/services/fal-ship-stores.service';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-stores-modal',
   templateUrl: './ship-stores-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-stores-modal.component.css']
 })
 export class ShipStoresModalComponent implements OnInit {

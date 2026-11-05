@@ -1,9 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Credentials } from '../interfaces/credentials.interface';
 import { JWTResponse } from '../interfaces/jwt-response.interface';
 import { ConfigService } from '../utils/config.service';
@@ -54,7 +53,7 @@ export class LoginService extends BaseService {
       } else {
         errMsg = error.message ? error.message : error.toString();
       }
-      return Observable.throw(errMsg);
+      return throwError(() => errMsg);
     }
   }
 
@@ -69,7 +68,7 @@ export class LoginService extends BaseService {
         credentials,
         { headers }
       )
-      .map(jwtResponse => {
+      .pipe(map(jwtResponse => {
         if (jwtResponse) {
           localStorage.setItem('auth_token', jwtResponse.auth_token);
           this.loggedIn = true;
@@ -80,8 +79,8 @@ export class LoginService extends BaseService {
           this._authNavStatusSource.next(false);
         }
         return jwtResponse;
-      })
-      .catch(this.handleError);
+      }))
+      .pipe(catchError(this.handleError));
   }
 
   logout() {

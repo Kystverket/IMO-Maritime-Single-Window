@@ -1,14 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from '../../constants/search-amounts';
 import { SearchUserService } from './search-user.service';
 
 @Component({
+  standalone: false,
   selector: 'app-search-user',
   templateUrl: './search-user.component.html',
   styleUrls: ['./search-user.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [SearchUserService]
 })
 export class SearchUserComponent implements OnInit {

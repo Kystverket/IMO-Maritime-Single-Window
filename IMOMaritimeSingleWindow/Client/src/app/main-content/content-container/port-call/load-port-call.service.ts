@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { PortCallDetailsModel } from 'app/shared/models/port-call-details-model';
 import { ContentService, DpgService, FalCargoService, FalShipStoresService, PortCallDetailsService, PortCallFalPersonOnBoardService, PortCallOverviewService, PortCallService } from 'app/shared/services/';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class LoadPortCallService {

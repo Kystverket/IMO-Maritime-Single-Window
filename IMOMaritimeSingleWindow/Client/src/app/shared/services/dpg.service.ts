@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { SearchService } from 'app/shared/services/search.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DpgOnBoardModel } from '../models';
 
 
@@ -19,9 +17,9 @@ export class DpgService {
     private overviewUrl: string;
 
     constructor(
-        private http: Http, private httpClient: HttpClient
+        private http: HttpClient
     ) {
-        this.searchService = new SearchService(this.httpClient);
+        this.searchService = new SearchService(this.http);
         this.dpgTypeUrl = 'api/dpgType';
         this.dpgUrl = 'api/dpg';
         this.searchUrl = 'api/dpg/search';
@@ -58,39 +56,39 @@ export class DpgService {
     // Http
     getDpgOnBoardOverviewByPortCall(portCallId: number) {
         const uri = [this.dpgOnBoardUrl, this.overviewUrl, portCallId].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     getDpgTypes() {
         const uri = this.dpgTypeUrl + '/all';
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     getDpgById(DpgId: number) {
         const uri = [this.dpgUrl, DpgId].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     getDpgOnBoardListByPortCallId(portCallId: number) {
         const uri = [this.dpgOnBoardByPortCallUrl, portCallId].join('/');
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     getMeasurementTypeList(filter: string) {
         const uri = this.measurementTypeFilterUrl;
-        return this.http.get(uri).map(res => res.json());
+        return this.http.get<any>(uri);
     }
 
     search(dpgType: number, term: string, amount = 10) {
         if (term.length < 2) {
-            return Observable.of([]);
+            return of([]);
         }
         return this.searchService.search(this.searchUrl, term, amount, dpgType);
     }
 
     saveDpgOnBoard(dpgOnBoardList: any[], portCallId: number) {
         const uri = [this.dpgOnBoardUrl, portCallId, 'list'].join('/');
-        return this.http.put(uri, dpgOnBoardList);
+        return this.http.put<any>(uri, dpgOnBoardList);
     }
 
     formatDpgOnBoard(dpgOnBoardList: DpgOnBoardModel[], portCallId: number): DpgOnBoardModel[] {

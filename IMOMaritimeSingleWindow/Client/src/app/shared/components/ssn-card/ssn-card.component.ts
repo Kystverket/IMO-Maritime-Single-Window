@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-ssn-card',
   templateUrl: './ssn-card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ssn-card.component.css']
 })
 export class SsnCardComponent implements OnInit {

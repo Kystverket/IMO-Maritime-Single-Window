@@ -7,16 +7,16 @@
 }
 
 
-:host /deep/ ng2-smart-table thead {
+:host ::ng-deep ng2-smart-table thead {
     background-color: var(--color-primary);
     color: white;
 }
 
-:host /deep/ .ng2-smart-filter input {
+:host ::ng-deep .ng2-smart-filter input {
     color: black;
 }
 
-:host /deep/ a.ng2-smart-sort-link.sort::after {
+:host ::ng-deep a.ng2-smart-sort-link.sort::after {
     content: '';
     display: inline-block;
     width: 0;
@@ -28,28 +28,28 @@
     transform: rotate(90deg);
 }
 
-:host /deep/ a.ng2-smart-sort-link.sort.asc::after {
+:host ::ng-deep a.ng2-smart-sort-link.sort.asc::after {
     border-bottom: 4px solid white;
     transform: rotate(0deg);
     margin-bottom: 2px;
 }
 
-:host /deep/ a.ng2-smart-sort-link.sort.desc::after {
+:host ::ng-deep a.ng2-smart-sort-link.sort.desc::after {
     border-bottom: 4px solid white;
     transform: rotate(180deg);
     margin-bottom: -2px;
 }
     
-:host /deep/ ng2-smart-table a { 
+:host ::ng-deep ng2-smart-table a { 
     color:var(--color-primary-text); 
 }
 
-:host /deep/ a.ng2-smart-page-link.page-link {  
+:host ::ng-deep a.ng2-smart-page-link.page-link {  
     color: var(--color-primary-dark);
     border-color: #dee2e6;
 }
 
-:host /deep/ span.ng2-smart-page-link.page-link { 
+:host ::ng-deep span.ng2-smart-page-link.page-link { 
     color: var(--color-primary-dark); 
     background-color: #dee2e6;
     border-color: #dee2e6;        

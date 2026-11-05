@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AccountService } from '../../../../shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-account-overview',
   templateUrl: './account-overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./account-overview.component.css']
 })
 export class AccountOverviewComponent implements OnInit, OnDestroy {

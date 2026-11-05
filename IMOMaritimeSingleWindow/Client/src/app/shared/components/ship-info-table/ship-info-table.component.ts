@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ShipProperties } from 'app/shared/constants/ship-properties';
 import { ConstantsService, ShipService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-ship-info-table',
   templateUrl: './ship-info-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-info-table.component.css']
 })
 export class ShipInfoTableComponent implements OnInit, OnDestroy {

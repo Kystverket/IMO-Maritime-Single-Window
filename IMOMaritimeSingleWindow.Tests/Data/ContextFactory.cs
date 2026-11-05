@@ -4,6 +4,7 @@ using System.IO;
 using IMOMaritimeSingleWindow.Data;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 
 namespace IMOMaritimeSingleWindow.Tests.Data
@@ -16,6 +17,7 @@ namespace IMOMaritimeSingleWindow.Tests.Data
         {
             return new DbContextOptionsBuilder<TestContext>()
                             .UseSqlite(_connection)
+                            .ReplaceService<IMethodCallTranslatorProvider, SqliteIlikeTranslatorProvider>()
                             .Options;
         }
 

@@ -1,10 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { FalSecurityService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-security-info',
   templateUrl: './security-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./security-info.component.css']
 })
 export class SecurityInfoComponent implements OnInit {
@@ -25,9 +28,9 @@ export class SecurityInfoComponent implements OnInit {
       this.isLoading = true;
       this.securityDataSubscription = this.securityService
         .getFalSecurityOverViewByPortCallId(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.isLoading = false;
-        })
+        }))
         .subscribe(res => {
           if (res != null && res.hasSecurity) {
             this.securityDelivered = true;

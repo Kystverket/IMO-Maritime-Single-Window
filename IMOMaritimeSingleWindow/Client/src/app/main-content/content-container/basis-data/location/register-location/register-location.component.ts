@@ -1,17 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ContentService, LocationService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { LocationModel } from '../../../../../shared/models';
 const RESULT_SUCCESS = 'Location was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the location to the database. Please try again later.';
 
 @Component({
+  standalone: false,
   selector: 'app-register-location',
   templateUrl: './register-location.component.html',
   styleUrls: ['./register-location.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [LocationModel]
 })
 export class RegisterLocationComponent implements OnInit, OnDestroy {

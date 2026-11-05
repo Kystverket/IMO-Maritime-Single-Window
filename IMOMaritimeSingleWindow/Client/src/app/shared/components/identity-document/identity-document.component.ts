@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IdentityDocumentModel } from 'app/shared/models/';
 import { IdentityDocumentService, ValidateDateTimeService} from 'app/shared/services/';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
+  standalone: false,
   selector: 'app-identity-document',
   templateUrl: './identity-document.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./identity-document.component.css']
 })
 export class IdentityDocumentComponent implements OnInit {

@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { DeleteButtonComponent } from 'app/shared/components/delete-button/delete-button.component';
 import { CargoItemModel } from 'app/shared/models/cargo-item-model';
 import { FalCargoService } from 'app/shared/services/fal-cargo.service';
 import { LocalDataSource } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-cargo-table',
   templateUrl: './cargo-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cargo-table.component.css']
 })
 export class CargoTableComponent implements OnInit, OnChanges {

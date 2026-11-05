@@ -1,18 +1,20 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from 'app/shared/components/confirmation-modal/confirmation-modal.component';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { OrganizationModel } from 'app/shared/models';
 import { ContentService, OrganizationService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 const RESULT_SUCCESS = 'Organization was successfully saved to the database.';
 const RESULT_FAILURE = 'There was a problem when trying to save the organization to the database. Please try again later.';
 
 @Component({
+  standalone: false,
   selector: 'app-register-organization',
   templateUrl: './register-organization.component.html',
   styleUrls: ['./register-organization.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [OrganizationModel]
 })
 export class RegisterOrganizationComponent implements OnInit, OnDestroy {

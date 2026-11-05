@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActionButtonsComponent } from 'app/shared/components/action-buttons/action-buttons.component';
@@ -11,21 +11,15 @@ import {
 } from 'app/shared/models';
 import { DpgService, FalShipStoresService } from 'app/shared/services';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  merge,
-  switchMap,
-  tap
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap, finalize } from 'rxjs/operators';
 import { SEARCH_AMOUNTS } from '../../../../../../shared/constants/search-amounts';
 
 @Component({
+  standalone: false,
   selector: 'app-dpg',
   templateUrl: './dpg.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./dpg.component.css'],
 })
 export class DpgComponent implements OnInit {
@@ -173,17 +167,17 @@ export class DpgComponent implements OnInit {
     this.isLoading = true;
     this.dpgService
       .getDpgTypes()
-      .finally(() => {
+      .pipe(finalize(() => {
         this.shipStoresService
           .getMeasurementTypeList()
-          .finally(() => {
+          .pipe(finalize(() => {
             this.filterMeasurementTypes();
             this.isLoading = false;
-          })
+          }))
           .subscribe(measurementTypes => {
             this.measurementTypes = measurementTypes;
           });
-      })
+      }))
       .subscribe(res => {
         this.dpgTypes = res;
       });
@@ -272,10 +266,10 @@ export class DpgComponent implements OnInit {
   loadDataFromService() {
     this.dpgService
       .getDpgOnBoardListByPortCallId(this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.setSequenceNo();
         this.reloadTable();
-      })
+      }))
       .subscribe(res => {
         this.dpgOnBoardList = res;
       });
@@ -402,10 +396,10 @@ export class DpgComponent implements OnInit {
 
     this.dpgService
       .saveDpgOnBoard(formattedDpgList, this.portCallId)
-      .finally(() => {
+      .pipe(finalize(() => {
         this.saving = false;
         this.reloadData();
-      })
+      }))
       .subscribe(
         res => {
           this.saved = true;

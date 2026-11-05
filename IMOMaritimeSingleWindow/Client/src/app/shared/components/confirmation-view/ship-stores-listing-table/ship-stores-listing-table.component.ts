@@ -1,11 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { FalShipStoresService } from 'app/shared/services/';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 
 @Component({
+  standalone: false,
   selector: 'app-ship-stores-listing-table',
   templateUrl: './ship-stores-listing-table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./ship-stores-listing-table.component.css']
 })
 export class ShipStoresListingTableComponent implements OnInit, OnDestroy {
@@ -72,14 +75,14 @@ export class ShipStoresListingTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.portCallId) {
       this.shipStoreDataSubscription = this.shipStoreService.getSummaryByPortCall(this.portCallId)
-        .finally(() => {
+        .pipe(finalize(() => {
           this.shipStoreDataSubscription = this.shipStoreService.getOverviewByPortCall(this.portCallId).subscribe(res => {
             this.headerText = 'Ship Stores Info - Total Entries Reported: ' + res.amount
               + ' - Total weight : ' + res.totalWeight + ' - Total Volume: ' + res.totalVolume + ' - Total Units: ' + res.totalRegisteredUnits;
           }, error => {
             this.headerText = 'Ship Stores Info';
           });
-        })
+        }))
         .subscribe(summary => {
           this.shipStores = summary;
         }

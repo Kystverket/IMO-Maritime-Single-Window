@@ -1,12 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { ConstantsService, ContentService, LocationService} from 'app/shared/services/';
 import { ViewCell } from 'ng2-smart-table';
 
 @Component({
+  standalone: false,
   selector: 'app-location-button-row',
   templateUrl: './location-button-row.component.html',
   styleUrls: ['./location-button-row.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [ConstantsService]
 })
 export class LocationButtonRowComponent implements ViewCell, OnInit {

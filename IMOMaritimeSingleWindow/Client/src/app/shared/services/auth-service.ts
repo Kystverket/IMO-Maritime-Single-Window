@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { BaseRequest } from 'app/shared/utils/base.request';
 import { ConfigService } from 'app/shared/utils/config.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MenuClaims } from '../constants/menu-claims';
 
 @Injectable()
@@ -40,7 +41,7 @@ export class AuthService extends BaseRequest {
     }
     return this.http
       .get(this.actionUrl + '/hasValidToken')
-      .catch(this.handleError);
+      .pipe(catchError(this.handleError));
   }
 
   // hasValidTokenWithErrorResponse() {

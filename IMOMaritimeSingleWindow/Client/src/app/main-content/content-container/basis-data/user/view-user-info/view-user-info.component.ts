@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CONTENT_NAMES } from 'app/shared/constants/content-names';
 import { AccountService, ContentService } from 'app/shared/services/';
 
 @Component({
+  standalone: false,
   selector: 'app-view-user-info',
   templateUrl: './view-user-info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./view-user-info.component.css']
 })
 export class ViewUserInfoComponent implements OnInit, OnDestroy {

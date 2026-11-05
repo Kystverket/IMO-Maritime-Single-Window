@@ -132,6 +132,66 @@ namespace IMOMaritimeSingleWindow.Data
                 entity.Property(e => e.Name).HasColumnName("name");
             });
 
+            modelBuilder.Entity<Consignment>(entity =>
+            {
+                entity.ToTable("consignment");
+
+                entity.Property(e => e.ConsignmentId).HasColumnName("consignment_id");
+
+                entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.PortCallId).HasColumnName("port_call_id");
+
+                entity.Property(e => e.PortOfDischargeId).HasColumnName("port_of_discharge_id");
+
+                entity.Property(e => e.PortOfLoadingId).HasColumnName("port_of_loading_id");
+
+                entity.Property(e => e.Remark).HasColumnName("remark");
+
+                entity.HasOne(d => d.PortCall)
+                    .WithMany(p => p.Consignment)
+                    .HasForeignKey(d => d.PortCallId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(d => d.PortOfDischarge)
+                    .WithMany(p => p.ConsignmentPortOfDischarge)
+                    .HasForeignKey(d => d.PortOfDischargeId)
+                    .OnDelete(DeleteBehavior.SetNull);
+
+                entity.HasOne(d => d.PortOfLoading)
+                    .WithMany(p => p.ConsignmentPortOfLoading)
+                    .HasForeignKey(d => d.PortOfLoadingId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<PersonOnBoard>(entity =>
+            {
+                entity.ToTable("person_on_board");
+
+                entity.Property(e => e.PersonOnBoardId).HasColumnName("person_on_board_id");
+
+                entity.HasOne(d => d.CountryOfBirth)
+                    .WithMany(p => p.PersonOnBoardCountryOfBirth)
+                    .HasForeignKey(d => d.CountryOfBirthId);
+
+                entity.HasOne(d => d.Nationality)
+                    .WithMany(p => p.PersonOnBoardNationality)
+                    .HasForeignKey(d => d.NationalityId);
+
+                entity.HasOne(d => d.PortOfDisembarkation)
+                    .WithMany(p => p.PersonOnBoardPortOfDisembarkation)
+                    .HasForeignKey(d => d.PortOfDisembarkationId);
+
+                entity.HasOne(d => d.PortOfEmbarkation)
+                    .WithMany(p => p.PersonOnBoardPortOfEmbarkation)
+                    .HasForeignKey(d => d.PortOfEmbarkationId);
+            });
+
+            modelBuilder.Entity<InternationalShipSecurityCertificate>(entity =>
+            {
+                entity.HasKey(e => e.IsscId);
+            });
+
             modelBuilder.Entity<ContactMedium>(entity =>
             {
                 entity.ToTable("contact_medium");

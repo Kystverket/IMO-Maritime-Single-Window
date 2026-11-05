@@ -56,6 +56,7 @@ import { LocationService } from './services/location.service';
 import { OrganizationService } from './services/organization.service';
 import { ShipService } from './services/ship.service';
 import { ExtendedAlphaNumericValidator } from './utils/custom-validators/extended-alpha-numeric-validator.directive';
+import { CustomValidatorsModule } from './utils/custom-validators/custom-validators.module';
 import { IntegerValidator } from './utils/custom-validators/integer-validator.directive';
 import { NumberValidator } from './utils/custom-validators/number-validator.directive';
 import { PositiveNumberValidator } from './utils/custom-validators/positive-number-validator.directive';
@@ -63,26 +64,23 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
 @NgModule({
   imports: [
     CommonModule,
+    CustomValidatorsModule,
     FormsModule,
     Ng2SmartTableModule,
     NgbModule,
     NgSelectModule
   ],
   declarations: [
-    ExtendedAlphaNumericValidator,
     ClearancesComponent,
     ConfirmationModalComponent,
     ConfirmationViewComponent,
     ContactSelectComponent,
     DateTimePickerComponent,
-    IntegerValidator,
     LocationInfoTableComponent,
     LocationTimeInfoTableComponent,
-    NumberValidator,
     OrganizationButtonRowComponent,
     OrganizationSmartTableComponent,
     PortCallDetailsComponent,
-    PositiveNumberValidator,
     PrevAndNextPocTableComponent,
     SearchCountryComponent,
     SearchLocationComponent,
@@ -172,12 +170,6 @@ import { PositiveNumberValidator } from './utils/custom-validators/positive-numb
     ShipService,
     DbConnectionService,
     ErrorService
-  ],
-  entryComponents: [
-    ConfirmationModalComponent,
-    ShipButtonRowComponent,
-    UserButtonRowComponent,
-    OrganizationButtonRowComponent,
   ]
 })
 export class SharedModule { }

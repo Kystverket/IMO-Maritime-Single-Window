@@ -1,6 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { ShipStoresModel } from '../models/ship-stores-model';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class FalShipStoresService {
   private shipStoreOverviewUrl = 'overviewByPortCall';
   private shipStoreSummaryByPortCallUrl = 'summaryByPortCall';
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   private shipStoresListSource = new BehaviorSubject<ShipStoresModel[]>(null);
   shipStoresList$ = this.shipStoresListSource.asObservable();
@@ -30,24 +30,24 @@ export class FalShipStoresService {
 
   getSummaryByPortCall(portCallId: number) {
     const uri = [this.shipStoresUrl, this.shipStoreSummaryByPortCallUrl, portCallId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<any>(uri);
   }
 
   getOverviewByPortCall(portCallId: number) {
     const uri = [this.shipStoresUrl, this.shipStoreOverviewUrl, portCallId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<any>(uri);
   }
 
   // Get ship stores object by its primary key ID
   getShipStoresById(shipStoresId: number) {
     const uri = [this.shipStoresUrl, shipStoresId].join('/');
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<any>(uri);
   }
 
   // Save ship stores list to database
   saveShipStores(shipStoresList: any[], portCallId: number) {
     const uri = [this.shipStoresUrl, portCallId, this.shipStoresListString].join('/');
-    return this.http.put(uri, shipStoresList);
+    return this.http.put<any>(uri, shipStoresList);
   }
 
   // Get all ship stores for a given port call
@@ -55,12 +55,12 @@ export class FalShipStoresService {
     let uri = [this.portCallUrl, portCallId].join('/');
     uri = [uri, this.shipStoresString].join('/');
 
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<any>(uri);
   }
   // Get list of all measurement types
   getMeasurementTypeList() {
     const uri = this.measurementTypeUrl;
-    return this.http.get(uri).map(res => res.json());
+    return this.http.get<any>(uri);
   }
 
   // Update shipStoresInformationData
