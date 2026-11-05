@@ -47,7 +47,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             return Json(country);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public IActionResult GetById(int id) {
             var country = _context.Country.FirstOrDefault(c => c.CountryId == id);
             if (country == null) {

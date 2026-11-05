@@ -52,10 +52,6 @@ namespace IMOMaritimeSingleWindow.Extensions
         public static IServiceCollection AddEmailSender(this IServiceCollection services)
         {
             // Assumes options have been configured
-            var serviceProvider = services.BuildServiceProvider();
-            var emailSenderOptions = serviceProvider.GetService<IOptions<EmailSenderOptions>>();
-            var sendGridClientOptions = serviceProvider.GetService<IOptions<SendGridClientOptions>>();
-
             services.AddTransient<IEmailSender>(cfg =>
                 new EmailSender
                 (

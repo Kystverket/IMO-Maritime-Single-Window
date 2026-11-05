@@ -48,7 +48,7 @@ namespace IMOMaritimeSingleWindow.Identity
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
 
-            var normalizedRoleName = NormalizeKey(role);
+            var normalizedRoleName = NormalizeName(role);
             var userRoleStore = GetUserRoleStore();
 
             if (await userRoleStore.IsInRoleAsync(user, normalizedRoleName, CancellationToken))

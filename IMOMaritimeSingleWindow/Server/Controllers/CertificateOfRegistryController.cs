@@ -3,7 +3,6 @@ using IMOMaritimeSingleWindow.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions;
 using Npgsql;
 using System.Data.SqlClient;
 using IMOMaritimeSingleWindow.Models;

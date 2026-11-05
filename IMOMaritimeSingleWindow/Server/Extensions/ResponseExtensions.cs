@@ -19,9 +19,9 @@ namespace IMOMaritimeSingleWindow.Extensions
     {
         public static void AddApplicationError(this HttpResponse response, string message)
         {
-            response.Headers.Add("Application-Error", message);
+            response.Headers["Application-Error"] = message;
             // CORS
-            response.Headers.Add("access-control-expose-headers", "Application-Error");
+            response.Headers["access-control-expose-headers"] = "Application-Error";
         }
     }
 }

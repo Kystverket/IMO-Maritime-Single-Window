@@ -1,7 +1,6 @@
 using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -28,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Extensions
             string secret = appSettings.Secret;
             if (string.IsNullOrWhiteSpace(secret))
             {
-                secret = CloudConfigurationManager.GetSetting("ImoMsw.Secret");
+                secret = Environment.GetEnvironmentVariable("ImoMsw.Secret");
             }
 
             SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));

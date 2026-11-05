@@ -1,16 +1,18 @@
 using System;
-using System.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using AutoMapper;
+using FluentValidation;
+using Microsoft.Extensions.Hosting;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
@@ -51,27 +53,18 @@ namespace IMOMaritimeSingleWindow
         static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
 
-
-
-            Configuration = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables()
-                .Build();
+            Configuration = configuration;
             HostingEnvironment = env;
-
         }
 
 
-        public IConfigurationRoot Configuration { get; }
-        public IHostingEnvironment HostingEnvironment { get; }
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment HostingEnvironment { get; }
         public AuthorizationPolicy AuthorizationPolicy { get; internal set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -84,48 +77,28 @@ namespace IMOMaritimeSingleWindow
             {
 
                 // Add exception logging
-                services.AddMvc(opts =>
-                    opts.Filters.Add(new Log4NetExceptionFilter())
-                );
+                services.AddControllers(opts =>
+                {
+                    opts.Filters.Add(new Log4NetExceptionFilter());
+                    if (HostingEnvironment.IsProduction())
+                    {
+                        opts.Filters.Add(new RequireHttpsAttribute());
+                    }
+                })
+                // Fix for json self-referencing loop bug:
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-                services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
-                //Configure CORS with different policies
-                //services.AddCors(options =>
-                //{
-                //    options.AddPolicy("AllowLocalhost",
-                //        b => {
-                //            b.WithOrigins(new string[] {
-                //                "http://localhost:4200",
-                //                "https://localhost:4200"
-                //            });
-                //            b.WithMethods(new string[]
-                //            {
-                //                "GET", "OPTIONS", "POST", "UPDATE"
-                //            });
-                //            b.AllowAnyHeader();
-                //        });
+                services.AddFluentValidationAutoValidation();
+                services.AddValidatorsFromAssemblyContaining<Startup>();
 
-                //    //Brute force policy if all else fails
-                //    //NB: Only ever use in development!
-                //    options.AddPolicy("AllowAllAny",
-                //        b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-                //});
+                services.AddCors();
+                services.AddHttpContextAccessor();
 
                 //Configure database context
-                string connectionStringOpenSSN = "";
-                if (HostingEnvironment.IsStaging())
-                {
-                    // Configure in-memory database
-                }
-                else
-                {
-                    // Use real database
-                    connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
-                }
-
-                connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
+                var connectionStringOpenSSN = Configuration.GetConnectionString("OpenSSN");
                 var dbOptions = new DbContextOptionsBuilder<open_ssnContext>().UseNpgsql(connectionStringOpenSSN).Options;
-                services.AddEntityFrameworkNpgsql().AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
+                services.AddDbContext<open_ssnContext>(options => options.UseNpgsql(connectionStringOpenSSN));
 
                 // Configure email service
                 services.ConfigureEmailSenderOptions(Configuration);
@@ -155,87 +128,43 @@ namespace IMOMaritimeSingleWindow
 
                 builder.AddDefaultTokenProviders();
 
-                //builder.AddSignInManager<SignInManager<ApplicationUser>>()
-                //builder.AddUserManager<ApplicationUserManager>()
-                //.AddRoleManager<ApplicationRoleManager>();
-
-
-                var serviceProvider = services.BuildServiceProvider();
-                var context = serviceProvider.GetService<open_ssnContext>();
-                if (context == null) throw new Exception("no service for open_ssnContext found!");
-
-                //services.AddSingleton<IUnitOfWork<Guid>, UnitOfWork>();
-                // services.AddAutoMapper();
-                //var config = new MapperConfiguration(cfg => cfg.AddProfiles(typeof(Startup)));
-
-                //services.TryAddScoped<UserManager>();
-                //services.TryAddScoped<ApplicationRoleManager>();
-
                 // Tip from https://stackoverflow.com/a/42298278
                 var config = new MapperConfiguration(cfg =>
                {
                    cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>();
                    cfg.AddProfile<ViewModelToEntityMappingProfile>();
-               });
+               }, NullLoggerFactory.Instance);
                 services.AddSingleton<IMapper>(s => config.CreateMapper());
                 services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(new open_ssnContext(dbOptions)));
-                serviceProvider = services.BuildServiceProvider();
 
-                var automapper = serviceProvider.GetService<IMapper>();
-
-                services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(automapper));
-                services.TryAddScoped<IdentityErrorDescriber>();
-                serviceProvider = services.BuildServiceProvider();
-
-                var userStoreHelper = serviceProvider.GetService<IUserStoreHelper>();
-                var unitofwork = (UnitOfWork)serviceProvider.GetService<IUnitOfWork<Guid>>();
-                var identityErrorDescriber = serviceProvider.GetService<IdentityErrorDescriber>();
+                services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(ctx.GetRequiredService<IMapper>()));
 
                 builder.AddUserManager<UserManager>()
                 .AddRoleManager<ApplicationRoleManager>();
 
 
                 services.TryAddScoped<IUserStore<ApplicationUser>>(ctx =>
-                    new UserStore
+                {
+                    var automapper = ctx.GetRequiredService<IMapper>();
+                    return new UserStore
                     (
-                        identityErrorDescriber,
+                        ctx.GetRequiredService<IdentityErrorDescriber>(),
                         new UnitOfWork(new open_ssnContext(dbOptions)),
                         new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
-                        userStoreHelper,
+                        ctx.GetRequiredService<IUserStoreHelper>(),
                         automapper
-                    )
-                );
+                    );
+                });
 
                 services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
                     new UnitOfWork(new open_ssnContext(dbOptions)),
-                    automapper)
+                    ctx.GetRequiredService<IMapper>())
                 );
 
                 services.TryAddScoped<IDbContext>(ctx => new open_ssnContext(dbOptions));
 
-                //services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(unitofwork, automapper));
-                //var roleStore = serviceProvider.GetService<RoleStore>();
-                //services.TryAddScoped<IUserStore<ApplicationUser>>(ctx => new UserStore(unitofwork, roleStore, automapper));
-
-                serviceProvider = services.BuildServiceProvider();
-
-                var myUserManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-                //var myRoleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
-
-                // Additional manager separate from ASP NET Identity
-                //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
-
-
                 //Overriding service
                 services.Replace(ServiceDescriptor.Scoped<IUserValidator<ApplicationUser>, CustomUserValidator<ApplicationUser>>());
-                //services.Replace(ServiceDescriptor.Scoped<IPasswordHasher<ApplicationUser>, CustomPasswordHasher>());
-                // Additional manager separate from ASP NET Identity
-                //services.TryAddScoped(ctx => new UserRoleManager<ApplicationUser, Guid, ApplicationRole, Guid>(myUserManager, myRoleManager));
-
-
-                // Custom services
-
-                //services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
 
                 services.AddSingleton<IJwtFactory, JwtFactory>();
 
@@ -243,40 +172,6 @@ namespace IMOMaritimeSingleWindow
                 //See IMOMaritimeSingleWindow.Extensions.IServiceCollections.cs for implementation
                 services.AddJWTOptions(Configuration);
                 services.AddAuthorizationPolicies();
-
-                if (HostingEnvironment.IsProduction())
-                {
-                    services.AddMvc(opts =>
-                        opts.Filters.Add(new RequireHttpsAttribute())
-                    );
-                }
-
-
-
-                services.AddMvc()
-                    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-
-
-
-
-                /*services.AddSingleton<IEmailSender, EmailSender>();
-                services.Configure<AuthMessageSenderOptions>(Configuration);*/
-
-                /*var b = services.AddMvc(
-                    options => {
-                        var defaultPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme, IdentityConstants.ApplicationScheme })
-                        .RequireAuthenticatedUser().Build();
-                        options.Filters.Add(new AuthorizeFilter(defaultPolicy));
-
-                    });
-                */
-
-                // Fix for json self-referencing loop bug:
-                services.AddMvc().AddJsonOptions(
-              options => options.SerializerSettings.ReferenceLoopHandling =
-              Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
             }
             catch(Exception e)
             {
@@ -289,7 +184,7 @@ namespace IMOMaritimeSingleWindow
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Use(async (context, next) =>
             {
@@ -308,15 +203,14 @@ namespace IMOMaritimeSingleWindow
                 app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             }
 
-            //app.UseCors("AllowAllAny");
-            // app.UseCors(policyName: "AllowLocalhost");
-
-            // IMPORTANT! UseAuthentication() must be called before UseMvc()
-
-            app.UseAuthentication();
-            app.UseMvcWithDefaultRoute();
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
         }
     }
 }

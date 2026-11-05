@@ -35,7 +35,6 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using Claims = IMOMaritimeSingleWindow.Helpers.Constants.Strings.Claims;
 using IMOMaritimeSingleWindow.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IMOMaritimeSingleWindow.Controllers
 {
