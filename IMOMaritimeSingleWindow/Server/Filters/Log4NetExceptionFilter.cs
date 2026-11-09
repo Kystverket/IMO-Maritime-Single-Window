@@ -30,20 +30,7 @@ namespace IMOMaritimeSingleWindow.Filters
             {
                 Logger.Debug("Query string: " + context.HttpContext.Request.QueryString.Value);
             }
-            Logger.Debug("Headers:\r\n" + JsonConvert.SerializeObject(context.HttpContext.Request.Headers));
-            Logger.Debug("Cookies:\r\n" + JsonConvert.SerializeObject(context.HttpContext.Request.Cookies));
-            try
-            {
-                if (context.HttpContext.Request.Body != null)
-                {
-                    var reader = new StreamReader(context.HttpContext.Request.Body);
-                    Logger.Debug("Body:\r\n" + reader.ReadToEnd());
-                }
-            }
-            catch(Exception lol)
-            {
-                Logger.Error(lol);
-            }
+            // Headers, cookies and the request body are deliberately not logged: they can contain credentials and tokens.
             Logger.Debug("--- End debug information for previous error ---");
         }
     }

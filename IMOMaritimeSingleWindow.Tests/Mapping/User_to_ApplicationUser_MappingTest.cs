@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Helpers;
@@ -11,15 +10,13 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
     public class User_to_ApplicationUser_MappingTest
     {
 
-        private readonly IMapper mapper;
+        private readonly IdentityMapper mapper = new IdentityMapper();
         private readonly UserStoreHelper _userStoreHelper;
         private User user;
         private Person person;
         private Password password;
         public User_to_ApplicationUser_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            mapper = configuration.CreateMapper();
             _userStoreHelper = new UserStoreHelper(mapper);
 
             // Arrange
@@ -60,18 +57,18 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
         [Test]
         public void MapsUserWithoutException()
         {
-            Assert.DoesNotThrow(() => mapper.Map<User, ApplicationUser>(user));
+            Assert.DoesNotThrow(() => mapper.ToApplicationUser(user));
         }
 
         [Test]
         public void MapsUserCorrectly()
         {
-            ApplicationUser userMap = mapper.Map<User, ApplicationUser>(user);
-            ApplicationUser pwMap = mapper.Map<Password, ApplicationUser>(password);
-            ApplicationUser persMap = mapper.Map<Person, ApplicationUser>(person);
+            ApplicationUser userMap = mapper.ToApplicationUser(user);
+            ApplicationUser pwMap = mapper.ToApplicationUser(password);
+            ApplicationUser persMap = mapper.ToApplicationUser(person);
             
-            ApplicationUser appUser = mapper.Map(persMap, pwMap);   // Merge
-            mapper.Map(source: userMap, destination: appUser);      // Merge
+            ApplicationUser appUser = mapper.Merge(persMap, pwMap);   // Merge
+            mapper.Merge(source: userMap, destination: appUser);      // Merge
 
             // Id's match
             Assert.AreEqual(actual: appUser.Id, expected: user.UserId, message: "Actual user id differ from expected.");

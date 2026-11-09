@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Models;
-using AutoMapper;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;

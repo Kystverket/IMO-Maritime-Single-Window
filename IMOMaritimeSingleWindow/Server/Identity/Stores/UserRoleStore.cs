@@ -74,7 +74,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             ThrowIfDisposed();
             var userId = ConvertIdFromString(await GetUserIdAsync(user));
             var role = _unitOfWork.Users.GetRole(userId);
-            return _mapper.Map<Role, ApplicationRole>(role);
+            return _mapper.ToApplicationRole(role);
         }
 
         public async Task<string> GetRoleNameAsync(ApplicationUser user, CancellationToken cancellationToken = default)
@@ -89,7 +89,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         protected override Task<ApplicationRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
             var Role = _unitOfWork.Roles.GetByNormalizedName(normalizedRoleName);
-            var appRole = _mapper.Map<Role, ApplicationRole>(Role);
+            var appRole = _mapper.ToApplicationRole(Role);
             return Task.FromResult(appRole);
             
         }

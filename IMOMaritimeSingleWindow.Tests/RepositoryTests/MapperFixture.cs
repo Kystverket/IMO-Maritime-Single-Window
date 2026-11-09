@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AutoMapper;
+using IMOMaritimeSingleWindow.Helpers;
 
 namespace IMOMaritimeSingleWindow.Tests.RepositoryTests
 {
     public class MapperFixture
     {
-        public IMapper Mapper { get; }
+        public IdentityMapper Mapper { get; }
         public MapperFixture()
         {
         }

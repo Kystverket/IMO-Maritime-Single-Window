@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Models;
-using AutoMapper;
+using IMOMaritimeSingleWindow.Helpers;
 using System.Threading;
 using System.Diagnostics;
 using System.Linq;
@@ -15,11 +15,11 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
     public partial class RoleStore : IRoleStore<ApplicationRole>
     {
         public readonly UnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+        private readonly IdentityMapper _mapper;
 
         public RoleStore(
             UnitOfWork unitOfWork,
-            IMapper mapper = default
+            IdentityMapper mapper
             )
         {
             _unitOfWork = unitOfWork;
@@ -118,7 +118,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_role == null)
                 return Task.FromResult<ApplicationRole>(null);
 
-            var appRole = _mapper.Map<ApplicationRole>(_role);
+            var appRole = _mapper.ToApplicationRole(_role);
             return Task.FromResult(appRole);
         }
 
@@ -133,7 +133,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_role == null)
                 return Task.FromResult<ApplicationRole>(null);
 
-            var appRole = _mapper.Map<ApplicationRole>(_role);
+            var appRole = _mapper.ToApplicationRole(_role);
             return Task.FromResult(appRole);
         }
 

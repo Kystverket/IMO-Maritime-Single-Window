@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
@@ -10,12 +9,9 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
     public class ApplicationUser_to_User_MappingTest
     {
 
-        private readonly IMapper mapper;
+        private readonly IdentityMapper mapper = new IdentityMapper();
         public ApplicationUser_to_User_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            mapper = configuration.CreateMapper();
-
         }
         [Test]
         public void MapsApplicationUserWithoutException()
@@ -29,7 +25,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 PasswordHash = "876jasdhj233"
             };
             
-            Assert.DoesNotThrow(() => mapper.Map<ApplicationUser, User>(appUser));
+            Assert.DoesNotThrow(() => mapper.ToUser(appUser));
         }
 
         [Test]
@@ -43,7 +39,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 PhoneNumber = "872137912",
                 PasswordHash = "876jasdhj233"
             };
-            User user = mapper.Map<ApplicationUser, User>(appUser);
+            User user = mapper.ToUser(appUser);
 
             var normalizedEmail = appUser.Email.ToUpperInvariant();
 

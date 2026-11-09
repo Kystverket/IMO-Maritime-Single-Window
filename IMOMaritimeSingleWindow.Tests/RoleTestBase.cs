@@ -1,7 +1,6 @@
 ﻿using IMOMaritimeSingleWindow.Tests.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Stores;
-using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Repositories;
 
@@ -20,10 +19,7 @@ namespace IMOMaritimeSingleWindow.Tests
             //UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(Context);
             InMemoryDatabaseContext = StorageBuilder.GetInMemContextUserAndRoleData();
             UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            //var configuration = new MapperConfiguration(cfg => new IdentityEntitiesToModelsMappingProfile());
-            var mapper = configuration.CreateMapper();
-            RoleStore = new RoleStore(UnitOfWork, mapper);
+            RoleStore = new RoleStore(UnitOfWork, new IdentityMapper());
         }
     }
 }

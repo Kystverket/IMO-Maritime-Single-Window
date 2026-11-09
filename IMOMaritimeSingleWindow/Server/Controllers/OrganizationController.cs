@@ -37,7 +37,8 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 var userId = this.GetUserId();
-                var organization = _context.User.Where(usr => usr.OrganizationId != null && usr.UserId.ToString().Equals(userId)).Select(usr => usr.Organization).Include(o => o.OrganizationType).FirstOrDefault();
+                var organization = _context.Organization.Include(o => o.OrganizationType)
+                    .FirstOrDefault(o => _context.User.Any(usr => usr.OrganizationId == o.OrganizationId && usr.UserId.ToString().Equals(userId)));
                 return Json(organization);
             }
             catch (Exception e)

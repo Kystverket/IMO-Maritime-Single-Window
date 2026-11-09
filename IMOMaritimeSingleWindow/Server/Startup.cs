@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
-using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Hosting;
 
@@ -12,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
@@ -32,7 +30,6 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Models;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using IMOMaritimeSingleWindow.Identity;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Repositories;
@@ -128,16 +125,10 @@ namespace IMOMaritimeSingleWindow
 
                 builder.AddDefaultTokenProviders();
 
-                // Tip from https://stackoverflow.com/a/42298278
-                var config = new MapperConfiguration(cfg =>
-               {
-                   cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>();
-                   cfg.AddProfile<ViewModelToEntityMappingProfile>();
-               }, NullLoggerFactory.Instance);
-                services.AddSingleton<IMapper>(s => config.CreateMapper());
+                services.AddSingleton<IdentityMapper>();
                 services.TryAddScoped<IUnitOfWork<Guid>>(ctx => new UnitOfWork(new open_ssnContext(dbOptions)));
 
-                services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(ctx.GetRequiredService<IMapper>()));
+                services.AddSingleton<IUserStoreHelper>(ctx => new UserStoreHelper(ctx.GetRequiredService<IdentityMapper>()));
 
                 builder.AddUserManager<UserManager>()
                 .AddRoleManager<ApplicationRoleManager>();
@@ -145,20 +136,20 @@ namespace IMOMaritimeSingleWindow
 
                 services.TryAddScoped<IUserStore<ApplicationUser>>(ctx =>
                 {
-                    var automapper = ctx.GetRequiredService<IMapper>();
+                    var mapper = ctx.GetRequiredService<IdentityMapper>();
                     return new UserStore
                     (
                         ctx.GetRequiredService<IdentityErrorDescriber>(),
                         new UnitOfWork(new open_ssnContext(dbOptions)),
-                        new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), automapper),
+                        new RoleStore(new UnitOfWork(new open_ssnContext(dbOptions)), mapper),
                         ctx.GetRequiredService<IUserStoreHelper>(),
-                        automapper
+                        mapper
                     );
                 });
 
                 services.TryAddScoped<IRoleStore<ApplicationRole>>(ctx => new RoleStore(
                     new UnitOfWork(new open_ssnContext(dbOptions)),
-                    ctx.GetRequiredService<IMapper>())
+                    ctx.GetRequiredService<IdentityMapper>())
                 );
 
                 services.TryAddScoped<IDbContext>(ctx => new open_ssnContext(dbOptions));

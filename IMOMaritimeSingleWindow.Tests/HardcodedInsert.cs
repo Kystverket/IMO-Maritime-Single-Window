@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using IMOMaritimeSingleWindow.Tests.Data;
 using IMOMaritimeSingleWindow.Helpers;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
-using AutoMapper;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Repositories;
@@ -30,10 +28,6 @@ namespace IMOMaritimeSingleWindow.Tests
             var InMemoryDatabaseContext = StorageBuilder.GetInMemContextWithRoleData();
             DatabaseContext = InMemoryDatabaseContext;
             UnitOfWork = (UnitOfWork)StorageBuilder.GetUnitOfWork(InMemoryDatabaseContext);
-
-            // Configure auto-mapper
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            var mapper = configuration.CreateMapper();
         }
     }
 

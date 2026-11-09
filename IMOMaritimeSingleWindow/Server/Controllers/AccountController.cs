@@ -11,7 +11,7 @@
  *  file url: https://github.com/mmacneil/AngularASPNETCore2WebApiAuth/blob/master/src/Controllers/AccountsController.cs
  */
 
-using AutoMapper;
+using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Auth;
 using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Extensions;
@@ -47,7 +47,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IDbContext _context;
         private readonly IEmailSender _emailSender;
-        private readonly IMapper _mapper;
+        private readonly IdentityMapper _mapper;
         private readonly ILogger<AccountController> _logger;
 
         private readonly IHostingEnvironment _env;
@@ -57,7 +57,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             SignInManager<ApplicationUser> signInManager,
             IDbContext context,
             IEmailSender emailSender,
-            IMapper mapper,
+            IdentityMapper mapper,
             IHostingEnvironment env,
             ILogger<AccountController> logger
             )
@@ -83,7 +83,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             }
 
             // Tries to map the model to an object of type ApplicationUser
-            var applicationUser = _mapper.Map<ApplicationUser>(model);
+            var applicationUser = _mapper.ToApplicationUser(model);
 
             // Verify the role the user is attempted added to exists
             var role = await _roleManager.FindByNameAsync(model.RoleName);
@@ -134,7 +134,7 @@ namespace IMOMaritimeSingleWindow.Controllers
             try
             {
                 // map the fields and update the record in the underlying data store
-                var applicationUser = _mapper.Map<ApplicationUser>(model);
+                var applicationUser = _mapper.ToApplicationUser(model);
                 applicationUser.SecurityStamp = new Guid().ToString();
 
                 var result = await _userManager.UpdateAsync(applicationUser);

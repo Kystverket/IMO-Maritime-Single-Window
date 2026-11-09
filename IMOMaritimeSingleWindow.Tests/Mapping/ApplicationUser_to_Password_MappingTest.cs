@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
@@ -10,12 +9,9 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
     public class ApplicationUser_to_Password_MappingTest
     {
 
-        private readonly IMapper mapper;
+        private readonly IdentityMapper mapper = new IdentityMapper();
         public ApplicationUser_to_Password_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            mapper = configuration.CreateMapper();
-
         }
         [Test]
         public void MapsPasswordWithoutException()
@@ -27,7 +23,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 PasswordHash = "876jasdhj233"
             };
             
-            Assert.DoesNotThrow(() => mapper.Map<ApplicationUser, Password>(appUser));
+            Assert.DoesNotThrow(() => mapper.ToPassword(appUser));
         }
 
         [Test]
@@ -39,7 +35,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 Surname = "Tester",
                 PasswordHash = "876jasdhj233"
             };
-            Password password = mapper.Map<ApplicationUser, Password>(appUser);
+            Password password = mapper.ToPassword(appUser);
 
             Assert.AreEqual(actual: password.Hash, expected: appUser.PasswordHash, message: "Actual passwordhash differs from the expected.");
         }

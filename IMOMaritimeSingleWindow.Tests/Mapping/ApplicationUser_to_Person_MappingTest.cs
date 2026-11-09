@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
@@ -10,12 +9,9 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
     public class ApplicationUser_to_Person_MappingTest
     {
 
-        private readonly IMapper mapper;
+        private readonly IdentityMapper mapper = new IdentityMapper();
         public ApplicationUser_to_Person_MappingTest()
         {
-            var configuration = new MapperConfiguration(cfg => cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>(), Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            mapper = configuration.CreateMapper();
-
         }
         [Test]
         public void MapsCompanyDetailsWithoutException()
@@ -28,7 +24,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 CompanyPhoneNumber = "9872819412"
             };
             
-            Assert.DoesNotThrow(() => mapper.Map<ApplicationUser, Person>(appUser));
+            Assert.DoesNotThrow(() => mapper.ToPerson(appUser));
         }
 
         [Test]
@@ -41,7 +37,7 @@ namespace IMOMaritimeSingleWindow.Tests.Mapping
                 CompanyEmail = "company@company.test",
                 CompanyPhoneNumber = "9872819412"
             };
-            Person person = mapper.Map<ApplicationUser, Person>(appUser);
+            Person person = mapper.ToPerson(appUser);
 
             Assert.AreEqual(actual: person.GivenName, expected: appUser.GivenName, message: "Actual given name differ from expected.");
             Assert.AreEqual(actual: person.Surname, expected: appUser.Surname, message: "Actual surname differ from expected.");

@@ -5,12 +5,10 @@ using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Models;
 using IMOMaritimeSingleWindow.Tests.Data;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
 
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Identity.Stores;
 using Microsoft.AspNetCore.Identity;
-using AutoMapper;
 using NUnit.Framework;
 using System.Threading.Tasks;
 

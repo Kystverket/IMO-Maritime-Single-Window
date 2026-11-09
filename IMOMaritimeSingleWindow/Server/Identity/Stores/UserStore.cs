@@ -1,4 +1,4 @@
-using AutoMapper;
+using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Models;
@@ -19,7 +19,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
         private readonly UnitOfWork _unitOfWork;
         private readonly RoleStore _roleStore;
         private readonly IUserStoreHelper _helper;
-        private readonly IMapper _mapper;
+        private readonly IdentityMapper _mapper;
 
         public UserStore
         (
@@ -27,7 +27,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             UnitOfWork unitOfWork,
             RoleStore roleStore,
             IUserStoreHelper helper,
-            IMapper mapper = default
+            IdentityMapper mapper
         ) : base(describer)
         {
             _unitOfWork = unitOfWork;
@@ -44,7 +44,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             int expectedObjectsAdded = 1; // User and Password entity
 
             // Map properties from input object to User object
-            var _user = _mapper.Map<ApplicationUser, User>(user);
+            var _user = _mapper.ToUser(user);
 
             if(await HasPasswordAsync(user))
             {
@@ -60,7 +60,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
             if (_helper.HasPerson(user))
             {
                 // Extract person details from input object
-                Person person = _mapper.Map<ApplicationUser, Person>(user);
+                Person person = _mapper.ToPerson(user);
                 _user.Person = person;
                 expectedObjectsAdded++;
             }
@@ -114,7 +114,7 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
                 filter: usr => usr.UserId == user.Id,
                 includeProperties: nameof(User.Person) + "," + nameof(User.Password) )
                 .FirstOrDefault();
-            _mapper.Map(user, _user);
+            _mapper.UpdateUser(user, _user);
             // ApplicationUser contains password
             if (await HasPasswordAsync(user, cancellationToken))
             {
@@ -146,14 +146,14 @@ namespace IMOMaritimeSingleWindow.Identity.Stores
 
             if (_helper.HasPerson(user))
             {
-                var personMapped = _mapper.Map<Person>(user);
+                var personMapped = _mapper.ToPerson(user);
                 personMapped.User = _user.Person.User;
                 personMapped.PersonId = _user.Person.PersonId;
                 if (!_user.Person.Equals(personMapped))
                 {
                     expectedObjectsAffected++;
                     // Update Person entity
-                    var newPerson = _mapper.Map(source: personMapped, destination: _user.Person);
+                    var newPerson = _mapper.UpdatePerson(source: personMapped, destination: _user.Person);
                 }
             }
 

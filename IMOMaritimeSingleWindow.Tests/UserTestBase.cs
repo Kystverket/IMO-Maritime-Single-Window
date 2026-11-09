@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using IMOMaritimeSingleWindow.Data;
+﻿using IMOMaritimeSingleWindow.Data;
 using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
@@ -7,7 +6,6 @@ using IMOMaritimeSingleWindow.Identity.Stores;
 using IMOMaritimeSingleWindow.Repositories;
 using IMOMaritimeSingleWindow.Tests.Constants;
 using IMOMaritimeSingleWindow.Tests.Data;
-using IMOMaritimeSingleWindow.ViewModels.Mappings;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -23,7 +21,7 @@ namespace IMOMaritimeSingleWindow.Tests
         protected readonly UnitOfWork UnitOfWork;
         protected readonly UserStore UserStore;
         public List<ApplicationUser> Users { get; }
-        public IMapper Mapper { get; }
+        public IdentityMapper Mapper { get; }
         private string SeedFilePath { get; }
         public UserTestBase(InMemoryDatabaseTypes type)
         {
@@ -48,13 +46,7 @@ namespace IMOMaritimeSingleWindow.Tests
                     break;
             }
             
-            //var configuration = new MapperConfiguration(cfg => new IdentityEntitiesToModelsMappingProfile());
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<IdentityEntitiesToModelsMappingProfile>();
-                cfg.AddProfile<ViewModelToEntityMappingProfile>();
-            }, Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
-            Mapper = config.CreateMapper();
+            Mapper = new IdentityMapper();
             UnitOfWork = new UnitOfWork(InMemoryDatabaseContext);
             var roleStore = new RoleStore(UnitOfWork, Mapper);
             

@@ -821,7 +821,7 @@ namespace IMOMaritimeSingleWindow.Controllers
         public IActionResult GetAllOverview()
         {
             List<PortCallOverview> results = new List<PortCallOverview>();
-            foreach (PortCall p in _context.PortCall)
+            foreach (PortCall p in _context.PortCall.ToList())
             {
                 results.Add(GetOverview(p.PortCallId));
             }

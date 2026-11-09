@@ -1,4 +1,4 @@
-using AutoMapper;
+using IMOMaritimeSingleWindow.Helpers;
 using IMOMaritimeSingleWindow.Identity.Models;
 using IMOMaritimeSingleWindow.Models;
 using System;
@@ -7,27 +7,27 @@ namespace IMOMaritimeSingleWindow.Identity.Helpers
 {
     public class UserStoreHelper : IUserStoreHelper
     {
-        private readonly IMapper _mapper;
-        public UserStoreHelper(IMapper mapper)
+        private readonly IdentityMapper _mapper;
+        public UserStoreHelper(IdentityMapper mapper)
         {
             _mapper = mapper;
         }
 
         public ApplicationUser ConvertToApplicationUser(User user)
         {
-            ApplicationUser userMap = _mapper.Map<User, ApplicationUser>(user);
-            ApplicationUser pwMap = _mapper.Map<Password, ApplicationUser>(user.Password);
-            ApplicationUser persMap = _mapper.Map<Person, ApplicationUser>(user.Person);
+            ApplicationUser userMap = _mapper.ToApplicationUser(user);
+            ApplicationUser pwMap = _mapper.ToApplicationUser(user.Password);
+            ApplicationUser persMap = _mapper.ToApplicationUser(user.Person);
 
-            ApplicationUser appUser = _mapper.Map(userMap, pwMap);              // Merge
-            appUser = _mapper.Map(source: appUser, destination: persMap);       // Merge
+            ApplicationUser appUser = _mapper.Merge(userMap, pwMap);            // Merge
+            appUser = _mapper.Merge(source: appUser, destination: persMap);     // Merge
 
             return appUser;
         }
 
         public User ConvertToUser(ApplicationUser applicationUser)
         {
-            var user = _mapper.Map<User>(applicationUser);
+            var user = _mapper.ToUser(applicationUser);
             return user;
         }
 
